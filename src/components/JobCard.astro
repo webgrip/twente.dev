@@ -1,0 +1,136 @@
+---
+import type { Locale } from '../i18n/config.ts';
+import { formatDate, useTranslations } from '../i18n/utils.ts';
+import { routePath } from '../i18n/routes.ts';
+import type { CompanyEntry, JobEntry } from '../lib/content.ts';
+import Tag from './Tag.astro';
+
+interface Props {
+  job: JobEntry;
+  company: CompanyEntry | undefined;
+  locale: Locale;
+}
+
+const { job, company, locale } = Astro.props;
+const t = useTranslations(locale);
+
+const workplaceLabel = {
+  remote: t('jobs.remote'),
+  hybrid: t('jobs.hybrid'),
+  onsite: t('jobs.onsite'),
+}[job.data.workplace];
+
+const languageLabel =
+  job.data.languageRequirement === 'dutch-required' ? t('jobs.dutchRequired') : t('jobs.englishOk');
+
+const href = routePath('jobs', locale, job.id);
+---
+
+<article class="job-card">
+  <div class="job-head">
+    <h3 class="job-title">
+      <!-- Whole-card click target via ::after, so the accessible name stays the title. -->
+      <a href={href}>{job.data.title[locale]}</a>
+    </h3>
+    <p class="job-company">{company?.data.name ?? job.data.company.id}</p>
+  </div>
+
+  <p class="job-meta">
+    <span>{job.data.city}</span>
+    <span aria-hidden="true">·</span>
+    <span>{workplaceLabel}</span>
+    <span aria-hidden="true">·</span>
+    <span>{job.data.seniority}</span>
+  </p>
+
+  <ul class="job-tags">
+    <li>
+      <Tag variant={job.data.languageRequirement === 'english-ok' ? 'accent' : 'default'}
+        >{languageLabel}</Tag
+      >
+    </li>
+    {
+      job.data.stack.slice(0, 4).map((tech) => (
+        <li>
+          <Tag>{tech}</Tag>
+        </li>
+      ))
+    }
+  </ul>
+
+  <p class="job-date">
+    <span class="visually-hidden">{t('jobs.postedOn')}</span>
+    <time datetime={job.data.postedAt.toISOString()}>{formatDate(job.data.postedAt, locale)}</time>
+  </p>
+</article>
+
+<style>
+  .job-card {
+    position: relative;
+    display: grid;
+    gap: var(--space-3);
+    padding: var(--space-4);
+    border: var(--border-width) solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--bg-raised);
+    transition: border-color var(--duration-fast) var(--ease-out);
+  }
+
+  .job-card:hover {
+    border-color: var(--border-strong);
+  }
+
+  .job-card:focus-within {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 2px;
+  }
+
+  .job-title {
+    font-size: var(--text-lg);
+    margin: 0;
+  }
+
+  .job-title a {
+    color: var(--fg);
+    text-decoration: none;
+  }
+
+  .job-title a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+  }
+
+  .job-title a:focus-visible {
+    outline: none;
+  }
+
+  .job-company {
+    color: var(--accent);
+    font-size: var(--text-sm);
+    font-weight: 550;
+  }
+
+  .job-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    color: var(--fg-muted);
+    font-size: var(--text-sm);
+  }
+
+  .job-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .job-date {
+    color: var(--fg-subtle);
+    font-size: var(--text-xs);
+  }
+</style>

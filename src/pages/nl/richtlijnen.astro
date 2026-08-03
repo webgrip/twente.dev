@@ -1,0 +1,77 @@
+---
+import ProsePage from '../../templates/ProsePage.astro';
+import { routePath } from '../../i18n/routes.ts';
+---
+
+<ProsePage
+  locale="nl"
+  routeKey="guidelines"
+  title="Richtlijnen"
+  description="Wat er wel en niet op twente.dev komt, en waarom. Deze regels bestaan om de site bruikbaar te houden."
+>
+  <p>
+    twente.dev draait op vertrouwen. Dat is het enige bezit van deze site. Onderstaande regels
+    bestaan om dat vertrouwen te beschermen, niet om mensen te weren.
+  </p>
+
+  <h2>Vacatures</h2>
+  <ul>
+    <li>
+      De werkgever zit in Twente, of de functie is expliciet remote vanuit Twente. Geen landelijke
+      vacatures die toevallig ook hier open staan.
+    </li>
+    <li>
+      <strong>Geen detacheerders of werving-en-selectiebureaus</strong> die vacatures van derden doorplaatsen.
+      Je plaatst voor je eigen organisatie.
+    </li>
+    <li>
+      Elke vacature heeft een einddatum. Verlopen vacatures verdwijnen automatisch — er staat hier
+      nooit iets van acht maanden oud.
+    </li>
+    <li>
+      Salaris vermelden is niet verplicht, maar wel sterk aangeraden. Vacatures met een salarisrange
+      krijgen zichtbaar meer reacties, en het scheelt iedereen tijd.
+    </li>
+    <li>
+      Vermeld eerlijk of Nederlands echt nodig is. Een groot deel van de developers hier komt via de
+      Universiteit Twente en spreekt geen Nederlands; "Nederlands vereist" terwijl dat niet zo is,
+      kost je goede kandidaten.
+    </li>
+  </ul>
+
+  <h2>Events</h2>
+  <ul>
+    <li>Openbaar toegankelijk. Interne bedrijfsborrels horen hier niet.</li>
+    <li>Relevant voor developers. Een breed tech-event mag, een verkooppresentatie niet.</li>
+    <li>
+      Afgelast? Meld het, dan zetten we het event op geannuleerd. We verwijderen het niet — mensen
+      die het al in hun agenda hadden staan moeten de afmelding krijgen.
+    </li>
+  </ul>
+
+  <h2>Bedrijven</h2>
+  <ul>
+    <li>Eén vermelding per bedrijf, niet één per product of label.</li>
+    <li>Het bedrijf bouwt of onderhoudt software in Twente.</li>
+    <li>
+      De beschrijving gaat over het werk en de techniek. Wervingsteksten zonder inhoud halen het
+      niet door review.
+    </li>
+  </ul>
+
+  <h2>Wat we weigeren</h2>
+  <p>
+    Doorgeplaatste vacatures, betaalde plaatsing zonder dat het als zodanig herkenbaar is, en alles
+    wat feitelijk onjuist is. Bij twijfel vragen we het na voordat we iets afwijzen.
+  </p>
+
+  <h2>Iets gevonden dat hier niet hoort?</h2>
+  <p>
+    Open een issue in de <a href="https://forgejo.webgrip.dev/webgrip/twente.dev">repository</a>.
+    Alle inhoud staat in git, dus je kunt precies zien wanneer iets is toegevoegd en door wie.
+  </p>
+
+  <p>
+    <a href={routePath('about', 'nl')}>Meer over twente.dev →</a>
+  </p>
+</ProsePage>

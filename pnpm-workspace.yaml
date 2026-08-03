@@ -1,0 +1,23 @@
+# Build scripts are denied by default (pnpm supply-chain guard). Only the two
+# packages the toolchain genuinely cannot run without are allowed:
+#   esbuild  — required by Astro/Vite to build the site at all
+#   workerd  — required by wrangler for local Cloudflare Workers emulation
+allowBuilds:
+  esbuild: true
+  workerd: true
+
+# pnpm holds new releases for a cooldown period before they become installable.
+# These were pinned deliberately at scaffold time (2026-08-03) and bypass it.
+# Renovate manages upgrades from here on — see renovate.json.
+minimumReleaseAgeExclude:
+  - "@typescript-eslint/eslint-plugin@8.66.0"
+  - "@typescript-eslint/parser@8.66.0"
+  - "@typescript-eslint/project-service@8.66.0"
+  - "@typescript-eslint/scope-manager@8.66.0"
+  - "@typescript-eslint/tsconfig-utils@8.66.0"
+  - "@typescript-eslint/type-utils@8.66.0"
+  - "@typescript-eslint/types@8.66.0"
+  - "@typescript-eslint/typescript-estree@8.66.0"
+  - "@typescript-eslint/utils@8.66.0"
+  - "@typescript-eslint/visitor-keys@8.66.0"
+  - typescript-eslint@8.66.0

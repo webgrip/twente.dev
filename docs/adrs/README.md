@@ -1,0 +1,21 @@
+# Architecture Decision Records
+
+MADR 4.0.0, matching the `webgrip/workflows` convention. New records use
+[`0000-template.md`](0000-template.md).
+
+| #                                                   | Decision                                               | Status   | Date       |
+| --------------------------------------------------- | ------------------------------------------------------ | -------- | ---------- |
+| [0001](0001-astro-as-site-framework.md)             | Astro as the site framework                            | Accepted | 2026-08-03 |
+| [0002](0002-cloudflare-workers-static-assets.md)    | Cloudflare Workers Static Assets over Pages            | Accepted | 2026-08-03 |
+| [0003](0003-forgejo-as-ci-and-release-authority.md) | Forgejo is the sole CI/CD and release authority        | Accepted | 2026-08-03 |
+| [0004](0004-locale-strategy.md)                     | Explicit locale prefixes with localized route segments | Accepted | 2026-08-03 |
+| [0005](0005-contributions-as-data.md)               | Community contributions are versioned data             | Accepted | 2026-08-03 |
+| [0006](0006-privacy-first-analytics.md)             | Privacy-first analytics, no cookie banner              | Accepted | 2026-08-03 |
+
+## Open decisions
+
+Deliberately not yet recorded — see [`../plan/10x-plan.md`](../plan/10x-plan.md) §2:
+
+- Newsletter provider (Buttondown vs. self-hosted listmonk) — Phase 3
+- Whether company profiles gain a paid sponsorship tier — Phase 5. The `tier` field already exists in
+  the schema so the model does not need retrofitting.

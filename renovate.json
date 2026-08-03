@@ -1,0 +1,25 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["local>webgrip/renovate-config"],
+  "packageRules": [
+    {
+      "description": "Astro majors move fast and can change routing/content APIs. Never automerge.",
+      "matchPackageNames": ["astro", "@astrojs/**"],
+      "matchUpdateTypes": ["major"],
+      "automerge": false,
+      "labels": ["dependencies", "needs-manual-review"]
+    },
+    {
+      "description": "zod must track the major Astro itself depends on — see src/content.config.ts.",
+      "matchPackageNames": ["zod"],
+      "matchUpdateTypes": ["major"],
+      "automerge": false,
+      "labels": ["dependencies", "needs-manual-review"]
+    },
+    {
+      "description": "wrangler ships frequently; group it so deploys are not churned one PR at a time.",
+      "matchPackageNames": ["wrangler"],
+      "groupName": "cloudflare tooling"
+    }
+  ]
+}

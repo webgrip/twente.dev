@@ -1,0 +1,52 @@
+{
+  "name": "@webgrip/twente.dev",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "twente.dev — the homepage for software developers in Twente. Bilingual (NL/EN) static community hub, blog, company directory and job board.",
+  "repository": {
+    "type": "git",
+    "url": "https://forgejo.webgrip.dev/webgrip/twente.dev.git"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": "^22.14.0 || >=24.10.0"
+  },
+  "packageManager": "pnpm@11.8.0",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build && pnpm run index:search",
+    "index:search": "pagefind --site dist",
+    "preview": "astro preview",
+    "astro": "astro",
+    "typecheck": "astro check",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "node --test --experimental-strip-types \"src/lib/**/*.test.ts\"",
+    "validate:content": "node --experimental-strip-types scripts/validate-content.ts",
+    "expire:jobs": "node --experimental-strip-types scripts/expire-jobs.ts",
+    "deploy": "wrangler deploy",
+    "deploy:preview": "wrangler versions upload"
+  },
+  "dependencies": {
+    "@astrojs/rss": "4.0.19",
+    "@astrojs/sitemap": "3.7.3",
+    "astro": "7.1.6",
+    "zod": "4.4.3"
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.10",
+    "@eslint/js": "10.0.1",
+    "eslint": "10.8.0",
+    "eslint-plugin-astro": "3.1.0",
+    "pagefind": "1.5.2",
+    "prettier": "3.9.6",
+    "prettier-plugin-astro": "0.14.1",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.66.0",
+    "wrangler": "4.118.0",
+    "yaml": "2.9.0"
+  }
+}

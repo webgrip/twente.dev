@@ -1,0 +1,63 @@
+---
+import type { Locale } from '../i18n/config.ts';
+import { useTranslations } from '../i18n/utils.ts';
+import { getCompanies, getOpenJobs } from '../lib/content.ts';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import JobCard from '../components/JobCard.astro';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+
+const [jobs, companies] = await Promise.all([getOpenJobs(), getCompanies()]);
+const companyById = new Map(companies.map((c) => [c.id, c]));
+---
+
+<BaseLayout
+  locale={locale}
+  routeKey="jobs"
+  title={t('jobs.title')}
+  description={t('jobs.description')}
+>
+  <div class="container">
+    <PageHeader title={t('jobs.title')} description={t('jobs.description')} />
+
+    <p class="count">{jobs.length} {t('filter.results')}</p>
+
+    <div class="job-grid">
+      {jobs.length === 0 && <p class="empty">{t('jobs.empty')}</p>}
+      {
+        jobs.map((job) => (
+          <JobCard job={job} company={companyById.get(job.data.company.id)} locale={locale} />
+        ))
+      }
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .count {
+    color: var(--fg-subtle);
+    font-size: var(--text-sm);
+    margin-block-end: var(--space-4);
+  }
+
+  .job-grid {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  @media (min-width: 48rem) {
+    .job-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .empty {
+    color: var(--fg-muted);
+  }
+</style>

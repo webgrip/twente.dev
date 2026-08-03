@@ -1,0 +1,31 @@
+# FIXTURE — fictional event. Delete before launch. See src/content/README.md.
+title:
+  nl: Frontend-avond Hengelo
+  en: Frontend Evening Hengelo
+description:
+  nl: >-
+    Een avond over toegankelijkheid in complexe webapplicaties. Live audit van
+    een echte planningsinterface met screenreader, plus een open gesprek over
+    wat WCAG 2.2 in de praktijk betekent voor je sprintplanning.
+  en: >-
+    An evening about accessibility in complex web applications. A live audit of a
+    real planning interface with a screen reader, plus an open discussion about
+    what WCAG 2.2 means in practice for your sprint planning.
+start: 2026-10-15T18:30:00+02:00
+end: 2026-10-15T21:30:00+02:00
+venue:
+  name: Demo Systems B.V.
+  city: Hengelo
+  address: Voorbeeldweg 42
+  online: false
+organiser:
+  name: Demo Systems B.V.
+  url: https://example.org
+  company: demo-systems
+url: https://example.org/events/frontend-avond
+costEur: 0
+language: nl
+tags:
+  - frontend
+  - accessibility
+cancelled: false

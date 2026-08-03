@@ -1,0 +1,77 @@
+---
+import { LOCALE_TAGS } from '../i18n/config.ts';
+import type { Locale } from '../i18n/config.ts';
+import { useTranslations } from '../i18n/utils.ts';
+import type { SlugInput } from '../i18n/utils.ts';
+import type { RouteKey } from '../i18n/routes.ts';
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+
+interface Props {
+  locale: Locale;
+  routeKey: RouteKey;
+  slug?: SlugInput;
+  title: string;
+  description: string;
+  ogType?: 'website' | 'article';
+  jsonLd?: Record<string, unknown>[];
+  noindex?: boolean;
+}
+
+const { locale, routeKey, slug, title, description, ogType, jsonLd, noindex } = Astro.props;
+const t = useTranslations(locale);
+---
+
+<!doctype html>
+<html lang={LOCALE_TAGS[locale]}>
+  <head>
+    <BaseHead
+      locale={locale}
+      routeKey={routeKey}
+      slug={slug}
+      title={title}
+      description={description}
+      ogType={ogType}
+      jsonLd={jsonLd}
+      noindex={noindex}
+    />
+    <script is:inline>
+      // Runs before first paint to avoid a flash of the wrong theme. Kept
+      // inline and tiny on purpose — this is the only render-blocking script
+      // on the site.
+      (function () {
+        try {
+          const stored = localStorage.getItem('twente-dev-theme');
+          if (stored === 'light' || stored === 'dark') {
+            document.documentElement.dataset.theme = stored;
+          }
+        } catch {
+          /* storage unavailable — fall through to prefers-color-scheme */
+        }
+      })();
+    </script>
+  </head>
+  <!--
+    A page excluded from search engines is excluded from site search too.
+    Without this, the 404 page joins the Pagefind index and — because it renders
+    both locales at once — splits it into a third pseudo-language, degrading
+    results for the two real ones.
+  -->
+  <body data-pagefind-ignore={noindex ? 'all' : undefined}>
+    <a class="skip-link" href="#main">{t('nav.skipToContent')}</a>
+    <Header locale={locale} current={routeKey} slug={slug} />
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    <Footer locale={locale} />
+  </body>
+</html>
+
+<style>
+  main {
+    /* Removes the focus ring that would otherwise show after the skip link. */
+    outline: none;
+  }
+</style>

@@ -1,0 +1,163 @@
+---
+import { render } from 'astro:content';
+
+import type { Locale } from '../i18n/config.ts';
+import { formatDate, otherLocales, useTranslations } from '../i18n/utils.ts';
+import { routePath } from '../i18n/routes.ts';
+import type { PostEntry } from '../lib/content.ts';
+import { getTranslation, postSlug, readingTimeMinutes } from '../lib/content.ts';
+import { articleSchema, breadcrumbSchema } from '../lib/jsonld.ts';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Tag from '../components/Tag.astro';
+
+interface Props {
+  post: PostEntry;
+  locale: Locale;
+}
+
+const { post, locale } = Astro.props;
+const t = useTranslations(locale);
+
+const { Content } = await render(post);
+const minutes = readingTimeMinutes(post.body);
+
+/**
+ * If this article has no sibling in the other locale we say so plainly and
+ * link the version that does exist. Machine-translating prose without review
+ * is explicitly out of bounds (plan ADR-0004) — a half-translated article is
+ * worse than an honest pointer.
+ */
+const [other] = otherLocales(locale);
+const translation = other ? await getTranslation(post, other) : undefined;
+const missingTranslation = Boolean(other && !translation);
+
+/**
+ * Translated articles have *different* slugs (`waarom-twente-dev` vs
+ * `why-twente-dev-exists`), so alternates must be built from the sibling entry
+ * that actually exists. Passing a single shared slug here would emit hreflang
+ * links to pages the build never produced.
+ */
+const slugs: Partial<Record<Locale, string>> = { [locale]: postSlug(post) };
+if (other && translation) {
+  slugs[other] = postSlug(translation);
+}
+
+const jsonLd = [
+  articleSchema(post, locale),
+  breadcrumbSchema([
+    { name: t('nav.home'), path: routePath('home', locale) },
+    { name: t('blog.title'), path: routePath('blog', locale) },
+    { name: post.data.title, path: routePath('blog', locale, postSlug(post)) },
+  ]),
+];
+---
+
+<BaseLayout
+  locale={locale}
+  routeKey="blog"
+  slug={slugs}
+  title={post.data.title}
+  description={post.data.description}
+  ogType="article"
+  jsonLd={jsonLd}
+>
+  <article class="container article">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href={routePath('blog', locale)}>{t('blog.title')}</a>
+    </nav>
+
+    <header>
+      <h1>{post.data.title}</h1>
+      <p class="meta">
+        <time datetime={post.data.publishedAt.toISOString()}>
+          {formatDate(post.data.publishedAt, locale)}
+        </time>
+        <span aria-hidden="true">·</span>
+        <span>{t('blog.by')} {post.data.author.name}</span>
+        <span aria-hidden="true">·</span>
+        <span>{minutes} {t('blog.readingTime')}</span>
+      </p>
+      {
+        post.data.tags.length > 0 && (
+          <ul class="tags">
+            {post.data.tags.map((tag) => (
+              <li>
+                <Tag>{tag}</Tag>
+              </li>
+            ))}
+          </ul>
+        )
+      }
+    </header>
+
+    {missingTranslation && <p class="notice">{t('blog.onlyInOtherLocale')}</p>}
+
+    <div class="prose">
+      <Content />
+    </div>
+
+    {
+      post.data.updatedAt && (
+        <p class="updated">
+          {t('blog.updatedOn')}{' '}
+          <time datetime={post.data.updatedAt.toISOString()}>
+            {formatDate(post.data.updatedAt, locale)}
+          </time>
+        </p>
+      )
+    }
+  </article>
+</BaseLayout>
+
+<style>
+  .article {
+    padding-block: var(--space-6);
+    max-width: var(--width-prose);
+  }
+
+  .breadcrumb {
+    font-size: var(--text-sm);
+    margin-block-end: var(--space-4);
+  }
+
+  header {
+    padding-block-end: var(--space-5);
+    border-block-end: var(--border-width) solid var(--border);
+    margin-block-end: var(--space-6);
+  }
+
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-block-start: var(--space-3);
+    color: var(--fg-subtle);
+    font-size: var(--text-sm);
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    list-style: none;
+    padding: 0;
+    margin-block-start: var(--space-4);
+  }
+
+  .notice {
+    padding: var(--space-3) var(--space-4);
+    border-inline-start: 3px solid var(--accent);
+    background: var(--bg-subtle);
+    border-radius: var(--radius-md);
+    color: var(--fg-muted);
+    margin-block-end: var(--space-5);
+  }
+
+  .updated {
+    margin-block-start: var(--space-7);
+    padding-block-start: var(--space-4);
+    border-block-start: var(--border-width) solid var(--border);
+    color: var(--fg-subtle);
+    font-size: var(--text-sm);
+  }
+</style>

@@ -1,0 +1,31 @@
+# FIXTURE — fictional event. Delete before launch. See src/content/README.md.
+title:
+  nl: Twente Go Meetup — september
+  en: Twente Go Meetup — September
+description:
+  nl: >-
+    Twee talks over Go in productie, gevolgd door borrel. Deze editie: het
+    afhandelen van backpressure in event-pipelines, en wat er misgaat als je
+    context.Context verkeerd gebruikt. Nieuwe gezichten zeer welkom.
+  en: >-
+    Two talks about Go in production, followed by drinks. This edition: handling
+    backpressure in event pipelines, and what goes wrong when you misuse
+    context.Context. New faces very welcome.
+start: 2026-09-10T19:00:00+02:00
+end: 2026-09-10T22:00:00+02:00
+venue:
+  name: Example Labs kantoor
+  city: Enschede
+  address: Voorbeeldstraat 1
+  online: false
+organiser:
+  name: Example Labs
+  url: https://example.com
+  company: example-labs
+url: https://example.com/meetup/september
+costEur: 0
+language: en
+tags:
+  - go
+  - backend
+cancelled: false

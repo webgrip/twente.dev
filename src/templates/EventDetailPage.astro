@@ -1,0 +1,178 @@
+---
+import type { Locale } from '../i18n/config.ts';
+import { formatDateTime, useTranslations } from '../i18n/utils.ts';
+import { routePath } from '../i18n/routes.ts';
+import type { EventEntry } from '../lib/content.ts';
+import { breadcrumbSchema, eventSchema } from '../lib/jsonld.ts';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Tag from '../components/Tag.astro';
+
+interface Props {
+  event: EventEntry;
+  locale: Locale;
+}
+
+const { event, locale } = Astro.props;
+const t = useTranslations(locale);
+
+const jsonLd = [
+  eventSchema(event, locale),
+  breadcrumbSchema([
+    { name: t('nav.home'), path: routePath('home', locale) },
+    { name: t('events.title'), path: routePath('events', locale) },
+    { name: event.data.title[locale], path: routePath('events', locale, event.id) },
+  ]),
+];
+---
+
+<BaseLayout
+  locale={locale}
+  routeKey="events"
+  slug={event.id}
+  title={event.data.title[locale]}
+  description={event.data.description[locale].slice(0, 200)}
+  jsonLd={jsonLd}
+>
+  <div class="container detail">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href={routePath('events', locale)}>{t('events.title')}</a>
+    </nav>
+
+    {event.data.cancelled && <p class="cancelled">{t('events.cancelled')}</p>}
+
+    <h1>{event.data.title[locale]}</h1>
+
+    <p class="when">
+      <time datetime={event.data.start.toISOString()}>
+        {formatDateTime(event.data.start, locale)}
+      </time>
+      {
+        event.data.end && (
+          <>
+            {' – '}
+            <time datetime={event.data.end.toISOString()}>
+              {formatDateTime(event.data.end, locale)}
+            </time>
+          </>
+        )
+      }
+    </p>
+
+    <ul class="facts">
+      {
+        event.data.costEur === 0 && (
+          <li>
+            <Tag variant="accent">{t('events.free')}</Tag>
+          </li>
+        )
+      }
+      <li>
+        <Tag variant="muted">
+          {event.data.language === 'both' ? 'NL / EN' : event.data.language.toUpperCase()}
+        </Tag>
+      </li>
+      {
+        event.data.tags.map((tag) => (
+          <li>
+            <Tag>{tag}</Tag>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="prose">
+      <p>{event.data.description[locale]}</p>
+
+      <h2>{event.data.venue.online ? 'Online' : event.data.venue.name}</h2>
+      {
+        !event.data.venue.online && (
+          <p class="venue">
+            {event.data.venue.address && (
+              <>
+                {event.data.venue.address}
+                <br />
+              </>
+            )}
+            {event.data.venue.city}
+          </p>
+        )
+      }
+
+      <p class="organiser">
+        {t('events.organisedBy')}{' '}
+        {
+          event.data.organiser.url ? (
+            <a href={event.data.organiser.url} rel="noopener">
+              {event.data.organiser.name}
+            </a>
+          ) : (
+            event.data.organiser.name
+          )
+        }
+      </p>
+
+      <p>
+        <a class="cta" href={event.data.url} rel="noopener">{t('events.moreInfo')} →</a>
+      </p>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .detail {
+    padding-block: var(--space-6);
+    max-width: var(--width-prose);
+  }
+
+  .breadcrumb {
+    font-size: var(--text-sm);
+    margin-block-end: var(--space-4);
+  }
+
+  .cancelled {
+    display: inline-block;
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-md);
+    background: var(--accent-subtle);
+    color: var(--accent-hover);
+    font-weight: 600;
+    margin-block-end: var(--space-3);
+  }
+
+  .when {
+    margin-block-start: var(--space-3);
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  .facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    list-style: none;
+    padding: 0;
+    margin-block: var(--space-4) var(--space-6);
+  }
+
+  .venue,
+  .organiser {
+    color: var(--fg-muted);
+  }
+
+  .cta {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    padding-inline: var(--space-5);
+    border-radius: var(--radius-md);
+    background: var(--accent);
+    color: var(--accent-fg);
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .cta:hover {
+    background: var(--accent-hover);
+    color: var(--accent-fg);
+  }
+</style>

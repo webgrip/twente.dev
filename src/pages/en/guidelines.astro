@@ -1,0 +1,77 @@
+---
+import ProsePage from '../../templates/ProsePage.astro';
+import { routePath } from '../../i18n/routes.ts';
+---
+
+<ProsePage
+  locale="en"
+  routeKey="guidelines"
+  title="Guidelines"
+  description="What does and does not belong on twente.dev, and why. These rules exist to keep the site useful."
+>
+  <p>
+    twente.dev runs on trust. That is the only asset this site has. The rules below exist to protect
+    it, not to keep people out.
+  </p>
+
+  <h2>Jobs</h2>
+  <ul>
+    <li>
+      The employer is based in Twente, or the role is explicitly remote from Twente. Not nationwide
+      vacancies that happen to also be open here.
+    </li>
+    <li>
+      <strong>No agencies or recruitment firms</strong> reposting third-party vacancies. You post for
+      your own organisation.
+    </li>
+    <li>
+      Every vacancy carries an end date. Expired listings disappear automatically — nothing here is
+      ever eight months stale.
+    </li>
+    <li>
+      Salary is not mandatory but strongly encouraged. Listings with a range visibly get more
+      responses, and it saves everyone's time.
+    </li>
+    <li>
+      Be honest about whether Dutch is genuinely required. A large share of developers here arrived
+      via the University of Twente and do not speak Dutch; marking a role "Dutch required" when it
+      is not costs you good candidates.
+    </li>
+  </ul>
+
+  <h2>Events</h2>
+  <ul>
+    <li>Open to the public. Internal company drinks do not belong here.</li>
+    <li>Relevant to developers. A broad tech event is fine; a sales pitch is not.</li>
+    <li>
+      Cancelled? Tell us and we mark the event cancelled. We do not delete it — people who already
+      have it in their calendar need to receive the cancellation.
+    </li>
+  </ul>
+
+  <h2>Companies</h2>
+  <ul>
+    <li>One entry per company, not one per product or label.</li>
+    <li>The company builds or maintains software in Twente.</li>
+    <li>
+      The description is about the work and the technology. Recruitment copy with no substance does
+      not make it through review.
+    </li>
+  </ul>
+
+  <h2>What we reject</h2>
+  <p>
+    Reposted vacancies, paid placement that is not clearly marked as such, and anything factually
+    incorrect. When in doubt we ask before rejecting.
+  </p>
+
+  <h2>Found something that should not be here?</h2>
+  <p>
+    Open an issue in the <a href="https://forgejo.webgrip.dev/webgrip/twente.dev">repository</a>.
+    All content lives in git, so you can see exactly when something was added and by whom.
+  </p>
+
+  <p>
+    <a href={routePath('about', 'en')}>More about twente.dev →</a>
+  </p>
+</ProsePage>

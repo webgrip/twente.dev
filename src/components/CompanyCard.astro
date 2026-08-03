@@ -1,0 +1,131 @@
+---
+import type { Locale } from '../i18n/config.ts';
+import { useTranslations } from '../i18n/utils.ts';
+import { routePath } from '../i18n/routes.ts';
+import type { CompanyEntry } from '../lib/content.ts';
+import Tag from './Tag.astro';
+
+interface Props {
+  company: CompanyEntry;
+  locale: Locale;
+  openJobs?: number;
+}
+
+const { company, locale, openJobs = 0 } = Astro.props;
+const t = useTranslations(locale);
+const href = routePath('companies', locale, company.id);
+---
+
+<article class="company-card">
+  <div class="company-head">
+    <h3 class="company-name">
+      <a href={href}>{company.data.name}</a>
+    </h3>
+    {company.data.hiring && <Tag variant="accent">{t('companies.hiring')}</Tag>}
+  </div>
+
+  <p class="company-desc">{company.data.description[locale]}</p>
+
+  <p class="company-meta">
+    <span>{company.data.locations.join(', ')}</span>
+    <span aria-hidden="true">·</span>
+    <span>{company.data.size}</span>
+    {
+      openJobs > 0 && (
+        <>
+          <span aria-hidden="true">·</span>
+          <span>
+            {openJobs} {t('companies.openJobs').toLowerCase()}
+          </span>
+        </>
+      )
+    }
+  </p>
+
+  <ul class="company-stack">
+    {
+      company.data.stack.slice(0, 5).map((tech) => (
+        <li>
+          <Tag>{tech}</Tag>
+        </li>
+      ))
+    }
+  </ul>
+</article>
+
+<style>
+  .company-card {
+    position: relative;
+    display: grid;
+    gap: var(--space-3);
+    align-content: start;
+    padding: var(--space-4);
+    border: var(--border-width) solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--bg-raised);
+  }
+
+  .company-card:hover {
+    border-color: var(--border-strong);
+  }
+
+  .company-card:focus-within {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 2px;
+  }
+
+  .company-head {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+  }
+
+  .company-name {
+    font-size: var(--text-lg);
+    margin: 0;
+  }
+
+  .company-name a {
+    color: var(--fg);
+    text-decoration: none;
+  }
+
+  .company-name a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+  }
+
+  .company-name a:focus-visible {
+    outline: none;
+  }
+
+  .company-desc {
+    color: var(--fg-muted);
+    font-size: var(--text-sm);
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .company-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    color: var(--fg-subtle);
+    font-size: var(--text-xs);
+  }
+
+  .company-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+</style>

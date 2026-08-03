@@ -1,0 +1,26 @@
+# Cloudflare Workers Static Assets — ADR-0002.
+#
+# There is no `main` entrypoint: this is an assets-only Worker, so Cloudflare
+# serves `dist/` straight from the edge and static asset requests are not
+# metered as Worker invocations.
+#
+# Deploys come from Forgejo Actions via `wrangler deploy` (ADR-0003).
+# Cloudflare's native git integration supports GitHub/GitLab only, so there is
+# no "connect the repo" path available to us — this file is the contract.
+
+name = "twente-dev"
+compatibility_date = "2026-08-01"
+workers_dev = false
+
+[assets]
+directory = "./dist"
+# `astro build` with format:'file' emits /nl/events.html; serve it at /nl/events.
+html_handling = "auto-trailing-slash"
+not_found_handling = "404-page"
+
+[observability]
+enabled = true
+
+# Custom domain is attached in the Cloudflare dashboard (or via `routes` once
+# the zone is confirmed to live in this account). Kept out of source until the
+# twente.dev zone is verified — see docs/plan/10x-plan.md §12.

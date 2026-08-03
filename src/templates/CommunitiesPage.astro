@@ -1,0 +1,101 @@
+---
+import type { Locale } from '../i18n/config.ts';
+import { useTranslations } from '../i18n/utils.ts';
+import { getCommunities } from '../lib/content.ts';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Tag from '../components/Tag.astro';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+
+const communities = await getCommunities();
+---
+
+<BaseLayout
+  locale={locale}
+  routeKey="communities"
+  title={t('communities.title')}
+  description={t('communities.description')}
+>
+  <div class="container">
+    <PageHeader title={t('communities.title')} description={t('communities.description')} />
+
+    <ul class="community-list">
+      {communities.length === 0 && <li class="empty">{t('communities.empty')}</li>}
+      {
+        communities.map((community) => (
+          <li class="community">
+            <div class="community-head">
+              <h2>{community.data.name}</h2>
+              <Tag variant="muted">{community.data.platform}</Tag>
+              <Tag variant="muted">
+                {community.data.language === 'both'
+                  ? 'NL / EN'
+                  : community.data.language.toUpperCase()}
+              </Tag>
+            </div>
+            <p class="community-desc">{community.data.description[locale]}</p>
+            <a class="community-link" href={community.data.url} rel="noopener">
+              {t('communities.join')} →
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</BaseLayout>
+
+<style>
+  .community-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .community {
+    padding: var(--space-4);
+    border: var(--border-width) solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--bg-raised);
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .community-head {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+  }
+
+  .community-head h2 {
+    font-size: var(--text-lg);
+    margin: 0;
+  }
+
+  .community-desc {
+    color: var(--fg-muted);
+    max-width: var(--width-prose);
+  }
+
+  .community-link {
+    font-weight: 550;
+    text-decoration: none;
+    justify-self: start;
+  }
+
+  .community-link:hover {
+    text-decoration: underline;
+  }
+
+  .empty {
+    color: var(--fg-muted);
+  }
+</style>

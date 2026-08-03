@@ -1,0 +1,35 @@
+# FIXTURE entries — replace with real communities before launch.
+# Single file, array of entries; each needs a unique `id`.
+- id: twente-dev-discord
+  name: twente.dev Discord
+  url: https://example.com/discord
+  platform: discord
+  language: both
+  focus:
+    - general
+    - career
+  description:
+    nl: >-
+      De algemene Discord voor developers in Twente. Kanalen per taal en
+      vakgebied, een #vacatures kanaal, en wekelijks een informele co-working
+      call.
+    en: >-
+      The general Discord for developers in Twente. Channels per language and
+      discipline, a #jobs channel, and a weekly informal co-working call.
+
+- id: twente-go-meetup
+  name: Twente Go Meetup
+  url: https://example.com/meetup
+  platform: meetup
+  language: en
+  focus:
+    - go
+    - backend
+  description:
+    nl: >-
+      Maandelijkse meetup over Go, gehost op wisselende locaties in Enschede en
+      Hengelo. Altijd in het Engels zodat internationale studenten kunnen
+      aanhaken.
+    en: >-
+      Monthly meetup about Go, hosted at rotating locations in Enschede and
+      Hengelo. Always in English so international students can join in.

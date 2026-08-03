@@ -1,0 +1,21 @@
+# FIXTURE — fictional company. Delete before launch. See src/content/README.md.
+name: Sample Interactive
+website: https://example.net
+size: 1-10
+hiring: false
+tier: community
+locations:
+  - Almelo
+stack:
+  - Elixir
+  - Phoenix
+  - Svelte
+description:
+  nl: >-
+    Kleine studio in Almelo die interactieve installaties en realtime dashboards
+    maakt. Draait bewust op Elixir en vertelt daar graag over op meetups.
+  en: >-
+    A small studio in Almelo building interactive installations and real-time
+    dashboards. Deliberately runs on Elixir and enjoys talking about it at meetups.
+socials:
+  website: https://example.net

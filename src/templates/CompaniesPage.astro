@@ -1,0 +1,64 @@
+---
+import type { Locale } from '../i18n/config.ts';
+import { useTranslations } from '../i18n/utils.ts';
+import { getCompanies, getOpenJobCountByCompany } from '../lib/content.ts';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import CompanyCard from '../components/CompanyCard.astro';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+
+const [companies, jobCounts] = await Promise.all([getCompanies(), getOpenJobCountByCompany()]);
+---
+
+<BaseLayout
+  locale={locale}
+  routeKey="companies"
+  title={t('companies.title')}
+  description={t('companies.description')}
+>
+  <div class="container">
+    <PageHeader title={t('companies.title')} description={t('companies.description')} />
+
+    <div class="company-grid">
+      {companies.length === 0 && <p class="empty">{t('companies.empty')}</p>}
+      {
+        companies.map((company) => (
+          <CompanyCard
+            company={company}
+            locale={locale}
+            openJobs={jobCounts.get(company.id) ?? 0}
+          />
+        ))
+      }
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .company-grid {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  @media (min-width: 48rem) {
+    .company-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .company-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .empty {
+    color: var(--fg-muted);
+  }
+</style>

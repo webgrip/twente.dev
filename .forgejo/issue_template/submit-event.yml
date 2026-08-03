@@ -1,0 +1,84 @@
+name: Submit an event / Event aanmelden
+about: Add a meetup, conference or workshop for developers in Twente
+title: "[Event] "
+labels:
+  - content
+  - event
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Events must be **open to the public** and relevant to developers.
+        Internal company drinks and sales pitches will be closed.
+
+        Events moeten **openbaar toegankelijk** zijn en relevant voor developers.
+
+  - type: input
+    id: title
+    attributes:
+      label: Event name
+    validations:
+      required: true
+
+  - type: input
+    id: start
+    attributes:
+      label: Start (with timezone offset)
+      description: Write the offset explicitly so the time is unambiguous.
+      placeholder: "2026-09-10T19:00:00+02:00"
+    validations:
+      required: true
+
+  - type: input
+    id: end
+    attributes:
+      label: End (with timezone offset)
+      placeholder: "2026-09-10T22:00:00+02:00"
+
+  - type: input
+    id: venue
+    attributes:
+      label: Venue and city
+      placeholder: "Example Labs office, Enschede"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: language
+    attributes:
+      label: Spoken language
+      options:
+        - nl
+        - en
+        - both
+    validations:
+      required: true
+
+  - type: input
+    id: cost
+    attributes:
+      label: Cost in EUR (0 for free)
+      placeholder: "0"
+    validations:
+      required: true
+
+  - type: input
+    id: url
+    attributes:
+      label: Event URL
+    validations:
+      required: true
+
+  - type: textarea
+    id: description-nl
+    attributes:
+      label: Description (Dutch)
+    validations:
+      required: true
+
+  - type: textarea
+    id: description-en
+    attributes:
+      label: Description (English)
+    validations:
+      required: true

@@ -1,0 +1,56 @@
+name: "[Scheduled] Link Check"
+
+# Weekly sweep over the built output. Community-submitted content links out to
+# employer career pages and meetup sites, which rot faster than anything we
+# control — a dead "Apply" link is the most damaging kind of broken link here.
+
+on:
+  schedule:
+    - cron: "0 3 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  ASTRO_TELEMETRY_DISABLED: "1"
+
+jobs:
+  links:
+    name: "Check links in built output"
+    runs-on: docker
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Enable pnpm
+        run: corepack enable
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        run: pnpm build
+
+      - name: Install lychee
+        run: |
+          set -euo pipefail
+          curl -sSfL https://github.com/lycheeverse/lychee/releases/latest/download/lychee-x86_64-unknown-linux-gnu.tar.gz \
+            | tar -xz -C /usr/local/bin lychee
+          lychee --version
+
+      - name: Check internal links
+        # Internal breakage is our fault and blocks.
+        run: lychee --offline --include-fragments --no-progress 'dist/**/*.html'
+
+      - name: Check external links
+        # External breakage is the world's fault and only warns — a meetup site
+        # being down for an hour should not turn the repo red.
+        continue-on-error: true
+        run: |
+          lychee --no-progress --max-concurrency 4 --timeout 20 --accept 200,206,301,302,403,429 \
+            --exclude '^https://twente\.dev' \
+            'dist/**/*.html'

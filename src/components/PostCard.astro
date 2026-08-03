@@ -1,0 +1,79 @@
+---
+import type { Locale } from '../i18n/config.ts';
+import { formatDate, useTranslations } from '../i18n/utils.ts';
+import { routePath } from '../i18n/routes.ts';
+import { postSlug } from '../lib/content.ts';
+import type { PostEntry } from '../lib/content.ts';
+
+interface Props {
+  post: PostEntry;
+  locale: Locale;
+}
+
+const { post, locale } = Astro.props;
+const t = useTranslations(locale);
+const href = routePath('blog', locale, postSlug(post));
+---
+
+<article class="post-card">
+  <h3 class="post-title"><a href={href}>{post.data.title}</a></h3>
+  <p class="post-desc">{post.data.description}</p>
+  <p class="post-meta">
+    <time datetime={post.data.publishedAt.toISOString()}>
+      {formatDate(post.data.publishedAt, locale)}
+    </time>
+    <span aria-hidden="true">·</span>
+    <span>{t('blog.by')} {post.data.author.name}</span>
+  </p>
+</article>
+
+<style>
+  .post-card {
+    position: relative;
+    display: grid;
+    gap: var(--space-2);
+    padding-block: var(--space-4);
+    border-block-end: var(--border-width) solid var(--border);
+  }
+
+  .post-card:focus-within {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 4px;
+  }
+
+  .post-title {
+    font-size: var(--text-xl);
+    margin: 0;
+  }
+
+  .post-title a {
+    color: var(--fg);
+    text-decoration: none;
+  }
+
+  .post-title a:hover {
+    color: var(--accent);
+  }
+
+  .post-title a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+
+  .post-title a:focus-visible {
+    outline: none;
+  }
+
+  .post-desc {
+    color: var(--fg-muted);
+  }
+
+  .post-meta {
+    color: var(--fg-subtle);
+    font-size: var(--text-sm);
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+</style>

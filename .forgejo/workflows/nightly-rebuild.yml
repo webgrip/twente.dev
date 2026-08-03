@@ -1,0 +1,57 @@
+name: "[Scheduled] Nightly Rebuild"
+
+# Plan lever L9.
+#
+# The site has no backend, so "this vacancy expired" and "this meetup already
+# happened" only become true when the site is rebuilt. Rebuilding nightly is
+# what keeps the job board honest without anyone remembering to prune it.
+#
+# 04:00 Europe/Amsterdam. Cron on the runner is UTC, so 02:00 UTC ≈ 04:00 CEST
+# (03:00 CET in winter) — close enough for a hygiene job, and the org standard
+# timezone is Europe/Amsterdam (see the shared Renovate preset).
+
+on:
+  schedule:
+    - cron: "0 2 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  ASTRO_TELEMETRY_DISABLED: "1"
+
+jobs:
+  rebuild:
+    name: "Rebuild and redeploy"
+    runs-on: docker
+    environment: production
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: main
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Enable pnpm
+        run: corepack enable
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Report expiring content
+        # Informational only — never fails the rebuild. Content hygiene is a
+        # human decision; the build itself must not depend on it.
+        continue-on-error: true
+        run: pnpm expire:jobs
+
+      - name: Build
+        run: pnpm build
+
+      - name: Deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: pnpm dlx wrangler deploy

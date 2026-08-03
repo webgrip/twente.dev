@@ -1,0 +1,174 @@
+---
+import type { Locale } from '../i18n/config.ts';
+import { useTranslations } from '../i18n/utils.ts';
+import { routePath } from '../i18n/routes.ts';
+import {
+  getCompanies,
+  getOpenJobCountByCompany,
+  getOpenJobs,
+  getPosts,
+  getUpcomingEvents,
+} from '../lib/content.ts';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Section from '../components/Section.astro';
+import EventCard from '../components/EventCard.astro';
+import JobCard from '../components/JobCard.astro';
+import CompanyCard from '../components/CompanyCard.astro';
+import PostCard from '../components/PostCard.astro';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+
+const [events, jobs, companies, posts, jobCounts] = await Promise.all([
+  getUpcomingEvents(),
+  getOpenJobs(),
+  getCompanies(),
+  getPosts(locale),
+  getOpenJobCountByCompany(),
+]);
+
+const companyById = new Map(companies.map((c) => [c.id, c]));
+---
+
+<BaseLayout
+  locale={locale}
+  routeKey="home"
+  title={t('site.name')}
+  description={t('site.description')}
+>
+  <div class="hero">
+    <div class="container">
+      <h1>{t('home.hero.title')}</h1>
+      <p class="hero-subtitle">{t('home.hero.subtitle')}</p>
+      <div class="hero-actions">
+        <a class="button button--primary" href={routePath('events', locale)}>
+          {t('home.hero.ctaEvents')}
+        </a>
+        <a class="button" href={routePath('jobs', locale)}>{t('home.hero.ctaJobs')}</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <Section
+      title={t('home.events.title')}
+      linkHref={routePath('events', locale)}
+      linkLabel={t('home.events.all')}
+    >
+      {events.length === 0 && <p class="empty">{t('events.empty')}</p>}
+      {events.slice(0, 4).map((event) => <EventCard event={event} locale={locale} />)}
+    </Section>
+
+    <Section
+      title={t('home.jobs.title')}
+      linkHref={routePath('jobs', locale)}
+      linkLabel={t('home.jobs.all')}
+    >
+      {jobs.length === 0 && <p class="empty">{t('jobs.empty')}</p>}
+      {
+        jobs
+          .slice(0, 4)
+          .map((job) => (
+            <JobCard job={job} company={companyById.get(job.data.company.id)} locale={locale} />
+          ))
+      }
+    </Section>
+
+    <Section
+      title={t('home.companies.title')}
+      linkHref={routePath('companies', locale)}
+      linkLabel={t('home.companies.all')}
+      columns={3}
+    >
+      {companies.length === 0 && <p class="empty">{t('companies.empty')}</p>}
+      {
+        companies
+          .slice(0, 3)
+          .map((company) => (
+            <CompanyCard
+              company={company}
+              locale={locale}
+              openJobs={jobCounts.get(company.id) ?? 0}
+            />
+          ))
+      }
+    </Section>
+
+    <Section
+      title={t('home.posts.title')}
+      linkHref={routePath('blog', locale)}
+      linkLabel={t('home.posts.all')}
+      columns={1}
+    >
+      {posts.length === 0 && <p class="empty">{t('blog.empty')}</p>}
+      {posts.slice(0, 3).map((post) => <PostCard post={post} locale={locale} />)}
+    </Section>
+  </div>
+</BaseLayout>
+
+<style>
+  .hero {
+    padding-block: var(--space-8) var(--space-7);
+    background:
+      radial-gradient(ellipse 80% 60% at 20% 0%, var(--accent-subtle), transparent 70%), var(--bg);
+    border-block-end: var(--border-width) solid var(--border);
+  }
+
+  .hero h1 {
+    max-width: 16ch;
+  }
+
+  .hero-subtitle {
+    margin-block-start: var(--space-4);
+    font-size: var(--text-lg);
+    color: var(--fg-muted);
+    max-width: 52ch;
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-block-start: var(--space-5);
+  }
+
+  .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2.75rem;
+    padding-inline: var(--space-5);
+    border-radius: var(--radius-md);
+    border: var(--border-width) solid var(--border-strong);
+    background: var(--bg-raised);
+    color: var(--fg);
+    font-weight: 550;
+    text-decoration: none;
+  }
+
+  .button:hover {
+    background: var(--bg-subtle);
+    color: var(--fg);
+  }
+
+  .button--primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--accent-fg);
+  }
+
+  .button--primary:hover {
+    background: var(--accent-hover);
+    border-color: var(--accent-hover);
+    color: var(--accent-fg);
+  }
+
+  .empty {
+    color: var(--fg-muted);
+    grid-column: 1 / -1;
+  }
+</style>

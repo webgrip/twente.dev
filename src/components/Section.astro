@@ -1,0 +1,73 @@
+---
+/** A titled section with an optional "view all" link — the homepage rhythm. */
+interface Props {
+  title: string;
+  linkHref?: string;
+  linkLabel?: string;
+  /** Grid columns at desktop width. Lists (blog) use 1. */
+  columns?: 1 | 2 | 3;
+}
+
+const { title, linkHref, linkLabel, columns = 2 } = Astro.props;
+---
+
+<section class="section">
+  <div class="section-head">
+    <h2>{title}</h2>
+    {
+      linkHref && linkLabel && (
+        <a class="section-link" href={linkHref}>
+          {linkLabel} →
+        </a>
+      )
+    }
+  </div>
+  <div class:list={['section-body', `cols-${columns}`]}>
+    <slot />
+  </div>
+</section>
+
+<style>
+  .section {
+    margin-block-start: var(--space-8);
+  }
+
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-4);
+    margin-block-end: var(--space-5);
+    flex-wrap: wrap;
+  }
+
+  .section-head h2 {
+    font-size: var(--text-xl);
+  }
+
+  .section-link {
+    font-size: var(--text-sm);
+    font-weight: 550;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .section-link:hover {
+    text-decoration: underline;
+  }
+
+  .section-body {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  @media (min-width: 48rem) {
+    .cols-2 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .cols-3 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>

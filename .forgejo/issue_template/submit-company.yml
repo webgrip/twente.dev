@@ -1,0 +1,85 @@
+name: Add a company / Bedrijf toevoegen
+about: Add a company that builds software in Twente to the directory
+title: "[Company] "
+labels:
+  - content
+  - company
+body:
+  - type: markdown
+    attributes:
+      value: |
+        One entry per company — not one per product or label. The description
+        should be about the work and the technology; recruitment copy with no
+        substance will be sent back.
+
+        Eén vermelding per bedrijf. De beschrijving gaat over het werk en de
+        techniek, niet over de wervingstekst.
+
+  - type: input
+    id: name
+    attributes:
+      label: Company name
+    validations:
+      required: true
+
+  - type: input
+    id: website
+    attributes:
+      label: Website
+    validations:
+      required: true
+
+  - type: dropdown
+    id: size
+    attributes:
+      label: Size
+      options:
+        - "1-10"
+        - "11-50"
+        - "51-200"
+        - "201-500"
+        - "500+"
+    validations:
+      required: true
+
+  - type: input
+    id: locations
+    attributes:
+      label: Location(s) in Twente
+      placeholder: "Enschede, Hengelo"
+    validations:
+      required: true
+
+  - type: input
+    id: stack
+    attributes:
+      label: Tech stack
+      description: What you actually build with, not everything you have heard of.
+      placeholder: "Elixir, Phoenix, Svelte"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: hiring
+    attributes:
+      label: Currently hiring developers?
+      options:
+        - "yes"
+        - "no"
+    validations:
+      required: true
+
+  - type: textarea
+    id: description-nl
+    attributes:
+      label: Description (Dutch)
+      description: Two or three sentences about the engineering work.
+    validations:
+      required: true
+
+  - type: textarea
+    id: description-en
+    attributes:
+      label: Description (English)
+    validations:
+      required: true

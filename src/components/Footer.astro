@@ -1,0 +1,93 @@
+---
+import type { Locale } from '../i18n/config.ts';
+import { useTranslations } from '../i18n/utils.ts';
+import { routePath } from '../i18n/routes.ts';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+const year = new Date().getFullYear();
+
+const REPO_URL = 'https://forgejo.webgrip.dev/webgrip/twente.dev';
+---
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div class="footer-about">
+      <p class="footer-tagline">{t('footer.tagline')}</p>
+      <p class="footer-meta">
+        © {year} · {t('footer.builtBy')}
+        <a href="https://webgrip.nl" rel="noopener">Webgrip</a>
+      </p>
+    </div>
+
+    <nav class="footer-links" aria-label={t('footer.contribute')}>
+      <ul>
+        <li><a href={routePath('about', locale)}>{t('nav.about')}</a></li>
+        <li><a href={routePath('guidelines', locale)}>{t('nav.guidelines')}</a></li>
+        <li><a href={routePath('privacy', locale)}>{t('footer.privacy')}</a></li>
+        <li><a href={REPO_URL} rel="noopener">{t('footer.sourceCode')}</a></li>
+      </ul>
+    </nav>
+
+    <nav class="footer-links" aria-label="Feeds">
+      <ul>
+        <li><a href={`/${locale}/rss.xml`}>{t('footer.rss')}</a></li>
+        <li><a href="/events.ics">{t('footer.calendar')}</a></li>
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    margin-block-start: var(--space-9);
+    border-block-start: var(--border-width) solid var(--border);
+    background: var(--bg-subtle);
+    padding-block: var(--space-6);
+    font-size: var(--text-sm);
+  }
+
+  .footer-inner {
+    display: grid;
+    gap: var(--space-5);
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 48rem) {
+    .footer-inner {
+      grid-template-columns: 2fr 1fr 1fr;
+    }
+  }
+
+  .footer-tagline {
+    color: var(--fg);
+    max-width: 34ch;
+  }
+
+  .footer-meta {
+    color: var(--fg-subtle);
+    margin-block-start: var(--space-2);
+  }
+
+  .footer-links ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  .footer-links a {
+    color: var(--fg-muted);
+    text-decoration: none;
+  }
+
+  .footer-links a:hover {
+    color: var(--accent);
+    text-decoration: underline;
+  }
+</style>

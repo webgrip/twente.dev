@@ -1,0 +1,35 @@
+{
+  "ci": {
+    "collect": {
+      "staticDistDir": "./dist",
+      "url": [
+        "http://localhost/nl.html",
+        "http://localhost/en.html",
+        "http://localhost/nl/vacatures.html",
+        "http://localhost/nl/vacatures/example-labs-senior-go-engineer.html",
+        "http://localhost/nl/events.html",
+        "http://localhost/nl/bedrijven.html",
+        "http://localhost/nl/blog/waarom-twente-dev.html"
+      ],
+      "numberOfRuns": 3,
+      "settings": {
+        "preset": "desktop"
+      }
+    },
+    "assert": {
+      "assertions": {
+        "categories:performance": ["error", { "minScore": 0.95 }],
+        "categories:accessibility": ["error", { "minScore": 1 }],
+        "categories:best-practices": ["error", { "minScore": 0.95 }],
+        "categories:seo": ["error", { "minScore": 1 }],
+        "cumulative-layout-shift": ["error", { "maxNumericValue": 0.05 }],
+        "total-byte-weight": ["warn", { "maxNumericValue": 153600 }],
+        "unused-javascript": ["warn", { "maxNumericValue": 10240 }]
+      }
+    },
+    "upload": {
+      "target": "filesystem",
+      "outputDir": "./lhci-report"
+    }
+  }
+}

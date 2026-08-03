@@ -1,0 +1,23 @@
+# FIXTURE — fictional company. Delete before launch. See src/content/README.md.
+name: Example Labs
+website: https://example.com
+size: 11-50
+hiring: true
+tier: community
+locations:
+  - Enschede
+stack:
+  - Go
+  - TypeScript
+  - PostgreSQL
+  - Kubernetes
+description:
+  nl: >-
+    Example Labs bouwt data-infrastructuur voor de maakindustrie. Klein team, veel
+    autonomie, en een codebase waar refactoren geen vies woord is.
+  en: >-
+    Example Labs builds data infrastructure for the manufacturing industry. Small
+    team, a lot of autonomy, and a codebase where refactoring is not a dirty word.
+socials:
+  website: https://example.com
+  github: https://github.com/example

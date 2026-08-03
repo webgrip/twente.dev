@@ -1,0 +1,32 @@
+---
+/**
+ * Root redirect.
+ *
+ * ADR-0004 gives both locales an explicit prefix, so `/` itself renders no
+ * content. Astro's `redirectToDefaultLocale` requires this file to exist.
+ *
+ * A static build cannot read `Accept-Language`, so this is a plain redirect to
+ * the default locale rather than a negotiated one. Language negotiation at the
+ * edge is a Phase 3 concern (it needs a Worker in front of the assets); until
+ * then an English speaker lands on `/nl` and takes one click. That is a
+ * deliberate, reversible trade — not an oversight.
+ */
+import { DEFAULT_LOCALE } from '../i18n/config.ts';
+import { routePath } from '../i18n/routes.ts';
+
+const target = routePath('home', DEFAULT_LOCALE);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="refresh" content={`0; url=${target}`} />
+    <link rel="canonical" href={target} />
+    <meta name="robots" content="noindex" />
+    <title>twente.dev</title>
+  </head>
+  <body data-pagefind-ignore="all">
+    <p>Redirecting to <a href={target}>{target}</a>…</p>
+  </body>
+</html>

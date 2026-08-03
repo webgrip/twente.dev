@@ -1,0 +1,52 @@
+---
+import ProsePage from '../../templates/ProsePage.astro';
+import { routePath } from '../../i18n/routes.ts';
+---
+
+<ProsePage
+  locale="en"
+  routeKey="about"
+  title="About twente.dev"
+  description="One place for meetups, jobs, companies and stories from the developer community in Twente."
+>
+  <p>
+    The Twente tech scene is bigger than it feels. There are meetups, there are companies doing
+    genuinely interesting work, and there are open positions — but it is scattered across LinkedIn
+    posts, Discord channels and mailing lists you do not quite follow.
+  </p>
+  <p>twente.dev collects it in one place.</p>
+
+  <h2>Bilingual, and that is not a detail</h2>
+  <p>
+    A substantial share of the developers working here arrived via the University of Twente and do
+    not speak Dutch. A Dutch-only site excludes them; an English-only site misses the local
+    employers. So everything here exists in both languages — and where an article only exists in
+    one, we say so plainly instead of machine-translating it.
+  </p>
+
+  <h2>No cookies, no tracking</h2>
+  <p>
+    This site sets no cookies and loads no third-party scripts. That means no consent banner either.
+    Visitor numbers come from an aggregate that cannot identify individuals.
+  </p>
+
+  <h2>Everything lives in git</h2>
+  <p>
+    Every job, every event and every company profile is a file in a public repository. You can see
+    when something was added, by whom, and what changed since. That is the difference between a
+    community site and a platform.
+  </p>
+
+  <h2>Taking part</h2>
+  <p>
+    Missing a meetup, a company or a vacancy? Add it. Right now that goes through the repository; a
+    plain form is planned. Have a look at the <a href={routePath('guidelines', 'en')}>guidelines</a>
+    {' '}first.
+  </p>
+
+  <h2>Who</h2>
+  <p>
+    twente.dev is maintained by <a href="https://webgrip.nl">Webgrip</a>. The site is a community
+    project, not a commercial platform.
+  </p>
+</ProsePage>

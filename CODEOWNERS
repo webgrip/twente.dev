@@ -1,0 +1,12 @@
+# Default owner for everything.
+*                       @ryangrippeling
+
+# Content changes are the common community contribution — reviewed against the
+# published guidelines rather than as code.
+/src/content/           @ryangrippeling
+
+# Decisions, CI and the deployment contract need a deliberate second look.
+/docs/adrs/             @ryangrippeling
+/.forgejo/              @ryangrippeling
+/wrangler.toml          @ryangrippeling
+/src/content.config.ts  @ryangrippeling

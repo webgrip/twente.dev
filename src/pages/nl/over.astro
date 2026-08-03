@@ -1,0 +1,52 @@
+---
+import ProsePage from '../../templates/ProsePage.astro';
+import { routePath } from '../../i18n/routes.ts';
+---
+
+<ProsePage
+  locale="nl"
+  routeKey="about"
+  title="Over twente.dev"
+  description="Eén plek voor meetups, vacatures, bedrijven en verhalen uit de Twentse developer-community."
+>
+  <p>
+    De Twentse tech-scene is groter dan hij voelt. Er zijn meetups, er zijn bedrijven die serieus
+    interessant werk doen, en er zijn open vacatures — maar het is versnipperd over LinkedIn-posts,
+    Discord-kanalen en mailinglijsten die je net niet volgt.
+  </p>
+  <p>twente.dev bundelt dat op één plek.</p>
+
+  <h2>Tweetalig, en dat is geen detail</h2>
+  <p>
+    Een flink deel van de developers die hier werken kwam via de Universiteit Twente en spreekt geen
+    Nederlands. Een site die alleen Nederlands is, sluit die groep uit; een site die alleen Engels
+    is, mist de lokale werkgevers. Daarom staat alles hier in beide talen — en waar een artikel maar
+    in één taal bestaat, zeggen we dat gewoon in plaats van er een machinevertaling van te maken.
+  </p>
+
+  <h2>Geen cookies, geen tracking</h2>
+  <p>
+    Deze site zet geen enkele cookie en laadt geen scripts van derden. Er is dus ook geen
+    cookiebanner. Bezoekcijfers komen van een aggregatie die geen individuen kan herleiden.
+  </p>
+
+  <h2>Alles staat in git</h2>
+  <p>
+    Elke vacature, elk event en elk bedrijfsprofiel is een bestand in een openbare repository. Je
+    kunt zien wanneer iets is toegevoegd, door wie, en wat er sindsdien is gewijzigd. Dat is het
+    verschil tussen een community-site en een platform.
+  </p>
+
+  <h2>Meedoen</h2>
+  <p>
+    Mis je een meetup, een bedrijf of een vacature? Voeg het toe. Op dit moment gaat dat via de
+    repository; een gewoon formulier staat op de planning. Lees eerst even de{' '}
+    <a href={routePath('guidelines', 'nl')}>richtlijnen</a>.
+  </p>
+
+  <h2>Wie</h2>
+  <p>
+    twente.dev wordt onderhouden door <a href="https://webgrip.nl">Webgrip</a>. De site is een
+    community-project, geen commercieel platform.
+  </p>
+</ProsePage>

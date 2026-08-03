@@ -1,0 +1,77 @@
+---
+import { DEFAULT_LOCALE, LOCALES } from '../i18n/config.ts';
+import { useTranslations } from '../i18n/utils.ts';
+import { routePath } from '../i18n/routes.ts';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+/**
+ * A single site-wide 404, served by Cloudflare for any unmatched path
+ * (`not_found_handling = "404-page"` in wrangler.toml).
+ *
+ * Because it answers for both locale trees, it shows the message in every
+ * locale rather than guessing — a static page cannot read `Accept-Language`.
+ */
+const t = useTranslations(DEFAULT_LOCALE);
+---
+
+<BaseLayout
+  locale={DEFAULT_LOCALE}
+  routeKey="home"
+  title={t('error.404.title')}
+  description={t('error.404.body')}
+  noindex
+>
+  <div class="container notfound">
+    <p class="code">404</p>
+    {
+      LOCALES.map((locale) => {
+        const tt = useTranslations(locale);
+        return (
+          <div class="block" lang={locale}>
+            <h1>{tt('error.404.title')}</h1>
+            <p>{tt('error.404.body')}</p>
+            <a href={routePath('home', locale)}>{tt('error.404.home')} →</a>
+          </div>
+        );
+      })
+    }
+  </div>
+</BaseLayout>
+
+<style>
+  .notfound {
+    padding-block: var(--space-8);
+    max-width: var(--width-prose);
+  }
+
+  .code {
+    font-size: var(--text-3xl);
+    font-weight: 700;
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .block {
+    margin-block-start: var(--space-6);
+    padding-block-start: var(--space-5);
+    border-block-start: var(--border-width) solid var(--border);
+  }
+
+  .block h1 {
+    font-size: var(--text-xl);
+  }
+
+  .block p {
+    margin-block: var(--space-2) var(--space-3);
+    color: var(--fg-muted);
+  }
+
+  .block a {
+    font-weight: 550;
+    text-decoration: none;
+  }
+
+  .block a:hover {
+    text-decoration: underline;
+  }
+</style>

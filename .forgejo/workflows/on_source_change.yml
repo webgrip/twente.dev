@@ -25,7 +25,7 @@ jobs:
     name: "Static Analysis"
     uses: https://forgejo.webgrip.dev/webgrip/workflows/.forgejo/workflows/node-application-static-analysis.yml@main
     with:
-      node-version: "22"
+      node-version: "24"
       package-manager: pnpm
       run-format-check: true
       run-lint: true
@@ -39,7 +39,7 @@ jobs:
       - static-analysis
     uses: https://forgejo.webgrip.dev/webgrip/workflows/.forgejo/workflows/node-application-tests.yml@main
     with:
-      node-version: "22"
+      node-version: "24"
       package-manager: pnpm
       test-command: pnpm test
 
@@ -49,7 +49,7 @@ jobs:
       - static-analysis
     uses: https://forgejo.webgrip.dev/webgrip/workflows/.forgejo/workflows/node-application-tests.yml@main
     with:
-      node-version: "22"
+      node-version: "24"
       package-manager: pnpm
       test-command: pnpm validate:content
 
@@ -63,7 +63,7 @@ jobs:
     # uses for its frontend build step.
     uses: https://forgejo.webgrip.dev/webgrip/workflows/.forgejo/workflows/node-application-tests.yml@main
     with:
-      node-version: "22"
+      node-version: "24"
       package-manager: pnpm
       test-command: pnpm build
 
@@ -76,7 +76,7 @@ jobs:
   # build images and reach a published port — which the org does elsewhere
   # (`runs-on: docker` in webgrip/workflows' docker-build-and-push) but we have
   # not verified on this runner. If it turns out unsupported, deleting this one
-  # job costs nothing; `make parity` still works locally.
+  # job costs nothing; `just parity` still works locally.
   container-parity:
     name: "Container Parity"
     needs:
@@ -128,7 +128,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: "22"
+          node-version: "24"
 
       - name: Enable pnpm
         run: corepack enable
@@ -171,7 +171,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: "22"
+          node-version: "24"
 
       - name: Enable pnpm
         run: corepack enable

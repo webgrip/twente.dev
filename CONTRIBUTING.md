@@ -42,8 +42,8 @@ velden — een eerlijke duplicaat is beter dan een lege pagina, en het is zichtb
 Draai voor het openen van je PR:
 
 ```bash
-pnpm validate:content
-pnpm build
+just content
+just build
 ```
 
 ### Artikelen
@@ -92,8 +92,8 @@ duplicate beats an empty page, and it is visible in review.
 Before opening your PR:
 
 ```bash
-pnpm validate:content
-pnpm build
+just content
+just build
 ```
 
 ### Articles
@@ -105,6 +105,14 @@ so plainly — **machine translations without human review are not accepted**.
 ---
 
 ## Code
+
+Set up with [mise](https://mise.jdx.dev) and [just](https://just.systems):
+
+```bash
+mise install    # Node 24 + just
+just setup      # corepack enable + pnpm install
+just check      # the same gates CI runs
+```
 
 Conventional commits. CI runs format, lint, typecheck, knip, unit tests, content validation and a
 build; all of them block on `main`. Every push gets a preview URL.

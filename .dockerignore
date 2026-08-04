@@ -35,3 +35,8 @@ coverage
 # docs and CI config are not needed to build the site
 docs
 .forgejo
+
+# host toolchain config — the image pins its own Node in the Dockerfile
+mise.toml
+mise.lock
+justfile

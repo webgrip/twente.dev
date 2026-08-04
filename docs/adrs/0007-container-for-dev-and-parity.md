@@ -45,7 +45,7 @@ Separately, contributors need a way to run the site without matching the host to
 Cloudflare. `ops/local/docker-compose.yml` provides a hot-reloading `dev` service and a
 production-parity `preview` service. Cloudflare remains the only deploy target.
 
-The mirroring is enforced by `ops/local/parity-check.sh` (`make parity`), which asserts the routing,
+The mirroring is enforced by `ops/local/parity-check.sh` (`just parity`), which asserts the routing,
 status codes, content types and headers over real HTTP. **The parity claim is a test, not a
 comment** — an unverified claim of parity is worse than no container, because it invites trust it has
 not earned.
@@ -71,7 +71,7 @@ the toolchain would have flagged it.
 - Serving behaviour is verifiable locally and asserted in CI.
 - `public/_headers` and `ops/docker/web/security-headers.conf` are a declared mirrored pair; the
   parity check fails if they drift.
-- Contributors get `make dev` without installing Node or pnpm.
+- Contributors get `just dev-docker` without installing Node or pnpm.
 - CSP is emitted by Astro with per-page hashes (`security.csp`), so the policy travels with the HTML
   and is identical under both servers — no `unsafe-inline` despite an inline theme script.
 
@@ -93,8 +93,8 @@ the toolchain would have flagged it.
 
 ## Confirmation
 
-- `make parity` passes all checks against the built image.
-- `make dev` serves the site with working hot reload through the bind mount.
+- `just parity` passes all checks against the built image.
+- `just dev-docker` serves the site with working hot reload through the bind mount.
 - The `container-parity` CI job builds the image and runs the same script.
 
 ## Revision Log

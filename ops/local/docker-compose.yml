@@ -1,9 +1,9 @@
 # Local development and production-parity preview.
 #
-#   make dev      -> Astro dev server, hot reload, http://localhost:4321
-#   make preview  -> the real image, nginx, http://localhost:8080
+#   just dev-docker -> Astro dev server, hot reload, http://localhost:4321
+#   just preview    -> the real image, nginx, http://localhost:8080
 #
-# Run from the repo root via the Makefile, or with
+# Run from the repo root via the justfile, or with
 # `docker compose -f ops/local/docker-compose.yml <cmd>`.
 
 name: twente-dev

@@ -12,23 +12,34 @@ no database, no cookies. Total recurring cost: one domain renewal.
 
 ## Quick start
 
-With Docker — nothing to install but Docker itself:
+[mise](https://mise.jdx.dev) pins the toolchain, [just](https://just.systems) runs the tasks.
 
 ```bash
-make dev          # http://localhost:4321, hot reload
-make preview      # http://localhost:8080, the production image
-make parity       # assert the container matches Cloudflare
-make check        # every gate CI runs
+mise install      # Node 24 + just, per mise.toml
+just setup        # corepack enable + pnpm install
+just              # list every task
 ```
 
-Or directly, with Node `^22.14.0 || >=24.10.0` and pnpm:
+Then:
 
 ```bash
-pnpm install
-pnpm dev          # http://localhost:4321 — redirects to /nl
+just dev          # http://localhost:4321, hot reload
+just preview      # http://localhost:8080, the production image
+just parity       # assert the container matches Cloudflare
+just check        # every gate CI runs
 ```
+
+No local Node at all? `just dev-docker` runs the dev server in a container.
+
+pnpm is deliberately not pinned in `mise.toml` — its version is `packageManager`
+in `package.json`, which corepack reads and which the Dockerfile and CI use too.
+Pinning it twice is how a laptop and a container quietly end up on different
+pnpm versions.
 
 ## Scripts
+
+Every `just` recipe wraps a pnpm script, so both work. `just --list` is the
+canonical index; the scripts themselves are:
 
 | Command                     | What it does                                                           |
 | --------------------------- | ---------------------------------------------------------------------- |
@@ -90,7 +101,7 @@ with no local signal at all.
 | [`ops/local/docker-compose.yml`](ops/local/docker-compose.yml)                 | `dev` (hot reload) and `preview` (production image)                   |
 | [`ops/local/parity-check.sh`](ops/local/parity-check.sh)                       | Asserts the mirroring over real HTTP                                  |
 
-**The parity claim is a test, not a comment.** `make parity` checks routing, status codes, content
+**The parity claim is a test, not a comment.** `just parity` checks routing, status codes, content
 types and headers against the running container. Its first run caught a `types { }` block in
 `nginx.conf` that replaced nginx's entire mime map — serving every page as `application/octet-stream`,
 i.e. a site that downloads rather than renders. Nothing else in the toolchain would have caught it.

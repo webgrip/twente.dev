@@ -1,0 +1,34 @@
+# mise — reproducible project toolchain (https://mise.jdx.dev).
+#
+# Pins the two tools a contributor needs on PATH before anything else works:
+# Node (the site's runtime) and just (the task runner). Everything else is
+# either a project dependency installed by pnpm, or runs inside Docker.
+#
+#   mise install       # get the toolchain
+#   just setup         # enable corepack + install dependencies
+#   just               # list every task
+#
+# pnpm is deliberately NOT pinned here. Its version is `packageManager` in
+# package.json, which corepack reads — and which the Dockerfile and CI also
+# use. Pinning it in two places is how the container and the laptop end up on
+# different pnpm versions without anyone noticing.
+
+[settings]
+lockfile = true # commit mise.lock alongside mise.toml
+
+[tools]
+# Node 24 everywhere: package.json engines (^22.14.0 || >=24.10.0), the
+# Dockerfile's node:24-bookworm-slim, and the node-version passed to the shared
+# Forgejo workflows. Node 24 still bundles corepack; Node 25 does not, so
+# revisit `just setup` before moving up.
+node = "24"
+
+# Task runner. Same version homelab-cluster pins, so behaviour matches across
+# Webgrip repos.
+just = "1.51.0"
+
+[env]
+# Astro phones home on first run otherwise, including in CI logs.
+ASTRO_TELEMETRY_DISABLED = "1"
+# `[group(...)]` attributes in the justfile.
+JUST_UNSTABLE = "1"

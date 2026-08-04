@@ -8,7 +8,7 @@
 # security header, and a try_files fallback turns the 404 page into a soft 404.
 # So the claim is a test, not a comment.
 #
-# Usage: ./ops/local/parity-check.sh   (or `make parity`)
+# Usage: ./ops/local/parity-check.sh   (or `just parity`)
 
 set -euo pipefail
 
@@ -79,8 +79,16 @@ header() {
 }
 
 # body_contains <path> <substring>
+#
+# The body is captured before matching rather than piped into `grep -q`.
+# Under `set -o pipefail`, `grep -q` exits on the first match and SIGPIPEs
+# curl, so the pipeline fails *sometimes* depending on how much of the
+# response curl had already written — an intermittent red build with no real
+# cause. Capture first, match second.
 body_contains() {
-  if curl -s "${BASE}$1" | grep -qF "$2"; then
+  local body
+  body="$(curl -s "${BASE}$1")"
+  if printf '%s' "$body" | grep -qF -- "$2"; then
     pass "$1 body contains '$2'"
   else
     fail "$1 body missing '$2'"
@@ -153,15 +161,25 @@ header /nl Content-Security-Policy "frame-ancestors 'none'"
 echo
 echo "CSP is emitted by Astro with per-page hashes, not unsafe-inline"
 body_contains /nl "http-equiv=\"content-security-policy\""
-if curl -s "${BASE}/nl" | grep -o 'content-security-policy[^>]*' | grep -q "unsafe-inline"; then
+
+HOME_HTML="$(curl -s "${BASE}/nl")"
+CSP_META="$(printf '%s' "$HOME_HTML" | grep -o 'content-security-policy[^>]*' || true)"
+if printf '%s' "$CSP_META" | grep -q "unsafe-inline"; then
   fail "/nl CSP contains unsafe-inline"
 else
   pass "/nl CSP has no unsafe-inline"
 fi
+if printf '%s' "$CSP_META" | grep -q "sha256-"; then
+  pass "/nl CSP carries per-page hashes"
+else
+  fail "/nl CSP has no sha256- hashes"
+fi
 
 echo
 echo "Caching"
-ASSET="$(curl -s "${BASE}/nl" | grep -oE '/_astro/[^"]+' | head -1 || true)"
+# Same SIGPIPE reasoning as body_contains: reuse the captured body, and let
+# awk take the first match instead of piping into `head`.
+ASSET="$(printf '%s' "$HOME_HTML" | grep -oE '/_astro/[^"]+' | awk 'NR==1' || true)"
 if [ -n "$ASSET" ]; then
   header "$ASSET" Cache-Control immutable
   # The inheritance trap: this location sets its own add_header.

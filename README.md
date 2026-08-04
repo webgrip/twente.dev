@@ -12,12 +12,21 @@ no database, no cookies. Total recurring cost: one domain renewal.
 
 ## Quick start
 
+With Docker — nothing to install but Docker itself:
+
+```bash
+make dev          # http://localhost:4321, hot reload
+make preview      # http://localhost:8080, the production image
+make parity       # assert the container matches Cloudflare
+make check        # every gate CI runs
+```
+
+Or directly, with Node `^22.14.0 || >=24.10.0` and pnpm:
+
 ```bash
 pnpm install
 pnpm dev          # http://localhost:4321 — redirects to /nl
 ```
-
-Requires Node `^22.14.0 || >=24.10.0` and pnpm.
 
 ## Scripts
 
@@ -65,6 +74,38 @@ malformed entries rather than reporting them, so check changes against the Rich 
 
 Per the plan, the jobs section does not launch publicly until 15+ genuine listings are seeded. An
 empty job board reads as abandoned and is hard to recover from.
+
+## Local containers
+
+The container is **not** the deploy target ([ADR 0007](docs/adrs/0007-container-for-dev-and-parity.md)).
+It exists because `astro dev` and `astro preview` do not exercise any of Cloudflare's serving rules —
+extensionless URLs, a real 404 status, cache policy, security headers — which leaves a class of bug
+with no local signal at all.
+
+| Path                                                                           | What                                                                  |
+| ------------------------------------------------------------------------------ | --------------------------------------------------------------------- |
+| [`ops/docker/web/Dockerfile`](ops/docker/web/Dockerfile)                       | Multi-stage build; nginx-unprivileged serves `dist/`                  |
+| [`ops/docker/web/nginx.conf`](ops/docker/web/nginx.conf)                       | Mirrors `html_handling` and `not_found_handling` from `wrangler.toml` |
+| [`ops/docker/web/security-headers.conf`](ops/docker/web/security-headers.conf) | Mirror of [`public/_headers`](public/_headers)                        |
+| [`ops/local/docker-compose.yml`](ops/local/docker-compose.yml)                 | `dev` (hot reload) and `preview` (production image)                   |
+| [`ops/local/parity-check.sh`](ops/local/parity-check.sh)                       | Asserts the mirroring over real HTTP                                  |
+
+**The parity claim is a test, not a comment.** `make parity` checks routing, status codes, content
+types and headers against the running container. Its first run caught a `types { }` block in
+`nginx.conf` that replaced nginx's entire mime map — serving every page as `application/octet-stream`,
+i.e. a site that downloads rather than renders. Nothing else in the toolchain would have caught it.
+
+Two things worth knowing if you edit the serving config:
+
+- **Response headers are defined twice**, in `public/_headers` (Cloudflare) and
+  `security-headers.conf` (nginx). Change one, change both — the parity check fails if they drift.
+- **`add_header` does not inherit** into an nginx location that declares its own. That is why every
+  location `include`s the shared snippet rather than relying on the server block.
+
+The main CSP is not in either file: Astro emits it as a `<meta>` element with per-page hashes for
+every inline script and scoped style (`security.csp` in `astro.config.mjs`), so the policy travels
+with the HTML and is identical under both servers — no `unsafe-inline` despite the inline theme
+script. Only `frame-ancestors`, which meta-delivered CSP ignores, needs a real header.
 
 ## Deployment
 

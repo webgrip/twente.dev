@@ -1,0 +1,34 @@
+# Response headers for Cloudflare Workers Static Assets.
+#
+# Mirrored in ops/docker/web/security-headers.conf so the local preview
+# container serves the same headers as production. Change one, change both —
+# the container exists to catch exactly this kind of drift.
+#
+# The main Content-Security-Policy is NOT here: Astro emits it as a <meta>
+# element with per-page hashes for every inline script and scoped style
+# (see `security.csp` in astro.config.mjs). Only `frame-ancestors` needs a
+# real header, because meta-delivered CSP ignores it.
+
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: DENY
+  Content-Security-Policy: frame-ancestors 'none'
+  Permissions-Policy: geolocation=(), camera=(), microphone=(), browsing-topics=()
+
+# Astro fingerprints these filenames, so they can never go stale.
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/pagefind/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Feeds change on every nightly rebuild; let clients revalidate cheaply.
+/events.ics
+  Cache-Control: public, max-age=3600
+
+/nl/rss.xml
+  Cache-Control: public, max-age=3600
+
+/en/rss.xml
+  Cache-Control: public, max-age=3600

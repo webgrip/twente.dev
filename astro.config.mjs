@@ -49,6 +49,32 @@ export default defineConfig({
       },
     }),
   ],
+  security: {
+    /**
+     * Astro hashes every inline script and scoped style it emits and writes
+     * them into a `<meta http-equiv="content-security-policy">`. That means a
+     * real CSP with **no `unsafe-inline`**, despite the pre-paint theme script
+     * being inline by necessity.
+     *
+     * It also travels with the HTML, so the policy is byte-identical whether
+     * the page is served by Cloudflare or by the nginx container in
+     * ops/docker/web — which is the whole point of that container existing.
+     *
+     * Header-only directives (`frame-ancestors`) cannot go in a meta CSP and
+     * live in `public/_headers` instead, mirrored in nginx.conf.
+     */
+    csp: {
+      directives: [
+        "default-src 'self'",
+        "img-src 'self' data:",
+        "font-src 'self'",
+        "connect-src 'self'",
+        "base-uri 'self'",
+        "form-action 'self'",
+        "object-src 'none'",
+      ],
+    },
+  },
   markdown: {
     shikiConfig: {
       themes: { light: 'github-light', dark: 'github-dark' },

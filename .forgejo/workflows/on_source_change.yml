@@ -67,6 +67,39 @@ jobs:
       package-manager: pnpm
       test-command: pnpm build
 
+  # Builds ops/docker/web and asserts it serves dist/ under the same rules
+  # wrangler.toml configures on Cloudflare: extensionless URLs, a real 404
+  # status, correct content types, and the headers from public/_headers.
+  #
+  # Deliberately NOT a dependency of the deploy jobs. It guards the local
+  # preview container, not production, and it assumes the forgejo-runner can
+  # build images and reach a published port — which the org does elsewhere
+  # (`runs-on: docker` in webgrip/workflows' docker-build-and-push) but we have
+  # not verified on this runner. If it turns out unsupported, deleting this one
+  # job costs nothing; `make parity` still works locally.
+  container-parity:
+    name: "Container Parity"
+    needs:
+      - static-analysis
+    runs-on: docker
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Build image
+        run: docker build -f ops/docker/web/Dockerfile -t twente-dev-web:ci .
+
+      - name: Start container
+        run: docker run -d --name twente-web-ci -p 8080:8080 twente-dev-web:ci
+
+      - name: Check Cloudflare parity
+        env:
+          PARITY_BASE_URL: http://localhost:8080
+        run: ./ops/local/parity-check.sh
+
+      - name: Stop container
+        if: always()
+        run: docker rm -f twente-web-ci || true
+
   # ---------------------------------------------------------------------------
   # Deploy.
   #

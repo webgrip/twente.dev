@@ -1,0 +1,59 @@
+# Local development and production-parity preview.
+#
+#   make dev      -> Astro dev server, hot reload, http://localhost:4321
+#   make preview  -> the real image, nginx, http://localhost:8080
+#
+# Run from the repo root via the Makefile, or with
+# `docker compose -f ops/local/docker-compose.yml <cmd>`.
+
+name: twente-dev
+
+services:
+  # Hot-reloading dev server. Source is bind-mounted; node_modules is NOT.
+  #
+  # That exclusion is load-bearing: esbuild and workerd ship platform-specific
+  # binaries, so a macOS host's node_modules is unusable inside a linux
+  # container (and mounting over it would corrupt the host's copy in reverse).
+  # The named volume gives the container its own linux-native install.
+  dev:
+    image: docker.io/library/node:24-bookworm-slim
+    working_dir: /src
+    environment:
+      ASTRO_TELEMETRY_DISABLED: "1"
+      COREPACK_ENABLE_DOWNLOAD_PROMPT: "0"
+      # Vite needs polling to see writes crossing the bind mount on macOS.
+      CHOKIDAR_USEPOLLING: "1"
+    volumes:
+      - ../..:/src
+      - dev-node-modules:/src/node_modules
+      - dev-pnpm-store:/pnpm/store
+    ports:
+      - "4321:4321"
+    command: >
+      sh -c "corepack enable &&
+             pnpm config set store-dir /pnpm/store &&
+             pnpm install --frozen-lockfile &&
+             pnpm dev --host 0.0.0.0"
+
+  # The image that ops/docker/web/Dockerfile produces, serving the built site
+  # under Cloudflare's routing and header rules. This is what to check before
+  # believing a redirect, cache header or 404 works.
+  preview:
+    build:
+      context: ../..
+      dockerfile: ops/docker/web/Dockerfile
+    image: twente-dev-web:local
+    ports:
+      - "8080:8080"
+    read_only: true
+    tmpfs:
+      - /tmp
+      - /var/cache/nginx
+      - /var/run
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+
+volumes:
+  dev-node-modules:
+  dev-pnpm-store:

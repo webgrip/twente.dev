@@ -4,7 +4,7 @@
 - **Deciders**: Ryan Grippeling
 - **Date**: 2026-08-11
 - **Tags**: Scope, Strategy, Brand, Product
-- **Version**: 1.0.0
+- **Version**: 1.1.0
 
 ---
 
@@ -46,8 +46,9 @@ source of truth.
 - Trust pages ship before registration opens: code of conduct, extended privacy notice,
   governance in the about page, partner safeguards on the partners page.
 - Brand follows the pack: ink/signal-red/warm-paper/thread-grey tokens, one red signal per view,
-  lowercase wordmark with the red dot, tagline "Build here. Share here." always paired with a
-  literal explanation.
+  lowercase wordmark with the red dot, tagline "We build it. We run it. We share it." always
+  paired with a literal explanation (amended 2026-08-11; the pack's original line was
+  "Build here. Share here.").
 - The editorial pillars (Field Notes, People Who Build, Open Calls, Week in Twente Tech) exist as
   an optional `pillar` field on posts.
 
@@ -88,6 +89,7 @@ the /001 launch, when there is event data to argue from.
 
 ## Revision Log
 
-| Date       | Version | Change           |
-| ---------- | ------- | ---------------- |
-| 2026-08-11 | 1.0.0   | Initial decision |
+| Date       | Version | Change                                                    |
+| ---------- | ------- | --------------------------------------------------------- |
+| 2026-08-11 | 1.0.0   | Initial decision                                          |
+| 2026-08-11 | 1.1.0   | Tagline changed to "We build it. We run it. We share it." |

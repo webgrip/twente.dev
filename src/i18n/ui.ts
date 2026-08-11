@@ -10,14 +10,15 @@
  * Content strings (articles, job descriptions) do NOT live here; they live in
  * the content collections, which carry their own per-locale fields.
  *
- * The tagline "Build here. Share here." is the brand line and stays verbatim
- * in both locales — the playbook's rule is that it is always paired with a
- * literal explanation, never left to carry meaning alone.
+ * The tagline "We build it. We run it. We share it." is the brand line and
+ * stays verbatim in both locales — the rule is that it is always paired with
+ * a literal explanation, never left to carry meaning alone. (Replaced the
+ * founding pack's "Build here. Share here." on 2026-08-11.)
  */
 
 export const nl = {
   'site.name': 'twente.dev',
-  'site.tagline': 'Build here. Share here.',
+  'site.tagline': 'We build it. We run it. We share it.',
   'site.description':
     'Onafhankelijke, practitioner-led techcommunity voor Twente. We maken lokale mensen, events en praktijkkennis beter vindbaar — van Enschede tot Almelo.',
 
@@ -184,7 +185,7 @@ export type UIKey = keyof typeof nl;
 
 export const en: Record<UIKey, string> = {
   'site.name': 'twente.dev',
-  'site.tagline': 'Build here. Share here.',
+  'site.tagline': 'We build it. We run it. We share it.',
   'site.description':
     'An independent, practitioner-led technology community for Twente. We make local people, events and practical knowledge easier to find — from Enschede to Almelo.',
 

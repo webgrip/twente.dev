@@ -2,7 +2,7 @@
 
 Twente's practitioner-led technology community — a shared calendar, directory, archive and
 newsletter, built around numbered flagship events (first up: **twente.dev/001 — Reconnect**,
-7 October 2026, Enschede). Bilingual NL/EN. _Build here. Share here._
+7 October 2026, Enschede). Bilingual NL/EN. _We build it. We run it. We share it._
 
 A static Astro site on Cloudflare's free tier, built and deployed from Forgejo Actions. No backend,
 no database, no cookies. Total recurring cost: one domain renewal.

@@ -30,7 +30,8 @@ contribute reachable in two clicks. Explicitly deferred: accounts, profiles, cha
 
 - **twente.dev/001 — Reconnect** · Wednesday 7 October 2026 · doors/food 18:00, programme 18:45,
   hard finish 21:30 · Enschede, venue TBA · free · capacity 100 · primarily English, Dutch welcome.
-- Tagline: **"Build here. Share here."** — always paired with a literal explanation.
+- Tagline: **"We build it. We run it. We share it."** — always paired with a literal explanation.
+  (Replaced the pack's "Build here. Share here." on 2026-08-11; ADR 0008 revision log records it.)
 - Ten-second explanation (quote verbatim, see `/en/press`).
 - Safeguards: no attendee data, no paid speaking, no exclusivity, no editorial approval rights.
 

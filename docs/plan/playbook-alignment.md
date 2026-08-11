@@ -47,10 +47,29 @@ contribute reachable in two clicks. Explicitly deferred: accounts, profiles, cha
 6. **Two trained code-of-conduct contacts** — required before registration opens (tracker TD-023,
    TD-074).
 7. **Cloudflare Web Analytics + UTM naming convention** — tracker TD-044; the kit's ambassador and
-   partner links need per-source attribution.
+   partner links need per-source attribution. The beacon is already wired: set `ANALYTICS_TOKEN`
+   in `src/config/site.ts` and widen the CSP as documented in `BaseHead.astro`.
+
+## Built beyond the minimum (10x levers, 2026-08-11)
+
+- **Search (L8)**: Pagefind UI at `/nl/zoeken` and `/en/search`, themed to the tokens, locale-aware;
+  CSP admits the same-origin script/styles and WASM (`'wasm-unsafe-eval'`, the narrow variant).
+- **Fonts**: Inter Variable + IBM Plex Mono self-hosted via Fontsource — no font CDN.
+- **Brand assets**: the pack's logo, compact mark, social banner and speaker tile live in
+  `public/brand/`; the 1200×627 banner is the site-wide `og:image` (it carries the /001 campaign
+  lockup — replace after the event). Downloads linked on the press pages.
+- **Editorial**: pillar label renders on post cards; first Open Calls post published in both
+  languages (`open-call-001`).
+- **Regional directory seeded (TD-016)**: 12 real, verified communities in
+  `src/content/communities.yml` — meetups, hackerspace, data/AI network, UT and Saxon study
+  associations, CoderDojo. Dormant groups (Twente.js, PHP Twente, Docker Enschede, …) deliberately
+  excluded; re-verify links before launch.
 
 ## Still deliberately unbuilt (playbook says wait)
 
 - Self-service submission forms (Worker + Turnstile) — issue templates + email suffice for launch.
 - Newsletter archive pages, event /002 interest list, public report page — post-event work.
-- OG image generation, Meetup mirroring, accounts/profiles/chat — deferred or banned.
+- Per-page OG image generation (L7 — a static brand banner is wired instead), Meetup mirroring,
+  accounts/profiles/chat — deferred or banned.
+- Lighthouse CI + axe-in-CI (plan §6.6 items 4–5): `lighthouserc.json` exists but no runner job —
+  needs a Chrome-capable Forgejo runner; verify before wiring.

@@ -73,6 +73,20 @@ export default defineConfig({
         "form-action 'self'",
         "object-src 'none'",
       ],
+      /**
+       * Pagefind's UI is a same-origin script that instantiates WebAssembly,
+       * and its stylesheet is a same-origin file — neither is emitted by
+       * Astro, so neither gets a hash. `'self'` admits them;
+       * `'wasm-unsafe-eval'` permits WASM compilation only (NOT `eval()` —
+       * this is the narrow variant). Astro appends its per-page hashes to
+       * these sources.
+       */
+      scriptDirective: {
+        resources: ["'self'", "'wasm-unsafe-eval'"],
+      },
+      styleDirective: {
+        resources: ["'self'"],
+      },
     },
   },
   markdown: {

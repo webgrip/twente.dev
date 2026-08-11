@@ -145,6 +145,10 @@ export const nl = {
   'search.label': 'Zoeken',
   'search.placeholder': 'Zoek op de site…',
   'search.noResults': 'Geen resultaten gevonden.',
+  'search.description':
+    'Doorzoek alles op twente.dev: events, communities, artikelen en pagina’s, in beide talen.',
+  'search.unavailable':
+    'Zoeken werkt alleen op de gebouwde site — draai `just preview` of bezoek twente.dev.',
 
   'filter.all': 'Alles',
   'filter.clear': 'Filters wissen',
@@ -305,6 +309,10 @@ export const en: Record<UIKey, string> = {
   'search.label': 'Search',
   'search.placeholder': 'Search the site…',
   'search.noResults': 'No results found.',
+  'search.description':
+    'Search everything on twente.dev: events, communities, articles and pages, in both languages.',
+  'search.unavailable':
+    'Search only works on the built site — run `just preview` or visit twente.dev.',
 
   'filter.all': 'All',
   'filter.clear': 'Clear filters',

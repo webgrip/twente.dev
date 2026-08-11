@@ -6,6 +6,7 @@ import type { SlugInput } from '../i18n/utils.ts';
 import { routePath } from '../i18n/routes.ts';
 import type { RouteKey } from '../i18n/routes.ts';
 import { organisationSchema, websiteSchema } from '../lib/jsonld.ts';
+import { ANALYTICS_TOKEN } from '../config/site.ts';
 
 /**
  * Every SEO-critical tag lives here, driven by props, so it is structurally
@@ -48,15 +49,12 @@ const canonical = absoluteUrl(routePath(routeKey, locale, canonicalSlug));
 const { alternates, xDefault } = getAlternates(routeKey, slug);
 
 /**
- * Open Graph image.
- *
- * Deliberately absent until Phase 2 builds the per-page generator (plan lever
- * L7). Pointing `og:image` at a file that does not exist is worse than
- * omitting it: crawlers cache the 404 and the card renders broken rather than
- * plain. When the generator lands, set `ogImage` here and both the OG and
- * Twitter tags light up together.
+ * Open Graph image: the brand pack's social banner (1200×627). It carries the
+ * "Reconnect" campaign lockup (twente.dev/001 · 07.10 · Enschede), which per
+ * the playbook is the launch-phase device — replace or generalise it after
+ * edition 001. A per-page generator (plan lever L7) can override this later.
  */
-const ogImage: string | undefined = undefined;
+const ogImage: string | undefined = absoluteUrl('/brand/twente-dev-social-banner.png');
 
 // `summary_large_image` promises an image; without one, `summary` is honest.
 const twitterCard = ogImage ? 'summary_large_image' : 'summary';
@@ -88,7 +86,7 @@ const graph = [organisationSchema(), websiteSchema(locale), ...jsonLd];
     <>
       <meta property="og:image" content={ogImage} />
       <meta property="og:image:width" content="1200" />
-      <meta property="og:image:height" content="630" />
+      <meta property="og:image:height" content="627" />
     </>
   )
 }
@@ -114,3 +112,22 @@ const graph = [organisationSchema(), websiteSchema(locale), ...jsonLd];
 />
 
 <script type="application/ld+json" set:html={JSON.stringify(graph)} is:inline />
+
+{
+  /**
+   * Cloudflare Web Analytics (ADR-0006) — renders only once a token exists in
+   * src/config/site.ts. Enabling it also requires widening the CSP in
+   * astro.config.mjs: add https://static.cloudflareinsights.com to
+   * scriptDirective.resources and https://cloudflareinsights.com to
+   * connect-src. Cookieless, so no consent banner — but the privacy page's
+   * "no third-party scripts" wording must be updated in the same change.
+   */
+  ANALYTICS_TOKEN && (
+    <script
+      is:inline
+      defer
+      src="https://static.cloudflareinsights.com/beacon.min.js"
+      data-cf-beacon={JSON.stringify({ token: ANALYTICS_TOKEN })}
+    />
+  )
+}

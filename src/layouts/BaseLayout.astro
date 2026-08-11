@@ -62,7 +62,7 @@ const t = useTranslations(locale);
   <body data-pagefind-ignore={noindex ? 'all' : undefined}>
     <a class="skip-link" href="#main">{t('nav.skipToContent')}</a>
     <Header locale={locale} current={routeKey} slug={slug} />
-    <main id="main" tabindex="-1">
+    <main id="main" tabindex="-1" data-pagefind-body>
       <slot />
     </main>
     <Footer locale={locale} />

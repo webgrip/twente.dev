@@ -16,6 +16,7 @@ const href = routePath('blog', locale, postSlug(post));
 ---
 
 <article class="post-card">
+  {post.data.pillar && <p class="post-pillar">{t(`pillar.${post.data.pillar}`)}</p>}
   <h3 class="post-title"><a href={href}>{post.data.title}</a></h3>
   <p class="post-desc">{post.data.description}</p>
   <p class="post-meta">
@@ -39,6 +40,14 @@ const href = routePath('blog', locale, postSlug(post));
   .post-card:focus-within {
     outline: 2px solid var(--focus-ring);
     outline-offset: 4px;
+  }
+
+  .post-pillar {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--fg-subtle);
   }
 
   .post-title {

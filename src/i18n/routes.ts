@@ -29,6 +29,7 @@ export const ROUTES = {
   guidelines: { nl: 'richtlijnen', en: 'guidelines' },
   conduct: { nl: 'gedragscode', en: 'code-of-conduct' },
   privacy: { nl: 'privacy', en: 'privacy' },
+  search: { nl: 'zoeken', en: 'search' },
 } as const satisfies Record<string, Record<Locale, string>>;
 
 export type RouteKey = keyof typeof ROUTES;

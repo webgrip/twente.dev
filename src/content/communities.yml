@@ -1,35 +1,234 @@
-# FIXTURE entries — replace with real communities before launch.
-# Single file, array of entries; each needs a unique `id`.
-- id: twente-dev-discord
-  name: twente.dev Discord
-  url: https://example.com/discord
-  platform: discord
-  language: both
+# Real, verified communities (research pass 2026-08-11; activity and URLs
+# checked via web search). This is the playbook's regional directory seed
+# (TD-016): link out, credit the source, never claim ownership.
+#
+# Dormant groups deliberately NOT listed (last activity pre-2024): Twente.js,
+# Functional Twente, PHP Twente, Docker/DevSecOps Enschede, WordPress Meetup
+# Twente, Enschede Web Developers, Software Development Twente.
+
+- id: agile-meetup-twente
+  name: Agile Meetup Twente
+  url: https://www.meetup.com/agile-meetup-twente/
+  platform: meetup
+  language: nl
   focus:
-    - general
-    - career
+    - agile
+    - scrum
+    - ways-of-working
   description:
     nl: >-
-      De algemene Discord voor developers in Twente. Kanalen per taal en
-      vakgebied, een #vacatures kanaal, en wekelijks een informele co-working
-      call.
+      Meetupgroep voor iedereen die met Agile werkt of wil werken in Twente,
+      met enkele bijeenkomsten per jaar in Enschede met presentaties en
+      discussie.
     en: >-
-      The general Discord for developers in Twente. Channels per language and
-      discipline, a #jobs channel, and a weekly informal co-working call.
+      Meetup group for people working with or interested in Agile in the
+      Twente region, gathering a few times a year in Enschede for talks and
+      discussion.
 
-- id: twente-go-meetup
-  name: Twente Go Meetup
-  url: https://example.com/meetup
+- id: women-in-tech-twente
+  name: Women in Tech Twente
+  url: https://womenintechtwente.nl/
   platform: meetup
   language: en
   focus:
-    - go
-    - backend
+    - diversity
+    - networking
+    - careers
   description:
     nl: >-
-      Maandelijkse meetup over Go, gehost op wisselende locaties in Enschede en
-      Hengelo. Altijd in het Engels zodat internationale studenten kunnen
-      aanhaken.
+      Community waar vrouwen in tech en engineering in Twente elkaar
+      ontmoeten, ervaringen delen en elkaar steunen via meetups en workshops.
     en: >-
-      Monthly meetup about Go, hosted at rotating locations in Enschede and
-      Hengelo. Always in English so international students can join in.
+      Community where women in tech and engineering in Twente meet, share
+      experiences and support each other through meetups and workshops.
+
+- id: testing-twente
+  name: Testing Twente
+  url: https://www.meetup.com/testing-twente/
+  platform: meetup
+  language: nl
+  focus:
+    - testing
+    - qa
+    - quality
+  description:
+    nl: >-
+      Meetupgroep die testers in de regio Twente verbindt, met circa twee
+      meetups per jaar met presentaties en netwerken.
+    en: >-
+      Meetup group connecting software testers in the Twente region, aiming
+      for two meetups a year with presentations and networking.
+
+- id: flutter-twente
+  name: Flutter Twente
+  url: https://www.meetup.com/flutter-twente/
+  platform: meetup
+  language: both
+  focus:
+    - flutter
+    - dart
+    - mobile
+  description:
+    nl: >-
+      Meetup in Enschede voor Flutter-ontwikkelaars en -liefhebbers, onderdeel
+      van de Flutter Netherlands-community.
+    en: >-
+      Enschede-based meetup for Flutter developers and enthusiasts, part of
+      the Flutter Netherlands community.
+
+- id: tkkrlab
+  name: TkkrLab
+  url: https://tkkrlab.nl/
+  platform: other
+  language: both
+  focus:
+    - hackerspace
+    - hardware
+    - electronics
+    - making
+  description:
+    nl: >-
+      Door de community gerund hackerspace/makerspace aan de Marssteden in
+      Enschede met 3D-printers, lasersnijder en elektronicawerkplekken, met
+      regelmatige workshops en CyberSaturday-avonden.
+    en: >-
+      Community-run hackerspace/makerspace at Marssteden in Enschede with 3D
+      printers, a laser cutter and electronics benches, hosting regular
+      workshops and CyberSaturday evenings.
+
+- id: data-ai-community-twente
+  name: Data & AI Community Twente
+  url: https://www.data-ai-community.nl/
+  platform: other
+  language: nl
+  focus:
+    - data
+    - ai
+    - data-management
+  description:
+    nl: >-
+      Regionaal netwerk van data- en AI-professionals in Twente dat gratis
+      kennissessies, bedrijfsbezoeken en een DAMA-DMBOK-leertraject
+      organiseert.
+    en: >-
+      Regional network of data and AI professionals in Twente organising free
+      knowledge sessions, company visits and a DAMA-DMBOK learning track.
+
+- id: inter-actief
+  name: I.C.T.S.V. Inter-Actief
+  url: https://www.inter-actief.utwente.nl/
+  platform: other
+  language: both
+  focus:
+    - computer-science
+    - students
+    - university
+  description:
+    nl: >-
+      Studievereniging voor Technical Computer Science en Business Information
+      Technology aan de Universiteit Twente, opgericht in 1981, met circa 1400
+      leden — de grootste ICT-studievereniging van Nederland.
+    en: >-
+      Study association for Technical Computer Science and Business
+      Information Technology at the University of Twente, founded in 1981,
+      with about 1400 members — the largest ICT study association in the
+      Netherlands.
+
+- id: proto
+  name: S.A. Proto
+  url: https://www.proto.utwente.nl/
+  platform: other
+  language: en
+  focus:
+    - creative-technology
+    - interaction-tech
+    - students
+  description:
+    nl: >-
+      Studievereniging voor studenten Creative Technology en Interaction
+      Technology aan de Universiteit Twente, met wekelijkse activiteiten
+      georganiseerd door 35 commissies.
+    en: >-
+      Study association for Creative Technology and Interaction Technology
+      students at the University of Twente, with weekly activities run by 35
+      committees.
+
+- id: scintilla
+  name: E.T.S.V. Scintilla
+  url: https://www.scintilla.utwente.nl/
+  platform: other
+  language: both
+  focus:
+    - electrical-engineering
+    - embedded
+    - students
+  description:
+    nl: >-
+      Studievereniging voor Electrical Engineering en Embedded Systems aan de
+      Universiteit Twente, opgericht in 1965, met lezingen, excursies en
+      workshops.
+    en: >-
+      Study association for Electrical Engineering and Embedded Systems at the
+      University of Twente, founded in 1965, organising lectures, excursions
+      and workshops.
+
+- id: space-society-twente
+  name: Space Society Twente
+  url: https://spacesocietytwente.nl/
+  platform: other
+  language: en
+  focus:
+    - space
+    - rocketry
+    - engineering
+  description:
+    nl: >-
+      Studentenvereniging in Enschede (opgericht 2018) rond ruimtevaart en
+      space engineering, met het raketproject AzimUT naast lezingen en sociale
+      activiteiten.
+    en: >-
+      Enschede student association (founded 2018) for space exploration and
+      engineering, running the AzimUT rocket project alongside lectures and
+      social events.
+
+- id: syntaxis
+  # No own website; Instagram is the canonical channel (activity confirmed
+  # via Saxion, June 2025).
+  name: S.V. Syntaxis
+  url: https://www.instagram.com/svsyntaxis/
+  platform: other
+  language: nl
+  focus:
+    - hbo-ict
+    - students
+    - saxion
+  description:
+    nl: >-
+      Studievereniging voor HBO-ICT-studenten aan Saxion Enschede, met
+      maandelijkse borrels, workshops, lunchlezingen en een tweejaarlijkse
+      LAN-party.
+    en: >-
+      Study association for HBO-ICT students at Saxion Enschede, organising
+      monthly drinks, workshops, lunch lectures and a biennial LAN party.
+
+- id: coderdojo-enschede
+  # Their domain currently serves a mismatched TLS certificate (checked
+  # 2026-08-11); activity verified via third-party listings. If the weekly
+  # link check trips on this, that is why.
+  name: CoderDojo Enschede
+  url: https://coderdojo-enschede.nl/
+  platform: other
+  language: nl
+  focus:
+    - kids
+    - coding
+    - education
+  description:
+    nl: >-
+      Door vrijwilligers gerund gratis codeerclubje dat kinderen van 7 tot 17
+      leert programmeren en websites, apps en games leert bouwen, elke eerste
+      zaterdag van de maand in de Bibliotheek Enschede.
+    en: >-
+      Volunteer-run free coding club teaching children aged 7 to 17 to
+      program and build websites, apps and games, on the first Saturday of
+      each month at the Enschede public library.

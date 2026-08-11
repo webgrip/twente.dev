@@ -114,6 +114,13 @@ const jsonLd = [
       <p>
         <a class="cta" href={event.data.url} rel="noopener">{t('events.moreInfo')} →</a>
       </p>
+
+      {event.data.attribution === 'listed' && <p class="credit">{t('events.listedBy')}</p>}
+      {
+        event.data.attribution === 'collaboration' && (
+          <p class="credit">{t('events.inCollaboration')}</p>
+        )
+      }
     </div>
   </div>
 </BaseLayout>
@@ -157,6 +164,11 @@ const jsonLd = [
   .venue,
   .organiser {
     color: var(--fg-muted);
+  }
+
+  .credit {
+    color: var(--fg-subtle);
+    font-size: var(--text-sm);
   }
 
   .cta {

@@ -24,6 +24,12 @@ export const REGISTRATION_URL: string | null = null;
 /** Brevo double-opt-in form URL. null = newsletter not yet live. */
 export const NEWSLETTER_URL: string | null = null;
 
+/**
+ * Cloudflare Web Analytics token (ADR-0006). null = no beacon rendered.
+ * Enabling also requires the CSP additions documented in BaseHead.astro.
+ */
+export const ANALYTICS_TOKEN: string | null = null;
+
 /** ISO date registration opens, shown while REGISTRATION_URL is null. */
 export const REGISTRATION_OPENS = new Date('2026-09-02T09:00:00+02:00');
 

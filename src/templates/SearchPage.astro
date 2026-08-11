@@ -1,0 +1,81 @@
+---
+import type { Locale } from '../i18n/config.ts';
+import { useTranslations } from '../i18n/utils.ts';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+
+/**
+ * Static search (plan lever L8), one page per locale.
+ *
+ * Pagefind builds its index from `dist/` after `astro build` (see the
+ * `build` script), so `/pagefind/*` only exists on the built site — under
+ * `astro dev` the loader script 404s and the noscript-style fallback text
+ * shows instead. The CSP additions that admit the same-origin script, its
+ * stylesheet and its WASM live in astro.config.mjs.
+ */
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+
+// Pagefind indexed the pages under their BCP 47 lang tags (nl-NL / en-GB);
+// constraining results to the current locale keeps the two language trees
+// from bleeding into each other's results.
+const pagefindConfig = {
+  element: '#pagefind-search',
+  showSubResults: true,
+  translations: {
+    placeholder: t('search.placeholder'),
+    zero_results: t('search.noResults'),
+  },
+};
+---
+
+<BaseLayout
+  locale={locale}
+  routeKey="search"
+  title={t('search.label')}
+  description={t('search.description')}
+  noindex
+>
+  <div class="container">
+    <PageHeader title={t('search.label')} description={t('search.description')} />
+
+    <link rel="stylesheet" href="/pagefind/pagefind-ui.css" />
+    <div id="pagefind-search">
+      <p class="search-fallback">{t('search.unavailable')}</p>
+    </div>
+
+    <script is:inline src="/pagefind/pagefind-ui.js"></script>
+    <script is:inline define:vars={{ pagefindConfig }}>
+      if (typeof PagefindUI !== 'undefined') {
+        document.querySelector('.search-fallback')?.remove();
+        new PagefindUI(pagefindConfig);
+        document.querySelector('#pagefind-search input')?.focus();
+      }
+    </script>
+  </div>
+</BaseLayout>
+
+<style>
+  .search-fallback {
+    color: var(--fg-muted);
+  }
+
+  #pagefind-search {
+    /* Map Pagefind's theming hooks onto the design tokens so results render
+       in both themes without touching its stylesheet. */
+    --pagefind-ui-primary: var(--accent);
+    --pagefind-ui-text: var(--fg);
+    --pagefind-ui-background: var(--bg-raised);
+    --pagefind-ui-border: var(--border);
+    --pagefind-ui-tag: var(--bg-subtle);
+    --pagefind-ui-border-width: var(--border-width);
+    --pagefind-ui-border-radius: var(--radius-md);
+    --pagefind-ui-font: var(--font-sans);
+    max-width: var(--width-prose);
+    min-height: 24rem;
+  }
+</style>

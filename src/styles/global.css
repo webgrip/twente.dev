@@ -167,7 +167,7 @@ hr {
   left: var(--space-2);
   z-index: 100;
   padding: var(--space-2) var(--space-4);
-  background: var(--accent-strong);
+  background: var(--accent);
   color: var(--accent-fg);
   border-radius: var(--radius-md);
   text-decoration: none;

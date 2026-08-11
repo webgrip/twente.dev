@@ -121,6 +121,7 @@
      because dark mode still needs a lightened cut for text on ink. */
   --accent-strong: var(--signal-red);
   --accent-hover: var(--signal-red-dark);
+  --accent-fill-hover: var(--signal-red-dark);
   --accent-fg: #ffffff;
   --accent-subtle: #f6dcd6;
 
@@ -149,10 +150,14 @@
     --border: #2a343e;
     --border-strong: #3d4954;
 
-    --accent: var(--signal-red-light);
+    /* Fills keep the true flag red — white on #c3291b is 5.7:1, so buttons,
+       dots, spines and edges stay the real brand color on ink. Only red
+       *text* on ink needs the lightened cut (--accent-strong). */
+    --accent: var(--signal-red);
     --accent-strong: var(--signal-red-light);
     --accent-hover: #ef7361;
-    --accent-fg: var(--ink);
+    --accent-fill-hover: #d63a28;
+    --accent-fg: #ffffff;
     --accent-subtle: #2e1512;
 
     --focus-ring: var(--signal-red-light);
@@ -180,10 +185,11 @@
   --border: #2a343e;
   --border-strong: #3d4954;
 
-  --accent: var(--signal-red-light);
+  --accent: var(--signal-red);
   --accent-strong: var(--signal-red-light);
   --accent-hover: #ef7361;
-  --accent-fg: var(--ink);
+  --accent-fill-hover: #d63a28;
+  --accent-fg: #ffffff;
   --accent-subtle: #2e1512;
 
   --focus-ring: var(--signal-red-light);

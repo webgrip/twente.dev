@@ -41,13 +41,22 @@
   --text-xl: clamp(1.375rem, 1.28rem + 0.45vw, 1.625rem);
   --text-2xl: clamp(1.75rem, 1.55rem + 0.95vw, 2.375rem);
   --text-3xl: clamp(2.25rem, 1.9rem + 1.7vw, 3.5rem);
+  /* Display: the slide system's "readable at room distance" register. One
+     statement per view earns this size; body copy never does. */
+  --text-display: clamp(2.75rem, 1.9rem + 5.2vw, 6rem);
 
   --leading-tight: 1.15;
   --leading-snug: 1.35;
   --leading-normal: 1.65;
+  --leading-display: 0.98;
 
   --tracking-tight: -0.02em;
+  --tracking-display: -0.035em;
   --tracking-normal: 0;
+  /* Mono labels track open, uppercase, xs — the "technical texture" register. */
+  --tracking-label: 0.08em;
+
+  --weight-display: 830;
 
   /* ---- space (4px base) -------------------------------------------------- */
   --space-1: 0.25rem;
@@ -61,12 +70,19 @@
   --space-9: 6rem;
 
   /* ---- shape ------------------------------------------------------------- */
-  --radius-sm: 0.25rem;
-  --radius-md: 0.5rem;
-  --radius-lg: 0.875rem;
+  /* Near-square. The brand is structural — a baseline grid, hairlines and
+     hard edges — not a stack of pillowy cards. */
+  --radius-sm: 1px;
+  --radius-md: 2px;
+  --radius-lg: 3px;
   --radius-full: 999px;
 
   --border-width: 1px;
+
+  /* ---- thread grid -------------------------------------------------------- */
+  /* The slide system's structural grid, as a background utility (.thread-grid).
+     Line colors are theme-scoped below. */
+  --grid-cell: 5.5rem;
 
   /* ---- layout ------------------------------------------------------------ */
   --width-prose: 68ch;
@@ -97,11 +113,18 @@
   --border-strong: #b6bfbb;
 
   --accent: var(--signal-red);
+  /* Signal red is a *graphic* color: at #e44734 it is only ~3.6:1 against
+     warm paper, fine for marks and large display, an AA failure for body
+     text and small button labels. Interactive/small-text red uses this
+     darker cut (≥4.5:1 on paper, ≥5.5:1 under white). */
+  --accent-strong: #bf3322;
   --accent-hover: var(--signal-red-dark);
   --accent-fg: #ffffff;
   --accent-subtle: #fbe6e0;
 
   --focus-ring: var(--signal-red);
+
+  --grid-line: rgb(17 24 32 / 0.07);
 
   --shadow-sm: 0 1px 2px rgb(17 24 32 / 0.06);
   --shadow-md: 0 4px 12px rgb(17 24 32 / 0.08);
@@ -125,11 +148,14 @@
     --border-strong: #3d4954;
 
     --accent: var(--signal-red-light);
+    --accent-strong: var(--signal-red-light);
     --accent-hover: #f0755f;
     --accent-fg: var(--ink);
     --accent-subtle: #2c1a1a;
 
     --focus-ring: var(--signal-red-light);
+
+    --grid-line: rgb(247 243 234 / 0.06);
 
     --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4);
     --shadow-md: 0 4px 12px rgb(0 0 0 / 0.5);
@@ -153,11 +179,14 @@
   --border-strong: #3d4954;
 
   --accent: var(--signal-red-light);
+  --accent-strong: var(--signal-red-light);
   --accent-hover: #f0755f;
   --accent-fg: var(--ink);
   --accent-subtle: #2c1a1a;
 
   --focus-ring: var(--signal-red-light);
+
+  --grid-line: rgb(247 243 234 / 0.06);
 
   --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4);
   --shadow-md: 0 4px 12px rgb(0 0 0 / 0.5);

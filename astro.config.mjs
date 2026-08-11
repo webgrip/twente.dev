@@ -45,7 +45,9 @@ export default defineConfig({
        */
       filter: (page) => {
         const path = new URL(page).pathname.replace(/\/+$/, '');
-        return path !== '' && !path.endsWith('/404');
+        // `/styleguide` is an internal design reference: noindex, no locale
+        // variants, no place in the sitemap.
+        return path !== '' && !path.endsWith('/404') && path !== '/styleguide';
       },
     }),
   ],

@@ -97,13 +97,20 @@ h4 {
 }
 
 a {
-  color: var(--accent);
+  /* --accent-strong, not --accent: signal red is a graphic color and misses
+     AA for body-size text on warm paper (see tokens.css). */
+  color: var(--accent-strong);
   text-decoration-thickness: 1px;
   text-underline-offset: 0.2em;
 }
 
 a:hover {
   color: var(--accent-hover);
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--accent-fg);
 }
 
 /* One consistent, always-visible focus treatment. Never remove it. */
@@ -160,7 +167,7 @@ hr {
   left: var(--space-2);
   z-index: 100;
   padding: var(--space-2) var(--space-4);
-  background: var(--accent);
+  background: var(--accent-strong);
   color: var(--accent-fg);
   border-radius: var(--radius-md);
   text-decoration: none;
@@ -173,6 +180,32 @@ hr {
 
 .stack > * + * {
   margin-block-start: var(--flow, var(--space-4));
+}
+
+/* The brand pack's structural grid, as a paintable background. Sections that
+   carry it read as part of one system — calendars, programmes, crossings. */
+.thread-grid {
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: var(--grid-cell) var(--grid-cell);
+}
+
+/* Mono label register: dates, kickers, section indices, wayfinding. */
+.label-mono {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+}
+
+/* Display register: one statement per view, room-distance sized. */
+.text-display {
+  font-size: var(--text-display);
+  font-weight: var(--weight-display);
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-display);
 }
 
 /* Wide content must scroll inside itself — the page body never scrolls sideways. */

@@ -60,6 +60,10 @@ contribute reachable in two clicks. Explicitly deferred: accounts, profiles, cha
   lockup — replace after the event). Downloads linked on the press pages.
 - **Editorial**: pillar label renders on post cards; first Open Calls post published in both
   languages (`open-call-001`).
+- **Design system formalised**: art-direction pass from the brand pack (display type, thread-grid
+  texture, red edge frame, mono label register, near-square radii, AA-safe interactive red); living
+  styleguide at `/styleguide` (noindex); Figma-importable tokens at `docs/design/tokens.json`
+  (Tokens Studio format). Calendar subscribe links (Google / webcal / .ics) on the events pages.
 - **Regional directory seeded (TD-016)**: 12 real, verified communities in
   `src/content/communities.yml` — meetups, hackerspace, data/AI network, UT and Saxon study
   associations, CoderDojo. Dormant groups (Twente.js, PHP Twente, Docker Enschede, …) deliberately

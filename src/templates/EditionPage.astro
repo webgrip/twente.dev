@@ -261,9 +261,17 @@ const registrationOpen = REGISTRATION_URL !== null;
   jsonLd={jsonLd}
 >
   <div class="container">
-    <header class="edition-header">
-      <p class="edition-kicker">{editionName(EDITION_001.number)}</p>
-      <h1>{EDITION_001.theme}</h1>
+    <header class="edition-header thread-grid">
+      <p class="edition-lockup label-mono" aria-hidden="true">
+        <span class="lockup-name">{editionName(EDITION_001.number)}</span>
+        <span class="lockup-date">
+          {String(EDITION_001.doors.getDate()).padStart(2, '0')}.{
+            String(EDITION_001.doors.getMonth() + 1).padStart(2, '0')
+          }
+        </span>
+        <span class="lockup-place">{EDITION_001.city} · {time(EDITION_001.doors)}</span>
+      </p>
+      <h1 class="text-display">{EDITION_001.theme}</h1>
       {c.intro.map((paragraph) => <p class="edition-intro">{paragraph}</p>)}
 
       <dl class="facts">
@@ -401,26 +409,42 @@ const registrationOpen = REGISTRATION_URL !== null;
 
 <style>
   .edition-header {
-    padding-block-start: var(--space-7);
-    max-width: var(--width-prose);
+    padding-block: var(--space-7) var(--space-5);
+    max-width: none;
   }
 
-  /* The one red signal on this page: the edition lockup. */
-  .edition-kicker {
-    font-family: var(--font-mono);
-    font-size: var(--text-sm);
-    color: var(--accent);
-    letter-spacing: 0.04em;
+  /* The red signal on this page: the banner's info-card lockup. White mono
+     on signal red at these sizes is large-text AA. */
+  .edition-lockup {
+    display: inline-grid;
+    gap: var(--space-1);
+    padding: var(--space-4) var(--space-5);
+    background: var(--signal-red);
+    color: #ffffff;
+    border-radius: var(--radius-md);
+  }
+
+  .lockup-name {
+    font-weight: 700;
+  }
+
+  .lockup-date {
+    font-size: var(--text-2xl);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0;
   }
 
   .edition-header h1 {
-    margin-block: var(--space-2) var(--space-4);
+    margin-block: var(--space-5) var(--space-4);
+    max-width: 12ch;
   }
 
   .edition-intro {
     color: var(--fg-muted);
     margin-block-end: var(--space-3);
     line-height: var(--leading-normal);
+    max-width: var(--width-prose);
   }
 
   .facts {
@@ -558,19 +582,34 @@ const registrationOpen = REGISTRATION_URL !== null;
   .button {
     display: inline-flex;
     align-items: center;
-    min-height: 2.75rem;
+    min-height: 3rem;
     padding-inline: var(--space-5);
     border-radius: var(--radius-md);
-    border: var(--border-width) solid var(--border-strong);
-    background: var(--bg-raised);
+    border: var(--border-width) solid var(--fg);
+    background: transparent;
     color: var(--fg);
-    font-weight: 550;
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-label);
     text-decoration: none;
   }
 
+  .button:hover {
+    background: var(--fg);
+    color: var(--bg);
+  }
+
   .button--primary {
-    background: var(--accent);
-    border-color: var(--accent);
+    background: var(--accent-strong);
+    border-color: var(--accent-strong);
+    color: var(--accent-fg);
+  }
+
+  .button--primary:hover {
+    background: var(--accent-hover);
+    border-color: var(--accent-hover);
     color: var(--accent-fg);
   }
 </style>

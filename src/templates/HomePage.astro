@@ -19,6 +19,9 @@ import PostCard from '../components/PostCard.astro';
  * The playbook's contract for this page: promise, explanation, next event,
  * proof, partners, contribution CTA — and a new visitor reaches RSVP or
  * contribute in two clicks.
+ *
+ * Visual grammar comes from the brand pack's social banner: warm paper, the
+ * thread grid, a red edge, mono wayfinding lines, one dominant statement.
  */
 interface Props {
   locale: Locale;
@@ -30,6 +33,7 @@ const t = useTranslations(locale);
 const [events, posts] = await Promise.all([getUpcomingEvents(), getPosts(locale)]);
 
 const edition = `${editionName(EDITION_001.number)} — ${EDITION_001.theme}`;
+const motto = `twente.dev / ${t('site.tagline').toLowerCase()}`;
 ---
 
 <BaseLayout
@@ -38,9 +42,10 @@ const edition = `${editionName(EDITION_001.number)} — ${EDITION_001.theme}`;
   title={t('site.name')}
   description={t('site.description')}
 >
-  <div class="hero">
+  <div class="hero thread-grid">
     <div class="container">
-      <h1>{t('home.hero.title')}</h1>
+      <p class="label-mono hero-motto">{motto}</p>
+      <h1 class="text-display">{t('home.hero.title')}</h1>
       <p class="hero-subtitle">{t('home.hero.subtitle')}</p>
       <div class="hero-actions">
         <a class="button button--primary" href={routePath('edition001', locale)}>
@@ -50,26 +55,26 @@ const edition = `${editionName(EDITION_001.number)} — ${EDITION_001.theme}`;
           {t('home.hero.ctaContribute')}
         </a>
       </div>
-      <ul class="outcomes" role="list">
-        <li>{t('home.outcome.idea')}</li>
-        <li>{t('home.outcome.intro')}</li>
-        <li>{t('home.outcome.return')}</li>
-      </ul>
+      <ol class="outcomes" role="list">
+        <li><span class="label-mono outcome-index">01</span>{t('home.outcome.idea')}</li>
+        <li><span class="label-mono outcome-index">02</span>{t('home.outcome.intro')}</li>
+        <li><span class="label-mono outcome-index">03</span>{t('home.outcome.return')}</li>
+      </ol>
     </div>
   </div>
 
   <div class="container">
     <section class="next-edition" aria-labelledby="next-edition-title">
-      <p class="kicker">{t('home.next.kicker')}</p>
+      <p class="label-mono kicker">{t('home.next.kicker')}</p>
       <h2 id="next-edition-title">{edition}</h2>
-      <p class="edition-facts">
+      <p class="edition-facts label-mono">
         <time datetime={EDITION_001.doors.toISOString()}>
           {formatDate(EDITION_001.doors, locale)}
         </time>
-        {' · '}18:00–21:30 · {EDITION_001.city} ·
-        {EDITION_001.venue ?? t('edition.venueTba')} · {t('events.free')}
+        {' · 18:00–21:30 · '}{EDITION_001.city} · {EDITION_001.venue ?? t('edition.venueTba')} ·
+        {t('events.free')}
       </p>
-      <p class="edition-facts">{t('edition.language')}</p>
+      <p class="edition-language">{t('edition.language')}</p>
       <p class="edition-registration">
         {t('edition.registrationOpens')}
         <strong>
@@ -82,6 +87,7 @@ const edition = `${editionName(EDITION_001.number)} — ${EDITION_001.theme}`;
     </section>
 
     <section class="what" aria-labelledby="what-title">
+      <p class="label-mono kicker">01</p>
       <h2 id="what-title">{t('home.what.title')}</h2>
       <p>{t('home.what.body')}</p>
     </section>
@@ -96,6 +102,7 @@ const edition = `${editionName(EDITION_001.number)} — ${EDITION_001.theme}`;
     </Section>
 
     <section class="community-band" aria-labelledby="community-band-title">
+      <p class="label-mono kicker">02</p>
       <h2 id="community-band-title">{t('home.community.title')}</h2>
       <p>{t('home.community.body')}</p>
       <a href={routePath('communities', locale)}>{t('common.viewAll')} →</a>
@@ -112,6 +119,7 @@ const edition = `${editionName(EDITION_001.number)} — ${EDITION_001.theme}`;
     </Section>
 
     <section class="newsletter" aria-labelledby="newsletter-title">
+      <p class="label-mono kicker">03</p>
       <h2 id="newsletter-title">{t('home.newsletter.title')}</h2>
       <p>{t('home.newsletter.body')}</p>
       {
@@ -130,71 +138,95 @@ const edition = `${editionName(EDITION_001.number)} — ${EDITION_001.theme}`;
 </BaseLayout>
 
 <style>
+  /* The banner's frame: paper, grid, one red edge on the leading side. */
   .hero {
-    padding-block: var(--space-8) var(--space-7);
-    background: var(--bg);
+    position: relative;
+    padding-block: var(--space-9) var(--space-8);
+    background-color: var(--bg);
     border-block-end: var(--border-width) solid var(--border);
   }
 
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: 0;
+    width: 6px;
+    background: var(--accent);
+  }
+
+  .hero-motto {
+    color: var(--fg-subtle);
+  }
+
   .hero h1 {
-    max-width: 22ch;
+    margin-block-start: var(--space-4);
+    max-width: 16ch;
   }
 
   .hero-subtitle {
-    margin-block-start: var(--space-4);
+    margin-block-start: var(--space-5);
     font-size: var(--text-lg);
     color: var(--fg-muted);
-    max-width: 52ch;
+    max-width: 46ch;
   }
 
   .hero-actions {
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-3);
-    margin-block-start: var(--space-5);
+    margin-block-start: var(--space-6);
   }
 
   .outcomes {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--space-2);
+    gap: 0 var(--space-6);
     list-style: none;
     padding: 0;
-    margin: var(--space-5) 0 0;
+    margin: var(--space-7) 0 0;
+    border-block-start: var(--border-width) solid var(--border-strong);
   }
 
   .outcomes li {
-    padding: var(--space-1) var(--space-3);
-    border: var(--border-width) solid var(--border-strong);
-    border-radius: var(--radius-full);
-    font-size: var(--text-sm);
-    background: var(--bg-subtle);
-    color: var(--fg-muted);
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-3);
+    padding-block: var(--space-3);
+    font-weight: 550;
+  }
+
+  .outcome-index {
+    color: var(--accent-strong);
   }
 
   .button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-height: 2.75rem;
+    min-height: 3rem;
     padding-inline: var(--space-5);
     border-radius: var(--radius-md);
-    border: var(--border-width) solid var(--border-strong);
-    background: var(--bg-raised);
+    border: var(--border-width) solid var(--fg);
+    background: transparent;
     color: var(--fg);
-    font-weight: 550;
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-label);
     text-decoration: none;
   }
 
   .button:hover {
-    background: var(--bg-subtle);
-    color: var(--fg);
+    background: var(--fg);
+    color: var(--bg);
   }
 
   /* The page's one red signal: the action that fills the room. */
   .button--primary {
-    background: var(--accent);
-    border-color: var(--accent);
+    background: var(--accent-strong);
+    border-color: var(--accent-strong);
     color: var(--accent-fg);
   }
 
@@ -204,45 +236,51 @@ const edition = `${editionName(EDITION_001.number)} — ${EDITION_001.theme}`;
     color: var(--accent-fg);
   }
 
+  .kicker {
+    color: var(--fg-subtle);
+  }
+
   .next-edition {
     margin-block-start: var(--space-7);
     padding: var(--space-5);
-    border: var(--border-width) solid var(--border);
+    border: var(--border-width) solid var(--border-strong);
     border-radius: var(--radius-lg);
     background: var(--bg-raised);
   }
 
-  .kicker {
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--fg-subtle);
-  }
-
   .next-edition h2 {
-    margin-block: var(--space-1) var(--space-3);
+    margin-block: var(--space-2) var(--space-3);
   }
 
   .edition-facts {
     color: var(--fg-muted);
-    font-variant-numeric: tabular-nums;
   }
 
+  .edition-language,
   .edition-registration {
-    margin-block-start: var(--space-3);
+    color: var(--fg-muted);
+    margin-block-start: var(--space-2);
+  }
+
+  .edition-registration strong {
+    color: var(--fg);
   }
 
   .edition-link {
     display: inline-block;
-    margin-block-start: var(--space-2);
+    margin-block-start: var(--space-3);
     font-weight: 550;
   }
 
   .what,
   .community-band {
-    margin-block-start: var(--space-7);
+    margin-block-start: var(--space-8);
     max-width: var(--width-prose);
+  }
+
+  .what h2,
+  .community-band h2 {
+    margin-block-start: var(--space-2);
   }
 
   .what p,
@@ -252,12 +290,16 @@ const edition = `${editionName(EDITION_001.number)} — ${EDITION_001.theme}`;
   }
 
   .newsletter {
-    margin-block-start: var(--space-7);
+    margin-block-start: var(--space-8);
     padding: var(--space-5);
-    border: var(--border-width) solid var(--border);
+    border: var(--border-width) solid var(--border-strong);
     border-radius: var(--radius-lg);
     background: var(--bg-subtle);
     max-width: var(--width-prose);
+  }
+
+  .newsletter h2 {
+    margin-block-start: var(--space-2);
   }
 
   .newsletter p {

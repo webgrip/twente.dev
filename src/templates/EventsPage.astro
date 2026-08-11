@@ -14,6 +14,15 @@ const { locale } = Astro.props;
 const t = useTranslations(locale);
 
 const [upcoming, past] = await Promise.all([getUpcomingEvents(), getPastEvents()]);
+
+/**
+ * Subscription targets for the one shared feed. `webcal://` makes Apple
+ * Calendar and Outlook open a *subscription* (auto-refreshing) instead of a
+ * one-off import; Google needs the same URL passed through its add-by-URL
+ * route. The plain file stays for everything else.
+ */
+const WEBCAL_URL = 'webcal://twente.dev/events.ics';
+const GOOGLE_CALENDAR_URL = `https://calendar.google.com/calendar/r?cid=${encodeURIComponent(WEBCAL_URL)}`;
 ---
 
 <BaseLayout
@@ -24,10 +33,17 @@ const [upcoming, past] = await Promise.all([getUpcomingEvents(), getPastEvents()
 >
   <div class="container">
     <PageHeader title={t('events.title')} description={t('events.description')}>
-      <a class="ics-link" href="/events.ics">
-        {t('events.subscribe')}
-        <span class="ics-hint">{t('events.subscribeHint')}</span>
-      </a>
+      <div class="subscribe">
+        <p class="subscribe-title">{t('events.subscribe')}</p>
+        <p class="subscribe-hint">{t('events.subscribeHint')}</p>
+        <ul class="subscribe-links" role="list">
+          <li>
+            <a href={GOOGLE_CALENDAR_URL} rel="noopener">{t('events.subscribeGoogle')}</a>
+          </li>
+          <li><a href={WEBCAL_URL}>{t('events.subscribeWebcal')}</a></li>
+          <li><a href="/events.ics">{t('events.subscribeDirect')}</a></li>
+        </ul>
+      </div>
     </PageHeader>
 
     <h2>{t('events.upcoming')}</h2>
@@ -52,26 +68,33 @@ const [upcoming, past] = await Promise.all([getUpcomingEvents(), getPastEvents()
 </BaseLayout>
 
 <style>
-  .ics-link {
-    display: inline-flex;
-    flex-direction: column;
-    gap: var(--space-1);
+  .subscribe {
     margin-block-start: var(--space-4);
-    padding: var(--space-3) var(--space-4);
+    padding: var(--space-4);
     border: var(--border-width) solid var(--border-strong);
-    border-radius: var(--radius-md);
-    text-decoration: none;
-    font-weight: 550;
+    border-radius: var(--radius-lg);
+    max-width: 34rem;
   }
 
-  .ics-link:hover {
-    background: var(--bg-subtle);
+  .subscribe-title {
+    font-weight: 650;
   }
 
-  .ics-hint {
-    font-size: var(--text-xs);
-    font-weight: 400;
+  .subscribe-hint {
+    font-size: var(--text-sm);
     color: var(--fg-subtle);
+    margin-block-start: var(--space-1);
+  }
+
+  .subscribe-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-4);
+    list-style: none;
+    padding: 0;
+    margin-block-start: var(--space-3);
+    font-size: var(--text-sm);
+    font-weight: 550;
   }
 
   h2 {

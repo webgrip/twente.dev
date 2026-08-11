@@ -1,0 +1,438 @@
+---
+/**
+ * The living styleguide — every token, register and component on one page,
+ * rendered by the same CSS the site ships. This is the design system's
+ * source of truth: if it looks right here, it is right, because it IS the
+ * implementation (the reason this exists instead of a Storybook: Astro
+ * components have no first-class Storybook framework, and a parallel
+ * component catalogue would drift).
+ *
+ * English-only, noindex, excluded from the sitemap (astro.config.mjs) and
+ * from Pagefind. Companion export for design tools: docs/design/tokens.json.
+ */
+import '../styles/global.css';
+
+import { getPosts, getUpcomingEvents } from '../lib/content.ts';
+import EventCard from '../components/EventCard.astro';
+import PostCard from '../components/PostCard.astro';
+import Tag from '../components/Tag.astro';
+
+const [sampleEvent] = await getUpcomingEvents();
+const [samplePost] = await getPosts('en');
+
+const COLORS = [
+  { name: 'Ink', token: '--ink', hex: '#111820', role: 'Primary type / authority' },
+  {
+    name: 'Signal red',
+    token: '--signal-red',
+    hex: '#E44734',
+    role: 'Connection / date / action — one per view, graphic use only',
+  },
+  { name: 'Warm paper', token: '--warm-paper', hex: '#F7F3EA', role: 'Community / openness' },
+  { name: 'Thread grey', token: '--thread-grey', hex: '#D9DFDC', role: 'Structure / grid' },
+  {
+    name: 'Accent strong',
+    token: '--accent-strong',
+    hex: '#BF3322',
+    role: 'Interactive red: links, filled buttons, small text (AA-safe)',
+  },
+];
+
+const TYPE_SCALE = [
+  { token: '--text-display', label: 'Display — one statement per view' },
+  { token: '--text-3xl', label: '3xl — page titles' },
+  { token: '--text-2xl', label: '2xl — section titles' },
+  { token: '--text-xl', label: 'xl — card titles' },
+  { token: '--text-lg', label: 'lg — leads' },
+  { token: '--text-base', label: 'base — body' },
+  { token: '--text-sm', label: 'sm — meta' },
+  { token: '--text-xs', label: 'xs — labels' },
+];
+
+const SPACES = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <title>twente.dev — styleguide</title>
+  </head>
+  <body data-pagefind-ignore="all">
+    <header class="sg-hero thread-grid">
+      <div class="container">
+        <p class="label-mono">twente.dev / design system / v1</p>
+        <h1 class="text-display">A shared thread for Twente technology.</h1>
+        <p class="sg-lede">
+          Many disciplines remain distinct; one red connector makes useful crossings visible.
+          Practical not promotional · regional not parochial · broad with editorial standards ·
+          independent with visible partners.
+        </p>
+      </div>
+    </header>
+
+    <main class="container">
+      <section>
+        <h2><span class="label-mono sg-index">01</span> Colour is structural</h2>
+        <p class="sg-note">
+          One deliberate red emphasis per view — never turn every element into a signal. Light mode
+          is ink on warm paper; dark mode is warm paper on ink.
+        </p>
+        <div class="sg-swatches">
+          {
+            COLORS.map((c) => (
+              <div class="sg-swatch">
+                <div class="sg-chip" style={`background: var(${c.token})`} />
+                <p class="sg-swatch-name">{c.name}</p>
+                <p class="label-mono">{c.hex}</p>
+                <p class="sg-swatch-role">{c.role}</p>
+              </div>
+            ))
+          }
+        </div>
+      </section>
+
+      <section>
+        <h2><span class="label-mono sg-index">02</span> Readable at room distance</h2>
+        <p class="sg-note">
+          Inter Variable carries statements and body; IBM Plex Mono carries labels, dates, indices
+          and wayfinding — the technical texture. Both self-hosted.
+        </p>
+        <div class="sg-typespecimens">
+          {
+            TYPE_SCALE.map((t) => (
+              <div class="sg-type-row">
+                <span class="label-mono sg-type-token">{t.token}</span>
+                <span style={`font-size: var(${t.token})`} class="sg-type-sample">
+                  Build here. Share here.
+                </span>
+                <span class="sg-type-label">{t.label}</span>
+              </div>
+            ))
+          }
+          <div class="sg-type-row">
+            <span class="label-mono sg-type-token">.label-mono</span>
+            <span class="label-mono">twente.dev/001 · 07.10 · enschede · 18:00</span>
+            <span class="sg-type-label">mono label register</span>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2><span class="label-mono sg-index">03</span> Grid, dot, thread</h2>
+        <p class="sg-note">
+          Grid for systems and calendars. The red dot marks the invitation, decision or next action.
+          The thread is a thin route between people or ideas — not decorative circuitry.
+        </p>
+        <div class="sg-motifs">
+          <div class="sg-motif thread-grid">
+            <span class="label-mono">.thread-grid</span>
+          </div>
+          <div class="sg-motif">
+            <span class="sg-dot" aria-hidden="true"></span>
+            <span class="label-mono">red dot — the connector</span>
+          </div>
+          <div class="sg-motif sg-redbar">
+            <span class="label-mono">red edge — the frame</span>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2><span class="label-mono sg-index">04</span> Actions</h2>
+        <p class="sg-note">
+          Buttons speak the mono register. The filled red button is the view's one signal; there is
+          never a second one. Outline buttons invert to ink on hover.
+        </p>
+        <div class="sg-row">
+          <a class="button button--primary" href="#actions">Reserve a place</a>
+          <a class="button" href="#actions">Contribute a story</a>
+        </div>
+        <div class="sg-row">
+          <Tag variant="accent">Cancelled</Tag>
+          <Tag variant="muted">EN</Tag>
+          <Tag>flagship</Tag>
+        </div>
+      </section>
+
+      <section>
+        <h2><span class="label-mono sg-index">05</span> Cards</h2>
+        <p class="sg-note">
+          Hairline borders, near-square corners, mono dates, one accent edge. Attribution credit
+          ("Listed by twente.dev") is part of the card, not a footnote.
+        </p>
+        <div class="sg-cards">
+          {sampleEvent && <EventCard event={sampleEvent} locale="en" />}
+          {samplePost && <PostCard post={samplePost} locale="en" />}
+        </div>
+      </section>
+
+      <section>
+        <h2><span class="label-mono sg-index">06</span> Space and shape</h2>
+        <div class="sg-spaces">
+          {
+            SPACES.map((s) => (
+              <div class="sg-space-row">
+                <span class="label-mono">--space-{s}</span>
+                <span class="sg-space-bar" style={`inline-size: var(--space-${s})`} />
+              </div>
+            ))
+          }
+        </div>
+        <p class="sg-note">
+          Radii are near-square (1–3px): the brand is a baseline grid with hairlines, not a stack of
+          pillowy cards. Only <code>--radius-full</code> rounds, for the outcome chips.
+        </p>
+      </section>
+
+      <section>
+        <h2><span class="label-mono sg-index">07</span> Rules</h2>
+        <ul class="sg-rules">
+          <li>One deliberate red emphasis per view. Red marks connection, date or action.</li>
+          <li>
+            <strong>twente.dev</strong> is always lowercase, set in mono, with the red dot on the "."
+            in the wordmark.
+          </li>
+          <li>"Build here. Share here." is always paired with a literal explanation.</li>
+          <li>
+            Signal red (#E44734) is graphic-only; interactive and small-text red is
+            <code>--accent-strong</code> (AA on both grounds).
+          </li>
+          <li>Lead with the room's usefulness, then the date. One action per view.</li>
+          <li>No gradients, no emoji in UI copy, no superlatives, no decorative circuitry.</li>
+        </ul>
+      </section>
+    </main>
+
+    <footer class="sg-footer">
+      <div class="container">
+        <p class="label-mono">twente.dev / build here. share here.</p>
+      </div>
+    </footer>
+  </body>
+</html>
+
+<style>
+  .sg-hero {
+    position: relative;
+    padding-block: var(--space-9);
+    border-block-end: var(--border-width) solid var(--border);
+  }
+
+  .sg-hero::before {
+    content: '';
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: 0;
+    width: 6px;
+    background: var(--accent);
+  }
+
+  .sg-hero h1 {
+    margin-block-start: var(--space-4);
+    max-width: 14ch;
+  }
+
+  .sg-lede {
+    margin-block-start: var(--space-5);
+    color: var(--fg-muted);
+    max-width: 52ch;
+  }
+
+  main section {
+    margin-block-start: var(--space-9);
+  }
+
+  main section h2 {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-3);
+  }
+
+  .sg-index {
+    color: var(--accent-strong);
+  }
+
+  .sg-note {
+    color: var(--fg-muted);
+    max-width: var(--width-prose);
+    margin-block: var(--space-3) var(--space-5);
+  }
+
+  .sg-swatches {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+    gap: var(--space-4);
+  }
+
+  .sg-chip {
+    height: 5rem;
+    border: var(--border-width) solid var(--border);
+    border-radius: var(--radius-md);
+  }
+
+  .sg-swatch-name {
+    font-weight: 650;
+    margin-block-start: var(--space-2);
+  }
+
+  .sg-swatch-role {
+    font-size: var(--text-sm);
+    color: var(--fg-muted);
+  }
+
+  .sg-typespecimens {
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  .sg-type-row {
+    display: grid;
+    grid-template-columns: 9rem 1fr 14rem;
+    align-items: baseline;
+    gap: var(--space-4);
+    padding-block: var(--space-3);
+    border-block-end: var(--border-width) solid var(--border);
+    overflow-x: auto;
+  }
+
+  .sg-type-token {
+    color: var(--fg-subtle);
+  }
+
+  .sg-type-sample {
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-tight);
+    font-weight: 650;
+    white-space: nowrap;
+  }
+
+  .sg-type-label {
+    font-size: var(--text-sm);
+    color: var(--fg-muted);
+  }
+
+  @media (max-width: 48rem) {
+    .sg-type-row {
+      grid-template-columns: 1fr;
+      gap: var(--space-1);
+    }
+  }
+
+  .sg-motifs {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+    gap: var(--space-4);
+  }
+
+  .sg-motif {
+    position: relative;
+    min-height: 9rem;
+    border: var(--border-width) solid var(--border);
+    border-radius: var(--radius-md);
+    padding: var(--space-4);
+    display: flex;
+    align-items: flex-end;
+    gap: var(--space-3);
+    color: var(--fg-subtle);
+  }
+
+  .sg-dot {
+    inline-size: 1.25rem;
+    block-size: 1.25rem;
+    border-radius: var(--radius-full);
+    background: var(--accent);
+  }
+
+  .sg-redbar {
+    border-inline-start: 6px solid var(--accent);
+  }
+
+  .sg-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3);
+    margin-block-end: var(--space-4);
+  }
+
+  .sg-cards {
+    display: grid;
+    gap: var(--space-4);
+    max-width: 44rem;
+  }
+
+  .sg-spaces {
+    display: grid;
+    gap: var(--space-2);
+    margin-block-end: var(--space-4);
+  }
+
+  .sg-space-row {
+    display: grid;
+    grid-template-columns: 7rem 1fr;
+    align-items: center;
+    gap: var(--space-4);
+  }
+
+  .sg-space-bar {
+    display: block;
+    block-size: 1rem;
+    background: var(--accent);
+  }
+
+  .sg-rules {
+    max-width: var(--width-prose);
+    padding-inline-start: var(--space-5);
+  }
+
+  .sg-rules li + li {
+    margin-block-start: var(--space-2);
+  }
+
+  .sg-footer {
+    margin-block-start: var(--space-9);
+    border-block-start: var(--border-width) solid var(--border);
+    padding-block: var(--space-6);
+    color: var(--fg-subtle);
+  }
+
+  /* Buttons duplicated from the site templates so the guide stays standalone. */
+  .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 3rem;
+    padding-inline: var(--space-5);
+    border-radius: var(--radius-md);
+    border: var(--border-width) solid var(--fg);
+    background: transparent;
+    color: var(--fg);
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-label);
+    text-decoration: none;
+  }
+
+  .button:hover {
+    background: var(--fg);
+    color: var(--bg);
+  }
+
+  .button--primary {
+    background: var(--accent-strong);
+    border-color: var(--accent-strong);
+    color: var(--accent-fg);
+  }
+
+  .button--primary:hover {
+    background: var(--accent-hover);
+    border-color: var(--accent-hover);
+    color: var(--accent-fg);
+  }
+</style>

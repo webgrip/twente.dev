@@ -15,6 +15,11 @@ const REPO_URL = 'https://forgejo.webgrip.dev/webgrip/twente.dev';
 ---
 
 <footer class="site-footer">
+  <div class="container">
+    <p class="footer-motto" aria-hidden="true">
+      twente.dev / {t('site.tagline').toLowerCase()}
+    </p>
+  </div>
   <div class="container footer-inner">
     <div class="footer-about">
       <p class="footer-tagline">{t('footer.tagline')}</p>
@@ -59,6 +64,18 @@ const REPO_URL = 'https://forgejo.webgrip.dev/webgrip/twente.dev';
     background: var(--bg-subtle);
     padding-block: var(--space-6);
     font-size: var(--text-sm);
+  }
+
+  /* The assets' running wayfinding line, closing every page. */
+  .footer-motto {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-label);
+    text-transform: lowercase;
+    color: var(--fg-subtle);
+    padding-block-end: var(--space-5);
+    margin-block-end: var(--space-5);
+    border-block-end: var(--border-width) solid var(--border);
   }
 
   .footer-inner {

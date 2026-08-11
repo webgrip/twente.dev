@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-label="twente.dev">
+  <title>twente.dev — compact mark</title>
+  <!-- Vector master of the woven-T compact mark, traced 1:1 from the brand
+       pack's PNG (public/brand/twente-dev-mark.png). Ink bars weave with
+       signal-red blocks; the red square is the connector. -->
+  <rect width="160" height="160" fill="#f7f3ea"/>
+  <g fill="#111820">
+    <rect x="24" y="28" width="92" height="16"/>
+    <rect x="68" y="44" width="16" height="64"/>
+    <rect x="56" y="56" width="56" height="12"/>
+    <rect x="52" y="84" width="44" height="12"/>
+  </g>
+  <g fill="#e44734">
+    <rect x="24" y="52" width="32" height="16"/>
+    <rect x="96" y="80" width="28" height="16"/>
+    <rect x="68" y="108" width="16" height="16"/>
+    <rect x="116" y="116" width="20" height="20"/>
+  </g>
+</svg>

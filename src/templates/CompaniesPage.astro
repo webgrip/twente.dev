@@ -23,7 +23,11 @@ const [companies, jobCounts] = await Promise.all([getCompanies(), getOpenJobCoun
   description={t('companies.description')}
 >
   <div class="container">
-    <PageHeader title={t('companies.title')} description={t('companies.description')} />
+    <PageHeader
+      title={t('companies.title')}
+      description={t('companies.description')}
+      kicker={`twente.dev / ${t('companies.title').toLowerCase()}`}
+    />
 
     <div class="company-grid">
       {companies.length === 0 && <p class="empty">{t('companies.empty')}</p>}

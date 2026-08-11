@@ -23,7 +23,11 @@ const posts = await getPosts(locale);
   description={t('blog.description')}
 >
   <div class="container">
-    <PageHeader title={t('blog.title')} description={t('blog.description')} />
+    <PageHeader
+      title={t('blog.title')}
+      description={t('blog.description')}
+      kicker={`twente.dev / ${t('blog.title').toLowerCase()}`}
+    />
 
     <div class="post-list">
       {posts.length === 0 && <p class="empty">{t('blog.empty')}</p>}

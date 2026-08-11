@@ -17,9 +17,19 @@ const t = useTranslations(locale);
 const href = event.data.canonicalRoute
   ? routePath(event.data.canonicalRoute, locale)
   : routePath('events', locale, event.id);
+
+/**
+ * A twente.dev flagship is the room we build ourselves; a listed event is
+ * someone else's stage that we make findable. The card says so at a glance:
+ * flagships carry the red spine and the red date — the view's signal — while
+ * listed events stay ink-and-thread. Red on every card would just be noise.
+ */
+const isFlagship = event.data.attribution === 'own';
 ---
 
-<article class:list={['event-card', event.data.cancelled && 'is-cancelled']}>
+<article
+  class:list={['event-card', isFlagship && 'is-flagship', event.data.cancelled && 'is-cancelled']}
+>
   <p class="event-date">
     <time datetime={event.data.start.toISOString()}>
       {formatDateTime(event.data.start, locale)}
@@ -76,16 +86,15 @@ const href = event.data.canonicalRoute
     position: relative;
     display: grid;
     gap: var(--space-2);
-    padding: var(--space-4);
+    padding: var(--space-4) var(--space-5);
     border: var(--border-width) solid var(--border);
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-md);
     background: var(--bg-raised);
-    border-inline-start: 3px solid var(--accent);
+    border-inline-start: 3px solid var(--border-strong);
   }
 
   .event-card:hover {
     border-color: var(--border-strong);
-    border-inline-start-color: var(--accent);
   }
 
   .event-card:focus-within {
@@ -93,21 +102,36 @@ const href = event.data.canonicalRoute
     outline-offset: 2px;
   }
 
+  .event-date {
+    color: var(--fg-muted);
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    font-weight: 400;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Flagship: the one red element in the list. */
+  .is-flagship {
+    border-inline-start-color: var(--accent);
+    background: var(--bg-subtle);
+  }
+
+  .is-flagship .event-date {
+    color: var(--accent-strong);
+    font-weight: 700;
+  }
+
+  .is-flagship .event-title {
+    font-size: var(--text-xl);
+  }
+
   .is-cancelled {
-    border-inline-start-color: var(--border-strong);
+    border-inline-start-color: var(--border);
     opacity: 0.75;
   }
 
   .is-cancelled .event-title a {
     text-decoration: line-through;
-  }
-
-  .event-date {
-    color: var(--accent-strong);
-    font-family: var(--font-mono);
-    font-size: var(--text-sm);
-    font-weight: 700;
-    font-variant-numeric: tabular-nums;
   }
 
   .event-title {

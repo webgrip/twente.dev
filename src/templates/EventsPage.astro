@@ -1,7 +1,9 @@
 ---
+import { LOCALE_TAGS, TIMEZONE } from '../i18n/config.ts';
 import type { Locale } from '../i18n/config.ts';
 import { useTranslations } from '../i18n/utils.ts';
 import { getPastEvents, getUpcomingEvents } from '../lib/content.ts';
+import type { EventEntry } from '../lib/content.ts';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHeader from '../components/PageHeader.astro';
 import EventCard from '../components/EventCard.astro';
@@ -14,6 +16,34 @@ const { locale } = Astro.props;
 const t = useTranslations(locale);
 
 const [upcoming, past] = await Promise.all([getUpcomingEvents(), getPastEvents()]);
+
+/**
+ * The calendar is rendered as the brand's own motif: one thread running down
+ * the page, a red dot where each month begins. Grouping happens here so the
+ * markup is a plain list of month sections.
+ */
+const monthFormatter = new Intl.DateTimeFormat(LOCALE_TAGS[locale], {
+  timeZone: TIMEZONE,
+  month: 'long',
+  year: 'numeric',
+});
+
+function groupByMonth(events: EventEntry[]): { label: string; events: EventEntry[] }[] {
+  const groups: { label: string; events: EventEntry[] }[] = [];
+  for (const event of events) {
+    const label = monthFormatter.format(event.data.start);
+    const current = groups.at(-1);
+    if (current && current.label === label) {
+      current.events.push(event);
+    } else {
+      groups.push({ label, events: [event] });
+    }
+  }
+  return groups;
+}
+
+const upcomingGroups = groupByMonth(upcoming);
+const pastGroups = groupByMonth(past.slice(0, 12));
 
 /**
  * Subscription targets for the one shared feed. `webcal://` makes Apple
@@ -32,7 +62,11 @@ const GOOGLE_CALENDAR_URL = `https://calendar.google.com/calendar/r?cid=${encode
   description={t('events.description')}
 >
   <div class="container">
-    <PageHeader title={t('events.title')} description={t('events.description')}>
+    <PageHeader
+      title={t('events.title')}
+      description={t('events.description')}
+      kicker={`twente.dev / ${t('events.title').toLowerCase()}`}
+    >
       <div class="subscribe">
         <p class="subscribe-title">{t('events.subscribe')}</p>
         <p class="subscribe-hint">{t('events.subscribeHint')}</p>
@@ -46,19 +80,44 @@ const GOOGLE_CALENDAR_URL = `https://calendar.google.com/calendar/r?cid=${encode
       </div>
     </PageHeader>
 
-    <h2>{t('events.upcoming')}</h2>
-    <div class="event-grid">
-      {upcoming.length === 0 && <p class="empty">{t('events.empty')}</p>}
-      {upcoming.map((event) => <EventCard event={event} locale={locale} />)}
+    <h2 class="visually-hidden">{t('events.upcoming')}</h2>
+    {upcoming.length === 0 && <p class="empty">{t('events.empty')}</p>}
+
+    <div class="timeline">
+      {
+        upcomingGroups.map((group) => (
+          <section class="month-group">
+            <h3 class="label-mono month-label">
+              <span class="month-dot" aria-hidden="true" />
+              {group.label}
+            </h3>
+            <div class="event-grid">
+              {group.events.map((event) => (
+                <EventCard event={event} locale={locale} />
+              ))}
+            </div>
+          </section>
+        ))
+      }
     </div>
 
     {
-      past.length > 0 && (
+      pastGroups.length > 0 && (
         <>
           <h2 class="past-heading">{t('events.past')}</h2>
-          <div class="event-grid">
-            {past.slice(0, 12).map((event) => (
-              <EventCard event={event} locale={locale} />
+          <div class="timeline is-past">
+            {pastGroups.map((group) => (
+              <section class="month-group">
+                <h3 class="label-mono month-label">
+                  <span class="month-dot" aria-hidden="true" />
+                  {group.label}
+                </h3>
+                <div class="event-grid">
+                  {group.events.map((event) => (
+                    <EventCard event={event} locale={locale} />
+                  ))}
+                </div>
+              </section>
             ))}
           </div>
         </>
@@ -69,11 +128,10 @@ const GOOGLE_CALENDAR_URL = `https://calendar.google.com/calendar/r?cid=${encode
 
 <style>
   .subscribe {
-    margin-block-start: var(--space-4);
-    padding: var(--space-4);
+    padding: var(--space-4) var(--space-5);
     border: var(--border-width) solid var(--border-strong);
     border-radius: var(--radius-lg);
-    max-width: 34rem;
+    background: var(--bg-raised);
   }
 
   .subscribe-title {
@@ -97,13 +155,50 @@ const GOOGLE_CALENDAR_URL = `https://calendar.google.com/calendar/r?cid=${encode
     font-weight: 550;
   }
 
-  h2 {
-    font-size: var(--text-xl);
+  /* One thread down the page; a red dot where each month begins. */
+  .timeline {
+    position: relative;
+    padding-inline-start: var(--space-5);
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    inset-block: 0.4rem;
+    inset-inline-start: 0;
+    width: 1px;
+    background: var(--border-strong);
+  }
+
+  .month-group {
+    position: relative;
+    padding-block-end: var(--space-7);
+  }
+
+  .month-label {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    color: var(--fg-muted);
     margin-block-end: var(--space-4);
   }
 
-  .past-heading {
-    margin-block-start: var(--space-8);
+  .month-dot {
+    position: absolute;
+    inset-inline-start: calc(-1 * var(--space-5) - 5px);
+    inline-size: 11px;
+    block-size: 11px;
+    border-radius: var(--radius-full);
+    background: var(--accent);
+    border: 2px solid var(--bg);
+  }
+
+  .is-past .month-dot {
+    background: var(--border-strong);
+  }
+
+  .is-past {
+    opacity: 0.72;
   }
 
   .event-grid {
@@ -115,6 +210,11 @@ const GOOGLE_CALENDAR_URL = `https://calendar.google.com/calendar/r?cid=${encode
     .event-grid {
       grid-template-columns: repeat(2, 1fr);
     }
+  }
+
+  .past-heading {
+    font-size: var(--text-xl);
+    margin-block: var(--space-6) var(--space-4);
   }
 
   .empty {

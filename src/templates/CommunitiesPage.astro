@@ -23,7 +23,11 @@ const communities = await getCommunities();
   description={t('communities.description')}
 >
   <div class="container">
-    <PageHeader title={t('communities.title')} description={t('communities.description')} />
+    <PageHeader
+      title={t('communities.title')}
+      description={t('communities.description')}
+      kicker={`twente.dev / ${t('communities.title').toLowerCase()}`}
+    />
 
     <ul class="community-list">
       {communities.length === 0 && <li class="empty">{t('communities.empty')}</li>}

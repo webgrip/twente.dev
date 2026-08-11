@@ -2,32 +2,64 @@
 interface Props {
   title: string;
   description?: string;
+  /** Mono wayfinding line above the title, e.g. "twente.dev / agenda". */
+  kicker?: string;
 }
 
-const { title, description } = Astro.props;
+const { title, description, kicker } = Astro.props;
 ---
 
 <div class="page-header">
-  <h1>{title}</h1>
-  {description && <p class="page-description">{description}</p>}
-  <slot />
+  {kicker && <p class="label-mono page-kicker">{kicker}</p>}
+  <div class="page-header-grid">
+    <div>
+      <h1>{title}</h1>
+      {description && <p class="page-description">{description}</p>}
+    </div>
+    <slot />
+  </div>
 </div>
 
 <style>
   .page-header {
-    padding-block: var(--space-7) var(--space-5);
-    border-block-end: var(--border-width) solid var(--border);
+    position: relative;
+    padding-block: var(--space-8) var(--space-6);
+    border-block-end: var(--border-width) solid var(--border-strong);
     margin-block-end: var(--space-6);
   }
 
+  .page-kicker {
+    color: var(--fg-subtle);
+    margin-block-end: var(--space-3);
+  }
+
+  .page-header-grid {
+    display: grid;
+    gap: var(--space-5);
+    align-items: start;
+  }
+
+  /* The slot (subscribe block, actions) sits beside the title on wide
+     viewports instead of leaving a dead column. */
+  @media (min-width: 64rem) {
+    .page-header-grid {
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      gap: var(--space-7);
+    }
+  }
+
   h1 {
-    font-size: var(--text-2xl);
+    font-size: var(--text-3xl);
+    font-weight: var(--weight-display);
+    letter-spacing: var(--tracking-display);
+    line-height: var(--leading-display);
   }
 
   .page-description {
-    margin-block-start: var(--space-3);
+    margin-block-start: var(--space-4);
     color: var(--fg-muted);
     max-width: var(--width-prose);
     font-size: var(--text-lg);
+    text-wrap: pretty;
   }
 </style>

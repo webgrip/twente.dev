@@ -1,0 +1,88 @@
+---
+import ProsePage from '../../templates/ProsePage.astro';
+import { PRESS_EMAIL } from '../../config/site.ts';
+---
+
+<ProsePage
+  locale="nl"
+  routeKey="press"
+  title="Pers"
+  description="Feiten, standaardomschrijvingen en merkregels voor wie over twente.dev schrijft — en wie je kunt spreken."
+>
+  <p>
+    Schrijf je over twente.dev of twente.dev/001? Alles op deze pagina mag letterlijk geciteerd
+    worden. Voor interviews, beeldmateriaal of alles wat hier niet staat: mail
+    <a href={`mailto:${PRESS_EMAIL}`}>{PRESS_EMAIL}</a>.
+  </p>
+
+  <h2>De uitleg in tien seconden</h2>
+  <blockquote>
+    <p>
+      twente.dev is een onafhankelijke, practitioner-led techcommunity voor Twente. Het doel is niet
+      om bestaande meetups of programma's over te nemen, maar om ze beter vindbaar te maken en een
+      paar keer per jaar disciplines en organisaties doelgericht bij elkaar te brengen.
+    </p>
+  </blockquote>
+
+  <h2>Feiten</h2>
+  <ul>
+    <li>
+      Naam: <strong>twente.dev</strong> — altijd met kleine letters, ook aan het begin van een zin.
+    </li>
+    <li>Categorie: de practitioner-led techcommunity van Twente.</li>
+    <li>Structuur: onafhankelijk; wordt ondergebracht in een stichting.</li>
+    <li>
+      Eerste flagship: <strong>twente.dev/001 — Reconnect</strong>, woensdag 7 oktober 2026,
+      18:00–21:30, Enschede. Gratis, capaciteit 100, voertaal vooral Engels.
+    </li>
+    <li>Edities zijn genummerd (/001, /002, /003) en rouleren waar mogelijk door de regio.</li>
+    <li>
+      Financiering: partnerbijdragen met gepubliceerde waarborgen — geen deelnemersdata, geen
+      betaalde spreektijd, geen exclusiviteit, geen redactionele goedkeuring.
+    </li>
+  </ul>
+
+  <h2>Korte omschrijving (± 50 woorden)</h2>
+  <p>
+    twente.dev is een onafhankelijke, practitioner-led techcommunity voor Twente. De eerste
+    flagship-avond, twente.dev/001 — Reconnect, brengt makers uit software, hardware, data, design
+    en product op 7 oktober 2026 samen in Enschede voor field reports, gestructureerde
+    kennismakingen en een open netwerkuur. Gratis en open voor iedereen die bouwt.
+  </p>
+
+  <h2>Langere omschrijving (± 100 woorden)</h2>
+  <p>
+    Twente bouwt technologie met wereldwijde impact, maar de mensen en praktijklessen erachter zijn
+    moeilijk te vinden — over bedrijven en disciplines heen. twente.dev is de onafhankelijke
+    communitylaag die dat verandert: het hele jaar een gezamenlijke agenda, een directory, een
+    archief en een nieuwsbrief, plus een klein aantal bewust multidisciplinaire avonden. De eerste,
+    twente.dev/001 — Reconnect (Enschede, 7 oktober 2026), combineert twee korte field reports met
+    één begeleid gesprek, gestructureerde kennismakingen en een ruim netwerkuur. Het is geen
+    bedrijfsmeetup of banenmarkt: sponsors krijgen geen deelnemersdata en sprekers worden
+    redactioneel geselecteerd.
+  </p>
+
+  <h2>Merkregels</h2>
+  <ul>
+    <li>
+      De naam is <strong>twente.dev</strong>, kleine letters, nooit "Twente.dev" of "TwenteDev".
+    </li>
+    <li>
+      De tagline is "Build here. Share here." — altijd naast een feitelijke omschrijving, nooit op
+      zichzelf.
+    </li>
+    <li>
+      Merkkleuren: ink <code>#111820</code>, signal red <code>#E44734</code>, warm paper
+      <code>#F7F3EA</code>, thread grey <code>#D9DFDC</code>.
+    </li>
+    <li>Logobestanden en eventbeeld zijn op aanvraag beschikbaar via het perscontact.</li>
+  </ul>
+
+  <h2>Wat we journalisten kunnen bieden</h2>
+  <p>
+    Stemmen van makers uit software, embedded systems, maakindustrie, data, security en design;
+    geaggregeerde cijfers over de lancering (aanmeldingen, vertegenwoordigde organisaties,
+    herhaalintentie) na afloop; en binnen tien werkdagen na elk flagship-event een openbaar verslag
+    — inclusief wat niet werkte.
+  </p>
+</ProsePage>

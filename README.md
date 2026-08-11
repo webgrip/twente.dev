@@ -1,12 +1,14 @@
 # twente.dev
 
-The homepage for software developers in Twente — meetups, jobs, companies and community writing, in
-Dutch and English.
+Twente's practitioner-led technology community — a shared calendar, directory, archive and
+newsletter, built around numbered flagship events (first up: **twente.dev/001 — Reconnect**,
+7 October 2026, Enschede). Bilingual NL/EN. _Build here. Share here._
 
 A static Astro site on Cloudflare's free tier, built and deployed from Forgejo Actions. No backend,
 no database, no cookies. Total recurring cost: one domain renewal.
 
-- **Plan**: [`docs/plan/10x-plan.md`](docs/plan/10x-plan.md)
+- **Plan**: [`docs/plan/10x-plan.md`](docs/plan/10x-plan.md), updated by
+  [`docs/plan/playbook-alignment.md`](docs/plan/playbook-alignment.md) (ADR 0008)
 - **Decisions**: [`docs/adrs/`](docs/adrs/)
 - **Contributing**: [`CONTRIBUTING.md`](CONTRIBUTING.md)
 

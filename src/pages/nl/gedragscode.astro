@@ -1,0 +1,80 @@
+---
+import ProsePage from '../../templates/ProsePage.astro';
+import { CONDUCT_EMAIL } from '../../config/site.ts';
+---
+
+<ProsePage
+  locale="nl"
+  routeKey="conduct"
+  title="Gedragscode"
+  description="De avond werkt alleen als iedereen erbij kan zijn. Dit zijn de regels, hoe je een probleem meldt, en wat er dan gebeurt."
+>
+  <p>
+    twente.dev bestaat zodat nuttige regionale connecties niet langer afhangen van het al kennen van
+    de juiste mensen. Dat werkt alleen als de ruimte veilig en gastvrij is voor iedereen —
+    nieuwkomers, studenten, mensen die alleen komen, mensen wiens Nederlands of Engels nog groeit.
+  </p>
+
+  <h2>Wat we verwachten</h2>
+  <ul>
+    <li>
+      Wees concreet en gul: deel wat er misging en wat je veranderde, en betrek anderen erbij.
+    </li>
+    <li>Verwelkom nieuwkomers. Iemand die alleen staat is een uitnodiging, geen oordeel.</li>
+    <li>
+      Respecteer de talenmix. Events zijn vooral Engelstalig en Nederlands is welkom; laat niemand
+      zich minder voelen om een van beide.
+    </li>
+    <li>Respecteer een "nee" — op een foto, op een follow-up, op een verkoopgesprek.</li>
+  </ul>
+
+  <h2>Wat we niet accepteren</h2>
+  <ul>
+    <li>Intimidatie, pesterij of discriminatie in welke vorm dan ook, online of in de zaal.</li>
+    <li>Ongewenste seksuele aandacht of ongewenst fysiek contact.</li>
+    <li>Het aanhoudend verstoren van talks of gesprekken.</li>
+    <li>
+      Werven of verkopen aan mensen die daar niet om vroegen. Dit is geen banenmarkt; behandel
+      deelnemers als vakgenoten, niet als leads.
+    </li>
+    <li>Iemand fotograferen of opnemen die heeft aangegeven dat niet te willen.</li>
+  </ul>
+
+  <h2>Melden</h2>
+  <p>
+    Mail <a href={`mailto:${CONDUCT_EMAIL}`}>{CONDUCT_EMAIL}</a> — dat komt aan bij twee aanspreekpunten
+    die onafhankelijk van sponsors en werkgevers handelen. Op events worden beide contactpersonen aan
+    het begin van de avond voorgesteld en zijn ze herkenbaar aanwezig, dus je kunt ook gewoon op ze afstappen.
+  </p>
+  <p>
+    Meldingen worden vertrouwelijk behandeld. Die vertrouwelijkheid wordt alleen begrensd door
+    veiligheid of een wettelijke plicht — nooit door het belang van een sponsor of werkgever.
+  </p>
+
+  <h2>Wat er met een melding gebeurt</h2>
+  <ol>
+    <li>We luisteren eerst, en vragen wat jij nodig hebt — inclusief "alleen vastleggen".</li>
+    <li>
+      We handelen proportioneel: een gesprek, een waarschuwing, verwijdering van het event, of
+      uitsluiting van toekomstige events. Wie meldt hoeft nooit zelf de confrontatie aan te gaan.
+    </li>
+    <li>
+      Incidenten worden gedocumenteerd en geëvalueerd, zodat patronen opvallen — ook als losse
+      meldingen klein lijken.
+    </li>
+  </ol>
+
+  <h2>Fotografie</h2>
+  <p>
+    Fotografie op events gebeurt op basis van toestemming. Bij de check-in kun je zichtbaar aangeven
+    dat je niet gefotografeerd wilt worden, en na afloop is er een eenvoudige route om een foto te
+    laten verwijderen — zonder opgaaf van reden.
+  </p>
+
+  <h2>Waar dit geldt</h2>
+  <p>
+    Deze code geldt op elk twente.dev-event en in elke ruimte die we beheren — inclusief de
+    repository van deze site en eventuele toekomstige online kanalen. Organisatoren, sprekers,
+    vrijwilligers, partners en sponsors worden er precies zo aan gehouden als ieder ander.
+  </p>
+</ProsePage>

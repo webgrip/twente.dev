@@ -1,52 +1,86 @@
 ---
 import ProsePage from '../../templates/ProsePage.astro';
 import { routePath } from '../../i18n/routes.ts';
+import { CONTACT_EMAIL } from '../../config/site.ts';
 ---
 
 <ProsePage
   locale="en"
   routeKey="about"
   title="About twente.dev"
-  description="One place for meetups, jobs, companies and stories from the developer community in Twente."
+  description="Twente's practitioner-led technology community: what it is, what it will never be, and how it is governed."
 >
   <p>
-    The Twente tech scene is bigger than it feels. There are meetups, there are companies doing
-    genuinely interesting work, and there are open positions — but it is scattered across LinkedIn
-    posts, Discord channels and mailing lists you do not quite follow.
+    For people who build and apply technology in Twente, twente.dev is the independent community
+    that makes local knowledge, people and opportunities easier to find — because useful regional
+    connections should not depend on already knowing the room.
   </p>
-  <p>twente.dev collects it in one place.</p>
+  <p>
+    Good work is happening here, often behind organisational walls. Post-pandemic habits reduced the
+    accidental encounters, and the communities that exist became harder to discover together.
+    twente.dev is the shared front door: a calendar, a directory, an archive, a newsletter, and a
+    small number of deliberately cross-disciplinary events —
+    <a href={routePath('edition001', 'en')}>twente.dev/001</a> is the first.
+  </p>
+
+  <h2>Five choices we hold ourselves to</h2>
+  <ul>
+    <li><strong>Independent over corporate.</strong> Businesses fund and host, but never own.</li>
+    <li><strong>Practitioner over policy.</strong> Field reports from people who did the work.</li>
+    <li>
+      <strong>Broad network over broad agenda.</strong> Software, hardware, data, security, design, product,
+      research and education — with editorial standards, not an everything-stage.
+    </li>
+    <li>
+      <strong>Contribution over consumption.</strong> Bring one thing you learned, one thing you need,
+      or one person others should know.
+    </li>
+    <li><strong>Regional depth over national scale.</strong> Twente first, properly.</li>
+  </ul>
+
+  <h2>What we will not do</h2>
+  <p>
+    No paid speaking slots. No attendee-list access for anyone. No product pitches disguised as
+    education. No sponsor approval over editorial decisions. And no pretending existing meetups
+    failed — they keep their identity, their list and their stage;
+    <a href={routePath('partners', 'en')}>we make them easier to find</a>.
+  </p>
+
+  <h2>Governance</h2>
+  <p>
+    twente.dev is being set up as an independent foundation (stichting) with its own board, bank
+    account and books. Until the notarial deed is signed, the community is run by its founding team,
+    with the same safeguards already in force: partner money buys credits and places, never data,
+    stage time or editorial say. After every flagship event we publish a public report — including
+    what did not work — with a financial summary.
+  </p>
 
   <h2>Bilingual, and that is not a detail</h2>
   <p>
-    A substantial share of the developers working here arrived via the University of Twente and do
-    not speak Dutch. A Dutch-only site excludes them; an English-only site misses the local
-    employers. So everything here exists in both languages — and where an article only exists in
-    one, we say so plainly instead of machine-translating it.
+    A substantial share of the people building technology here arrived via the University of Twente
+    and do not (yet) speak Dutch. Community content is English-first, practical information exists
+    in both languages, and where an article only exists in one language we say so plainly instead of
+    machine-translating it.
   </p>
 
   <h2>No cookies, no tracking</h2>
   <p>
-    This site sets no cookies and loads no third-party scripts. That means no consent banner either.
-    Visitor numbers come from an aggregate that cannot identify individuals.
+    This site sets no cookies and loads no third-party scripts, so there is no consent banner
+    either. Visitor numbers come from an aggregate that cannot identify individuals. The
+    <a href={routePath('privacy', 'en')}>privacy page</a> covers events and the newsletter.
   </p>
 
   <h2>Everything lives in git</h2>
   <p>
-    Every job, every event and every company profile is a file in a public repository. You can see
-    when something was added, by whom, and what changed since. That is the difference between a
-    community site and a platform.
+    Every event, company profile and article is a file in a public repository. You can see when
+    something was added, by whom, and what changed since. That is the difference between a community
+    site and a platform.
   </p>
 
   <h2>Taking part</h2>
   <p>
-    Missing a meetup, a company or a vacancy? Add it. Right now that goes through the repository; a
-    plain form is planned. Have a look at the <a href={routePath('guidelines', 'en')}>guidelines</a>
-    {' '}first.
-  </p>
-
-  <h2>Who</h2>
-  <p>
-    twente.dev is maintained by <a href="https://webgrip.nl">Webgrip</a>. The site is a community
-    project, not a commercial platform.
+    The community grows by contribution: a story, a demo, an introduction, a listed event, a
+    volunteer shift. Start at <a href={routePath('contribute', 'en')}>contribute</a>, or email
+    <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.
   </p>
 </ProsePage>

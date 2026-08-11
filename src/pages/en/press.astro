@@ -1,0 +1,84 @@
+---
+import ProsePage from '../../templates/ProsePage.astro';
+import { PRESS_EMAIL } from '../../config/site.ts';
+---
+
+<ProsePage
+  locale="en"
+  routeKey="press"
+  title="Press"
+  description="Facts, boilerplate descriptions and brand rules for writing about twente.dev — plus who to talk to."
+>
+  <p>
+    Writing about twente.dev or twente.dev/001? Everything on this page may be quoted verbatim. For
+    interviews, imagery or anything not answered here, email
+    <a href={`mailto:${PRESS_EMAIL}`}>{PRESS_EMAIL}</a>.
+  </p>
+
+  <h2>The ten-second explanation</h2>
+  <blockquote>
+    <p>
+      twente.dev is an independent, practitioner-led technology community for Twente. We make local
+      people, events and practical knowledge easier to find — and we bring different disciplines
+      together a few times a year.
+    </p>
+  </blockquote>
+
+  <h2>Facts</h2>
+  <ul>
+    <li>Name: <strong>twente.dev</strong> — always lowercase, also at the start of a sentence.</li>
+    <li>Category: Twente's practitioner-led technology community.</li>
+    <li>Structure: independent; being incorporated as a Dutch stichting (foundation).</li>
+    <li>
+      First flagship: <strong>twente.dev/001 — Reconnect</strong>, Wednesday 7 October 2026,
+      18:00–21:30, Enschede. Free, capacity 100, primarily English.
+    </li>
+    <li>Editions are numbered (/001, /002, /003) and aim to rotate across the region.</li>
+    <li>
+      Funding: partner contributions with published safeguards — no attendee data, no paid speaking,
+      no exclusivity, no editorial approval.
+    </li>
+  </ul>
+
+  <h2>Short description (about 50 words)</h2>
+  <p>
+    twente.dev is an independent, practitioner-led technology community for Twente. Its first
+    flagship evening, twente.dev/001 — Reconnect, brings software, hardware, data, design and
+    product practitioners together in Enschede on 7 October 2026 for field reports, structured
+    introductions and an open network hour. Free and open to all builders.
+  </p>
+
+  <h2>Longer description (about 100 words)</h2>
+  <p>
+    Twente builds technology with global reach, but the people and practical lessons behind it are
+    hard to discover across companies and disciplines. twente.dev is the independent,
+    practitioner-led community fixing that: a shared calendar, a directory, an archive and a
+    newsletter all year, plus a small number of deliberately cross-disciplinary evenings. The first,
+    twente.dev/001 — Reconnect (Enschede, 7 October 2026), pairs two short field reports with one
+    facilitated conversation, structured introductions and an unhurried network hour. It is not a
+    recruitment fair or vendor stage: sponsors receive no attendee data and speakers are selected
+    editorially.
+  </p>
+
+  <h2>Brand rules</h2>
+  <ul>
+    <li>The name is <strong>twente.dev</strong>, lowercase, never "Twente.dev" or "TwenteDev".</li>
+    <li>
+      The tagline is "Build here. Share here." — always paired with a factual description, never
+      standing alone.
+    </li>
+    <li>
+      Brand colours: ink <code>#111820</code>, signal red <code>#E44734</code>, warm paper
+      <code>#F7F3EA</code>, thread grey <code>#D9DFDC</code>.
+    </li>
+    <li>Logo files and event imagery are available on request via the press contact.</li>
+  </ul>
+
+  <h2>What we can offer journalists</h2>
+  <p>
+    Practitioner voices across software, embedded systems, manufacturing, data, security and design;
+    aggregate numbers on the launch (registrations, organisations represented, repeat intent) after
+    the event; and a public report — including what did not work — within ten working days of every
+    flagship.
+  </p>
+</ProsePage>

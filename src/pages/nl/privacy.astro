@@ -1,14 +1,19 @@
 ---
 import ProsePage from '../../templates/ProsePage.astro';
+import { CONTACT_EMAIL } from '../../config/site.ts';
 ---
 
 <ProsePage
   locale="nl"
   routeKey="privacy"
   title="Privacy"
-  description="Deze site zet geen cookies, laadt geen scripts van derden en verzamelt geen persoonsgegevens."
+  description="Deze site zet geen cookies, laadt geen scripts van derden, en verzamelt alleen wat een eventaanmelding of nieuwsbrief-opt-in strikt nodig heeft."
 >
-  <p>Kort antwoord: we verzamelen niets over jou persoonlijk.</p>
+  <p>
+    Kort antwoord: de site bezoeken verzamelt niets over jou persoonlijk. Aanmelden voor een event
+    of de nieuwsbrief verzamelt precies wat die diensten nodig hebben, en niets meer. Sponsors
+    krijgen nooit deelnemersdata — ook niet in rapportages, die uitsluitend aantallen bevatten.
+  </p>
 
   <h2>Cookies</h2>
   <p>
@@ -30,6 +35,44 @@ import ProsePage from '../../templates/ProsePage.astro';
     toe — daar geldt hun eigen privacybeleid.
   </p>
 
+  <h2>Eventaanmeldingen</h2>
+  <p>
+    Zodra aanmelden voor een event open is, loopt dat via een ticketingdienst (pretix). We vragen
+    alleen wat nodig is voor ticketing, toegankelijkheid, eten en veiligheid: je naam, e-mailadres,
+    dieetwensen en toegankelijkheidsbehoeften, plus een optionele vraag over wat je bouwt of zoekt.
+    Die gegevens gebruiken we voor dat event en de follow-up, en verwijderen we binnen drie maanden
+    na afloop. Aanmelden voor een event zet je nooit op de nieuwsbrief.
+  </p>
+
+  <h2>Nieuwsbrief</h2>
+  <p>
+    De nieuwsbrief is double opt-in: je meldt je aan én bevestigt vanuit je eigen inbox. We leggen
+    vast wanneer en waar je toestemming gaf. Elke editie heeft een afmeldlink met één klik,
+    open-tracking staat uit, en de lijst wordt nooit gedeeld of verrijkt. Afmelden werkt direct.
+  </p>
+
+  <h2>Foto's op events</h2>
+  <p>
+    Fotografie op events gebeurt op basis van toestemming: bij de check-in geef je zichtbaar aan als
+    je niet op de foto wilt, en na afloop is er een eenvoudige route om een foto te laten
+    verwijderen — zonder opgaaf van reden. Zie de gedragscode voor hoe dat in de zaal werkt.
+  </p>
+
+  <h2>Verwerkers</h2>
+  <p>
+    De site wordt geserveerd door Cloudflare. Zodra aanmelden en de nieuwsbrief live zijn, draaien
+    die op respectievelijk pretix (ticketing) en Brevo (e-mail); beide verwerken gegevens
+    uitsluitend in onze opdracht, binnen het EU/AVG-kader. Andere verwerkers zijn er niet, en
+    gegevens worden nooit verkocht of gedeeld.
+  </p>
+
+  <h2>Jouw rechten</h2>
+  <p>
+    Je kunt opvragen wat we over je hebben, het laten corrigeren of verwijderen, en elke toestemming
+    intrekken — mail <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>. Je krijgt binnen een
+    week antwoord van een mens.
+  </p>
+
   <h2>Wat je zelf inzendt</h2>
   <p>
     Stuur je een vacature, event of bedrijf in, dan komt die informatie openbaar in een
@@ -39,6 +82,6 @@ import ProsePage from '../../templates/ProsePage.astro';
 
   <h2>Vragen</h2>
   <p>
-    Neem contact op via <a href="https://webgrip.nl">Webgrip</a>.
+    Mail <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.
   </p>
 </ProsePage>

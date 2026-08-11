@@ -1,10 +1,11 @@
 /**
- * Design tokens.
+ * Design tokens — the "shared thread" brand system.
  *
- * The palette leans on Twente's own visual vocabulary — the red and white of
- * the regional flag, warmed with the ochre of the textile industry that built
- * these towns — rather than the default startup blue. A developer from
- * Enschede should recognise the place before reading a word.
+ * Palette per the twente.dev brand pack (Aug 2026): Ink for authority,
+ * Signal red for connection and action, Warm paper for openness, Thread
+ * grey for structure. The one rule that matters: **one deliberate red
+ * emphasis per view** — red marks the connection, date or action, never
+ * decoration. Light mode lives on warm paper; dark mode lives on ink.
  *
  * Light and dark are both first-class: `prefers-color-scheme` is the default
  * signal, and `[data-theme]` on the root wins over it in both directions so
@@ -13,16 +14,24 @@
 
 :root {
   /* ---- brand ------------------------------------------------------------ */
-  --twente-red: #d3232a;
-  --twente-red-dark: #a81a20;
-  --twente-red-light: #f04148;
-  --ochre: #c8842a;
+  --ink: #111820;
+  --signal-red: #e44734;
+  --warm-paper: #f7f3ea;
+  --thread-grey: #d9dfdc;
+
+  /* Derived brand shades (not in the pack; darkened/lightened for states). */
+  --signal-red-dark: #c33427;
+  --signal-red-light: #ec5a45;
+
+  /* Legacy alias — a few components predate the brand pack. */
+  --twente-red: var(--signal-red);
 
   /* ---- type ------------------------------------------------------------- */
+  /* Brand pack prescribes DejaVu in print templates; Inter and IBM Plex
+     Mono are the sanctioned web upgrades (strategy playbook §brand). */
   --font-sans:
     'Inter Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-  --font-mono:
-    'JetBrains Mono', ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+  --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
 
   /* Fluid type scale — clamps mean no breakpoint-specific font sizes. */
   --text-xs: clamp(0.75rem, 0.73rem + 0.1vw, 0.8rem);
@@ -70,57 +79,57 @@
   --duration-base: 220ms;
 }
 
-/* ---- light (default) ----------------------------------------------------- */
+/* ---- light (default): ink on warm paper ---------------------------------- */
 :root,
 :root[data-theme='light'] {
   color-scheme: light;
 
-  --bg: #fdfcfb;
-  --bg-subtle: #f5f2ef;
-  --bg-raised: #ffffff;
-  --bg-inset: #efebe7;
+  --bg: var(--warm-paper);
+  --bg-subtle: #f1ecdf;
+  --bg-raised: #fffdf8;
+  --bg-inset: #ece6d8;
 
-  --fg: #1a1614;
-  --fg-muted: #5c534d;
-  --fg-subtle: #837972;
+  --fg: var(--ink);
+  --fg-muted: #4a545c;
+  --fg-subtle: #6e7880;
 
-  --border: #e2dcd6;
-  --border-strong: #c9c1ba;
+  --border: var(--thread-grey);
+  --border-strong: #b6bfbb;
 
-  --accent: var(--twente-red);
-  --accent-hover: var(--twente-red-dark);
+  --accent: var(--signal-red);
+  --accent-hover: var(--signal-red-dark);
   --accent-fg: #ffffff;
-  --accent-subtle: #fdeceb;
+  --accent-subtle: #fbe6e0;
 
-  --focus-ring: var(--twente-red);
+  --focus-ring: var(--signal-red);
 
-  --shadow-sm: 0 1px 2px rgb(26 22 20 / 0.06);
-  --shadow-md: 0 4px 12px rgb(26 22 20 / 0.08);
+  --shadow-sm: 0 1px 2px rgb(17 24 32 / 0.06);
+  --shadow-md: 0 4px 12px rgb(17 24 32 / 0.08);
 }
 
-/* ---- dark ---------------------------------------------------------------- */
+/* ---- dark: warm paper on ink ---------------------------------------------- */
 @media (prefers-color-scheme: dark) {
   :root {
     color-scheme: dark;
 
-    --bg: #14110f;
-    --bg-subtle: #1c1815;
-    --bg-raised: #221d1a;
-    --bg-inset: #100e0c;
+    --bg: var(--ink);
+    --bg-subtle: #171f28;
+    --bg-raised: #1c2530;
+    --bg-inset: #0c1218;
 
-    --fg: #f2ede9;
-    --fg-muted: #b3a89f;
-    --fg-subtle: #8a7f77;
+    --fg: var(--warm-paper);
+    --fg-muted: #b4bcc2;
+    --fg-subtle: #8b949c;
 
-    --border: #322b26;
-    --border-strong: #4a413a;
+    --border: #2a343e;
+    --border-strong: #3d4954;
 
-    --accent: var(--twente-red-light);
-    --accent-hover: #f6666c;
-    --accent-fg: #14110f;
-    --accent-subtle: #2b1618;
+    --accent: var(--signal-red-light);
+    --accent-hover: #f0755f;
+    --accent-fg: var(--ink);
+    --accent-subtle: #2c1a1a;
 
-    --focus-ring: var(--twente-red-light);
+    --focus-ring: var(--signal-red-light);
 
     --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4);
     --shadow-md: 0 4px 12px rgb(0 0 0 / 0.5);
@@ -131,24 +140,24 @@
 :root[data-theme='dark'] {
   color-scheme: dark;
 
-  --bg: #14110f;
-  --bg-subtle: #1c1815;
-  --bg-raised: #221d1a;
-  --bg-inset: #100e0c;
+  --bg: var(--ink);
+  --bg-subtle: #171f28;
+  --bg-raised: #1c2530;
+  --bg-inset: #0c1218;
 
-  --fg: #f2ede9;
-  --fg-muted: #b3a89f;
-  --fg-subtle: #8a7f77;
+  --fg: var(--warm-paper);
+  --fg-muted: #b4bcc2;
+  --fg-subtle: #8b949c;
 
-  --border: #322b26;
-  --border-strong: #4a413a;
+  --border: #2a343e;
+  --border-strong: #3d4954;
 
-  --accent: var(--twente-red-light);
-  --accent-hover: #f6666c;
-  --accent-fg: #14110f;
-  --accent-subtle: #2b1618;
+  --accent: var(--signal-red-light);
+  --accent-hover: #f0755f;
+  --accent-fg: var(--ink);
+  --accent-subtle: #2c1a1a;
 
-  --focus-ring: var(--twente-red-light);
+  --focus-ring: var(--signal-red-light);
 
   --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4);
   --shadow-md: 0 4px 12px rgb(0 0 0 / 0.5);

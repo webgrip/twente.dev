@@ -1,21 +1,25 @@
 ---
 import type { Locale } from '../i18n/config.ts';
-import { useTranslations } from '../i18n/utils.ts';
+import { formatDate, useTranslations } from '../i18n/utils.ts';
 import { routePath } from '../i18n/routes.ts';
+import { getPosts, getUpcomingEvents } from '../lib/content.ts';
 import {
-  getCompanies,
-  getOpenJobCountByCompany,
-  getOpenJobs,
-  getPosts,
-  getUpcomingEvents,
-} from '../lib/content.ts';
+  CONTACT_EMAIL,
+  EDITION_001,
+  NEWSLETTER_URL,
+  REGISTRATION_OPENS,
+  editionName,
+} from '../config/site.ts';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Section from '../components/Section.astro';
 import EventCard from '../components/EventCard.astro';
-import JobCard from '../components/JobCard.astro';
-import CompanyCard from '../components/CompanyCard.astro';
 import PostCard from '../components/PostCard.astro';
 
+/**
+ * The playbook's contract for this page: promise, explanation, next event,
+ * proof, partners, contribution CTA — and a new visitor reaches RSVP or
+ * contribute in two clicks.
+ */
 interface Props {
   locale: Locale;
 }
@@ -23,15 +27,9 @@ interface Props {
 const { locale } = Astro.props;
 const t = useTranslations(locale);
 
-const [events, jobs, companies, posts, jobCounts] = await Promise.all([
-  getUpcomingEvents(),
-  getOpenJobs(),
-  getCompanies(),
-  getPosts(locale),
-  getOpenJobCountByCompany(),
-]);
+const [events, posts] = await Promise.all([getUpcomingEvents(), getPosts(locale)]);
 
-const companyById = new Map(companies.map((c) => [c.id, c]));
+const edition = `${editionName(EDITION_001.number)} — ${EDITION_001.theme}`;
 ---
 
 <BaseLayout
@@ -45,15 +43,49 @@ const companyById = new Map(companies.map((c) => [c.id, c]));
       <h1>{t('home.hero.title')}</h1>
       <p class="hero-subtitle">{t('home.hero.subtitle')}</p>
       <div class="hero-actions">
-        <a class="button button--primary" href={routePath('events', locale)}>
-          {t('home.hero.ctaEvents')}
+        <a class="button button--primary" href={routePath('edition001', locale)}>
+          {t('home.hero.ctaReserve')}
         </a>
-        <a class="button" href={routePath('jobs', locale)}>{t('home.hero.ctaJobs')}</a>
+        <a class="button" href={routePath('contribute', locale)}>
+          {t('home.hero.ctaContribute')}
+        </a>
       </div>
+      <ul class="outcomes" role="list">
+        <li>{t('home.outcome.idea')}</li>
+        <li>{t('home.outcome.intro')}</li>
+        <li>{t('home.outcome.return')}</li>
+      </ul>
     </div>
   </div>
 
   <div class="container">
+    <section class="next-edition" aria-labelledby="next-edition-title">
+      <p class="kicker">{t('home.next.kicker')}</p>
+      <h2 id="next-edition-title">{edition}</h2>
+      <p class="edition-facts">
+        <time datetime={EDITION_001.doors.toISOString()}>
+          {formatDate(EDITION_001.doors, locale)}
+        </time>
+        {' · '}18:00–21:30 · {EDITION_001.city} ·
+        {EDITION_001.venue ?? t('edition.venueTba')} · {t('events.free')}
+      </p>
+      <p class="edition-facts">{t('edition.language')}</p>
+      <p class="edition-registration">
+        {t('edition.registrationOpens')}
+        <strong>
+          <time datetime={REGISTRATION_OPENS.toISOString()}>
+            {formatDate(REGISTRATION_OPENS, locale)}
+          </time>
+        </strong>
+      </p>
+      <a class="edition-link" href={routePath('edition001', locale)}>{t('edition.details')} →</a>
+    </section>
+
+    <section class="what" aria-labelledby="what-title">
+      <h2 id="what-title">{t('home.what.title')}</h2>
+      <p>{t('home.what.body')}</p>
+    </section>
+
     <Section
       title={t('home.events.title')}
       linkHref={routePath('events', locale)}
@@ -63,40 +95,11 @@ const companyById = new Map(companies.map((c) => [c.id, c]));
       {events.slice(0, 4).map((event) => <EventCard event={event} locale={locale} />)}
     </Section>
 
-    <Section
-      title={t('home.jobs.title')}
-      linkHref={routePath('jobs', locale)}
-      linkLabel={t('home.jobs.all')}
-    >
-      {jobs.length === 0 && <p class="empty">{t('jobs.empty')}</p>}
-      {
-        jobs
-          .slice(0, 4)
-          .map((job) => (
-            <JobCard job={job} company={companyById.get(job.data.company.id)} locale={locale} />
-          ))
-      }
-    </Section>
-
-    <Section
-      title={t('home.companies.title')}
-      linkHref={routePath('companies', locale)}
-      linkLabel={t('home.companies.all')}
-      columns={3}
-    >
-      {companies.length === 0 && <p class="empty">{t('companies.empty')}</p>}
-      {
-        companies
-          .slice(0, 3)
-          .map((company) => (
-            <CompanyCard
-              company={company}
-              locale={locale}
-              openJobs={jobCounts.get(company.id) ?? 0}
-            />
-          ))
-      }
-    </Section>
+    <section class="community-band" aria-labelledby="community-band-title">
+      <h2 id="community-band-title">{t('home.community.title')}</h2>
+      <p>{t('home.community.body')}</p>
+      <a href={routePath('communities', locale)}>{t('common.viewAll')} →</a>
+    </section>
 
     <Section
       title={t('home.posts.title')}
@@ -107,19 +110,34 @@ const companyById = new Map(companies.map((c) => [c.id, c]));
       {posts.length === 0 && <p class="empty">{t('blog.empty')}</p>}
       {posts.slice(0, 3).map((post) => <PostCard post={post} locale={locale} />)}
     </Section>
+
+    <section class="newsletter" aria-labelledby="newsletter-title">
+      <h2 id="newsletter-title">{t('home.newsletter.title')}</h2>
+      <p>{t('home.newsletter.body')}</p>
+      {
+        NEWSLETTER_URL ? (
+          <a class="button" href={NEWSLETTER_URL}>
+            {t('newsletter.subscribe')}
+          </a>
+        ) : (
+          <a class="button" href={`mailto:${CONTACT_EMAIL}?subject=Field%20note%20newsletter`}>
+            {t('newsletter.mailFallback')}
+          </a>
+        )
+      }
+    </section>
   </div>
 </BaseLayout>
 
 <style>
   .hero {
     padding-block: var(--space-8) var(--space-7);
-    background:
-      radial-gradient(ellipse 80% 60% at 20% 0%, var(--accent-subtle), transparent 70%), var(--bg);
+    background: var(--bg);
     border-block-end: var(--border-width) solid var(--border);
   }
 
   .hero h1 {
-    max-width: 16ch;
+    max-width: 22ch;
   }
 
   .hero-subtitle {
@@ -134,6 +152,24 @@ const companyById = new Map(companies.map((c) => [c.id, c]));
     flex-wrap: wrap;
     gap: var(--space-3);
     margin-block-start: var(--space-5);
+  }
+
+  .outcomes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    list-style: none;
+    padding: 0;
+    margin: var(--space-5) 0 0;
+  }
+
+  .outcomes li {
+    padding: var(--space-1) var(--space-3);
+    border: var(--border-width) solid var(--border-strong);
+    border-radius: var(--radius-full);
+    font-size: var(--text-sm);
+    background: var(--bg-subtle);
+    color: var(--fg-muted);
   }
 
   .button {
@@ -155,6 +191,7 @@ const companyById = new Map(companies.map((c) => [c.id, c]));
     color: var(--fg);
   }
 
+  /* The page's one red signal: the action that fills the room. */
   .button--primary {
     background: var(--accent);
     border-color: var(--accent);
@@ -165,6 +202,67 @@ const companyById = new Map(companies.map((c) => [c.id, c]));
     background: var(--accent-hover);
     border-color: var(--accent-hover);
     color: var(--accent-fg);
+  }
+
+  .next-edition {
+    margin-block-start: var(--space-7);
+    padding: var(--space-5);
+    border: var(--border-width) solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--bg-raised);
+  }
+
+  .kicker {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--fg-subtle);
+  }
+
+  .next-edition h2 {
+    margin-block: var(--space-1) var(--space-3);
+  }
+
+  .edition-facts {
+    color: var(--fg-muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .edition-registration {
+    margin-block-start: var(--space-3);
+  }
+
+  .edition-link {
+    display: inline-block;
+    margin-block-start: var(--space-2);
+    font-weight: 550;
+  }
+
+  .what,
+  .community-band {
+    margin-block-start: var(--space-7);
+    max-width: var(--width-prose);
+  }
+
+  .what p,
+  .community-band p {
+    color: var(--fg-muted);
+    margin-block: var(--space-3);
+  }
+
+  .newsletter {
+    margin-block-start: var(--space-7);
+    padding: var(--space-5);
+    border: var(--border-width) solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--bg-subtle);
+    max-width: var(--width-prose);
+  }
+
+  .newsletter p {
+    color: var(--fg-muted);
+    margin-block: var(--space-3);
   }
 
   .empty {

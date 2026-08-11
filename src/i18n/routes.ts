@@ -15,13 +15,19 @@ import type { Locale } from './config.ts';
  */
 export const ROUTES = {
   home: { nl: '', en: '' },
+  /** Flagship editions keep their brand form: twente.dev/001 → /nl/001, /en/001. */
+  edition001: { nl: '001', en: '001' },
   events: { nl: 'events', en: 'events' },
   jobs: { nl: 'vacatures', en: 'jobs' },
   companies: { nl: 'bedrijven', en: 'companies' },
   communities: { nl: 'communities', en: 'communities' },
   blog: { nl: 'blog', en: 'blog' },
   about: { nl: 'over', en: 'about' },
+  partners: { nl: 'partners', en: 'partners' },
+  contribute: { nl: 'bijdragen', en: 'contribute' },
+  press: { nl: 'pers', en: 'press' },
   guidelines: { nl: 'richtlijnen', en: 'guidelines' },
+  conduct: { nl: 'gedragscode', en: 'code-of-conduct' },
   privacy: { nl: 'privacy', en: 'privacy' },
 } as const satisfies Record<string, Record<Locale, string>>;
 

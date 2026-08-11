@@ -5,6 +5,9 @@ import { file, glob } from 'astro/loaders';
 import { z } from 'zod';
 
 import { LOCALES } from './i18n/config.ts';
+import { ROUTES } from './i18n/routes.ts';
+
+const ROUTE_KEYS = Object.keys(ROUTES) as [keyof typeof ROUTES, ...(keyof typeof ROUTES)[]];
 
 /**
  * Content collections — the contribution contract.
@@ -82,6 +85,15 @@ const posts = defineCollection({
         url: z.url().optional(),
       }),
       tags: z.array(z.string().min(1)).default([]),
+      /**
+       * Editorial pillar per the launch playbook: Field Notes (one concrete
+       * lesson from a local system), People Who Build (five-question
+       * practitioner profiles), Open Calls, and Week in Twente Tech.
+       * Optional — general articles carry no pillar.
+       */
+      pillar: z
+        .enum(['field-notes', 'people-who-build', 'open-calls', 'week-in-twente-tech'])
+        .optional(),
       cover: image().optional(),
       coverAlt: z.string().optional(),
       draft: z.boolean().default(false),
@@ -119,6 +131,21 @@ const events = defineCollection({
       language: z.enum(['nl', 'en', 'both']),
       tags: z.array(z.string().min(1)).default([]),
       cancelled: z.boolean().default(false),
+      /**
+       * Who runs this event, and how we credit it. Partner events are
+       * "listed" — they keep their identity and their own registration, and
+       * we always link to the source (the playbook's non-displacement
+       * commitment: never rebrand another community's event as our own).
+       * `own` is reserved for twente.dev flagship editions.
+       */
+      attribution: z.enum(['own', 'listed', 'collaboration']).default('listed'),
+      /**
+       * Route key of a bespoke page that is this event's canonical home
+       * (e.g. `edition001` → `/nl/001`, `/en/001`). When set, no generated
+       * detail page exists for the entry and every card links there instead —
+       * one canonical listing, synchronised everywhere.
+       */
+      canonicalRoute: z.enum(ROUTE_KEYS).optional(),
     })
     .refine((e) => !e.end || e.end >= e.start, {
       message: 'end must not be before start',

@@ -1,14 +1,20 @@
 ---
 import ProsePage from '../../templates/ProsePage.astro';
+import { CONTACT_EMAIL } from '../../config/site.ts';
 ---
 
 <ProsePage
   locale="en"
   routeKey="privacy"
   title="Privacy"
-  description="This site sets no cookies, loads no third-party scripts and collects no personal data."
+  description="This site sets no cookies, loads no third-party scripts, and collects only what an event registration or newsletter opt-in strictly needs."
 >
-  <p>Short answer: we collect nothing about you personally.</p>
+  <p>
+    Short answer: browsing this site collects nothing about you personally. Registering for an event
+    or opting into the newsletter collects exactly what those services need, and nothing else.
+    Sponsors never receive attendee data — not in aggregate reports either, which only ever contain
+    counts.
+  </p>
 
   <h2>Cookies</h2>
   <p>
@@ -30,6 +36,43 @@ import ProsePage from '../../templates/ProsePage.astro';
     own privacy policy applies.
   </p>
 
+  <h2>Event registration</h2>
+  <p>
+    When registration for an event is open, it runs on a ticketing service (pretix). We ask only
+    what is needed for ticketing, access, food and safety: your name, email address, dietary needs
+    and access needs, plus an optional question about what you are building or looking for. This
+    data is used for that event and its follow-up, then deleted within three months of the event.
+    Registering for an event never adds you to the newsletter.
+  </p>
+
+  <h2>Newsletter</h2>
+  <p>
+    The newsletter is double opt-in: you sign up, and confirm from your own inbox. We record when
+    and where you consented. Every edition carries a one-click unsubscribe, open tracking is
+    disabled, and the list is never shared or enriched. Unsubscribing removes you immediately.
+  </p>
+
+  <h2>Photos at events</h2>
+  <p>
+    Event photography is consent-based: at check-in you can visibly indicate you do not want to be
+    photographed, and there is a simple removal route afterwards — no reason required. See the code
+    of conduct for how this works in the room.
+  </p>
+
+  <h2>Processors</h2>
+  <p>
+    The site is served by Cloudflare. When registration and the newsletter go live they run on
+    pretix (ticketing) and Brevo (email) respectively; both process data only on our instructions,
+    inside the EU/GDPR framework. There are no other processors and no data is sold or shared.
+  </p>
+
+  <h2>Your rights</h2>
+  <p>
+    You can ask what we hold about you, have it corrected or deleted, and withdraw any consent —
+    email <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>. You will get an answer from a
+    human within a week.
+  </p>
+
   <h2>What you submit</h2>
   <p>
     If you submit a job, event or company, that information becomes public in a git repository,
@@ -38,6 +81,6 @@ import ProsePage from '../../templates/ProsePage.astro';
 
   <h2>Questions</h2>
   <p>
-    Get in touch via <a href="https://webgrip.nl">Webgrip</a>.
+    Email <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.
   </p>
 </ProsePage>

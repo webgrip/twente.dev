@@ -1,0 +1,576 @@
+---
+import { getEntry } from 'astro:content';
+
+import { TIMEZONE } from '../i18n/config.ts';
+import type { Locale } from '../i18n/config.ts';
+import { formatDate } from '../i18n/utils.ts';
+import { routePath } from '../i18n/routes.ts';
+import { EDITION_001, REGISTRATION_OPENS, REGISTRATION_URL, editionName } from '../config/site.ts';
+import { eventSchema } from '../lib/jsonld.ts';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+/**
+ * twente.dev/001 — Reconnect. The flagship edition's canonical page.
+ *
+ * The playbook's contract for this page: headline, audience and outcome above
+ * the fold; complete time, language, access, food, venue and cancellation
+ * information on the same page; who the evening is and is not for; and a
+ * contribution route. Facts come from `src/config/site.ts` and the events
+ * collection entry so every surface stays synchronised.
+ */
+interface Props {
+  locale: Locale;
+}
+
+interface Copy {
+  metaTitle: string;
+  metaDescription: string;
+  intro: string[];
+  factDate: string;
+  factTime: string;
+  factVenue: string;
+  factLanguage: string;
+  factCost: string;
+  outcomes: [string, string, string];
+  expectTitle: string;
+  runOfShow: { time: string; item: string }[];
+  whoTitle: string;
+  whoBody: string;
+  whoWelcome: string;
+  isTitle: string;
+  isList: string[];
+  isNotTitle: string;
+  isNotList: string[];
+  registrationTitle: string;
+  registrationOpens: string;
+  registrationCta: string;
+  registrationCalendarHint: string;
+  registrationConsentNote: string;
+  openCallTitle: string;
+  openCallBody: string;
+  openCallCta: string;
+  practicalTitle: string;
+  practical: { term: string; detail: string }[];
+  safeguardsTitle: string;
+  safeguards: string[];
+  conductCta: string;
+  partnersCta: string;
+}
+
+const { locale } = Astro.props;
+
+const name = `${editionName(EDITION_001.number)} — ${EDITION_001.theme}`;
+const time = (d: Date) =>
+  new Intl.DateTimeFormat('nl-NL', {
+    timeZone: TIMEZONE,
+    hour: '2-digit',
+    minute: '2-digit',
+  }).format(d);
+
+const COPY: Record<Locale, Copy> = {
+  en: {
+    metaTitle: name,
+    metaDescription:
+      'A practitioner-led evening for people who build technology in Twente. Wednesday 7 October 2026, 18:00–21:30, Enschede. Free.',
+    intro: [
+      'Twente builds technology with global reach, but the people and practical lessons behind it are still too hard to discover across companies and disciplines.',
+      `${name} is a practitioner-led evening for software, infrastructure, embedded systems, manufacturing, data, security, design, product, research and technical education. Two short field reports and one facilitated conversation create the shared question; structured introductions and an open network hour make the room useful.`,
+    ],
+    factDate: 'Date',
+    factTime: 'Time',
+    factVenue: 'Venue',
+    factLanguage: 'Language',
+    factCost: 'Cost',
+    outcomes: ['One useful idea', 'One useful introduction', 'One reason to return'],
+    expectTitle: 'The evening',
+    runOfShow: [
+      { time: time(EDITION_001.doors), item: 'Doors, food and first introductions' },
+      { time: time(EDITION_001.start), item: 'Welcome and the shared question' },
+      {
+        time: '19:00',
+        item: 'Two 12-minute field reports — one claim, one real example, one question for the room',
+      },
+      { time: '19:30', item: 'Break and structured pair introductions' },
+      { time: '19:45', item: 'One facilitated cross-disciplinary conversation' },
+      { time: '20:25', item: 'Community asks: what should Twente know you are building?' },
+      { time: '20:35', item: 'Open network hour' },
+      { time: time(EDITION_001.end), item: 'Hard finish' },
+    ],
+    whoTitle: 'Who the room is for',
+    whoBody:
+      'People who build and apply technology across software, hardware, data, security, design, product, research and education — in and around Twente, at any career stage.',
+    whoWelcome: 'First-timers and solo attendees are explicitly welcome.',
+    isTitle: 'This is',
+    isList: [
+      'An independent community evening',
+      'Practitioner field reports',
+      'Useful cross-disciplinary introductions',
+      'Open contribution routes',
+    ],
+    isNotTitle: 'This is not',
+    isNotList: [
+      'A recruitment fair',
+      'A vendor stage',
+      'A replacement for existing meetups',
+      'A closed executive network',
+    ],
+    registrationTitle: 'Reserve a place',
+    registrationOpens: 'Registration opens',
+    registrationCta: 'Reserve a place',
+    registrationCalendarHint: 'Add the date to your calendar now via the events feed.',
+    registrationConsentNote:
+      'Event registration alone never adds you to the newsletter — that is a separate, explicit opt-in.',
+    openCallTitle: 'Contribute a story, demo or introduction',
+    openCallBody:
+      'What should Twente know you are building — or learning the hard way? Send us one claim, one real example, decision or failure, what others can learn, and how you would involve the room. You do not need speaking experience; we help shape accepted contributions. We do not accept product pitches, paid speaking or confidential material.',
+    openCallCta: 'See all ways to contribute',
+    practicalTitle: 'Practical',
+    practical: [
+      {
+        term: 'Access',
+        detail:
+          'Full access information — step-free route, seating, sound and a quiet space — is published on this page at least two weeks before the event.',
+      },
+      {
+        term: 'Food',
+        detail:
+          'Food and non-alcoholic drinks are included and free. Dietary needs are asked at registration.',
+      },
+      {
+        term: 'Photography',
+        detail:
+          'Photography is consent-based: a visible signal at check-in marks who prefers not to be photographed, and there is a simple removal route after the event.',
+      },
+      {
+        term: 'Cancellation',
+        detail:
+          'Plans change — every confirmation email contains a one-click cancellation link, and unconfirmed places are released to the waitlist 48 hours before the event.',
+      },
+    ],
+    safeguardsTitle: 'Safeguards',
+    safeguards: [
+      'Sponsors receive no attendee data.',
+      'No one can buy stage time — speakers are selected editorially.',
+      'The code of conduct applies, with two named, independent contacts at the event.',
+    ],
+    conductCta: 'Read the code of conduct',
+    partnersCta: 'Partner with twente.dev',
+  },
+  nl: {
+    metaTitle: name,
+    metaDescription:
+      'Een practitioner-led avond voor iedereen die technologie bouwt in Twente. Woensdag 7 oktober 2026, 18:00–21:30, Enschede. Gratis.',
+    intro: [
+      'Twente bouwt technologie met wereldwijde impact, maar de mensen en praktijklessen erachter zijn nog te moeilijk te vinden — over bedrijven en disciplines heen.',
+      `${name} is een practitioner-led avond voor software, infrastructuur, embedded systems, maakindustrie, data, security, design, product, onderzoek en technisch onderwijs. Twee korte field reports en één begeleid gesprek zorgen voor de gezamenlijke vraag; gestructureerde kennismakingen en een ruim netwerkuur maken de avond nuttig.`,
+    ],
+    factDate: 'Datum',
+    factTime: 'Tijd',
+    factVenue: 'Locatie',
+    factLanguage: 'Voertaal',
+    factCost: 'Kosten',
+    outcomes: ['Eén nuttig idee', 'Eén nuttige kennismaking', 'Eén reden om terug te komen'],
+    expectTitle: 'De avond',
+    runOfShow: [
+      { time: time(EDITION_001.doors), item: 'Inloop, eten en eerste kennismakingen' },
+      { time: time(EDITION_001.start), item: 'Welkom en de gezamenlijke vraag' },
+      {
+        time: '19:00',
+        item: 'Twee field reports van 12 minuten — één claim, één echt voorbeeld, één vraag aan de zaal',
+      },
+      { time: '19:30', item: 'Pauze en gestructureerde kennismakingen in tweetallen' },
+      { time: '19:45', item: 'Eén begeleid gesprek over disciplines heen' },
+      { time: '20:25', item: 'Community-vragen: wat moet Twente weten over wat jij bouwt?' },
+      { time: '20:35', item: 'Open netwerkuur' },
+      { time: time(EDITION_001.end), item: 'Strakke eindtijd' },
+    ],
+    whoTitle: 'Voor wie de avond is',
+    whoBody:
+      'Mensen die technologie bouwen en toepassen: software, hardware, data, security, design, product, onderzoek en onderwijs — in en rond Twente, in elke fase van je loopbaan.',
+    whoWelcome: 'Nieuwkomers en mensen die alleen komen zijn nadrukkelijk welkom.',
+    isTitle: 'Dit is het wél',
+    isList: [
+      'Een onafhankelijke community-avond',
+      'Field reports van makers zelf',
+      'Nuttige kennismakingen over disciplines heen',
+      'Open routes om bij te dragen',
+    ],
+    isNotTitle: 'Dit is het níet',
+    isNotList: [
+      'Een banenmarkt',
+      'Een leverancierspodium',
+      'Een vervanging van bestaande meetups',
+      'Een besloten netwerk voor managers',
+    ],
+    registrationTitle: 'Reserveer een plek',
+    registrationOpens: 'Aanmelden opent',
+    registrationCta: 'Reserveer een plek',
+    registrationCalendarHint: 'Zet de datum vast in je agenda via de eventsfeed.',
+    registrationConsentNote:
+      'Aanmelden voor het event zet je nooit op de nieuwsbrief — dat is een aparte, expliciete opt-in.',
+    openCallTitle: 'Draag een verhaal, demo of introductie bij',
+    openCallBody:
+      'Wat moet Twente weten over wat jij bouwt — of op de harde manier leert? Stuur ons één claim, één echt voorbeeld, besluit of mislukking, wat anderen ervan kunnen leren, en hoe je de zaal erbij betrekt. Spreekervaring is niet nodig; geaccepteerde bijdragen vormen we samen. Productpitches, betaalde spreektijd en vertrouwelijk materiaal accepteren we niet.',
+    openCallCta: 'Bekijk alle manieren om bij te dragen',
+    practicalTitle: 'Praktisch',
+    practical: [
+      {
+        term: 'Toegankelijkheid',
+        detail:
+          'Volledige toegankelijkheidsinformatie — drempelvrije route, zitplaatsen, geluid en een rustige ruimte — verschijnt uiterlijk twee weken voor het event op deze pagina.',
+      },
+      {
+        term: 'Eten',
+        detail:
+          'Eten en non-alcoholische drankjes zijn inbegrepen en gratis. Dieetwensen vragen we bij aanmelding.',
+      },
+      {
+        term: 'Fotografie',
+        detail:
+          'Fotografie is op basis van toestemming: bij de check-in geef je zichtbaar aan als je niet op de foto wilt, en na afloop is er een eenvoudige route om foto’s te laten verwijderen.',
+      },
+      {
+        term: 'Annuleren',
+        detail:
+          'Plannen veranderen — elke bevestigingsmail bevat een annuleerlink met één klik, en niet-bevestigde plekken gaan 48 uur van tevoren naar de wachtlijst.',
+      },
+    ],
+    safeguardsTitle: 'Waarborgen',
+    safeguards: [
+      'Sponsors krijgen geen deelnemersdata.',
+      'Spreektijd is niet te koop — sprekers worden redactioneel geselecteerd.',
+      'De gedragscode geldt, met twee onafhankelijke aanspreekpunten op het event.',
+    ],
+    conductCta: 'Lees de gedragscode',
+    partnersCta: 'Word partner van twente.dev',
+  },
+};
+
+const c = COPY[locale];
+const entry = await getEntry('events', 'twente-dev-001-reconnect');
+const jsonLd = entry ? [eventSchema(entry, locale)] : [];
+
+const registrationOpen = REGISTRATION_URL !== null;
+---
+
+<BaseLayout
+  locale={locale}
+  routeKey="edition001"
+  title={c.metaTitle}
+  description={c.metaDescription}
+  jsonLd={jsonLd}
+>
+  <div class="container">
+    <header class="edition-header">
+      <p class="edition-kicker">{editionName(EDITION_001.number)}</p>
+      <h1>{EDITION_001.theme}</h1>
+      {c.intro.map((paragraph) => <p class="edition-intro">{paragraph}</p>)}
+
+      <dl class="facts">
+        <div>
+          <dt>{c.factDate}</dt>
+          <dd>
+            <time datetime={EDITION_001.doors.toISOString()}>
+              {formatDate(EDITION_001.doors, locale)}
+            </time>
+          </dd>
+        </div>
+        <div>
+          <dt>{c.factTime}</dt>
+          <dd>{time(EDITION_001.doors)}–{time(EDITION_001.end)}</dd>
+        </div>
+        <div>
+          <dt>{c.factVenue}</dt>
+          <dd>
+            {
+              EDITION_001.venue ??
+                `${EDITION_001.city} — ${locale === 'nl' ? 'locatie volgt' : 'venue to be announced'}`
+            }
+          </dd>
+        </div>
+        <div>
+          <dt>{c.factLanguage}</dt>
+          <dd>
+            {
+              locale === 'nl'
+                ? 'Vooral Engels; Nederlands welkom'
+                : 'Primarily English; Dutch welcome'
+            }
+          </dd>
+        </div>
+        <div>
+          <dt>{c.factCost}</dt>
+          <dd>{locale === 'nl' ? 'Gratis' : 'Free'}</dd>
+        </div>
+      </dl>
+
+      <ul class="outcomes" role="list">
+        {c.outcomes.map((outcome) => <li>{outcome}</li>)}
+      </ul>
+    </header>
+
+    <section class="edition-section">
+      <h2>{c.registrationTitle}</h2>
+      {
+        registrationOpen ? (
+          <p>
+            <a class="button button--primary" href={REGISTRATION_URL}>
+              {c.registrationCta}
+            </a>
+          </p>
+        ) : (
+          <p class="registration-opens">
+            {c.registrationOpens}{' '}
+            <strong>
+              <time datetime={REGISTRATION_OPENS.toISOString()}>
+                {formatDate(REGISTRATION_OPENS, locale)}
+              </time>
+            </strong>
+            . <a href="/events.ics">{c.registrationCalendarHint}</a>
+          </p>
+        )
+      }
+      <p class="consent-note">{c.registrationConsentNote}</p>
+    </section>
+
+    <section class="edition-section">
+      <h2>{c.expectTitle}</h2>
+      <ol class="run-of-show" role="list">
+        {
+          c.runOfShow.map(({ time: at, item }) => (
+            <li>
+              <span class="ros-time">{at}</span>
+              <span>{item}</span>
+            </li>
+          ))
+        }
+      </ol>
+    </section>
+
+    <section class="edition-section">
+      <h2>{c.whoTitle}</h2>
+      <p>{c.whoBody}</p>
+      <p><strong>{c.whoWelcome}</strong></p>
+
+      <div class="is-isnot">
+        <div>
+          <h3>{c.isTitle}</h3>
+          <ul>{c.isList.map((item) => <li>{item}</li>)}</ul>
+        </div>
+        <div>
+          <h3>{c.isNotTitle}</h3>
+          <ul>{c.isNotList.map((item) => <li>{item}</li>)}</ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="edition-section">
+      <h2>{c.openCallTitle}</h2>
+      <p>{c.openCallBody}</p>
+      <p>
+        <a class="button" href={routePath('contribute', locale)}>{c.openCallCta}</a>
+      </p>
+    </section>
+
+    <section class="edition-section">
+      <h2>{c.practicalTitle}</h2>
+      <dl class="practical">
+        {
+          c.practical.map(({ term, detail }) => (
+            <div>
+              <dt>{term}</dt>
+              <dd>{detail}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </section>
+
+    <section class="edition-section">
+      <h2>{c.safeguardsTitle}</h2>
+      <ul>
+        {c.safeguards.map((item) => <li>{item}</li>)}
+      </ul>
+      <p class="safeguard-links">
+        <a href={routePath('conduct', locale)}>{c.conductCta}</a>
+        <a href={routePath('partners', locale)}>{c.partnersCta}</a>
+      </p>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .edition-header {
+    padding-block-start: var(--space-7);
+    max-width: var(--width-prose);
+  }
+
+  /* The one red signal on this page: the edition lockup. */
+  .edition-kicker {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    color: var(--accent);
+    letter-spacing: 0.04em;
+  }
+
+  .edition-header h1 {
+    margin-block: var(--space-2) var(--space-4);
+  }
+
+  .edition-intro {
+    color: var(--fg-muted);
+    margin-block-end: var(--space-3);
+    line-height: var(--leading-normal);
+  }
+
+  .facts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+    gap: var(--space-4);
+    margin-block: var(--space-5);
+    padding: var(--space-4);
+    border: var(--border-width) solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--bg-raised);
+  }
+
+  .facts dt {
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--fg-subtle);
+  }
+
+  .facts dd {
+    margin: var(--space-1) 0 0;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .outcomes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .outcomes li {
+    padding: var(--space-2) var(--space-4);
+    border: var(--border-width) solid var(--border-strong);
+    border-radius: var(--radius-full);
+    font-size: var(--text-sm);
+    font-weight: 550;
+    background: var(--bg-subtle);
+  }
+
+  .edition-section {
+    max-width: var(--width-prose);
+    margin-block-start: var(--space-7);
+  }
+
+  .edition-section h2 {
+    margin-block-end: var(--space-3);
+  }
+
+  .run-of-show {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  .run-of-show li {
+    display: grid;
+    grid-template-columns: 4.5rem 1fr;
+    gap: var(--space-3);
+    padding-block: var(--space-2);
+    border-block-end: var(--border-width) solid var(--border);
+  }
+
+  .ros-time {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    color: var(--fg-muted);
+  }
+
+  .is-isnot {
+    display: grid;
+    gap: var(--space-5);
+    grid-template-columns: 1fr;
+    margin-block-start: var(--space-4);
+  }
+
+  @media (min-width: 40rem) {
+    .is-isnot {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .is-isnot h3 {
+    font-size: var(--text-base);
+    margin-block-end: var(--space-2);
+  }
+
+  .is-isnot ul {
+    margin: 0;
+    padding-inline-start: 1.2em;
+  }
+
+  .is-isnot li {
+    margin-block-end: var(--space-1);
+  }
+
+  .practical {
+    display: grid;
+    gap: var(--space-4);
+    margin: 0;
+  }
+
+  .practical dt {
+    font-weight: 650;
+  }
+
+  .practical dd {
+    margin: var(--space-1) 0 0;
+    color: var(--fg-muted);
+  }
+
+  .registration-opens {
+    font-size: var(--text-lg);
+  }
+
+  .consent-note {
+    color: var(--fg-subtle);
+    font-size: var(--text-sm);
+    margin-block-start: var(--space-2);
+  }
+
+  .safeguard-links {
+    display: flex;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+    margin-block-start: var(--space-3);
+  }
+
+  .button {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    padding-inline: var(--space-5);
+    border-radius: var(--radius-md);
+    border: var(--border-width) solid var(--border-strong);
+    background: var(--bg-raised);
+    color: var(--fg);
+    font-weight: 550;
+    text-decoration: none;
+  }
+
+  .button--primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--accent-fg);
+  }
+</style>

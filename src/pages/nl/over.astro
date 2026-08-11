@@ -1,52 +1,91 @@
 ---
 import ProsePage from '../../templates/ProsePage.astro';
 import { routePath } from '../../i18n/routes.ts';
+import { CONTACT_EMAIL } from '../../config/site.ts';
 ---
 
 <ProsePage
   locale="nl"
   routeKey="about"
   title="Over twente.dev"
-  description="Eén plek voor meetups, vacatures, bedrijven en verhalen uit de Twentse developer-community."
+  description="De practitioner-led techcommunity van Twente: wat het is, wat het nooit wordt, en hoe het bestuurd wordt."
 >
   <p>
-    De Twentse tech-scene is groter dan hij voelt. Er zijn meetups, er zijn bedrijven die serieus
-    interessant werk doen, en er zijn open vacatures — maar het is versnipperd over LinkedIn-posts,
-    Discord-kanalen en mailinglijsten die je net niet volgt.
+    Voor mensen die technologie bouwen en toepassen in Twente is twente.dev de onafhankelijke
+    community die lokale kennis, mensen en kansen beter vindbaar maakt — omdat nuttige regionale
+    connecties niet zouden moeten afhangen van het al kennen van de juiste mensen.
   </p>
-  <p>twente.dev bundelt dat op één plek.</p>
+  <p>
+    Er gebeurt hier goed werk, vaak achter organisatiemuren. Sinds de pandemie zijn de toevallige
+    ontmoetingen afgenomen, en de communities die er zijn werden samen moeilijker te vinden.
+    twente.dev is de gezamenlijke voordeur: een agenda, een directory, een archief, een nieuwsbrief
+    en een klein aantal bewust multidisciplinaire events —
+    <a href={routePath('edition001', 'nl')}>twente.dev/001</a> is de eerste.
+  </p>
+
+  <h2>Vijf keuzes waar we onszelf aan houden</h2>
+  <ul>
+    <li>
+      <strong>Onafhankelijk boven corporate.</strong> Bedrijven financieren en hosten, maar bezitten nooit.
+    </li>
+    <li>
+      <strong>Praktijk boven beleid.</strong> Field reports van mensen die het werk zelf deden.
+    </li>
+    <li>
+      <strong>Breed netwerk boven brede agenda.</strong> Software, hardware, data, security, design, product,
+      onderzoek en onderwijs — met redactionele standaarden, geen allespodium.
+    </li>
+    <li>
+      <strong>Bijdragen boven consumeren.</strong> Neem één ding mee dat je leerde, één ding dat je nodig
+      hebt, of één persoon die anderen zouden moeten kennen.
+    </li>
+    <li><strong>Regionale diepgang boven nationale schaal.</strong> Eerst Twente, en dan goed.</li>
+  </ul>
+
+  <h2>Wat we niet doen</h2>
+  <p>
+    Geen betaalde spreekplekken. Geen toegang tot deelnemerslijsten, voor niemand. Geen
+    productpitches vermomd als kennisdeling. Geen sponsorgoedkeuring over redactionele keuzes. En
+    niet doen alsof bestaande meetups gefaald hebben — die houden hun eigen identiteit, lijst en
+    podium; <a href={routePath('partners', 'nl')}>wij maken ze beter vindbaar</a>.
+  </p>
+
+  <h2>Bestuur</h2>
+  <p>
+    twente.dev wordt ondergebracht in een onafhankelijke stichting met een eigen bestuur, eigen
+    bankrekening en eigen boekhouding. Tot de notariële akte er is, draait de community op het
+    founding team — met dezelfde waarborgen die nu al gelden: partnergeld koopt vermelding en
+    plekken, nooit data, spreektijd of redactionele zeggenschap. Na elk flagship-event publiceren we
+    een openbaar verslag — inclusief wat niet werkte — met een financiële samenvatting.
+  </p>
 
   <h2>Tweetalig, en dat is geen detail</h2>
   <p>
-    Een flink deel van de developers die hier werken kwam via de Universiteit Twente en spreekt geen
-    Nederlands. Een site die alleen Nederlands is, sluit die groep uit; een site die alleen Engels
-    is, mist de lokale werkgevers. Daarom staat alles hier in beide talen — en waar een artikel maar
-    in één taal bestaat, zeggen we dat gewoon in plaats van er een machinevertaling van te maken.
+    Een flink deel van de mensen die hier technologie bouwen kwam via de Universiteit Twente en
+    spreekt (nog) geen Nederlands. Communitycontent is Engels-eerst, praktische informatie bestaat
+    in beide talen, en waar een artikel maar in één taal bestaat zeggen we dat gewoon in plaats van
+    er een machinevertaling van te maken.
   </p>
 
   <h2>Geen cookies, geen tracking</h2>
   <p>
-    Deze site zet geen enkele cookie en laadt geen scripts van derden. Er is dus ook geen
-    cookiebanner. Bezoekcijfers komen van een aggregatie die geen individuen kan herleiden.
+    Deze site zet geen enkele cookie en laadt geen scripts van derden, dus er is ook geen
+    cookiebanner. Bezoekcijfers komen van een aggregatie die geen individuen kan herleiden. De
+    <a href={routePath('privacy', 'nl')}>privacypagina</a> behandelt events en de nieuwsbrief.
   </p>
 
   <h2>Alles staat in git</h2>
   <p>
-    Elke vacature, elk event en elk bedrijfsprofiel is een bestand in een openbare repository. Je
-    kunt zien wanneer iets is toegevoegd, door wie, en wat er sindsdien is gewijzigd. Dat is het
-    verschil tussen een community-site en een platform.
+    Elk event, elk bedrijfsprofiel en elk artikel is een bestand in een openbare repository. Je kunt
+    zien wanneer iets is toegevoegd, door wie, en wat er sindsdien is gewijzigd. Dat is het verschil
+    tussen een community-site en een platform.
   </p>
 
   <h2>Meedoen</h2>
   <p>
-    Mis je een meetup, een bedrijf of een vacature? Voeg het toe. Op dit moment gaat dat via de
-    repository; een gewoon formulier staat op de planning. Lees eerst even de{' '}
-    <a href={routePath('guidelines', 'nl')}>richtlijnen</a>.
-  </p>
-
-  <h2>Wie</h2>
-  <p>
-    twente.dev wordt onderhouden door <a href="https://webgrip.nl">Webgrip</a>. De site is een
-    community-project, geen commercieel platform.
+    De community groeit door bijdragen: een verhaal, een demo, een introductie, een gelist event,
+    een vrijwilligersshift. Begin bij <a href={routePath('contribute', 'nl')}>bijdragen</a>, of mail <a
+      href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a
+    >.
   </p>
 </ProsePage>

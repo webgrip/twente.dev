@@ -12,6 +12,7 @@ MADR 4.0.0, matching the `webgrip/workflows` convention. New records use
 | [0005](0005-contributions-as-data.md)               | Community contributions are versioned data             | Accepted | 2026-08-03 |
 | [0006](0006-privacy-first-analytics.md)             | Privacy-first analytics, no cookie banner              | Accepted | 2026-08-03 |
 | [0007](0007-container-for-dev-and-parity.md)        | Container for dev and production parity, not deploy    | Accepted | 2026-08-04 |
+| [0008](0008-playbook-first-launch-scope.md)         | Launch scope follows the strategy playbook             | Proposed | 2026-08-11 |
 
 ## Open decisions
 

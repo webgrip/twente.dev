@@ -12,7 +12,11 @@ interface Props {
 
 const { event, locale } = Astro.props;
 const t = useTranslations(locale);
-const href = routePath('events', locale, event.id);
+// A flagship edition's canonical home is its bespoke page, never a generated
+// detail page — one listing, synchronised everywhere.
+const href = event.data.canonicalRoute
+  ? routePath(event.data.canonicalRoute, locale)
+  : routePath('events', locale, event.id);
 ---
 
 <article class:list={['event-card', event.data.cancelled && 'is-cancelled']}>
@@ -29,6 +33,13 @@ const href = routePath('events', locale, event.id);
   <p class="event-venue">
     {event.data.venue.online ? 'Online' : `${event.data.venue.name}, ${event.data.venue.city}`}
   </p>
+
+  {event.data.attribution === 'listed' && <p class="event-credit">{t('events.listedBy')}</p>}
+  {
+    event.data.attribution === 'collaboration' && (
+      <p class="event-credit">{t('events.inCollaboration')}</p>
+    )
+  }
 
   <ul class="event-tags">
     {
@@ -122,6 +133,11 @@ const href = routePath('events', locale, event.id);
   .event-venue {
     color: var(--fg-muted);
     font-size: var(--text-sm);
+  }
+
+  .event-credit {
+    color: var(--fg-subtle);
+    font-size: var(--text-xs);
   }
 
   .event-tags {

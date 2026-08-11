@@ -9,13 +9,17 @@
  *
  * Content strings (articles, job descriptions) do NOT live here; they live in
  * the content collections, which carry their own per-locale fields.
+ *
+ * The tagline "Build here. Share here." is the brand line and stays verbatim
+ * in both locales — the playbook's rule is that it is always paired with a
+ * literal explanation, never left to carry meaning alone.
  */
 
 export const nl = {
   'site.name': 'twente.dev',
-  'site.tagline': 'De thuisbasis voor developers in Twente',
+  'site.tagline': 'Build here. Share here.',
   'site.description':
-    'Meetups, vacatures, bedrijven en verhalen uit de Twentse developer-community. Van Enschede tot Almelo.',
+    'Onafhankelijke, practitioner-led techcommunity voor Twente. We maken lokale mensen, events en praktijkkennis beter vindbaar — van Enschede tot Almelo.',
 
   'nav.home': 'Home',
   'nav.events': 'Events',
@@ -24,7 +28,11 @@ export const nl = {
   'nav.blog': 'Blog',
   'nav.communities': 'Communities',
   'nav.about': 'Over ons',
+  'nav.partners': 'Partners',
+  'nav.contribute': 'Bijdragen',
+  'nav.press': 'Pers',
   'nav.guidelines': 'Richtlijnen',
+  'nav.conduct': 'Gedragscode',
   'nav.skipToContent': 'Naar hoofdinhoud',
   'nav.menu': 'Menu',
 
@@ -35,23 +43,44 @@ export const nl = {
   'theme.light': 'Licht',
   'theme.dark': 'Donker',
 
-  'home.hero.title': 'Developers in Twente',
+  'home.hero.title':
+    'Twente bouwt opmerkelijke technologie. Laten we de mensen erachter beter vindbaar maken.',
   'home.hero.subtitle':
-    'Eén plek voor alles wat er speelt in de Twentse tech-scene: meetups, vacatures, bedrijven en verhalen.',
-  'home.hero.ctaEvents': 'Bekijk events',
-  'home.hero.ctaJobs': 'Vind een baan',
+    'twente.dev/001 brengt makers uit software, hardware, data, design en product samen voor één nuttige avond.',
+  'home.hero.ctaReserve': 'Reserveer een plek',
+  'home.hero.ctaContribute': 'Draag een verhaal, demo of introductie bij',
+  'home.outcome.idea': 'Eén nuttig idee',
+  'home.outcome.intro': 'Eén nuttige kennismaking',
+  'home.outcome.return': 'Eén reden om terug te komen',
+  'home.next.kicker': 'Binnenkort',
+  'home.what.title': 'Wat is twente.dev?',
+  'home.what.body':
+    'twente.dev is een onafhankelijke, practitioner-led techcommunity voor Twente. We maken lokale mensen, events en praktijkkennis beter vindbaar — en brengen een paar keer per jaar disciplines en organisaties doelgericht bij elkaar.',
+  'home.community.title': 'Bestaande communities houden het podium',
+  'home.community.body':
+    'Bestaande meetups houden hun eigen identiteit, hun eigen lijst en hun eigen podium. twente.dev maakt ze beter vindbaar en verwijst altijd door naar de bron.',
+  'home.newsletter.title': 'De wekelijkse field note',
+  'home.newsletter.body':
+    'Eén concrete les uit een lokaal systeem, de events van komende week en één open call. Reply-vriendelijk, opt-in, geen tracking.',
   'home.events.title': 'Aankomende events',
   'home.events.all': 'Alle events',
-  'home.jobs.title': 'Recente vacatures',
-  'home.jobs.all': 'Alle vacatures',
-  'home.companies.title': 'Bedrijven in de regio',
-  'home.companies.all': 'Alle bedrijven',
   'home.posts.title': 'Uit de community',
   'home.posts.all': 'Alle artikelen',
 
+  'edition.venueTba': 'Locatie volgt',
+  'edition.language': 'Voertaal vooral Engels; Nederlands welkom',
+  'edition.doorsFood': 'Inloop en eten vanaf',
+  'edition.programme': 'programma',
+  'edition.hardFinish': 'strakke eindtijd',
+  'edition.registrationOpens': 'Aanmelden opent',
+  'edition.details': 'Alles over twente.dev/001',
+
+  'newsletter.subscribe': 'Aanmelden',
+  'newsletter.mailFallback': 'Mail ons om aan te haken',
+
   'events.title': 'Events',
   'events.description':
-    'Meetups, conferenties en workshops voor developers in Twente. Abonneer je op de agenda en mis niets.',
+    'Meetups, conferenties en workshops voor techmakers in Twente. Abonneer je op de agenda en mis niets.',
   'events.upcoming': 'Aankomend',
   'events.past': 'Geweest',
   'events.empty': 'Nog geen events gepland. Ken je er een? Laat het ons weten.',
@@ -61,6 +90,8 @@ export const nl = {
   'events.cancelled': 'Geannuleerd',
   'events.organisedBy': 'Georganiseerd door',
   'events.moreInfo': 'Meer informatie',
+  'events.listedBy': 'Vermeld door twente.dev',
+  'events.inCollaboration': 'In samenwerking met twente.dev',
 
   'jobs.title': 'Vacatures',
   'jobs.description':
@@ -92,12 +123,12 @@ export const nl = {
 
   'communities.title': 'Communities',
   'communities.description':
-    'Discords, Slacks, user groups en andere plekken waar Twentse developers samenkomen.',
+    'Discords, Slacks, user groups en andere plekken waar Twentse techmakers samenkomen.',
   'communities.empty': 'Nog geen communities toegevoegd.',
   'communities.join': 'Word lid',
 
   'blog.title': 'Blog',
-  'blog.description': 'Artikelen en verhalen uit de Twentse developer-community.',
+  'blog.description': 'Field notes, portretten en open calls uit de Twentse techcommunity.',
   'blog.empty': 'Nog geen artikelen.',
   'blog.readMore': 'Lees verder',
   'blog.readingTime': 'min leestijd',
@@ -105,6 +136,11 @@ export const nl = {
   'blog.updatedOn': 'Bijgewerkt op',
   'blog.by': 'Door',
   'blog.onlyInOtherLocale': 'Dit artikel is alleen in het Engels beschikbaar.',
+
+  'pillar.field-notes': 'Field note',
+  'pillar.people-who-build': 'People Who Build',
+  'pillar.open-calls': 'Open call',
+  'pillar.week-in-twente-tech': 'Week in Twente Tech',
 
   'search.label': 'Zoeken',
   'search.placeholder': 'Zoek op de site…',
@@ -114,13 +150,17 @@ export const nl = {
   'filter.clear': 'Filters wissen',
   'filter.results': 'resultaten',
 
-  'footer.tagline': 'Gemaakt door en voor de developer-community in Twente.',
+  'footer.tagline': 'Een onafhankelijke, practitioner-led techcommunity voor Twente.',
   'footer.contribute': 'Bijdragen',
   'footer.sourceCode': 'Broncode',
   'footer.rss': 'RSS',
   'footer.calendar': 'Agenda',
   'footer.privacy': 'Privacy',
+  'footer.conduct': 'Gedragscode',
+  'footer.press': 'Pers',
+  'footer.partners': 'Partners',
   'footer.builtBy': 'Onderhouden door',
+  'footer.explore': 'Verder op de site',
 
   'error.404.title': 'Pagina niet gevonden',
   'error.404.body': 'Deze pagina bestaat niet (meer). Misschien is de link verouderd.',
@@ -136,9 +176,9 @@ export type UIKey = keyof typeof nl;
 
 export const en: Record<UIKey, string> = {
   'site.name': 'twente.dev',
-  'site.tagline': 'The home base for developers in Twente',
+  'site.tagline': 'Build here. Share here.',
   'site.description':
-    'Meetups, jobs, companies and stories from the developer community in Twente. From Enschede to Almelo.',
+    'An independent, practitioner-led technology community for Twente. We make local people, events and practical knowledge easier to find — from Enschede to Almelo.',
 
   'nav.home': 'Home',
   'nav.events': 'Events',
@@ -147,7 +187,11 @@ export const en: Record<UIKey, string> = {
   'nav.blog': 'Blog',
   'nav.communities': 'Communities',
   'nav.about': 'About',
+  'nav.partners': 'Partners',
+  'nav.contribute': 'Contribute',
+  'nav.press': 'Press',
   'nav.guidelines': 'Guidelines',
+  'nav.conduct': 'Code of conduct',
   'nav.skipToContent': 'Skip to main content',
   'nav.menu': 'Menu',
 
@@ -158,23 +202,44 @@ export const en: Record<UIKey, string> = {
   'theme.light': 'Light',
   'theme.dark': 'Dark',
 
-  'home.hero.title': 'Developers in Twente',
+  'home.hero.title':
+    "Twente builds remarkable technology. Let's make the people behind it easier to find.",
   'home.hero.subtitle':
-    'One place for everything happening in the Twente tech scene: meetups, jobs, companies and stories.',
-  'home.hero.ctaEvents': 'Browse events',
-  'home.hero.ctaJobs': 'Find a job',
+    'twente.dev/001 brings software, hardware, data, design and product practitioners together for one useful evening.',
+  'home.hero.ctaReserve': 'Reserve a place',
+  'home.hero.ctaContribute': 'Contribute a story, demo or introduction',
+  'home.outcome.idea': 'One useful idea',
+  'home.outcome.intro': 'One useful introduction',
+  'home.outcome.return': 'One reason to return',
+  'home.next.kicker': 'Next up',
+  'home.what.title': 'What is twente.dev?',
+  'home.what.body':
+    'twente.dev is an independent, practitioner-led technology community for Twente. We make local people, events and practical knowledge easier to find — and we bring different disciplines together a few times a year.',
+  'home.community.title': 'Existing communities keep the stage',
+  'home.community.body':
+    'Existing meetups keep their own identity, their own list and their own stage. twente.dev makes them easier to find and always links to the source.',
+  'home.newsletter.title': 'The weekly field note',
+  'home.newsletter.body':
+    "One concrete lesson from a local system, the coming week's events and one open call. Reply-friendly, opt-in, no tracking.",
   'home.events.title': 'Upcoming events',
   'home.events.all': 'All events',
-  'home.jobs.title': 'Recent jobs',
-  'home.jobs.all': 'All jobs',
-  'home.companies.title': 'Companies in the region',
-  'home.companies.all': 'All companies',
   'home.posts.title': 'From the community',
   'home.posts.all': 'All articles',
 
+  'edition.venueTba': 'Venue to be announced',
+  'edition.language': 'Primarily English; Dutch welcome',
+  'edition.doorsFood': 'Doors and food from',
+  'edition.programme': 'programme',
+  'edition.hardFinish': 'hard finish',
+  'edition.registrationOpens': 'Registration opens',
+  'edition.details': 'Everything about twente.dev/001',
+
+  'newsletter.subscribe': 'Subscribe',
+  'newsletter.mailFallback': 'Email us to be added',
+
   'events.title': 'Events',
   'events.description':
-    'Meetups, conferences and workshops for developers in Twente. Subscribe to the calendar and never miss one.',
+    'Meetups, conferences and workshops for people who build technology in Twente. Subscribe to the calendar and never miss one.',
   'events.upcoming': 'Upcoming',
   'events.past': 'Past',
   'events.empty': 'No events scheduled yet. Know of one? Let us know.',
@@ -184,6 +249,8 @@ export const en: Record<UIKey, string> = {
   'events.cancelled': 'Cancelled',
   'events.organisedBy': 'Organised by',
   'events.moreInfo': 'More information',
+  'events.listedBy': 'Listed by twente.dev',
+  'events.inCollaboration': 'In collaboration with twente.dev',
 
   'jobs.title': 'Jobs',
   'jobs.description':
@@ -215,12 +282,13 @@ export const en: Record<UIKey, string> = {
 
   'communities.title': 'Communities',
   'communities.description':
-    'Discords, Slacks, user groups and other places where developers in Twente gather.',
+    'Discords, Slacks, user groups and other places where people who build technology in Twente gather.',
   'communities.empty': 'No communities added yet.',
   'communities.join': 'Join',
 
   'blog.title': 'Blog',
-  'blog.description': 'Articles and stories from the developer community in Twente.',
+  'blog.description':
+    'Field notes, builder profiles and open calls from the Twente tech community.',
   'blog.empty': 'No articles yet.',
   'blog.readMore': 'Read more',
   'blog.readingTime': 'min read',
@@ -228,6 +296,11 @@ export const en: Record<UIKey, string> = {
   'blog.updatedOn': 'Updated on',
   'blog.by': 'By',
   'blog.onlyInOtherLocale': 'This article is only available in Dutch.',
+
+  'pillar.field-notes': 'Field note',
+  'pillar.people-who-build': 'People Who Build',
+  'pillar.open-calls': 'Open call',
+  'pillar.week-in-twente-tech': 'Week in Twente Tech',
 
   'search.label': 'Search',
   'search.placeholder': 'Search the site…',
@@ -237,13 +310,17 @@ export const en: Record<UIKey, string> = {
   'filter.clear': 'Clear filters',
   'filter.results': 'results',
 
-  'footer.tagline': 'Made by and for the developer community in Twente.',
+  'footer.tagline': 'An independent, practitioner-led technology community for Twente.',
   'footer.contribute': 'Contribute',
   'footer.sourceCode': 'Source code',
   'footer.rss': 'RSS',
   'footer.calendar': 'Calendar',
   'footer.privacy': 'Privacy',
+  'footer.conduct': 'Code of conduct',
+  'footer.press': 'Press',
+  'footer.partners': 'Partners',
   'footer.builtBy': 'Maintained by',
+  'footer.explore': 'Elsewhere on the site',
 
   'error.404.title': 'Page not found',
   'error.404.body': 'This page does not exist (any more). The link may be out of date.',

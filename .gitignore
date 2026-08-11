@@ -36,3 +36,5 @@ playwright-report/
 # editors
 .idea/
 *.swp
+
+media/

@@ -27,7 +27,7 @@ export function organisationSchema(): JsonLd {
     '@id': ORGANISATION_ID,
     name: 'twente.dev',
     url: SITE_URL,
-    description: 'The community hub for software developers in Twente, the Netherlands.',
+    description: "Twente's practitioner-led technology community.",
     areaServed: {
       '@type': 'AdministrativeArea',
       name: 'Twente',
@@ -169,7 +169,11 @@ export function eventSchema(event: EventEntry, locale: Locale): JsonLd {
       name: event.data.organiser.name,
       ...(event.data.organiser.url ? { url: event.data.organiser.url } : {}),
     },
-    url: absoluteUrl(routePath('events', locale, event.id)),
+    url: absoluteUrl(
+      event.data.canonicalRoute
+        ? routePath(event.data.canonicalRoute, locale)
+        : routePath('events', locale, event.id),
+    ),
     offers: {
       '@type': 'Offer',
       price: event.data.costEur,

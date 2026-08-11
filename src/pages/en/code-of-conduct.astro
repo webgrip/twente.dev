@@ -1,0 +1,78 @@
+---
+import ProsePage from '../../templates/ProsePage.astro';
+import { CONDUCT_EMAIL } from '../../config/site.ts';
+---
+
+<ProsePage
+  locale="en"
+  routeKey="conduct"
+  title="Code of conduct"
+  description="The room only works if everyone can be in it. These are the rules, how to report a problem, and what happens when you do."
+>
+  <p>
+    twente.dev exists so that useful regional connections stop depending on already knowing the
+    room. That only works if the room is safe and welcoming for everyone — first-timers, students,
+    people who came alone, people whose Dutch or English is a work in progress.
+  </p>
+
+  <h2>Expected</h2>
+  <ul>
+    <li>Be concrete and generous: share what broke and what you changed, and let others in.</li>
+    <li>Welcome newcomers. If someone is standing alone, that is an invitation, not a verdict.</li>
+    <li>
+      Respect the language mix. Events are primarily English with Dutch welcome; never make anyone
+      feel lesser for either.
+    </li>
+    <li>Respect a "no" — to a photo, to a follow-up, to a sales conversation.</li>
+  </ul>
+
+  <h2>Not accepted</h2>
+  <ul>
+    <li>Harassment, intimidation or discrimination in any form, online or in the room.</li>
+    <li>Unwelcome sexual attention or physical contact.</li>
+    <li>Sustained disruption of talks or conversations.</li>
+    <li>
+      Recruiting or selling to people who did not ask for it. This is not a recruitment fair; treat
+      attendees as peers, not leads.
+    </li>
+    <li>Photographing or recording someone who has indicated they do not want that.</li>
+  </ul>
+
+  <h2>Reporting</h2>
+  <p>
+    Email <a href={`mailto:${CONDUCT_EMAIL}`}>{CONDUCT_EMAIL}</a> — it reaches two named contacts who
+    act independently of sponsors and employers. At events, both contacts are introduced at the start
+    of the evening and are recognisable in the room, so you can also simply walk up to one of them.
+  </p>
+  <p>
+    Reports are handled confidentially. That confidentiality is limited only by safety or a legal
+    obligation — never by a sponsor's or employer's interest.
+  </p>
+
+  <h2>What happens with a report</h2>
+  <ol>
+    <li>We listen first, and ask what outcome you need — including "just log it".</li>
+    <li>
+      We act proportionally: a conversation, a warning, removal from the event, or exclusion from
+      future events. The person reporting is never required to confront anyone.
+    </li>
+    <li>
+      Incidents are documented and reviewed, so patterns are caught even when single reports seem
+      small.
+    </li>
+  </ol>
+
+  <h2>Photography</h2>
+  <p>
+    Photography at events is consent-based. At check-in you can visibly indicate that you do not
+    want to be photographed, and after the event there is a simple route to have a photo removed —
+    no reason required.
+  </p>
+
+  <h2>Scope</h2>
+  <p>
+    This code applies at every twente.dev event and in every space we run — including this site's
+    repository and any future online channels. Organisers, speakers, volunteers, partners and
+    sponsors are held to it exactly like everyone else.
+  </p>
+</ProsePage>

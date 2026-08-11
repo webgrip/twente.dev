@@ -1,10 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="twente.dev">
   <title>twente.dev</title>
-  <rect width="32" height="32" rx="6" fill="#14110f" />
-  <!-- The Twente flag's red pales, reduced to a mark. -->
-  <g fill="#d3232a">
-    <rect x="9" y="6" width="14" height="4" rx="1" />
-    <rect x="9" y="14" width="14" height="4" rx="1" />
-    <rect x="9" y="22" width="14" height="4" rx="1" />
+  <!-- Compact mark per the brand pack: ink "t" bars on warm paper, with the
+       red connector dot marking the crossing. -->
+  <rect width="32" height="32" rx="6" fill="#f7f3ea" />
+  <g fill="#111820">
+    <rect x="13" y="5" width="6" height="22" rx="1" />
+    <rect x="5" y="10" width="22" height="6" rx="1" />
   </g>
+  <circle cx="24" cy="24" r="3.5" fill="#e44734" />
 </svg>

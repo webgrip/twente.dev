@@ -1,0 +1,71 @@
+---
+import ProsePage from '../../templates/ProsePage.astro';
+import { routePath } from '../../i18n/routes.ts';
+import { CONTACT_EMAIL, REPO_URL } from '../../config/site.ts';
+---
+
+<ProsePage
+  locale="en"
+  routeKey="contribute"
+  title="Contribute"
+  description="A story, a demo, an introduction, a listed event, a volunteer shift, a room. Contribution is how this community grows — here is every route in."
+>
+  <p>
+    What should Twente know you are building — or learning the hard way? Bring one thing you
+    learned, one thing you need, or one person others should know. Every route below starts with one
+    email to <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a> unless noted otherwise.
+  </p>
+
+  <h2>Tell a story on stage</h2>
+  <p>
+    Flagship evenings run on 12-minute <strong>field reports</strong>: one claim, one real example,
+    decision or failure, what changed, and one question for the room. Send us those four things in a
+    few sentences. You do not need speaking experience — we help shape accepted contributions with
+    an editorial call, a slide template and a rehearsal, and travel costs are agreed in advance. We
+    do not accept product pitches, paid speaking, or confidential material you are not authorised to
+    share.
+  </p>
+
+  <h2>Write a field note</h2>
+  <p>
+    A field note is one concrete lesson, decision or failure from a local system, written down — 120
+    to 180 words is plenty. The best ones read like something you would tell a colleague at the
+    coffee machine. We publish them on the <a href={routePath('blog', 'en')}>blog</a> and in the newsletter,
+    always with credit.
+  </p>
+
+  <h2>Introduce a builder</h2>
+  <p>
+    <em>People Who Build</em> profiles five practitioners' questions at a time, across disciplines and
+    cities. Know someone whose work Twente should see — including yourself? Send a name and one sentence
+    on why.
+  </p>
+
+  <h2>List an event or community</h2>
+  <p>
+    Any public, relevant tech event or community in the region gets listed free, with credit and a
+    link to the source — see the <a href={routePath('guidelines', 'en')}>guidelines</a>. Open an
+    issue in the <a href={REPO_URL}>repository</a> using the submission templates, or just email the details.
+  </p>
+
+  <h2>Volunteer at an event</h2>
+  <p>
+    Eight roles make an evening work: check-in, welcoming solo attendees, speaker support, AV,
+    accessibility contact, photography consent, room hosting and close-down. Shifts are 45–90
+    minutes, expenses are reimbursed, and roles are designed so you still get to experience the
+    event you are helping run.
+  </p>
+
+  <h2>Offer a room</h2>
+  <p>
+    Venues, AV and food are what events actually cost. If your organisation can host, that is a
+    <a href={routePath('partners', 'en')}>host partnership</a>: documented fair value, clear credit,
+    four guest places.
+  </p>
+
+  <h2>Improve this site</h2>
+  <p>
+    The whole site is a public repository — content and code. Found something broken, missing or
+    wrong? <a href={REPO_URL}>Open an issue or a pull request</a>.
+  </p>
+</ProsePage>

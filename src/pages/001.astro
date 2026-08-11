@@ -1,0 +1,25 @@
+---
+/**
+ * `twente.dev/001` — the brand form of the flagship edition — redirects to the
+ * default locale's page, mirroring the root redirect's approach (ADR-0004:
+ * every content page lives under an explicit locale prefix).
+ */
+import { DEFAULT_LOCALE } from '../i18n/config.ts';
+import { routePath } from '../i18n/routes.ts';
+
+const target = routePath('edition001', DEFAULT_LOCALE);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="refresh" content={`0; url=${target}`} />
+    <link rel="canonical" href={target} />
+    <meta name="robots" content="noindex" />
+    <title>twente.dev/001</title>
+  </head>
+  <body data-pagefind-ignore="all">
+    <p>Redirecting to <a href={target}>{target}</a>…</p>
+  </body>
+</html>

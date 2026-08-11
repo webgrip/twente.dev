@@ -42,22 +42,27 @@ export async function buildEventsIcs(locale: Locale = 'nl'): Promise<Response> {
   const t = useTranslations(locale);
   const events = await getAllEvents();
 
-  const icsEvents: IcsEvent[] = events.map((event) => ({
-    uid: event.id,
-    start: event.data.start,
-    end: event.data.end,
-    summary: event.data.title[locale],
-    description: `${event.data.description[locale]}\n\n${absoluteUrl(
-      routePath('events', locale, event.id),
-    )}`,
-    location: event.data.venue.online
-      ? 'Online'
-      : [event.data.venue.name, event.data.venue.address, event.data.venue.city]
-          .filter(Boolean)
-          .join(', '),
-    url: absoluteUrl(routePath('events', locale, event.id)),
-    cancelled: event.data.cancelled,
-  }));
+  const icsEvents: IcsEvent[] = events.map((event) => {
+    // Flagship editions have a bespoke canonical page instead of a generated
+    // detail page; the feed must point subscribers at the real listing.
+    const path = event.data.canonicalRoute
+      ? routePath(event.data.canonicalRoute, locale)
+      : routePath('events', locale, event.id);
+    return {
+      uid: event.id,
+      start: event.data.start,
+      end: event.data.end,
+      summary: event.data.title[locale],
+      description: `${event.data.description[locale]}\n\n${absoluteUrl(path)}`,
+      location: event.data.venue.online
+        ? 'Online'
+        : [event.data.venue.name, event.data.venue.address, event.data.venue.city]
+            .filter(Boolean)
+            .join(', '),
+      url: absoluteUrl(path),
+      cancelled: event.data.cancelled,
+    };
+  });
 
   const body = buildIcsCalendar({
     name: `${t('site.name')} — ${t('events.title')}`,

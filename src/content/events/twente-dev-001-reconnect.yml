@@ -1,0 +1,37 @@
+# twente.dev/001 — Reconnect. The first flagship edition. Facts are the
+# canonical event description; keep them synchronised with src/config/site.ts
+# and the /001 pages (the playbook rule: one canonical description everywhere).
+title:
+  nl: twente.dev/001 — Reconnect
+  en: twente.dev/001 — Reconnect
+description:
+  nl: >-
+    Een practitioner-led avond voor software, infrastructuur, embedded systems,
+    maakindustrie, data, security, design, product, onderzoek en technisch
+    onderwijs. Twee korte field reports en één begeleid gesprek zorgen voor de
+    gezamenlijke vraag; gestructureerde kennismakingen en een ruim netwerkuur
+    maken de avond nuttig. Geen banenmarkt, geen leverancierspodium.
+  en: >-
+    A practitioner-led evening for software, infrastructure, embedded systems,
+    manufacturing, data, security, design, product, research and technical
+    education. Two short field reports and one facilitated conversation create
+    the shared question; structured introductions and an open network hour make
+    the room useful. This is not a recruitment fair or vendor stage.
+start: 2026-10-07T18:00:00+02:00
+end: 2026-10-07T21:30:00+02:00
+venue:
+  name: Venue to be announced
+  city: Enschede
+  online: false
+organiser:
+  name: twente.dev
+  url: https://twente.dev
+url: https://twente.dev/nl/001
+costEur: 0
+language: en
+tags:
+  - flagship
+  - cross-disciplinary
+cancelled: false
+attribution: own
+canonicalRoute: edition001

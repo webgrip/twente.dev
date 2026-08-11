@@ -1,19 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-label="twente.dev">
   <title>twente.dev — compact mark</title>
-  <!-- Vector master of the woven-T compact mark, traced 1:1 from the brand
-       pack's PNG (public/brand/twente-dev-mark.png). Ink bars weave with
-       signal-red blocks; the red square is the connector. -->
-  <rect width="160" height="160" fill="#f7f3ea"/>
-  <g fill="#111820">
-    <rect x="24" y="28" width="92" height="16"/>
-    <rect x="68" y="44" width="16" height="64"/>
-    <rect x="56" y="56" width="56" height="12"/>
-    <rect x="52" y="84" width="44" height="12"/>
+  <!-- Vector master of the compact mark (ratified 2026-08-11): warm-paper
+       "t" on an ink badge, flag-red dot (#c3291b) as the connector. The
+       badge corner radius is 30/160 — keep the ratio when scaling. -->
+  <rect width="160" height="160" rx="30" fill="#111820"/>
+  <g fill="#f7f3ea">
+    <rect x="65" y="25" width="30" height="110" rx="5"/>
+    <rect x="25" y="50" width="110" height="30" rx="5"/>
   </g>
-  <g fill="#c3291b">
-    <rect x="24" y="52" width="32" height="16"/>
-    <rect x="96" y="80" width="28" height="16"/>
-    <rect x="68" y="108" width="16" height="16"/>
-    <rect x="116" y="116" width="20" height="20"/>
-  </g>
+  <circle cx="120" cy="120" r="17.5" fill="#c3291b"/>
 </svg>

@@ -1,9 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="twente.dev">
   <title>twente.dev</title>
-  <!-- Compact mark per the brand pack: ink "t" bars on warm paper, with the
-       red connector dot marking the crossing. -->
-  <rect width="32" height="32" rx="6" fill="#f7f3ea" />
-  <g fill="#111820">
+  <!-- The compact mark: warm-paper "t" on an ink badge, the flag-red dot as
+       the connector. Ratified as the official mark 2026-08-11. -->
+  <rect width="32" height="32" rx="6" fill="#111820" />
+  <g fill="#f7f3ea">
     <rect x="13" y="5" width="6" height="22" rx="1" />
     <rect x="5" y="10" width="22" height="6" rx="1" />
   </g>

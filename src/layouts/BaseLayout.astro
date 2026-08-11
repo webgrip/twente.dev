@@ -62,16 +62,15 @@ const t = useTranslations(locale);
   <body data-pagefind-ignore={noindex ? 'all' : undefined}>
     <a class="skip-link" href="#main">{t('nav.skipToContent')}</a>
     <Header locale={locale} current={routeKey} slug={slug} />
-    <main id="main" tabindex="-1" data-pagefind-body>
+    <!--
+      No tabindex on main: the skip link's fragment navigation sets the
+      sequential focus navigation starting point here per the HTML spec, so
+      the next Tab lands inside the content in every modern browser without
+      making a non-interactive element focusable.
+    -->
+    <main id="main" data-pagefind-body>
       <slot />
     </main>
     <Footer locale={locale} />
   </body>
 </html>
-
-<style>
-  main {
-    /* Removes the focus ring that would otherwise show after the skip link. */
-    outline: none;
-  }
-</style>

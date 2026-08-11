@@ -100,6 +100,41 @@ jobs:
         if: always()
         run: docker rm -f twente-web-ci || true
 
+  # Enforces the budgets in lighthouserc.json — without this job they are
+  # documentation, not gates. Lighthouse needs Chrome, which the runner image
+  # may not carry, so it runs inside a Chrome-equipped container via the same
+  # docker capability container-parity already assumes. Same caveat as that
+  # job: if the runner turns out not to support it, deleting this job costs
+  # nothing and `just lhci` still enforces the budgets locally.
+  lighthouse:
+    name: "Lighthouse Budgets"
+    needs:
+      - build
+    runs-on: docker
+    steps:
+      # v5, not v6 — v6 is broken on non-GitHub runners (webgrip/workflows ADR-0002).
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
+      - name: Enable pnpm
+        run: corepack enable
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        run: pnpm build
+
+      - name: Run Lighthouse CI
+        run: |
+          # autorun with staticDistDir serves ./dist itself, so the container
+          # needs no project dependencies — only Node and Chrome.
+          docker run --rm -v "$PWD:/repo" -w /repo cypress/browsers:latest \
+            bash -c "npx --yes @lhci/cli@0.15.x autorun"
+
   # ---------------------------------------------------------------------------
   # Deploy.
   #

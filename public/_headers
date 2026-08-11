@@ -20,8 +20,25 @@
 /_astro/*
   Cache-Control: public, max-age=31536000, immutable
 
-/pagefind/*
+# Pagefind's discovery chain (pagefind-entry.json, the JS/CSS, the wasm) keeps
+# stable filenames across rebuilds — only the index and fragment chunks carry
+# content hashes. Immutable-caching the stable names would leave returning
+# visitors with an entry file pointing at chunks that no longer exist after a
+# rebuild: search would 404, not just go stale. So: immutable for the hashed
+# chunks, cheap revalidation for everything else.
+/pagefind/index/*
   Cache-Control: public, max-age=31536000, immutable
+
+/pagefind/fragment/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/pagefind/*
+  Cache-Control: public, max-age=3600, must-revalidate
+
+# Press/brand assets are unfingerprinted but change only on brand revisions.
+# This includes the og:image every link-unfurl bot fetches.
+/brand/*
+  Cache-Control: public, max-age=86400
 
 # Feeds change on every nightly rebuild; let clients revalidate cheaply.
 /events.ics

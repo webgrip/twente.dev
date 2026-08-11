@@ -132,6 +132,11 @@ content:
 build:
     pnpm build
 
+# Lighthouse budgets (lighthouserc.json) against a fresh build
+[group('check')]
+lhci: build
+    pnpm dlx @lhci/cli autorun
+
 # Every gate CI runs
 [group('check')]
 check: fmt lint typecheck test content build

@@ -1,0 +1,13 @@
+# Redirect rules for Cloudflare Workers Static Assets.
+#
+# Mirrored in ops/docker/web/nginx.conf so the local preview container behaves
+# like production. Change one, change both.
+#
+# The bare domain and the /001 short URL redirect at the HTTP layer so crawlers
+# and link tools see a real 30x instead of a 200 meta-refresh stub. The stubs
+# in src/pages/index.astro and 001.astro remain as a defence-in-depth fallback.
+#
+# `/` stays a 302 until edge language negotiation decides the final story
+# (ADR-0004 / Phase 3); /001 is the permanent brand short URL.
+/     /nl      302
+/001  /nl/001  301

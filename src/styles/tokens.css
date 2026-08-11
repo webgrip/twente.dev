@@ -15,13 +15,16 @@
 :root {
   /* ---- brand ------------------------------------------------------------ */
   --ink: #111820;
-  --signal-red: #e44734;
+  /* RGB 195 41 27 — the Twente flag's actual red, adopted 2026-08-11 over
+     the pack's #e44734. A happy side effect: it is 5.2:1 on warm paper, so
+     in light mode the graphic red and the interactive red are one color. */
+  --signal-red: #c3291b;
   --warm-paper: #f7f3ea;
   --thread-grey: #d9dfdc;
 
-  /* Derived brand shades (not in the pack; darkened/lightened for states). */
-  --signal-red-dark: #c33427;
-  --signal-red-light: #ec5a45;
+  /* Derived brand shades (darkened/lightened for states and dark mode). */
+  --signal-red-dark: #a52114;
+  --signal-red-light: #e85c48;
 
   /* Legacy alias — a few components predate the brand pack. */
   --twente-red: var(--signal-red);
@@ -113,14 +116,13 @@
   --border-strong: #b6bfbb;
 
   --accent: var(--signal-red);
-  /* Signal red is a *graphic* color: at #e44734 it is only ~3.6:1 against
-     warm paper, fine for marks and large display, an AA failure for body
-     text and small button labels. Interactive/small-text red uses this
-     darker cut (≥4.5:1 on paper, ≥5.5:1 under white). */
-  --accent-strong: #bf3322;
+  /* The Twente red is AA-safe on warm paper (5.2:1), so graphic and
+     interactive red coincide in light mode. The token stays separate
+     because dark mode still needs a lightened cut for text on ink. */
+  --accent-strong: var(--signal-red);
   --accent-hover: var(--signal-red-dark);
   --accent-fg: #ffffff;
-  --accent-subtle: #fbe6e0;
+  --accent-subtle: #f6dcd6;
 
   --focus-ring: var(--signal-red);
 
@@ -149,9 +151,9 @@
 
     --accent: var(--signal-red-light);
     --accent-strong: var(--signal-red-light);
-    --accent-hover: #f0755f;
+    --accent-hover: #ef7361;
     --accent-fg: var(--ink);
-    --accent-subtle: #2c1a1a;
+    --accent-subtle: #2e1512;
 
     --focus-ring: var(--signal-red-light);
 
@@ -180,9 +182,9 @@
 
   --accent: var(--signal-red-light);
   --accent-strong: var(--signal-red-light);
-  --accent-hover: #f0755f;
+  --accent-hover: #ef7361;
   --accent-fg: var(--ink);
-  --accent-subtle: #2c1a1a;
+  --accent-subtle: #2e1512;
 
   --focus-ring: var(--signal-red-light);
 

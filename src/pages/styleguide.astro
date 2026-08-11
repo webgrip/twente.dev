@@ -25,16 +25,16 @@ const COLORS = [
   {
     name: 'Signal red',
     token: '--signal-red',
-    hex: '#E44734',
-    role: 'Connection / date / action — one per view, graphic use only',
+    hex: '#C3291B',
+    role: "Connection / date / action — the Twente flag's red (RGB 195 41 27), one per view",
   },
   { name: 'Warm paper', token: '--warm-paper', hex: '#F7F3EA', role: 'Community / openness' },
   { name: 'Thread grey', token: '--thread-grey', hex: '#D9DFDC', role: 'Structure / grid' },
   {
-    name: 'Accent strong',
-    token: '--accent-strong',
-    hex: '#BF3322',
-    role: 'Interactive red: links, filled buttons, small text (AA-safe)',
+    name: 'Signal red · dark',
+    token: '--signal-red-light',
+    hex: '#E85C48',
+    role: 'The red on ink: dark mode lightens the flag red to stay AA-readable',
   },
 ];
 
@@ -198,8 +198,10 @@ const SPACES = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
           </li>
           <li>"Build here. Share here." is always paired with a literal explanation.</li>
           <li>
-            Signal red (#E44734) is graphic-only; interactive and small-text red is
-            <code>--accent-strong</code> (AA on both grounds).
+            The flag red (#C3291B) is AA-safe on warm paper, so graphic and interactive red are one
+            color in light mode; on ink, always use the lightened cut (<code
+              >--signal-red-light</code
+            >).
           </li>
           <li>Lead with the room's usefulness, then the date. One action per view.</li>
           <li>No gradients, no emoji in UI copy, no superlatives, no decorative circuitry.</li>

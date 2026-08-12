@@ -4,17 +4,17 @@ import { absoluteUrl } from '../i18n/utils.ts';
 import { routePath } from '../i18n/routes.ts';
 import { REGISTRATION_OPENS, REGISTRATION_URL } from '../config/site.ts';
 import { postSlug } from './content.ts';
-import type { CompanyEntry, EventEntry, JobEntry, PostEntry } from './content.ts';
+import type { CompanyEntry, EventEntry, PostEntry } from './content.ts';
 
 /**
  * schema.org JSON-LD.
  *
- * This module is plan lever L1 and L2: correct `JobPosting` and `Event` markup
- * is what puts a *static* site into Google for Jobs and Google Events. It is
- * the highest-leverage code in the repository per line, and also the easiest
- * to get subtly wrong — Google silently ignores malformed entries rather than
- * reporting an error, so changes here should be checked against the Rich
- * Results Test before merging.
+ * This module is plan lever L2: correct `Event` markup is what puts a
+ * *static* site into Google Events. It is the highest-leverage code in the
+ * repository per line, and also the easiest to get subtly wrong — Google
+ * silently ignores malformed entries rather than reporting an error, so
+ * changes here should be checked against the Rich Results Test before
+ * merging.
  */
 
 type JsonLd = Record<string, unknown>;
@@ -84,85 +84,6 @@ export function websiteSchema(): JsonLd {
     inLanguage: ['nl', 'en'],
     publisher: { '@id': ORGANISATION_ID },
   };
-}
-
-/**
- * `JobPosting` — the Google for Jobs contract.
- *
- * Notes on the fields Google actually cares about:
- *  - `validThrough` is required by our schema precisely so this is never absent.
- *  - `hiringOrganization` must resolve to a real company with a real URL.
- *  - `jobLocationType: TELECOMMUTE` is only valid for fully remote roles, and
- *    Google requires `applicantLocationRequirements` alongside it.
- *  - `baseSalary` is omitted entirely when undisclosed. An invented or
- *    zero-value salary is worse than none — it poisons the listing's quality.
- */
-export function jobPostingSchema(job: JobEntry, company: CompanyEntry, locale: Locale): JsonLd {
-  const isRemote = job.data.workplace === 'remote';
-
-  const schema: JsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'JobPosting',
-    title: job.data.title[locale],
-    description: job.data.description[locale],
-    inLanguage: locale,
-    datePosted: toAmsterdamIso(job.data.postedAt),
-    validThrough: toAmsterdamIso(job.data.validThrough),
-    employmentType: employmentTypeToSchema(job.data.employmentType),
-    url: absoluteUrl(routePath('jobs', locale, job.id)),
-    directApply: false,
-    hiringOrganization: {
-      '@type': 'Organization',
-      name: company.data.name,
-      sameAs: company.data.website,
-      url: company.data.website,
-    },
-    jobLocation: {
-      '@type': 'Place',
-      address: {
-        '@type': 'PostalAddress',
-        addressLocality: job.data.city,
-        addressRegion: 'Overijssel',
-        addressCountry: 'NL',
-      },
-    },
-    skills: job.data.stack.join(', '),
-  };
-
-  if (isRemote) {
-    schema.jobLocationType = 'TELECOMMUTE';
-    schema.applicantLocationRequirements = { '@type': 'Country', name: 'Netherlands' };
-  }
-
-  if (job.data.salary) {
-    schema.baseSalary = {
-      '@type': 'MonetaryAmount',
-      currency: job.data.salary.currency,
-      value: {
-        '@type': 'QuantitativeValue',
-        minValue: job.data.salary.min,
-        maxValue: job.data.salary.max,
-        unitText: job.data.salary.period,
-      },
-    };
-  }
-
-  return schema;
-}
-
-function employmentTypeToSchema(type: JobEntry['data']['employmentType']): string {
-  switch (type) {
-    case 'full-time':
-      return 'FULL_TIME';
-    case 'part-time':
-      return 'PART_TIME';
-    case 'contract':
-      return 'CONTRACTOR';
-    case 'internship':
-      return 'INTERN';
-    case 'temporary':
-      return 'TEMPORARY';
-  }
 }
 
 /**

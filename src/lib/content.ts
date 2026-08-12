@@ -7,11 +7,10 @@ import type { Locale } from '../i18n/config.ts';
  * Content selectors.
  *
  * All time-based filtering funnels through `now()` so the nightly rebuild
- * (plan lever L9) is the only thing needed to make expired jobs and past
- * events disappear — no cron job mutating files, no manual pruning.
+ * (plan lever L9) is the only thing needed to make past events disappear —
+ * no cron job mutating files, no manual pruning.
  */
 
-export type JobEntry = CollectionEntry<'jobs'>;
 export type EventEntry = CollectionEntry<'events'>;
 export type CompanyEntry = CollectionEntry<'companies'>;
 export type PostEntry = CollectionEntry<'posts'>;
@@ -20,18 +19,6 @@ export type CommunityEntry = CollectionEntry<'communities'>;
 /** Single clock for the whole build, so one build is internally consistent. */
 export function now(): Date {
   return new Date();
-}
-
-/* ---- jobs ---------------------------------------------------------------- */
-
-/** Live jobs, soonest-to-expire last, newest first. */
-export async function getOpenJobs(at: Date = now()): Promise<JobEntry[]> {
-  const jobs = await getCollection('jobs', ({ data }) => data.validThrough > at);
-  return jobs.sort((a, b) => b.data.postedAt.getTime() - a.data.postedAt.getTime());
-}
-
-export async function getExpiredJobs(at: Date = now()): Promise<JobEntry[]> {
-  return getCollection('jobs', ({ data }) => data.validThrough <= at);
 }
 
 /* ---- events -------------------------------------------------------------- */
@@ -69,17 +56,6 @@ export async function getCompanies(): Promise<CompanyEntry[]> {
 
 export async function getCompany(id: string): Promise<CompanyEntry | undefined> {
   return getEntry('companies', id);
-}
-
-/** Open jobs per company id — powers the "N open jobs" badge in the directory. */
-export async function getOpenJobCountByCompany(at: Date = now()): Promise<Map<string, number>> {
-  const jobs = await getOpenJobs(at);
-  const counts = new Map<string, number>();
-  for (const job of jobs) {
-    const id = job.data.company.id;
-    counts.set(id, (counts.get(id) ?? 0) + 1);
-  }
-  return counts;
 }
 
 /* ---- posts --------------------------------------------------------------- */

@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "description": "twente.dev — the homepage for software developers in Twente. Bilingual (NL/EN) static community hub, blog, company directory and job board.",
+  "description": "twente.dev — the homepage for software developers in Twente. Bilingual (NL/EN) static community hub and blog.",
   "repository": {
     "type": "git",
     "url": "https://forgejo.webgrip.dev/webgrip/twente.dev.git"
@@ -26,7 +26,6 @@
     "format:check": "prettier --check .",
     "test": "node --test --experimental-strip-types \"src/lib/**/*.test.ts\"",
     "validate:content": "node --experimental-strip-types scripts/validate-content.ts",
-    "expire:jobs": "node --experimental-strip-types scripts/expire-jobs.ts",
     "deploy": "wrangler deploy",
     "deploy:preview": "wrangler versions upload"
   },

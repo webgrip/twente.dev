@@ -12,21 +12,13 @@
  */
 import '../styles/global.css';
 
-import { getCompanies, getOpenJobs, getPosts, getUpcomingEvents } from '../lib/content.ts';
+import { getPosts, getUpcomingEvents } from '../lib/content.ts';
 import EventCard from '../components/EventCard.astro';
 import PostCard from '../components/PostCard.astro';
-import JobCard from '../components/JobCard.astro';
-import CompanyCard from '../components/CompanyCard.astro';
 import Tag from '../components/Tag.astro';
 
 const [sampleEvent] = await getUpcomingEvents();
 const [samplePost] = await getPosts('en');
-const [sampleJob] = await getOpenJobs();
-const companies = await getCompanies();
-const sampleCompany = companies[0];
-const sampleJobCompany = sampleJob
-  ? companies.find((c) => c.id === sampleJob.data.company.id)
-  : undefined;
 
 const COLORS = [
   { name: 'Ink', token: '--ink', hex: '#111820', role: 'Primary type / authority' },
@@ -171,14 +163,12 @@ const SPACES = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
         <p class="sg-note">
           Hairline borders, near-square corners, mono dates, one accent edge (the flagship spine
           survives hover). Attribution credit ("Organised by …") is part of the card, not a
-          footnote. All four card species share one recipe: space-4/space-5 padding, radius-md,
+          footnote. All card species share one recipe: space-4/space-5 padding, radius-md,
           border-color transition, 2px focus offset.
         </p>
         <div class="sg-cards">
           {sampleEvent && <EventCard event={sampleEvent} locale="en" />}
           {samplePost && <PostCard post={samplePost} locale="en" />}
-          {sampleJob && <JobCard job={sampleJob} company={sampleJobCompany} locale="en" />}
-          {sampleCompany && <CompanyCard company={sampleCompany} locale="en" openJobs={1} />}
         </div>
       </section>
 

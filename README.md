@@ -52,12 +52,11 @@ canonical index; the scripts themselves are:
 | `pnpm lint` / `pnpm format` | ESLint / Prettier                                                      |
 | `pnpm test`                 | Unit tests for `src/lib`                                               |
 | `pnpm validate:content`     | Cross-entry content checks (references, duplicate slugs, translations) |
-| `pnpm expire:jobs`          | Read-only report of jobs about to lapse                                |
 
 ## How it fits together
 
 **Two locales, explicit prefixes.** Everything lives under `/nl/…` or `/en/…`; `/` redirects. Route
-_segments_ are localized too (`/nl/vacatures` ↔ `/en/jobs`), which is why URLs are always built with
+_segments_ are localized too (`/nl/bedrijven` ↔ `/en/companies`), which is why URLs are always built with
 `routePath()` from [`src/i18n/routes.ts`](src/i18n/routes.ts) and never by string-swapping a prefix.
 `hreflang` alternates come from the same table, so they cannot point at a page that was never built.
 
@@ -66,27 +65,24 @@ dictionary as `Record<UIKey, string>` against the Dutch one. Add a key to `nl` a
 `pnpm typecheck` fails. There is no runtime fallback — an English page can never silently render
 Dutch.
 
-**Content is the contribution contract.** The five collections in
+**Content is the contribution contract.** The four collections in
 [`src/content.config.ts`](src/content.config.ts) are Zod-validated at build time, so a malformed
 submission fails CI before a human reviews it. `pnpm validate:content` adds the cross-entry checks a
 per-entry schema cannot see.
 
-**Jobs and events expire by themselves.** `validThrough` is required on every job. Nothing deletes
-files; the selectors in [`src/lib/content.ts`](src/lib/content.ts) filter on the current time and the
-nightly rebuild re-runs them. That is the whole expiry mechanism.
+**Past events archive themselves.** Nothing deletes files; the selectors in
+[`src/lib/content.ts`](src/lib/content.ts) filter on the current time and the nightly rebuild
+re-runs them. That is the whole expiry mechanism.
 
 **Structured data is the distribution channel.** [`src/lib/jsonld.ts`](src/lib/jsonld.ts) emits
-`JobPosting` and `Event` JSON-LD so Google for Jobs and Google Events index the content directly.
+`Event` JSON-LD so Google Events indexes the content directly.
 It is the highest-leverage code here per line and the easiest to break silently — Google ignores
 malformed entries rather than reporting them, so check changes against the Rich Results Test.
 
 ## Content
 
-> ⚠️ The companies, jobs and events currently in `src/content/` are **fixtures** with fictional
+> ⚠️ The companies and events currently in `src/content/` are **fixtures** with fictional
 > organisations. Delete them before launch — see [`src/content/README.md`](src/content/README.md).
-
-Per the plan, the jobs section does not launch publicly until 15+ genuine listings are seeded. An
-empty job board reads as abandoned and is hard to recover from.
 
 ## Local containers
 

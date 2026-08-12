@@ -1,6 +1,5 @@
 ---
 import ProsePage from '../../templates/ProsePage.astro';
-import { routePath } from '../../i18n/routes.ts';
 import { CONTACT_EMAIL } from '../../config/site.ts';
 ---
 
@@ -8,88 +7,15 @@ import { CONTACT_EMAIL } from '../../config/site.ts';
   locale="en"
   routeKey="partners"
   title="Partners"
-  description="How organisations support twente.dev — communities, sponsors and hosts — and the safeguards that money can never buy past."
+  description="How organisations support twente.dev. We are still working out the partner model — early conversations welcome."
 >
   <p>
-    twente.dev prices access to outcomes, not to the audience. Partners fund food, venues and
-    production; in return they get visible credit, places for their people, and aggregated evidence
-    that the evening worked. What no partner gets, at any amount: attendee data, stage time,
-    exclusivity, or a say in editorial decisions.
+    Organisations will soon be able to support twente.dev as partners: food, venues and production,
+    in return for visible credit — never for attendee data, stage time or editorial influence. We
+    are working out the full partner model right now, and it will appear here.
   </p>
-
-  <h2>Communities and meetups: always free</h2>
   <p>
-    Every technology community in the region gets a free directory profile, a listing in the shared
-    calendar and a co-promotion slot — and keeps its own identity, its own member list and its own
-    stage. We never import member lists, we never rebrand someone else's event as ours, and every
-    listing links to the source. Listing an event costs nothing and never will.
-    <a href={routePath('contribute', 'en')}>List your event or community →</a>
-  </p>
-
-  <h2>Partner types</h2>
-  <dl>
-    <dt><strong>Founding partner</strong></dt>
-    <dd>
-      Launch-year support through March 2027, capped at four, no sector exclusivity. Founding
-      credit, six places per edition, one editorially reviewed practitioner story, an advisory
-      briefing and the aggregated impact report.
-    </dd>
-    <dt><strong>Event partner</strong></dt>
-    <dd>
-      Per-edition support, capped at four for edition 001. Event credit, four places, one approved
-      employee contribution and a post-event results snapshot.
-    </dd>
-    <dt><strong>Community supporter</strong></dt>
-    <dd>Two places, credit on this page, inclusion in the results report.</dd>
-    <dt><strong>Host partner</strong></dt>
-    <dd>
-      Venue or facilities in kind, valued at real avoided cost, with clear host credit and four
-      guest places.
-    </dd>
-    <dt><strong>Network partner</strong></dt>
-    <dd>
-      No fee, no commercial benefits, no invoice — mutual distribution and coordination between
-      organisations that want the same healthy ecosystem.
-    </dd>
-  </dl>
-  <p>
-    Contribution levels are agreed per edition after a short discovery call — one recommendation, no
-    menu of options. Email <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a> for the current partner
-    brief.
-  </p>
-
-  <h2>The safeguards</h2>
-  <ul>
-    <li>
-      <strong>No attendee data.</strong> Partners receive aggregated counts only — never names, never
-      contact details, never "just the ones who consented".
-    </li>
-    <li>
-      <strong>No paid speaking.</strong> Speakers are selected editorially. A partner's employee can be
-      on stage for the same reason anyone else can: a story worth telling.
-    </li>
-    <li><strong>No exclusivity.</strong> No sector locks, no "sole partner" claims.</li>
-    <li>
-      <strong>No approval rights.</strong> Partners see the programme when the community does.
-    </li>
-    <li><strong>No dependence.</strong> No single source provides more than 30% of annual cash.</li>
-  </ul>
-  <p>
-    Acceptable alternatives when a request crosses a line: employee participation, an editorially
-    reviewed field report, aggregated insight, or a host activation.
-  </p>
-
-  <h2>Transparency</h2>
-  <p>
-    We publish the partner list with the type of contribution — cash, in-kind or network — clearly
-    distinguished, an annual results summary, and a public report after every flagship event,
-    including what did not work.
-  </p>
-
-  <h2>Current partners</h2>
-  <p>
-    Partner conversations for twente.dev/001 are underway; confirmed partners appear here with their
-    contribution type. Being early has its advantages —
-    <a href={`mailto:${CONTACT_EMAIL}`}>talk to us</a>.
+    Interested in supporting already? Email
+    <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a> — being early has its advantages.
   </p>
 </ProsePage>

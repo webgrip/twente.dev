@@ -8,9 +8,16 @@ import Tag from './Tag.astro';
 interface Props {
   event: EventEntry;
   locale: Locale;
+  /**
+   * Heading level of the card title, so the card slots into any page's
+   * outline without skipping levels (h2 on list pages whose h1 is the page
+   * title; h3 under a section h2; h4 under a month h3 on the events page).
+   */
+  headingLevel?: 'h2' | 'h3' | 'h4';
 }
 
-const { event, locale } = Astro.props;
+const { event, locale, headingLevel = 'h3' } = Astro.props;
+const Heading = headingLevel;
 const t = useTranslations(locale);
 // A flagship edition's canonical home is its bespoke page, never a generated
 // detail page — one listing, synchronised everywhere.
@@ -36,15 +43,29 @@ const isFlagship = event.data.attribution === 'own';
     </time>
   </p>
 
-  <h3 class="event-title">
+  <Heading class="event-title">
     <a href={href}>{event.data.title[locale]}</a>
-  </h3>
+  </Heading>
 
   <p class="event-venue">
-    {event.data.venue.online ? 'Online' : `${event.data.venue.name}, ${event.data.venue.city}`}
+    {
+      event.data.venue.online
+        ? 'Online'
+        : event.data.venue.name
+          ? `${event.data.venue.name}, ${event.data.venue.city}`
+          : `${t('edition.venueTba')} — ${event.data.venue.city}`
+    }
   </p>
 
-  {event.data.attribution === 'listed' && <p class="event-credit">{t('events.listedBy')}</p>}
+  {
+    /* The useful attribution is who runs the event — "listed by twente.dev"
+       on twente.dev itself was a tautology. */
+    event.data.attribution === 'listed' && (
+      <p class="event-credit">
+        {t('events.organisedBy')} {event.data.organiser.name}
+      </p>
+    )
+  }
   {
     event.data.attribution === 'collaboration' && (
       <p class="event-credit">{t('events.inCollaboration')}</p>
@@ -52,6 +73,13 @@ const isFlagship = event.data.attribution === 'own';
   }
 
   <ul class="event-tags">
+    {
+      event.data.fixture && (
+        <li>
+          <Tag>{t('common.fixture')}</Tag>
+        </li>
+      )
+    }
     {
       event.data.cancelled && (
         <li>
@@ -91,10 +119,15 @@ const isFlagship = event.data.attribution === 'own';
     border-radius: var(--radius-md);
     background: var(--bg-raised);
     border-inline-start: 3px solid var(--border-strong);
+    transition: border-color var(--duration-fast) var(--ease-out);
   }
 
+  /* Hover darkens the hairline on three sides only. The `border-color`
+     shorthand would also reset the inline-start spine — erasing the flagship
+     red and the cancelled grey, the card's whole classification signal. */
   .event-card:hover {
-    border-color: var(--border-strong);
+    border-block-color: var(--border-strong);
+    border-inline-end-color: var(--border-strong);
   }
 
   .event-card:focus-within {

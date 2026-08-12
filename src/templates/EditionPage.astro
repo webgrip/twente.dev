@@ -3,7 +3,7 @@ import { getEntry } from 'astro:content';
 
 import { TIMEZONE } from '../i18n/config.ts';
 import type { Locale } from '../i18n/config.ts';
-import { formatDate } from '../i18n/utils.ts';
+import { formatDate, useTranslations } from '../i18n/utils.ts';
 import { routePath } from '../i18n/routes.ts';
 import { EDITION_001, REGISTRATION_OPENS, REGISTRATION_URL, editionName } from '../config/site.ts';
 import { eventSchema } from '../lib/jsonld.ts';
@@ -247,6 +247,7 @@ const COPY: Record<Locale, Copy> = {
 };
 
 const c = COPY[locale];
+const t = useTranslations(locale);
 const entry = await getEntry('events', 'twente-dev-001-reconnect');
 const jsonLd = entry ? [eventSchema(entry, locale)] : [];
 
@@ -261,6 +262,14 @@ const registrationOpen = REGISTRATION_URL !== null;
   jsonLd={jsonLd}
 >
   <div class="container">
+    {
+      /* Same wayfinding as every other detail page — the edition is reached
+        from the events timeline, so "back to the calendar" needs a path. */
+    }
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href={routePath('events', locale)}>{t('events.title')}</a>
+    </nav>
+
     <header class="edition-header thread-grid">
       <p class="edition-lockup label-mono" aria-hidden="true">
         <span class="lockup-name">{editionName(EDITION_001.number)}</span>
@@ -287,28 +296,22 @@ const registrationOpen = REGISTRATION_URL !== null;
           <dt>{c.factTime}</dt>
           <dd>{time(EDITION_001.doors)}–{time(EDITION_001.end)}</dd>
         </div>
+        {
+          /* Facts that also render on other surfaces (homepage, event cards)
+             come from ui.ts, so one edit updates every surface — the inline
+             ternaries here had already drifted from the homepage's copy. */
+        }
         <div>
           <dt>{c.factVenue}</dt>
-          <dd>
-            {
-              EDITION_001.venue ??
-                `${EDITION_001.city} — ${locale === 'nl' ? 'locatie volgt' : 'venue to be announced'}`
-            }
-          </dd>
+          <dd>{EDITION_001.venue ?? `${EDITION_001.city} — ${t('edition.venueTba')}`}</dd>
         </div>
         <div>
           <dt>{c.factLanguage}</dt>
-          <dd>
-            {
-              locale === 'nl'
-                ? 'Vooral Engels; Nederlands welkom'
-                : 'Primarily English; Dutch welcome'
-            }
-          </dd>
+          <dd>{t('edition.language')}</dd>
         </div>
         <div>
           <dt>{c.factCost}</dt>
-          <dd>{locale === 'nl' ? 'Gratis' : 'Free'}</dd>
+          <dd>{t('edition.free')}</dd>
         </div>
       </dl>
 
@@ -420,7 +423,7 @@ const registrationOpen = REGISTRATION_URL !== null;
     gap: var(--space-1);
     padding: var(--space-4) var(--space-5);
     background: var(--signal-red);
-    color: #ffffff;
+    color: var(--accent-fg);
     border-radius: var(--radius-md);
   }
 
@@ -461,13 +464,13 @@ const registrationOpen = REGISTRATION_URL !== null;
   .facts dt {
     font-size: var(--text-xs);
     text-transform: uppercase;
-    letter-spacing: 0.06em;
+    letter-spacing: var(--tracking-caps);
     color: var(--fg-subtle);
   }
 
   .facts dd {
     margin: var(--space-1) 0 0;
-    font-weight: 600;
+    font-weight: var(--weight-semibold);
     font-variant-numeric: tabular-nums;
   }
 
@@ -540,7 +543,7 @@ const registrationOpen = REGISTRATION_URL !== null;
 
   .is-isnot ul {
     margin: 0;
-    padding-inline-start: 1.2em;
+    padding-inline-start: var(--space-5);
   }
 
   .is-isnot li {
@@ -579,37 +582,10 @@ const registrationOpen = REGISTRATION_URL !== null;
     margin-block-start: var(--space-3);
   }
 
-  .button {
-    display: inline-flex;
-    align-items: center;
-    min-height: 3rem;
-    padding-inline: var(--space-5);
-    border-radius: var(--radius-md);
-    border: var(--border-width) solid var(--fg);
-    background: transparent;
-    color: var(--fg);
-    font-family: var(--font-mono);
+  .breadcrumb {
     font-size: var(--text-sm);
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: var(--tracking-label);
-    text-decoration: none;
+    padding-block-start: var(--space-4);
   }
 
-  .button:hover {
-    background: var(--fg);
-    color: var(--bg);
-  }
-
-  .button--primary {
-    background: var(--accent);
-    border-color: var(--accent);
-    color: var(--accent-fg);
-  }
-
-  .button--primary:hover {
-    background: var(--accent-fill-hover);
-    border-color: var(--accent-fill-hover);
-    color: var(--accent-fg);
-  }
+  /* .button / .button--primary come from global.css — one recipe, no copies. */
 </style>

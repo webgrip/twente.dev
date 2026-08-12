@@ -1,6 +1,7 @@
 ---
 import type { Locale } from '../i18n/config.ts';
 import { useTranslations } from '../i18n/utils.ts';
+import { routePath } from '../i18n/routes.ts';
 import { getCommunities } from '../lib/content.ts';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHeader from '../components/PageHeader.astro';
@@ -14,6 +15,21 @@ const { locale } = Astro.props;
 const t = useTranslations(locale);
 
 const communities = await getCommunities();
+
+/**
+ * Platform names are proper nouns, so no translation — but the enum's storage
+ * values are lowercase, and `other` is meaningless to a visitor. A card with
+ * no platform chip communicates more than a chip saying "other".
+ */
+const PLATFORM_LABELS: Record<string, string | null> = {
+  discord: 'Discord',
+  slack: 'Slack',
+  matrix: 'Matrix',
+  telegram: 'Telegram',
+  meetup: 'Meetup',
+  forum: 'Forum',
+  other: null,
+};
 ---
 
 <BaseLayout
@@ -30,13 +46,22 @@ const communities = await getCommunities();
     />
 
     <ul class="community-list">
-      {communities.length === 0 && <li class="empty">{t('communities.empty')}</li>}
+      {
+        communities.length === 0 && (
+          <li class="empty">
+            {t('communities.empty')}{' '}
+            <a href={routePath('contribute', locale)}>{t('communities.submit')}</a>
+          </li>
+        )
+      }
       {
         communities.map((community) => (
           <li class="community">
             <div class="community-head">
               <h2>{community.data.name}</h2>
-              <Tag variant="muted">{community.data.platform}</Tag>
+              {PLATFORM_LABELS[community.data.platform] && (
+                <Tag variant="muted">{PLATFORM_LABELS[community.data.platform]}</Tag>
+              )}
               <Tag variant="muted">
                 {community.data.language === 'both'
                   ? 'NL / EN'
@@ -44,7 +69,14 @@ const communities = await getCommunities();
               </Tag>
             </div>
             <p class="community-desc">{community.data.description[locale]}</p>
-            <a class="community-link" href={community.data.url} rel="noopener">
+            {/* Ten identical "Word lid →" entries in a screen-reader links
+                list are indistinguishable; the aria-label names the target. */}
+            <a
+              class="community-link"
+              href={community.data.url}
+              rel="noopener"
+              aria-label={`${t('communities.join')} — ${community.data.name}`}
+            >
               {t('communities.join')} →
             </a>
           </li>
@@ -64,12 +96,17 @@ const communities = await getCommunities();
   }
 
   .community {
-    padding: var(--space-4);
+    padding: var(--space-4) var(--space-5);
     border: var(--border-width) solid var(--border);
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-md);
     background: var(--bg-raised);
     display: grid;
     gap: var(--space-3);
+    transition: border-color var(--duration-fast) var(--ease-out);
+  }
+
+  .community:hover {
+    border-color: var(--border-strong);
   }
 
   .community-head {

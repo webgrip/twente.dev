@@ -1,6 +1,7 @@
 ---
 import type { Locale } from '../i18n/config.ts';
 import { useTranslations } from '../i18n/utils.ts';
+import { routePath } from '../i18n/routes.ts';
 import { getPosts } from '../lib/content.ts';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHeader from '../components/PageHeader.astro';
@@ -30,8 +31,14 @@ const posts = await getPosts(locale);
     />
 
     <div class="post-list">
-      {posts.length === 0 && <p class="empty">{t('blog.empty')}</p>}
-      {posts.map((post) => <PostCard post={post} locale={locale} />)}
+      {
+        posts.length === 0 && (
+          <p class="empty">
+            {t('blog.empty')} <a href={routePath('contribute', locale)}>{t('blog.emptyCta')}</a>
+          </p>
+        )
+      }
+      {posts.map((post) => <PostCard post={post} locale={locale} headingLevel="h2" />)}
     </div>
   </div>
 </BaseLayout>

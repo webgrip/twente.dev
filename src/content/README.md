@@ -10,6 +10,12 @@ Every company, job, event and community file in this directory is a **placeholde
 exercise the schemas and give the layouts something to render. The organisations are fictional
 ("Example Labs", "Demo Systems B.V.", "Sample Interactive").
 
+Fixtures carry `fixture: true` in their data — the schemas render a visible
+"Voorbeelddata / Example data" tag on every card and detail page so a preview visitor cannot
+mistake them for real listings, and `pnpm validate:content` flags them (a hard failure when
+`REQUIRE_REAL_CONTENT=1`, the launch-commit gate). A `# FIXTURE` comment alone is not enough:
+comments don't survive into the build, the schema field does.
+
 **Delete all of them before launch.** Real entries arrive through the contribution pipeline
 (`CONTRIBUTING.md`), never by inventing them. Publishing invented vacancies attributed to real
 regional employers would be both misleading and a fast way to lose the community's trust — which is
@@ -38,3 +44,8 @@ through direct outreach. Content lead time, not code, gates that launch.
   visible in review.
 - **Never machine-translate prose without review.** For posts, shipping a single language plus the
   "only available in …" notice is the correct outcome.
+- **Venue names are proper nouns.** `venue.name` cannot be localized, so keep it to the venue's
+  actual name — no descriptive words like "kantoor"/"office". Leave it out entirely while the
+  venue is unknown; templates render the localized "Locatie volgt" / "Venue to be announced".
+- **Bump `updatedAt` on events when a fact changes.** It drives `SEQUENCE`/`LAST-MODIFIED` in the
+  ICS feed — without a bump, Outlook subscribers never see the edit (including cancellations).

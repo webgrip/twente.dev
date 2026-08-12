@@ -22,3 +22,5 @@ description:
 socials:
   website: https://example.org
   linkedin: https://www.linkedin.com/company/example
+
+fixture: true

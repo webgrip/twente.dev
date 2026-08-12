@@ -1,7 +1,9 @@
 ---
+import { LOCALE_TAGS } from '../i18n/config.ts';
 import type { Locale } from '../i18n/config.ts';
 import { formatDate, useTranslations } from '../i18n/utils.ts';
 import { routePath } from '../i18n/routes.ts';
+import { summarize } from '../lib/content.ts';
 import type { CompanyEntry, JobEntry } from '../lib/content.ts';
 import { breadcrumbSchema, jobPostingSchema } from '../lib/jsonld.ts';
 import BaseLayout from '../layouts/BaseLayout.astro';
@@ -25,7 +27,20 @@ const workplaceLabel = {
 const languageLabel =
   job.data.languageRequirement === 'dutch-required' ? t('jobs.dutchRequired') : t('jobs.englishOk');
 
+// Schema enums are storage values; every rendered string goes through ui.ts.
+const employmentLabel = t(`jobs.employment.${job.data.employmentType}`);
+const seniorityLabel = t(`jobs.seniority.${job.data.seniority}`);
+
 const salary = job.data.salary;
+
+/**
+ * Salary in the *reader's* number format. Hardcoded nl-NL rendered
+ * "€5.200 / mnd" on the English page — which an en-GB reader parses as five
+ * euros twenty — and "mnd" is a Dutch abbreviation ui.ts can't translate.
+ */
+const salaryLabel = salary
+  ? `€${salary.min.toLocaleString(LOCALE_TAGS[locale])} – €${salary.max.toLocaleString(LOCALE_TAGS[locale])} ${salary.period === 'MONTH' ? t('jobs.salaryPerMonth') : t('jobs.salaryPerYear')}`
+  : t('jobs.salaryUndisclosed');
 
 const jsonLd = [
   jobPostingSchema(job, company, locale),
@@ -42,7 +57,7 @@ const jsonLd = [
   routeKey="jobs"
   slug={job.id}
   title={`${job.data.title[locale]} — ${company.data.name}`}
-  description={job.data.description[locale].slice(0, 200)}
+  description={summarize(job.data.description[locale])}
   jsonLd={jsonLd}
 >
   <div class="container detail">
@@ -57,10 +72,17 @@ const jsonLd = [
       </p>
 
       <ul class="facts">
+        {
+          job.data.fixture && (
+            <li>
+              <Tag>{t('common.fixture')}</Tag>
+            </li>
+          )
+        }
         <li><Tag>{job.data.city}</Tag></li>
         <li><Tag>{workplaceLabel}</Tag></li>
-        <li><Tag>{job.data.employmentType}</Tag></li>
-        <li><Tag>{job.data.seniority}</Tag></li>
+        <li><Tag>{employmentLabel}</Tag></li>
+        <li><Tag>{seniorityLabel}</Tag></li>
         <li>
           <Tag variant={job.data.languageRequirement === 'english-ok' ? 'accent' : 'default'}>
             {languageLabel}
@@ -88,13 +110,7 @@ const jsonLd = [
       <aside class="sidebar">
         <dl>
           <dt>{t('jobs.salary')}</dt>
-          <dd>
-            {
-              salary
-                ? `€${salary.min.toLocaleString('nl-NL')} – €${salary.max.toLocaleString('nl-NL')} / ${salary.period === 'MONTH' ? 'mnd' : 'jr'}`
-                : t('jobs.salaryUndisclosed')
-            }
-          </dd>
+          <dd>{salaryLabel}</dd>
 
           <dt>{t('jobs.postedOn')}</dt>
           <dd>
@@ -111,7 +127,9 @@ const jsonLd = [
           </dd>
         </dl>
 
-        <a class="apply" href={job.data.applyUrl} rel="noopener">{t('jobs.apply')} →</a>
+        <a class="button button--primary apply" href={job.data.applyUrl} rel="noopener"
+          >{t('jobs.apply')} →</a
+        >
       </aside>
     </div>
   </div>
@@ -179,29 +197,18 @@ const jsonLd = [
     font-size: var(--text-xs);
     color: var(--fg-subtle);
     text-transform: uppercase;
-    letter-spacing: 0.04em;
+    letter-spacing: var(--tracking-caps);
   }
 
   dd {
     margin: 0 0 var(--space-3);
-    font-weight: 550;
+    font-weight: var(--weight-medium);
   }
 
+  /* Visuals come from the shared .button--primary; only layout is local. */
   .apply {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 2.75rem;
+    width: 100%;
     margin-block-start: var(--space-2);
-    border-radius: var(--radius-md);
-    background: var(--accent);
-    color: var(--accent-fg);
-    font-weight: 600;
-    text-decoration: none;
-  }
-
-  .apply:hover {
-    background: var(--accent-hover);
-    color: var(--accent-fg);
   }
 </style>

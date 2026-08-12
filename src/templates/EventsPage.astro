@@ -2,6 +2,7 @@
 import { LOCALE_TAGS, TIMEZONE } from '../i18n/config.ts';
 import type { Locale } from '../i18n/config.ts';
 import { useTranslations } from '../i18n/utils.ts';
+import { routePath } from '../i18n/routes.ts';
 import { getPastEvents, getUpcomingEvents } from '../lib/content.ts';
 import type { EventEntry } from '../lib/content.ts';
 import BaseLayout from '../layouts/BaseLayout.astro';
@@ -81,7 +82,13 @@ const GOOGLE_CALENDAR_URL = `https://calendar.google.com/calendar/r?cid=${encode
     </PageHeader>
 
     <h2 class="visually-hidden">{t('events.upcoming')}</h2>
-    {upcoming.length === 0 && <p class="empty">{t('events.empty')}</p>}
+    {
+      upcoming.length === 0 && (
+        <p class="empty">
+          {t('events.empty')} <a href={routePath('contribute', locale)}>{t('events.emptyCta')}</a>
+        </p>
+      )
+    }
 
     <div class="timeline">
       {
@@ -93,7 +100,7 @@ const GOOGLE_CALENDAR_URL = `https://calendar.google.com/calendar/r?cid=${encode
             </h3>
             <div class="event-grid">
               {group.events.map((event) => (
-                <EventCard event={event} locale={locale} />
+                <EventCard event={event} locale={locale} headingLevel="h4" />
               ))}
             </div>
           </section>
@@ -114,7 +121,7 @@ const GOOGLE_CALENDAR_URL = `https://calendar.google.com/calendar/r?cid=${encode
                 </h3>
                 <div class="event-grid">
                   {group.events.map((event) => (
-                    <EventCard event={event} locale={locale} />
+                    <EventCard event={event} locale={locale} headingLevel="h4" />
                   ))}
                 </div>
               </section>

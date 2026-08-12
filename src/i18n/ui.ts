@@ -37,12 +37,9 @@ export const nl = {
   'nav.skipToContent': 'Naar hoofdinhoud',
   'nav.menu': 'Menu',
 
-  'locale.switch': 'Taal wijzigen',
-  'locale.current': 'Huidige taal',
-
   'theme.toggle': 'Thema wisselen',
-  'theme.light': 'Licht',
-  'theme.dark': 'Donker',
+  'theme.toDark': 'Schakel naar donker thema',
+  'theme.toLight': 'Schakel naar licht thema',
 
   'home.hero.title':
     'Twente bouwt opmerkelijke technologie. Laten we de mensen erachter beter vindbaar maken.',
@@ -70,11 +67,9 @@ export const nl = {
 
   'edition.venueTba': 'Locatie volgt',
   'edition.language': 'Voertaal vooral Engels; Nederlands welkom',
-  'edition.doorsFood': 'Inloop en eten vanaf',
-  'edition.programme': 'programma',
-  'edition.hardFinish': 'strakke eindtijd',
   'edition.registrationOpens': 'Aanmelden opent',
   'edition.details': 'Alles over twente.dev/001',
+  'edition.free': 'Gratis',
 
   'newsletter.subscribe': 'Aanmelden',
   'newsletter.mailFallback': 'Mail ons om aan te haken',
@@ -84,7 +79,8 @@ export const nl = {
     'Meetups, conferenties en workshops voor techmakers in Twente. Abonneer je op de agenda en mis niets.',
   'events.upcoming': 'Aankomend',
   'events.past': 'Geweest',
-  'events.empty': 'Nog geen events gepland. Ken je er een? Laat het ons weten.',
+  'events.empty': 'Nog geen events gepland.',
+  'events.emptyCta': 'Ken je er een? Meld het aan',
   'events.subscribe': 'Abonneer op de agenda',
   'events.subscribeHint':
     'Eén abonnement, altijd actueel — nieuwe en gewijzigde events verschijnen vanzelf in je agenda.',
@@ -112,30 +108,47 @@ export const nl = {
   'jobs.englishOk': 'Engels volstaat',
   'jobs.salary': 'Salaris',
   'jobs.salaryUndisclosed': 'Niet vermeld',
+  'jobs.salaryPerMonth': 'per maand',
+  'jobs.salaryPerYear': 'per jaar',
+  'jobs.seniority.junior': 'junior',
+  'jobs.seniority.medior': 'medior',
+  'jobs.seniority.senior': 'senior',
+  'jobs.seniority.lead': 'lead',
+  'jobs.seniority.any': 'alle niveaus',
+  'jobs.employment.full-time': 'voltijd',
+  'jobs.employment.part-time': 'deeltijd',
+  'jobs.employment.contract': 'contract',
+  'jobs.employment.internship': 'stage',
+  'jobs.employment.temporary': 'tijdelijk',
+  'jobs.count.one': 'vacature',
+  'jobs.count.other': 'vacatures',
   'jobs.submit': 'Plaats een vacature',
+  'jobs.submitHint': 'Gratis voor werkgevers uit de regio — lees eerst de richtlijnen.',
 
   'companies.title': 'Bedrijven',
-  'companies.description':
-    'Welke bedrijven in Twente bouwen software, en waarmee? Doorzoek de regio op techstack, locatie en omvang.',
+  'companies.description': 'Welke bedrijven in Twente bouwen software, en waarmee?',
   'companies.empty': 'Nog geen bedrijven in de directory.',
   'companies.hiring': 'Werft actief',
   'companies.stack': 'Techstack',
   'companies.size': 'Omvang',
   'companies.locations': 'Locaties',
   'companies.website': 'Website',
+  'companies.openJob': 'Open vacature',
   'companies.openJobs': 'Open vacatures',
   'companies.submit': 'Voeg je bedrijf toe',
+  'companies.submitHint': 'Bouwt je bedrijf software in Twente? Een vermelding is gratis.',
 
   'communities.title': 'Communities',
   'communities.description':
     'Discords, Slacks, user groups en andere plekken waar Twentse techmakers samenkomen.',
   'communities.empty': 'Nog geen communities toegevoegd.',
+  'communities.submit': 'Voeg je community toe',
   'communities.join': 'Word lid',
 
   'blog.title': 'Blog',
   'blog.description': 'Field notes, portretten en open calls uit de Twentse techcommunity.',
   'blog.empty': 'Nog geen artikelen.',
-  'blog.readMore': 'Lees verder',
+  'blog.emptyCta': 'Draag een verhaal bij',
   'blog.readingTime': 'min leestijd',
   'blog.publishedOn': 'Gepubliceerd op',
   'blog.updatedOn': 'Bijgewerkt op',
@@ -151,13 +164,10 @@ export const nl = {
   'search.placeholder': 'Zoek op de site…',
   'search.noResults': 'Geen resultaten gevonden.',
   'search.description':
-    'Doorzoek alles op twente.dev: events, communities, artikelen en pagina’s, in beide talen.',
+    'Doorzoek alles op twente.dev: events, communities, artikelen en pagina’s in het Nederlands.',
+  'search.otherLocale': 'Engelstalige inhoud? Zoek in het Engels',
   'search.unavailable':
-    'Zoeken werkt alleen op de gebouwde site — draai `just preview` of bezoek twente.dev.',
-
-  'filter.all': 'Alles',
-  'filter.clear': 'Filters wissen',
-  'filter.results': 'resultaten',
+    'Zoeken vereist JavaScript. Bekijk anders de events, communities of het blog.',
 
   'footer.tagline': 'Een onafhankelijke, practitioner-led techcommunity voor Twente.',
   'footer.contribute': 'Bijdragen',
@@ -167,7 +177,6 @@ export const nl = {
   'footer.privacy': 'Privacy',
   'footer.conduct': 'Gedragscode',
   'footer.press': 'Pers',
-  'footer.partners': 'Partners',
   'footer.builtBy': 'Onderhouden door',
   'footer.explore': 'Verder op de site',
 
@@ -175,10 +184,8 @@ export const nl = {
   'error.404.body': 'Deze pagina bestaat niet (meer). Misschien is de link verouderd.',
   'error.404.home': 'Terug naar home',
 
-  'meta.updatedAt': 'Laatst bijgewerkt',
-  'common.readMore': 'Lees verder',
   'common.viewAll': 'Bekijk alles',
-  'common.optional': 'optioneel',
+  'common.fixture': 'Voorbeelddata',
 } as const;
 
 export type UIKey = keyof typeof nl;
@@ -204,12 +211,9 @@ export const en: Record<UIKey, string> = {
   'nav.skipToContent': 'Skip to main content',
   'nav.menu': 'Menu',
 
-  'locale.switch': 'Change language',
-  'locale.current': 'Current language',
-
   'theme.toggle': 'Toggle theme',
-  'theme.light': 'Light',
-  'theme.dark': 'Dark',
+  'theme.toDark': 'Switch to dark theme',
+  'theme.toLight': 'Switch to light theme',
 
   'home.hero.title':
     "Twente builds remarkable technology. Let's make the people behind it easier to find.",
@@ -237,11 +241,9 @@ export const en: Record<UIKey, string> = {
 
   'edition.venueTba': 'Venue to be announced',
   'edition.language': 'Primarily English; Dutch welcome',
-  'edition.doorsFood': 'Doors and food from',
-  'edition.programme': 'programme',
-  'edition.hardFinish': 'hard finish',
   'edition.registrationOpens': 'Registration opens',
   'edition.details': 'Everything about twente.dev/001',
+  'edition.free': 'Free',
 
   'newsletter.subscribe': 'Subscribe',
   'newsletter.mailFallback': 'Email us to be added',
@@ -251,7 +253,8 @@ export const en: Record<UIKey, string> = {
     'Meetups, conferences and workshops for people who build technology in Twente. Subscribe to the calendar and never miss one.',
   'events.upcoming': 'Upcoming',
   'events.past': 'Past',
-  'events.empty': 'No events scheduled yet. Know of one? Let us know.',
+  'events.empty': 'No events scheduled yet.',
+  'events.emptyCta': 'Know of one? List it',
   'events.subscribe': 'Subscribe to the calendar',
   'events.subscribeHint':
     'One subscription, always current — new and changed events appear in your calendar by themselves.',
@@ -279,31 +282,48 @@ export const en: Record<UIKey, string> = {
   'jobs.englishOk': 'English is fine',
   'jobs.salary': 'Salary',
   'jobs.salaryUndisclosed': 'Not disclosed',
+  'jobs.salaryPerMonth': 'per month',
+  'jobs.salaryPerYear': 'per year',
+  'jobs.seniority.junior': 'junior',
+  'jobs.seniority.medior': 'mid-level',
+  'jobs.seniority.senior': 'senior',
+  'jobs.seniority.lead': 'lead',
+  'jobs.seniority.any': 'any level',
+  'jobs.employment.full-time': 'full-time',
+  'jobs.employment.part-time': 'part-time',
+  'jobs.employment.contract': 'contract',
+  'jobs.employment.internship': 'internship',
+  'jobs.employment.temporary': 'temporary',
+  'jobs.count.one': 'job',
+  'jobs.count.other': 'jobs',
   'jobs.submit': 'Post a job',
+  'jobs.submitHint': 'Free for employers from the region — read the guidelines first.',
 
   'companies.title': 'Companies',
-  'companies.description':
-    'Which companies in Twente build software, and with what? Search the region by tech stack, location and size.',
+  'companies.description': 'Which companies in Twente build software, and with what?',
   'companies.empty': 'No companies in the directory yet.',
   'companies.hiring': 'Actively hiring',
   'companies.stack': 'Tech stack',
   'companies.size': 'Size',
   'companies.locations': 'Locations',
   'companies.website': 'Website',
+  'companies.openJob': 'Open job',
   'companies.openJobs': 'Open jobs',
   'companies.submit': 'Add your company',
+  'companies.submitHint': 'Does your company build software in Twente? A listing is free.',
 
   'communities.title': 'Communities',
   'communities.description':
     'Discords, Slacks, user groups and other places where people who build technology in Twente gather.',
   'communities.empty': 'No communities added yet.',
+  'communities.submit': 'Add your community',
   'communities.join': 'Join',
 
   'blog.title': 'Blog',
   'blog.description':
     'Field notes, builder profiles and open calls from the Twente tech community.',
   'blog.empty': 'No articles yet.',
-  'blog.readMore': 'Read more',
+  'blog.emptyCta': 'Contribute a story',
   'blog.readingTime': 'min read',
   'blog.publishedOn': 'Published on',
   'blog.updatedOn': 'Updated on',
@@ -319,13 +339,10 @@ export const en: Record<UIKey, string> = {
   'search.placeholder': 'Search the site…',
   'search.noResults': 'No results found.',
   'search.description':
-    'Search everything on twente.dev: events, communities, articles and pages, in both languages.',
+    'Search everything on twente.dev: events, communities, articles and pages in English.',
+  'search.otherLocale': 'Dutch content? Search in Dutch',
   'search.unavailable':
-    'Search only works on the built site — run `just preview` or visit twente.dev.',
-
-  'filter.all': 'All',
-  'filter.clear': 'Clear filters',
-  'filter.results': 'results',
+    'Search requires JavaScript. Browse the events, communities or the blog instead.',
 
   'footer.tagline': 'An independent, practitioner-led technology community for Twente.',
   'footer.contribute': 'Contribute',
@@ -335,7 +352,6 @@ export const en: Record<UIKey, string> = {
   'footer.privacy': 'Privacy',
   'footer.conduct': 'Code of conduct',
   'footer.press': 'Press',
-  'footer.partners': 'Partners',
   'footer.builtBy': 'Maintained by',
   'footer.explore': 'Elsewhere on the site',
 
@@ -343,10 +359,8 @@ export const en: Record<UIKey, string> = {
   'error.404.body': 'This page does not exist (any more). The link may be out of date.',
   'error.404.home': 'Back to home',
 
-  'meta.updatedAt': 'Last updated',
-  'common.readMore': 'Read more',
   'common.viewAll': 'View all',
-  'common.optional': 'optional',
+  'common.fixture': 'Example data',
 };
 
 export const UI = { nl, en } as const;

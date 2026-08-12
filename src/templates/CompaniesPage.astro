@@ -1,7 +1,9 @@
 ---
 import type { Locale } from '../i18n/config.ts';
 import { useTranslations } from '../i18n/utils.ts';
+import { routePath } from '../i18n/routes.ts';
 import { getCompanies, getOpenJobCountByCompany } from '../lib/content.ts';
+import { CONTACT_EMAIL } from '../config/site.ts';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHeader from '../components/PageHeader.astro';
 import CompanyCard from '../components/CompanyCard.astro';
@@ -30,17 +32,36 @@ const [companies, jobCounts] = await Promise.all([getCompanies(), getOpenJobCoun
     />
 
     <div class="company-grid">
-      {companies.length === 0 && <p class="empty">{t('companies.empty')}</p>}
+      {
+        companies.length === 0 && (
+          <p class="empty">
+            {t('companies.empty')} <a href={`mailto:${CONTACT_EMAIL}`}>{t('companies.submit')}</a>
+          </p>
+        )
+      }
       {
         companies.map((company) => (
           <CompanyCard
             company={company}
             locale={locale}
             openJobs={jobCounts.get(company.id) ?? 0}
+            headingLevel="h2"
           />
         ))
       }
     </div>
+
+    <aside class="submit-cta">
+      <p>
+        <strong>{t('companies.submit')}?</strong>
+        {t('companies.submitHint')}
+      </p>
+      <p>
+        <a href={routePath('guidelines', locale)}>{t('nav.guidelines')}</a>
+        {' · '}
+        <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
+      </p>
+    </aside>
   </div>
 </BaseLayout>
 
@@ -64,5 +85,19 @@ const [companies, jobCounts] = await Promise.all([getCompanies(), getOpenJobCoun
 
   .empty {
     color: var(--fg-muted);
+  }
+
+  .submit-cta {
+    margin-block-start: var(--space-7);
+    padding: var(--space-4) var(--space-5);
+    border: var(--border-width) solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--bg-subtle);
+    color: var(--fg-muted);
+    font-size: var(--text-sm);
+  }
+
+  .submit-cta p + p {
+    margin-block-start: var(--space-2);
   }
 </style>

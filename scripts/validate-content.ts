@@ -168,7 +168,17 @@ for (const [dir, files] of [
 ] as const) {
   for (const file of files) {
     const raw = await readFile(join(CONTENT, dir, file), 'utf8');
-    if (raw.includes('FIXTURE')) fixtureFiles.push(`${dir}/${file}`);
+    const data = parse(raw) as Record<string, unknown> | null;
+    // The schema field is the source of truth (comments don't survive into
+    // the data pipeline, and templates render a visible "Voorbeelddata" tag
+    // from it); the FIXTURE comment scan stays as a belt-and-braces check
+    // for an entry that was invented but never flagged.
+    if (data?.fixture === true || raw.includes('FIXTURE')) {
+      fixtureFiles.push(`${dir}/${file}`);
+      if (data?.fixture !== true && raw.includes('FIXTURE')) {
+        fail(`${dir}/${file}`, 'FIXTURE comment without `fixture: true` — add the schema field');
+      }
+    }
   }
 }
 

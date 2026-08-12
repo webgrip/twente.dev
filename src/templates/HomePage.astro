@@ -8,6 +8,7 @@ import {
   EDITION_001,
   NEWSLETTER_URL,
   REGISTRATION_OPENS,
+  REGISTRATION_URL,
   editionName,
 } from '../config/site.ts';
 import BaseLayout from '../layouts/BaseLayout.astro';
@@ -44,12 +45,22 @@ const motto = `twente.dev / ${t('site.tagline').toLowerCase()}`;
 >
   <div class="hero thread-grid">
     <div class="container">
-      <p class="label-mono hero-motto">{motto}</p>
+      {
+        /* The motto is deliberate English branding on both locales; the lang
+          attribute keeps screen readers from reading it with Dutch rules
+          (SC 3.1.2 Language of Parts). */
+      }
+      <p class="label-mono hero-motto" lang="en">{motto}</p>
       <h1 class="text-display">{t('home.hero.title')}</h1>
       <p class="hero-subtitle">{t('home.hero.subtitle')}</p>
       <div class="hero-actions">
+        {
+          /* Until registration opens the button must not promise "reserve a
+             place" — the very first click on the site's most prominent CTA
+             would end in "you can't do this yet". */
+        }
         <a class="button button--primary" href={routePath('edition001', locale)}>
-          {t('home.hero.ctaReserve')}
+          {REGISTRATION_URL ? t('home.hero.ctaReserve') : t('edition.details')}
         </a>
         <a class="button" href={routePath('contribute', locale)}>
           {t('home.hero.ctaContribute')}
@@ -67,16 +78,21 @@ const motto = `twente.dev / ${t('site.tagline').toLowerCase()}`;
     <section class="next-edition" aria-labelledby="next-edition-title">
       <p class="label-mono kicker">{t('home.next.kicker')}</p>
       <h2 id="next-edition-title">{edition}</h2>
+      {
+        /* Separators are explicit strings: Astro collapses the whitespace
+          around expression boundaries, which rendered "Locatie volgt ·Gratis". */
+      }
       <p class="edition-facts label-mono">
         <time datetime={EDITION_001.doors.toISOString()}>
           {formatDate(EDITION_001.doors, locale)}
         </time>
-        {' · 18:00–21:30 · '}{EDITION_001.city} · {EDITION_001.venue ?? t('edition.venueTba')} ·
-        {t('events.free')}
+        {' · 18:00–21:30 · '}{EDITION_001.city}{' · '}{EDITION_001.venue ?? t('edition.venueTba')}{
+          ' · '
+        }{t('edition.free')}
       </p>
       <p class="edition-language">{t('edition.language')}</p>
       <p class="edition-registration">
-        {t('edition.registrationOpens')}
+        {t('edition.registrationOpens')}{' '}
         <strong>
           <time datetime={REGISTRATION_OPENS.toISOString()}>
             {formatDate(REGISTRATION_OPENS, locale)}
@@ -97,7 +113,15 @@ const motto = `twente.dev / ${t('site.tagline').toLowerCase()}`;
       linkHref={routePath('events', locale)}
       linkLabel={t('home.events.all')}
     >
-      {events.length === 0 && <p class="empty">{t('events.empty')}</p>}
+      {
+        /* Empty states carry their contribution route — on a young site they
+           are the primary recruitment surface, not a dead end. */
+        events.length === 0 && (
+          <p class="empty">
+            {t('events.empty')} <a href={routePath('contribute', locale)}>{t('events.emptyCta')}</a>
+          </p>
+        )
+      }
       {events.slice(0, 4).map((event) => <EventCard event={event} locale={locale} />)}
     </Section>
 
@@ -114,7 +138,13 @@ const motto = `twente.dev / ${t('site.tagline').toLowerCase()}`;
       linkLabel={t('home.posts.all')}
       columns={1}
     >
-      {posts.length === 0 && <p class="empty">{t('blog.empty')}</p>}
+      {
+        posts.length === 0 && (
+          <p class="empty">
+            {t('blog.empty')} <a href={routePath('contribute', locale)}>{t('blog.emptyCta')}</a>
+          </p>
+        )
+      }
       {posts.slice(0, 3).map((post) => <PostCard post={post} locale={locale} />)}
     </Section>
 
@@ -196,45 +226,13 @@ const motto = `twente.dev / ${t('site.tagline').toLowerCase()}`;
     font-weight: 550;
   }
 
+  /* Metadata numerals, not actions — they stay in the grey ramp so the
+     hero's red budget belongs to the edge and the primary button. */
   .outcome-index {
-    color: var(--accent-strong);
+    color: var(--fg-subtle);
   }
 
-  .button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 3rem;
-    padding-inline: var(--space-5);
-    border-radius: var(--radius-md);
-    border: var(--border-width) solid var(--fg);
-    background: transparent;
-    color: var(--fg);
-    font-family: var(--font-mono);
-    font-size: var(--text-sm);
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: var(--tracking-label);
-    text-decoration: none;
-  }
-
-  .button:hover {
-    background: var(--fg);
-    color: var(--bg);
-  }
-
-  /* The page's one red signal: the action that fills the room. */
-  .button--primary {
-    background: var(--accent);
-    border-color: var(--accent);
-    color: var(--accent-fg);
-  }
-
-  .button--primary:hover {
-    background: var(--accent-fill-hover);
-    border-color: var(--accent-fill-hover);
-    color: var(--accent-fg);
-  }
+  /* .button / .button--primary come from global.css — one recipe, no copies. */
 
   .kicker {
     color: var(--fg-subtle);

@@ -16,13 +16,16 @@ interface Props {
 const { locale, current, slug } = Astro.props;
 const t = useTranslations(locale);
 
-// Order mirrors the playbook's information architecture: events and
-// community lead; the directory sections are reachable via the footer.
+// Order mirrors the playbook's information architecture: events and community
+// lead, then work (jobs, companies) — two of the site's core offerings, so
+// they live in the primary nav, not the footer. Partners is a B2B page most
+// visitors never need; it moved to the footer.
 const navItems: { key: RouteKey; label: string }[] = [
   { key: 'events', label: t('nav.events') },
+  { key: 'jobs', label: t('nav.jobs') },
+  { key: 'companies', label: t('nav.companies') },
   { key: 'blog', label: t('nav.blog') },
   { key: 'communities', label: t('nav.communities') },
-  { key: 'partners', label: t('nav.partners') },
   { key: 'contribute', label: t('nav.contribute') },
   { key: 'search', label: t('search.label') },
 ];

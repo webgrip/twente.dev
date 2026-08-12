@@ -19,3 +19,5 @@ description:
     dashboards. Deliberately runs on Elixir and enjoys talking about it at meetups.
 socials:
   website: https://example.net
+
+fixture: true

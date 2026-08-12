@@ -1,6 +1,7 @@
 ---
 import type { Locale } from '../i18n/config.ts';
-import { useTranslations } from '../i18n/utils.ts';
+import { otherLocales, useTranslations } from '../i18n/utils.ts';
+import { routePath } from '../i18n/routes.ts';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHeader from '../components/PageHeader.astro';
 
@@ -22,7 +23,9 @@ const t = useTranslations(locale);
 
 // Pagefind indexed the pages under their BCP 47 lang tags (nl-NL / en-GB);
 // constraining results to the current locale keeps the two language trees
-// from bleeding into each other's results.
+// from bleeding into each other's results. The page copy says so honestly
+// ("in het Nederlands" / "in English") and cross-links the other locale's
+// search — it used to promise "both languages", which this config never did.
 const pagefindConfig = {
   element: '#pagefind-search',
   showSubResults: true,
@@ -31,6 +34,11 @@ const pagefindConfig = {
     zero_results: t('search.noResults'),
   },
 };
+
+const otherSearch = otherLocales(locale).map((target) => ({
+  locale: target,
+  href: routePath('search', target),
+}));
 ---
 
 <BaseLayout
@@ -45,16 +53,31 @@ const pagefindConfig = {
 
     <link rel="stylesheet" href="/pagefind/pagefind-ui.css" />
     <div id="pagefind-search">
+      {
+        /* Shown to no-JS visitors (and under `astro dev`, where /pagefind/*
+          does not exist yet — dev builds surface the same honest fallback). */
+      }
       <p class="search-fallback">{t('search.unavailable')}</p>
     </div>
 
-    <script is:inline src="/pagefind/pagefind-ui.js"></script>
+    <p class="other-locale">
+      {otherSearch.map((target) => <a href={target.href}>{t('search.otherLocale')} →</a>)}
+    </p>
+
+    {
+      /* Deferred: 120KB of parser-blocking classic script held up first paint.
+        Init waits for DOMContentLoaded, which also replaces the old
+        `typeof PagefindUI` race guard. No programmatic focus: stealing focus
+        into the input on load bypassed the skip link, header and h1. */
+    }
+    <script is:inline defer src="/pagefind/pagefind-ui.js"></script>
     <script is:inline define:vars={{ pagefindConfig }}>
-      if (typeof PagefindUI !== 'undefined') {
-        document.querySelector('.search-fallback')?.remove();
-        new PagefindUI(pagefindConfig);
-        document.querySelector('#pagefind-search input')?.focus();
-      }
+      document.addEventListener('DOMContentLoaded', () => {
+        if (typeof PagefindUI !== 'undefined') {
+          document.querySelector('.search-fallback')?.remove();
+          new PagefindUI(pagefindConfig);
+        }
+      });
     </script>
   </div>
 </BaseLayout>
@@ -64,10 +87,17 @@ const pagefindConfig = {
     color: var(--fg-muted);
   }
 
+  .other-locale {
+    margin-block-start: var(--space-4);
+    font-size: var(--text-sm);
+  }
+
   #pagefind-search {
     /* Map Pagefind's theming hooks onto the design tokens so results render
-       in both themes without touching its stylesheet. */
-    --pagefind-ui-primary: var(--accent);
+       in both themes without touching its stylesheet. --accent-strong, not
+       --accent: Pagefind uses "primary" for result-link text, and raw signal
+       red as text misses AA on dark surfaces. */
+    --pagefind-ui-primary: var(--accent-strong);
     --pagefind-ui-text: var(--fg);
     --pagefind-ui-background: var(--bg-raised);
     --pagefind-ui-border: var(--border);

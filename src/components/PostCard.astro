@@ -8,16 +8,19 @@ import type { PostEntry } from '../lib/content.ts';
 interface Props {
   post: PostEntry;
   locale: Locale;
+  /** Heading level of the card title — h2 on list pages, h3 under a section. */
+  headingLevel?: 'h2' | 'h3';
 }
 
-const { post, locale } = Astro.props;
+const { post, locale, headingLevel = 'h3' } = Astro.props;
+const Heading = headingLevel;
 const t = useTranslations(locale);
 const href = routePath('blog', locale, postSlug(post));
 ---
 
 <article class="post-card">
-  {post.data.pillar && <p class="post-pillar">{t(`pillar.${post.data.pillar}`)}</p>}
-  <h3 class="post-title"><a href={href}>{post.data.title}</a></h3>
+  {post.data.pillar && <p class="post-pillar label-mono">{t(`pillar.${post.data.pillar}`)}</p>}
+  <Heading class="post-title"><a href={href}>{post.data.title}</a></Heading>
   <p class="post-desc">{post.data.description}</p>
   <p class="post-meta">
     <time datetime={post.data.publishedAt.toISOString()}>
@@ -39,14 +42,11 @@ const href = routePath('blog', locale, postSlug(post));
 
   .post-card:focus-within {
     outline: 2px solid var(--focus-ring);
-    outline-offset: 4px;
+    outline-offset: 2px;
   }
 
+  /* Register comes from the global .label-mono class; only the color is ours. */
   .post-pillar {
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
     color: var(--fg-subtle);
   }
 
@@ -61,7 +61,9 @@ const href = routePath('blog', locale, postSlug(post));
   }
 
   .post-title a:hover {
-    color: var(--accent);
+    /* The text-safe red cut — raw --accent as text fails contrast on ink. */
+    color: var(--accent-strong);
+    transition: color var(--duration-fast) var(--ease-out);
   }
 
   .post-title a::after {

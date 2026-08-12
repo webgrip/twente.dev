@@ -21,3 +21,5 @@ description:
 socials:
   website: https://example.com
   github: https://github.com/example
+
+fixture: true

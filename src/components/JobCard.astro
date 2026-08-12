@@ -9,9 +9,12 @@ interface Props {
   job: JobEntry;
   company: CompanyEntry | undefined;
   locale: Locale;
+  /** Heading level of the card title — h2 on list pages, h3 under a section. */
+  headingLevel?: 'h2' | 'h3';
 }
 
-const { job, company, locale } = Astro.props;
+const { job, company, locale, headingLevel = 'h3' } = Astro.props;
+const Heading = headingLevel;
 const t = useTranslations(locale);
 
 const workplaceLabel = {
@@ -19,6 +22,16 @@ const workplaceLabel = {
   hybrid: t('jobs.hybrid'),
   onsite: t('jobs.onsite'),
 }[job.data.workplace];
+
+// Schema enums are storage values, never display strings — "medior" reads as
+// a typo to international applicants and "full-time" is English on NL pages.
+const seniorityLabel = {
+  junior: t('jobs.seniority.junior'),
+  medior: t('jobs.seniority.medior'),
+  senior: t('jobs.seniority.senior'),
+  lead: t('jobs.seniority.lead'),
+  any: t('jobs.seniority.any'),
+}[job.data.seniority];
 
 const languageLabel =
   job.data.languageRequirement === 'dutch-required' ? t('jobs.dutchRequired') : t('jobs.englishOk');
@@ -28,10 +41,10 @@ const href = routePath('jobs', locale, job.id);
 
 <article class="job-card">
   <div class="job-head">
-    <h3 class="job-title">
+    <Heading class="job-title">
       <!-- Whole-card click target via ::after, so the accessible name stays the title. -->
       <a href={href}>{job.data.title[locale]}</a>
-    </h3>
+    </Heading>
     <p class="job-company">{company?.data.name ?? job.data.company.id}</p>
   </div>
 
@@ -40,10 +53,17 @@ const href = routePath('jobs', locale, job.id);
     <span aria-hidden="true">·</span>
     <span>{workplaceLabel}</span>
     <span aria-hidden="true">·</span>
-    <span>{job.data.seniority}</span>
+    <span>{seniorityLabel}</span>
   </p>
 
   <ul class="job-tags">
+    {
+      job.data.fixture && (
+        <li>
+          <Tag>{t('common.fixture')}</Tag>
+        </li>
+      )
+    }
     <li>
       <Tag variant={job.data.languageRequirement === 'english-ok' ? 'accent' : 'default'}
         >{languageLabel}</Tag
@@ -69,9 +89,9 @@ const href = routePath('jobs', locale, job.id);
     position: relative;
     display: grid;
     gap: var(--space-3);
-    padding: var(--space-4);
+    padding: var(--space-4) var(--space-5);
     border: var(--border-width) solid var(--border);
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-md);
     background: var(--bg-raised);
     transition: border-color var(--duration-fast) var(--ease-out);
   }
@@ -106,10 +126,12 @@ const href = routePath('jobs', locale, job.id);
     outline: none;
   }
 
+  /* Metadata, not an action — red company names made /vacatures a column of
+     red lines (and raw --accent as text fails contrast on dark surfaces). */
   .job-company {
-    color: var(--accent);
+    color: var(--fg-muted);
     font-size: var(--text-sm);
-    font-weight: 550;
+    font-weight: var(--weight-medium);
   }
 
   .job-meta {

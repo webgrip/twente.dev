@@ -1,7 +1,9 @@
 ---
 import type { Locale } from '../i18n/config.ts';
 import { useTranslations } from '../i18n/utils.ts';
+import { routePath } from '../i18n/routes.ts';
 import { getCompanies, getOpenJobs } from '../lib/content.ts';
+import { CONTACT_EMAIL } from '../config/site.ts';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHeader from '../components/PageHeader.astro';
 import JobCard from '../components/JobCard.astro';
@@ -30,16 +32,47 @@ const companyById = new Map(companies.map((c) => [c.id, c]));
       kicker={`twente.dev / ${t('jobs.title').toLowerCase()}`}
     />
 
-    <p class="count">{jobs.length} {t('filter.results')}</p>
+    {/* "2 vacatures", not "2 resultaten" — there is no query to have results of. */}
+    <p class="count">
+      {jobs.length}
+      {jobs.length === 1 ? t('jobs.count.one') : t('jobs.count.other')}
+    </p>
 
     <div class="job-grid">
-      {jobs.length === 0 && <p class="empty">{t('jobs.empty')}</p>}
+      {
+        jobs.length === 0 && (
+          <p class="empty">
+            {t('jobs.empty')} <a href={`mailto:${CONTACT_EMAIL}`}>{t('jobs.submit')}</a>
+          </p>
+        )
+      }
       {
         jobs.map((job) => (
-          <JobCard job={job} company={companyById.get(job.data.company.id)} locale={locale} />
+          <JobCard
+            job={job}
+            company={companyById.get(job.data.company.id)}
+            locale={locale}
+            headingLevel="h2"
+          />
         ))
       }
     </div>
+
+    {
+      /* The supply side: without this, an employer reading the board has no
+        visible path to participate. */
+    }
+    <aside class="submit-cta">
+      <p>
+        <strong>{t('jobs.submit')}?</strong>
+        {t('jobs.submitHint')}
+      </p>
+      <p>
+        <a href={routePath('guidelines', locale)}>{t('nav.guidelines')}</a>
+        {' · '}
+        <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
+      </p>
+    </aside>
   </div>
 </BaseLayout>
 
@@ -63,5 +96,19 @@ const companyById = new Map(companies.map((c) => [c.id, c]));
 
   .empty {
     color: var(--fg-muted);
+  }
+
+  .submit-cta {
+    margin-block-start: var(--space-7);
+    padding: var(--space-4) var(--space-5);
+    border: var(--border-width) solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--bg-subtle);
+    color: var(--fg-muted);
+    font-size: var(--text-sm);
+  }
+
+  .submit-cta p + p {
+    margin-block-start: var(--space-2);
   }
 </style>

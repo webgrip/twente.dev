@@ -20,7 +20,9 @@ description:
 start: 2026-10-07T18:00:00+02:00
 end: 2026-10-07T21:30:00+02:00
 venue:
-  name: Venue to be announced
+  # No name until the venue is contracted — templates render the localized
+  # "Locatie volgt" / "Venue to be announced". Never store that sentinel here:
+  # an English string in a translatable-fields collection bypasses translation.
   city: Enschede
   online: false
 organiser:
@@ -28,7 +30,9 @@ organiser:
   url: https://twente.dev
 url: https://twente.dev/nl/001
 costEur: 0
-language: en
+# The stated policy everywhere else is "primarily English; Dutch welcome" —
+# a bare EN chip undersold the flagship's bilingual promise.
+language: both
 tags:
   - flagship
   - cross-disciplinary

@@ -1,7 +1,7 @@
 ---
 import { LOCALE_NAMES, LOCALE_TAGS } from '../i18n/config.ts';
 import type { Locale } from '../i18n/config.ts';
-import { otherLocales, slugFor, useTranslations } from '../i18n/utils.ts';
+import { otherLocales, slugFor } from '../i18n/utils.ts';
 import type { SlugInput } from '../i18n/utils.ts';
 import { routePath } from '../i18n/routes.ts';
 import type { RouteKey } from '../i18n/routes.ts';
@@ -18,7 +18,17 @@ interface Props {
 }
 
 const { locale, routeKey, slug } = Astro.props;
-const t = useTranslations(locale);
+
+/**
+ * Accessible names are phrased in the *target* language (matching the link's
+ * `lang` attribute) — the reader who needs "switch to English" is the one who
+ * doesn't read Dutch. A sibling visually-hidden span wouldn't join the link's
+ * accessible name; aria-label on the link itself does.
+ */
+const SWITCH_LABELS: Record<Locale, string> = {
+  nl: 'Overschakelen naar Nederlands',
+  en: 'Switch to English',
+};
 
 /**
  * When the current page has no counterpart in the target locale — an article
@@ -37,13 +47,13 @@ const targets = otherLocales(locale).map((target) => {
 ---
 
 <div class="locale-switcher">
-  <span class="visually-hidden">{t('locale.switch')}</span>
   {
     targets.map((target) => (
       <a
         href={target.href}
         hreflang={LOCALE_TAGS[target.locale]}
         lang={target.locale}
+        aria-label={SWITCH_LABELS[target.locale]}
         rel={target.missing ? 'nofollow' : undefined}
       >
         <abbr title={LOCALE_NAMES[target.locale]}>{target.locale.toUpperCase()}</abbr>

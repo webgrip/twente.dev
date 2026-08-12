@@ -8,7 +8,7 @@ import { CONTACT_EMAIL, REPO_URL } from '../../config/site.ts';
   locale="nl"
   routeKey="contribute"
   title="Bijdragen"
-  description="Een verhaal, een demo, een introductie, een gelist event, een vrijwilligersshift, een zaal. Bijdragen is hoe deze community groeit — dit zijn alle routes."
+  description="Een verhaal, een demo, een introductie, een vermeld event, een vrijwilligersshift, een zaal. Bijdragen is hoe deze community groeit — dit zijn alle routes."
 >
   <p>
     Wat moet Twente weten over wat jij bouwt — of op de harde manier leert? Neem één ding mee dat je
@@ -40,12 +40,25 @@ import { CONTACT_EMAIL, REPO_URL } from '../../config/site.ts';
     je iemand wiens werk Twente zou moeten zien — jezelf meegerekend? Stuur een naam en één zin waarom.
   </p>
 
-  <h2>List een event of community</h2>
+  {
+    /* "Vermelden", niet "listen" — de site gebruikt zelf al "vermelding"
+      als vaste term (partners, event-credits); één woord voor één concept. */
+  }
+  <h2>Meld een event of community aan</h2>
   <p>
-    Elk openbaar, relevant tech-event en elke community in de regio wordt gratis gelist, met
+    Elk openbaar, relevant tech-event en elke community in de regio wordt gratis vermeld, met
     naamsvermelding en een link naar de bron — zie de
     <a href={routePath('guidelines', 'nl')}>richtlijnen</a>. Open een issue in de
     <a href={REPO_URL}>repository</a> via de inzendtemplates, of mail gewoon de details.
+  </p>
+
+  <h2>Plaats een vacature of bedrijfsvermelding</h2>
+  <p>
+    De <a href={routePath('jobs', 'nl')}>vacaturebank</a> en de
+    <a href={routePath('companies', 'nl')}>bedrijvengids</a> zijn gratis voor werkgevers uit de regio:
+    echte werkgevers, geen recruiters of doorplaatsingen, altijd met einddatum — de
+    <a href={routePath('guidelines', 'nl')}>richtlijnen</a> beschrijven de voorwaarden. Mail de vacature
+    of bedrijfsgegevens en we zetten het live.
   </p>
 
   <h2>Word vrijwilliger op een event</h2>

@@ -9,18 +9,25 @@ interface Props {
   company: CompanyEntry;
   locale: Locale;
   openJobs?: number;
+  /** Heading level of the card title — h2 on list pages, h3 under a section. */
+  headingLevel?: 'h2' | 'h3';
 }
 
-const { company, locale, openJobs = 0 } = Astro.props;
+const { company, locale, openJobs = 0, headingLevel = 'h3' } = Astro.props;
+const Heading = headingLevel;
 const t = useTranslations(locale);
 const href = routePath('companies', locale, company.id);
+
+// "11-50" is stored with a hyphen; ranges render with an en dash.
+const sizeLabel = company.data.size.replace('-', '–');
 ---
 
 <article class="company-card">
   <div class="company-head">
-    <h3 class="company-name">
+    <Heading class="company-name">
       <a href={href}>{company.data.name}</a>
-    </h3>
+    </Heading>
+    {company.data.fixture && <Tag>{t('common.fixture')}</Tag>}
     {company.data.hiring && <Tag variant="accent">{t('companies.hiring')}</Tag>}
   </div>
 
@@ -29,13 +36,14 @@ const href = routePath('companies', locale, company.id);
   <p class="company-meta">
     <span>{company.data.locations.join(', ')}</span>
     <span aria-hidden="true">·</span>
-    <span>{company.data.size}</span>
+    <span>{sizeLabel}</span>
     {
       openJobs > 0 && (
         <>
           <span aria-hidden="true">·</span>
           <span>
-            {openJobs} {t('companies.openJobs').toLowerCase()}
+            {openJobs}{' '}
+            {(openJobs === 1 ? t('companies.openJob') : t('companies.openJobs')).toLowerCase()}
           </span>
         </>
       )
@@ -59,10 +67,11 @@ const href = routePath('companies', locale, company.id);
     display: grid;
     gap: var(--space-3);
     align-content: start;
-    padding: var(--space-4);
+    padding: var(--space-4) var(--space-5);
     border: var(--border-width) solid var(--border);
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-md);
     background: var(--bg-raised);
+    transition: border-color var(--duration-fast) var(--ease-out);
   }
 
   .company-card:hover {

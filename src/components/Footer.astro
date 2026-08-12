@@ -24,7 +24,8 @@ const REPO_URL = 'https://forgejo.webgrip.dev/webgrip/twente.dev';
     <div class="footer-about">
       <p class="footer-tagline">{t('footer.tagline')}</p>
       <p class="footer-meta">
-        © {year} · {t('footer.builtBy')}
+        {/* Explicit space: Astro collapses the newline, rendering "doorWebgrip". */}
+        © {year} · {t('footer.builtBy')}{' '}
         <a href="https://webgrip.nl" rel="noopener">Webgrip</a>
       </p>
     </div>
@@ -43,6 +44,7 @@ const REPO_URL = 'https://forgejo.webgrip.dev/webgrip/twente.dev';
       <ul>
         <li><a href={routePath('companies', locale)}>{t('nav.companies')}</a></li>
         <li><a href={routePath('jobs', locale)}>{t('nav.jobs')}</a></li>
+        <li><a href={routePath('partners', locale)}>{t('nav.partners')}</a></li>
         <li><a href={routePath('contribute', locale)}>{t('footer.contribute')}</a></li>
         <li><a href={REPO_URL} rel="noopener">{t('footer.sourceCode')}</a></li>
       </ul>
@@ -114,7 +116,8 @@ const REPO_URL = 'https://forgejo.webgrip.dev/webgrip/twente.dev';
   }
 
   .footer-links a:hover {
-    color: var(--accent);
+    /* The text-safe red cut — raw --accent as text fails contrast on ink. */
+    color: var(--accent-strong);
     text-decoration: underline;
   }
 </style>

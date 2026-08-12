@@ -41,17 +41,17 @@ status() {
   [ "$got" = "$2" ] && pass "$1 -> $2" || fail "$1 -> expected $2, got $got"
 }
 
-# redirects <path> <expected-location>
+# redirects <path> <expected-code> <expected-location>
 # Location must be relative: an absolute one leaks the container's own
 # listen address, and Cloudflare redirects relatively.
 redirects() {
   local code loc
   code="$(curl -s -o /dev/null -w '%{http_code}' "${BASE}$1")"
   loc="$(curl -s -o /dev/null -D - "${BASE}$1" | tr -d '\r' | awk -F': ' 'tolower($1)=="location"{print $2}')"
-  if [ "$code" = "301" ] && [ "$loc" = "$2" ]; then
-    pass "$1 -> 301 $2"
+  if [ "$code" = "$2" ] && [ "$loc" = "$3" ]; then
+    pass "$1 -> $2 $3"
   else
-    fail "$1 -> expected 301 $2, got $code ${loc:-<no location>}"
+    fail "$1 -> expected $2 $3, got $code ${loc:-<no location>}"
   fi
 }
 
@@ -117,15 +117,18 @@ fi
 
 echo
 echo "Routing (html_handling = auto-trailing-slash)"
-status    /                     200
+# `/` is a front-door 302 to /nl (public/_redirects; 302 until edge language
+# negotiation lands, per the note there) and /001 a permanent brand short URL.
+redirects /                     302 /nl
+redirects /001                  301 /nl/001
 status    /nl                   200
 status    /en                   200
 status    /nl/events            200
 status    /nl/bedrijven         200
 status    /en/companies         200
 status    /nl/blog/waarom-twente-dev 200
-redirects /nl/events.html       /nl/events
-redirects /en/companies.html    /en/companies
+redirects /nl/events.html       301 /nl/events
+redirects /en/companies.html    301 /en/companies
 
 echo
 echo "Not found (not_found_handling = 404-page)"
@@ -178,14 +181,21 @@ echo
 echo "Caching"
 # Same SIGPIPE reasoning as body_contains: reuse the captured body, and let
 # awk take the first match instead of piping into `head`.
-ASSET="$(printf '%s' "$HOME_HTML" | grep -oE '/_astro/[^"]+' | awk 'NR==1' || true)"
+# Pick a stylesheet specifically — the first /_astro/ reference on the page
+# is a preloaded font, whose type would rightly not be css.
+ASSET="$(printf '%s' "$HOME_HTML" | grep -oE '/_astro/[^"]+\.css' | awk 'NR==1' || true)"
 if [ -n "$ASSET" ]; then
   header "$ASSET" Cache-Control immutable
   # The inheritance trap: this location sets its own add_header.
   header "$ASSET" X-Content-Type-Options nosniff
   content_type "$ASSET" css
 else
-  echo "  (no /_astro asset referenced; skipping)"
+  echo "  (no /_astro stylesheet referenced; skipping)"
+fi
+FONT="$(printf '%s' "$HOME_HTML" | grep -oE '/_astro/[^"]+\.woff2' | awk 'NR==1' || true)"
+if [ -n "$FONT" ]; then
+  header "$FONT" Cache-Control immutable
+  content_type "$FONT" font/woff2
 fi
 header /nl Cache-Control must-revalidate
 

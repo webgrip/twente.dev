@@ -54,4 +54,6 @@ jobs:
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-        run: pnpm dlx wrangler deploy
+        # `pnpm exec`, not `pnpm dlx` — dlx never sees pnpm-workspace.yaml's
+        # allowBuilds and hangs on pnpm's interactive build-scripts prompt.
+        run: pnpm exec wrangler deploy

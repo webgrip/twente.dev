@@ -93,12 +93,20 @@ jobs:
         run: docker build -f ops/docker/web/Dockerfile -t twente-dev-web:ci .
 
       - name: Start container
-        run: docker run -d --name twente-web-ci -p 8080:8080 twente-dev-web:ci
+        run: docker run -d --name twente-web-ci twente-dev-web:ci
 
       - name: Check Cloudflare parity
-        env:
-          PARITY_BASE_URL: http://localhost:8080
-        run: ./ops/local/parity-check.sh
+        # The job itself runs in a container, so the web container is a
+        # sibling on the host daemon — localhost and published ports point at
+        # the wrong network namespace. Run the checks in a helper container
+        # that SHARES the web container's namespace (--network container:),
+        # where localhost:8080 is correct regardless of runner topology. The
+        # script rides in on stdin, because bind mounts resolve against the
+        # host, where the checkout does not exist.
+        run: |
+          docker run --rm -i --network container:twente-web-ci \
+            -e PARITY_BASE_URL=http://localhost:8080 \
+            buildpack-deps:curl bash -s < ops/local/parity-check.sh
 
       - name: Stop container
         if: always()
@@ -136,8 +144,20 @@ jobs:
         run: |
           # autorun with staticDistDir serves ./dist itself, so the container
           # needs no project dependencies — only Node and Chrome.
-          docker run --rm -v "$PWD:/repo" -w /repo cypress/browsers:latest \
-            bash -c "npx --yes @lhci/cli@0.15.x autorun"
+          #
+          # Files go in via `docker cp`, not a bind mount: the job runs in a
+          # container, so a -v "$PWD:..." mount resolves $PWD on the HOST
+          # daemon, where the checkout does not exist, and lhci sees an empty
+          # directory.
+          docker rm -f lhci >/dev/null 2>&1 || true
+          docker run -d --name lhci -w /repo cypress/browsers:latest sleep 1800
+          docker cp dist lhci:/repo/dist
+          docker cp lighthouserc.json lhci:/repo/lighthouserc.json
+          docker exec -w /repo lhci bash -c "npx --yes @lhci/cli@0.15.x autorun"
+
+      - name: Clean up Lighthouse container
+        if: always()
+        run: docker rm -f lhci || true
 
   # ---------------------------------------------------------------------------
   # Deploy.

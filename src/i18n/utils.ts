@@ -58,7 +58,7 @@ export function slugFor(slug: SlugInput | undefined, locale: Locale): string | u
  * a partial set is worse than none.
  *
  * Derived from a `RouteKey` rather than the current pathname, because route
- * segments are themselves localized (`/nl/vacatures` ↔ `/en/jobs`).
+ * segments are themselves localized (`/nl/bedrijven` ↔ `/en/companies`).
  *
  * A locale with no slug is **omitted entirely**. Pointing `hreflang` at a page
  * that does not exist — which is what a shared-slug assumption would do for an
@@ -99,7 +99,7 @@ export function otherLocales(current: Locale): Locale[] {
 /**
  * Picks the field for the current locale from a `{ nl, en }` translatable
  * value. Used by collections whose entries are one entity with translated
- * fields (events, jobs, companies) rather than per-locale documents.
+ * fields (events, companies, communities) rather than per-locale documents.
  */
 export function pick<T>(value: Record<Locale, T>, locale: Locale): T {
   return value[locale];

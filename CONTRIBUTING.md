@@ -13,7 +13,6 @@ voegen — al helpt het wel, want alles staat in git.
 
 Open een issue met een van de formulieren:
 
-- **Vacature plaatsen** — alleen als werkgever, niet als bureau
 - **Event aanmelden** — openbaar toegankelijk en relevant voor developers
 - **Bedrijf toevoegen** — één vermelding per bedrijf
 
@@ -26,7 +25,6 @@ Voeg zelf het bestand toe en open een pull request:
 
 | Wat       | Waar                                       |
 | --------- | ------------------------------------------ |
-| Vacature  | `src/content/jobs/<bedrijf>-<functie>.yml` |
 | Event     | `src/content/events/<slug>.yml`            |
 | Bedrijf   | `src/content/companies/<slug>.yml`         |
 | Community | een entry in `src/content/communities.yml` |
@@ -63,7 +61,6 @@ though it helps, because everything lives in git.
 
 Open an issue using one of the forms:
 
-- **Submit a job** — as the employer only, not as an agency
 - **Submit an event** — open to the public and relevant to developers
 - **Add a company** — one entry per company
 
@@ -76,7 +73,6 @@ Add the file yourself and open a pull request:
 
 | What      | Where                                     |
 | --------- | ----------------------------------------- |
-| Job       | `src/content/jobs/<company>-<role>.yml`   |
 | Event     | `src/content/events/<slug>.yml`           |
 | Company   | `src/content/companies/<slug>.yml`        |
 | Community | an entry in `src/content/communities.yml` |

@@ -12,17 +12,17 @@ const ROUTE_KEYS = Object.keys(ROUTES) as [keyof typeof ROUTES, ...(keyof typeof
 /**
  * Content collections — the contribution contract.
  *
- * Every community submission (a job, an event, a company) lands here as a
- * versioned file and is validated at build time. A malformed contribution
- * fails CI before a human reviews it, which is what makes it safe to accept
- * pull requests from people we have never met (plan ADR-0005).
+ * Every community submission (an event, a company) lands here as a versioned
+ * file and is validated at build time. A malformed contribution fails CI
+ * before a human reviews it, which is what makes it safe to accept pull
+ * requests from people we have never met (plan ADR-0005).
  *
  * Two shapes are used deliberately:
  *
  *  - **Locale-owned documents** (`posts`): an article is *written* in one
  *    language. Translations are sibling files linked by `translationKey`.
- *  - **Translatable fields** (`events`, `jobs`, `companies`, `communities`):
- *    a job at one employer is one job, not two — only its prose is bilingual.
+ *  - **Translatable fields** (`events`, `companies`, `communities`): an event
+ *    is one event, not two — only its prose is bilingual.
  */
 
 /** A value that must exist in every locale. Adding a locale changes this shape. */
@@ -178,53 +178,6 @@ const events = defineCollection({
 });
 
 /* -------------------------------------------------------------------------- */
-/* jobs                                                                       */
-/* -------------------------------------------------------------------------- */
-
-const jobs = defineCollection({
-  loader: glob({ pattern: '**/*.yml', base: './src/content/jobs' }),
-  schema: z
-    .object({
-      title: i18nString,
-      description: i18nString,
-      company: reference('companies'),
-      employmentType: z.enum(['full-time', 'part-time', 'contract', 'internship', 'temporary']),
-      workplace: z.enum(['onsite', 'hybrid', 'remote']),
-      city: z.enum(TWENTE_CITIES).or(z.string().min(1)),
-      seniority: z.enum(['junior', 'medior', 'senior', 'lead', 'any']),
-      stack: z.array(z.string().min(1)).min(1),
-      /**
-       * Whether Dutch is genuinely required. Twente has a large international
-       * cohort from the University of Twente and no competing board exposes
-       * this, so it is one of the highest-value facets on the site.
-       */
-      languageRequirement: z.enum(['dutch-required', 'english-ok']),
-      salary: z
-        .object({
-          min: z.number().positive(),
-          max: z.number().positive(),
-          currency: z.literal('EUR').default('EUR'),
-          period: z.enum(['MONTH', 'YEAR']).default('MONTH'),
-        })
-        .refine((s) => s.max >= s.min, { message: 'salary.max must be >= salary.min' })
-        .optional(),
-      applyUrl: z.url(),
-      postedAt: z.coerce.date(),
-      /**
-       * Required, not optional. This drives the nightly auto-expiry that keeps
-       * the board honest without anyone remembering to prune it, and Google
-       * for Jobs treats a missing validThrough as a quality problem.
-       */
-      validThrough: z.coerce.date(),
-      fixture,
-    })
-    .refine((j) => j.validThrough > j.postedAt, {
-      message: 'validThrough must be after postedAt',
-      path: ['validThrough'],
-    }),
-});
-
-/* -------------------------------------------------------------------------- */
 /* companies                                                                  */
 /* -------------------------------------------------------------------------- */
 
@@ -268,4 +221,4 @@ const communities = defineCollection({
   }),
 });
 
-export const collections = { posts, events, jobs, companies, communities };
+export const collections = { posts, events, companies, communities };

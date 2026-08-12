@@ -1,5 +1,20 @@
 ---
-import CompaniesPage from '../../../templates/CompaniesPage.astro';
+import ProsePage from '../../../templates/ProsePage.astro';
+import { CONTACT_EMAIL } from '../../../config/site.ts';
 ---
 
-<CompaniesPage locale="nl" />
+<ProsePage
+  locale="nl"
+  routeKey="companies"
+  title="Bedrijven"
+  description="Welke bedrijven in Twente bouwen software, en waarmee? De bedrijvengids is in de maak."
+>
+  <p>
+    Hier komt de bedrijvengids: welke bedrijven in Twente bouwen software, met welke stack, en waar
+    ze zitten. We werken aan de eerste vermeldingen.
+  </p>
+  <p>
+    Bouwt jouw bedrijf software in Twente en wil je er vanaf dag één bij staan? Mail
+    <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a> — een vermelding is gratis.
+  </p>
+</ProsePage>

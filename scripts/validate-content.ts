@@ -8,7 +8,6 @@
  *   - references that point at a company file which does not exist
  *   - duplicate slugs within a collection
  *   - translation keys that pair more than two posts, or pair a locale to itself
- *   - jobs already expired at commit time (a submission mistake, not decay)
  *   - fixture content still present (blocks a real launch, warns otherwise)
  *
  * Run by CI as a separate gate so a broken cross-reference is reported as a
@@ -55,34 +54,6 @@ const companySlugs = new Set(companyFiles.map(slugOf));
 
 if (companySlugs.size !== companyFiles.length) {
   fail('companies/', 'duplicate company slugs');
-}
-
-/* ---- jobs ----------------------------------------------------------------- */
-
-const now = new Date();
-const jobFiles = await listYaml('jobs');
-
-for (const file of jobFiles) {
-  const path = `jobs/${file}`;
-  const data = (await readYaml(path)) as Record<string, unknown>;
-
-  const company = data.company;
-  if (typeof company !== 'string') {
-    fail(path, 'company must be a string reference to a companies/ file');
-  } else if (!companySlugs.has(company)) {
-    fail(
-      path,
-      `company "${company}" has no matching file in companies/ ` +
-        `(have: ${[...companySlugs].join(', ') || 'none'})`,
-    );
-  }
-
-  const validThrough = data.validThrough ? new Date(String(data.validThrough)) : undefined;
-  if (validThrough && validThrough <= now) {
-    // Not an error: the nightly rebuild drops these on its own. But a *newly
-    // submitted* job that is already expired is almost always a typo.
-    warn(path, `validThrough ${validThrough.toISOString()} is already in the past`);
-  }
 }
 
 /* ---- events --------------------------------------------------------------- */
@@ -163,7 +134,6 @@ for (const [key, group] of postsByKey) {
 const fixtureFiles: string[] = [];
 for (const [dir, files] of [
   ['companies', companyFiles],
-  ['jobs', jobFiles],
   ['events', await listYaml('events')],
 ] as const) {
   for (const file of files) {
@@ -204,7 +174,7 @@ for (const { file, message } of errors) {
 }
 
 console.log(
-  `\nchecked ${companyFiles.length} companies, ${jobFiles.length} jobs, ` +
+  `\nchecked ${companyFiles.length} companies, ` +
     `${postsByKey.size} translation groups — ` +
     `${errors.length} error(s), ${warnings.length} warning(s)`,
 );

@@ -1,5 +1,21 @@
 ---
-import CommunitiesPage from '../../../templates/CommunitiesPage.astro';
+import ProsePage from '../../../templates/ProsePage.astro';
+import { CONTACT_EMAIL } from '../../../config/site.ts';
 ---
 
-<CommunitiesPage locale="en" />
+<ProsePage
+  locale="en"
+  routeKey="communities"
+  title="Communities"
+  description="Discords, Slacks, user groups and other places where people who build technology in Twente gather. The overview is in the making."
+>
+  <p>
+    This is where the community overview will live: Discords, Slacks, user groups and other places
+    where people who build technology in Twente gather. Every community keeps its own identity and
+    its own stage — twente.dev only makes them easier to find and always links to the source.
+  </p>
+  <p>
+    Do you run a community in the region? Email
+    <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a> — a listing is free and always will be.
+  </p>
+</ProsePage>

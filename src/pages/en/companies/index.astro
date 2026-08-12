@@ -1,5 +1,20 @@
 ---
-import CompaniesPage from '../../../templates/CompaniesPage.astro';
+import ProsePage from '../../../templates/ProsePage.astro';
+import { CONTACT_EMAIL } from '../../../config/site.ts';
 ---
 
-<CompaniesPage locale="en" />
+<ProsePage
+  locale="en"
+  routeKey="companies"
+  title="Companies"
+  description="Which companies in Twente build software, and with what? The company directory is in the making."
+>
+  <p>
+    This is where the company directory will live: which companies in Twente build software, with
+    what stack, and where they are based. We are working on the first listings.
+  </p>
+  <p>
+    Does your company build software in Twente and want to be in from day one? Email
+    <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a> — a listing is free.
+  </p>
+</ProsePage>

@@ -1,5 +1,21 @@
 ---
-import CommunitiesPage from '../../../templates/CommunitiesPage.astro';
+import ProsePage from '../../../templates/ProsePage.astro';
+import { CONTACT_EMAIL } from '../../../config/site.ts';
 ---
 
-<CommunitiesPage locale="nl" />
+<ProsePage
+  locale="nl"
+  routeKey="communities"
+  title="Communities"
+  description="Discords, Slacks, user groups en andere plekken waar Twentse techmakers samenkomen. Het overzicht is in de maak."
+>
+  <p>
+    Hier komt het overzicht van communities: Discords, Slacks, user groups en andere plekken waar
+    Twentse techmakers samenkomen. Elke community houdt de eigen identiteit en het eigen podium —
+    twente.dev maakt ze alleen beter vindbaar en verwijst altijd naar de bron.
+  </p>
+  <p>
+    Run jij een community in de regio? Mail
+    <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a> — een vermelding is gratis en dat blijft zo.
+  </p>
+</ProsePage>

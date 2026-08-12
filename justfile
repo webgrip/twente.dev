@@ -146,10 +146,3 @@ check: fmt lint typecheck test content build
 fix:
     pnpm format
     pnpm lint:fix
-
-# --- content ----------------------------------------------------------------
-
-# Report jobs about to lapse (read-only)
-[group('content')]
-expiring:
-    pnpm expire:jobs

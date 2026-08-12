@@ -1,6 +1,5 @@
 ---
 import ProsePage from '../../templates/ProsePage.astro';
-import { routePath } from '../../i18n/routes.ts';
 import { CONTACT_EMAIL, REPO_URL } from '../../config/site.ts';
 ---
 
@@ -8,77 +7,16 @@ import { CONTACT_EMAIL, REPO_URL } from '../../config/site.ts';
   locale="nl"
   routeKey="contribute"
   title="Bijdragen"
-  description="Een verhaal, een demo, een introductie, een vermeld event, een vrijwilligersshift, een zaal. Bijdragen is hoe deze community groeit — dit zijn alle routes."
+  description="Bijdragen is hoe deze community groeit. De volledige routes werken we nog uit — mailen kan altijd."
 >
   <p>
-    Wat moet Twente weten over wat jij bouwt — of op de harde manier leert? Neem één ding mee dat je
-    leerde, één ding dat je nodig hebt, of één persoon die anderen zouden moeten kennen. Elke route
-    hieronder begint met één mail naar
-    <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>, tenzij anders vermeld.
+    Bijdragen is hoe deze community groeit: een verhaal, een demo, een introductie, een vermeld
+    event, een vrijwilligersshift, een zaal. We werken de routes op dit moment uit; deze pagina
+    groeit mee.
   </p>
-
-  <h2>Vertel een verhaal op het podium</h2>
   <p>
-    Flagship-avonden draaien op <strong>field reports</strong> van 12 minuten: één claim, één echt voorbeeld,
-    besluit of mislukking, wat er veranderde, en één vraag aan de zaal. Stuur ons die vier dingen in een
-    paar zinnen. Spreekervaring is niet nodig — geaccepteerde bijdragen vormen we samen met een redactioneel
-    gesprek, een slidetemplate en een repetitie, en reiskosten spreken we vooraf af. Productpitches, betaalde
-    spreektijd en vertrouwelijk materiaal accepteren we niet.
-  </p>
-
-  <h2>Schrijf een field note</h2>
-  <p>
-    Een field note is één concrete les, beslissing of mislukking uit een lokaal systeem,
-    opgeschreven — 120 tot 180 woorden is genoeg. De beste lezen als iets wat je een collega bij de
-    koffieautomaat zou vertellen. We publiceren ze op de <a href={routePath('blog', 'nl')}>blog</a> en
-    in de nieuwsbrief, altijd met naamsvermelding.
-  </p>
-
-  <h2>Introduceer een maker</h2>
-  <p>
-    <em>People Who Build</em> portretteert makers in vijf vragen, over disciplines en steden heen. Ken
-    je iemand wiens werk Twente zou moeten zien — jezelf meegerekend? Stuur een naam en één zin waarom.
-  </p>
-
-  {
-    /* "Vermelden", niet "listen" — de site gebruikt zelf al "vermelding"
-      als vaste term (partners, event-credits); één woord voor één concept. */
-  }
-  <h2>Meld een event of community aan</h2>
-  <p>
-    Elk openbaar, relevant tech-event en elke community in de regio wordt gratis vermeld, met
-    naamsvermelding en een link naar de bron — zie de
-    <a href={routePath('guidelines', 'nl')}>richtlijnen</a>. Open een issue in de
-    <a href={REPO_URL}>repository</a> via de inzendtemplates, of mail gewoon de details.
-  </p>
-
-  <h2>Plaats een vacature of bedrijfsvermelding</h2>
-  <p>
-    De <a href={routePath('jobs', 'nl')}>vacaturebank</a> en de
-    <a href={routePath('companies', 'nl')}>bedrijvengids</a> zijn gratis voor werkgevers uit de regio:
-    echte werkgevers, geen recruiters of doorplaatsingen, altijd met einddatum — de
-    <a href={routePath('guidelines', 'nl')}>richtlijnen</a> beschrijven de voorwaarden. Mail de vacature
-    of bedrijfsgegevens en we zetten het live.
-  </p>
-
-  <h2>Word vrijwilliger op een event</h2>
-  <p>
-    Acht rollen maken een avond mogelijk: check-in, het verwelkomen van mensen die alleen komen,
-    sprekersondersteuning, AV, toegankelijkheidscontact, fototoestemming, room hosting en afbouwen.
-    Shifts duren 45–90 minuten, onkosten worden vergoed, en de rollen zijn zo ontworpen dat je het
-    event dat je helpt draaien zelf ook meemaakt.
-  </p>
-
-  <h2>Bied een zaal aan</h2>
-  <p>
-    Locaties, AV en eten zijn wat events werkelijk kosten. Kan jouw organisatie hosten, dan is dat
-    een <a href={routePath('partners', 'nl')}>host-partnerschap</a>: gedocumenteerde reële waarde,
-    heldere vermelding, vier gastenplekken.
-  </p>
-
-  <h2>Verbeter deze site</h2>
-  <p>
-    De hele site is een openbare repository — content én code. Iets kapot, onvolledig of onjuist
-    gevonden? <a href={REPO_URL}>Open een issue of een pull request</a>.
+    Nu al iets bijdragen? Mail <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a> — één zin is genoeg
+    om het gesprek te starten. Iets kapot of onjuist op de site gevonden?
+    <a href={REPO_URL}>Open een issue in de repository</a>.
   </p>
 </ProsePage>

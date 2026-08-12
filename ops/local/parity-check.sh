@@ -121,12 +121,11 @@ status    /                     200
 status    /nl                   200
 status    /en                   200
 status    /nl/events            200
-status    /nl/vacatures         200
-status    /en/jobs              200
 status    /nl/bedrijven         200
+status    /en/companies         200
 status    /nl/blog/waarom-twente-dev 200
 redirects /nl/events.html       /nl/events
-redirects /en/jobs.html         /en/jobs
+redirects /en/companies.html    /en/companies
 
 echo
 echo "Not found (not_found_handling = 404-page)"
@@ -151,7 +150,7 @@ content_type /robots.txt      text/plain
 
 echo
 echo "Security headers (must survive into every location block)"
-for path in /nl /nl/vacatures /events.ics /this/does/not/exist; do
+for path in /nl /nl/bedrijven /events.ics /this/does/not/exist; do
   header "$path" X-Content-Type-Options nosniff
 done
 header /nl X-Frame-Options DENY

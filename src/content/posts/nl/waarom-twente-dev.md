@@ -17,28 +17,26 @@ draft: false
 
 Als je in Twente software schrijft, ken je het patroon. Er is een meetup, maar je hoort er
 pas over als hij geweest is. Er is een bedrijf twintig minuten verderop dat precies het werk
-doet dat jij interessant vindt, maar je komt er nooit achter. Er is een vacature die perfect
-past, maar die staat alleen op een LinkedIn-feed die je die week niet opende.
+doet dat jij interessant vindt, maar je komt er nooit achter.
 
 Het probleem is niet dat er te weinig gebeurt. Het probleem is dat het versnipperd is.
 
 ## Wat dit wel is
 
-Eén plek waar je ziet wat er speelt: aankomende meetups, open vacatures bij echte werkgevers
-uit de regio, en welke bedrijven hier eigenlijk software bouwen en waarmee. Tweetalig, omdat
+Eén plek waar je ziet wat er speelt: aankomende meetups, en welke bedrijven hier eigenlijk
+software bouwen en waarmee. Tweetalig, omdat
 de Twentse developer-populatie dat ook is — een flink deel van de mensen die hier werken
 kwam via de Universiteit Twente en spreekt geen Nederlands.
 
 ## Wat dit niet is
 
-Geen vacaturebank met doorplaatsingen van recruiters. Geen nieuwsbrief die je elke week
-vertelt dat er niets gebeurd is. Geen platform dat je data verkoopt — er staat geen enkele
-cookie op deze site en dat blijft zo.
+Geen nieuwsbrief die je elke week vertelt dat er niets gebeurd is. Geen platform dat je data
+verkoopt — er staat geen enkele cookie op deze site en dat blijft zo.
 
 ## Hoe het werkt
 
 Alles op deze site staat in een git-repository. Een meetup toevoegen is een pull request.
-Een vacature plaatsen is een pull request. Dat klinkt omslachtig voor wie het niet gewend is,
+Een bedrijf vermelden is een pull request. Dat klinkt omslachtig voor wie het niet gewend is,
 en daar komt een gewoon formulier voor. Maar de onderliggende data blijft open en
 controleerbaar, en dat is precies wat een community-site onderscheidt van een platform.
 

@@ -1,8 +1,12 @@
 name: "[Workflow] On Source Change"
 
-# Consumes the shared library at its Forgejo path. Per webgrip/workflows
-# ADR-0002 the `.forgejo/` tree is the Forgejo-adapted mirror, and Forgejo
-# consumers reference it by full URL rather than `org/repo` shorthand.
+# Consumes the shared library at its Forgejo path (`.forgejo/` tree, per
+# webgrip/workflows ADR-0002). NOTE: the `uses:` reference must be the
+# `org/repo/path@ref` shorthand, NOT a full https:// URL — Forgejo resolves
+# the called workflow's `runs-on` server-side to assign runner labels, and
+# with a full URL that resolution fails, leaving the job queued forever with
+# an empty label list. The working consumers (e.g. webgrip/workflows'
+# on_docs_change.yml) all use the shorthand, SHA-pinned.
 
 concurrency:
   group: push-${{ github.ref_name }}
@@ -23,7 +27,7 @@ env:
 jobs:
   static-analysis:
     name: "Static Analysis"
-    uses: https://forgejo.webgrip.dev/webgrip/workflows/.forgejo/workflows/node-application-static-analysis.yml@main
+    uses: webgrip/workflows/.forgejo/workflows/node-application-static-analysis.yml@f2e235efd0589ee32cef70cd79ee7f110f80d1da # main
     with:
       node-version: "24"
       package-manager: pnpm
@@ -37,7 +41,7 @@ jobs:
     name: "Unit Tests"
     needs:
       - static-analysis
-    uses: https://forgejo.webgrip.dev/webgrip/workflows/.forgejo/workflows/node-application-tests.yml@main
+    uses: webgrip/workflows/.forgejo/workflows/node-application-tests.yml@f2e235efd0589ee32cef70cd79ee7f110f80d1da # main
     with:
       node-version: "24"
       package-manager: pnpm
@@ -47,7 +51,7 @@ jobs:
     name: "Content Validation"
     needs:
       - static-analysis
-    uses: https://forgejo.webgrip.dev/webgrip/workflows/.forgejo/workflows/node-application-tests.yml@main
+    uses: webgrip/workflows/.forgejo/workflows/node-application-tests.yml@f2e235efd0589ee32cef70cd79ee7f110f80d1da # main
     with:
       node-version: "24"
       package-manager: pnpm
@@ -61,7 +65,7 @@ jobs:
     # The shared Node "tests" workflow is reused as a build gate via
     # test-command — the same pattern the org's dotnet/node monorepo example
     # uses for its frontend build step.
-    uses: https://forgejo.webgrip.dev/webgrip/workflows/.forgejo/workflows/node-application-tests.yml@main
+    uses: webgrip/workflows/.forgejo/workflows/node-application-tests.yml@f2e235efd0589ee32cef70cd79ee7f110f80d1da # main
     with:
       node-version: "24"
       package-manager: pnpm

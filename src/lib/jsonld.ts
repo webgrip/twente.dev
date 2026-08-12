@@ -2,6 +2,7 @@ import { SITE_URL, TIMEZONE } from '../i18n/config.ts';
 import type { Locale } from '../i18n/config.ts';
 import { absoluteUrl } from '../i18n/utils.ts';
 import { routePath } from '../i18n/routes.ts';
+import { REGISTRATION_OPENS, REGISTRATION_URL } from '../config/site.ts';
 import { postSlug } from './content.ts';
 import type { CompanyEntry, EventEntry, JobEntry, PostEntry } from './content.ts';
 
@@ -20,6 +21,41 @@ type JsonLd = Record<string, unknown>;
 
 const ORGANISATION_ID = `${SITE_URL}/#organisation`;
 
+/**
+ * Shared fallback image for Article/Event rich results — Google effectively
+ * gates Article rich results on `image` being present. Per-entry images can
+ * override this when the content grows them.
+ */
+const DEFAULT_SCHEMA_IMAGE = '/brand/twente-dev-social-banner.png';
+
+/**
+ * `2026-09-10T19:00:00+02:00` — local Europe/Amsterdam time with an explicit
+ * offset. Google's Event docs recommend this over UTC `Z` so the surfaced
+ * date/time cannot drift, and a date-boundary event (a 00:30 CEST start is
+ * the previous day in UTC) still displays on the right day.
+ */
+function toAmsterdamIso(date: Date): string {
+  const parts = new Intl.DateTimeFormat('en-CA', {
+    timeZone: TIMEZONE,
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false,
+    timeZoneName: 'longOffset',
+  }).formatToParts(date);
+
+  const get = (type: string): string => parts.find((p) => p.type === type)?.value ?? '';
+  // "GMT+02:00" → "+02:00"; the zone never resolves to bare "GMT" for NL.
+  const offset = get('timeZoneName').replace('GMT', '') || '+00:00';
+  // en-CA hour formatting can yield "24" at midnight; normalise to "00".
+  const hour = get('hour') === '24' ? '00' : get('hour');
+
+  return `${get('year')}-${get('month')}-${get('day')}T${hour}:${get('minute')}:${get('second')}${offset}`;
+}
+
 export function organisationSchema(): JsonLd {
   return {
     '@context': 'https://schema.org',
@@ -36,14 +72,16 @@ export function organisationSchema(): JsonLd {
   };
 }
 
-export function websiteSchema(locale: Locale): JsonLd {
+export function websiteSchema(): JsonLd {
   return {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     '@id': `${SITE_URL}/#website`,
     url: SITE_URL,
     name: 'twente.dev',
-    inLanguage: locale,
+    // One entity, one definition. Emitting the same @id with a per-page
+    // `inLanguage` would define the entity contradictorily across the corpus.
+    inLanguage: ['nl', 'en'],
     publisher: { '@id': ORGANISATION_ID },
   };
 }
@@ -68,8 +106,8 @@ export function jobPostingSchema(job: JobEntry, company: CompanyEntry, locale: L
     title: job.data.title[locale],
     description: job.data.description[locale],
     inLanguage: locale,
-    datePosted: job.data.postedAt.toISOString(),
-    validThrough: job.data.validThrough.toISOString(),
+    datePosted: toAmsterdamIso(job.data.postedAt),
+    validThrough: toAmsterdamIso(job.data.validThrough),
     employmentType: employmentTypeToSchema(job.data.employmentType),
     url: absoluteUrl(routePath('jobs', locale, job.id)),
     directApply: false,
@@ -136,15 +174,35 @@ function employmentTypeToSchema(type: JobEntry['data']['employmentType']): strin
  */
 export function eventSchema(event: EventEntry, locale: Locale): JsonLd {
   const online = event.data.venue.online;
+  const isFlagship = event.data.canonicalRoute === 'edition001';
+
+  /**
+   * Offers honesty: `validFrom` is only meaningful when a real on-sale date
+   * exists — a build timestamp ("on sale since the last rebuild") is noise
+   * that changes nightly. For the flagship that date is REGISTRATION_OPENS;
+   * until its REGISTRATION_URL exists the offer is a PreOrder, not InStock.
+   */
+  const offers: JsonLd = {
+    '@type': 'Offer',
+    price: event.data.costEur,
+    priceCurrency: 'EUR',
+    availability:
+      isFlagship && !REGISTRATION_URL
+        ? 'https://schema.org/PreOrder'
+        : 'https://schema.org/InStock',
+    url: event.data.url,
+    ...(isFlagship ? { validFrom: toAmsterdamIso(REGISTRATION_OPENS) } : {}),
+  };
 
   return {
     '@context': 'https://schema.org',
     '@type': 'Event',
     name: event.data.title[locale],
     description: event.data.description[locale],
+    image: [absoluteUrl(DEFAULT_SCHEMA_IMAGE)],
     inLanguage: event.data.language === 'both' ? locale : event.data.language,
-    startDate: event.data.start.toISOString(),
-    ...(event.data.end ? { endDate: event.data.end.toISOString() } : {}),
+    startDate: toAmsterdamIso(event.data.start),
+    ...(event.data.end ? { endDate: toAmsterdamIso(event.data.end) } : {}),
     eventStatus: event.data.cancelled
       ? 'https://schema.org/EventCancelled'
       : 'https://schema.org/EventScheduled',
@@ -155,7 +213,8 @@ export function eventSchema(event: EventEntry, locale: Locale): JsonLd {
       ? { '@type': 'VirtualLocation', url: event.data.url }
       : {
           '@type': 'Place',
-          name: event.data.venue.name,
+          // Venue may be unannounced; the city still names the Place.
+          name: event.data.venue.name ?? event.data.venue.city,
           address: {
             '@type': 'PostalAddress',
             ...(event.data.venue.address ? { streetAddress: event.data.venue.address } : {}),
@@ -174,14 +233,7 @@ export function eventSchema(event: EventEntry, locale: Locale): JsonLd {
         ? routePath(event.data.canonicalRoute, locale)
         : routePath('events', locale, event.id),
     ),
-    offers: {
-      '@type': 'Offer',
-      price: event.data.costEur,
-      priceCurrency: 'EUR',
-      availability: 'https://schema.org/InStock',
-      url: event.data.url,
-      validFrom: new Date().toISOString(),
-    },
+    offers,
     isAccessibleForFree: event.data.costEur === 0,
   };
 }
@@ -192,9 +244,10 @@ export function articleSchema(post: PostEntry, locale: Locale): JsonLd {
     '@type': 'BlogPosting',
     headline: post.data.title,
     description: post.data.description,
+    image: [absoluteUrl(DEFAULT_SCHEMA_IMAGE)],
     inLanguage: locale,
-    datePublished: post.data.publishedAt.toISOString(),
-    ...(post.data.updatedAt ? { dateModified: post.data.updatedAt.toISOString() } : {}),
+    datePublished: toAmsterdamIso(post.data.publishedAt),
+    ...(post.data.updatedAt ? { dateModified: toAmsterdamIso(post.data.updatedAt) } : {}),
     author: {
       '@type': 'Person',
       name: post.data.author.name,

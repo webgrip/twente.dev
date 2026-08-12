@@ -104,4 +104,29 @@ describe('buildIcsCalendar', () => {
     const ics = buildIcsCalendar({ ...base, events: [open] });
     assert.ok(!ics.includes('DTEND'));
   });
+
+  test('DTSTAMP falls back to the generation time, not DTSTART', () => {
+    const ics = buildIcsCalendar({
+      ...base,
+      generatedAt: new Date('2026-08-11T12:00:00Z'),
+      events: [event],
+    });
+    assert.ok(ics.includes('DTSTAMP:20260811T120000Z'));
+  });
+
+  test('emits SEQUENCE and LAST-MODIFIED from lastModified so edits propagate', () => {
+    const lastModified = new Date('2026-09-01T08:00:00Z');
+    const ics = buildIcsCalendar({
+      ...base,
+      events: [{ ...event, lastModified }],
+    });
+    assert.ok(ics.includes(`SEQUENCE:${Math.floor(lastModified.getTime() / 1000)}`));
+    assert.ok(ics.includes('LAST-MODIFIED:20260901T080000Z'));
+    assert.ok(ics.includes('DTSTAMP:20260901T080000Z'));
+  });
+
+  test('unedited events carry SEQUENCE:0', () => {
+    const ics = buildIcsCalendar({ ...base, events: [event] });
+    assert.ok(ics.includes('SEQUENCE:0'));
+  });
 });

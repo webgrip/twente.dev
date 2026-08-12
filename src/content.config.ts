@@ -31,6 +31,15 @@ const i18nString = z.object({
   en: z.string().min(1),
 });
 
+/**
+ * Marks an entry as invented demo content. Rendered with a visible
+ * "Voorbeelddata / Example data" tag, and `pnpm validate:content` fails when
+ * one is present with FIXTURES_ALLOWED unset — so fixtures physically cannot
+ * reach production. A source comment can't enforce "delete before launch";
+ * this field can.
+ */
+const fixture = z.boolean().default(false);
+
 const TWENTE_CITIES = [
   'Enschede',
   'Hengelo',
@@ -114,7 +123,14 @@ const events = defineCollection({
       start: z.coerce.date(),
       end: z.coerce.date().optional(),
       venue: z.object({
-        name: z.string().min(1),
+        /**
+         * Optional so "venue not yet known" is representable. Templates
+         * render the localized "Locatie volgt" / "Venue to be announced"
+         * string when absent — never store an English sentinel here, it
+         * bypasses translation. Keep names to proper nouns (no descriptive
+         * words like "kantoor"), since this field cannot be localized.
+         */
+        name: z.string().min(1).optional(),
         city: z.enum(TWENTE_CITIES).or(z.string().min(1)),
         address: z.string().optional(),
         online: z.boolean().default(false),
@@ -132,6 +148,13 @@ const events = defineCollection({
       tags: z.array(z.string().min(1)).default([]),
       cancelled: z.boolean().default(false),
       /**
+       * When the entry was last edited (time change, venue confirmation,
+       * cancellation). Drives SEQUENCE and LAST-MODIFIED in the ICS feed —
+       * without a bump, Outlook won't propagate the edit to subscribers.
+       * Bump it whenever a fact changes.
+       */
+      updatedAt: z.coerce.date().optional(),
+      /**
        * Who runs this event, and how we credit it. Partner events are
        * "listed" — they keep their identity and their own registration, and
        * we always link to the source (the playbook's non-displacement
@@ -146,6 +169,7 @@ const events = defineCollection({
        * one canonical listing, synchronised everywhere.
        */
       canonicalRoute: z.enum(ROUTE_KEYS).optional(),
+      fixture,
     })
     .refine((e) => !e.end || e.end >= e.start, {
       message: 'end must not be before start',
@@ -192,6 +216,7 @@ const jobs = defineCollection({
        * for Jobs treats a missing validThrough as a quality problem.
        */
       validThrough: z.coerce.date(),
+      fixture,
     })
     .refine((j) => j.validThrough > j.postedAt, {
       message: 'validThrough must be after postedAt',
@@ -222,6 +247,7 @@ const companies = defineCollection({
        */
       tier: z.enum(['community', 'partner']).default('community'),
       socials,
+      fixture,
     }),
 });
 

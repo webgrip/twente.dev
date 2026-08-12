@@ -135,6 +135,19 @@ export async function getCommunities(): Promise<CommunityEntry[]> {
 
 /* ---- misc ---------------------------------------------------------------- */
 
+/**
+ * Meta-description truncation. Cuts at a word boundary and appends an
+ * ellipsis — a hard `slice(200)` ends descriptions mid-word ("…Ervarin"),
+ * and the same string feeds og:description and twitter:description.
+ * 160 keeps the whole line visible in a search snippet.
+ */
+export function summarize(text: string, max = 160): string {
+  if (text.length <= max) return text;
+  const cut = text.slice(0, max);
+  const lastSpace = cut.lastIndexOf(' ');
+  return `${cut.slice(0, lastSpace > 0 ? lastSpace : max).replace(/[\s.,;:—-]+$/, '')}…`;
+}
+
 /** Rough reading time. Dutch and English are close enough to share a WPM. */
 export function readingTimeMinutes(body: string | undefined): number {
   if (!body) return 1;

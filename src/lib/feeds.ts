@@ -12,21 +12,30 @@ import type { IcsEvent } from './ics.ts';
 export async function buildRssFeed(locale: Locale): Promise<Response> {
   const t = useTranslations(locale);
   const posts = await getPosts(locale);
+  const selfUrl = `${SITE_URL}/${locale}/rss.xml`;
 
   return rss({
     title: `${t('site.name')} — ${t('blog.title')}`,
     description: t('blog.description'),
-    site: SITE_URL,
+    // The channel <link> is this locale's blog index — not the bare domain,
+    // which serves the noindex root redirect stub.
+    site: absoluteUrl(routePath('blog', locale)),
     trailingSlash: false,
+    xmlns: {
+      dc: 'http://purl.org/dc/elements/1.1/',
+      atom: 'http://www.w3.org/2005/Atom',
+    },
     items: posts.map((post) => ({
       title: post.data.title,
       description: post.data.description,
       pubDate: post.data.publishedAt,
       link: absoluteUrl(routePath('blog', locale, postSlug(post))),
       categories: post.data.tags,
-      author: post.data.author.name,
+      // RSS 2.0's <author> is defined as an email address; a bare name fails
+      // the W3C validator. Dublin Core's dc:creator is the name-shaped field.
+      customData: `<dc:creator><![CDATA[${post.data.author.name}]]></dc:creator>`,
     })),
-    customData: `<language>${locale}</language>`,
+    customData: `<language>${locale}</language><atom:link href="${selfUrl}" rel="self" type="application/rss+xml"/>`,
   });
 }
 
@@ -61,6 +70,7 @@ export async function buildEventsIcs(locale: Locale = 'nl'): Promise<Response> {
             .join(', '),
       url: absoluteUrl(path),
       cancelled: event.data.cancelled,
+      lastModified: event.data.updatedAt,
     };
   });
 
@@ -69,6 +79,7 @@ export async function buildEventsIcs(locale: Locale = 'nl'): Promise<Response> {
     description: t('events.description'),
     domain: 'twente.dev',
     events: icsEvents,
+    generatedAt: new Date(),
   });
 
   return new Response(body, {

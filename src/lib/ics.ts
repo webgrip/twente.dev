@@ -79,6 +79,11 @@ export interface IcsCalendarOptions {
   /** Stable per-deployment; clients use it to dedupe. */
   domain: string;
   events: IcsEvent[];
+  /**
+   * When this calendar object was generated — DTSTAMP for events without their
+   * own modification time. Injectable so tests stay deterministic.
+   */
+  generatedAt?: Date;
 }
 
 export function buildIcsCalendar({
@@ -86,6 +91,7 @@ export function buildIcsCalendar({
   description,
   domain,
   events,
+  generatedAt,
 }: IcsCalendarOptions): string {
   const lines: string[] = [
     'BEGIN:VCALENDAR',
@@ -102,9 +108,17 @@ export function buildIcsCalendar({
     lines.push(
       'BEGIN:VEVENT',
       line('UID', `${event.uid}@${domain}`),
-      line('DTSTAMP', formatIcsDate(event.lastModified ?? event.start)),
+      // DTSTAMP is "when this iCalendar object was created" — the event's own
+      // modification time when known, otherwise the feed's generation time.
+      // Falling back to DTSTART would tell clients nothing ever changed.
+      line('DTSTAMP', formatIcsDate(event.lastModified ?? generatedAt ?? event.start)),
       line('DTSTART', formatIcsDate(event.start)),
       ...(event.end ? [line('DTEND', formatIcsDate(event.end))] : []),
+      // SEQUENCE must increase on edits or Outlook won't propagate them —
+      // including the STATUS:CANCELLED flip below. Deriving it from the
+      // modification timestamp makes it monotonic without extra bookkeeping.
+      `SEQUENCE:${event.lastModified ? Math.floor(event.lastModified.getTime() / 1000) : 0}`,
+      ...(event.lastModified ? [line('LAST-MODIFIED', formatIcsDate(event.lastModified))] : []),
       line('SUMMARY', escapeIcsText(event.summary)),
       line('DESCRIPTION', escapeIcsText(event.description)),
       line('LOCATION', escapeIcsText(event.location)),

@@ -30,24 +30,27 @@ export default defineConfig({
   },
   integrations: [
     sitemap({
-      i18n: {
-        defaultLocale: DEFAULT_LOCALE,
-        locales: Object.fromEntries(LOCALES.map((l) => [l, l])),
-      },
       /**
-       * Exclude the bare root and the 404.
-       *
-       * `/` is a `noindex` redirect stub (ADR-0004). Left in, the sitemap
-       * integration also treats it as a *third* locale variant of the
-       * homepage and emits a duplicate `hreflang="nl"` alongside `/nl`,
-       * which is exactly the alternate-set ambiguity the locale strategy
-       * exists to avoid.
+       * No `i18n` block on purpose. The integration derives alternates by
+       * swapping locale prefixes, which cannot work for our localized path
+       * segments (/nl/vacatures ↔ /en/jobs, per-locale blog slugs — see
+       * src/i18n/routes.ts). It annotated only the 21 prefix-symmetric URLs,
+       * with bare `nl`/`en` codes and no x-default, contradicting the
+       * complete hreflang cluster BaseHead already emits on every page.
+       * Partial sitemap annotations are worse than none; the on-page
+       * hreflang is the single source of truth.
+       */
+
+      /**
+       * Exclude everything that renders `noindex`: the root and /001
+       * redirect stubs (ADR-0004), the 404, the styleguide (internal design
+       * reference) and the search pages. A sitemap entry says "index me";
+       * submitting a noindex page hands Search Console a contradiction.
        */
       filter: (page) => {
         const path = new URL(page).pathname.replace(/\/+$/, '');
-        // `/styleguide` is an internal design reference: noindex, no locale
-        // variants, no place in the sitemap.
-        return path !== '' && !path.endsWith('/404') && path !== '/styleguide';
+        const noindexPaths = new Set(['', '/001', '/styleguide', '/nl/zoeken', '/en/search']);
+        return !noindexPaths.has(path) && !path.endsWith('/404');
       },
     }),
   ],
@@ -92,9 +95,14 @@ export default defineConfig({
     },
   },
   markdown: {
-    shikiConfig: {
-      themes: { light: 'github-light', dark: 'github-dark' },
-      wrap: true,
-    },
+    /**
+     * Prism, not Shiki. Shiki emits inline `style=""` attributes, which the
+     * hash-based CSP above cannot authorize (hashes cover elements, not
+     * attributes) — the first blog post with a code fence would ship with its
+     * highlighting stripped by the browser. Prism emits classes; the theme
+     * lives in global.css, mapped onto the design tokens so code blocks
+     * follow light/dark like everything else.
+     */
+    syntaxHighlight: 'prism',
   },
 });

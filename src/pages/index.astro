@@ -13,8 +13,10 @@
  */
 import { DEFAULT_LOCALE } from '../i18n/config.ts';
 import { routePath } from '../i18n/routes.ts';
+import { absoluteUrl } from '../i18n/utils.ts';
 
 const target = routePath('home', DEFAULT_LOCALE);
+const canonical = absoluteUrl(target);
 ---
 
 <!doctype html>
@@ -22,7 +24,7 @@ const target = routePath('home', DEFAULT_LOCALE);
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="refresh" content={`0; url=${target}`} />
-    <link rel="canonical" href={target} />
+    <link rel="canonical" href={canonical} />
     <meta name="robots" content="noindex" />
     <title>twente.dev</title>
   </head>

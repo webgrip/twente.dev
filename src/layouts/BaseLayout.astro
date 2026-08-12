@@ -18,9 +18,12 @@ interface Props {
   ogType?: 'website' | 'article';
   jsonLd?: Record<string, unknown>[];
   noindex?: boolean;
+  /** See BaseHead: suppresses canonical/hreflang/og:url on the 404. */
+  errorPage?: boolean;
 }
 
-const { locale, routeKey, slug, title, description, ogType, jsonLd, noindex } = Astro.props;
+const { locale, routeKey, slug, title, description, ogType, jsonLd, noindex, errorPage } =
+  Astro.props;
 const t = useTranslations(locale);
 ---
 
@@ -36,6 +39,7 @@ const t = useTranslations(locale);
       ogType={ogType}
       jsonLd={jsonLd}
       noindex={noindex}
+      errorPage={errorPage}
     />
     <script is:inline>
       // Runs before first paint to avoid a flash of the wrong theme. Kept

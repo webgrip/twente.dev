@@ -12,13 +12,21 @@
  */
 import '../styles/global.css';
 
-import { getPosts, getUpcomingEvents } from '../lib/content.ts';
+import { getCompanies, getOpenJobs, getPosts, getUpcomingEvents } from '../lib/content.ts';
 import EventCard from '../components/EventCard.astro';
 import PostCard from '../components/PostCard.astro';
+import JobCard from '../components/JobCard.astro';
+import CompanyCard from '../components/CompanyCard.astro';
 import Tag from '../components/Tag.astro';
 
 const [sampleEvent] = await getUpcomingEvents();
 const [samplePost] = await getPosts('en');
+const [sampleJob] = await getOpenJobs();
+const companies = await getCompanies();
+const sampleCompany = companies[0];
+const sampleJobCompany = sampleJob
+  ? companies.find((c) => c.id === sampleJob.data.company.id)
+  : undefined;
 
 const COLORS = [
   { name: 'Ink', token: '--ink', hex: '#111820', role: 'Primary type / authority' },
@@ -26,15 +34,15 @@ const COLORS = [
     name: 'Signal red',
     token: '--signal-red',
     hex: '#C3291B',
-    role: "Connection / date / action — the Twente flag's red (RGB 195 41 27), one per view",
+    role: "Connections, dates and actions — the Twente flag's red (RGB 195 41 27), never decoration",
   },
   { name: 'Warm paper', token: '--warm-paper', hex: '#F7F3EA', role: 'Community / openness' },
   { name: 'Thread grey', token: '--thread-grey', hex: '#D9DFDC', role: 'Structure / grid' },
   {
     name: 'Signal red · dark',
     token: '--signal-red-light',
-    hex: '#E85C48',
-    role: 'The red on ink: dark mode lightens the flag red to stay AA-readable',
+    hex: '#EA6250',
+    role: 'The red on ink: dark mode lightens the flag red to stay AA on every dark surface',
   },
 ];
 
@@ -161,12 +169,16 @@ const SPACES = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
       <section>
         <h2><span class="label-mono sg-index">05</span> Cards</h2>
         <p class="sg-note">
-          Hairline borders, near-square corners, mono dates, one accent edge. Attribution credit
-          ("Listed by twente.dev") is part of the card, not a footnote.
+          Hairline borders, near-square corners, mono dates, one accent edge (the flagship spine
+          survives hover). Attribution credit ("Organised by …") is part of the card, not a
+          footnote. All four card species share one recipe: space-4/space-5 padding, radius-md,
+          border-color transition, 2px focus offset.
         </p>
         <div class="sg-cards">
           {sampleEvent && <EventCard event={sampleEvent} locale="en" />}
           {samplePost && <PostCard post={samplePost} locale="en" />}
+          {sampleJob && <JobCard job={sampleJob} company={sampleJobCompany} locale="en" />}
+          {sampleCompany && <CompanyCard company={sampleCompany} locale="en" openJobs={1} />}
         </div>
       </section>
 
@@ -191,7 +203,10 @@ const SPACES = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
       <section>
         <h2><span class="label-mono sg-index">07</span> Rules</h2>
         <ul class="sg-rules">
-          <li>One deliberate red emphasis per view. Red marks connection, date or action.</li>
+          <li>
+            Red marks connections, dates and actions — never decoration. Metadata (labels, indices,
+            companies, counts) stays in the grey ramp so the red keeps its meaning.
+          </li>
           <li>
             <strong>twente.dev</strong> is always lowercase, set in mono, with the red dot on the "."
             in the wordmark.
@@ -256,8 +271,10 @@ const SPACES = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
     gap: var(--space-3);
   }
 
+  /* Grey, matching the homepage's kickers — section indices are wayfinding
+     metadata, not one of the view's red signals. */
   .sg-index {
-    color: var(--accent-strong);
+    color: var(--fg-subtle);
   }
 
   .sg-note {
@@ -404,39 +421,6 @@ const SPACES = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
     color: var(--fg-subtle);
   }
 
-  /* Buttons duplicated from the site templates so the guide stays standalone. */
-  .button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 3rem;
-    padding-inline: var(--space-5);
-    border-radius: var(--radius-md);
-    border: var(--border-width) solid var(--fg);
-    background: transparent;
-    color: var(--fg);
-    font-family: var(--font-mono);
-    font-size: var(--text-sm);
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: var(--tracking-label);
-    text-decoration: none;
-  }
-
-  .button:hover {
-    background: var(--fg);
-    color: var(--bg);
-  }
-
-  .button--primary {
-    background: var(--accent);
-    border-color: var(--accent);
-    color: var(--accent-fg);
-  }
-
-  .button--primary:hover {
-    background: var(--accent-fill-hover);
-    border-color: var(--accent-fill-hover);
-    color: var(--accent-fg);
-  }
+  /* .button / .button--primary come from global.css (imported above) — the
+     guide renders the exact recipe the site ships, no duplicated copy. */
 </style>

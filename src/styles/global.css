@@ -1,8 +1,10 @@
 /* Self-hosted fonts (plan §4: no third-party font CDN). Inter Variable and
    IBM Plex Mono are the playbook's sanctioned web upgrades of the print
    templates' DejaVu. Served same-origin, font-display: swap. */
-/* Latin subsets only — NL and EN never leave them, and every subset imported
-   here lands as a file in dist/. */
+/* Plex Mono ships latin-only. Inter's variable package has no per-subset CSS,
+   so wght.css registers every subset — unicode-range guarantees browsers only
+   download latin(-ext) for NL/EN text; the other subsets are dist/ dead
+   weight only. The latin variable file is preloaded in BaseHead.astro. */
 @import '@fontsource-variable/inter/wght.css';
 @import '@fontsource/ibm-plex-mono/latin-400.css';
 @import '@fontsource/ibm-plex-mono/latin-700.css';
@@ -200,6 +202,54 @@ hr {
   letter-spacing: var(--tracking-label);
 }
 
+/* ---- buttons --------------------------------------------------------------
+   The one button recipe. It used to live as five hand-copied blocks across
+   HomePage, EditionPage, the styleguide and two detail-page CTAs — which
+   drifted (missing justify-content, a sans-serif variant, and a hover using
+   --accent-hover, the red-*text* token, as a fill: salmon-on-white in dark
+   mode). Primary actions are `.button--primary`; never fill with
+   --accent-hover. */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3rem;
+  padding-inline: var(--space-5);
+  border-radius: var(--radius-md);
+  border: var(--border-width) solid var(--fg);
+  background: transparent;
+  color: var(--fg);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color var(--duration-fast) var(--ease-out),
+    border-color var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out);
+}
+
+.button:hover {
+  background: var(--fg);
+  color: var(--bg);
+}
+
+/* The view's one red action. */
+.button--primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-fg);
+}
+
+.button--primary:hover {
+  background: var(--accent-fill-hover);
+  border-color: var(--accent-fill-hover);
+  color: var(--accent-fg);
+}
+
 /* Display register: one statement per view, room-distance sized. */
 .text-display {
   font-size: var(--text-display);
@@ -259,6 +309,44 @@ hr {
   background: var(--bg-inset);
   padding: 0.15em 0.35em;
   border-radius: var(--radius-sm);
+}
+
+/* Prism token theme (astro.config.mjs uses class-based Prism because the
+   hash-based CSP cannot authorize Shiki's inline style attributes). Colors
+   ride the design tokens, so code follows light/dark automatically. */
+.prose .token.comment,
+.prose .token.prolog,
+.prose .token.cdata {
+  color: var(--fg-subtle);
+  font-style: italic;
+}
+
+.prose .token.keyword,
+.prose .token.atrule,
+.prose .token.important,
+.prose .token.tag {
+  color: var(--accent-strong);
+}
+
+.prose .token.string,
+.prose .token.char,
+.prose .token.attr-value,
+.prose .token.regex {
+  color: var(--fg-muted);
+}
+
+.prose .token.function,
+.prose .token.class-name,
+.prose .token.selector,
+.prose .token.attr-name {
+  font-weight: var(--weight-semibold);
+}
+
+.prose .token.number,
+.prose .token.boolean,
+.prose .token.constant,
+.prose .token.symbol {
+  font-variant-numeric: tabular-nums;
 }
 
 .prose table {

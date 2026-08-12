@@ -3,9 +3,11 @@
  *
  * Palette per the twente.dev brand pack (Aug 2026): Ink for authority,
  * Signal red for connection and action, Warm paper for openness, Thread
- * grey for structure. The one rule that matters: **one deliberate red
- * emphasis per view** — red marks the connection, date or action, never
- * decoration. Light mode lives on warm paper; dark mode lives on ink.
+ * grey for structure. The rule that matters: **red marks connections,
+ * dates and actions — never decoration**. Links and primary actions are
+ * red by design; anything that is merely metadata (labels, indices,
+ * companies, counts) stays in the grey ramp so the red keeps its meaning.
+ * Light mode lives on warm paper; dark mode lives on ink.
  *
  * Light and dark are both first-class: `prefers-color-scheme` is the default
  * signal, and `[data-theme]` on the root wins over it in both directions so
@@ -22,12 +24,12 @@
   --warm-paper: #f7f3ea;
   --thread-grey: #d9dfdc;
 
-  /* Derived brand shades (darkened/lightened for states and dark mode). */
+  /* Derived brand shades (darkened/lightened for states and dark mode).
+     The lightened cut is tuned to ≥4.5:1 on every dark surface *including*
+     --bg-raised (#1c2530) — the pack's #e85c48 was 4.46:1 there, a hair
+     under AA for the red text sitting on raised cards. */
   --signal-red-dark: #a52114;
-  --signal-red-light: #e85c48;
-
-  /* Legacy alias — a few components predate the brand pack. */
-  --twente-red: var(--signal-red);
+  --signal-red-light: #ea6250;
 
   /* ---- type ------------------------------------------------------------- */
   /* Brand pack prescribes DejaVu in print templates; Inter and IBM Plex
@@ -49,7 +51,6 @@
   --text-display: clamp(2.75rem, 1.9rem + 5.2vw, 6rem);
 
   --leading-tight: 1.15;
-  --leading-snug: 1.35;
   --leading-normal: 1.65;
   --leading-display: 0.98;
 
@@ -58,7 +59,11 @@
   --tracking-normal: 0;
   /* Mono labels track open, uppercase, xs — the "technical texture" register. */
   --tracking-label: 0.08em;
+  /* Non-mono small caps (tags, dt labels) track tighter than mono labels. */
+  --tracking-caps: 0.04em;
 
+  --weight-medium: 550;
+  --weight-semibold: 650;
   --weight-display: 830;
 
   /* ---- space (4px base) -------------------------------------------------- */
@@ -110,7 +115,9 @@
 
   --fg: var(--ink);
   --fg-muted: #4a545c;
-  --fg-subtle: #6e7880;
+  /* ≥4.5:1 on every light surface, including --bg-subtle — this token is
+     used at 12–14px, so the large-text 3:1 allowance never applies. */
+  --fg-subtle: #5d666e;
 
   --border: var(--thread-grey);
   --border-strong: #b6bfbb;
@@ -128,9 +135,6 @@
   --focus-ring: var(--signal-red);
 
   --grid-line: rgb(17 24 32 / 0.07);
-
-  --shadow-sm: 0 1px 2px rgb(17 24 32 / 0.06);
-  --shadow-md: 0 4px 12px rgb(17 24 32 / 0.08);
 }
 
 /* ---- dark: warm paper on ink ---------------------------------------------- */
@@ -163,9 +167,6 @@
     --focus-ring: var(--signal-red-light);
 
     --grid-line: rgb(247 243 234 / 0.06);
-
-    --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4);
-    --shadow-md: 0 4px 12px rgb(0 0 0 / 0.5);
   }
 }
 
@@ -195,7 +196,4 @@
   --focus-ring: var(--signal-red-light);
 
   --grid-line: rgb(247 243 234 / 0.06);
-
-  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4);
-  --shadow-md: 0 4px 12px rgb(0 0 0 / 0.5);
 }

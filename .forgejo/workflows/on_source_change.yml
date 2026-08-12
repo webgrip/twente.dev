@@ -55,7 +55,11 @@ jobs:
     with:
       node-version: "24"
       package-manager: pnpm
-      test-command: pnpm validate:content
+      # REQUIRE_REAL_CONTENT=1 turns the fixture warning into a hard failure: the
+      # fixtures are gone, and reintroducing fictional organisations attributed to
+      # a real region must not be able to reach main. `test-command` is interpolated
+      # into a bash `run:` by the shared workflow, so the env prefix is honoured.
+      test-command: REQUIRE_REAL_CONTENT=1 pnpm validate:content
 
   build:
     name: "Build Site"

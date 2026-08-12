@@ -4,22 +4,27 @@ Everything in this directory is versioned, schema-validated content. The schemas
 [`src/content.config.ts`](../content.config.ts) and run on every build — a malformed entry fails CI
 before a human reviews it.
 
-## ⚠️ The entries currently here are FIXTURES
+## No fictional content — and CI now enforces it
 
-Every company, event and community file in this directory is a **placeholder** written to
-exercise the schemas and give the layouts something to render. The organisations are fictional
-("Example Labs", "Demo Systems B.V.", "Sample Interactive").
+The fixtures are gone (deleted 2026-08-12): three fictional companies and two fictional events
+that existed to exercise the schemas and give the layouts something to render. What remains is
+real — the /001 edition entry, the 12 verified communities, and the posts.
 
-Fixtures carry `fixture: true` in their data — the schemas render a visible
-"Voorbeelddata / Example data" tag on every card and detail page so a preview visitor cannot
-mistake them for real listings, and `pnpm validate:content` flags them (a hard failure when
-`REQUIRE_REAL_CONTENT=1`, the launch-commit gate). A `# FIXTURE` comment alone is not enough:
-comments don't survive into the build, the schema field does.
+**CI will not let them come back.** The content-validation job runs with
+`REQUIRE_REAL_CONTENT=1`, which turns the fixture check in `scripts/validate-content.ts` from a
+warning into a hard failure. Anything carrying `fixture: true` fails the build.
 
-**Delete all of them before launch.** Real entries arrive through the contribution pipeline
-(`CONTRIBUTING.md`), never by inventing them. Publishing invented listings attributed to real
-regional organisations would be both misleading and a fast way to lose the community's trust —
-which is the only asset this site has.
+That field is the mechanism, not the `# FIXTURE` comment — comments do not survive into the build,
+the schema field does. If you genuinely need scratch data while developing a layout, keep it
+out of a commit; do not reach for the flag to get a PR green.
+
+Real entries arrive through the contribution pipeline (`CONTRIBUTING.md`), never by inventing them.
+Publishing invented listings attributed to real regional organisations would be both misleading and
+a fast way to lose the community's trust — which is the only asset this site has.
+
+> `companies/` currently has no entries and the directory pages are placeholders pending the
+> decision recorded on VIK-683. A zero-entry collection is valid — `validate:content` reports
+> "checked 0 companies" and the build succeeds.
 
 ## Layout
 

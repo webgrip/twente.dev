@@ -5,10 +5,10 @@
       "url": [
         "http://localhost/nl.html",
         "http://localhost/en.html",
-        "http://localhost/nl/communities.html",
-        "http://localhost/nl/events/frontend-avond-hengelo.html",
+        "http://localhost/nl/001.html",
+        "http://localhost/en/001.html",
         "http://localhost/nl/events.html",
-        "http://localhost/nl/bedrijven.html",
+        "http://localhost/nl/communities.html",
         "http://localhost/nl/blog/waarom-twente-dev.html"
       ],
       "numberOfRuns": 3,

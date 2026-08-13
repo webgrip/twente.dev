@@ -258,11 +258,36 @@ jobs:
       - name: Smoke test
         run: |
           set -euo pipefail
+
+          # Wait for the edge before asserting anything. Run 8 deployed the route
+          # successfully ("Deployed twente-dev triggers: twente.dev/*") and then failed
+          # here on /nl -> 522, because the smoke step started seconds later and the
+          # trigger had not taken effect yet. Asserting immediately turns a healthy
+          # deploy into a red pipeline, which is how a smoke test stops being believed.
+          for attempt in $(seq 1 12); do
+            code="$(curl -s -o /dev/null -w '%{http_code}' --max-time 15 https://twente.dev/nl || echo 000)"
+            [ "${code}" = "200" ] && { echo "edge ready after ${attempt} attempt(s)"; break; }
+            echo "waiting for edge (/nl -> ${code}, attempt ${attempt}/12)"
+            [ "${attempt}" = "12" ] && { echo "FAIL: edge never became ready"; exit 1; }
+            sleep 10
+          done
+
           # /nl/vacatures and /en/jobs are gone since the lean-launch scope cut
           # (job board removed) — the directory pages stand in as the deepest
           # localized routes worth smoke-testing.
-          for path in /nl /en /nl/bedrijven /en/companies /events.ics /robots.txt; do
-            code="$(curl -s -o /dev/null -w '%{http_code}' "https://twente.dev${path}")"
+          for path in /nl /en /nl/001 /en/001 /nl/bedrijven /en/companies /events.ics /robots.txt; do
+            code="$(curl -s -o /dev/null -w '%{http_code}' --max-time 15 "https://twente.dev${path}")"
             echo "${path} -> ${code}"
-            [ "${code}" = "200" ] || { echo "FAIL ${path}"; exit 1; }
+            [ "${code}" = "200" ] || { echo "FAIL ${path} (expected 200)"; exit 1; }
           done
+
+          # not_found_handling and the front-door redirects are wrangler.toml and
+          # _redirects contracts; nothing else in CI exercises them against production.
+          check_status() {
+            code="$(curl -s -o /dev/null -w '%{http_code}' --max-time 15 "https://twente.dev${1}")"
+            echo "${1} -> ${code} (expected ${2})"
+            [ "${code}" = "${2}" ] || { echo "FAIL ${1}"; exit 1; }
+          }
+          check_status /nl/this-page-does-not-exist 404
+          check_status / 302
+          check_status /001 301

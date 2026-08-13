@@ -49,6 +49,23 @@ contract, and the handful of repo rules that look like style choices but are loa
 - `labels_bulk_set_on_task` **replaces** the whole label set. Deletes are soft: `task_delete`
   completes, `project_delete` archives.
 
+### Reading Forgejo Actions logs from a script
+
+The REST API exposes runs but **not** job logs — `/api/v1/.../actions/runs/{n}/jobs` and every
+`.../logs` variant 404 even with a valid token. The UI's own endpoint works, and it is a POST:
+
+```bash
+curl -X POST -H "Authorization: token $TOKEN" -H "Content-Type: application/json" \
+  -d '{"logCursors":[{"step":7,"cursor":0,"expanded":true}]}' \
+  "https://forgejo.webgrip.dev/webgrip/twente.dev/actions/runs/<run>/jobs/<jobIdx>/attempt/1"
+```
+
+Three things that make it fail silently: `attempt` is **1-based** (omitting it gives
+`task with job_id … and attempt 0: resource does not exist`), `jobIdx` is the job's **0-based
+position in the run** (not the id from the tasks API — POST with no `logCursors` to enumerate
+titles), and the output lands in `logs.stepsLog[].lines[].message`, not `streamingLogs`.
+Run metadata (which job failed) is public; log bodies need the token.
+
 ## Repo rules that are load-bearing
 
 - **Never build a URL by swapping a locale prefix.** Route _segments_ are localized

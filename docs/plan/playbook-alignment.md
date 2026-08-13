@@ -12,19 +12,27 @@ An independent, practitioner-led community platform: **shared calendar + directo
 editorial + newsletter + numbered flagship events**. The site's four jobs: understand the
 proposition, attend the next event, discover regional activity, contribute — with RSVP or
 contribute reachable in two clicks. Explicitly deferred: accounts, profiles, chat, merchandise,
-"elaborate web features". The job board of the original plan is **off-playbook** (kept but demoted
-— see ADR 0008).
+"elaborate web features". The job board of the original plan is **off-playbook and now deleted
+outright** — ADR 0008 decided keep-but-demote, `ea4a550` went further and removed it, and
+[ADR 0009](../adrs/0009-lean-launch-remove-job-board.md) records what actually shipped. The
+companies and communities pages are placeholders pending a post-launch decision.
 
 ## Site milestones from the launch tracker
 
-| Date        | Deliverable                                                       | Status                             |
-| ----------- | ----------------------------------------------------------------- | ---------------------------------- |
-| 24 Aug 2026 | Minimal landing page: proposition, date, contribution route       | ✅ built (this repo)               |
-| 31 Aug 2026 | Partner/community page with non-displacement commitment           | ✅ built                           |
-| 31 Aug 2026 | Code of conduct + email opt-in + save-the-date live               | ✅ CoC built; opt-in pending Brevo |
-| 2 Sep 2026  | Registration opens (pretix) — trust pages must be live first      | Pages built; pretix pending        |
-| 28 Sep 2026 | Full practical page: access, food, language, conduct, photography | Partially (structure on /001)      |
-| 21 Oct 2026 | Public launch report                                              | After the event                    |
+| Date        | Deliverable                                                       | Status                            |
+| ----------- | ----------------------------------------------------------------- | --------------------------------- |
+| 24 Aug 2026 | Minimal landing page: proposition, date, contribution route       | ✅ **live** at twente.dev         |
+| 31 Aug 2026 | Partner/community page with non-displacement commitment           | ✅ live                           |
+| 31 Aug 2026 | Code of conduct + email opt-in + save-the-date live               | ✅ CoC live; opt-in pending Brevo |
+| 2 Sep 2026  | Registration opens (pretix) — trust pages must be live first      | Trust pages live; pretix pending  |
+| 28 Sep 2026 | Full practical page: access, food, language, conduct, photography | Partially (structure on /001)     |
+| 21 Oct 2026 | Public launch report                                              | After the event                   |
+
+**twente.dev went live on 2026-08-13**, ahead of the 24 August deadline. Until then the statuses
+above read "built", which was true of the repository and misleading about the world: the worker was
+uploading cleanly but bound to no hostname (`wrangler.toml` carried no `routes` block while
+`workers_dev = false`), so every path returned Cloudflare 522. Deploying is what the tracker dates
+mean, so this table now tracks _live_, not _built_.
 
 ## Facts every surface must agree on (single source: `src/config/site.ts`)
 
@@ -37,8 +45,10 @@ contribute reachable in two clicks. Explicitly deferred: accounts, profiles, cha
 
 ## Operational prerequisites not in this repo (owner: Ryan)
 
-1. **Mailboxes** — the site now references `hello@`, `conduct@` and `press@twente.dev`. These must
-   exist (or alias to a real inbox) before the branch deploys.
+1. **Mailboxes** — the site references `hello@`, `conduct@` and `press@twente.dev`. These must exist
+   (or alias to a real inbox). **Overdue as of 2026-08-13**: this said "before the branch deploys",
+   and the branch has deployed — the addresses are published on a live code-of-conduct page, so a
+   report has nowhere to land until they resolve.
 2. **pretix** — create the event, then set `REGISTRATION_URL` in `src/config/site.ts`.
 3. **Brevo** — create the double-opt-in form, then set `NEWSLETTER_URL`. Open tracking off.
 4. **Venue** — on contract, set `EDITION_001.venue` and add the address to the events entry.
@@ -68,7 +78,10 @@ contribute reachable in two clicks. Explicitly deferred: accounts, profiles, cha
 - **Regional directory seeded (TD-016)**: 12 real, verified communities in
   `src/content/communities.yml` — meetups, hackerspace, data/AI network, UT and Saxon study
   associations, CoderDojo. Dormant groups (Twente.js, PHP Twente, Docker Enschede, …) deliberately
-  excluded; re-verify links before launch.
+  excluded — re-checked 2026-08-13 for revival, none found. All 12 links re-verified the same day:
+  eleven returned 200 unchanged; CoderDojo Enschede now points at the official Code Club listing
+  because its own host still serves a certificate for `server97.icehosting.nl`, so every visitor
+  got a browser security warning. The weekly `link-check.yml` covers this from now on.
 
 ## Still deliberately unbuilt (playbook says wait)
 
@@ -76,5 +89,10 @@ contribute reachable in two clicks. Explicitly deferred: accounts, profiles, cha
 - Newsletter archive pages, event /002 interest list, public report page — post-event work.
 - Per-page OG image generation (L7 — a static brand banner is wired instead), Meetup mirroring,
   accounts/profiles/chat — deferred or banned.
-- Lighthouse CI + axe-in-CI (plan §6.6 items 4–5): `lighthouserc.json` exists but no runner job —
-  needs a Chrome-capable Forgejo runner; verify before wiring.
+- **axe-in-CI** (plan §6.6 item 5) — the only §6.6 gate still missing. Neither `axe` nor
+  `playwright` appears in `package.json` or `.forgejo/`.
+
+  Corrected 2026-08-13: this bullet used to also claim Lighthouse CI had "no runner job … needs a
+  Chrome-capable Forgejo runner; verify before wiring". Both halves were stale. The `lighthouse`
+  job has run on `runs-on: docker` since `ff82bee`, and it proves the runner is Chrome-capable —
+  so that blocker does not apply to axe either.

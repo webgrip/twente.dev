@@ -1,10 +1,10 @@
 # ADR 0008 – Launch scope follows the strategy playbook: community platform first, flagship event at the centre
 
-- **Status**: Proposed
+- **Status**: Accepted — jobs/companies disposition superseded by [ADR 0009](0009-lean-launch-remove-job-board.md)
 - **Deciders**: Ryan Grippeling
-- **Date**: 2026-08-11
+- **Date**: 2026-08-13
 - **Tags**: Scope, Strategy, Brand, Product
-- **Version**: 1.1.0
+- **Version**: 1.2.0
 
 ---
 
@@ -89,7 +89,20 @@ the /001 launch, when there is event data to argue from.
 
 ## Revision Log
 
-| Date       | Version | Change                                                    |
-| ---------- | ------- | --------------------------------------------------------- |
-| 2026-08-11 | 1.0.0   | Initial decision                                          |
-| 2026-08-11 | 1.1.0   | Tagline changed to "We build it. We run it. We share it." |
+| Date       | Version | Change                                                              |
+| ---------- | ------- | ------------------------------------------------------------------- |
+| 2026-08-11 | 1.0.0   | Initial decision                                                    |
+| 2026-08-11 | 1.1.0   | Tagline changed to "We build it. We run it. We share it."           |
+| 2026-08-13 | 1.2.0   | Ratified to Accepted; jobs/companies superseded by ADR 0009 (below) |
+
+## More Information
+
+- 2026-08-12 — `ea4a550` deleted the job board outright and reduced the directory pages to
+  placeholders, going **beyond** the keep-but-demote decision recorded above and against its
+  explicit rejection of deleting that code.
+- 2026-08-13 — [ADR 0009](0009-lean-launch-remove-job-board.md) records what actually shipped and
+  supersedes the jobs/companies disposition here. Everything else in this record — playbook-first
+  product, brand system, trust pages, flagship routing — stands and was enacted.
+- The body above is deliberately left as it was decided. A decision record is a log of what was
+  believed and when; rewriting it to match later reality would destroy exactly the history that
+  makes the corpus worth keeping.

@@ -18,12 +18,24 @@ workers_dev = false
 # dead origin) while /robots.txt returned Cloudflare's own managed default instead
 # of public/robots.txt — a green `wrangler deploy` was never going to be a live site.
 #
-# `custom_domain = true` has wrangler create and attach the hostname itself, so the
-# binding is reproducible from source rather than a dashboard click nobody recorded.
+# A *route*, not `custom_domain = true`, and the difference matters here.
+#
+# A custom domain has Cloudflare create the DNS record itself, and it refuses while a
+# conflicting proxied A/AAAA for the same name exists — which is precisely the stale
+# record producing the 522. It would fail on "record already exists" until someone
+# deletes it by hand.
+#
+# A route instead *intercepts* requests to a hostname that already has a proxied
+# record, before they reach the (dead) origin. It therefore turns the existing 522
+# into a served page without touching DNS at all.
+#
+# Follow-up once the apex is live: delete the stale record and convert this to a
+# custom domain, so the binding no longer depends on a placeholder record that looks
+# like garbage to the next person reading the zone.
 #
 # NOTE: this key must stay above the first [table] header — TOML would otherwise
 # read it as part of that table.
-routes = [{ pattern = "twente.dev", custom_domain = true }]
+routes = [{ pattern = "twente.dev/*", zone_name = "twente.dev" }]
 
 [assets]
 directory = "./dist"
@@ -38,14 +50,12 @@ enabled = true
 # lynn/nadia.ns.cloudflare.com, so the placeholder that used to stand here
 # ("kept out of source until the zone is verified") is obsolete.
 #
-# Two things gate the first successful attach, neither of them in this file:
-#   1. CLOUDFLARE_API_TOKEN needs zone-level rights (Workers Routes: Edit and
-#      DNS: Edit) — not the "Workers Scripts: Edit + Account: Read" the 10x plan
-#      originally specced, which cannot create a custom domain.
-#   2. Cloudflare refuses to attach a custom domain while a conflicting proxied
-#      A/AAAA record for the same name exists. The stale apex records currently
-#      answering 522 must be deleted first, or the deploy fails on "record
-#      already exists".
+# Run 6's deploy log proved the token can already upload the worker ("Uploaded
+# twente-dev", then "No targets deployed for twente-dev"), so Workers Scripts rights
+# are fine. The one unproven permission is zone-level **Workers Routes: Edit**, which
+# creating the route above needs. If a deploy fails on the route step, that is the
+# permission to widen — not Workers Scripts, and not DNS, since a route touches no
+# DNS record.
 #
-# www is deliberately NOT a custom domain here: serving both hostnames would
-# duplicate every canonical URL. It wants a 301 redirect rule to the apex.
+# www is deliberately NOT routed: serving both hostnames would duplicate every
+# canonical URL. It has the same dead proxied record and wants a 301 to the apex.

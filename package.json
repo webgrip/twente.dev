@@ -15,7 +15,7 @@
   "packageManager": "pnpm@11.8.0",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build && pnpm run index:search",
+    "build": "astro build && pnpm run index:search && pnpm run validate:csp",
     "index:search": "pagefind --site dist",
     "preview": "astro preview",
     "astro": "astro",
@@ -26,6 +26,7 @@
     "format:check": "prettier --check .",
     "test": "node --test --experimental-strip-types \"src/lib/**/*.test.ts\"",
     "validate:content": "node --experimental-strip-types scripts/validate-content.ts",
+    "validate:csp": "node --experimental-strip-types scripts/validate-csp.ts",
     "deploy": "wrangler deploy",
     "deploy:preview": "wrangler versions upload"
   },

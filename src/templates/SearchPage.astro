@@ -52,7 +52,13 @@ const otherSearch = otherLocales(locale).map((target) => ({
     <PageHeader title={t('search.label')} description={t('search.description')} />
 
     <link rel="stylesheet" href="/pagefind/pagefind-ui.css" />
-    <div id="pagefind-search">
+    {
+      /* Config travels on a data attribute rather than through `define:vars`.
+        `define:vars` forces `is:inline`, and Astro's CSP feature does not hash
+        inline scripts — so the initialiser below was blocked by the page's own
+        meta CSP and search silently never started. */
+    }
+    <div id="pagefind-search" data-search-config={JSON.stringify(pagefindConfig)}>
       {
         /* Shown to no-JS visitors (and under `astro dev`, where /pagefind/*
           does not exist yet — dev builds surface the same honest fallback). */
@@ -70,13 +76,28 @@ const otherSearch = otherLocales(locale).map((target) => ({
         `typeof PagefindUI` race guard. No programmatic focus: stealing focus
         into the input on load bypassed the skip link, header and h1. */
     }
+    {
+      /* Stays `is:inline`: /pagefind/pagefind-ui.js is written by pagefind AFTER
+        astro build, so Astro must not try to resolve or bundle it. A `src`
+        script needs no hash — `'self'` in the CSP admits it. */
+    }
     <script is:inline defer src="/pagefind/pagefind-ui.js"></script>
-    <script is:inline define:vars={{ pagefindConfig }}>
+    {
+      /* NOT `is:inline`: Astro bundles this to /_astro/*.js, which `'self'`
+        admits, so no hash is required and it cannot be blocked. */
+    }
+    <script>
       document.addEventListener('DOMContentLoaded', () => {
-        if (typeof PagefindUI !== 'undefined') {
-          document.querySelector('.search-fallback')?.remove();
-          new PagefindUI(pagefindConfig);
-        }
+        // PagefindUI is a global from /pagefind/pagefind-ui.js, which does not exist
+        // until pagefind runs after `astro build` — so there is nothing to import and
+        // no types to resolve. Reading it off window keeps that honest and typechecked.
+        const { PagefindUI } = window as unknown as {
+          PagefindUI?: new (config: unknown) => unknown;
+        };
+        const mount = document.querySelector<HTMLElement>('#pagefind-search');
+        if (!mount || !PagefindUI) return;
+        document.querySelector('.search-fallback')?.remove();
+        new PagefindUI(JSON.parse(mount.dataset.searchConfig ?? '{}'));
       });
     </script>
   </div>

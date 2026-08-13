@@ -212,11 +212,16 @@
       monthly drinks, workshops, lunch lectures and a biennial LAN party.
 
 - id: coderdojo-enschede
-  # Their domain currently serves a mismatched TLS certificate (checked
-  # 2026-08-11); activity verified via third-party listings. If the weekly
-  # link check trips on this, that is why.
+  # Points at the official Code Club/CoderDojo Foundation listing, NOT the club's
+  # own coderdojo-enschede.nl — that host still serves a certificate for
+  # server97.icehosting.nl, so https:// fails validation and http:// 301s straight
+  # into the same failure (re-checked 2026-08-13, unchanged since 2026-08-11).
+  # Every visitor would get a full-page browser security warning, which is worse
+  # than no link at all. The club itself is active: monthly sessions at BiebLab in
+  # the Centrale Bibliotheek, run by Stichting CoderDojo Twente. Switch back once
+  # their host serves a matching certificate.
   name: CoderDojo Enschede
-  url: https://coderdojo-enschede.nl/
+  url: https://codeclub.org/en/clubs/nl/enschede/enschede
   platform: other
   language: nl
   focus:

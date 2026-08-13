@@ -12,6 +12,19 @@ name = "twente-dev"
 compatibility_date = "2026-08-01"
 workers_dev = false
 
+# Without this, the worker deploys successfully and then answers on nothing:
+# `workers_dev = false` removes the *.workers.dev fallback and no route binds the
+# apex. That is why every path on twente.dev returned Cloudflare 522 (proxied to a
+# dead origin) while /robots.txt returned Cloudflare's own managed default instead
+# of public/robots.txt — a green `wrangler deploy` was never going to be a live site.
+#
+# `custom_domain = true` has wrangler create and attach the hostname itself, so the
+# binding is reproducible from source rather than a dashboard click nobody recorded.
+#
+# NOTE: this key must stay above the first [table] header — TOML would otherwise
+# read it as part of that table.
+routes = [{ pattern = "twente.dev", custom_domain = true }]
+
 [assets]
 directory = "./dist"
 # `astro build` with format:'file' emits /nl/events.html; serve it at /nl/events.
@@ -21,6 +34,18 @@ not_found_handling = "404-page"
 [observability]
 enabled = true
 
-# Custom domain is attached in the Cloudflare dashboard (or via `routes` once
-# the zone is confirmed to live in this account). Kept out of source until the
-# twente.dev zone is verified — see docs/plan/10x-plan.md §12.
+# The zone is confirmed in this account: twente.dev delegates to
+# lynn/nadia.ns.cloudflare.com, so the placeholder that used to stand here
+# ("kept out of source until the zone is verified") is obsolete.
+#
+# Two things gate the first successful attach, neither of them in this file:
+#   1. CLOUDFLARE_API_TOKEN needs zone-level rights (Workers Routes: Edit and
+#      DNS: Edit) — not the "Workers Scripts: Edit + Account: Read" the 10x plan
+#      originally specced, which cannot create a custom domain.
+#   2. Cloudflare refuses to attach a custom domain while a conflicting proxied
+#      A/AAAA record for the same name exists. The stale apex records currently
+#      answering 522 must be deleted first, or the deploy fails on "record
+#      already exists".
+#
+# www is deliberately NOT a custom domain here: serving both hostnames would
+# duplicate every canonical URL. It wants a 301 redirect rule to the apex.

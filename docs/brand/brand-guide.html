@@ -1,0 +1,487 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>twente.dev — brand guide</title>
+    <!-- Browsable version of README.md in this directory. Open locally: assets
+     load relatively, fonts come from Google Fonts and fall back to the
+     system stack offline. README.md remains the source of truth. -->
+    <link rel="icon" href="favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&family=Inter:wght@400;550;650;830&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --ink: #111820;
+        --red: #c3291b;
+        --paper: #f7f3ea;
+        --grey: #d9dfdc;
+        --red-dark: #a52114;
+        --red-light: #ea6250;
+        --muted: #4a545c;
+        --sans: 'Inter', -apple-system, system-ui, sans-serif;
+        --mono: 'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+      }
+      body {
+        font-family: var(--sans);
+        background: var(--paper);
+        color: var(--ink);
+        line-height: 1.65;
+        font-size: 17px;
+      }
+      main {
+        max-width: 66rem;
+        margin: 0 auto;
+        padding: 3rem 1.5rem 6rem;
+      }
+      h1 {
+        font-weight: 830;
+        letter-spacing: -0.035em;
+        line-height: 0.98;
+        font-size: clamp(2.5rem, 6vw, 4.5rem);
+      }
+      h2 {
+        font-weight: 650;
+        letter-spacing: -0.02em;
+        font-size: 1.8rem;
+        margin: 4rem 0 1rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid var(--grey);
+      }
+      h3 {
+        font-weight: 650;
+        letter-spacing: -0.01em;
+        font-size: 1.15rem;
+        margin: 2rem 0 0.5rem;
+      }
+      p,
+      ul,
+      ol {
+        max-width: 46rem;
+        margin-bottom: 0.9rem;
+      }
+      li {
+        margin-bottom: 0.35rem;
+      }
+      a {
+        color: var(--red);
+      }
+      code,
+      .mono {
+        font-family: var(--mono);
+        font-size: 0.88em;
+      }
+      .label {
+        font-family: var(--mono);
+        font-size: 0.72rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--muted);
+      }
+      .kicker {
+        display: block;
+        margin-bottom: 1rem;
+      }
+      .kicker .dot {
+        color: var(--red);
+      }
+
+      table {
+        border-collapse: collapse;
+        margin: 1rem 0 1.5rem;
+        font-size: 0.95rem;
+      }
+      th {
+        text-align: left;
+        font-weight: 650;
+      }
+      th,
+      td {
+        padding: 0.45rem 1.25rem 0.45rem 0;
+        border-bottom: 1px solid var(--grey);
+        vertical-align: top;
+      }
+      td.mono,
+      th.mono {
+        font-family: var(--mono);
+        font-size: 0.85rem;
+      }
+
+      /* asset tiles with a reversible ground */
+      .tiles {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+        gap: 1rem;
+        margin: 1.25rem 0;
+      }
+      .tile {
+        border: 1px solid var(--grey);
+        border-radius: 3px;
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        background: var(--paper);
+      }
+      .tile img,
+      .tile svg {
+        max-width: 100%;
+        height: auto;
+      }
+      .tile .label {
+        margin-top: auto;
+      }
+      body.flip .tile {
+        background: var(--ink);
+        border-color: #2a343e;
+      }
+      body.flip .tile .label {
+        color: #8b949c;
+      }
+      .flip-btn {
+        position: fixed;
+        top: 1rem;
+        right: 1rem;
+        z-index: 10;
+        font-family: var(--mono);
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        background: var(--ink);
+        color: var(--paper);
+        border: 0;
+        border-radius: 3px;
+        padding: 0.55rem 0.9rem;
+        cursor: pointer;
+      }
+      body.flip .flip-btn {
+        background: var(--paper);
+        color: var(--ink);
+      }
+
+      /* colour chips */
+      .chips {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+        gap: 1rem;
+        margin: 1.25rem 0;
+      }
+      .chip {
+        border: 1px solid var(--grey);
+        border-radius: 3px;
+        overflow: hidden;
+      }
+      .chip .swatch {
+        height: 5.5rem;
+      }
+      .chip .meta {
+        padding: 0.7rem 0.9rem;
+        font-size: 0.85rem;
+        background: #fffdf8;
+      }
+      .chip .meta strong {
+        display: block;
+        font-weight: 650;
+      }
+
+      .rule-callout {
+        border-left: 6px solid var(--red);
+        background: #fffdf8;
+        border-radius: 0 3px 3px 0;
+        padding: 1rem 1.25rem;
+        margin: 1.5rem 0;
+        max-width: 46rem;
+      }
+      .specimen {
+        border: 1px solid var(--grey);
+        border-radius: 3px;
+        background: #fffdf8;
+        padding: 1.5rem;
+        margin: 1rem 0;
+      }
+      .specimen + .specimen {
+        margin-top: 0.75rem;
+      }
+      .display {
+        font-weight: 830;
+        letter-spacing: -0.035em;
+        line-height: 0.98;
+        font-size: clamp(2rem, 5vw, 3.6rem);
+      }
+      .dont li {
+        margin-bottom: 0.6rem;
+      }
+      .dont li::marker {
+        color: var(--red);
+      }
+      footer {
+        margin-top: 5rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid var(--grey);
+      }
+    </style>
+  </head>
+  <body>
+    <button class="flip-btn" onclick="document.body.classList.toggle('flip')">flip ground</button>
+    <main>
+      <span class="label kicker"
+        >brand guide · v1 · 2026-08-27 · <span class="mono">docs/brand/</span></span
+      >
+      <h1>twente<span style="color: var(--red)">.</span>dev</h1>
+      <p style="margin-top: 1.25rem">
+        The system is called the <strong>shared thread</strong>: independent communities, companies
+        and practitioners in one region, connected by a single visible thread. The thread's knot is
+        the red dot — the same dot that turns <code>twente</code> into a domain.
+      </p>
+      <div class="rule-callout">
+        <strong>The one load-bearing rule.</strong> Red marks connections, dates and actions — never
+        decoration. Anything that is merely metadata stays in the grey ramp, so the red keeps its
+        meaning.
+      </div>
+      <p class="label">
+        The full specification, with construction tables and rationale, is in
+        <a href="README.md">README.md</a>. Templates: <a href="templates/slides.html">slides</a> ·
+        <a href="templates/letterhead.html">letterhead</a> ·
+        <a href="templates/email-signature.html">e-mail signature</a>.
+      </p>
+
+      <h2>1 · The mark</h2>
+      <p>
+        A lowercase <strong>t</strong> in warm paper on an ink badge, the flag-red dot as the
+        connector — the <code>.</code> of <code>.dev</code>. Built from two overlapping bars: a
+        letter at reading distance, a <em>plus</em> up close. Bar width 30 on a canvas of 160 drives
+        everything: the badge radius is one bar width, the dot sits at the ¾ point (120, 120). Use
+        the flip button to check every variant on both grounds.
+      </p>
+      <div class="tiles">
+        <div class="tile">
+          <img src="mark.svg" width="120" alt="colour mark" /><span class="label"
+            >mark.svg — master</span
+          >
+        </div>
+        <div class="tile">
+          <svg viewBox="0 0 160 160" width="120" role="img" aria-label="mono mark">
+            <path
+              fill="currentColor"
+              fill-rule="evenodd"
+              d="M30 0H130A30 30 0 0 1 160 30V130A30 30 0 0 1 130 160H30A30 30 0 0 1 0 130V30A30 30 0 0 1 30 0Z M65 30A5 5 0 0 1 70 25H90A5 5 0 0 1 95 30V50H130A5 5 0 0 1 135 55V75A5 5 0 0 1 130 80H95V130A5 5 0 0 1 90 135H70A5 5 0 0 1 65 130V80H30A5 5 0 0 1 25 75V55A5 5 0 0 1 30 50H65Z M102.5 120a17.5 17.5 0 1 0 35 0a17.5 17.5 0 1 0-35 0Z"
+            /></svg
+          ><span class="label">mark-mono.svg — negative space</span>
+        </div>
+        <div class="tile">
+          <svg viewBox="0 0 160 160" width="120" role="img" aria-label="theme-following mark">
+            <path
+              fill="currentColor"
+              fill-rule="evenodd"
+              d="M30 0H130A30 30 0 0 1 160 30V130A30 30 0 0 1 130 160H30A30 30 0 0 1 0 130V30A30 30 0 0 1 30 0Z M65 30A5 5 0 0 1 70 25H90A5 5 0 0 1 95 30V50H130A5 5 0 0 1 135 55V75A5 5 0 0 1 130 80H95V130A5 5 0 0 1 90 135H70A5 5 0 0 1 65 130V80H30A5 5 0 0 1 25 75V55A5 5 0 0 1 30 50H65Z"
+            />
+            <circle cx="120" cy="120" r="17.5" fill="#c3291b" /></svg
+          ><span class="label">mark-currentcolor.svg — dot stays red</span>
+        </div>
+        <div class="tile">
+          <img src="favicon.svg" width="64" alt="favicon" /><span class="label"
+            >favicon.svg — the master at 1:5</span
+          >
+        </div>
+      </div>
+      <p>
+        The badge is part of the mark — the t never appears loose on a page. Where a badge cannot
+        fit, use the wordmark. The single-colour path is one <code>fill-rule="evenodd"</code> path
+        with the t and the dot as holes: stamps, engraving, embossing, laser cutting.
+      </p>
+
+      <h2>2 · Colour</h2>
+      <p>
+        Four brand colours, two derived cuts. Signal Red is RGB 195 41 27 — the Twente flag's actual
+        red, adopted 2026-08-11 — and it is text-safe on Warm Paper, so the graphic red and the
+        interactive red are one colour in light mode.
+      </p>
+      <div class="chips">
+        <div class="chip">
+          <div class="swatch" style="background: #111820"></div>
+          <div class="meta"><strong>Ink</strong><span class="mono">#111820</span> · authority</div>
+        </div>
+        <div class="chip">
+          <div class="swatch" style="background: #c3291b"></div>
+          <div class="meta">
+            <strong>Signal Red</strong><span class="mono">#C3291B</span> · connection, action
+          </div>
+        </div>
+        <div class="chip">
+          <div
+            class="swatch"
+            style="background: #f7f3ea; border-bottom: 1px solid var(--grey)"
+          ></div>
+          <div class="meta">
+            <strong>Warm Paper</strong><span class="mono">#F7F3EA</span> · openness
+          </div>
+        </div>
+        <div class="chip">
+          <div class="swatch" style="background: #d9dfdc"></div>
+          <div class="meta">
+            <strong>Thread Grey</strong><span class="mono">#D9DFDC</span> · structure, never text
+          </div>
+        </div>
+        <div class="chip">
+          <div class="swatch" style="background: #a52114"></div>
+          <div class="meta">
+            <strong>Red Dark</strong><span class="mono">#A52114</span> · hover on light
+          </div>
+        </div>
+        <div class="chip">
+          <div class="swatch" style="background: #ea6250"></div>
+          <div class="meta">
+            <strong>Red Light</strong><span class="mono">#EA6250</span> · red text on ink
+          </div>
+        </div>
+      </div>
+      <h3>Measured contrast (WCAG 2.1)</h3>
+      <table>
+        <tr>
+          <th></th>
+          <th>on Paper</th>
+          <th>on Ink</th>
+        </tr>
+        <tr>
+          <td>Ink / Paper</td>
+          <td class="mono">16.13:1 · AAA</td>
+          <td class="mono">16.13:1 · AAA</td>
+        </tr>
+        <tr>
+          <td>Signal Red</td>
+          <td class="mono">5.19:1 · AA text</td>
+          <td class="mono">3.11:1 · graphic only</td>
+        </tr>
+        <tr>
+          <td>Red Light</td>
+          <td class="mono">— (use Signal Red)</td>
+          <td class="mono">5.41:1 · AA text</td>
+        </tr>
+        <tr>
+          <td>Red Dark</td>
+          <td class="mono">6.71:1 · AA text</td>
+          <td class="mono">—</td>
+        </tr>
+        <tr>
+          <td>White on Red fill</td>
+          <td class="mono" colspan="2">5.75:1 · AA — buttons stay flag red on both grounds</td>
+        </tr>
+        <tr>
+          <td>Thread Grey</td>
+          <td class="mono">1.22:1 · hairlines only</td>
+          <td class="mono">13.22:1</td>
+        </tr>
+      </table>
+      <p>
+        <strong>Signal Red is not a text colour on ink</strong> — use Red Light there. Fills
+        (buttons, dots, edges) stay the true flag red on every ground. The website's
+        <code>src/styles/tokens.css</code> encodes this switch and is authoritative.
+      </p>
+
+      <h2>3 · Typography</h2>
+      <p>
+        <strong>IBM Plex Mono</strong> is the voice of the wordmark and the technical texture —
+        labels, dates, indices, set small, uppercase, +8&nbsp;% tracking.
+        <strong>Inter</strong> carries everything else. Both SIL OFL 1.1.
+      </p>
+      <div class="specimen">
+        <span class="label"
+          >display · inter 830 · tracking −3.5% · leading 0.98 · one statement per view</span
+        >
+        <p class="display" style="margin: 0.5rem 0 0">
+          Rebuilding the network<span style="color: var(--red)">.</span>
+        </p>
+      </div>
+      <div class="specimen">
+        <span class="label">heading · inter 650 · tracking −2%</span>
+        <p style="font-weight: 650; letter-spacing: -0.02em; font-size: 1.6rem; margin: 0.5rem 0 0">
+          Talks, field notes and open calls
+        </p>
+      </div>
+      <div class="specimen">
+        <span class="label">body · inter 400 · leading 1.65</span>
+        <p style="margin: 0.5rem 0 0; max-width: none">
+          A practitioner-led tech community for Twente — events, jobs and field notes, from Enschede
+          to Almelo. Independent and tracking-free.
+        </p>
+      </div>
+      <div class="specimen">
+        <span class="label">label · plex mono 500 · uppercase · +8%</span>
+        <p class="label" style="margin: 0.75rem 0 0; color: var(--ink); text-transform: lowercase">
+          twente.dev/001 · 7 oct 2026 · enschede · <span style="color: var(--red)">register</span>
+        </p>
+      </div>
+      <div class="rule-callout">
+        <strong><code>twente.dev</code> is always lowercase</strong> — at the start of a sentence,
+        in display names, on a title slide. The wordmark is IBM Plex Mono Bold with the full stop in
+        Signal Red, and it ships as outlines in <code>wordmark.svg</code>: never re-set it in a live
+        font.
+      </div>
+
+      <h2>4 · Lockups</h2>
+      <div class="tiles" style="grid-template-columns: 1fr">
+        <div class="tile">
+          <img
+            src="lockup-horizontal.svg"
+            style="width: min(28rem, 90%)"
+            alt="horizontal lockup"
+          /><span class="label">lockup-horizontal.svg — the default</span>
+        </div>
+      </div>
+      <div class="tiles">
+        <div class="tile">
+          <img src="lockup-stacked.svg" style="width: 12rem" alt="stacked lockup" /><span
+            class="label"
+            >lockup-stacked.svg — square spaces</span
+          >
+        </div>
+        <div class="tile">
+          <img src="wordmark.svg" style="width: 14rem" alt="wordmark" /><span class="label"
+            >wordmark.svg — running text, header</span
+          >
+        </div>
+      </div>
+      <p>
+        Derived, not eyeballed: wordmark x-height = 64 against the 160 badge (40&nbsp;%), band
+        centred on the badge; every gap is one bar width (30). Clear space: one bar width around
+        everything. Minimums: mark 24&nbsp;px (below that, the favicon), horizontal lockup
+        200&nbsp;px, stacked 140&nbsp;px, wordmark 120&nbsp;px. White variants
+        (<code>-white.svg</code>) exist for ink and photographic grounds — flip the ground above to
+        test.
+      </p>
+
+      <h2>5 · What not to do</h2>
+      <ul class="dont">
+        <li>
+          <strong>Use red as decoration.</strong> One red signal per surface is the norm — the site
+          header carries exactly one.
+        </li>
+        <li>Recolour or move the dot, in the mark or the wordmark. The dot is the brand.</li>
+        <li>Take the t off its badge, or close the gap between the bars.</li>
+        <li>Re-set the wordmark in another font, weight, or uppercase.</li>
+        <li>Set Signal Red text on ink (3.11:1) — Red Light is for that.</li>
+        <li>Set text in Thread Grey — it is a hairline colour (1.22:1).</li>
+        <li>Gradients, shadows, outlines, rotation: none of them, ever.</li>
+      </ul>
+
+      <footer>
+        <p class="label">
+          twente.dev · docs/brand · regenerate assets with
+          <span class="mono">python3 scripts/brand-assets.py</span> · code MIT, name and mark
+          identify the community — referential use welcome, affiliation needs a yes:
+          hello@twente.dev
+        </p>
+      </footer>
+    </main>
+  </body>
+</html>

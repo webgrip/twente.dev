@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-label="twente.dev">
+  <title>twente.dev — mark, single colour</title>
+  <!-- Single-colour mark: one even-odd path, the t and the dot as negative
+       space. For stamps, engraving, embossing and single-colour badges.
+       fill-rule="evenodd" is load-bearing — without it the holes fill in. -->
+  <path fill="currentColor" fill-rule="evenodd" d="M30 0H130A30 30 0 0 1 160 30V130A30 30 0 0 1 130 160H30A30 30 0 0 1 0 130V30A30 30 0 0 1 30 0Z M65 30A5 5 0 0 1 70 25H90A5 5 0 0 1 95 30V50H130A5 5 0 0 1 135 55V75A5 5 0 0 1 130 80H95V130A5 5 0 0 1 90 135H70A5 5 0 0 1 65 130V80H30A5 5 0 0 1 25 75V55A5 5 0 0 1 30 50H65Z M102.5 120a17.5 17.5 0 1 0 35 0a17.5 17.5 0 1 0-35 0Z"/>
+</svg>

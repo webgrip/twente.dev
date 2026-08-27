@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>twente.dev — letterhead</title>
+    <!--
+  twente.dev letterhead (A4) — a file, not an app.
+
+  HOW TO USE
+  1. Copy this file (letter-2026-xx-venue.html, ...).
+  2. Type directly in the browser: the address block, date, subject and body
+     are contenteditable — click and write.
+  3. Ctrl+P → save as PDF → margins: none → background graphics: ON.
+     One A4 page; a second page follows automatically if the text runs long
+     (follow-on pages keep the footer only, as proper letterhead does).
+
+  Sender identity comes from one place: edit the address in the footer once
+  per copy. Dutch letters: switch <html lang="en"> to lang="nl" so
+  spell-checking follows. Fonts fall back to the system stack offline.
+-->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;700&family=Inter:wght@400;550;650&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --ink: #111820;
+        --red: #c3291b;
+        --paper: #f7f3ea;
+        --grey: #d9dfdc;
+        --muted: #4a545c;
+        --sans: 'Inter', -apple-system, system-ui, sans-serif;
+        --mono: 'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+      }
+      body {
+        background: #c9c5bc;
+        font-family: var(--sans);
+        color: var(--ink);
+        font-size: 11pt;
+        line-height: 1.6;
+      }
+      .page {
+        width: 210mm;
+        min-height: 297mm;
+        margin: 0 auto;
+        background: var(--paper);
+        padding: 18mm 22mm 20mm;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+      }
+      @media screen {
+        .page {
+          margin: 1rem auto;
+          box-shadow: 0 2px 14px rgb(17 24 32 / 0.25);
+        }
+      }
+      @page {
+        size: A4;
+        margin: 0;
+      }
+      @media print {
+        body {
+          background: none;
+        }
+        .page {
+          margin: 0;
+          box-shadow: none;
+        }
+      }
+
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding-bottom: 8mm;
+        border-bottom: 1px solid var(--grey);
+      }
+      .lockup {
+        display: flex;
+        align-items: center;
+        gap: 5mm;
+      }
+      .lockup svg {
+        width: 14mm;
+        height: 14mm;
+      }
+      .wordmark {
+        font-family: var(--mono);
+        font-weight: 700;
+        font-size: 16pt;
+      }
+      .wordmark .dot {
+        color: var(--red);
+      }
+      .label {
+        font-family: var(--mono);
+        font-weight: 500;
+        font-size: 7.5pt;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--muted);
+      }
+      /* twente.dev is never uppercased — brand-carrying lines stay lowercase. */
+      .label.lc {
+        text-transform: lowercase;
+      }
+      header .label {
+        text-align: right;
+        line-height: 2;
+      }
+
+      .meta {
+        display: flex;
+        justify-content: space-between;
+        margin: 12mm 0 10mm;
+      }
+      .dateline {
+        text-align: right;
+      }
+
+      .subject {
+        font-weight: 650;
+        letter-spacing: -0.01em;
+        margin-bottom: 6mm;
+      }
+      .body-text {
+        max-width: 160mm;
+      }
+      .body-text p {
+        margin-bottom: 4mm;
+      }
+
+      [contenteditable]:hover {
+        outline: 1px dashed var(--grey);
+        outline-offset: 2mm;
+      }
+      [contenteditable]:focus {
+        outline: 1px dashed var(--red);
+        outline-offset: 2mm;
+      }
+      @media print {
+        [contenteditable] {
+          outline: none !important;
+        }
+      }
+
+      footer {
+        margin-top: auto;
+        padding-top: 5mm;
+        border-top: 1px solid var(--grey);
+        display: flex;
+        justify-content: space-between;
+      }
+      footer .label {
+        color: var(--muted);
+      }
+      footer .label .signal {
+        color: var(--red);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <header>
+        <div class="lockup">
+          <svg viewBox="0 0 160 160" role="img" aria-label="twente.dev mark">
+            <rect width="160" height="160" rx="30" fill="#111820" />
+            <g fill="#f7f3ea">
+              <rect x="65" y="25" width="30" height="110" rx="5" />
+              <rect x="25" y="50" width="110" height="30" rx="5" />
+            </g>
+            <circle cx="120" cy="120" r="17.5" fill="#c3291b" />
+          </svg>
+          <span class="wordmark">twente<span class="dot">.</span>dev</span>
+        </div>
+        <div class="label">practitioner-led tech community<br />for twente</div>
+      </header>
+
+      <div class="meta">
+        <!-- Lines break with <br />, not literal newlines — Prettier collapses
+             those and pre-line would silently become one line. -->
+        <div class="address" contenteditable="true">
+          Recipient name<br />Organisation<br />Street 1<br />7500 AA Enschede
+        </div>
+        <div class="dateline">
+          <div class="label" style="margin-bottom: 1mm">enschede</div>
+          <div contenteditable="true">27 August 2026</div>
+        </div>
+      </div>
+
+      <p class="subject" contenteditable="true">Subject: venue for twente.dev/001 — Reconnect</p>
+
+      <div class="body-text" contenteditable="true">
+        <p>Dear reader,</p>
+        <p>
+          This is the letter body. Write as the community speaks: plainly, without superlatives, in
+          sentences a busy person reads once. One page nearly always suffices — a letter that needs
+          three pages is usually a conversation.
+        </p>
+        <p>Kind regards,</p>
+        <p style="margin-top: 12mm">Name<br /><span class="label lc">twente.dev</span></p>
+      </div>
+
+      <footer>
+        <span class="label lc">twente.dev · enschede</span>
+        <span class="label lc"
+          ><span class="signal">hello@twente.dev</span> · https://twente.dev</span
+        >
+      </footer>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="twente.dev">
+  <title>twente.dev</title>
+  <!-- The master mark at exactly 1:5 on a 32-unit canvas — every ratio
+       (bars 6/32, radius 6/32, dot at the 3/4 point) is preserved.
+       Deployed copy: public/favicon.svg. -->
+  <rect width="32" height="32" rx="6" fill="#111820"/>
+  <g fill="#f7f3ea">
+    <rect x="13" y="5" width="6" height="22" rx="1"/>
+    <rect x="5" y="10" width="22" height="6" rx="1"/>
+  </g>
+  <circle cx="24" cy="24" r="3.5" fill="#c3291b"/>
+</svg>

@@ -10,6 +10,7 @@ no database, no cookies. Total recurring cost: one domain renewal.
 - **Plan**: [`docs/plan/10x-plan.md`](docs/plan/10x-plan.md), updated by
   [`docs/plan/playbook-alignment.md`](docs/plan/playbook-alignment.md) (ADR 0008)
 - **Decisions**: [`docs/adrs/`](docs/adrs/)
+- **Brand**: [`docs/brand/`](docs/brand/) — guide, logo masters, slide/letterhead templates
 - **Contributing**: [`CONTRIBUTING.md`](CONTRIBUTING.md)
 
 ## Quick start

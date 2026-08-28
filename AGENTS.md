@@ -37,6 +37,10 @@ contract, and the handful of repo rules that look like style choices but are loa
 
 ### MCP gotchas that cost time on 2026-08-12
 
+- **Client auth required since 2026-08 (server v1.0.0)**: every tool call needs
+  `Authorization: Bearer <vikunja-api-token>` — `No token` back means the header never
+  arrived. The plugin's `.mcp.json` expands `${VIKUNJA_API_TOKEN}` from the environment;
+  export it before launching Claude Code. Token minting/rotation: the ops runbook below.
 - **List responses are multi-line blocks**, not one line per entity. Parsing `[ID: n]` off the
   title line silently returns nothing.
 - **Pseudo-projects report negative ids** (`[ID: -2]`). A parser matching only `\d+` skips that

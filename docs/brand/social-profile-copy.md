@@ -4,6 +4,13 @@ Bios, descriptions and about-texts for every platform twente.dev might register.
 Companion to the visual kit in `public/brand/social/`. Paste-ready; character counts
 are checked against each platform's current limits.
 
+> **Rewritten 2026-08-30.** The previous version advertised a job board across fourteen
+> places, including a Mastodon metadata link pointing at `twente.dev/en/jobs` — which
+> returns **404**. The job board was deleted by [ADR-0009](../adrs/0009-lean-launch-remove-job-board.md)
+> and the companies directory is still a placeholder. Every claim below is checked against
+> what the site actually serves today. **Do not reintroduce a feature to a bio before it
+> exists on the site** — a profile is the one surface nobody re-reads after pasting.
+
 ## House rules (apply everywhere)
 
 - **twente.dev is always lowercase**, also at the start of a sentence and in display names.
@@ -14,9 +21,25 @@ are checked against each platform's current limits.
 - English is the default for platforms with an international dev audience
   (Bluesky, Mastodon, GitHub, Medium, Substack). Dutch for the local-first ones
   (Instagram, Facebook). LinkedIn gets both.
+- **Never state a capacity.** It lives in `src/config/site.ts` and is mid-change
+  (VIK-673). Say "free" and link; the page carries the number.
 - **Launch vs evergreen**: where a bio mentions twente.dev/001, swap that line out
   after the event — same split as the launch/evergreen banners in the kit.
 - Avatar: `avatar-1024.png` everywhere. Banners per platform from `public/brand/social/`.
+
+### What you may claim today
+
+| Claim                                        | Status                                                             |
+| -------------------------------------------- | ------------------------------------------------------------------ |
+| Events calendar you can subscribe to (ICS)   | ✅ live                                                            |
+| Field notes / articles by practitioners      | ✅ live                                                            |
+| Numbered flagship events, starting with /001 | ✅ live                                                            |
+| Partner compact, published terms             | ✅ live                                                            |
+| No cookies, no tracking, everything in git   | ✅ live                                                            |
+| Community directory                          | ⚠️ page live, listings **not yet published** — say "in the making" |
+| Company directory                            | ⚠️ placeholder — do not claim                                      |
+| Job board                                    | ❌ **deleted** — never mention                                     |
+| Newsletter                                   | ⚠️ not open yet — do not promise a signup                          |
 
 Launch line to append where a field has room (drop after 7 Oct 2026):
 
@@ -25,15 +48,57 @@ Launch line to append where a field has room (drop after 7 Oct 2026):
 
 ---
 
+## Reusable blurbs by length
+
+Pick the longest that fits the field. These are the source; the per-platform sections
+below are these, trimmed to each limit.
+
+**One-liner (EN, 79):**
+
+> The independent tech community for Twente. We build it. We run it. We share it.
+
+**One-liner (NL, 68):**
+
+> De onafhankelijke techcommunity van Twente. Van Enschede tot Almelo.
+
+**Short (EN, 118):**
+
+> Independent, practitioner-led tech community for Twente. Local people, events and
+> practical knowledge, easier to find.
+
+**Short (NL, 116):**
+
+> Onafhankelijke, practitioner-led techcommunity voor Twente. Lokale mensen, events en
+> praktijkkennis, beter vindbaar.
+
+**Medium (EN, 245):**
+
+> Independent, practitioner-led technology community for Twente. We make local people,
+> events and practical knowledge easier to find — from Enschede to Almelo — and a few
+> times a year we bring different disciplines together for one useful evening.
+
+**The ten-second explanation** — quote verbatim, matches `/en/press`:
+
+> twente.dev is an independent, practitioner-led technology community for Twente. We make
+> local people, events and practical knowledge easier to find — and we bring different
+> disciplines together a few times a year.
+
+**The three things we will not do**, for any field with room:
+
+> No paid speaking slots. No attendee data for anyone. No product pitches disguised as
+> education.
+
+---
+
 ## X — bio 160 chars
 
-**EN (159):**
+**EN (157):**
 
-> Practitioner-led tech community for Twente. Events, jobs, field notes — from Enschede to Almelo. Independent, no tracking. We build it. We run it. We share it.
+> Independent, practitioner-led tech community for Twente. Events, field notes and a shared calendar — Enschede to Almelo. We build it. We run it. We share it.
 
-**NL (153):**
+**NL (146):**
 
-> Practitioner-led techcommunity voor Twente. Events, vacatures, field notes — van Enschede tot Almelo. Onafhankelijk. We build it. We run it. We share it.
+> Practitioner-led techcommunity voor Twente. Events, field notes en een gedeelde agenda — Enschede tot Almelo. We build it. We run it. We share it.
 
 Location: `Twente, NL` · Website: `https://twente.dev` · Banner: `banner-x-bluesky-1500x500@2x.png`
 
@@ -45,7 +110,7 @@ than any @twentedev variant.
 
 **EN (245):**
 
-> Independent, practitioner-led tech community for Twente. We make local people, events and practical knowledge easier to find — from Enschede to Almelo. No recruiters, no tracking, no product pitches on stage. We build it. We run it. We share it.
+> Independent, practitioner-led tech community for Twente. We make local people, events and practical knowledge easier to find — from Enschede to Almelo. No tracking, no recruiters, no product pitches on stage. We build it. We run it. We share it.
 
 ## Mastodon — bio 500 chars + 4 metadata fields
 
@@ -56,42 +121,45 @@ metadata fields show as verified.
 
 > Independent, practitioner-led tech community for Twente. We make local people, events and practical knowledge easier to find — from Enschede to Almelo.
 >
-> No recruiters on the job board, no tracking on the site, no product pitches on stage.
+> No tracking on the site, no product pitches on stage, no attendee data for anyone.
 >
 > First edition: twente.dev/001 — Reconnect. 7 October 2026, Enschede. Free.
 >
 > We build it. We run it. We share it.
 
-Metadata fields:
+Metadata fields — **all four checked 2026-08-30.** Three serve 200; `https://twente.dev`
+answers 302, which is the deliberate locale redirect to `/nl` or `/en`, not a fault:
 
-| Label   | Value                                            |
-| ------- | ------------------------------------------------ |
-| Website | `https://twente.dev`                             |
-| Events  | `https://twente.dev/en/events`                   |
-| Jobs    | `https://twente.dev/en/jobs`                     |
-| Code    | `https://forgejo.webgrip.dev/webgrip/twente.dev` |
+| Label    | Value                                            |
+| -------- | ------------------------------------------------ |
+| Website  | `https://twente.dev`                             |
+| Events   | `https://twente.dev/en/events`                   |
+| Partners | `https://twente.dev/en/partners`                 |
+| Code     | `https://forgejo.webgrip.dev/webgrip/twente.dev` |
 
 ## LinkedIn company page
 
-**Tagline EN (97/120):**
+**Tagline EN (105/120):**
 
-> Twente's practitioner-led tech community. Events, jobs and field notes — from Enschede to Almelo.
+> Twente's practitioner-led tech community. Events, field notes and a shared calendar — Enschede to Almelo.
 
-**Tagline NL (105/120):**
+**Tagline NL (115/120):**
 
-> De practitioner-led techcommunity van Twente. Events, vacatures en field notes — van Enschede tot Almelo.
+> De practitioner-led techcommunity van Twente. Events, field notes en een gedeelde agenda — van Enschede tot Almelo.
 
 **About (EN first, NL below — well under the 2,000-char limit):**
 
 > twente.dev is an independent, practitioner-led technology community for Twente. We make local people, events and practical knowledge easier to find — from Enschede to Almelo — and a few times a year we bring software, hardware, data, design and product people together for one useful evening.
 >
-> On the site: an events calendar you can subscribe to, a job board with real employers from the region, a company directory, and field notes written by people who did the work.
+> On the site: an events calendar you can subscribe to, field notes written by people who did the work, and a directory of the region's communities — which we are building with those communities, not about them.
 >
-> What we hold ourselves to: independent over corporate — businesses fund and host, but never own. Practitioner over policy — field reports from people who built the thing, not slideware about it. And no exceptions: no paid speaking slots, no attendee-list access for sponsors, no product pitches disguised as education.
+> What we hold ourselves to: independent over corporate — businesses fund and host, but never own. Practitioner over policy — field reports from people who built the thing, not slideware about it. And no exceptions: no paid speaking slots, no attendee data for anyone, no product pitches disguised as education.
 >
-> First edition: twente.dev/001 — Reconnect. Wednesday 7 October 2026, Enschede. Free, capacity 100.
+> Existing meetups keep their own identity, their own list and their own stage. We make them easier to find and always link to the source. Our terms with them are published at twente.dev/en/partners.
 >
-> Maintained by Webgrip. Everything — site, content, process — lives in git.
+> First edition: twente.dev/001 — Reconnect. Wednesday 7 October 2026, Enschede. Free.
+>
+> Funded by its founder through Webgrip, with time and a small budget from Code14. Everything — site, content, process — lives in git.
 >
 > We build it. We run it. We share it.
 >
@@ -103,9 +171,9 @@ Banners: `banner-linkedin-page-1128x191@2x.png` (page) · `banner-linkedin-1584x
 
 ## Instagram — bio 150 chars
 
-**NL (138):**
+**NL (148):**
 
-> Techcommunity voor Twente. Events, vacatures en field notes — van Enschede tot Almelo. Geen tracking. We build it. We run it. We share it.
+> Techcommunity voor Twente. Events, field notes en een gedeelde agenda — van Enschede tot Almelo. Geen tracking. We build it. We run it. We share it.
 
 Website field: `https://twente.dev`
 
@@ -115,17 +183,17 @@ Reuse the Bluesky EN bio; append the launch line while /001 is upcoming.
 
 ## Facebook page
 
-**Intro EN/NL mix (92/101):**
+**Intro EN/NL mix (96/101):**
 
-> Practitioner-led techcommunity voor Twente. Events, vacatures en field notes. Geen tracking.
+> Practitioner-led techcommunity voor Twente. Events, field notes, gedeelde agenda. Geen tracking.
 
 **About (NL):**
 
 > twente.dev is een onafhankelijke, practitioner-led techcommunity voor Twente. We maken lokale mensen, events en praktijkkennis beter vindbaar — van Enschede tot Almelo — en brengen een paar keer per jaar makers uit software, hardware, data, design en product bij elkaar voor één nuttige avond.
 >
-> Op de site: een events-kalender waarop je je kunt abonneren, vacatures van echte werkgevers uit de regio (geen recruiters, geen doorplaatsingen), een bedrijvengids en field notes van mensen die het werk zelf deden.
+> Op de site: een events-kalender waarop je je kunt abonneren, field notes van mensen die het werk zelf deden, en een gids van de community's in de regio — die we mét die community's bouwen, niet over ze heen.
 >
-> Bestaande meetups houden hun eigen identiteit, hun eigen lijst en hun eigen podium — wij maken ze beter vindbaar en verwijzen altijd door naar de bron.
+> Bestaande meetups houden hun eigen identiteit, hun eigen lijst en hun eigen podium — wij maken ze beter vindbaar en verwijzen altijd door naar de bron. Wat we met ze afspreken staat op twente.dev/nl/partners.
 >
 > We build it. We run it. We share it.
 
@@ -146,14 +214,15 @@ Website: `https://twente.dev`. Pin a README that links the canonical repo on
 >
 > What you will not find here: product pitches disguised as talks, recruiter content, or speakers presenting work they did not do themselves.
 >
-> Editions run a few times a year, from Enschede to Almelo. The calendar, job board and field notes live at https://twente.dev — no cookies, no tracking.
+> Editions run a few times a year, from Enschede to Almelo. The calendar and the field notes live at https://twente.dev — no cookies, no tracking.
 >
 > We build it. We run it. We share it.
 
 ## Substack — publication description
 
 Note: the playbook settles the newsletter on Brevo (double opt-in, open tracking
-off). If a Substack presence exists anyway, it mirrors the field-note framing:
+off), and it is **not open yet** — do not link a signup until it is. If a Substack
+presence exists anyway, it mirrors the field-note framing:
 
 **Short description:**
 
@@ -161,7 +230,7 @@ off). If a Substack presence exists anyway, it mirrors the field-note framing:
 
 **About page:**
 
-> The weekly field note of twente.dev, the independent, practitioner-led tech community for Twente. Every issue: one concrete lesson from a system someone in the region actually built and ran, the events of the coming week, and one open call.
+> The field note of twente.dev, the independent, practitioner-led tech community for Twente. Every issue: one concrete lesson from a system someone in the region actually built and ran, the events of the coming week, and one open call.
 >
 > Written by practitioners, not marketers. Replies go to a person, not a funnel.
 >
@@ -181,11 +250,11 @@ Syndicated posts always carry the canonical URL back to twente.dev.
 
 > twente.dev is an independent, practitioner-led tech community for Twente. A few times a year we bring software, hardware, data, design and product people together for one useful evening: 12-minute field reports from people who did the work, and enough time to actually meet each other. One useful idea, one useful introduction, one reason to return.
 >
-> This group is only for our own editions. Twente already has good meetups — they keep their own identity, their own list and their own stage. We list them at twente.dev/en/communities and always link to the source.
+> This group is only for our own editions. Twente already has good meetups — they keep their own identity, their own list and their own stage. Our terms with them are published at twente.dev/en/partners, including the part where we do not run events on their nights and do not approach their sponsors.
 >
-> What we hold ourselves to: no paid speaking slots, no attendee-list access for sponsors, no product pitches disguised as education.
+> What we hold ourselves to: no paid speaking slots, no attendee data for anyone, no product pitches disguised as education.
 >
-> First edition: twente.dev/001 — Reconnect. Wednesday 7 October 2026, Enschede. Doors and food at 18:00, programme at 18:45, hard finish at 21:30. Free, capacity 100.
+> First edition: twente.dev/001 — Reconnect. Wednesday 7 October 2026, Enschede. Doors and food at 18:00, programme at 18:45, hard finish at 21:30. Free.
 >
 > We build it. We run it. We share it.
 
@@ -197,13 +266,13 @@ Syndicated posts always carry the canonical URL back to twente.dev.
 
 Welcome-channel blurb:
 
-> This is the twente.dev server — the independent, practitioner-led tech community for Twente. Say who you are and what you build. Ask for help, offer help, post what you learned. No recruiters, no product pitches; job listings go through twente.dev/en/jobs.
+> This is the twente.dev server — the independent, practitioner-led tech community for Twente. Say who you are and what you build. Ask for help, offer help, post what you learned. No recruiters and no product pitches; this is not a place to advertise vacancies.
 
 ## Small fields, if ever needed
 
-- **TikTok (58/80):** `Techcommunity voor Twente. Events, vacatures, field notes.`
+- **TikTok (61/80):** `Techcommunity voor Twente. Events, field notes, gedeelde agenda.`
 - **WhatsApp channel:** `Events en open calls uit de Twentse techcommunity. Van Enschede tot Almelo, geen tracking.`
-- **Reddit community description:** `The independent, practitioner-led tech community for Twente. Events, jobs and field notes — twente.dev.`
+- **Reddit community description:** `The independent, practitioner-led tech community for Twente. Events and field notes — twente.dev.`
 
 ---
 
@@ -213,3 +282,12 @@ Welcome-channel blurb:
 - Set `twitter:site` in `src/components/BaseHead.astro` once the X handle exists.
 - Add `rel="me"` links (footer or press page) for Mastodon verification.
 - Add the handles to both press pages so journalists find them.
+- **Re-check every claim before pasting.** Run the link check below; a bio is the one
+  surface nobody revisits, so a dead link there outlives every other kind.
+
+```bash
+# Every URL this file hands to a profile field must serve 200.
+for u in / /en/events /en/partners /en/about /en/press /nl/partners; do
+  printf "%-18s " "$u"; curl -sS -o /dev/null -w "%{http_code}\n" "https://twente.dev$u"
+done
+```

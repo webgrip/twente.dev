@@ -49,8 +49,44 @@ jobs:
       - name: Check external links
         # External breakage is the world's fault and only warns — a meetup site
         # being down for an hour should not turn the repo red.
+        #
+        # communities.yml is checked DIRECTLY, not via dist/. Until 2026-08-30
+        # this job scanned only the built output, and getCommunities()
+        # (src/lib/content.ts) is defined and never called — so no community URL
+        # was ever rendered into a page and this job had never checked a single
+        # one of the twelve. Two had silently rotted by the time anyone looked.
+        # Keep this input even after the directory renders: it costs nothing and
+        # it does not depend on a page existing.
         continue-on-error: true
         run: |
           lychee --no-progress --max-concurrency 4 --timeout 20 --accept 200,206,301,302,403,429 \
             --exclude '^https://twente\.dev' \
-            'dist/**/*.html'
+            'dist/**/*.html' 'src/content/communities.yml'
+
+      - name: Resolve directory hosts on multiple public resolvers
+        # HTTP checks above use the runner's single resolver, which is exactly
+        # how tkkrlab.nl stayed "fine" for weeks: it answers from 1.1.1.1 cache
+        # but SERVFAILs on 8.8.8.8, so roughly everyone on Google DNS got
+        # nothing while a one-resolver check saw a healthy site. Ask three.
+        continue-on-error: true
+        run: |
+          set -uo pipefail
+          apk add --no-cache bind-tools 2>/dev/null || apt-get -qq update && apt-get -qq install -y dnsutils || true
+          grep -oE 'url: https?://[^/]+' src/content/communities.yml \
+            | sed -E 's#url: https?://##' | sort -u > /tmp/hosts.txt
+          echo "checking $(wc -l < /tmp/hosts.txt) hosts against 1.1.1.1, 8.8.8.8, 9.9.9.9"
+          bad=0
+          # read-loop, not `for h in $hosts` — the latter relies on the shell
+          # word-splitting an unquoted variable, which zsh does not do, so the
+          # same script silently checked one giant concatenated "host" locally.
+          while IFS= read -r h; do
+            [ -n "$h" ] || continue
+            for r in 1.1.1.1 8.8.8.8 9.9.9.9; do
+              if ! dig +short +time=5 +tries=2 "@$r" "$h" A | grep -qE '^[0-9]'; then
+                echo "::warning::$h does not resolve on $r"
+                bad=$((bad + 1))
+              fi
+            done
+          done < /tmp/hosts.txt
+          echo "resolver failures: $bad"
+          [ "$bad" -eq 0 ] || echo "::warning::a directory host is unreachable from at least one major resolver — visitors on it get nothing"

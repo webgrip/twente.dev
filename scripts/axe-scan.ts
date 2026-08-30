@@ -23,8 +23,24 @@ import type { AddressInfo } from 'node:net';
 const DIST = 'dist';
 const CHROME = process.env.CHROME_PATH ?? '/usr/bin/google-chrome';
 
-/** Pages axe should cover that carry no Lighthouse budget. */
-const A11Y_ONLY_PAGES = ['/404.html', '/en/search.html', '/en/partners.html'];
+/**
+ * Pages axe should cover that carry no Lighthouse budget.
+ *
+ * The press pages earn their place: journalists are sent there, they carry the
+ * whole downloadable brand kit, and the 2026-08-30 brand reconciliation rewrote
+ * both of them — a change neither gate would have caught, because press is in
+ * no Lighthouse URL set either. The partners pages matter for the same reason
+ * in reverse: their content is a promise to community organisers, guarded by
+ * validate-commitments, and an unusable page keeps its promises to nobody.
+ */
+const A11Y_ONLY_PAGES = [
+  '/404.html',
+  '/en/search.html',
+  '/en/partners.html',
+  '/nl/partners.html',
+  '/en/press.html',
+  '/nl/pers.html',
+];
 
 /** Anything at or above these impacts fails the build. */
 const BLOCKING_IMPACTS = new Set(['serious', 'critical']);

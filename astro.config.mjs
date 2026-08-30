@@ -8,6 +8,17 @@ import { DEFAULT_LOCALE, LOCALES, SITE_URL } from './src/i18n/config.ts';
 export default defineConfig({
   site: SITE_URL,
   output: 'static',
+  /**
+   * Off, deliberately. The compressor collapses the whitespace between a text
+   * node and the element that follows it — and when that whitespace is the
+   * line break Prettier inserts at printWidth, it collapses to *nothing*:
+   * `Mail\n<a>hello@twente.dev</a>` shipped as `Mail<a>hello@twente.dev</a>`.
+   * That gap is content, not formatting, and the bug returns every time
+   * Prettier rewraps a paragraph, so no lint rule can hold the line. Leaving
+   * the whitespace in costs ~6 kB across all 36 pages once the response is
+   * compressed — under 200 bytes a page.
+   */
+  compressHTML: false,
   trailingSlash: 'never',
   build: {
     // Emit `/nl/events.html` rather than `/nl/events/index.html` so Cloudflare's

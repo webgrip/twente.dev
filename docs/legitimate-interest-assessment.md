@@ -1,7 +1,7 @@
 # Legitimate Interest Assessment — outreach to regional organisations
 
-**Controller**: twente.dev (Ryan Grippeling, trading as Webgrip; an independent stichting is
-in formation).
+**Controller**: twente.dev (Ryan Grippeling, trading as Webgrip; run by one person, no
+foundation).
 **Processing**: one-to-one email contact with community organisers, educational
 institutions, municipalities, ecosystem bodies, employers and venues in Twente, to
 introduce twente.dev, ask permission to list a community, request advice, and invite

@@ -38,11 +38,12 @@ import { CONTACT_EMAIL } from '../../config/site.ts';
 
   <h2>Event registration</h2>
   <p>
-    When registration for an event is open, it runs on a ticketing service (pretix). We ask only
-    what is needed for ticketing, access, food and safety: your name, email address, dietary needs
-    and access needs, plus an optional question about what you are building or looking for. This
-    data is used for that event and its follow-up, then deleted within three months of the event.
-    Registering for an event never adds you to the newsletter.
+    When registration for an event is open, it works by e-mail: you register by mailing us, and a
+    human replies. At this size there is no ticketing platform in between. We ask only what is
+    needed for access, food and safety: your name, email address, dietary needs and access needs,
+    plus an optional question about what you are building or looking for. This data lives in one
+    registration list, is used for that event and its follow-up, then deleted within three months of
+    the event. Cancelling is one reply. Registering for an event never adds you to the newsletter.
   </p>
 
   <h2>Newsletter</h2>
@@ -84,10 +85,10 @@ import { CONTACT_EMAIL } from '../../config/site.ts';
 
   <h2>Processors</h2>
   <p>
-    The site is served by Cloudflare, which also routes mail sent to our addresses. When
-    registration and the newsletter go live they run on pretix (ticketing) and Brevo (email)
-    respectively; both process data only on our instructions, inside the EU/GDPR framework. We name
-    every processor here, and update this list when one changes. No data is sold or shared.
+    The site is served by Cloudflare, which also routes mail sent to our addresses. Event
+    registration is handled by e-mail — no ticketing platform. When the newsletter goes live it runs
+    on Brevo (email), which processes data only on our instructions, inside the EU/GDPR framework.
+    We name every processor here, and update this list when one changes. No data is sold or shared.
   </p>
 
   <h2>Your rights</h2>
@@ -106,7 +107,7 @@ import { CONTACT_EMAIL } from '../../config/site.ts';
   <h2>Who is responsible</h2>
   <p>
     twente.dev is run by Ryan Grippeling through Webgrip, which is the controller for the data
-    described on this page until the foundation is incorporated and takes over.
+    described on this page.
   </p>
   <p>
     Webgrip · Koekoekstraat 8, 7523 WZ Enschede, Netherlands ·

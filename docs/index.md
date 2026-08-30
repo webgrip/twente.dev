@@ -2,7 +2,7 @@
 
 The reference material behind [twente.dev](https://twente.dev): an independent,
 practitioner-led technology community for Twente, built around numbered flagship events.
-First edition — **twente.dev/001 — Reconnect**, Wednesday 7 October 2026, Enschede.
+First edition — **twente.dev/001 — Reconnect**, Wednesday 7 October 2026, Rijssen.
 
 This is the working documentation, not the public site. Source lives in
 [`webgrip/twente.dev`](https://forgejo.webgrip.dev/webgrip/twente.dev) on Forgejo; commits
@@ -10,12 +10,13 @@ carry `VIK-<id>` trailers back to the board.
 
 ## Where things are
 
-| Section                                        | What it holds                                                                                                                  |
-| ---------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| **[Decision records](adrs/README.md)**         | Every architecture and scope decision, MADR 4.0.0, append-only. Start here to understand why the site is shaped the way it is. |
-| **[Community agreements](partner-compact.md)** | The partner compact offered to listed communities, and the legitimate-interest assessment behind outreach.                     |
-| **[Brand](brand/README.md)**                   | Mark construction, colour, type, lockups, and the tone-of-voice house rules that govern every surface.                         |
-| **[Plan](plan/playbook-alignment.md)**         | What shipped against the launch tracker, and what is still open.                                                               |
+| Section                                         | What it holds                                                                                                                               |
+| ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| **[Organiser playbook](organiser-playbook.md)** | How to actually run an edition — venue, speakers, e-mail registration, archive, the monthly rhythm — written for a one-person organisation. |
+| **[Decision records](adrs/README.md)**          | Every architecture and scope decision, MADR 4.0.0, append-only. Start here to understand why the site is shaped the way it is.              |
+| **[Community agreements](partner-compact.md)**  | The partner compact offered to listed communities, and the legitimate-interest assessment behind outreach.                                  |
+| **[Brand](brand/README.md)**                    | Mark construction, colour, type, lockups, and the tone-of-voice house rules that govern every surface.                                      |
+| **[Plan](plan/playbook-alignment.md)**          | What shipped against the launch tracker, and what is still open.                                                                            |
 
 ## The facts every surface must agree on
 
@@ -23,7 +24,7 @@ Single source: `src/config/site.ts`. Do not restate these anywhere without readi
 from there.
 
 - **twente.dev/001 — Reconnect** · Wednesday 7 October 2026 · doors and food 18:00,
-  programme 18:45, hard finish 21:30 · Enschede · free.
+  programme 18:45, hard finish 21:30 · Rijssen (Code14, Hogepad 81) · free.
 - Tagline: **"We build it. We run it. We share it."** — always paired with a literal
   description of what the site is, never standing alone.
 - twente.dev is **always lowercase**, including at the start of a sentence.

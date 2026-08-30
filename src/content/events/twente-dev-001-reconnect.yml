@@ -37,8 +37,8 @@ organiser:
   url: https://twente.dev
 url: https://twente.dev/nl/001
 costEur: 0
-# The stated policy everywhere else is "primarily English; Dutch welcome" —
-# a bare EN chip undersold the flagship's bilingual promise.
+# Policy since 2026-08-30: Dutch by default, switching to English whenever
+# internationals are in the room — so the honest value stays "both".
 language: both
 tags:
   - flagship

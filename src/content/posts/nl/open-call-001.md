@@ -40,8 +40,9 @@ onderwijs — elke discipline is welkom, en juist de kruisbestuiving is het punt
 
 Spreekervaring is niet nodig. Geaccepteerde bijdragen vormen we samen: een redactioneel gesprek,
 een slidetemplate, een technische repetitie, een zichtbaar tijdsignaal op de avond zelf, en
-reiskosten die we vooraf afspreken. De zaal is gemaximeerd op honderd mensen en het format is
-ontworpen om vriendelijk te zijn voor sprekers die dit voor het eerst doen.
+reiskosten die we vooraf afspreken. De zaal is bewust klein — de actuele capaciteit staat op de
+[editiepagina](/nl/001) — en het format is ontworpen om vriendelijk te zijn voor sprekers die
+dit voor het eerst doen.
 
 ## Wat we niet accepteren
 

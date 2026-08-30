@@ -78,9 +78,9 @@ That is the whole ask. There is no membership, no fee, no exclusivity, and no ob
 ## Governance, and who pays
 
 twente.dev is funded by Ryan Grippeling personally and run through his one-person business
-(Webgrip). His employer, Code14, contributes time and a small marketing budget. It is being
-set up as an independent foundation (_stichting_) with its own board, bank account and
-books.
+(Webgrip). His employer, Code14, contributes time and a small marketing budget. There is no
+foundation behind it and none is planned for now: one person, working in the open, held to
+the published safeguards below.
 
 Nobody — including Webgrip and Code14 — buys stage time, attendee data or editorial
 influence. Partner money buys credits and places, never access.
@@ -167,8 +167,9 @@ verplichtingen.
 ## Bestuur, en wie betaalt
 
 twente.dev wordt door Ryan Grippeling zelf gefinancierd en loopt via zijn eigen eenmanszaak
-(Webgrip). Zijn werkgever Code14 draagt tijd bij en een klein marketingbudget. Het wordt
-opgezet als een onafhankelijke stichting met een eigen bestuur, rekening en boekhouding.
+(Webgrip). Zijn werkgever Code14 draagt tijd bij en een klein marketingbudget. Er zit geen
+stichting achter en die komt er voorlopig ook niet: één persoon, in de openbaarheid, gehouden
+aan de gepubliceerde waarborgen hieronder.
 
 Niemand — Webgrip en Code14 dus ook niet — koopt podiumtijd, deelnemersgegevens of
 redactionele invloed. Partnergeld koopt credits en plekken, nooit toegang.

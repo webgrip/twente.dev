@@ -65,7 +65,7 @@ export const nl = {
   'home.posts.all': 'Alle artikelen',
 
   'edition.venueTba': 'Locatie volgt',
-  'edition.language': 'Voertaal vooral Engels; Nederlands welkom',
+  'edition.language': 'Nederlands; Engels zodra er internationale deelnemers zijn',
   'edition.registrationOpens': 'Aanmelden opent',
   'edition.details': 'Alles over twente.dev/001',
   'edition.free': 'Gratis',
@@ -192,7 +192,7 @@ export const en: Record<UIKey, string> = {
   'home.posts.all': 'All articles',
 
   'edition.venueTba': 'Venue to be announced',
-  'edition.language': 'Primarily English; Dutch welcome',
+  'edition.language': 'Dutch by default; English whenever internationals join',
   'edition.registrationOpens': 'Registration opens',
   'edition.details': 'Everything about twente.dev/001',
   'edition.free': 'Free',

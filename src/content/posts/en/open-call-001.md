@@ -40,8 +40,8 @@ education — every discipline is welcome, and cross-overs are the point of the 
 
 You do not need speaking experience. Accepted contributions are shaped together: an editorial
 call, a slide template, a technical rehearsal, a visible time cue on the night, and travel costs
-agreed in advance. The room is capped at a hundred people and the format is designed to be kind
-to first-time speakers.
+agreed in advance. The room is deliberately small — the current capacity is on the
+[edition page](/en/001) — and the format is designed to be kind to first-time speakers.
 
 ## What we do not accept
 

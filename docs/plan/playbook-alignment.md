@@ -19,14 +19,14 @@ companies and communities pages are placeholders pending a post-launch decision.
 
 ## Site milestones from the launch tracker
 
-| Date        | Deliverable                                                       | Status                            |
-| ----------- | ----------------------------------------------------------------- | --------------------------------- |
-| 24 Aug 2026 | Minimal landing page: proposition, date, contribution route       | ✅ **live** at twente.dev         |
-| 31 Aug 2026 | Partner/community page with non-displacement commitment           | ✅ live                           |
-| 31 Aug 2026 | Code of conduct + email opt-in + save-the-date live               | ✅ CoC live; opt-in pending Brevo |
-| 2 Sep 2026  | Registration opens (pretix) — trust pages must be live first      | Trust pages live; pretix pending  |
-| 28 Sep 2026 | Full practical page: access, food, language, conduct, photography | Partially (structure on /001)     |
-| 21 Oct 2026 | Public launch report                                              | After the event                   |
+| Date        | Deliverable                                                                                  | Status                             |
+| ----------- | -------------------------------------------------------------------------------------------- | ---------------------------------- |
+| 24 Aug 2026 | Minimal landing page: proposition, date, contribution route                                  | ✅ **live** at twente.dev          |
+| 31 Aug 2026 | Partner/community page with non-displacement commitment                                      | ✅ live                            |
+| 31 Aug 2026 | Code of conduct + email opt-in + save-the-date live                                          | ✅ CoC live; opt-in pending Brevo  |
+| 2 Sep 2026  | Registration opens (e-mail RSVP; pretix dropped 2026-08-30) — trust pages must be live first | Trust pages live; hello@ must work |
+| 28 Sep 2026 | Full practical page: access, food, language, conduct, photography                            | Partially (structure on /001)      |
+| 21 Oct 2026 | Public launch report                                                                         | After the event                    |
 
 **twente.dev went live on 2026-08-13**, ahead of the 24 August deadline. Until then the statuses
 above read "built", which was true of the repository and misleading about the world: the worker was
@@ -52,7 +52,9 @@ mean, so this table now tracks _live_, not _built_.
    (or alias to a real inbox). **Overdue as of 2026-08-13**: this said "before the branch deploys",
    and the branch has deployed — the addresses are published on a live code-of-conduct page, so a
    report has nowhere to land until they resolve.
-2. **pretix** — create the event, then set `REGISTRATION_URL` in `src/config/site.ts`.
+2. **Registration** — pretix dropped (2026-08-30, Ryan): at ~40 seats registration is a
+   mailto to hello@ plus a hand-kept list and waitlist. On 2 Sep, set `REGISTRATION_URL`
+   in `src/config/site.ts` to the mailto link. Precondition: hello@ must actually receive.
 3. **Brevo** — create the double-opt-in form, then set `NEWSLETTER_URL`. Open tracking off.
 4. **Venue** — on contract, set `EDITION_001.venue` and add the address to the events entry.
 5. **Sponsor pricing** — the playbook (€7,500 / €2,500 / €1,000) and the slide deck (€5,000 /

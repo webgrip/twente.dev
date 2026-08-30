@@ -37,14 +37,14 @@ just a letter. The mark cannot drift from the name, because it is made of the na
 The mark is generated, not drawn: [`scripts/brand-assets.py`](../../scripts/brand-assets.py)
 takes the three glyphs from the font outlines and places them. The placement values:
 
-|                     | Value                            | Derived from                                  |
-| ------------------- | -------------------------------- | --------------------------------------------- |
-| Badge               | 160 × 160, corner radius 30      | radius unchanged from v1                      |
-| Glyphs              | `t` `.` `d`, wordmark outlines   | never re-set in a live font                   |
-| Glyph scale         | 0.8 × the wordmark x-height      | x-height 64 → 51.2 on the badge               |
-| Kerning             | outline gaps of 9.6              | 12 wordmark-units — kerned, not mono-advanced |
-| Baseline            | y 116                            | centres the ascender band on the badge        |
-| Letter span         | x 10.82–149.18 (width 138.37)    | derived, not judged — do not nudge            |
+|             | Value                          | Derived from                                  |
+| ----------- | ------------------------------ | --------------------------------------------- |
+| Badge       | 160 × 160, corner radius 30    | radius unchanged from v1                      |
+| Glyphs      | `t` `.` `d`, wordmark outlines | never re-set in a live font                   |
+| Glyph scale | 0.8 × the wordmark x-height    | x-height 64 → 51.2 on the badge               |
+| Kerning     | outline gaps of 9.6            | 12 wordmark-units — kerned, not mono-advanced |
+| Baseline    | y 116                          | centres the ascender band on the badge        |
+| Letter span | x 10.82–149.18 (width 138.37)  | derived, not judged — do not nudge            |
 
 Decisions that are not accidental:
 

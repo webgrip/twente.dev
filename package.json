@@ -15,7 +15,7 @@
   "packageManager": "pnpm@11.8.0",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build && pnpm run index:search && pnpm run validate:csp",
+    "build": "astro build && pnpm run index:search && pnpm run validate:csp && pnpm run validate:commitments",
     "index:search": "pagefind --site dist",
     "preview": "astro preview",
     "astro": "astro",
@@ -29,7 +29,8 @@
     "validate:csp": "node --experimental-strip-types scripts/validate-csp.ts",
     "deploy": "wrangler deploy",
     "deploy:preview": "wrangler versions upload",
-    "validate:a11y": "node --experimental-strip-types scripts/axe-scan.ts"
+    "validate:a11y": "node --experimental-strip-types scripts/axe-scan.ts",
+    "validate:commitments": "node --experimental-strip-types scripts/validate-commitments.ts"
   },
   "dependencies": {
     "@astrojs/rss": "4.0.19",

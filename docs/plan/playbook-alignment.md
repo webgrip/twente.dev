@@ -103,8 +103,17 @@ mean, so this table now tracks _live_, not _built_.
 - Newsletter archive pages, event /002 interest list, public report page — post-event work.
 - Per-page OG image generation (L7 — a static brand banner is wired instead), Meetup mirroring,
   accounts/profiles/chat — deferred or banned.
-- **axe-in-CI** (plan §6.6 item 5) — the only §6.6 gate still missing. Neither `axe` nor
-  `playwright` appears in `package.json` or `.forgejo/`.
+- ~~**axe-in-CI** (plan §6.6 item 5) — the only §6.6 gate still missing.~~ **Shipped
+  2026-08-30.** `scripts/axe-scan.ts` runs the axe rule set over the built output in an
+  `accessibility` job, failing on serious/critical. The page list is read from
+  `lighthouserc.json` rather than duplicated, plus three a11y-only pages (404, `/en/search`,
+  `/en/partners`) that carry no performance budget. `playwright-core`, not `playwright` —
+  core skips the ~150MB browser download and the `cypress/browsers` image already has Chrome.
+
+  Triage result: the site was already clean on 16 of 17 pages. The one violation was
+  `label-title-only` on the Pagefind search input, which ships with a `title` and no label —
+  a tooltip is not an accessible name. Fixed in `SearchPage.astro` by naming the input after
+  Pagefind mounts it, rather than adding it to an exception list.
 
   Corrected 2026-08-13: this bullet used to also claim Lighthouse CI had "no runner job … needs a
   Chrome-capable Forgejo runner; verify before wiring". Both halves were stale. The `lighthouse`

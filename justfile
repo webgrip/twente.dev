@@ -137,6 +137,13 @@ build:
 lhci: build
     pnpm dlx @lhci/cli autorun
 
+# axe-core accessibility gate against a fresh build. Needs a local Chrome —
+# override the path if yours lives elsewhere:
+#   CHROME_PATH="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" just a11y
+[group('check')]
+a11y: build
+    CHROME_PATH="${CHROME_PATH:-/Applications/Google Chrome.app/Contents/MacOS/Google Chrome}" pnpm run validate:a11y
+
 # Every gate CI runs
 [group('check')]
 check: fmt lint typecheck test content build

@@ -163,6 +163,64 @@ jobs:
         if: always()
         run: docker rm -f lhci || true
 
+  # Runs the real axe rule set (10x-plan §6.6 item 5). Lighthouse already
+  # asserts categories:accessibility at 1.0, but that score is a sampling
+  # heuristic — it misses most ARIA and focus-order defects, which is why this
+  # exists alongside it rather than instead of it.
+  #
+  # Same container trick as lighthouse, for the same reason: the runner's docker
+  # is a sibling, so bind mounts resolve on the HOST where the checkout does not
+  # exist. Everything goes in by `docker cp`.
+  accessibility:
+    name: "Accessibility (axe-core)"
+    needs:
+      - build
+    runs-on: docker
+    steps:
+      # v5, not v6 — v6 is broken on non-GitHub runners (webgrip/workflows ADR-0002).
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
+      - name: Enable pnpm
+        run: corepack enable
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        run: pnpm build
+
+      - name: Run axe scan
+        run: |
+          set -euo pipefail
+          # Versions come from package.json so the container cannot drift from
+          # the versions a developer gets locally. playwright-core, not
+          # playwright: core skips the ~150MB browser download, and the image
+          # already ships Chrome — which scripts/axe-scan.ts targets via
+          # CHROME_PATH.
+          AXE=$(node -p "require('./package.json').devDependencies['@axe-core/playwright']")
+          PWC=$(node -p "require('./package.json').devDependencies['playwright-core']")
+
+          docker rm -f axe >/dev/null 2>&1 || true
+          docker run -d --name axe -w /repo cypress/browsers:latest sleep 1800
+          docker cp dist axe:/repo/dist
+          docker cp lighthouserc.json axe:/repo/lighthouserc.json
+          docker cp scripts axe:/repo/scripts
+          # package.json travels too: the script is ESM, so the container needs
+          # "type": "module" to load a .ts entrypoint at all.
+          docker cp package.json axe:/repo/package.json
+          docker exec -w /repo axe bash -c \
+            "npm i --no-save --silent '@axe-core/playwright@${AXE}' 'playwright-core@${PWC}'"
+          docker exec -w /repo axe bash -c \
+            "node --experimental-strip-types scripts/axe-scan.ts"
+
+      - name: Clean up axe container
+        if: always()
+        run: docker rm -f axe || true
+
   # ---------------------------------------------------------------------------
   # Deploy.
   #

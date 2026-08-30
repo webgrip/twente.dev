@@ -58,7 +58,11 @@ const otherSearch = otherLocales(locale).map((target) => ({
         inline scripts — so the initialiser below was blocked by the page's own
         meta CSP and search silently never started. */
     }
-    <div id="pagefind-search" data-search-config={JSON.stringify(pagefindConfig)}>
+    <div
+      id="pagefind-search"
+      data-search-config={JSON.stringify(pagefindConfig)}
+      data-search-label={t('search.label')}
+    >
       {
         /* Shown to no-JS visitors (and under `astro dev`, where /pagefind/*
           does not exist yet — dev builds surface the same honest fallback). */
@@ -98,6 +102,20 @@ const otherSearch = otherLocales(locale).map((target) => ({
         if (!mount || !PagefindUI) return;
         document.querySelector('.search-fallback')?.remove();
         new PagefindUI(JSON.parse(mount.dataset.searchConfig ?? '{}'));
+
+        // Pagefind gives its input a `title` and nothing else, so the only
+        // accessible name a screen reader gets is one axe flags as
+        // `label-title-only` — a title is a tooltip, not a label, and it is
+        // invisible to touch and often to keyboard users too. Pagefind offers no
+        // config hook for this, so name the input here once it exists. The
+        // element is created synchronously by the constructor above, but guard
+        // anyway: a future Pagefind could defer it, and a missing label is worth
+        // failing quietly rather than throwing on a search page.
+        const input = mount.querySelector<HTMLInputElement>('input[type="text"]');
+        if (input) {
+          input.setAttribute('aria-label', mount.dataset.searchLabel ?? 'Search');
+          input.removeAttribute('title');
+        }
       });
     </script>
   </div>

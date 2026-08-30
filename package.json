@@ -28,7 +28,8 @@
     "validate:content": "node --experimental-strip-types scripts/validate-content.ts",
     "validate:csp": "node --experimental-strip-types scripts/validate-csp.ts",
     "deploy": "wrangler deploy",
-    "deploy:preview": "wrangler versions upload"
+    "deploy:preview": "wrangler versions upload",
+    "validate:a11y": "node --experimental-strip-types scripts/axe-scan.ts"
   },
   "dependencies": {
     "@astrojs/rss": "4.0.19",
@@ -40,10 +41,12 @@
   },
   "devDependencies": {
     "@astrojs/check": "0.9.10",
+    "@axe-core/playwright": "^4.10.2",
     "@eslint/js": "10.0.1",
     "eslint": "10.8.0",
     "eslint-plugin-astro": "3.1.0",
     "pagefind": "1.5.2",
+    "playwright-core": "^1.56.1",
     "prettier": "3.9.6",
     "prettier-plugin-astro": "0.14.1",
     "typescript": "5.9.3",

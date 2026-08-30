@@ -1,21 +1,120 @@
 ---
 import ProsePage from '../../templates/ProsePage.astro';
-import { CONTACT_EMAIL } from '../../config/site.ts';
+import { routePath } from '../../i18n/routes.ts';
+import { CONTACT_EMAIL, REPO_URL } from '../../config/site.ts';
 ---
 
 <ProsePage
   locale="nl"
   routeKey="partners"
   title="Partners"
-  description="Hoe organisaties twente.dev steunen. Het partnermodel werken we nog uit — praat vast met ons mee."
+  description="De afspraak tussen twente.dev en de community's die we vermelden, en hoe organisaties een editie steunen — op papier, openbaar, in git."
 >
   <p>
-    Organisaties kunnen twente.dev straks steunen als partner: eten, locaties en productie, in ruil
-    voor zichtbare vermelding — nooit voor deelnemersdata, spreektijd of redactionele invloed. Het
-    volledige partnermodel werken we op dit moment uit en verschijnt hier.
+    Twee soorten organisaties komen op deze pagina uit: community's die we vermelden, en
+    organisaties die een editie steunen. Allebei horen ze de afspraken te kennen voordat ze ergens
+    ja op zeggen, dus staan die hier opgeschreven in plaats van beloofd in een mailtje.
+  </p>
+
+  <h2>twente.dev concurreert niet met wat er al is</h2>
+  <p>
+    twente.dev is er om te versterken wat er al gebeurt in Twente. We doen niet nog eens over wat er
+    al is, en we concurreren niet met bestaande community's of events. Concreet, en zonder
+    uitzonderingen:
+  </p>
+  <ul>
+    <li>
+      <strong>We plannen geen eigen events op jullie avond.</strong> De gedeelde agenda bestaat mede zodat
+      we jullie data kunnen zien en vermijden.
+    </li>
+    <li>
+      <strong>We kapen jullie sprekers niet weg</strong>, en jullie organisatoren en vrijwilligers
+      ook niet.
+    </li>
+    <li>
+      <strong>We zetten je er niet op zonder te vragen</strong>, en we halen je eraf zodra je dat
+      wilt — één bericht, geen vragen, geen opzegtermijn.
+    </li>
+    <li>
+      <strong>We zeggen nergens dat we jullie vertegenwoordigen.</strong> twente.dev spreekt voor twente.dev.
+    </li>
+    <li>
+      <strong>We benaderen jullie bestaande sponsoren niet.</strong> Steunt een bedrijf jullie al, dan
+      is dat van jullie. We vragen eerst om hulp in natura en pas daarna om geld, zodat we niet vissen
+      in dezelfde kleine regionale vijver.
+    </li>
+    <li>
+      <strong>We nemen geen gegevens over.</strong> Geen ledenlijsten, geen deelnemerslijsten, niets scrapen,
+      niets importeren — en ook niet andersom.
+    </li>
+  </ul>
+
+  <h2>Jullie community blijft van jullie</h2>
+  <p>
+    Alle planning en communicatie voor jullie community blijft van jullie. Vermeld staan verandert
+    niets aan hoe je je groep runt: geen exclusiviteit, geen goedkeuringsproces, geen huisstijl,
+    geen verplichting om iets van ons te promoten, en geen verwachting dat je ergens bij bent.
+    Jullie event, door ons vermeld, wordt aan jullie toegeschreven en linkt naar jullie bron. Nooit
+    onder onze vlag.
+  </p>
+
+  <h2>Wat je ervoor krijgt</h2>
+  <ul>
+    <li>
+      <strong>Een gratis vermelding.</strong> Nu gratis, later ook. We laten een community nooit betalen
+      om vermeld te staan.
+    </li>
+    <li>
+      <strong>Een agendafeed die van jou is</strong>, als ICS en op open formaten in plaats van de
+      API van een platform. We kunnen er geen slot op zetten en hem niet weghalen.
+    </li>
+    <li>
+      <strong>Botsingen voorkomen.</strong> In een regio van deze omvang is het nuttigste wat een gedeelde
+      agenda doet: voorkomen dat twee goede avonden op dezelfde donderdag vallen.
+    </li>
+    <li><strong>Wederzijdse promotie</strong>, als je dat wilt en in de vorm die jij wilt.</li>
+  </ul>
+  <p>
+    Wat we ervoor terugvragen kost niets: toestemming om jullie te vermelden, een correctie als we
+    iets fout hebben, en het liefst een manier om te weten wanneer jullie events zijn. Geen
+    lidmaatschap, geen kosten, geen exclusiviteit.
+  </p>
+
+  <h2>Een editie steunen</h2>
+  <p>
+    Organisaties steunen twente.dev met ruimte, eten, productie en drukwerk, in ruil voor zichtbare
+    vermelding — nooit voor deelnemersgegevens, spreektijd of redactionele invloed. We vragen eerst
+    om steun in natura en pas daarna om geld, en we hebben liever één ding dat je echt kunt geven
+    dan een bedrag dat je moet verantwoorden. Bedragen spreken we per editie af; op deze pagina
+    staat geen tarievenlijst, omdat die er niet hoort te staan zolang het model nog geen echt
+    gesprek heeft doorstaan.
   </p>
   <p>
-    Nu al interesse om te steunen? Mail
-    <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a> — er vroeg bij zijn heeft zo z'n voordelen.
+    Sponsoren krijgen geen spreekplek. Wie er op het podium staat bepaalt de open call, op dezelfde
+    voorwaarden voor iedereen — ook voor mensen die werken bij organisaties die ons steunen.
+  </p>
+
+  <h2>Wie dit betaalt</h2>
+  <p>
+    Ryan Grippeling financiert twente.dev zelf en runt het via zijn eigen eenmanszaak (Webgrip).
+    Zijn werkgever, Code14, draagt tijd bij en een klein marketingbudget. Het wordt opgezet als een
+    onafhankelijke stichting met een eigen bestuur, rekening en boekhouding. Niemand van hen koopt
+    daarmee spreektijd, deelnemersgegevens of redactionele invloed — dezelfde regel geldt voor
+    iedereen, en juist voor de mensen die het dichtst bij het project staan. Na elke editie
+    publiceren we een verslag, inclusief wat niet werkte, met een financiële samenvatting.
+  </p>
+
+  <h2>Deze afspraak wijzigen</h2>
+  <p>
+    Deze afspraak staat in <a href={REPO_URL}>de openbare repository</a>, met de volledige
+    geschiedenis. Wijzigingen worden daar voorgesteld en aangekondigd bij elke vermelde community
+    voordat ze ingaan. Kun je met een wijziging niet leven, dan is de uitgang dezelfde als altijd:
+    één klik.
+  </p>
+  <p>
+    Vermeld willen worden, of een editie steunen? Mail
+    <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>. Run je een community, dan is een
+    vermelding gratis en dat blijft zo — zie <a href={routePath('communities', 'nl')}>communities</a
+    >.
   </p>
 </ProsePage>

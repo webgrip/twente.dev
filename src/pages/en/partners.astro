@@ -1,21 +1,110 @@
 ---
 import ProsePage from '../../templates/ProsePage.astro';
-import { CONTACT_EMAIL } from '../../config/site.ts';
+import { routePath } from '../../i18n/routes.ts';
+import { CONTACT_EMAIL, REPO_URL } from '../../config/site.ts';
 ---
 
 <ProsePage
   locale="en"
   routeKey="partners"
   title="Partners"
-  description="How organisations support twente.dev. We are still working out the partner model — early conversations welcome."
+  description="The compact between twente.dev and the communities it lists, and how organisations support it — in writing, in public, in git."
 >
   <p>
-    Organisations will soon be able to support twente.dev as partners: food, venues and production,
-    in return for visible credit — never for attendee data, stage time or editorial influence. We
-    are working out the full partner model right now, and it will appear here.
+    Two kinds of organisation end up on this page: communities we list, and organisations that
+    support an edition. Both deserve to know the terms before they agree to anything, so the terms
+    are written down here rather than promised in an email.
+  </p>
+
+  <h2>twente.dev will not compete with what already exists</h2>
+  <p>
+    twente.dev exists to support and amplify the technology activity already happening in Twente. We
+    will not duplicate or compete with communities or events that already exist. Concretely, and
+    without exception:
+  </p>
+  <ul>
+    <li>
+      <strong>We will not run our own events on your night.</strong> The shared calendar exists partly
+      so we can see your dates and avoid them.
+    </li>
+    <li><strong>We will not recruit your speakers</strong>, your organisers or your volunteers.</li>
+    <li>
+      <strong>We will not list you without asking</strong>, and we remove you the moment you ask —
+      one message, no questions, no notice period.
+    </li>
+    <li><strong>We will not claim to represent you.</strong> twente.dev speaks for twente.dev.</li>
+    <li>
+      <strong>We will not approach your existing sponsors.</strong> If a company already supports your
+      community, it is yours. We ask for in-kind help before cash, so we are not competing for the same
+      small pool of regional budget.
+    </li>
+    <li>
+      <strong>We will not take your data.</strong> No member lists, no attendee lists, no scraping, no
+      imports — in either direction.
+    </li>
+  </ul>
+
+  <h2>Your community stays yours</h2>
+  <p>
+    All planning and communication for your community continues to come from you. Being listed
+    changes nothing about how you run your group: no exclusivity, no approval process, no house
+    style, no obligation to promote anything of ours, and no expectation that you attend anything.
+    Your event, listed by us, is credited to you and links to your source. Never rebranded.
+  </p>
+
+  <h2>What you get</h2>
+  <ul>
+    <li>
+      <strong>A free listing.</strong> Free now, free later. We will never charge a community to be listed.
+    </li>
+    <li>
+      <strong>A calendar feed you own</strong>, published as ICS on open formats rather than a
+      platform's API. We cannot paywall it and we cannot take it away.
+    </li>
+    <li>
+      <strong>Collision avoidance.</strong> In a region this size, the most useful thing a shared calendar
+      does is stop two good evenings landing on the same Thursday.
+    </li>
+    <li><strong>Cross-promotion</strong>, when you want it and in the form you want it.</li>
+  </ul>
+  <p>
+    What we ask in return costs nothing: permission to list you, a correction when we get a detail
+    wrong, and ideally some way to know when your events are happening. No membership, no fee, no
+    exclusivity.
+  </p>
+
+  <h2>Supporting an edition</h2>
+  <p>
+    Organisations support twente.dev with rooms, food, production and printing, in return for
+    visible credit — never for attendee data, stage time or editorial influence. We ask for in-kind
+    support before cash, and we would rather have one thing you can genuinely give than a number you
+    have to justify. Amounts are agreed per edition; there is no rate card on this page because
+    there should not be one until the model has survived a real conversation.
   </p>
   <p>
-    Interested in supporting already? Email
-    <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a> — being early has its advantages.
+    Sponsors do not get a talk slot. Speaking is decided by the open call, on the same terms for
+    everyone, including people who work for organisations that support us.
+  </p>
+
+  <h2>Who pays for this</h2>
+  <p>
+    Ryan Grippeling funds twente.dev himself and runs it through his own one-person business
+    (Webgrip). His employer, Code14, contributes time and a small marketing budget. It is being set
+    up as an independent foundation with its own board, bank account and books. None of them buys
+    stage time, attendee data or editorial influence — the same rule applies to everyone, and most
+    of all to the people closest to the project. After every edition we publish a report, including
+    what did not work, with a financial summary.
+  </p>
+
+  <h2>Changing this</h2>
+  <p>
+    This compact lives in <a href={REPO_URL}>the public repository</a> with its full history. Changes
+    are proposed there and announced to every listed community before they take effect. If a change is
+    one you cannot live with, the exit is the same one-click removal it always was.
+  </p>
+  <p>
+    Want to be listed, or to support an edition? Email
+    <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>. If you run a community, a listing is
+    free and always will be — see <a href={routePath('communities', 'en')}>communities</a>.
   </p>
 </ProsePage>

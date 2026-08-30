@@ -8,6 +8,22 @@ body:
   - type: markdown
     attributes:
       value: |
+        > **The company directory is not live yet.** The lean launch
+        > ([ADR-0009](https://forgejo.webgrip.dev/webgrip/twente.dev/src/branch/main/docs/adrs/0009-lean-launch-remove-job-board.md))
+        > reduced `/en/companies` to a placeholder, so there is currently no page
+        > that renders an entry. Submissions are **queued in git** and published
+        > if and when the directory returns — a decision taken after
+        > twente.dev/001, when there is event data to argue from.
+        >
+        > Submit anyway if you want to be in the first batch. Just know it will
+        > not appear on the site today, and we would rather tell you that than
+        > take a contribution into a void.
+        >
+        > **De bedrijvengids staat nog niet live.** Inzendingen worden in git
+        > bewaard en gepubliceerd zodra de gids terugkomt — een besluit dat na
+        > twente.dev/001 valt. Insturen mag, maar je vermelding is vandaag nog
+        > niet op de site te zien.
+
         One entry per company — not one per product or label. The description
         should be about the work and the technology; recruitment copy with no
         substance will be sent back.

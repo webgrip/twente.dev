@@ -13,8 +13,8 @@ voegen — al helpt het wel, want alles staat in git.
 
 Open een issue met een van de formulieren:
 
-- **Event aanmelden** — openbaar toegankelijk en relevant voor developers
-- **Bedrijf toevoegen** — één vermelding per bedrijf
+- **Event aanmelden** — openbaar toegankelijk en relevant voor developers · _verschijnt direct op de site_
+- **Bedrijf toevoegen** — één vermelding per bedrijf · **wordt bewaard, nog niet gepubliceerd**
 
 Een maintainer zet het om in een pull request. Lees eerst de
 [richtlijnen](https://twente.dev/nl/richtlijnen).
@@ -23,12 +23,12 @@ Een maintainer zet het om in een pull request. Lees eerst de
 
 Voeg zelf het bestand toe en open een pull request:
 
-| Wat       | Waar                                       |
-| --------- | ------------------------------------------ |
-| Event     | `src/content/events/<slug>.yml`            |
-| Bedrijf   | `src/content/companies/<slug>.yml`         |
-| Community | een entry in `src/content/communities.yml` |
-| Artikel   | `src/content/posts/nl/<slug>.md`           |
+| Wat       | Waar                                       | Status                   |
+| --------- | ------------------------------------------ | ------------------------ |
+| Event     | `src/content/events/<slug>.yml`            | live                     |
+| Bedrijf   | `src/content/companies/<slug>.yml`         | **nog geen pagina**      |
+| Community | een entry in `src/content/communities.yml` | **wacht op toestemming** |
+| Artikel   | `src/content/posts/nl/<slug>.md`           | live                     |
 
 Kopieer een bestaand bestand als startpunt. De bestandsnaam is de slug in de URL.
 
@@ -61,8 +61,8 @@ though it helps, because everything lives in git.
 
 Open an issue using one of the forms:
 
-- **Submit an event** — open to the public and relevant to developers
-- **Add a company** — one entry per company
+- **Submit an event** — open to the public and relevant to developers · _appears on the site straight away_
+- **Add a company** — one entry per company · **queued, not yet published**
 
 A maintainer converts it into a pull request. Read the
 [guidelines](https://twente.dev/en/guidelines) first.
@@ -71,12 +71,12 @@ A maintainer converts it into a pull request. Read the
 
 Add the file yourself and open a pull request:
 
-| What      | Where                                     |
-| --------- | ----------------------------------------- |
-| Event     | `src/content/events/<slug>.yml`           |
-| Company   | `src/content/companies/<slug>.yml`        |
-| Community | an entry in `src/content/communities.yml` |
-| Article   | `src/content/posts/en/<slug>.md`          |
+| What      | Where                                     | Status               |
+| --------- | ----------------------------------------- | -------------------- |
+| Event     | `src/content/events/<slug>.yml`           | live                 |
+| Company   | `src/content/companies/<slug>.yml`        | **no page yet**      |
+| Community | an entry in `src/content/communities.yml` | **awaiting consent** |
+| Article   | `src/content/posts/en/<slug>.md`          | live                 |
 
 Copy an existing file as a starting point. The filename becomes the URL slug.
 

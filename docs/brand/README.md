@@ -1,6 +1,7 @@
 # twente.dev — brand identity
 
-Status: v1 · 2026-08-27 · all source files in this directory
+Status: v2 · 2026-08-30 · all source files in this directory
+(v2 replaces the constructed-t mark of 2026-08-11 with the t.d mark — §1)
 
 A browsable version of this document is [brand-guide.html](brand-guide.html) — assets
 inline, palette with measured contrast, type specimens and a reversible background.
@@ -20,60 +21,62 @@ Everything that is merely metadata stays in the grey ramp, so the red keeps its 
 
 ## 1. The mark
 
-A lowercase **t** in warm paper on an ink badge, with the flag-red dot as the
-connector — the `.` of `.dev`, sitting where the t's foot would end. Ratified as the
-official mark on 2026-08-11.
+**t.d** — the domain in three glyphs: the first letter of `twente`, the full stop,
+the first letter of `dev`. The letters are the **wordmark's own** — IBM Plex Mono
+Bold, converted to outlines — set warm paper on the ink badge, with the stop in
+Signal Red doing exactly the job it does in the wordmark. Ratified as the official
+mark on **2026-08-30**, superseding the constructed-t badge of 2026-08-11.
 
-The t is built from two overlapping bars, not drawn as a letter. That is deliberate:
-it reads as a letter at reading distance and as a **plus** up close — a mark for a
-community that adds people together.
+Why v1 went: the constructed t's equal arms read as a plus — and at a glance as a
+cross — which this document then had to argue against; and a t glyph standing alone
+reads as other brands' marks. In **t.d** the t stands inside a word, where a t is
+just a letter. The mark cannot drift from the name, because it is made of the name.
 
 ### Construction
 
-Everything derives from one measure: the bar width **b = 30** on a canvas of 160 × 160.
+The mark is generated, not drawn: [`scripts/brand-assets.py`](../../scripts/brand-assets.py)
+takes the three glyphs from the font outlines and places them. The placement values:
 
-|                     | Value             | Derived from                            |
-| ------------------- | ----------------- | --------------------------------------- |
-| Bar width `b`       | 30                | the measure (18.75 % of the canvas)     |
-| Badge corner radius | 30                | one bar width                           |
-| Bar corner radius   | 5                 | b / 6                                   |
-| Vertical bar        | x 65–95, y 25–135 | centred on x = 80                       |
-| Horizontal bar      | x 25–135, y 50–80 | t spans 25–135 on both axes, concentric |
-| Dot centre          | (120, 120)        | the ¾ point of the canvas, on both axes |
-| Dot radius          | 17.5              | dot diameter 35 = b + 5                 |
-
-```
-badge   <rect width="160" height="160" rx="30"/>
-t       <rect x="65" y="25" width="30" height="110" rx="5"/>
-        <rect x="25" y="50" width="110" height="30" rx="5"/>
-dot     <circle cx="120" cy="120" r="17.5"/>
-```
+|                     | Value                            | Derived from                                  |
+| ------------------- | -------------------------------- | --------------------------------------------- |
+| Badge               | 160 × 160, corner radius 30      | radius unchanged from v1                      |
+| Glyphs              | `t` `.` `d`, wordmark outlines   | never re-set in a live font                   |
+| Glyph scale         | 0.8 × the wordmark x-height      | x-height 64 → 51.2 on the badge               |
+| Kerning             | outline gaps of 9.6              | 12 wordmark-units — kerned, not mono-advanced |
+| Baseline            | y 116                            | centres the ascender band on the badge        |
+| Letter span         | x 10.82–149.18 (width 138.37)    | derived, not judged — do not nudge            |
 
 Decisions that are not accidental:
 
-- **The badge is part of the mark.** The t never appears loose on a page — the ink
-  badge is its ground, which is why the mark works identically on paper, on ink and
-  on photography. Where a badge cannot fit, use the wordmark instead.
-- **The dot sits at the ¾ point** — (120, 120), on the diagonal. It reads as the
-  full stop of `.dev` and as the period after the t. Its position is a coordinate,
-  not a visual judgement; do not nudge it.
-- **The crossbar sits high** (y 50–80 against a canvas centre of 80), so the shape
-  keeps a t's proportions rather than a religious cross's.
+- **The badge is part of the mark.** The letters never appear loose on a page — the
+  ink badge is their ground, which is why the mark works identically on paper, on
+  ink and on photography. Where a badge cannot fit, use the wordmark instead.
+- **The stop is the mark's only red**, as it is the wordmark's only red. It reads as
+  the `.` of `.dev` — the thread's knot, now holding the name together.
+- **The kerning is the design.** Set at the mono advance this is a terminal
+  printout; kerned tight it is a mark. Regenerate with the script, never by eye.
+
+### Round variant
+
+`mark-round.svg` carries the same letters at 0.68 scale on a circle (baseline
+y 109). It exists for **avatars and circular masks only** — every platform that
+crops to a circle gets this file instead of a cropped square. The square badge
+stays the master everywhere else.
 
 ### Single-colour mark
 
-`mark-mono.svg` is one `fill-rule="evenodd"` path — badge, t and dot as subpaths,
-so the t and the dot become **negative space**. For stamps, engraving, embossing,
-laser cutting and single-colour badges. The `fill-rule` is load-bearing: without
-it the holes fill in. `mark-black.svg` and `mark-white.svg` are fixed-colour
-copies of the same path.
+`mark-mono.svg` is one `fill-rule="evenodd"` path — badge, letters and stop as
+subpaths, so they become **negative space** (the d's counter stays solid, as a
+knockout should). For stamps, engraving, embossing, laser cutting and
+single-colour badges. The `fill-rule` is load-bearing: without it the holes fill
+in. `mark-black.svg` and `mark-white.svg` are fixed-colour copies of the same path.
 
 ### Favicon
 
-`favicon.svg` is the master at exactly **1:5** on a 32-unit canvas — bars of 6,
-radius 6, dot at (24, 24). Every ratio is preserved; the bars at 18.75 % are heavy
-enough that nothing needs compensating at 16 px. The deployed copy is
-`public/favicon.svg`.
+`favicon.svg` is the master at exactly **1:5** on a 32-unit canvas, with one
+compensation: the letters carry a 1-unit same-colour stroke — the heavier
+small-size cut three glyphs need to hold at 16 px in a non-retina tab. The
+deployed copy is `public/favicon.svg`.
 
 ---
 
@@ -175,14 +178,14 @@ Fallback stacks: `"Inter", -apple-system, system-ui, sans-serif` and
 
 - Wordmark x-height = **64** against a badge of 160 (40 %); the x-height band is
   vertically centred on the badge.
-- Gap between badge and wordmark = **30**, exactly one bar width.
+- Gap between badge and wordmark = **30** — the house spacing unit (v1's bar width, kept).
 - Stacked: mark centred over the wordmark, the same 30 between them.
 
 These are derived numbers, not visual judgements — do not re-space a lockup by eye.
 
 ### Clear space
 
-Keep at least **one bar width** free around every lockup — 30 units on a badge of
+Keep at least **one spacing unit** free around every lockup — 30 units on a badge of
 160, i.e. 19 % of the mark's height. Nothing inside that margin.
 
 ### Minimum sizes
@@ -201,10 +204,12 @@ Keep at least **one bar width** free around every lockup — 30 units on a badge
 - **Use red as decoration.** Red is a signal: a connection, a date, an action, the
   dot. One red signal per surface is the norm — the site header carries exactly one.
 - Recolour the dot, in the mark or in the wordmark. The dot is the brand.
-- Take the t off its badge. The badge is the mark's ground, not a container option.
+- Take the letters off the badge. The badge is the mark's ground, not a container option.
+- Use the round variant outside circular masks — the square badge is the master.
 - Re-set the wordmark in another font, another weight, or — worst of all — uppercase.
   `twente.dev` is lowercase everywhere, including sentence starts and title slides.
-- Move the dot, change the bar width or the corner radii. Scale the file.
+- Re-kern, re-space or re-set the mark's letters — including in a live font.
+  Scale the file, or regenerate it with the script.
 - Put the mark in a gradient, drop shadow or outline, or rotate it.
 - Set Signal Red text on ink — use Red Light (`#EA6250`) there. Fills stay flag red.
 - Set text in Thread Grey (1.22:1 on paper — it is a hairline colour).
@@ -218,11 +223,12 @@ Keep at least **one bar width** free around every lockup — 30 units on a badge
 ## 6. Files
 
 ```
-mark.svg                        colour master: paper t on ink badge, red dot
-mark-mono.svg                   one even-odd path, currentColor, t + dot knocked out
+mark.svg                        colour master: "t.d" on the ink badge, red stop
+mark-round.svg                  round variant — avatars and circular masks only
+mark-mono.svg                   one even-odd path, currentColor, letters + stop knocked out
 mark-black.svg / -white.svg     the same path, fixed colour
-mark-currentcolor.svg           theme-following badge, dot stays red (--twente-red)
-favicon.svg                     the master at 1:5 on a 32-unit canvas
+mark-currentcolor.svg           theme-following badge, the stop stays red (--twente-red)
+favicon.svg                     the master at 1:5, letters carrying the heavier small-size cut
 wordmark.svg / -white.svg       "twente.dev", IBM Plex Mono Bold as outlines
 lockup-horizontal.svg / -white  mark + wordmark
 lockup-stacked.svg / -white     mark over wordmark
@@ -236,10 +242,16 @@ social-profile-copy.md          paste-ready bios per platform
 All SVGs have a `viewBox` and no fixed units beyond `width`/`height` — scale with CSS
 or by removing those two attributes.
 
-The PNGs are rendered from these SVGs with resvg — every variant except
-`mark-mono.svg` and `mark-currentcolor.svg` (currentColor has no colour outside CSS;
-use the black/white PNGs) and `favicon.svg` (the same artwork on a smaller canvas, so
-its 512 and 1024 px rasters came out byte-identical to `mark-*.png` — use those).
+The PNGs are rendered from these SVGs with resvg (or the `resvg_py` package) —
+every variant except `mark-mono.svg` and `mark-currentcolor.svg` (currentColor has
+no colour outside CSS; use the black/white PNGs). Every size is rendered from
+vector at that exact size, never downscaled from a bigger raster: all variants at
+512, 1024 and 2048 px, and the two colour marks additionally at 32, 64, 128 and
+256 px — the ≤128 px cuts carry a graded same-colour letter stroke so they stay
+sharp where platforms would otherwise scale our 512 themselves. The script also
+writes `public/favicon.ico` (true per-size 16/32/48 rasters of the small-size
+cut) and `public/apple-touch-icon.png` (the mark at 180, flattened on ink), and
+ends with a QA gate that verifies every raster's size, alpha and deployed copy.
 Change an SVG, then re-render the PNGs with
 [`scripts/brand-assets.py`](../../scripts/brand-assets.py) instead of editing them.
 The PNGs exist for the places that do not take SVG: social platforms, slide software,

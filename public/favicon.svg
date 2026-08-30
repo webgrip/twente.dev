@@ -1,11 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="twente.dev">
   <title>twente.dev</title>
-  <!-- The compact mark: warm-paper "t" on an ink badge, the flag-red dot as
-       the connector. Ratified as the official mark 2026-08-11. -->
-  <rect width="32" height="32" rx="6" fill="#111820" />
-  <g fill="#f7f3ea">
-    <rect x="13" y="5" width="6" height="22" rx="1" />
-    <rect x="5" y="10" width="22" height="6" rx="1" />
+  <!-- The master mark at exactly 1:5 on a 32-unit canvas, with a 1-unit
+       same-colour stroke on the letters as the heavier small-size cut. -->
+  <rect width="32" height="32" rx="6" fill="#111820"/>
+  <g fill="#f7f3ea" stroke="#f7f3ea" stroke-width="1">
+    <path d="M8.08 23.2Q6.49 23.2 5.72 22.37Q4.94 21.53 4.94 20.24V15.24H2.16V12.96H3.97Q4.62 12.96 4.9 12.7Q5.18 12.44 5.18 11.75V9.35H7.88V12.96H11.87V15.24H7.88V20.92H11.87V23.2Z"/>
+    <path d="M26.9 21.33H26.76Q26.36 22.27 25.66 22.85Q24.96 23.44 23.72 23.44Q22.87 23.44 22.17 23.12Q21.46 22.8 20.96 22.15Q20.45 21.49 20.16 20.48Q19.87 19.47 19.87 18.08Q19.87 16.69 20.16 15.68Q20.45 14.67 20.96 14.01Q21.46 13.36 22.17 13.04Q22.87 12.72 23.72 12.72Q24.34 12.72 24.82 12.88Q25.29 13.04 25.66 13.32Q26.03 13.6 26.29 13.98Q26.56 14.37 26.76 14.83H26.9V8.51H29.84V23.2H26.9ZM24.99 21.16Q25.77 21.16 26.33 20.78Q26.9 20.4 26.9 19.59V16.57Q26.9 15.76 26.33 15.38Q25.77 15 24.99 15Q24 15 23.47 15.61Q22.93 16.21 22.93 17.29V18.87Q22.93 19.95 23.47 20.55Q24 21.16 24.99 21.16Z"/>
   </g>
-  <circle cx="24" cy="24" r="3.5" fill="#c3291b" />
+  <path fill="#c3291b" stroke="#c3291b" stroke-width="1" d="M15.87 23.44Q14.76 23.44 14.27 22.95Q13.79 22.47 13.79 21.79V21.1Q13.79 20.42 14.27 19.94Q14.76 19.45 15.87 19.45Q16.98 19.45 17.47 19.94Q17.95 20.42 17.95 21.1V21.79Q17.95 22.47 17.47 22.95Q16.98 23.44 15.87 23.44Z"/>
 </svg>

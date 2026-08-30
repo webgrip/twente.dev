@@ -47,8 +47,12 @@
   --text-2xl: clamp(1.75rem, 1.55rem + 0.95vw, 2.375rem);
   --text-3xl: clamp(2.25rem, 1.9rem + 1.7vw, 3.5rem);
   /* Display: the slide system's "readable at room distance" register. One
-     statement per view earns this size; body copy never does. */
-  --text-display: clamp(2.75rem, 1.9rem + 5.2vw, 6rem);
+     statement per view earns this size; body copy never does. Capped at
+     4.25rem, not the slide system's 6rem: a slide carries three words at
+     arm's length, the hero carries a full sentence on a laptop — at 6rem the
+     homepage statement ran four screaming lines and pushed everything else
+     below the fold. */
+  --text-display: clamp(2.25rem, 1.4rem + 4.2vw, 4.25rem);
 
   --leading-tight: 1.15;
   --leading-normal: 1.65;
@@ -89,18 +93,59 @@
 
   /* ---- thread grid -------------------------------------------------------- */
   /* The slide system's structural grid, as a background utility (.thread-grid).
-     Line colors are theme-scoped below. */
-  --grid-cell: 5.5rem;
+     Line colors are theme-scoped below.
+
+     The module is the *screen*, not a fixed pixel size. A fixed cell divides
+     into the viewport with a remainder, so the last column was always sliced
+     off mid-cell at the right edge; deriving the cell from a whole number of
+     columns puts a line on both screen edges at every width. --grid-columns
+     steps up with the breakpoints below so the cell stays near the pack's
+     5.5rem module (85-110px) instead of stretching with the window. Cells stay
+     square: the row step is the same division. */
+  --grid-columns: 4;
+  --grid-cell: calc(100vw / var(--grid-columns));
 
   /* ---- layout ------------------------------------------------------------ */
   --width-prose: 68ch;
   --width-content: 72rem;
   --width-wide: 84rem;
 
+  /* The sticky header's resting height, and the height it compacts to once the
+     page has scrolled (Header.astro). A full-screen hero subtracts the resting
+     one to land exactly on the fold, so the two move together. */
+  --header-height: 4.5rem;
+  --header-height-compact: 3.5rem;
+
   /* ---- motion ------------------------------------------------------------ */
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --duration-fast: 120ms;
   --duration-base: 220ms;
+}
+
+/* How many columns the screen divides into. Purely a density decision — the
+   grid always fits its width exactly; this only sets how fine it reads. */
+@media (min-width: 36rem) {
+  :root {
+    --grid-columns: 6;
+  }
+}
+
+@media (min-width: 48rem) {
+  :root {
+    --grid-columns: 8;
+  }
+}
+
+@media (min-width: 64rem) {
+  :root {
+    --grid-columns: 12;
+  }
+}
+
+@media (min-width: 90rem) {
+  :root {
+    --grid-columns: 16;
+  }
 }
 
 /* ---- light (default): ink on warm paper ---------------------------------- */

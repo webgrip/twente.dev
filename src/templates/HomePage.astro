@@ -34,7 +34,7 @@ const t = useTranslations(locale);
 const [events, posts] = await Promise.all([getUpcomingEvents(), getPosts(locale)]);
 
 const edition = `${editionName(EDITION_001.number)} — ${EDITION_001.theme}`;
-const motto = `twente.dev / ${t('site.tagline').toLowerCase()}`;
+const motto = `twente.dev // ${t('site.tagline').toLowerCase()}`;
 ---
 
 <BaseLayout
@@ -43,7 +43,7 @@ const motto = `twente.dev / ${t('site.tagline').toLowerCase()}`;
   title={t('site.name')}
   description={t('site.description')}
 >
-  <div class="hero thread-grid">
+  <div class="hero thread-grid thread-grid--bleed">
     <div class="container">
       {
         /* The motto is deliberate English branding on both locales; the lang
@@ -171,9 +171,24 @@ const motto = `twente.dev / ${t('site.tagline').toLowerCase()}`;
   /* The banner's frame: paper, grid, one red edge on the leading side. */
   .hero {
     position: relative;
-    padding-block: var(--space-9) var(--space-8);
+    display: flex;
+    align-items: center;
+    padding-block: var(--space-8);
     background-color: var(--bg);
     border-block-end: var(--border-width) solid var(--border);
+  }
+
+  /* One screen of grid, exactly: the section takes the viewport minus the
+     header, so the pattern meets the fold instead of stopping in an arbitrary
+     band, and the outcomes row sits on the edge as the cue that there is more.
+     svh, not vh, so a collapsing mobile URL bar cannot break that promise.
+     Only from 48rem up: below it the header wraps to two rows (height unknown
+     here) and the copy already overflows a phone screen, so the floor would
+     only push the outcomes out of view. */
+  @media (min-width: 48rem) {
+    .hero {
+      min-height: calc(100svh - var(--header-height));
+    }
   }
 
   .hero::before {
@@ -189,9 +204,12 @@ const motto = `twente.dev / ${t('site.tagline').toLowerCase()}`;
     color: var(--fg-subtle);
   }
 
+  /* 16ch was a slide's measure — on a laptop it broke the sentence into four
+     stacked lines that read as four statements. 22ch keeps the display register
+     while letting the line hold a clause. */
   .hero h1 {
     margin-block-start: var(--space-4);
-    max-width: 16ch;
+    max-width: 22ch;
   }
 
   .hero-subtitle {

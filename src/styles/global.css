@@ -185,12 +185,24 @@ hr {
 }
 
 /* The brand pack's structural grid, as a paintable background. Sections that
-   carry it read as part of one system — calendars, programmes, crossings. */
+   carry it read as part of one system — calendars, programmes, crossings.
+   The cell comes from tokens.css: an exact division of the viewport. */
 .thread-grid {
   background-image:
     linear-gradient(var(--grid-line) 1px, transparent 1px),
     linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
   background-size: var(--grid-cell) var(--grid-cell);
+}
+
+/* Full-bleed sections get the exact division. --grid-cell is 100vw/n, and on a
+   platform with classic (space-taking) scrollbars 100vw is wider than the page
+   box, which would push the last line off-screen. A percentage resolves against
+   the element's own width, so on a full-bleed element the columns land on the
+   screen edges to the pixel. Rows keep the length so the cells stay square. */
+.thread-grid--bleed {
+  background-size:
+    100% var(--grid-cell),
+    calc(100% / var(--grid-columns)) 100%;
 }
 
 /* Mono label register: dates, kickers, section indices, wayfinding. */

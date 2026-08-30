@@ -26,7 +26,10 @@ const ORGANISATION_ID = `${SITE_URL}/#organisation`;
  * gates Article rich results on `image` being present. Per-entry images can
  * override this when the content grows them.
  */
-const DEFAULT_SCHEMA_IMAGE = '/brand/twente-dev-social-banner.png';
+// Evergreen banner, matching BaseHead's og:image. The old default carried a
+// campaign block reading "twente.dev/001 · 07.10 · ENSCHEDE" in the artwork —
+// wrong town, and dated by design. See BaseHead.astro for the full reasoning.
+const DEFAULT_SCHEMA_IMAGE = '/brand/social/banner-meetup-1200x675@2x.png';
 
 /**
  * `2026-09-10T19:00:00+02:00` — local Europe/Amsterdam time with an explicit

@@ -60,9 +60,9 @@ below are these, trimmed to each limit.
 
 > The independent tech community for Twente. We build it. We run it. We share it.
 
-**One-liner (NL, 68):**
+**One-liner (NL, 63):**
 
-> De onafhankelijke techcommunity van Twente. Van Enschede tot Almelo.
+> De onafhankelijke techcommunity van Twente. Van in heel Twente.
 
 **Short (EN, 118):**
 
@@ -74,10 +74,10 @@ below are these, trimmed to each limit.
 > Onafhankelijke, practitioner-led techcommunity voor Twente. Lokale mensen, events en
 > praktijkkennis, beter vindbaar.
 
-**Medium (EN, 245):**
+**Medium (EN, 235):**
 
 > Independent, practitioner-led technology community for Twente. We make local people,
-> events and practical knowledge easier to find — from Enschede to Almelo — and a few
+> events and practical knowledge easier to find — across Twente — and a few
 > times a year we bring different disciplines together for one useful evening.
 
 **The ten-second explanation** — quote verbatim, matches `/en/press`:
@@ -95,13 +95,13 @@ below are these, trimmed to each limit.
 
 ## X — bio 160 chars
 
-**EN (157):**
+**EN (152):**
 
-> Independent, practitioner-led tech community for Twente. Events, field notes and a shared calendar — Enschede to Almelo. We build it. We run it. We share it.
+> Independent, practitioner-led tech community for Twente. Events, field notes and a shared calendar — across Twente. We build it. We run it. We share it.
 
-**NL (146):**
+**NL (141):**
 
-> Practitioner-led techcommunity voor Twente. Events, field notes en een gedeelde agenda — Enschede tot Almelo. We build it. We run it. We share it.
+> Practitioner-led techcommunity voor Twente. Events, field notes en een gedeelde agenda — in heel Twente. We build it. We run it. We share it.
 
 Location: `Twente, NL` · Website: `https://twente.dev` · Banner: `banner-x-bluesky-1500x500@2x.png`
 
@@ -111,9 +111,9 @@ Claim the handle **@twente.dev** — Bluesky verifies a custom domain via a DNS 
 record (`_atproto.twente.dev`), which makes the domain itself the handle. Better
 than any @twentedev variant.
 
-**EN (245):**
+**EN (235):**
 
-> Independent, practitioner-led tech community for Twente. We make local people, events and practical knowledge easier to find — from Enschede to Almelo. No tracking, no recruiters, no product pitches on stage. We build it. We run it. We share it.
+> Independent, practitioner-led tech community for Twente. We make local people, events and practical knowledge easier to find — across Twente. No tracking, no recruiters, no product pitches on stage. We build it. We run it. We share it.
 
 ## Mastodon — bio 500 chars + 4 metadata fields
 
@@ -122,7 +122,7 @@ metadata fields show as verified.
 
 **EN:**
 
-> Independent, practitioner-led tech community for Twente. We make local people, events and practical knowledge easier to find — from Enschede to Almelo.
+> Independent, practitioner-led tech community for Twente. We make local people, events and practical knowledge easier to find — across Twente.
 >
 > No tracking on the site, no product pitches on stage, no attendee data for anyone.
 >
@@ -142,17 +142,17 @@ answers 302, which is the deliberate locale redirect to `/nl` or `/en`, not a fa
 
 ## LinkedIn company page
 
-**Tagline EN (105/120):**
+**Tagline EN (100/120):**
 
-> Twente's practitioner-led tech community. Events, field notes and a shared calendar — Enschede to Almelo.
+> Twente's practitioner-led tech community. Events, field notes and a shared calendar — across Twente.
 
-**Tagline NL (115/120):**
+**Tagline NL (106/120):**
 
-> De practitioner-led techcommunity van Twente. Events, field notes en een gedeelde agenda — van Enschede tot Almelo.
+> De practitioner-led techcommunity van Twente. Events, field notes en een gedeelde agenda — in heel Twente.
 
 **About (EN first, NL below — well under the 2,000-char limit):**
 
-> twente.dev is an independent, practitioner-led technology community for Twente. We make local people, events and practical knowledge easier to find — from Enschede to Almelo — and a few times a year we bring software, hardware, data, design and product people together for one useful evening.
+> twente.dev is an independent, practitioner-led technology community for Twente. We make local people, events and practical knowledge easier to find — across Twente — and a few times a year we bring software, hardware, data, design and product people together for one useful evening.
 >
 > On the site: an events calendar you can subscribe to, field notes written by people who did the work, and a directory of the region's communities — which we are building with those communities, not about them.
 >
@@ -168,15 +168,15 @@ answers 302, which is the deliberate locale redirect to `/nl` or `/en`, not a fa
 >
 > —
 >
-> twente.dev is de onafhankelijke, practitioner-led techcommunity van Twente. We maken lokale mensen, events en praktijkkennis beter vindbaar — van Enschede tot Almelo — en brengen een paar keer per jaar disciplines bij elkaar voor één nuttige avond. Geen recruiters, geen tracking, geen productpitches. Eerst Twente, en dan goed.
+> twente.dev is de onafhankelijke, practitioner-led techcommunity van Twente. We maken lokale mensen, events en praktijkkennis beter vindbaar — in heel Twente — en brengen een paar keer per jaar disciplines bij elkaar voor één nuttige avond. Geen recruiters, geen tracking, geen productpitches. Eerst Twente, en dan goed.
 
 Banners: `banner-linkedin-page-1128x191@2x.png` (page) · `banner-linkedin-1584x396@2x.png` (personal profiles).
 
 ## Instagram — bio 150 chars
 
-**NL (148):**
+**NL (139):**
 
-> Techcommunity voor Twente. Events, field notes en een gedeelde agenda — van Enschede tot Almelo. Geen tracking. We build it. We run it. We share it.
+> Techcommunity voor Twente. Events, field notes en een gedeelde agenda — in heel Twente. Geen tracking. We build it. We run it. We share it.
 
 Website field: `https://twente.dev`
 
@@ -192,7 +192,7 @@ Reuse the Bluesky EN bio; append the launch line while /001 is upcoming.
 
 **About (NL):**
 
-> twente.dev is een onafhankelijke, practitioner-led techcommunity voor Twente. We maken lokale mensen, events en praktijkkennis beter vindbaar — van Enschede tot Almelo — en brengen een paar keer per jaar makers uit software, hardware, data, design en product bij elkaar voor één nuttige avond.
+> twente.dev is een onafhankelijke, practitioner-led techcommunity voor Twente. We maken lokale mensen, events en praktijkkennis beter vindbaar — in heel Twente — en brengen een paar keer per jaar makers uit software, hardware, data, design en product bij elkaar voor één nuttige avond.
 >
 > Op de site: een events-kalender waarop je je kunt abonneren, field notes van mensen die het werk zelf deden, en een gids van de community's in de regio — die we mét die community's bouwen, niet over ze heen.
 >
@@ -217,7 +217,7 @@ Website: `https://twente.dev`. Pin a README that links the canonical repo on
 >
 > What you will not find here: product pitches disguised as talks, recruiter content, or speakers presenting work they did not do themselves.
 >
-> Editions run a few times a year, from Enschede to Almelo. The calendar and the field notes live at https://twente.dev — no cookies, no tracking.
+> Editions run a few times a year, across Twente. The calendar and the field notes live at https://twente.dev — no cookies, no tracking.
 >
 > We build it. We run it. We share it.
 
@@ -306,9 +306,9 @@ Meetup, is canonical.
 
 ## Discord server — description 120 chars
 
-**EN (103):**
+**EN (93):**
 
-> Independent tech community for Twente. Talk, ask, share what you're building — from Enschede to Almelo.
+> Independent tech community for Twente. Talk, ask, share what you're building — across Twente.
 
 Welcome-channel blurb:
 
@@ -317,7 +317,7 @@ Welcome-channel blurb:
 ## Small fields, if ever needed
 
 - **TikTok (61/80):** `Techcommunity voor Twente. Events, field notes, gedeelde agenda.`
-- **WhatsApp channel:** `Events en open calls uit de Twentse techcommunity. Van Enschede tot Almelo, geen tracking.`
+- **WhatsApp channel:** `Events en open calls uit de Twentse techcommunity. Van in heel Twente, geen tracking.`
 - **Reddit community description:** `The independent, practitioner-led tech community for Twente. Events and field notes — twente.dev.`
 
 ---

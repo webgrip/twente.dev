@@ -20,7 +20,7 @@ export const nl = {
   'site.name': 'twente.dev',
   'site.tagline': 'We build it. We run it. We share it.',
   'site.description':
-    'Onafhankelijke, practitioner-led techcommunity voor Twente. We maken lokale mensen, events en praktijkkennis beter vindbaar — van Enschede tot Almelo.',
+    'Onafhankelijke, practitioner-led techcommunity voor Twente. We maken lokale mensen, events en praktijkkennis beter vindbaar — in heel Twente.',
 
   'nav.home': 'Home',
   'nav.events': 'Events',
@@ -142,7 +142,7 @@ export const en: Record<UIKey, string> = {
   'site.name': 'twente.dev',
   'site.tagline': 'We build it. We run it. We share it.',
   'site.description':
-    'An independent, practitioner-led technology community for Twente. We make local people, events and practical knowledge easier to find — from Enschede to Almelo.',
+    'An independent, practitioner-led technology community for Twente. We make local people, events and practical knowledge easier to find — across Twente.',
 
   'nav.home': 'Home',
   'nav.events': 'Events',

@@ -64,12 +64,23 @@ const canonical = absoluteUrl(routePath(routeKey, locale, canonicalSlug));
 const { alternates, xDefault } = getAlternates(routeKey, slug);
 
 /**
- * Open Graph image: the brand pack's social banner (1200×627). It carries the
- * "Reconnect" campaign lockup (twente.dev/001 · 07.10 · Enschede), which per
- * the playbook is the launch-phase device — replace or generalise it after
- * edition 001. A per-page generator (plan lever L7) can override this later.
+ * Open Graph image: the evergreen brand banner — wordmark, tagline and
+ * "Independent, practitioner-led tech community for Twente". No city, no date,
+ * no edition number.
+ *
+ * It used to be twente-dev-social-banner.png, which carries a campaign block
+ * reading "twente.dev/001 · 07.10 · ENSCHEDE" burnt into the artwork. Two
+ * things were wrong with that. The event is in RIJSSEN, so every link preview
+ * in Slack, WhatsApp and LinkedIn advertised the wrong town — and a preview
+ * that has already been shared cannot be recalled. And a dated, located
+ * campaign device as the SITE-WIDE image goes stale by design: the venue
+ * rotates per edition, so this would need redrawing every time.
+ *
+ * Campaign artwork still exists and is right for a deliberate placement
+ * (banner-meetup-001-*), but the default has to be the one that cannot go
+ * wrong. A per-page generator (plan lever L7) can override this later.
  */
-const ogImage: string | undefined = absoluteUrl('/brand/twente-dev-social-banner.png');
+const ogImage: string | undefined = absoluteUrl('/brand/social/banner-meetup-1200x675@2x.png');
 const ogImageAlt = `${siteName} — ${t('site.tagline')}`;
 
 // `summary_large_image` promises an image; without one, `summary` is honest.
@@ -103,9 +114,13 @@ const graph = [organisationSchema(), websiteSchema(), ...jsonLd];
 {
   ogImage && (
     <>
+      {/* Must match the file. The banner is 2400×1350 (a 2× export of
+          1200×675); these said 627 for the old 1200×627 campaign banner, and a
+          declared size that disagrees with the actual one makes some platforms
+          crop or skip the preview. Change together with `ogImage`. */}
       <meta property="og:image" content={ogImage} />
       <meta property="og:image:width" content="1200" />
-      <meta property="og:image:height" content="627" />
+      <meta property="og:image:height" content="675" />
       <meta property="og:image:alt" content={ogImageAlt} />
     </>
   )

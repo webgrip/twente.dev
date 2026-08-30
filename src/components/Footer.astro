@@ -12,6 +12,16 @@ const t = useTranslations(locale);
 const year = new Date().getFullYear();
 
 const REPO_URL = 'https://forgejo.webgrip.dev/webgrip/twente.dev';
+
+/**
+ * The Feeds nav links the calendar to the events *page*, not to /events.ics.
+ *
+ * Handing a browser the raw file downloads a one-off copy, and a later venue
+ * change or cancellation never reaches it. The events page offers the
+ * subscribing routes (webcal / Google), which do keep refreshing, next to the
+ * file — so the visitor chooses knowingly. RSS has no such trap: a feed URL
+ * is exactly what a reader wants.
+ */
 ---
 
 <footer class="site-footer">
@@ -52,7 +62,8 @@ const REPO_URL = 'https://forgejo.webgrip.dev/webgrip/twente.dev';
     <nav class="footer-links" aria-label="Feeds">
       <ul>
         <li><a href={`/${locale}/rss.xml`}>{t('footer.rss')}</a></li>
-        <li><a href="/events.ics">{t('footer.calendar')}</a></li>
+        {/* The events page, not /events.ics — see the note above. */}
+        <li><a href={routePath('events', locale)}>{t('footer.calendar')}</a></li>
       </ul>
     </nav>
   </div>

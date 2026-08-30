@@ -81,11 +81,16 @@ export const nl = {
   'events.empty': 'Nog geen events gepland.',
   'events.emptyCta': 'Ken je er een? Meld het aan',
   'events.subscribe': 'Abonneer op de agenda',
+  // Only the first two links produce a *subscription* that keeps refreshing.
+  // The plain file is a one-off copy: a later venue change or cancellation
+  // never reaches it. So the promise is attached to subscribing, and the file
+  // says on the tin that it is a snapshot — an unqualified "always current"
+  // above all three would be a promise we cannot keep for the third.
   'events.subscribeHint':
-    'Eén abonnement, altijd actueel — nieuwe en gewijzigde events verschijnen vanzelf in je agenda.',
+    'Abonneer je één keer — daarna verschijnen nieuwe events en wijzigingen vanzelf in je agenda.',
   'events.subscribeGoogle': 'Google Agenda',
   'events.subscribeWebcal': 'Apple Calendar / Outlook',
-  'events.subscribeDirect': 'Los .ics-bestand',
+  'events.subscribeDirect': 'Los .ics-bestand (eenmalige import)',
   'events.free': 'Gratis',
   'events.cancelled': 'Geannuleerd',
   'events.organisedBy': 'Georganiseerd door',
@@ -204,10 +209,10 @@ export const en: Record<UIKey, string> = {
   'events.emptyCta': 'Know of one? List it',
   'events.subscribe': 'Subscribe to the calendar',
   'events.subscribeHint':
-    'One subscription, always current — new and changed events appear in your calendar by themselves.',
+    'Subscribe once — new events and changes then appear in your calendar by themselves.',
   'events.subscribeGoogle': 'Google Calendar',
   'events.subscribeWebcal': 'Apple Calendar / Outlook',
-  'events.subscribeDirect': 'Plain .ics file',
+  'events.subscribeDirect': 'Plain .ics file (one-off import)',
   'events.free': 'Free',
   'events.cancelled': 'Cancelled',
   'events.organisedBy': 'Organised by',

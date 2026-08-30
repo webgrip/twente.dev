@@ -77,8 +77,14 @@
       the Flutter Netherlands community.
 
 - id: tkkrlab
+  # Points at .com, not their .nl: tkkrlab.nl returns SERVFAIL on Google Public DNS
+  # (8.8.8.8) and times out on some resolvers, while 1.1.1.1 still answers from cache —
+  # so the .nl link is dead for a large share of visitors. Not DNSSEC (no DS record, and
+  # +cd does not help); their nameservers at nicolai.cloud are not answering
+  # authoritatively. tkkrlab.com resolves everywhere and serves the current, actively
+  # updated site. Checked 2026-08-30. Switch back once their .nl resolves again.
   name: TkkrLab
-  url: https://tkkrlab.nl/
+  url: https://tkkrlab.com/
   platform: other
   language: both
   focus:
@@ -173,6 +179,16 @@
       and workshops.
 
 - id: space-society-twente
+  # VERIFY BEFORE PUBLISHING. Conflicting evidence as of 2026-08-30:
+  #   against — the events page reads "Unfortunately, there are no events scheduled", and
+  #     the newest datable news items are "Launchday 31 March 2023" and "Discover Your
+  #     Space 2023". By this file's own pre-2024 rule that would make it dormant.
+  #   for — Board #10 (Sep 2025 - Sep 2026) is seated with named officers, the KvK
+  #     registration and office hours (Mon-Fri 12:30-13:45, De Hems 10) are current.
+  # So: governed and legally alive, but publicly quiet for ~3 years. Not deleted, because
+  # that is an editorial call and the association plainly still exists. Resolve it by
+  # asking them during outreach — "is the group still running?" is the honest question,
+  # and their answer decides whether this entry ships.
   name: Space Society Twente
   url: https://spacesocietytwente.nl/
   platform: other
@@ -212,16 +228,14 @@
       monthly drinks, workshops, lunch lectures and a biennial LAN party.
 
 - id: coderdojo-enschede
-  # Points at the official Code Club/CoderDojo Foundation listing, NOT the club's
-  # own coderdojo-enschede.nl — that host still serves a certificate for
-  # server97.icehosting.nl, so https:// fails validation and http:// 301s straight
-  # into the same failure (re-checked 2026-08-13, unchanged since 2026-08-11).
-  # Every visitor would get a full-page browser security warning, which is worse
-  # than no link at all. The club itself is active: monthly sessions at BiebLab in
-  # the Centrale Bibliotheek, run by Stichting CoderDojo Twente. Switch back once
-  # their host serves a matching certificate.
+  # Their own host previously served a certificate for server97.icehosting.nl, so this
+  # pointed at the Code Club/CoderDojo Foundation listing instead to avoid sending every
+  # visitor into a full-page browser security warning. Re-checked 2026-08-30: the
+  # certificate now validates (HTTP 200, ssl_verify_result 0), so the link points back at
+  # the club's own site. Monthly sessions at Maakplaats053 in the Centrale Bibliotheek,
+  # run by Stichting CoderDojo Twente.
   name: CoderDojo Enschede
-  url: https://codeclub.org/en/clubs/nl/enschede/enschede
+  url: https://coderdojo-enschede.nl/
   platform: other
   language: nl
   focus:

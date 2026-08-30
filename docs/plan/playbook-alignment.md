@@ -79,9 +79,23 @@ mean, so this table now tracks _live_, not _built_.
   `src/content/communities.yml` — meetups, hackerspace, data/AI network, UT and Saxon study
   associations, CoderDojo. Dormant groups (Twente.js, PHP Twente, Docker Enschede, …) deliberately
   excluded — re-checked 2026-08-13 for revival, none found. All 12 links re-verified the same day:
-  eleven returned 200 unchanged; CoderDojo Enschede now points at the official Code Club listing
-  because its own host still serves a certificate for `server97.icehosting.nl`, so every visitor
-  got a browser security warning. The weekly `link-check.yml` covers this from now on.
+  eleven returned 200 unchanged; CoderDojo Enschede then pointed at the official Code Club listing
+  because its own host served a certificate for `server97.icehosting.nl`, so every visitor
+  got a browser security warning.
+
+  Corrected 2026-08-30: this used to end "The weekly `link-check.yml` covers this from now on."
+  **It does not, and never did.** `link-check.yml` runs lychee over `dist/**/*.html`, but
+  `getCommunities()` (`src/lib/content.ts:107`) is defined and never called, so no community URL
+  is rendered into any page — `grep` over `dist/` finds zero of them. The directory links are
+  therefore entirely unchecked by CI, and will stay so until the collection is actually rendered.
+  External links are also `continue-on-error: true`, so they warn rather than block even when seen.
+
+  Manual re-check 2026-08-30 found two of the twelve had drifted: **tkkrlab.nl** now returns
+  SERVFAIL on Google Public DNS (their nameservers at `nicolai.cloud` are not answering
+  authoritatively; not DNSSEC — there is no DS record and `+cd` does not help), so the entry moved
+  to `tkkrlab.com`; and **coderdojo-enschede.nl** now serves a valid certificate, so that entry
+  moved back to the club's own site. **Space Society Twente** is flagged in the YAML as
+  needs-verification: no events scheduled and no news since 2023, but Board #10 (Sep 2025 – Sep 2026) is seated. Both facts are recorded in the file rather than resolved by guessing.
 
 ## Still deliberately unbuilt (playbook says wait)
 

@@ -208,9 +208,10 @@ Keep at least **one bar width** free around every lockup — 30 units on a badge
 - Put the mark in a gradient, drop shadow or outline, or rotate it.
 - Set Signal Red text on ink — use Red Light (`#EA6250`) there. Fills stay flag red.
 - Set text in Thread Grey (1.22:1 on paper — it is a hairline colour).
-- Pair the ratified mark with the founding pack's pixel logo
-  (`public/brand/twente-dev-logo.png`). That logo remains only in already-published
-  social assets until those are regenerated.
+- Reintroduce the founding pack's pixel logo — a blocky T with red squares, a
+  different mark entirely. It was deleted from the deployed kit on 2026-08-30
+  (`/brand/twente-dev-logo.png` now 301s to the horizontal lockup); it survives
+  only inside social assets published before that date, until those are redrawn.
 
 ---
 
@@ -227,7 +228,7 @@ lockup-horizontal.svg / -white  mark + wordmark
 lockup-stacked.svg / -white     mark over wordmark
 tokens.css                      standalone brand tokens (site tokens are authoritative)
 brand-guide.html                this document, browsable
-templates/                      slides, letterhead, e-mail signature (HTML → PDF)
+templates/                      slides, letterhead, e-mail signature, speaker tile
 png/                            transparent PNG exports, 512 and 1024 px high
 social-profile-copy.md          paste-ready bios per platform
 ```
@@ -237,13 +238,29 @@ or by removing those two attributes.
 
 The PNGs are rendered from these SVGs with resvg — every variant except
 `mark-mono.svg` and `mark-currentcolor.svg` (currentColor has no colour outside CSS;
-use the black/white PNGs). Change an SVG, then re-render the PNGs with
+use the black/white PNGs) and `favicon.svg` (the same artwork on a smaller canvas, so
+its 512 and 1024 px rasters came out byte-identical to `mark-*.png` — use those).
+Change an SVG, then re-render the PNGs with
 [`scripts/brand-assets.py`](../../scripts/brand-assets.py) instead of editing them.
 The PNGs exist for the places that do not take SVG: social platforms, slide software,
 documents, e-mail.
 
-Deployed copies (kept in sync by hand, the masters live here):
-`public/favicon.svg`, `public/brand/twente-dev-mark.svg`.
+### The deployed copy
+
+The site serves this kit at `/brand/` — it is the press download set, and the source
+of the `<img>` in every e-mail signature pasted from the template. `brand-assets.py`
+writes that copy itself, under the **same filenames**, plus `public/favicon.svg`.
+
+It used to be hand-synced under different names, and drifted: by 2026-08-30 the
+deployed set held a superseded pixel logo linked from the press pages as the _primary_
+logo, a mark PNG with white corners instead of alpha, and a third copy of `mark.svg`.
+Do not edit anything under `public/brand/` — change the master here and re-run the
+script. The exceptions are the campaign assets in `social/` and
+`twente-dev-social-banner.png` (the site-wide `og:image`), which the script does not
+draw. Most of those are hand-made PNGs with no master; the two Meetup covers are the
+exception to the exception — they are exported from
+[`templates/cover-16x9.html`](templates/cover-16x9.html), so their dates can be
+changed by editing text.
 
 ---
 

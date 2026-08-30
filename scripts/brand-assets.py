@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
-"""Regenerate the twente.dev brand asset set into docs/brand/.
+"""Regenerate the twente.dev brand asset set into docs/brand/, then deploy it.
 
 Wordmark glyphs are converted to outlines from IBM Plex Mono Bold (SIL OFL 1.1)
 so no font is needed to display them. All geometry derives from the ratified
 compact mark (160x160, bar width 30, corner radius 30, dot r 17.5 at 120,120).
+
+Masters land in docs/brand/; the press-kit copy the site serves is written to
+public/brand/ with the same filenames, so the two can never drift.
 
 Usage:  python3 scripts/brand-assets.py
 Needs:  pip install fonttools    (the font downloads itself on first run)
@@ -214,18 +217,49 @@ print(f'metrics: wordmark tight box {wx0:g},{wy0:g} -> {wx1:g},{wy1:g} (w={wx1-w
 print(f'horizontal lockup: {W:g} x 160; stacked: {wm_w:g} x {H:g}')
 
 # --- png exports -------------------------------------------------------------
-# Every variant except the currentColor ones (no colour outside CSS).
+# Every variant except the currentColor ones (no colour outside CSS) and the
+# favicon: it is the same artwork at a different canvas scale, so its raster at
+# 512 and 1024 px came out byte-identical to mark-*.png. Two names for one file
+# is one name too many — use the mark PNGs, or favicon.svg itself.
+PNG_VARIANTS = ('mark', 'mark-black', 'mark-white', 'wordmark', 'wordmark-white',
+                'lockup-horizontal', 'lockup-horizontal-white',
+                'lockup-stacked', 'lockup-stacked-white')
+
 resvg = shutil.which('resvg')
 if not resvg:
     print('resvg not on PATH — skipped png/ exports')
 else:
     png_dir = os.path.join(OUT, 'png')
     os.makedirs(png_dir, exist_ok=True)
-    for f in ('mark', 'mark-black', 'mark-white', 'favicon', 'wordmark', 'wordmark-white',
-              'lockup-horizontal', 'lockup-horizontal-white',
-              'lockup-stacked', 'lockup-stacked-white'):
+    for f in PNG_VARIANTS:
         for h in (512, 1024):
             subprocess.run([resvg, os.path.join(OUT, f'{f}.svg'),
                             os.path.join(png_dir, f'{f}-{h}.png'), '--height', str(h)],
                            check=True)
     print('rendered png/ at 512 and 1024 px')
+
+# --- deploy ------------------------------------------------------------------
+# The site serves a copy of this kit at /brand/ — it is the press download set
+# and the source of the mark in every pasted e-mail signature. That copy used
+# to be synced by hand under different filenames, which is how public/brand/
+# drifted into holding a superseded pixel logo, a mark PNG with white corners
+# instead of alpha, and a duplicate of mark.svg. So: same filenames, copied,
+# never edited in place. public/favicon.svg is deliberately not in this list —
+# it is the deployed favicon at the site root, not part of the press kit.
+DEPLOY = os.path.join(REPO, 'public', 'brand')
+SVG_DEPLOY = ('mark', 'mark-white', 'mark-black', 'mark-mono', 'mark-currentcolor',
+              'wordmark', 'wordmark-white',
+              'lockup-horizontal', 'lockup-horizontal-white',
+              'lockup-stacked', 'lockup-stacked-white')
+
+os.makedirs(os.path.join(DEPLOY, 'png'), exist_ok=True)
+for f in SVG_DEPLOY:
+    shutil.copyfile(os.path.join(OUT, f'{f}.svg'), os.path.join(DEPLOY, f'{f}.svg'))
+if resvg:
+    for f in PNG_VARIANTS:
+        for h in (512, 1024):
+            shutil.copyfile(os.path.join(OUT, 'png', f'{f}-{h}.png'),
+                            os.path.join(DEPLOY, 'png', f'{f}-{h}.png'))
+shutil.copyfile(os.path.join(OUT, 'favicon.svg'), os.path.join(REPO, 'public', 'favicon.svg'))
+print(f'deployed {len(SVG_DEPLOY)} svg + {len(PNG_VARIANTS) * 2 if resvg else 0} png '
+      'to public/brand/, favicon.svg to public/')

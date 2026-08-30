@@ -66,9 +66,19 @@ mean, so this table now tracks _live_, not _built_.
 - **Search (L8)**: Pagefind UI at `/nl/zoeken` and `/en/search`, themed to the tokens, locale-aware;
   CSP admits the same-origin script/styles and WASM (`'wasm-unsafe-eval'`, the narrow variant).
 - **Fonts**: Inter Variable + IBM Plex Mono self-hosted via Fontsource — no font CDN.
-- **Brand assets**: the pack's logo, compact mark, social banner and speaker tile live in
-  `public/brand/`; the 1200×627 banner is the site-wide `og:image` (it carries the /001 campaign
-  lockup — replace after the event). Downloads linked on the press pages.
+- **Brand assets**: the ratified kit — mark, wordmark and both lockups, in SVG plus transparent
+  PNG at 512 and 1024 px — is deployed to `public/brand/` straight from the masters in
+  `docs/brand/` by `scripts/brand-assets.py`, under the same filenames. The full set is linked
+  from the press pages. The 1200×627 banner is the site-wide `og:image` (it carries the /001
+  campaign lockup — replace after the event).
+
+  Reconciled 2026-08-30: the deployed set had drifted off the masters and shipped the founding
+  pack's pixel logo as the press pages' _primary_ logo — a different mark the brand guide
+  forbids pairing with the ratified one — plus a mark PNG with white corners instead of alpha and
+  a duplicate of `mark.svg`. All three are gone and 301 to their successors. The speaker tile was
+  a flat placeholder mockup at a public URL and is now a fillable template in
+  `docs/brand/templates/`.
+
 - **Editorial**: pillar label renders on post cards; first Open Calls post published in both
   languages (`open-call-001`).
 - **Design system formalised**: art-direction pass from the brand pack (display type, thread-grid

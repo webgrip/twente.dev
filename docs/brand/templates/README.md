@@ -5,17 +5,43 @@ step, no slide software, no subscription. Copy the file, edit, print to PDF. Fon
 come from Google Fonts and fall back to the system stack offline; the visual rules
 live in [`../README.md`](../README.md).
 
-| File                   | What                      | Output                                                 |
-| ---------------------- | ------------------------- | ------------------------------------------------------ |
-| `slides.html`          | slide deck, 7 slide types | present in browser, or PDF at exactly 16:9             |
-| `letterhead.html`      | briefpapier, A4           | PDF, or type directly in the browser (contenteditable) |
-| `email-signature.html` | signature block           | copy-paste into any mail client                        |
+| File                   | What                       | Output                                                 |
+| ---------------------- | -------------------------- | ------------------------------------------------------ |
+| `slides.html`          | slide deck, 7 slide types  | present in browser, or PDF at exactly 16:9             |
+| `letterhead.html`      | briefpapier, A4            | PDF, or type directly in the browser (contenteditable) |
+| `email-signature.html` | signature block            | copy-paste into any mail client                        |
+| `speaker-tile.html`    | speaker announcement, 1:1  | PNG at exactly 1080×1080 (see below), or PDF           |
+| `cover-16x9.html`      | Meetup group + event cover | PNG at exactly 2400×1350 (see below), or PDF           |
+
+## Exporting a PNG (speaker tile, 16:9 covers)
+
+Social platforms want pixels, not a PDF. Fill the fields, then: **DevTools →
+Elements → right-click the artboard node → "Capture node screenshot"**. That writes
+a PNG at the artboard's true size — `<div class="tile">` gives 1080 × 1080, and each
+`<div class="art">` in `cover-16x9.html` gives 2400 × 1350. Printing to PDF also
+works and is the right output for anything that will be printed.
+
+For the speaker tile, drop the portrait next to the file as `portrait.jpg` first;
+until it exists the slot shows a labelled placeholder.
+
+`cover-16x9.html` holds two artboards, which are the two photos Meetup asks for:
+`#group` is the evergreen group cover and `#event` the per-edition event cover. The
+artboard is 2× Meetup's 1200 × 675 floor — below that, Meetup refuses the upload —
+and every word sits inside the middle band, because the crop differs on every
+surface Meetup shows a cover on. The rendered pair lives at
+`public/brand/social/banner-meetup-1200x675@2x.png` and `…-meetup-001-…@2x.png`;
+re-cut the event one per edition rather than reusing 001's date card.
+
+This template replaced a flat `speaker-tile.png` that shipped in `public/brand/`
+until 2026-08-30 — a rendered mockup with `FIRSTNAME LASTNAME` burned into the
+pixels, served at a public URL, linked from nothing, and fillable by nobody.
 
 ## Printing to PDF (all templates)
 
 Chrome/Chromium: **Ctrl+P → destination "Save as PDF" → margins: none →
 background graphics: ON**. The `@page` size is set in each file (16:9 for slides,
-A4 for the letterhead) — do not override it in the dialog.
+A4 for the letterhead, square for the speaker tile) — do not override it in the
+dialog.
 
 ## Making a new deck
 
@@ -35,3 +61,16 @@ A4 for the letterhead) — do not override it in the dialog.
 - A PowerPoint/Keynote theme. Same reason. The PNG marks in
   [`../png/`](../png/) exist for the cases where a deck must be built in slide
   software anyway.
+- An editable source for the six **channel** banners in `public/brand/social/`
+  (X/Bluesky, evergreen, the two LinkedIn cuts). Those are hand-made PNGs with no
+  master in this repo, which means the date on them cannot be changed without
+  redrawing them. `cover-16x9.html` is the pattern to follow when edition 002
+  needs its own set.
+
+  They have already drifted off the palette, which is what having no source
+  costs: the grid hairlines are `#dadcd4` where Thread Grey is `#d9dfdc`, and
+  the subhead sits in `#46525c`, a slate that is in no token file. The ink and
+  the red are correct in all six. Nothing is broken — the hairline contrast is
+  1.25:1 against 1.22:1 for the real token, and the slate is 7.23:1 on paper —
+  so this is worth fixing when they are redrawn, not before. The Meetup pair is
+  already drawn from the tokens, so it carries neither drift.

@@ -11,3 +11,14 @@
 # (ADR-0004 / Phase 3); /001 is the permanent brand short URL.
 /     /nl      302
 /001  /nl/001  301
+
+# The deployed brand kit was renamed to mirror the masters in docs/brand/ (one
+# name per file, so `brand-assets.py --deploy` is a pure copy). These three
+# paths are already out in the world — press-page links, and the compact mark
+# is an <img src> in every e-mail signature pasted from the template — so they
+# keep resolving. The founding-pack pixel logo has no successor: it is a
+# different mark the brand guide forbids pairing with the ratified one, so it
+# points at the horizontal lockup, which is what "primary logo" now means.
+/brand/twente-dev-mark.svg   /brand/mark.svg                   301
+/brand/twente-dev-mark.png   /brand/png/mark-512.png           301
+/brand/twente-dev-logo.png   /brand/png/lockup-horizontal-512.png  301

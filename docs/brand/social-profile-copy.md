@@ -244,7 +244,15 @@ presence exists anyway, it mirrors the field-note framing:
 
 Syndicated posts always carry the canonical URL back to twente.dev.
 
-## Meetup — group description
+## Meetup — group, cover photos and event listings
+
+**Group name:** `twente.dev` — lowercase, nothing appended. Meetup prints the name beside
+the cover photo, which is why the cover does not repeat it.
+**URL:** claim `meetup.com/twente-dev` (Meetup slugs are lowercase-hyphen; the dot is not
+available). **Location:** Enschede, Netherlands. **Topics:** pick the practitioner ones —
+software development, DevOps, data, embedded, product, UX — not "networking" or "careers".
+
+### Group description
 
 **EN:**
 
@@ -257,6 +265,41 @@ Syndicated posts always carry the canonical URL back to twente.dev.
 > First edition: twente.dev/001 — Reconnect. Wednesday 7 October 2026, Enschede. Doors and food at 18:00, programme at 18:45, hard finish at 21:30. Free.
 >
 > We build it. We run it. We share it.
+
+### Photos
+
+Meetup refuses any cover below **1200 × 675** and crops it differently on every surface, so
+both files are 2× that floor with all type inside the middle band. Upload as-is; do not let
+an editor resize them down.
+
+| Slot        | File                                       | Pixels      |
+| ----------- | ------------------------------------------ | ----------- |
+| Group photo | `social/avatar-1024.png` (1:1)             | 1024 × 1024 |
+| Group cover | `social/banner-meetup-1200x675@2x.png`     | 2400 × 1350 |
+| Event cover | `social/banner-meetup-001-1200x675@2x.png` | 2400 × 1350 |
+
+The event cover carries the date, so it is **per edition** — re-cut it from
+[`templates/cover-16x9.html`](templates/cover-16x9.html) for 002 rather than reusing 001's.
+
+### Event listing — twente.dev/001
+
+The title is the canonical one, **`twente.dev/001 — Reconnect`**, matching
+`src/content/events/twente-dev-001-reconnect.yml` and the /001 pages. The playbook rule
+holds here too: one canonical description everywhere.
+
+**Description EN:**
+
+> A practitioner-led evening for software, infrastructure, embedded systems, manufacturing, data, security, design, product, research and technical education. Two short field reports and one facilitated conversation create the shared question; structured introductions and an open network hour make the room useful. This is not a recruitment fair or vendor stage.
+>
+> 18:00 doors and food · 18:45 programme · 21:30 hard finish. Free.
+>
+> Full description, the calendar you can subscribe to, and our terms with the region's other communities: twente.dev/en/001
+>
+> We build it. We run it. We share it.
+
+Set the RSVP limit from `src/config/site.ts` at the time of publishing — **never** copy a
+capacity into this file. Link the listing back to `twente.dev/en/001`; the site page, not
+Meetup, is canonical.
 
 ## Discord server — description 120 chars
 

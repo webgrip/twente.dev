@@ -36,7 +36,18 @@ export const REGISTRATION_OPENS = new Date('2026-09-02T09:00:00+02:00');
 /**
  * twente.dev/001 — Reconnect. Facts per the launch playbook and tracker:
  * Wed 7 Oct 2026, doors and food 18:00, programme 18:45, hard finish 21:30,
- * Enschede, free, capacity 100. Venue is under offer — null until contracted.
+ * Enschede, free, capacity 35.
+ *
+ * Capacity was 100 until 2026-08-30 — the original plan's number, carried over
+ * from before a venue existed. Code14 hosts /001 and /002 at their Enschede
+ * office and the room seats 30–40, so 100 would have over-registered it by
+ * nearly 3× on the day registration opens. 35 is the agreed figure: the
+ * midpoint, which with typical free-event no-show rates fills the room without
+ * turning away people who would have come.
+ *
+ * `venue` stays null until the street address is confirmed — components render
+ * an honest "to be announced" rather than a guess, and the address also has to
+ * reach the events entry so ICS subscribers get it.
  */
 export const EDITION_001 = {
   number: '001',
@@ -49,7 +60,7 @@ export const EDITION_001 = {
   end: new Date('2026-10-07T21:30:00+02:00'),
   city: 'Enschede',
   venue: null as string | null,
-  capacity: 100,
+  capacity: 35,
   costEur: 0,
 } as const;
 

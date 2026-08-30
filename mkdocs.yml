@@ -1,6 +1,6 @@
 ---
 # Docs site config — read natively by Zensical (homelab ADR-0052), built by the
-# techdocs-builder image and published to docs.webgrip.dev/twente-dev/. Also
+# techdocs-builder image and published to docs.webgrip.dev/twente.dev/. Also
 # valid Material-for-MkDocs config by design: one file, either engine.
 #
 # NOTE ON LOCATION — this repo deviates from the estate default deliberately.
@@ -26,7 +26,7 @@ site_name: twente.dev
 site_description: >-
   Independent, practitioner-led technology community for Twente — decision
   records, brand system, launch plan and community agreements.
-site_url: https://docs.webgrip.dev/twente-dev/
+site_url: https://docs.webgrip.dev/twente.dev/
 use_directory_urls: true
 docs_dir: docs
 theme:

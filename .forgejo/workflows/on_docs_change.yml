@@ -1,6 +1,6 @@
 name: "[Workflow] On Documentation Change"
 
-# Publishes this repo's docs to docs.webgrip.dev/twente-dev/ — the homelab
+# Publishes this repo's docs to docs.webgrip.dev/twente.dev/ — the homelab
 # ADR-0052 estate rollout: Zensical build + llms/redirect graft + gitleaks
 # secret gate, then a prefix-scoped rclone sync into this repo's own bucket
 # (bucket-per-repo isolation, after the 2026-08-11 estate wipe).
@@ -39,11 +39,11 @@ jobs:
     if: github.ref == 'refs/heads/main'
     with:
       source-dir: "."
-      # Own bucket: this repo's key can touch nothing but docs-twente-dev
+      # Own bucket: this repo's key can touch nothing but docs-twente.dev
       # (+ -trash), so a bad sync can never clobber the rest of the estate.
       # Must be provisioned by the homelab bootstrap job before the first run,
       # together with the two TECHDOCS_S3_* repo secrets below.
-      bucket: docs-twente-dev
+      bucket: docs-twente.dev
       # Straight to 'true' rather than the usual onboard-at-false: verified
       # locally on 2026-08-30 with `zensical build --clean --strict` against
       # techdocs-builder:1.8.0 — "No issues found", so there are no broken

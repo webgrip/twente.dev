@@ -209,9 +209,12 @@ jobs:
           docker cp dist axe:/repo/dist
           docker cp lighthouserc.json axe:/repo/lighthouserc.json
           docker cp scripts axe:/repo/scripts
-          # package.json travels too: the script is ESM, so the container needs
-          # "type": "module" to load a .ts entrypoint at all.
-          docker cp package.json axe:/repo/package.json
+          # A MINIMAL package.json, not the repo's. The script is ESM so the
+          # container needs "type": "module" to load a .ts entrypoint at all —
+          # but copying the real one would make `npm i` resolve every
+          # devDependency (astro, eslint, wrangler, …) before installing the two
+          # packages actually wanted, which is minutes of nothing useful.
+          docker exec -w /repo axe bash -c 'echo "{\"type\":\"module\"}" > package.json'
           docker exec -w /repo axe bash -c \
             "npm i --no-save --silent '@axe-core/playwright@${AXE}' 'playwright-core@${PWC}'"
           docker exec -w /repo axe bash -c \

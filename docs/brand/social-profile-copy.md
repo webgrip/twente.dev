@@ -21,6 +21,9 @@ are checked against each platform's current limits.
 - English is the default for platforms with an international dev audience
   (Bluesky, Mastodon, GitHub, Medium, Substack). Dutch for the local-first ones
   (Instagram, Facebook). LinkedIn gets both.
+- **The edition city is RIJSSEN, not Enschede.** Code14 hosts /001 at Hogepad 81, Rijssen.
+  Everything said Enschede until 2026-08-30 — the plan's placeholder from before a venue
+  existed. Still Twente; the region is not one city.
 - **Never state a capacity.** It lives in `src/config/site.ts` and is mid-change
   (VIK-673). Say "free" and link; the page carries the number.
 - **Launch vs evergreen**: where a bio mentions twente.dev/001, swap that line out
@@ -43,8 +46,8 @@ are checked against each platform's current limits.
 
 Launch line to append where a field has room (drop after 7 Oct 2026):
 
-> EN: `twente.dev/001 — Reconnect. 7 October 2026, Enschede. Free.`
-> NL: `twente.dev/001 — Reconnect. 7 oktober 2026, Enschede. Gratis.`
+> EN: `twente.dev/001 — Reconnect. 7 October 2026, Rijssen. Free.`
+> NL: `twente.dev/001 — Reconnect. 7 oktober 2026, Rijssen. Gratis.`
 
 ---
 
@@ -123,7 +126,7 @@ metadata fields show as verified.
 >
 > No tracking on the site, no product pitches on stage, no attendee data for anyone.
 >
-> First edition: twente.dev/001 — Reconnect. 7 October 2026, Enschede. Free.
+> First edition: twente.dev/001 — Reconnect. 7 October 2026, Rijssen. Free.
 >
 > We build it. We run it. We share it.
 
@@ -157,7 +160,7 @@ answers 302, which is the deliberate locale redirect to `/nl` or `/en`, not a fa
 >
 > Existing meetups keep their own identity, their own list and their own stage. We make them easier to find and always link to the source. Our terms with them are published at twente.dev/en/partners.
 >
-> First edition: twente.dev/001 — Reconnect. Wednesday 7 October 2026, Enschede. Free.
+> First edition: twente.dev/001 — Reconnect. Wednesday 7 October 2026, Rijssen. Free.
 >
 > Funded by its founder through Webgrip, with time and a small budget from Code14. Everything — site, content, process — lives in git.
 >
@@ -262,7 +265,7 @@ software development, DevOps, data, embedded, product, UX — not "networking" o
 >
 > What we hold ourselves to: no paid speaking slots, no attendee data for anyone, no product pitches disguised as education.
 >
-> First edition: twente.dev/001 — Reconnect. Wednesday 7 October 2026, Enschede. Doors and food at 18:00, programme at 18:45, hard finish at 21:30. Free.
+> First edition: twente.dev/001 — Reconnect. Wednesday 7 October 2026, Rijssen. Doors and food at 18:00, programme at 18:45, hard finish at 21:30. Free.
 >
 > We build it. We run it. We share it.
 

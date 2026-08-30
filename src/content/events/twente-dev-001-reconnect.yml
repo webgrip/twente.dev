@@ -20,10 +20,13 @@ description:
 start: 2026-10-07T18:00:00+02:00
 end: 2026-10-07T21:30:00+02:00
 venue:
-  # No name until the venue is contracted — templates render the localized
-  # "Locatie volgt" / "Venue to be announced". Never store that sentinel here:
-  # an English string in a translatable-fields collection bypasses translation.
-  city: Enschede
+  # Contracted 2026-08-28: Code14 hosts /001 and /002 at their own office.
+  # City is Rijssen, not Enschede — the plan said Enschede before a venue
+  # existed. Still Twente; the region is not one city. ICS subscribers get
+  # name/address/city joined, so all three must be right.
+  name: Code14
+  address: Hogepad 81, 7462 TB
+  city: Rijssen
   online: false
 organiser:
   name: twente.dev

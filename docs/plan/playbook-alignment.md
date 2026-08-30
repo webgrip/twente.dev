@@ -37,7 +37,7 @@ mean, so this table now tracks _live_, not _built_.
 ## Facts every surface must agree on (single source: `src/config/site.ts`)
 
 - **twente.dev/001 — Reconnect** · Wednesday 7 October 2026 · doors/food 18:00, programme 18:45,
-  hard finish 21:30 · Enschede, venue TBA · free · **capacity 35** · primarily English, Dutch welcome.
+  hard finish 21:30 · **Rijssen — Code14, Hogepad 81** · free · **capacity 35** · primarily English, Dutch welcome.
   (Was 100 until 2026-08-30 — the pre-venue number. Code14's room seats 30–40; 35 agreed. The
   press pages now interpolate `EDITION_001.capacity` instead of repeating it, so this class of
   drift cannot recur.)

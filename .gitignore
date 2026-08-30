@@ -39,3 +39,8 @@ playwright-report/
 
 media/
 docs/brand/.cache-plex-mono-bold.ttf
+
+# Zensical/MkDocs docs build output (mkdocs.yml at repo root, docs_dir: docs)
+site/
+.zensical/
+.cache/

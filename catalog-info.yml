@@ -1,0 +1,34 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: twente-dev
+  namespace: webgrip
+  title: twente.dev
+  description: |
+    Independent, practitioner-led technology community site for Twente —
+    bilingual Astro static site on Cloudflare Workers, built around numbered
+    flagship events.
+  labels:
+    tier: "3"
+  links:
+    - title: Site
+      url: https://twente.dev
+    - title: Docs
+      url: https://docs.webgrip.dev/twente-dev/
+  tags:
+    - webgrip
+    - astro
+    - community
+  annotations:
+    # mkdocs.yml lives at the repo root here, not under docs/techdocs — see the
+    # comment at the top of that file for why. Hence `dir:.`, matching the
+    # backstage-application variant rather than the estate default.
+    backstage.io/techdocs-ref: dir:.
+    backstage.io/adr-location: docs/adrs
+    backstage.io/source-location: url:https://forgejo.webgrip.dev/webgrip/twente.dev
+    simpleicons.org/icon-slug: astro
+spec:
+  type: website
+  owner: group:webgrip/ops
+  lifecycle: production
+  system: webgrip-system

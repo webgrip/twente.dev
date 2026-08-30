@@ -1,0 +1,81 @@
+---
+# Docs site config — read natively by Zensical (homelab ADR-0052), built by the
+# techdocs-builder image and published to docs.webgrip.dev/twente-dev/. Also
+# valid Material-for-MkDocs config by design: one file, either engine.
+#
+# NOTE ON LOCATION — this repo deviates from the estate default deliberately.
+# Most repos keep docs under `docs/techdocs/` and treat a bare `docs/` as the
+# UNPUBLISHED position. Here `mkdocs.yml` sits at the repo root with
+# `docs_dir: docs`, the same variant `backstage-application` and
+# `code14/staging-cluster` use, because this repo's ADRs, brand guide and plan
+# docs already live in `docs/` and are cross-linked by relative path from
+# AGENTS.md and from each other. Moving them under `docs/techdocs/docs/` would
+# break every one of those links to gain nothing — the repo is public and all of
+# this material is meant to be readable.
+#
+# The consequence to keep in mind: everything under `docs/` publishes. Anything
+# that should NOT be public must not be put there (Zensical ignores MkDocs'
+# `draft_docs`/`exclude_docs`). Outreach contact data lives in `media/`, which is
+# gitignored, and must stay there.
+#
+# Nav lists bare paths on purpose — page titles come from each page's H1, so a
+# retitled page never needs a nav edit. New pages DO need a nav entry: the build
+# runs --strict, so a nav entry pointing nowhere fails the pipeline, while an
+# orphan page merely will not appear in the nav.
+site_name: twente.dev
+site_description: >-
+  Independent, practitioner-led technology community for Twente — decision
+  records, brand system, launch plan and community agreements.
+site_url: https://docs.webgrip.dev/twente-dev/
+use_directory_urls: true
+docs_dir: docs
+theme:
+  name: material
+  language: en
+  palette:
+    - scheme: default
+      primary: red
+      accent: red
+  features:
+    - navigation.instant
+    - navigation.path
+    - navigation.prune
+    - search.highlight
+    - content.code.copy
+plugins:
+  - search
+markdown_extensions:
+  - admonition
+  - attr_list
+  - toc:
+      permalink: true
+  - tables
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: pymdownx.superfences.fence_code_format
+nav:
+  - Overview: index.md
+  - Decision records:
+      - adrs/README.md
+      - adrs/0001-astro-as-site-framework.md
+      - adrs/0002-cloudflare-workers-static-assets.md
+      - adrs/0003-forgejo-as-ci-and-release-authority.md
+      - adrs/0004-locale-strategy.md
+      - adrs/0005-contributions-as-data.md
+      - adrs/0006-privacy-first-analytics.md
+      - adrs/0007-container-for-dev-and-parity.md
+      - adrs/0008-playbook-first-launch-scope.md
+      - adrs/0009-lean-launch-remove-job-board.md
+      - adrs/0000-template.md
+  - Community agreements:
+      - partner-compact.md
+      - legitimate-interest-assessment.md
+  - Brand:
+      - brand/README.md
+      - brand/social-profile-copy.md
+      - brand/templates/README.md
+  - Plan:
+      - plan/playbook-alignment.md
+      - plan/10x-plan.md

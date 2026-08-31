@@ -8,7 +8,9 @@ The mark is "t.d" (ratified 2026-08-30, supersedes the constructed-t badge of
 2026-08-11): the wordmark's own t, full stop and d, kerned tight on the ink
 badge, the stop in flag red. Glyph scale is 0.8 x the wordmark's 64-unit
 x-height; outline gaps are 9.6 badge-units; the baseline sits at y 116 so the
-ascender band centres optically on the 160-unit badge. The round variant
+ascender band centres optically on the 160-unit badge, and the group carries a
+-3 unit optical nudge (OPTICAL_NUDGE) because equal bounding-box margins read
+right-heavy with these two letters. The round variant
 (avatars, circular masks) carries the same letters at 0.68 x on a circle.
 
 Masters land in docs/brand/; the press-kit copy the site serves is written to
@@ -100,26 +102,45 @@ BADGE_PATH = ('M30 0H130A30 30 0 0 1 160 30V130A30 30 0 0 1 130 160H30'
 # --- the t.d mark ------------------------------------------------------------
 # Kerned by outline edges, not by the mono advance: gaps of 9.6 badge-units
 # (12 wordmark-units) between t, the stop and d.
-def td_paths(scale, cx, baseline, gap):
+# Optical nudge, in badge units, applied to the whole t.d group (negative =
+# left). Bounding-box centring puts equal margins either side (10.82 each) and
+# still reads right-heavy, because the two edge letters are not equal weights:
+# the d carries 52.6% of the ink and meets the badge with a full-height stem,
+# while the t contributes 38.7% and meets it with a crossbar that exists over
+# only a sixth of the letter's height. Three measurements agree on the
+# direction and bracket the size — ink centroid -8.11, counterform balance over
+# the whole letter band -9.54, counterform balance within each edge letter's
+# own band -6.01 — and rendering the candidates at real sizes shows every full
+# correction overshooting into left-heavy. -3 is half the fairest of the three,
+# and it is the cut that holds from a 32 px header badge up to a banner.
+# Re-measure, do not re-eyeball: the method is written up in docs/brand/README.md
+# section 1, under Construction.
+OPTICAL_NUDGE = -3.0
+
+
+def td_paths(scale, cx, baseline, gap, nudge=0.0):
     """t.d at glyph scale `scale`, outline gaps `gap`, centred on cx.
+    `nudge` shifts the whole group for optical centring (see OPTICAL_NUDGE).
     Returns (t_d, dot_d, d_d, total_width, x_left)."""
     chars = 't.d'
     boxes = [glyph_bounds(ch) for ch in chars]
     widths = [(b[2] - b[0]) * scale for b in boxes]
     total = sum(widths) + gap * (len(chars) - 1)
-    x = cx - total / 2
+    x = cx - total / 2 + nudge
     paths = []
     for ch, b, w in zip(chars, boxes, widths):
         paths.append(glyph_path(ch, x - b[0] * scale, baseline, scale))
         x += w + gap
-    return paths[0], paths[1], paths[2], total, cx - total / 2
+    return paths[0], paths[1], paths[2], total, cx - total / 2 + nudge
 
 MS = 0.8 * S              # mark glyph scale (square badge)
-M_T, M_DOT, M_D, M_W, M_X0 = td_paths(MS, 80, 116, 9.6)
+M_T, M_DOT, M_D, M_W, M_X0 = td_paths(MS, 80, 116, 9.6, OPTICAL_NUDGE)
 RS = 0.68 * S             # round badge glyph scale
-R_T, R_DOT, R_D, R_W, _ = td_paths(RS, 80, 109, 8.16)
+# The nudge is a property of the letter group, not of the canvas, so it scales
+# with the glyphs: same optical result on a smaller setting of the same word.
+R_T, R_DOT, R_D, R_W, _ = td_paths(RS, 80, 109, 8.16, OPTICAL_NUDGE * RS / MS)
 FS = MS / 5               # favicon: the mark at 1:5 on a 32-unit canvas
-F_T, F_DOT, F_D, F_W, _ = td_paths(FS, 16, 23.2, 1.92)
+F_T, F_DOT, F_D, F_W, _ = td_paths(FS, 16, 23.2, 1.92, OPTICAL_NUDGE / 5)
 
 def letters_body(t, dot, d, stroke=0.0):
     """The three letter paths; `stroke` adds a same-colour outline — the

@@ -37,14 +37,15 @@ just a letter. The mark cannot drift from the name, because it is made of the na
 The mark is generated, not drawn: [`scripts/brand-assets.py`](../../scripts/brand-assets.py)
 takes the three glyphs from the font outlines and places them. The placement values:
 
-|             | Value                          | Derived from                                  |
-| ----------- | ------------------------------ | --------------------------------------------- |
-| Badge       | 160 × 160, corner radius 30    | radius unchanged from v1                      |
-| Glyphs      | `t` `.` `d`, wordmark outlines | never re-set in a live font                   |
-| Glyph scale | 0.8 × the wordmark x-height    | x-height 64 → 51.2 on the badge               |
-| Kerning     | outline gaps of 9.6            | 12 wordmark-units — kerned, not mono-advanced |
-| Baseline    | y 116                          | centres the ascender band on the badge        |
-| Letter span | x 10.82–149.18 (width 138.37)  | derived, not judged — do not nudge            |
+|               | Value                          | Derived from                                  |
+| ------------- | ------------------------------ | --------------------------------------------- |
+| Badge         | 160 × 160, corner radius 30    | radius unchanged from v1                      |
+| Glyphs        | `t` `.` `d`, wordmark outlines | never re-set in a live font                   |
+| Glyph scale   | 0.8 × the wordmark x-height    | x-height 64 → 51.2 on the badge               |
+| Kerning       | outline gaps of 9.6            | 12 wordmark-units — kerned, not mono-advanced |
+| Baseline      | y 116                          | centres the ascender band on the badge        |
+| Optical nudge | −3 badge units (left)          | the two edge letters are not equal weights    |
+| Letter span   | x 7.82–146.18 (width 138.37)   | derived, not judged — measure, never eyeball  |
 
 Decisions that are not accidental:
 
@@ -55,6 +56,24 @@ Decisions that are not accidental:
   the `.` of `.dev` — the thread's knot, now holding the name together.
 - **The kerning is the design.** Set at the mono advance this is a terminal
   printout; kerned tight it is a mark. Regenerate with the script, never by eye.
+- **The group is optically centred, not box-centred.** Bounding-box centring gives
+  equal margins either side (10.82 each) and still reads right-heavy, because `t`
+  and `d` are not equal weights: the `d` carries 52.6% of the ink and meets the
+  badge with a full-height stem, while the `t` carries 38.7% and meets it with a
+  crossbar that exists over about a sixth of the letter's height. So the whole
+  group shifts 3 units left (`OPTICAL_NUDGE` in the script), scaled with the
+  glyphs for the round and favicon cuts.
+
+  Three measurements agree on the direction and bracket the size — ink centroid
+  −8.11, counterform balance across the whole letter band −9.54, counterform
+  balance within each edge letter's own band −6.01 — and rendering the candidates
+  at real sizes shows every full correction overshooting into left-heavy. −3 is
+  half the fairest of the three, and it is the cut that holds from a 32 px header
+  badge up to a banner.
+
+  **If this is ever revisited, measure it again; do not judge it by eye at one
+  size.** Counterform balance is the honest test: for each scanline, compare the
+  white between the badge edge and the nearest ink on both sides.
 
 ### Round variant
 

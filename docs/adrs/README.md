@@ -14,6 +14,7 @@ MADR 4.0.0, matching the `webgrip/workflows` convention. New records use
 | [0007](0007-container-for-dev-and-parity.md)        | Container for dev and production parity, not deploy      | Accepted | 2026-08-04 |
 | [0008](0008-playbook-first-launch-scope.md)         | Launch scope follows the strategy playbook               | Accepted | 2026-08-13 |
 | [0009](0009-lean-launch-remove-job-board.md)        | Lean launch: no job board, directory held as placeholder | Accepted | 2026-08-13 |
+| [0010](0010-participation-over-listing.md)          | Participation over listing: consent-gated communities    | Accepted | 2026-08-31 |
 
 ## Open decisions
 

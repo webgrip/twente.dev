@@ -40,15 +40,25 @@ export const nl = {
   'theme.toDark': 'Schakel naar donker thema',
   'theme.toLight': 'Schakel naar licht thema',
 
-  'home.hero.title':
-    'Twente bouwt opmerkelijke technologie. Laten we de mensen erachter beter vindbaar maken.',
+  'home.hero.title': 'Kom een avond je eigen vakgebied uit.',
   'home.hero.subtitle':
-    'twente.dev/001 brengt makers uit software, hardware, data, design en product samen voor één nuttige avond.',
+    'Eén avond in Rijssen met mensen die technologie bouwen in Twente — met welke techniek dan ook. Twee korte verhalen uit de praktijk, en verder vooral elkaar.',
   'home.hero.ctaReserve': 'Reserveer een plek',
-  'home.hero.ctaContribute': 'Draag een verhaal, demo of introductie bij',
-  'home.outcome.idea': 'Eén nuttig idee',
-  'home.outcome.intro': 'Eén nuttige kennismaking',
-  'home.outcome.return': 'Eén reden om terug te komen',
+  'home.hero.ctaContribute': 'Meld een verhaal aan',
+  // The three things twente.dev actually runs. They replaced a promised-outcome
+  // trio ("één nuttig idee, één nuttige kennismaking, één reden om terug te
+  // komen") — outcomes we cannot deliver on anyone's behalf, and which said
+  // nothing about what the site is. These describe the product instead, and
+  // each one is a claim the site can be checked against.
+  'home.does.calendar.title': 'De gedeelde agenda',
+  'home.does.calendar.body':
+    'Tech-events uit de regio in één agenda waarop je je kunt abonneren — die van anderen net zo goed, altijd met een link naar de bron.',
+  'home.does.evening.title': 'De avond zonder vakgebied',
+  'home.does.evening.body':
+    'Een paar keer per jaar één avond die niet om één taal, framework of branche draait. Dat is precies wat er nog niet was.',
+  'home.does.archive.title': 'Het archief',
+  'home.does.archive.body':
+    'Field notes uit de praktijk, geschreven door mensen die hier werken. Wat verteld is blijft staan en blijft vindbaar.',
   'home.next.kicker': 'Binnenkort',
   'home.what.title': 'Wat is twente.dev?',
   'home.what.body':
@@ -58,10 +68,9 @@ export const nl = {
     'Bestaande meetups houden hun eigen identiteit, hun eigen lijst en hun eigen podium. twente.dev maakt ze beter vindbaar en verwijst altijd door naar de bron.',
   'home.newsletter.title': 'De wekelijkse field note',
   'home.newsletter.body':
-    'Eén concrete les uit een lokaal systeem, de events van komende week en één open call. Reply-vriendelijk, opt-in, geen tracking.',
-  'home.events.title': 'Aankomende events',
-  'home.events.all': 'Alle events',
-  'home.posts.title': 'Uit de community',
+    'Elke week één concrete les uit een lokaal systeem — geschreven door iemand die hier werkt, niet door ons. Plus de events van komende week en één open call. Reply-vriendelijk, opt-in, geen tracking.',
+  'home.newsletter.write': 'Schrijf er zelf een',
+  'home.agenda.empty': 'Verder staat er nog niets in de gedeelde agenda.',
   'home.posts.all': 'Alle artikelen',
 
   'edition.venueTba': 'Locatie volgt',
@@ -97,6 +106,25 @@ export const nl = {
   'events.moreInfo': 'Meer informatie',
   'events.listedBy': 'Vermeld door twente.dev',
   'events.inCollaboration': 'In samenwerking met twente.dev',
+
+  // Communities directory. Entries render only with recorded consent
+  // (content.config.ts) — the partner compact promises we ask first, so the
+  // page has to be able to be honest about a short list.
+  'communities.description':
+    'Discords, Slacks, user groups en meetups waar Twentse techmakers samenkomen. Elke community houdt het eigen podium — wij maken ze alleen beter vindbaar en verwijzen altijd naar de bron.',
+  'communities.searchLabel': 'Zoeken',
+  'communities.searchPlaceholder': 'Naam, onderwerp of platform…',
+  'communities.filterTopic': 'Onderwerp',
+  'communities.filterAll': 'Alles',
+  'communities.results': 'vermeld',
+  'communities.noResults': 'Geen community die hierop past.',
+  'communities.empty': 'Nog niets te tonen — en dat is een keuze.',
+  'communities.emptyBody':
+    'We kennen de groepen in de regio wel, maar we vermelden niemand zonder het te vragen. Zodra een community ja zegt, staat die hier.',
+  'communities.consentNote': 'Vermeld met toestemming. Eén bericht en we halen je er weer af.',
+  'communities.suggest': 'Run je een community in Twente?',
+  'communities.awaiting': 'groepen in de regio staan onderzocht klaar en wachten op hun ja.',
+  'communities.terms': "Onze afspraken met community's",
 
   'blog.title': 'Blog',
   'blog.description': 'Field notes, portretten en open calls uit de Twentse techcommunity.',
@@ -167,15 +195,20 @@ export const en: Record<UIKey, string> = {
   'theme.toDark': 'Switch to dark theme',
   'theme.toLight': 'Switch to light theme',
 
-  'home.hero.title':
-    "Twente builds remarkable technology. Let's make the people behind it easier to find.",
+  'home.hero.title': 'Spend one evening outside your own field.',
   'home.hero.subtitle':
-    'twente.dev/001 brings software, hardware, data, design and product practitioners together for one useful evening.',
+    'One evening in Rijssen with people who build technology in Twente — whatever they build it with. Two short field reports, and mostly each other.',
   'home.hero.ctaReserve': 'Reserve a place',
-  'home.hero.ctaContribute': 'Contribute a story, demo or introduction',
-  'home.outcome.idea': 'One useful idea',
-  'home.outcome.intro': 'One useful introduction',
-  'home.outcome.return': 'One reason to return',
+  'home.hero.ctaContribute': 'Propose a story',
+  'home.does.calendar.title': 'The shared calendar',
+  'home.does.calendar.body':
+    "Tech events from across the region in one calendar you can subscribe to — other people's just as much as ours, always linking back to the source.",
+  'home.does.evening.title': 'The evening with no field',
+  'home.does.evening.body':
+    'A few times a year, one evening that does not revolve around a single language, framework or industry. That is the part that did not exist yet.',
+  'home.does.archive.title': 'The archive',
+  'home.does.archive.body':
+    'Field notes from practice, written by people who work here. What gets told stays up, and stays findable.',
   'home.next.kicker': 'Next up',
   'home.what.title': 'What is twente.dev?',
   'home.what.body':
@@ -185,10 +218,9 @@ export const en: Record<UIKey, string> = {
     'Existing meetups keep their own identity, their own list and their own stage. twente.dev makes them easier to find and always links to the source.',
   'home.newsletter.title': 'The weekly field note',
   'home.newsletter.body':
-    "One concrete lesson from a local system, the coming week's events and one open call. Reply-friendly, opt-in, no tracking.",
-  'home.events.title': 'Upcoming events',
-  'home.events.all': 'All events',
-  'home.posts.title': 'From the community',
+    "One concrete lesson from a local system every week — written by someone who works here, not by us. Plus the coming week's events and one open call. Reply-friendly, opt-in, no tracking.",
+  'home.newsletter.write': 'Write one yourself',
+  'home.agenda.empty': 'Nothing else is in the shared calendar yet.',
   'home.posts.all': 'All articles',
 
   'edition.venueTba': 'Venue to be announced',
@@ -219,6 +251,22 @@ export const en: Record<UIKey, string> = {
   'events.moreInfo': 'More information',
   'events.listedBy': 'Listed by twente.dev',
   'events.inCollaboration': 'In collaboration with twente.dev',
+
+  'communities.description':
+    'Discords, Slacks, user groups and meetups where people who build technology in Twente gather. Every community keeps its own stage — we only make them easier to find, and always link to the source.',
+  'communities.searchLabel': 'Search',
+  'communities.searchPlaceholder': 'Name, topic or platform…',
+  'communities.filterTopic': 'Topic',
+  'communities.filterAll': 'All',
+  'communities.results': 'listed',
+  'communities.noResults': 'No community matches that.',
+  'communities.empty': 'Nothing to show yet — and that is a choice.',
+  'communities.emptyBody':
+    'We know the groups in the region, but we do not list anyone without asking. The moment a community says yes, it appears here.',
+  'communities.consentNote': 'Listed with consent. One message and we take you off again.',
+  'communities.suggest': 'Do you run a community in Twente?',
+  'communities.awaiting': 'groups in the region are researched and waiting on their yes.',
+  'communities.terms': 'Our terms with communities',
 
   'blog.title': 'Blog',
   'blog.description':

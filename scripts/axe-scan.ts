@@ -40,6 +40,12 @@ const A11Y_ONLY_PAGES = [
   '/nl/partners.html',
   '/en/press.html',
   '/nl/pers.html',
+  // The contribute pages carry the site's only form controls (ADR-0010) —
+  // labels, required markers and a script that swaps a fallback for a form.
+  // Nothing else on the site exercises those rules, so if they are not here
+  // they are covered by no gate at all.
+  '/nl/bijdragen.html',
+  '/en/contribute.html',
 ];
 
 /** Anything at or above these impacts fails the build. */

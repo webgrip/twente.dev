@@ -12,7 +12,6 @@ import {
   editionName,
 } from '../config/site.ts';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Section from '../components/Section.astro';
 import EventCard from '../components/EventCard.astro';
 import PostCard from '../components/PostCard.astro';
 
@@ -23,6 +22,14 @@ import PostCard from '../components/PostCard.astro';
  *
  * Visual grammar comes from the brand pack's social banner: warm paper, the
  * thread grid, a red edge, mono wayfinding lines, one dominant statement.
+ *
+ * The page is organised as one numbered sequence — the hero's index strip and
+ * the three bands share the numbers 01–03. It used to carry two competing
+ * sequences (an outcomes trio 01–03 inside the hero, then sections numbered
+ * 01–03 again below it), which read as a numbering bug rather than a rhythm.
+ * The flagship also appeared twice: once as a facts card and again as the only
+ * card in "upcoming events", so a full-width feature covers it once and the
+ * agenda band lists what else is on.
  */
 interface Props {
   locale: Locale;
@@ -33,8 +40,23 @@ const t = useTranslations(locale);
 
 const [events, posts] = await Promise.all([getUpcomingEvents(), getPosts(locale)]);
 
+/**
+ * The flagship has its own feature block above, so the agenda band lists the
+ * rest. Matched on the canonical route rather than on `attribution: own`: it is
+ * the field that says "this entry's home is a bespoke page", which is exactly
+ * the entry the feature is already rendering.
+ */
+const otherEvents = events.filter((event) => event.data.canonicalRoute !== 'edition001');
+
 const edition = `${editionName(EDITION_001.number)} — ${EDITION_001.theme}`;
 const motto = `twente.dev // ${t('site.tagline').toLowerCase()}`;
+
+/** Hero index strip and the bands below it are the same three things. */
+const bands = [
+  { id: 'agenda', index: '01', title: t('home.does.calendar.title') },
+  { id: 'avond', index: '02', title: t('home.does.evening.title') },
+  { id: 'archief', index: '03', title: t('home.does.archive.title') },
+] as const;
 ---
 
 <BaseLayout
@@ -66,103 +88,174 @@ const motto = `twente.dev // ${t('site.tagline').toLowerCase()}`;
           {t('home.hero.ctaContribute')}
         </a>
       </div>
-      <ol class="outcomes" role="list">
-        <li><span class="label-mono outcome-index">01</span>{t('home.outcome.idea')}</li>
-        <li><span class="label-mono outcome-index">02</span>{t('home.outcome.intro')}</li>
-        <li><span class="label-mono outcome-index">03</span>{t('home.outcome.return')}</li>
+
+      {
+        /* Sits on the fold as the cue that there is more below, and doubles as
+           the page's contents: each entry jumps to the band that delivers it. */
+      }
+      <ol class="hero-index" role="list">
+        {
+          bands.map((band) => (
+            <li>
+              <a href={`#${band.id}`}>
+                <span class="label-mono hero-index-num">{band.index}</span>
+                <span class="hero-index-title">{band.title}</span>
+              </a>
+            </li>
+          ))
+        }
       </ol>
     </div>
   </div>
 
   <div class="container">
-    <section class="next-edition" aria-labelledby="next-edition-title">
-      <p class="label-mono kicker">{t('home.next.kicker')}</p>
-      <h2 id="next-edition-title">{edition}</h2>
-      {
-        /* Separators are explicit strings: Astro collapses the whitespace
-          around expression boundaries, which rendered "Locatie volgt ·Gratis". */
-      }
-      <p class="edition-facts label-mono">
-        <time datetime={EDITION_001.doors.toISOString()}>
-          {formatDate(EDITION_001.doors, locale)}
-        </time>
-        {' · 18:00–21:30 · '}{EDITION_001.city}{' · '}{EDITION_001.venue ?? t('edition.venueTba')}{
-          ' · '
-        }{t('edition.free')}
-      </p>
-      <p class="edition-language">{t('edition.language')}</p>
-      <p class="edition-registration">
-        {t('edition.registrationOpens')}{' '}
-        <strong>
-          <time datetime={REGISTRATION_OPENS.toISOString()}>
-            {formatDate(REGISTRATION_OPENS, locale)}
-          </time>
-        </strong>
-      </p>
-      <a class="edition-link" href={routePath('edition001', locale)}>{t('edition.details')} →</a>
-    </section>
-
-    <section class="what" aria-labelledby="what-title">
-      <p class="label-mono kicker">01</p>
-      <h2 id="what-title">{t('home.what.title')}</h2>
-      <p>{t('home.what.body')}</p>
-    </section>
-
-    <Section
-      title={t('home.events.title')}
-      linkHref={routePath('events', locale)}
-      linkLabel={t('home.events.all')}
-    >
-      {
-        /* Empty states carry their contribution route — on a young site they
-           are the primary recruitment surface, not a dead end. */
-        events.length === 0 && (
-          <p class="empty">
-            {t('events.empty')} <a href={routePath('contribute', locale)}>{t('events.emptyCta')}</a>
+    {/* The next edition, once, at full width. */}
+    <section class="feature" aria-labelledby="feature-title">
+      <p class="label-mono feature-kicker">{t('home.next.kicker')}</p>
+      <div class="feature-grid">
+        <div>
+          <h2 id="feature-title">{edition}</h2>
+          {
+            /* Separators are explicit strings: Astro collapses the whitespace
+              around expression boundaries, which rendered "Locatie volgt ·Gratis". */
+          }
+          <p class="feature-facts label-mono">
+            <time datetime={EDITION_001.doors.toISOString()}>
+              {formatDate(EDITION_001.doors, locale)}
+            </time>
+            {' · 18:00–21:30 · '}{EDITION_001.city}{' · '}{
+              EDITION_001.venue ?? t('edition.venueTba')
+            }{' · '}{t('edition.free')}
           </p>
-        )
-      }
-      {events.slice(0, 4).map((event) => <EventCard event={event} locale={locale} />)}
-    </Section>
+          <p class="feature-language">{t('edition.language')}</p>
+        </div>
 
-    <section class="community-band" aria-labelledby="community-band-title">
-      <p class="label-mono kicker">02</p>
-      <h2 id="community-band-title">{t('home.community.title')}</h2>
-      <p>{t('home.community.body')}</p>
-      <a href={routePath('communities', locale)}>{t('common.viewAll')} →</a>
+        <div class="feature-panel">
+          <p class="feature-registration">
+            {t('edition.registrationOpens')}{' '}
+            <strong>
+              <time datetime={REGISTRATION_OPENS.toISOString()}>
+                {formatDate(REGISTRATION_OPENS, locale)}
+              </time>
+            </strong>
+          </p>
+          <a class="button button--primary" href={routePath('edition001', locale)}>
+            {REGISTRATION_URL ? t('home.hero.ctaReserve') : t('edition.details')}
+          </a>
+        </div>
+      </div>
     </section>
 
-    <Section
-      title={t('home.posts.title')}
-      linkHref={routePath('blog', locale)}
-      linkLabel={t('home.posts.all')}
-      columns={1}
-    >
-      {
-        posts.length === 0 && (
-          <p class="empty">
-            {t('blog.empty')} <a href={routePath('contribute', locale)}>{t('blog.emptyCta')}</a>
-          </p>
-        )
-      }
-      {posts.slice(0, 3).map((post) => <PostCard post={post} locale={locale} />)}
-    </Section>
+    {
+      /* Kept as its own section rather than folded into the hero: on a site
+         this young "what is this" is a question a first-time visitor actually
+         asks, and the answer should not depend on reading three bands first. */
+    }
+    <section class="intro" aria-labelledby="intro-title">
+      <div class="band-head">
+        <h2 id="intro-title">{t('home.what.title')}</h2>
+        <p class="band-intro">{t('home.what.body')}</p>
+      </div>
+    </section>
 
-    <section class="newsletter" aria-labelledby="newsletter-title">
-      <p class="label-mono kicker">03</p>
-      <h2 id="newsletter-title">{t('home.newsletter.title')}</h2>
-      <p>{t('home.newsletter.body')}</p>
-      {
-        NEWSLETTER_URL ? (
-          <a class="button" href={NEWSLETTER_URL}>
-            {t('newsletter.subscribe')}
-          </a>
-        ) : (
-          <a class="button" href={`mailto:${CONTACT_EMAIL}?subject=Field%20note%20newsletter`}>
-            {t('newsletter.mailFallback')}
-          </a>
-        )
-      }
+    <section class="band" id="agenda" aria-labelledby="agenda-title">
+      <p class="label-mono band-index">{bands[0].index}</p>
+      <div class="band-head">
+        <h2 id="agenda-title">{t('home.does.calendar.title')}</h2>
+        <p class="band-intro">{t('home.does.calendar.body')}</p>
+      </div>
+      <div class="band-content">
+        {
+          otherEvents.length === 0 ? (
+            <p class="empty">
+              {t('home.agenda.empty')}{' '}
+              <a href={routePath('contribute', locale)}>{t('events.emptyCta')}</a>
+            </p>
+          ) : (
+            <div class="event-grid">
+              {otherEvents.slice(0, 4).map((event) => (
+                <EventCard event={event} locale={locale} />
+              ))}
+            </div>
+          )
+        }
+        <p class="band-link">
+          <a href={routePath('events', locale)}>{t('events.subscribe')} →</a>
+        </p>
+      </div>
+    </section>
+
+    <section class="band" id="avond" aria-labelledby="avond-title">
+      <p class="label-mono band-index">{bands[1].index}</p>
+      <div class="band-head">
+        <h2 id="avond-title">{t('home.does.evening.title')}</h2>
+        <p class="band-intro">{t('home.does.evening.body')}</p>
+      </div>
+      <div class="band-content">
+        {
+          /* The non-displacement promise, stated on the page that could most
+             easily be read as competing with the region's other meetups. */
+        }
+        <div class="note">
+          <h3>{t('home.community.title')}</h3>
+          <p>{t('home.community.body')}</p>
+          <p class="band-link">
+            <a href={routePath('communities', locale)}>{t('common.viewAll')} →</a>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="band" id="archief" aria-labelledby="archief-title">
+      <p class="label-mono band-index">{bands[2].index}</p>
+      <div class="band-head">
+        <h2 id="archief-title">{t('home.does.archive.title')}</h2>
+        <p class="band-intro">{t('home.does.archive.body')}</p>
+      </div>
+      <div class="band-content">
+        {
+          posts.length === 0 ? (
+            <p class="empty">
+              {t('blog.empty')} <a href={routePath('contribute', locale)}>{t('blog.emptyCta')}</a>
+            </p>
+          ) : (
+            <div class="post-grid">
+              {posts.slice(0, 4).map((post) => (
+                <PostCard post={post} locale={locale} />
+              ))}
+            </div>
+          )
+        }
+        <p class="band-link">
+          <a href={routePath('blog', locale)}>{t('home.posts.all')} →</a>
+        </p>
+
+        <div class="newsletter">
+          <div>
+            <h3>{t('home.newsletter.title')}</h3>
+            <p>{t('home.newsletter.body')}</p>
+          </div>
+          <div class="newsletter-actions">
+            {
+              NEWSLETTER_URL ? (
+                <a class="button" href={NEWSLETTER_URL}>
+                  {t('newsletter.subscribe')}
+                </a>
+              ) : (
+                <a
+                  class="button"
+                  href={`mailto:${CONTACT_EMAIL}?subject=Field%20note%20newsletter`}
+                >
+                  {t('newsletter.mailFallback')}
+                </a>
+              )
+            }
+            <a class="newsletter-write" href={routePath('contribute', locale)}>
+              {t('home.newsletter.write')} →
+            </a>
+          </div>
+        </div>
+      </div>
     </section>
   </div>
 </BaseLayout>
@@ -180,11 +273,11 @@ const motto = `twente.dev // ${t('site.tagline').toLowerCase()}`;
 
   /* One screen of grid, exactly: the section takes the viewport minus the
      header, so the pattern meets the fold instead of stopping in an arbitrary
-     band, and the outcomes row sits on the edge as the cue that there is more.
+     band, and the index strip sits on the edge as the cue that there is more.
      svh, not vh, so a collapsing mobile URL bar cannot break that promise.
      Only from 48rem up: below it the header wraps to two rows (height unknown
      here) and the copy already overflows a phone screen, so the floor would
-     only push the outcomes out of view. */
+     only push the strip out of view. */
   @media (min-width: 48rem) {
     .hero {
       min-height: calc(100svh - var(--header-height));
@@ -226,105 +319,237 @@ const motto = `twente.dev // ${t('site.tagline').toLowerCase()}`;
     margin-block-start: var(--space-6);
   }
 
-  .outcomes {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0 var(--space-6);
+  /* Three columns of the page's own contents, on the fold. */
+  .hero-index {
+    display: grid;
+    gap: 0;
     list-style: none;
     padding: 0;
     margin: var(--space-7) 0 0;
     border-block-start: var(--border-width) solid var(--border-strong);
   }
 
-  .outcomes li {
+  .hero-index a {
     display: flex;
     align-items: baseline;
     gap: var(--space-3);
     padding-block: var(--space-3);
-    font-weight: 550;
+    color: var(--fg);
+    text-decoration: none;
+    border-block-end: var(--border-width) solid var(--border);
+  }
+
+  .hero-index a:hover .hero-index-title {
+    color: var(--accent-strong);
   }
 
   /* Metadata numerals, not actions — they stay in the grey ramp so the
      hero's red budget belongs to the edge and the primary button. */
-  .outcome-index {
+  .hero-index-num {
     color: var(--fg-subtle);
   }
 
-  /* .button / .button--primary come from global.css — one recipe, no copies. */
-
-  .kicker {
-    color: var(--fg-subtle);
+  .hero-index-title {
+    font-weight: 550;
+    transition: color var(--duration-fast) var(--ease-out);
   }
 
-  .next-edition {
+  @media (min-width: 48rem) {
+    .hero-index {
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-6);
+    }
+
+    .hero-index a {
+      border-block-end: 0;
+    }
+  }
+
+  /* --- the next edition, once, at full width ------------------------------ */
+
+  .feature {
+    position: relative;
     margin-block-start: var(--space-7);
-    padding: var(--space-5);
+    padding: var(--space-5) var(--space-5) var(--space-5) var(--space-6);
     border: var(--border-width) solid var(--border-strong);
+    border-inline-start: 3px solid var(--accent);
     border-radius: var(--radius-lg);
     background: var(--bg-raised);
   }
 
-  .next-edition h2 {
-    margin-block: var(--space-2) var(--space-3);
+  .feature-kicker {
+    color: var(--fg-subtle);
   }
 
-  .edition-facts {
+  .feature-grid {
+    display: grid;
+    gap: var(--space-5);
+    margin-block-start: var(--space-2);
+  }
+
+  /* The panel stops the block ending in a dead right column at desktop width,
+     which is what the single centred card did before. */
+  @media (min-width: 56rem) {
+    .feature-grid {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 18rem);
+      align-items: start;
+      gap: var(--space-7);
+    }
+  }
+
+  .feature h2 {
+    font-size: var(--text-2xl);
+    margin-block-end: var(--space-3);
+  }
+
+  .feature-facts {
     color: var(--fg-muted);
   }
 
-  .edition-language,
-  .edition-registration {
+  .feature-language {
     color: var(--fg-muted);
     margin-block-start: var(--space-2);
   }
 
-  .edition-registration strong {
+  .feature-panel {
+    display: grid;
+    gap: var(--space-3);
+    justify-items: start;
+    padding: var(--space-4);
+    border: var(--border-width) solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--bg);
+  }
+
+  .feature-registration {
+    color: var(--fg-muted);
+    font-size: var(--text-sm);
+  }
+
+  .feature-registration strong {
     color: var(--fg);
   }
 
-  .edition-link {
-    display: inline-block;
-    margin-block-start: var(--space-3);
+  /* --- the three bands ---------------------------------------------------- */
+
+  .intro,
+  .band {
+    margin-block-start: var(--space-8);
+  }
+
+  .band-index {
+    color: var(--fg-subtle);
+    padding-block-end: var(--space-3);
+    border-block-start: var(--border-width) solid var(--border-strong);
+    padding-block-start: var(--space-3);
+  }
+
+  /* Heading and intro sit side by side so the section head uses the full
+     measure instead of stacking two prose-width blocks against a dead column. */
+  .band-head {
+    display: grid;
+    gap: var(--space-3);
+    align-items: start;
+  }
+
+  @media (min-width: 64rem) {
+    .band-head {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+      gap: var(--space-7);
+    }
+  }
+
+  .band-head h2 {
+    font-size: var(--text-2xl);
+    max-width: 18ch;
+  }
+
+  .band-intro {
+    color: var(--fg-muted);
+    font-size: var(--text-lg);
+    max-width: 52ch;
+  }
+
+  .band-content {
+    margin-block-start: var(--space-6);
+  }
+
+  .band-link {
+    margin-block-start: var(--space-4);
     font-weight: 550;
   }
 
-  .what,
-  .community-band {
-    margin-block-start: var(--space-8);
+  .band-link a {
+    text-decoration: none;
+  }
+
+  .band-link a:hover {
+    text-decoration: underline;
+  }
+
+  .event-grid,
+  .post-grid {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  @media (min-width: 48rem) {
+    .event-grid,
+    .post-grid {
+      grid-template-columns: repeat(2, 1fr);
+      column-gap: var(--space-6);
+    }
+  }
+
+  .note {
+    padding: var(--space-5);
+    border: var(--border-width) solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--bg-subtle);
+  }
+
+  .note p {
+    color: var(--fg-muted);
+    margin-block-start: var(--space-3);
     max-width: var(--width-prose);
   }
 
-  .what h2,
-  .community-band h2 {
-    margin-block-start: var(--space-2);
-  }
-
-  .what p,
-  .community-band p {
-    color: var(--fg-muted);
-    margin-block: var(--space-3);
-  }
-
   .newsletter {
-    margin-block-start: var(--space-8);
+    display: grid;
+    gap: var(--space-4);
+    margin-block-start: var(--space-6);
     padding: var(--space-5);
     border: var(--border-width) solid var(--border-strong);
     border-radius: var(--radius-lg);
     background: var(--bg-subtle);
-    max-width: var(--width-prose);
   }
 
-  .newsletter h2 {
-    margin-block-start: var(--space-2);
+  @media (min-width: 56rem) {
+    .newsletter {
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: var(--space-7);
+    }
   }
 
   .newsletter p {
     color: var(--fg-muted);
-    margin-block: var(--space-3);
+    margin-block-start: var(--space-3);
+    max-width: 60ch;
+  }
+
+  .newsletter-actions {
+    display: grid;
+    gap: var(--space-3);
+    justify-items: start;
+  }
+
+  .newsletter-write {
+    font-size: var(--text-sm);
+    font-weight: 550;
   }
 
   .empty {
     color: var(--fg-muted);
-    grid-column: 1 / -1;
   }
 </style>

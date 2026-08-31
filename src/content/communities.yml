@@ -2,6 +2,23 @@
 # checked via web search). This is the playbook's regional directory seed
 # (TD-016): link out, credit the source, never claim ownership.
 #
+# NOTHING IN THIS FILE IS PUBLISHED UNTIL SOMEONE SAYS YES.
+#
+# The partner compact promises it in those words on a public page — "we zetten
+# je er niet op zonder te vragen" — so an entry renders only once it carries a
+# `consent` block. The schema defaults `consent.granted` to false, which means
+# adding a group here is safe and reversible: it is research, not a listing.
+# Publish one by adding, at the entry's top level:
+#
+#   consent:
+#     granted: true
+#     evidence: reply from <name>, <where>       # checkable by someone else
+#     at: 2026-09-04
+#
+# Removing that block un-publishes it again, which is the one-message exit the
+# compact promises. Ask during outreach; the honest question is "may we list
+# you, and would you like the calendar feed?".
+#
 # Dormant groups deliberately NOT listed (last activity pre-2024): Twente.js,
 # Functional Twente, PHP Twente, Docker/DevSecOps Enschede, WordPress Meetup
 # Twente, Enschede Web Developers, Software Development Twente.
@@ -251,3 +268,64 @@
       Volunteer-run free coding club teaching children aged 7 to 17 to
       program and build websites, apps and games, on the first Saturday of
       each month at the Enschede public library.
+
+- id: dutch-laravel-foundation
+  # NATIONAL, not regional — the one deliberate exception in this file, and it
+  # needs a reason. This file's own header records PHP Twente as dormant since
+  # before 2024, so a Laravel or PHP developer in Twente has no local group at
+  # all; the nearest active one is national. Listing it is more useful than
+  # pretending the gap does not exist. If a regional PHP/Laravel group revives,
+  # prefer that one.
+  #
+  # Facts checked 2026-08-31 via web search: non-profit foundation strengthening
+  # the Laravel ecosystem in the Netherlands, running meetups with technical
+  # talks and networking, with agencies, freelancers and IT departments as
+  # members. Canonical link is the Meetup group (that is where the events are);
+  # VERIFY the spoken language with them when asking for consent — the evidence
+  # shows both Dutch and English events and this entry guesses "both".
+  name: Dutch Laravel Foundation
+  url: https://www.meetup.com/dutchlaravelfoundation/
+  platform: meetup
+  language: both
+  focus:
+    - laravel
+    - php
+    - web
+  description:
+    nl: >-
+      Landelijke non-profitstichting rond het Laravel-ecosysteem in Nederland,
+      met meetups vol technische talks en netwerken. Geen Twentse groep, maar
+      wel de dichtstbijzijnde actieve plek voor Laravel- en PHP-developers uit
+      de regio.
+    en: >-
+      National non-profit foundation around the Laravel ecosystem in the
+      Netherlands, running meetups with technical talks and networking. Not a
+      Twente group, but the nearest active one for Laravel and PHP developers
+      from the region.
+
+# twente.dev's own Discord. Consent is ours to give, which is why this is the
+# only entry that could publish on day one. The invite is deliberately
+# NON-EXPIRING — Discord's default invites die after 7 days, and a dead link in
+# a directory is worse than no link. Re-check it if the server is ever recreated.
+- id: twente-dev-discord
+  name: twente.dev Discord
+  url: https://discord.gg/E6qxD48dfH
+  platform: discord
+  language: both
+  focus:
+    - general
+    - help
+    - twente
+  consent:
+    granted: true
+    evidence: our own channel
+    at: 2026-08-31
+  description:
+    nl: >-
+      De open chat van twente.dev: zeg wie je bent en wat je bouwt, vraag om
+      hulp, bied hulp aan, deel wat je leerde. Geen recruiters, geen
+      productpitches, geen vacatures.
+    en: >-
+      The open twente.dev chat: say who you are and what you build, ask for
+      help, offer help, post what you learned. No recruiters, no product
+      pitches, no job ads.

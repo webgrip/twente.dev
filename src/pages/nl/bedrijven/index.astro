@@ -1,21 +1,101 @@
 ---
 import ProsePage from '../../../templates/ProsePage.astro';
-import { CONTACT_EMAIL } from '../../../config/site.ts';
+import { routePath } from '../../../i18n/routes.ts';
+import { CONTACT_EMAIL, EDITION_001 } from '../../../config/site.ts';
 ---
 
 <ProsePage
   locale="nl"
   routeKey="companies"
   title="Bedrijven"
-  description="Welke bedrijven in Twente bouwen software, en waarmee? De bedrijvengids is in de maak."
+  description="Vijf manieren waarop een bedrijf zich aan twente.dev verbindt — en de vier dingen die je er nadrukkelijk niet mee koopt."
 >
   <p>
-    Hier komt de bedrijvengids: welke bedrijven in Twente bouwen software, met welke stack, en waar
-    ze zitten. We werken aan de eerste vermeldingen.
+    Werkt er bij jullie een groep mensen die technologie bouwt in Twente, en wil je daar iets mee?
+    Deze pagina staat op volgorde van wat we het hardst nodig hebben. Steun in natura komt bij ons
+    altijd vóór geld — niet uit principe-poeha, maar omdat een zaal en veertig broodjes een avond
+    mogelijk maken en een bedrag op een rekening dat niet doet.
   </p>
+
+  <h2>Wat je kunt doen</h2>
+  <ol>
+    <li>
+      <strong>Een editie hosten.</strong> Een ruimte voor {EDITION_001.capacity} mensen, eten en drinken,
+      en iemand die de deur opendoet. Dit is de bijdrage die een editie daadwerkelijk mogelijk maakt.
+    </li>
+    <li>
+      <strong>Je mensen sturen — onder werktijd.</strong> De schaarste in deze regio is niet geld maar
+      tijd. Een avond vrijmaken, of het als werktijd rekenen, is een grotere bijdrage dan de meeste sponsorbedragen.
+      Het levert je ook meer op: mensen die vakgenoten spreken die niet bij jou werken.
+    </li>
+    <li>
+      <strong>Iemand een verhaal laten vertellen.</strong> Twaalf minuten over iets dat jullie gebouwd,
+      gerepareerd of verprutst hebben. Let op de volgorde: dit loopt via de
+      <a href={routePath('contribute', 'nl')}>open call</a>, op dezelfde voorwaarden als voor
+      iedereen. Een spreekplek is geen onderdeel van een sponsorafspraak en wordt dat ook niet.
+    </li>
+    <li>
+      <strong>Een demo laten zien.</strong> Iets werkends op tafel, waar mensen omheen kunnen staan en
+      vragen over kunnen stellen. Geen stand, geen flyers, geen badge-scanner.
+    </li>
+    <li>
+      <strong>Iets in natura leveren.</strong> Drukwerk, opnameapparatuur, een fotograaf, koffie, vervoer.
+      Zeg wat je toevallig al hebt liggen; dat is vaak precies wat ontbreekt.
+    </li>
+  </ol>
   <p>
-    Bouwt jouw bedrijf software in Twente en wil je er vanaf dag één bij staan? Mail <a
-      href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a
-    >.
+    Wil je een editie financieel steunen, dan kan dat, maar er staat hier geen tarievenlijst en geen
+    doneerknop. Dat is een gesprek per editie, en pas aan de orde als er iets te betalen valt dat
+    niet in natura kan. Wat er wel en niet betaald is, staat na afloop in het openbare verslag.
+  </p>
+
+  <h2>Wat je ervoor terugkrijgt</h2>
+  <ul>
+    <li>Vermelding met naam op de editiepagina en in de zaal, en dank in het verslag achteraf.</li>
+    <li>
+      Je mensen in een ruimte met vakgenoten uit andere organisaties en andere disciplines — de
+      ontmoeting die op een vakspecifieke meetup per definitie niet plaatsvindt.
+    </li>
+    <li>Een eerlijk beeld van wat er in de regio speelt, van de mensen die het werk zelf doen.</li>
+  </ul>
+
+  <h2>Wat je niet koopt</h2>
+  <p>
+    Dit lijstje staat er omdat het anders alsnog een keer gevraagd wordt, en dan liever vooraf
+    beantwoord dan halverwege een avond:
+  </p>
+  <ul>
+    <li><strong>Geen deelnemersgegevens.</strong> Niet de lijst, niet de badges, voor niemand.</li>
+    <li>
+      <strong>Geen spreektijd.</strong> Ook niet "kort even iets vertellen bij de opening".
+    </li>
+    <li>
+      <strong>Geen redactionele invloed</strong> op wat er op deze site of op het podium komt.
+    </li>
+    <li>
+      <strong>Geen exclusiviteit.</strong> Je bent niet de enige in je branche die mee mag doen, en dat
+      wordt ook nooit aangeboden.
+    </li>
+  </ul>
+  <p>
+    Dezelfde regels gelden voor de organisaties die het dichtst bij dit project staan — dat staat op
+    <a href={routePath('about', 'nl')}>over ons</a> met naam en toenaam. De volledige afspraak, inclusief
+    hoe we omgaan met de sponsoren van andere community's, staat op
+    <a href={routePath('partners', 'nl')}>partners</a>.
+  </p>
+
+  <h2>En de bedrijvengids?</h2>
+  <p>
+    Die is er niet, en dat is een keuze. Een gids met drie vermeldingen leest als een verlaten site,
+    en de vraag of twente.dev een bedrijvengids hoort te zijn is beter te beantwoorden ná de eerste
+    editie dan ervoor. Deze pagina gaat daarom over meedoen, niet over vermeld staan.
+  </p>
+
+  <h2>Beginnen</h2>
+  <p>
+    De snelste route is het formulier op <a href={routePath('contribute', 'nl')}>bijdragen</a> — daar
+    staat wat we van een zaal willen weten. Liever gewoon mailen? <a
+      href={`mailto:${CONTACT_EMAIL}?subject=Bedrijf%20wil%20bijdragen`}>{CONTACT_EMAIL}</a
+    >, één alinea is genoeg.
   </p>
 </ProsePage>

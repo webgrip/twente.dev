@@ -23,6 +23,9 @@ const ROUTE_KEYS = Object.keys(ROUTES) as [keyof typeof ROUTES, ...(keyof typeof
  *    language. Translations are sibling files linked by `translationKey`.
  *  - **Translatable fields** (`events`, `companies`, `communities`): an event
  *    is one event, not two — only its prose is bilingual.
+ *
+ * `communities` additionally carries a publication gate: an entry renders only
+ * once consent is recorded on it. See the `consent` field.
  */
 
 /** A value that must exist in every locale. Adding a locale changes this shape. */
@@ -218,6 +221,31 @@ const communities = defineCollection({
     platform: z.enum(['discord', 'slack', 'matrix', 'telegram', 'meetup', 'forum', 'other']),
     language: z.enum(['nl', 'en', 'both']),
     focus: z.array(z.string().min(1)).default([]),
+    /**
+     * Recorded consent to be listed, and the one thing that publishes an entry.
+     *
+     * The partner compact says it verbatim on a public page: *"We zetten je er
+     * niet op zonder te vragen."* A group being real, public and verified is
+     * therefore still not a publishable entry — someone has to have said yes.
+     * `getCommunities()` filters on this, so research can land in the file
+     * (and be reviewed, and be ready) long before the directory may show it.
+     *
+     * Defaulting to `false` is the load-bearing part: a new entry added by
+     * anyone, through any route, is invisible until consent is written down.
+     * `evidence` and `at` are required alongside `granted` so the claim can be
+     * checked later by someone who was not in the conversation.
+     */
+    consent: z
+      .object({
+        granted: z.boolean().default(false),
+        /** Who said yes, where — "reply from <name>, board@…" or "our own channel". */
+        evidence: z.string().min(1).optional(),
+        at: z.coerce.date().optional(),
+      })
+      .refine((c) => !c.granted || (Boolean(c.evidence) && c.at !== undefined), {
+        message: 'consent.granted requires consent.evidence and consent.at',
+      })
+      .default({ granted: false }),
   }),
 });
 

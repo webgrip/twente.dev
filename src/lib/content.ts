@@ -104,9 +104,33 @@ export async function getTranslation(
 
 /* ---- communities --------------------------------------------------------- */
 
+/**
+ * The communities the directory may show: those with recorded consent.
+ *
+ * The filter lives here rather than in the template so there is exactly one
+ * way to read this collection for display. `src/content/communities.yml` holds
+ * more groups than this returns, on purpose — see the `consent` field in
+ * `src/content.config.ts` and the promise it enforces.
+ */
 export async function getCommunities(): Promise<CommunityEntry[]> {
-  const communities = await getCollection('communities');
+  const communities = await getCollection('communities', (c) => c.data.consent.granted);
   return communities.sort((a, b) => a.data.name.localeCompare(b.data.name, 'nl'));
+}
+
+/**
+ * How many researched groups are waiting on consent. The directory says the
+ * number out loud instead of looking abandoned — an empty page with no
+ * explanation reads as neglect, and this one is empty by choice.
+ */
+export async function countCommunitiesAwaitingConsent(): Promise<number> {
+  const pending = await getCollection('communities', (c) => !c.data.consent.granted);
+  return pending.length;
+}
+
+/** Every `focus` value in use across the listed communities, sorted, deduped. */
+export function communityTopics(communities: CommunityEntry[]): string[] {
+  const topics = new Set(communities.flatMap((c) => c.data.focus));
+  return [...topics].sort((a, b) => a.localeCompare(b, 'nl'));
 }
 
 /* ---- misc ---------------------------------------------------------------- */

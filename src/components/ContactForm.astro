@@ -1,0 +1,177 @@
+---
+/**
+ * A structured contribution form that composes an e-mail.
+ *
+ * There is no backend and no third-party form service, so the form's job is to
+ * ask the right questions and hand a well-formed message to the visitor's own
+ * mail client. That keeps the submission private between two people, adds no
+ * processor to the privacy page, and needs no service to stay up.
+ *
+ * Why the two-state markup: the CSP sets `form-action 'self'`, so a
+ * `<form action="mailto:…">` is blocked outright — the composing has to happen
+ * in script. Rather than render inputs that silently drop what someone typed
+ * when the script has not run, the server renders the questions as a checklist
+ * beside a prefilled `mailto:` link, and the script swaps in the real form. So
+ * there is never a control on the page that does not do what it looks like it
+ * does, and the checklist is generated from the same field list as the inputs.
+ */
+interface Field {
+  name: string;
+  label: string;
+  type?: 'text' | 'email' | 'textarea';
+  required?: boolean;
+  placeholder?: string;
+}
+
+interface Props {
+  /** Unique per form on a page — ids and labels are derived from it. */
+  id: string;
+  to: string;
+  subject: string;
+  fields: Field[];
+  submitLabel: string;
+  /** CTA on the no-script path, e.g. "Mail ons". */
+  fallbackLabel: string;
+  /** Explains, in one line, that submitting opens the visitor's mail app. */
+  note: string;
+}
+
+const { id, to, subject, fields, submitLabel, fallbackLabel, note } = Astro.props;
+
+/** The no-script message body: the same questions, as a template to fill in. */
+const template = fields.map((field) => `${field.label}:`).join('\n\n');
+const fallbackHref = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(template)}`;
+---
+
+<div class="contact" data-contact>
+  <div data-nojs>
+    <ul class="checklist" role="list">
+      {fields.map((field) => <li>{field.label}</li>)}
+    </ul>
+    <a class="button" href={fallbackHref}>{fallbackLabel}</a>
+  </div>
+
+  <form hidden data-mailform data-to={to} data-subject={subject}>
+    {
+      fields.map((field) => (
+        <p class="field">
+          <label class="label-mono" for={`${id}-${field.name}`}>
+            {field.label}
+            {field.required && <span aria-hidden="true"> *</span>}
+          </label>
+          {field.type === 'textarea' ? (
+            <textarea
+              id={`${id}-${field.name}`}
+              name={field.name}
+              rows="4"
+              required={field.required}
+              placeholder={field.placeholder}
+              data-label={field.label}
+            />
+          ) : (
+            <input
+              id={`${id}-${field.name}`}
+              name={field.name}
+              type={field.type ?? 'text'}
+              required={field.required}
+              placeholder={field.placeholder}
+              data-label={field.label}
+            />
+          )}
+        </p>
+      ))
+    }
+    <p class="note">{note}</p>
+    <button class="button button--primary" type="submit">{submitLabel}</button>
+  </form>
+</div>
+
+<style>
+  .contact {
+    margin-block-start: var(--space-5);
+    padding: var(--space-5);
+    border: var(--border-width) solid var(--border-strong);
+    border-radius: var(--radius-md);
+    background: var(--bg-subtle);
+  }
+
+  .checklist {
+    display: grid;
+    gap: var(--space-2);
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--space-5);
+    color: var(--fg-muted);
+  }
+
+  .checklist li {
+    padding-inline-start: var(--space-4);
+    border-inline-start: 2px solid var(--border-strong);
+  }
+
+  .field {
+    display: grid;
+    gap: var(--space-2);
+    margin-block-end: var(--space-4);
+  }
+
+  .field label {
+    color: var(--fg-subtle);
+  }
+
+  .field input,
+  .field textarea {
+    width: 100%;
+    padding: var(--space-2) var(--space-3);
+    border: var(--border-width) solid var(--border-strong);
+    border-radius: var(--radius-md);
+    background: var(--bg);
+    color: var(--fg);
+    font-family: inherit;
+    line-height: var(--leading-normal);
+  }
+
+  .field input {
+    min-height: 2.75rem;
+  }
+
+  .field textarea {
+    resize: vertical;
+  }
+
+  .note {
+    color: var(--fg-subtle);
+    font-size: var(--text-sm);
+    margin-block-end: var(--space-4);
+  }
+</style>
+
+<script>
+  // Swap the checklist for the real form, then compose the message on submit.
+  for (const root of document.querySelectorAll<HTMLElement>('[data-contact]')) {
+    const form = root.querySelector<HTMLFormElement>('[data-mailform]');
+    const nojs = root.querySelector<HTMLElement>('[data-nojs]');
+    if (!form || !nojs) continue;
+
+    nojs.hidden = true;
+    form.hidden = false;
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      const controls = form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>(
+        '[data-label]',
+      );
+      const body = [...controls]
+        .map((control) => `${control.dataset.label}:\n${control.value.trim()}`)
+        .join('\n\n');
+
+      const to = form.dataset.to ?? '';
+      const subject = encodeURIComponent(form.dataset.subject ?? '');
+      // Long answers can push a mailto past what some clients accept; the
+      // fields are deliberately short-answer, and anything longer is better
+      // sent as a normal reply to the thread this starts.
+      window.location.href = `mailto:${to}?subject=${subject}&body=${encodeURIComponent(body)}`;
+    });
+  }
+</script>

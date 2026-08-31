@@ -1,22 +1,137 @@
 ---
 import ProsePage from '../../templates/ProsePage.astro';
-import { CONTACT_EMAIL, REPO_URL } from '../../config/site.ts';
+import ContactForm from '../../components/ContactForm.astro';
+import { routePath } from '../../i18n/routes.ts';
+import { CONTACT_EMAIL, PRETALX_CFP_URL, REPO_URL, editionName } from '../../config/site.ts';
+
+const edition = editionName('001');
 ---
 
 <ProsePage
   locale="en"
   routeKey="contribute"
   title="Contribute"
-  description="Contribution is how this community grows. We are still working out the full routes — email is always open."
+  description="Four routes: a story on stage, a room, a field note, or an event you know about. None of them costs money."
 >
   <p>
-    Contribution is how this community grows: a story, a demo, an introduction, a listed event, a
-    volunteer shift, a room. We are working out the routes right now; this page will grow with them.
+    This community is made of whatever people put into it. Below are the four routes that exist
+    today, and exactly what each one asks for. Not sure which is yours? Mail
+    <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a> — one sentence is plenty.
   </p>
+
+  <h2>Tell people something at {edition}</h2>
   <p>
-    Want to contribute something already? Email
-    <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a> — one sentence is enough to start the conversation.
-    Found something broken or wrong on the site?
-    <a href={REPO_URL}>Open an issue in the repository</a>.
+    The evening opens with two twelve-minute field reports: one concrete thing you built, fixed or
+    broke, and what you took away from it. No deck full of logos, no product pitch, no "the future
+    of". Speaking experience is not required — a real story about a real system is the only
+    criterion, and we will help you shape it.
+  </p>
+  <ul>
+    <li>Twelve minutes, plus questions. Dutch or English, either is fine.</li>
+    <li>The subject does not matter as long as you did the work yourself.</li>
+    <li>Who gets on stage is decided by the open call, on the same terms for everyone.</li>
+  </ul>
+  {
+    PRETALX_CFP_URL ? (
+      <p>
+        <a class="button button--primary" href={PRETALX_CFP_URL} rel="noopener">
+          Submit your talk
+        </a>
+      </p>
+    ) : (
+      <p>
+        The open call currently runs by e-mail: send three sentences on what it is about to{' '}
+        <a href={`mailto:${CONTACT_EMAIL}?subject=Open%20call%20${edition}`}>{CONTACT_EMAIL}</a>. If
+        there are more proposals than slots, the call moves to a public submission tool with
+        availability and review — it is ready, and it opens when it adds something.
+      </p>
+    )
+  }
+
+  <h2>Offer a room</h2>
+  <p>
+    An edition needs space for forty people, with food and drinks. That is the most valuable thing a
+    company can contribute and the first thing we ask for — in-kind support always comes before
+    money here. What you get for it, and what you explicitly do not buy, is on
+    <a href={routePath('companies', 'en')}>companies</a>.
+  </p>
+  <ContactForm
+    id="host"
+    to={CONTACT_EMAIL}
+    subject="Offering a room for a twente.dev edition"
+    submitLabel="Send"
+    fallbackLabel="Mail us"
+    note="Sending opens your own mail app with this message in it — nothing goes to an external service."
+    fields={[
+      { name: 'org', label: 'Organisation', required: true },
+      { name: 'contact', label: 'Name and e-mail address', required: true },
+      { name: 'city', label: 'Town in Twente', required: true },
+      { name: 'capacity', label: 'How many people fit, seated?', required: true },
+      {
+        name: 'offer',
+        label: 'What can you offer — room, food, both, something else?',
+        type: 'textarea',
+        required: true,
+      },
+      { name: 'when', label: 'Which months would suit you?', type: 'textarea' },
+    ]}
+  />
+
+  <h2>Write a field note</h2>
+  <p>
+    The weekly field note is one concrete lesson from a local system, written by someone who works
+    on it. Four to eight hundred words is enough. You do not have to be a blogger, and it does not
+    have to be finished when you propose it — we edit alongside you, and your name goes on it. After
+    that it lives in the <a href={routePath('blog', 'en')}>archive</a>, so it stays findable.
+  </p>
+  <ContactForm
+    id="fieldnote"
+    to={CONTACT_EMAIL}
+    subject="Proposing a field note"
+    submitLabel="Send"
+    fallbackLabel="Mail us"
+    note="Sending opens your own mail app with this message in it — nothing goes to an external service."
+    fields={[
+      { name: 'name', label: 'Name and e-mail address', required: true },
+      { name: 'subject', label: 'What is it about?', required: true },
+      {
+        name: 'lesson',
+        label: 'What is the lesson? One or two sentences is enough',
+        type: 'textarea',
+        required: true,
+      },
+      { name: 'language', label: 'Dutch or English?' },
+    ]}
+  />
+
+  <h2>List an event or a community</h2>
+  <p>
+    Everything on this site is a file in a public repository, so a submission is an issue or a pull
+    request. Pick whichever you find easier:
+  </p>
+  <ul>
+    <li>
+      <strong>An event</strong> — open to the public and relevant to developers.
+      <a href={`${REPO_URL}/issues/new/choose`}>Open the form</a>, or add the file yourself. It
+      appears in the calendar and the ICS feed straight away.
+    </li>
+    <li>
+      <strong>A community</strong> — Discord, Slack, user group or meetup. We do not list anyone without
+      asking, so preferably submit your own group;
+      <a href={routePath('communities', 'en')}>the directory</a> explains how that works.
+    </li>
+  </ul>
+  <p>
+    Found something broken or wrong? <a href={REPO_URL}>Open an issue</a>. The full step-by-step is
+    in <a href={`${REPO_URL}/src/branch/main/CONTRIBUTING.md`}>CONTRIBUTING</a>.
+  </p>
+
+  <h2>Supporting us</h2>
+  <p>
+    There is deliberately no donate button here. What we need is a room, food, people who turn up
+    and someone willing to tell a story — all of which can be offered above. If an organisation
+    wants to back an edition financially, that is a conversation rather than a rate card: mail
+    <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>. A payment route arrives only once there
+    is something to fund that cannot be given in kind, and it arrives with a public account of it.
   </p>
 </ProsePage>

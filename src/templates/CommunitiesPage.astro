@@ -1,0 +1,403 @@
+---
+import type { Locale } from '../i18n/config.ts';
+import { pick, useTranslations } from '../i18n/utils.ts';
+import { routePath } from '../i18n/routes.ts';
+import { CONTACT_EMAIL } from '../config/site.ts';
+import {
+  communityTopics,
+  countCommunitiesAwaitingConsent,
+  getCommunities,
+} from '../lib/content.ts';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Tag from '../components/Tag.astro';
+
+/**
+ * The regional directory: every group keeps its own identity, its own stage
+ * and its own list — this page only makes them easier to find and always links
+ * to the source.
+ *
+ * It shows *listed* communities, which is a narrower set than the ones we know
+ * about: `getCommunities()` returns only entries carrying recorded consent,
+ * because the partner compact promises in public that we ask before listing
+ * anyone. So the empty and near-empty states are first-class here rather than
+ * an afterthought — on the day this ships, being nearly empty is the honest
+ * result of that promise, and the page says so instead of looking abandoned.
+ */
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+
+const [communities, awaitingConsent] = await Promise.all([
+  getCommunities(),
+  countCommunitiesAwaitingConsent(),
+]);
+const topics = communityTopics(communities);
+
+const title = t('nav.communities');
+const description = t('communities.description');
+const mailSubject = encodeURIComponent(
+  locale === 'nl' ? 'Vermelding community twente.dev' : 'twente.dev community listing',
+);
+---
+
+<BaseLayout locale={locale} routeKey="communities" title={title} description={description}>
+  <div class="container">
+    <PageHeader
+      title={title}
+      description={description}
+      kicker={`twente.dev // ${title.toLowerCase()}`}
+    />
+
+    {
+      communities.length === 0 ? (
+        <section class="empty-state">
+          <h2>{t('communities.empty')}</h2>
+          <p>{t('communities.emptyBody')}</p>
+          {awaitingConsent > 0 && (
+            <p class="awaiting">
+              <span class="label-mono awaiting-count">{awaitingConsent}</span>
+              {t('communities.awaiting')}
+            </p>
+          )}
+          <p class="suggest">
+            {t('communities.suggest')}{' '}
+            <a href={`mailto:${CONTACT_EMAIL}?subject=${mailSubject}`}>{CONTACT_EMAIL}</a>
+          </p>
+        </section>
+      ) : (
+        <>
+          {/* Rendered hidden and revealed by the script below: without JS the
+               full list is already on the page, and a filter bar that cannot
+               filter is worse than none. */}
+          <form class="filters" data-filters hidden>
+            <div class="field">
+              <label class="label-mono" for="community-search">
+                {t('communities.searchLabel')}
+              </label>
+              <input
+                id="community-search"
+                type="search"
+                name="q"
+                autocomplete="off"
+                placeholder={t('communities.searchPlaceholder')}
+                data-search
+              />
+            </div>
+
+            {topics.length > 1 && (
+              <div class="field">
+                <label class="label-mono" for="community-topic">
+                  {t('communities.filterTopic')}
+                </label>
+                <select id="community-topic" name="topic" data-topic>
+                  <option value="">{t('communities.filterAll')}</option>
+                  {topics.map((topic) => (
+                    <option value={topic}>{topic}</option>
+                  ))}
+                </select>
+              </div>
+            )}
+
+            <p class="count label-mono" aria-live="polite">
+              <span data-count>{communities.length}</span>
+              {' / '}
+              {communities.length} {t('communities.results')}
+            </p>
+          </form>
+
+          <ul class="community-grid" role="list" data-list>
+            {communities.map((community) => (
+              <li
+                class="community"
+                data-community
+                data-topics={community.data.focus.join(' ')}
+                data-haystack={[
+                  community.data.name,
+                  community.data.platform,
+                  ...community.data.focus,
+                  pick(community.data.description, locale),
+                ]
+                  .join(' ')
+                  .toLowerCase()}
+              >
+                <h2 class="community-name">
+                  <a href={community.data.url} rel="noopener">
+                    {community.data.name}
+                  </a>
+                </h2>
+                <p class="community-desc">{pick(community.data.description, locale)}</p>
+                <ul class="community-tags" role="list">
+                  <li>
+                    <Tag>{community.data.platform}</Tag>
+                  </li>
+                  <li>
+                    <Tag variant="muted">
+                      {community.data.language === 'both'
+                        ? 'NL / EN'
+                        : community.data.language.toUpperCase()}
+                    </Tag>
+                  </li>
+                  {community.data.focus.slice(0, 3).map((topic) => (
+                    <li>
+                      <Tag>{topic}</Tag>
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            ))}
+          </ul>
+
+          <p class="no-results" data-empty hidden>
+            {t('communities.noResults')}
+          </p>
+
+          <p class="consent-note">{t('communities.consentNote')}</p>
+
+          {
+            /* A one-entry directory looks abandoned unless it says why it is
+               short. The count is the explanation, and it is the same honest
+               line the empty state carries. */
+            awaitingConsent > 0 && (
+              <p class="awaiting">
+                <span class="label-mono awaiting-count">{awaitingConsent}</span>
+                {t('communities.awaiting')}
+              </p>
+            )
+          }
+
+          <p class="suggest">
+            {t('communities.suggest')}{' '}
+            <a href={`mailto:${CONTACT_EMAIL}?subject=${mailSubject}`}>{CONTACT_EMAIL}</a>
+          </p>
+        </>
+      )
+    }
+
+    <p class="back-link">
+      <a href={routePath('partners', locale)}>{t('communities.terms')} →</a>
+    </p>
+  </div>
+</BaseLayout>
+
+<style>
+  .empty-state {
+    max-width: var(--width-prose);
+    padding: var(--space-6);
+    border: var(--border-width) solid var(--border-strong);
+    border-inline-start: 3px solid var(--accent);
+    border-radius: var(--radius-lg);
+    background: var(--bg-raised);
+  }
+
+  .empty-state h2 {
+    font-size: var(--text-xl);
+  }
+
+  .empty-state p {
+    color: var(--fg-muted);
+    margin-block-start: var(--space-3);
+  }
+
+  .awaiting {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-3);
+  }
+
+  .awaiting-count {
+    font-size: var(--text-2xl);
+    font-weight: 700;
+    color: var(--fg);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .filters {
+    display: grid;
+    gap: var(--space-4);
+    align-items: end;
+    margin-block-end: var(--space-6);
+    padding: var(--space-4) var(--space-5);
+    border: var(--border-width) solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--bg-subtle);
+  }
+
+  @media (min-width: 48rem) {
+    .filters {
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) auto;
+      gap: var(--space-5);
+    }
+  }
+
+  .field {
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  .field label {
+    color: var(--fg-subtle);
+  }
+
+  .field input,
+  .field select {
+    min-height: 2.75rem;
+    padding-inline: var(--space-3);
+    border: var(--border-width) solid var(--border-strong);
+    border-radius: var(--radius-md);
+    background: var(--bg);
+    color: var(--fg);
+  }
+
+  .count {
+    color: var(--fg-subtle);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  .community-grid {
+    display: grid;
+    gap: var(--space-4);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  @media (min-width: 48rem) {
+    .community-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 72rem) {
+    .community-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .community {
+    position: relative;
+    display: grid;
+    gap: var(--space-2);
+    align-content: start;
+    padding: var(--space-4) var(--space-5);
+    border: var(--border-width) solid var(--border);
+    border-inline-start: 3px solid var(--border-strong);
+    border-radius: var(--radius-md);
+    background: var(--bg-raised);
+  }
+
+  .community:hover {
+    border-block-color: var(--border-strong);
+    border-inline-end-color: var(--border-strong);
+  }
+
+  .community:focus-within {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 2px;
+  }
+
+  .community-name {
+    font-size: var(--text-lg);
+    margin: 0;
+  }
+
+  .community-name a {
+    color: var(--fg);
+    text-decoration: none;
+  }
+
+  .community-name a:hover {
+    color: var(--accent-strong);
+  }
+
+  /* Whole-card click target, without nesting the description inside the link. */
+  .community-name a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+  }
+
+  .community-name a:focus-visible {
+    outline: none;
+  }
+
+  .community-desc {
+    color: var(--fg-muted);
+    font-size: var(--text-sm);
+  }
+
+  .community-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    list-style: none;
+    padding: 0;
+    margin-block-start: var(--space-1);
+  }
+
+  .no-results {
+    color: var(--fg-muted);
+    padding-block: var(--space-6);
+  }
+
+  .consent-note,
+  .suggest {
+    color: var(--fg-subtle);
+    font-size: var(--text-sm);
+    margin-block-start: var(--space-5);
+  }
+
+  .back-link {
+    margin-block: var(--space-7) var(--space-8);
+    font-weight: 550;
+  }
+</style>
+
+<script>
+  // Progressive enhancement. The server renders every listed community and
+  // hides the filter bar; this reveals it and filters in place. Nothing here
+  // fetches, and nothing is lost when it does not run.
+  const form = document.querySelector<HTMLFormElement>('[data-filters]');
+  const list = document.querySelector<HTMLElement>('[data-list]');
+
+  if (form && list) {
+    const search = form.querySelector<HTMLInputElement>('[data-search]');
+    const topic = form.querySelector<HTMLSelectElement>('[data-topic]');
+    const count = form.querySelector<HTMLElement>('[data-count]');
+    const empty = document.querySelector<HTMLElement>('[data-empty]');
+    const items = [...list.querySelectorAll<HTMLElement>('[data-community]')];
+
+    form.hidden = false;
+
+    // The form has no action: submitting it (Enter in the search field) would
+    // reload the page and throw the filter away.
+    form.addEventListener('submit', (event) => event.preventDefault());
+
+    const apply = (): void => {
+      const q = (search?.value ?? '').trim().toLowerCase();
+      const wanted = topic?.value ?? '';
+      let shown = 0;
+
+      for (const item of items) {
+        const haystack = item.dataset.haystack ?? '';
+        const topics = (item.dataset.topics ?? '').split(' ');
+        const match =
+          (q === '' || haystack.includes(q)) && (wanted === '' || topics.includes(wanted));
+        item.hidden = !match;
+        if (match) shown += 1;
+      }
+
+      if (count) count.textContent = String(shown);
+      if (empty) empty.hidden = shown !== 0;
+    };
+
+    search?.addEventListener('input', apply);
+    topic?.addEventListener('change', apply);
+    apply();
+  }
+</script>

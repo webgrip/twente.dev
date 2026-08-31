@@ -8,8 +8,9 @@
  *
  * External services arrive on the campaign timeline, not all at once:
  * registration (e-mail RSVP) opens 2 September, the newsletter (Brevo) starts
- * with the first field note. Until a URL is filled in, components render
- * their honest pre-launch state instead of a dead link.
+ * with the first field note, the pretalx call opens when there is a programme
+ * to fill. Until a URL is filled in, components render their honest pre-launch
+ * state instead of a dead link.
  */
 
 export const CONTACT_EMAIL = 'hello@twente.dev';
@@ -28,6 +29,25 @@ export const REGISTRATION_URL: string | null = null;
 
 /** Brevo double-opt-in form URL. null = newsletter not yet live. */
 export const NEWSLETTER_URL: string | null = null;
+
+/**
+ * Pretalx call-for-participation URL for the current edition.
+ * null = the call is not open yet, and /bijdragen says so instead of linking
+ * into a 404.
+ *
+ * Chosen over a home-grown form (2026-08-31): a talk submission needs speaker
+ * details, a bio, a length and — the part a mail thread handles worst —
+ * availability, and it needs to stay reviewable when there are more proposals
+ * than slots. pretalx is the EU conference scene's default, GDPR-native, and
+ * hosted pretalx.com is free until the event is made public, with a community
+ * discount of up to 25% for volunteer-run non-profit events (which /001 is).
+ * Self-hosting is possible and deliberately not done: this is one evening a
+ * quarter, and an extra service to operate would cost more than the licence.
+ *
+ * Filling this in requires creating the event on pretalx.com and opening the
+ * CfP; until then the open call runs by e-mail, which is honest at two slots.
+ */
+export const PRETALX_CFP_URL: string | null = null;
 
 /**
  * Cloudflare Web Analytics token (ADR-0006). null = no beacon rendered.

@@ -40,6 +40,12 @@ oktober 2026); /002 is woensdag 4 november 2026, /003 woensdag 2 december 2026.
 | T+3 dagen      | Bedankmail sprekers met wat de zaal zei; opname + slides naar het archief                                                                                                    |               |
 | T+10 werkdagen | Openbaar verslag, inclusief wat niet werkte (site-belofte, tracker-milestone)                                                                                                |               |
 
+Banners en announce-graphics horen bij dit ritme: werk bij T−8 (datum + stad
+vast) het `EDITIE`-blok in `docs/brand/templates/banners.html` bij en exporteer
+de generieke set; het announce-statusbord met beide sprekers volgt bij T−4.
+Volledige procedure, inclusief het chassis-plus-wisselstuk-principe voor een
+unieke graphic per editie: [runbooks/editie-banners.md](runbooks/editie-banners.md).
+
 ## Venue regelen
 
 Waar je op let voordat je een zaal toezegt — geleerd van de /001-onderhandeling met Code14

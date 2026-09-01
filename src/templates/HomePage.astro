@@ -113,34 +113,44 @@ const bands = [
     <section class="feature" aria-labelledby="feature-title">
       <p class="label-mono feature-kicker">{t('home.next.kicker')}</p>
       <div class="feature-grid">
-        <div>
+        <div class="feature-main">
           <h2 id="feature-title">{edition}</h2>
           {
             /* Separators are explicit strings: Astro collapses the whitespace
               around expression boundaries, which rendered "Locatie volgt ·Gratis". */
           }
-          <p class="feature-facts label-mono">
+          <p class="feature-when">
             <time datetime={EDITION_001.doors.toISOString()}>
               {formatDate(EDITION_001.doors, locale)}
             </time>
-            {' · 18:00–21:30 · '}{EDITION_001.city}{' · '}{
-              EDITION_001.venue ?? t('edition.venueTba')
-            }{' · '}{t('edition.free')}
+            {' · 18:00–21:30'}
+          </p>
+          <p class="feature-where">
+            {EDITION_001.venue ?? t('edition.venueTba')}{' · '}{EDITION_001.city}{' · '}{
+              t('edition.free')
+            }
           </p>
           <p class="feature-language">{t('edition.language')}</p>
         </div>
 
         <div class="feature-panel">
           <p class="feature-registration">
-            {t('edition.registrationOpens')}{' '}
-            <strong>
-              <time datetime={REGISTRATION_OPENS.toISOString()}>
-                {formatDate(REGISTRATION_OPENS, locale)}
-              </time>
-            </strong>
+            <span class="label-mono feature-registration-label">
+              {t('edition.registrationOpens')}
+            </span>
+            <time class="feature-registration-date" datetime={REGISTRATION_OPENS.toISOString()}>
+              {formatDate(REGISTRATION_OPENS, locale)}
+            </time>
           </p>
+          {
+            /* The hero already carries the edition's full name one screen up,
+               and the heading beside this button repeats it — so the button
+               says what it does. The long label also wrapped mid-word inside
+               the panel, which is what a 25-character mono uppercase CTA does
+               in a column narrower than itself. */
+          }
           <a class="button button--primary" href={routePath('edition001', locale)}>
-            {REGISTRATION_URL ? t('home.hero.ctaReserve') : t('edition.details')}
+            {REGISTRATION_URL ? t('home.hero.ctaReserve') : t('home.next.cta')}
           </a>
         </div>
       </div>
@@ -367,67 +377,111 @@ const bands = [
 
   /* --- the next edition, once, at full width ------------------------------ */
 
+  /* A ticket, not a paragraph that happens to sit in a box: the kicker rules
+     off a header band, and the registration column is a column of the same
+     record — it used to be a bordered, differently-coloured card nested
+     inside this one, three rectangles deep with a full-bleed red bar at the
+     bottom of it. */
   .feature {
     position: relative;
     margin-block-start: var(--space-7);
-    padding: var(--space-5) var(--space-5) var(--space-5) var(--space-6);
+    padding: var(--space-5);
     border: var(--border-width) solid var(--border-strong);
     border-inline-start: 3px solid var(--accent);
     border-radius: var(--radius-lg);
     background: var(--bg-raised);
   }
 
+  @media (min-width: 48rem) {
+    .feature {
+      padding: var(--space-5) var(--space-6);
+    }
+  }
+
   .feature-kicker {
     color: var(--fg-subtle);
+    padding-block-end: var(--space-4);
+    border-block-end: var(--border-width) solid var(--border);
   }
 
   .feature-grid {
     display: grid;
     gap: var(--space-5);
-    margin-block-start: var(--space-2);
+    padding-block-start: var(--space-5);
   }
 
   /* The panel stops the block ending in a dead right column at desktop width,
-     which is what the single centred card did before. */
-  @media (min-width: 56rem) {
+     which is what the single centred card did before. 64rem, not 56rem: below
+     it the two columns each get too little width to set their own type, and
+     the CTA is the thing that pays for it. */
+  @media (min-width: 64rem) {
     .feature-grid {
-      grid-template-columns: minmax(0, 1fr) minmax(0, 18rem);
+      grid-template-columns: minmax(0, 1fr) minmax(0, 20rem);
       align-items: start;
-      gap: var(--space-7);
+      gap: var(--space-6);
+    }
+
+    /* One hairline instead of a box. Stretched, so the rule spans the whole
+       record rather than stopping under the button. */
+    .feature-panel {
+      align-self: stretch;
+      padding-block-start: 0;
+      border-block-start: 0;
+      padding-inline-start: var(--space-6);
+      border-inline-start: var(--border-width) solid var(--border);
     }
   }
 
-  .feature h2 {
-    font-size: var(--text-2xl);
-    margin-block-end: var(--space-3);
+  /* Date and time carry this block, so they sit in the ink ramp at reading
+     size. All six facts used to run together in one uppercase mono line at
+     label size and label colour, which reads as fine print — not as the one
+     thing a visitor came to find. */
+  .feature-when {
+    margin-block-start: var(--space-3);
+    font-family: var(--font-mono);
+    font-size: var(--text-base);
+    font-weight: var(--weight-medium);
+    font-variant-numeric: tabular-nums;
   }
 
-  .feature-facts {
+  .feature-where {
+    margin-block-start: var(--space-1);
     color: var(--fg-muted);
   }
 
   .feature-language {
-    color: var(--fg-muted);
-    margin-block-start: var(--space-2);
-  }
-
-  .feature-panel {
-    display: grid;
-    gap: var(--space-3);
-    justify-items: start;
-    padding: var(--space-4);
-    border: var(--border-width) solid var(--border);
-    border-radius: var(--radius-md);
-    background: var(--bg);
-  }
-
-  .feature-registration {
-    color: var(--fg-muted);
+    margin-block-start: var(--space-3);
+    color: var(--fg-subtle);
     font-size: var(--text-sm);
   }
 
-  .feature-registration strong {
-    color: var(--fg);
+  /* Stacked, the same hairline runs across instead of down — the ticket keeps
+     its stub at every width. */
+  .feature-panel {
+    display: grid;
+    gap: var(--space-4);
+    justify-items: start;
+    align-content: start;
+    padding-block-start: var(--space-5);
+    border-block-start: var(--border-width) solid var(--border);
+  }
+
+  /* Label above value, not a sentence around a bold fragment: at panel width
+     "Aanmelden opent 2 september 2026" broke after the "2", orphaning the day
+     from its month. */
+  .feature-registration {
+    display: grid;
+    gap: var(--space-1);
+  }
+
+  .feature-registration-label {
+    color: var(--fg-subtle);
+  }
+
+  .feature-registration-date {
+    font-size: var(--text-lg);
+    font-weight: var(--weight-semibold);
+    font-variant-numeric: tabular-nums;
   }
 
   /* --- the three bands ---------------------------------------------------- */

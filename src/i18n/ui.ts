@@ -60,6 +60,7 @@ export const nl = {
   'home.does.archive.body':
     'Field notes uit de praktijk, geschreven door mensen die hier werken. Wat verteld is blijft staan en blijft vindbaar.',
   'home.next.kicker': 'Binnenkort',
+  'home.next.cta': 'Alles over de avond',
   'home.what.title': 'Wat is twente.dev?',
   'home.what.body':
     'twente.dev is een onafhankelijke, practitioner-led techcommunity voor Twente. We maken lokale mensen, events en praktijkkennis beter vindbaar — en brengen een paar keer per jaar disciplines en organisaties doelgericht bij elkaar.',
@@ -210,6 +211,7 @@ export const en: Record<UIKey, string> = {
   'home.does.archive.body':
     'Field notes from practice, written by people who work here. What gets told stays up, and stays findable.',
   'home.next.kicker': 'Next up',
+  'home.next.cta': 'All about the evening',
   'home.what.title': 'What is twente.dev?',
   'home.what.body':
     'twente.dev is an independent, practitioner-led technology community for Twente. We make local people, events and practical knowledge easier to find — and we bring different disciplines together a few times a year.',

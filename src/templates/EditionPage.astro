@@ -5,9 +5,17 @@ import { TIMEZONE } from '../i18n/config.ts';
 import type { Locale } from '../i18n/config.ts';
 import { formatDate, useTranslations } from '../i18n/utils.ts';
 import { routePath } from '../i18n/routes.ts';
-import { EDITION_001, REGISTRATION_OPENS, REGISTRATION_URL, editionName } from '../config/site.ts';
+import {
+  EDITION_001,
+  EDITION_001_SPEAKERS,
+  REGISTRATION_OPENS,
+  REGISTRATION_URL,
+  editionName,
+} from '../config/site.ts';
 import { eventSchema } from '../lib/jsonld.ts';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import NewsletterForm from '../components/NewsletterForm.astro';
+import Tabs from '../components/Tabs.astro';
 
 /**
  * twente.dev/001 — Reconnect. The flagship edition's canonical page.
@@ -41,6 +49,16 @@ interface Copy {
   isList: string[];
   isNotTitle: string;
   isNotList: string[];
+  speakersTitle: string;
+  speakersTba: string;
+  speakersTbaBody: string;
+  speakersTbaCta: string;
+  actionsTitle: string;
+  tabReserve: string;
+  tabUpdates: string;
+  tabContribute: string;
+  updatesTitle: string;
+  updatesBody: string;
   registrationTitle: string;
   registrationOpens: string;
   registrationCta: string;
@@ -114,6 +132,18 @@ const COPY: Record<Locale, Copy> = {
       'A replacement for existing meetups',
       'A closed executive network',
     ],
+    speakersTitle: 'Who is speaking',
+    speakersTba: 'Speakers to be announced',
+    speakersTbaBody:
+      'Both field-report slots are still open. The call is running, speakers are picked editorially and no one can buy stage time — so names go up once they are confirmed, and not a day earlier. What is already fixed: twelve minutes each, about something the speaker built, fixed or broke themselves.',
+    speakersTbaCta: 'Get an email when the programme is set',
+    actionsTitle: 'Take part',
+    tabReserve: 'Reserve',
+    tabUpdates: 'Updates',
+    tabContribute: 'Contribute',
+    updatesTitle: 'Stay in the loop',
+    updatesBody:
+      'One email when the programme is announced, one when registration opens, and the field note after that — one concrete lesson from a local system, written by someone who works here. No weekly bulletin about nothing having happened.',
     registrationTitle: 'Reserve a place',
     registrationOpens: 'Registration opens',
     registrationCta: 'Reserve a place',
@@ -202,6 +232,18 @@ const COPY: Record<Locale, Copy> = {
       'Een vervanging van bestaande meetups',
       'Een besloten netwerk voor managers',
     ],
+    speakersTitle: 'Wie er spreken',
+    speakersTba: 'Sprekers worden nog aangekondigd',
+    speakersTbaBody:
+      'Beide plekken voor een field report staan nog open. De open call loopt, sprekers kiezen we redactioneel en spreektijd is niet te koop — dus de namen komen erbij zodra ze bevestigd zijn, geen dag eerder. Wat wel al vaststaat: twaalf minuten per verhaal, over iets wat de spreker zelf heeft gebouwd, gerepareerd of verprutst.',
+    speakersTbaCta: 'Laat je mailen zodra het programma rond is',
+    actionsTitle: 'Meedoen',
+    tabReserve: 'Reserveren',
+    tabUpdates: 'Updates',
+    tabContribute: 'Bijdragen',
+    updatesTitle: 'Blijf op de hoogte',
+    updatesBody:
+      'Eén mail zodra het programma bekend is, één zodra aanmelden opent, en daarna de field note — één concrete les uit een lokaal systeem, geschreven door iemand die hier werkt. Geen wekelijks bulletin over wat er niet gebeurd is.',
     registrationTitle: 'Reserveer een plek',
     registrationOpens: 'Aanmelden opent',
     registrationCta: 'Reserveer een plek',
@@ -252,6 +294,8 @@ const entry = await getEntry('events', 'twente-dev-001-reconnect');
 const jsonLd = entry ? [eventSchema(entry, locale)] : [];
 
 const registrationOpen = REGISTRATION_URL !== null;
+/** Empty until the open call has produced two confirmed speakers. */
+const speakers = EDITION_001_SPEAKERS;
 ---
 
 <BaseLayout
@@ -320,29 +364,92 @@ const registrationOpen = REGISTRATION_URL !== null;
       </ul>
     </header>
 
+    {
+      /* Reserving, following along and speaking are three doors, not three
+         steps — so they are tabs. Stacked, the contribution route sat two
+         screens below the fold and the updates prompt did not exist at all.
+         Panel ids are the deep link (`/nl/001#updates`), so they stay stable
+         and locale-neutral: a hash is not a route and is never translated. */
+    }
     <section class="edition-section">
-      <h2>{c.registrationTitle}</h2>
-      {
-        registrationOpen ? (
+      <h2>{c.actionsTitle}</h2>
+      <Tabs
+        id="take-part"
+        label={c.actionsTitle}
+        tabs={[
+          { id: 'reserve', label: c.tabReserve },
+          { id: 'updates', label: c.tabUpdates },
+          { id: 'contribute', label: c.tabContribute },
+        ]}
+      >
+        <div id="reserve" data-tabs-panel>
+          <h3 data-tabs-heading>{c.registrationTitle}</h3>
+          {
+            registrationOpen ? (
+              <p>
+                <a class="button button--primary" href={REGISTRATION_URL}>
+                  {c.registrationCta}
+                </a>
+              </p>
+            ) : (
+              /* Links to the events page, not /events.ics: see Footer.astro. */
+              <p class="registration-opens">
+                {c.registrationOpens}{' '}
+                <strong>
+                  <time datetime={REGISTRATION_OPENS.toISOString()}>
+                    {formatDate(REGISTRATION_OPENS, locale)}
+                  </time>
+                </strong>
+                . <a href={routePath('events', locale)}>{c.registrationCalendarHint}</a>
+              </p>
+            )
+          }
+          <p class="consent-note">{c.registrationConsentNote}</p>
+        </div>
+
+        <div id="updates" data-tabs-panel>
+          <h3 data-tabs-heading>{c.updatesTitle}</h3>
+          <p>{c.updatesBody}</p>
+          <NewsletterForm locale={locale} id="edition-updates" />
+        </div>
+
+        <div id="contribute" data-tabs-panel>
+          <h3 data-tabs-heading>{c.openCallTitle}</h3>
+          <p>{c.openCallBody}</p>
           <p>
-            <a class="button button--primary" href={REGISTRATION_URL}>
-              {c.registrationCta}
+            <a class="button" href={routePath('contribute', locale)}>
+              {c.openCallCta}
             </a>
           </p>
+        </div>
+      </Tabs>
+    </section>
+
+    <section class="edition-section">
+      <h2>{c.speakersTitle}</h2>
+      {
+        speakers.length === 0 ? (
+          <div class="speakers-tba">
+            <p class="label-mono speakers-badge">{c.speakersTba}</p>
+            <p>{c.speakersTbaBody}</p>
+            <p>
+              <a class="button" href="#updates">
+                {c.speakersTbaCta}
+              </a>
+            </p>
+          </div>
         ) : (
-          /* Links to the events page, not /events.ics: see Footer.astro. */
-          <p class="registration-opens">
-            {c.registrationOpens}{' '}
-            <strong>
-              <time datetime={REGISTRATION_OPENS.toISOString()}>
-                {formatDate(REGISTRATION_OPENS, locale)}
-              </time>
-            </strong>
-            . <a href={routePath('events', locale)}>{c.registrationCalendarHint}</a>
-          </p>
+          <ul class="speakers" role="list">
+            {speakers.map((speaker) => (
+              <li>
+                <p class="speaker-name">{speaker.name}</p>
+                {speaker.affiliation && <p class="speaker-affiliation">{speaker.affiliation}</p>}
+                {speaker.talk && <p class="speaker-talk">{speaker.talk[locale]}</p>}
+              </li>
+            ))}
+          </ul>
         )
       }
-      <p class="consent-note">{c.registrationConsentNote}</p>
     </section>
 
     <section class="edition-section">
@@ -374,14 +481,6 @@ const registrationOpen = REGISTRATION_URL !== null;
           <ul>{c.isNotList.map((item) => <li>{item}</li>)}</ul>
         </div>
       </div>
-    </section>
-
-    <section class="edition-section">
-      <h2>{c.openCallTitle}</h2>
-      <p>{c.openCallBody}</p>
-      <p>
-        <a class="button" href={routePath('contribute', locale)}>{c.openCallCta}</a>
-      </p>
     </section>
 
     <section class="edition-section">
@@ -568,6 +667,48 @@ const registrationOpen = REGISTRATION_URL !== null;
 
   .registration-opens {
     font-size: var(--text-lg);
+  }
+
+  .speakers-tba {
+    padding: var(--space-5);
+    border: var(--border-width) dashed var(--border-strong);
+    border-radius: var(--radius-lg);
+    background: var(--bg-subtle);
+  }
+
+  /* Dashed frame plus a stated label: "to be announced" is a fact about the
+     programme, not a placeholder someone forgot to fill in. */
+  .speakers-badge {
+    color: var(--accent-strong);
+    margin-block-end: var(--space-3);
+  }
+
+  .speakers-tba p:last-child {
+    margin-block-end: 0;
+  }
+
+  .speakers {
+    display: grid;
+    gap: var(--space-4);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .speaker-name {
+    font-weight: var(--weight-semibold);
+    margin: 0;
+  }
+
+  .speaker-affiliation {
+    color: var(--fg-subtle);
+    font-size: var(--text-sm);
+    margin: 0;
+  }
+
+  .speaker-talk {
+    color: var(--fg-muted);
+    margin-block: var(--space-1) 0;
   }
 
   .consent-note {

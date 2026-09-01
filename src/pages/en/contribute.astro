@@ -1,6 +1,8 @@
 ---
 import ProsePage from '../../templates/ProsePage.astro';
 import ContactForm from '../../components/ContactForm.astro';
+import NewsletterForm from '../../components/NewsletterForm.astro';
+import Tabs from '../../components/Tabs.astro';
 import { routePath } from '../../i18n/routes.ts';
 import { CONTACT_EMAIL, PRETALX_CFP_URL, REPO_URL, editionName } from '../../config/site.ts';
 
@@ -19,112 +21,146 @@ const edition = editionName('001');
     <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a> — one sentence is plenty.
   </p>
 
-  <h2>Tell people something at {edition}</h2>
-  <p>
-    The evening opens with two twelve-minute field reports: one concrete thing you built, fixed or
-    broke, and what you took away from it. No deck full of logos, no product pitch, no "the future
-    of". Speaking experience is not required — a real story about a real system is the only
-    criterion, and we will help you shape it.
-  </p>
-  <ul>
-    <li>Twelve minutes, plus questions. Dutch or English, either is fine.</li>
-    <li>The subject does not matter as long as you did the work yourself.</li>
-    <li>Who gets on stage is decided by the open call, on the same terms for everyone.</li>
-  </ul>
   {
-    PRETALX_CFP_URL ? (
-      <p>
-        <a class="button button--primary" href={PRETALX_CFP_URL} rel="noopener">
-          Submit your talk
-        </a>
-      </p>
-    ) : (
-      <p>
-        The open call currently runs by e-mail: send three sentences on what it is about to{' '}
-        <a href={`mailto:${CONTACT_EMAIL}?subject=Open%20call%20${edition}`}>{CONTACT_EMAIL}</a>. If
-        there are more proposals than slots, the call moves to a public submission tool with
-        availability and review — it is ready, and it opens when it adds something.
-      </p>
-    )
+    /* Four alternatives, not a sequence — so, tabs. Stacked, the event
+       submission sat three screens below the fold, and nobody had to read the
+       three routes above it to get there. Panel ids match the Dutch page: a
+       hash is not a route, so it is not translated. */
   }
-
-  <h2>Offer a room</h2>
-  <p>
-    An edition needs space for forty people, with food and drinks. That is the most valuable thing a
-    company can contribute and the first thing we ask for — in-kind support always comes before
-    money here. What you get for it, and what you explicitly do not buy, is on
-    <a href={routePath('companies', 'en')}>companies</a>.
-  </p>
-  <ContactForm
-    id="host"
-    to={CONTACT_EMAIL}
-    subject="Offering a room for a twente.dev edition"
-    submitLabel="Send"
-    fallbackLabel="Mail us"
-    note="Sending opens your own mail app with this message in it — nothing goes to an external service."
-    fields={[
-      { name: 'org', label: 'Organisation', required: true },
-      { name: 'contact', label: 'Name and e-mail address', required: true },
-      { name: 'city', label: 'Town in Twente', required: true },
-      { name: 'capacity', label: 'How many people fit, seated?', required: true },
-      {
-        name: 'offer',
-        label: 'What can you offer — room, food, both, something else?',
-        type: 'textarea',
-        required: true,
-      },
-      { name: 'when', label: 'Which months would suit you?', type: 'textarea' },
+  <Tabs
+    id="routes"
+    label="Ways to contribute"
+    tabs={[
+      { id: 'speak', label: 'Speak' },
+      { id: 'venue', label: 'Offer a room' },
+      { id: 'fieldnote', label: 'Field note' },
+      { id: 'listing', label: 'List an event' },
     ]}
-  />
-
-  <h2>Write a field note</h2>
-  <p>
-    The weekly field note is one concrete lesson from a local system, written by someone who works
-    on it. Four to eight hundred words is enough. You do not have to be a blogger, and it does not
-    have to be finished when you propose it — we edit alongside you, and your name goes on it. After
-    that it lives in the <a href={routePath('blog', 'en')}>archive</a>, so it stays findable.
-  </p>
-  <ContactForm
-    id="fieldnote"
-    to={CONTACT_EMAIL}
-    subject="Proposing a field note"
-    submitLabel="Send"
-    fallbackLabel="Mail us"
-    note="Sending opens your own mail app with this message in it — nothing goes to an external service."
-    fields={[
-      { name: 'name', label: 'Name and e-mail address', required: true },
-      { name: 'subject', label: 'What is it about?', required: true },
+  >
+    <div id="speak" data-tabs-panel>
+      <h2 data-tabs-heading>Tell people something at {edition}</h2>
+      <p>
+        The evening opens with two twelve-minute field reports: one concrete thing you built, fixed
+        or broke, and what you took away from it. No deck full of logos, no product pitch, no "the
+        future of". Speaking experience is not required — a real story about a real system is the
+        only criterion, and we will help you shape it.
+      </p>
+      <ul>
+        <li>Twelve minutes, plus questions. Dutch or English, either is fine.</li>
+        <li>The subject does not matter as long as you did the work yourself.</li>
+        <li>Who gets on stage is decided by the open call, on the same terms for everyone.</li>
+      </ul>
       {
-        name: 'lesson',
-        label: 'What is the lesson? One or two sentences is enough',
-        type: 'textarea',
-        required: true,
-      },
-      { name: 'language', label: 'Dutch or English?' },
-    ]}
-  />
+        PRETALX_CFP_URL ? (
+          <p>
+            <a class="button button--primary" href={PRETALX_CFP_URL} rel="noopener">
+              Submit your talk
+            </a>
+          </p>
+        ) : (
+          <p>
+            The open call currently runs by e-mail: send three sentences on what it is about to{' '}
+            <a href={`mailto:${CONTACT_EMAIL}?subject=Open%20call%20${edition}`}>{CONTACT_EMAIL}</a>
+            . If there are more proposals than slots, the call moves to a public submission tool
+            with availability and review — it is ready, and it opens when it adds something.
+          </p>
+        )
+      }
+    </div>
 
-  <h2>List an event or a community</h2>
+    <div id="venue" data-tabs-panel>
+      <h2 data-tabs-heading>Offer a room</h2>
+      <p>
+        An edition needs space for forty people, with food and drinks. That is the most valuable
+        thing a company can contribute and the first thing we ask for — in-kind support always comes
+        before money here. What you get for it, and what you explicitly do not buy, is on
+        <a href={routePath('companies', 'en')}>companies</a>.
+      </p>
+      <ContactForm
+        id="host"
+        to={CONTACT_EMAIL}
+        subject="Offering a room for a twente.dev edition"
+        submitLabel="Send"
+        fallbackLabel="Mail us"
+        note="Sending opens your own mail app with this message in it — nothing goes to an external service."
+        fields={[
+          { name: 'org', label: 'Organisation', required: true },
+          { name: 'contact', label: 'Name and e-mail address', required: true },
+          { name: 'city', label: 'Town in Twente', required: true },
+          { name: 'capacity', label: 'How many people fit, seated?', required: true },
+          {
+            name: 'offer',
+            label: 'What can you offer — room, food, both, something else?',
+            type: 'textarea',
+            required: true,
+          },
+          { name: 'when', label: 'Which months would suit you?', type: 'textarea' },
+        ]}
+      />
+    </div>
+
+    <div id="fieldnote" data-tabs-panel>
+      <h2 data-tabs-heading>Write a field note</h2>
+      <p>
+        The weekly field note is one concrete lesson from a local system, written by someone who
+        works on it. Four to eight hundred words is enough. You do not have to be a blogger, and it
+        does not have to be finished when you propose it — we edit alongside you, and your name goes
+        on it. After that it lives in the <a href={routePath('blog', 'en')}>archive</a>, so it stays
+        findable.
+      </p>
+      <ContactForm
+        id="fieldnote-form"
+        to={CONTACT_EMAIL}
+        subject="Proposing a field note"
+        submitLabel="Send"
+        fallbackLabel="Mail us"
+        note="Sending opens your own mail app with this message in it — nothing goes to an external service."
+        fields={[
+          { name: 'name', label: 'Name and e-mail address', required: true },
+          { name: 'subject', label: 'What is it about?', required: true },
+          {
+            name: 'lesson',
+            label: 'What is the lesson? One or two sentences is enough',
+            type: 'textarea',
+            required: true,
+          },
+          { name: 'language', label: 'Dutch or English?' },
+        ]}
+      />
+    </div>
+
+    <div id="listing" data-tabs-panel>
+      <h2 data-tabs-heading>List an event or a community</h2>
+      <p>
+        Everything on this site is a file in a public repository, so a submission is an issue or a
+        pull request. Pick whichever you find easier:
+      </p>
+      <ul>
+        <li>
+          <strong>An event</strong> — open to the public and relevant to developers.
+          <a href={`${REPO_URL}/issues/new/choose`}>Open the form</a>, or add the file yourself. It
+          appears in the calendar and the ICS feed straight away.
+        </li>
+        <li>
+          <strong>A community</strong> — Discord, Slack, user group or meetup. We do not list anyone without
+          asking, so preferably submit your own group;
+          <a href={routePath('communities', 'en')}>the directory</a> explains how that works.
+        </li>
+      </ul>
+      <p>
+        Found something broken or wrong? <a href={REPO_URL}>Open an issue</a>. The full step-by-step
+        is in <a href={`${REPO_URL}/src/branch/main/CONTRIBUTING.md`}>CONTRIBUTING</a>.
+      </p>
+    </div>
+  </Tabs>
+
+  <h2>Stay in the loop</h2>
   <p>
-    Everything on this site is a file in a public repository, so a submission is an issue or a pull
-    request. Pick whichever you find easier:
+    Contributing does not have to start today. One email when the {edition} programme is set, one when
+    registration opens, and the field note after that — so you can see the kind of story that lands here
+    before you send one in yourself.
   </p>
-  <ul>
-    <li>
-      <strong>An event</strong> — open to the public and relevant to developers.
-      <a href={`${REPO_URL}/issues/new/choose`}>Open the form</a>, or add the file yourself. It
-      appears in the calendar and the ICS feed straight away.
-    </li>
-    <li>
-      <strong>A community</strong> — Discord, Slack, user group or meetup. We do not list anyone without
-      asking, so preferably submit your own group;
-      <a href={routePath('communities', 'en')}>the directory</a> explains how that works.
-    </li>
-  </ul>
-  <p>
-    Found something broken or wrong? <a href={REPO_URL}>Open an issue</a>. The full step-by-step is
-    in <a href={`${REPO_URL}/src/branch/main/CONTRIBUTING.md`}>CONTRIBUTING</a>.
-  </p>
+  <NewsletterForm locale="en" id="contribute-updates" />
 
   <h2>Supporting us</h2>
   <p>

@@ -1,0 +1,139 @@
+---
+import type { Locale } from '../i18n/config.ts';
+import { useTranslations } from '../i18n/utils.ts';
+import { routePath } from '../i18n/routes.ts';
+import { CONTACT_EMAIL, NEWSLETTER_FORM_ACTION, NEWSLETTER_FORM_FIELDS } from '../config/site.ts';
+
+/**
+ * Subscribe to the field note and the edition updates.
+ *
+ * The input is on twente.dev and the POST goes straight to the list host — no
+ * third-party script, no iframe, no cookie, so this page stays as clean as the
+ * privacy statement says it is. The trade is one origin in the CSP's
+ * `form-action`, derived from NEWSLETTER_FORM_ACTION in astro.config.mjs so the
+ * two can never drift apart.
+ *
+ * There is no checkbox to tick. Consent for a mailing list is the double opt-in
+ * itself — nothing is sent until the confirmation link in the visitor's own
+ * inbox is clicked — and that click is the record, held by the provider with a
+ * timestamp. A pre-ticked box would be worth less and look like more.
+ *
+ * Until an endpoint is configured this renders the honest pre-launch state: a
+ * mailto to hello@, the same fallback the rest of the site uses. It is a real
+ * route, not a placeholder — a human adds you to the list by hand at this size.
+ */
+interface Props {
+  locale: Locale;
+  /** Unique per form on a page — ids are derived from it. */
+  id: string;
+}
+
+const { locale, id } = Astro.props;
+const t = useTranslations(locale);
+const subject = `Field note ${locale === 'nl' ? 'nieuwsbrief' : 'newsletter'}`;
+---
+
+<div class="subscribe">
+  {
+    NEWSLETTER_FORM_ACTION ? (
+      <form class="subscribe-form" action={NEWSLETTER_FORM_ACTION} method="post">
+        {Object.entries(NEWSLETTER_FORM_FIELDS).map(([name, value]) => (
+          <input type="hidden" name={name} value={value} />
+        ))}
+        {/* Which half of a bilingual list someone belongs to, for free: a
+            provider that does not map this field simply ignores it. */}
+        <input type="hidden" name="locale" value={locale} />
+        {/* Honeypot. Bots fill every field they find; people never see this one.
+            Rename to the endpoint's own field when wiring a provider —
+            listmonk calls it `nonce`. */}
+        <p class="subscribe-hp" aria-hidden="true">
+          <label for={`${id}-hp`}>Leave this empty</label>
+          <input id={`${id}-hp`} type="text" name="hp" tabindex="-1" autocomplete="off" />
+        </p>
+        <p class="subscribe-field">
+          <label class="label-mono" for={`${id}-email`}>
+            {t('newsletter.emailLabel')}
+          </label>
+          <input
+            id={`${id}-email`}
+            type="email"
+            name="email"
+            required
+            autocomplete="email"
+            placeholder="jij@voorbeeld.nl"
+          />
+        </p>
+        <button class="button button--primary" type="submit">
+          {t('newsletter.subscribe')}
+        </button>
+      </form>
+    ) : (
+      <p class="subscribe-pending">
+        {t('newsletter.pendingNote')}{' '}
+        <a href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}`}>
+          {t('newsletter.mailFallback')}
+        </a>
+      </p>
+    )
+  }
+
+  <p class="subscribe-note">
+    {t('newsletter.consentNote')}{' '}
+    <a href={routePath('privacy', locale)}>{t('newsletter.privacyLink')}</a>
+  </p>
+</div>
+
+<style>
+  .subscribe-form {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    gap: var(--space-3);
+  }
+
+  .subscribe-field {
+    display: grid;
+    gap: var(--space-2);
+    margin: 0;
+    flex: 1 1 18rem;
+  }
+
+  .subscribe-field label {
+    color: var(--fg-subtle);
+  }
+
+  .subscribe-field input {
+    width: 100%;
+    min-height: 2.75rem;
+    padding: var(--space-2) var(--space-3);
+    border: var(--border-width) solid var(--border-strong);
+    border-radius: var(--radius-md);
+    background: var(--bg);
+    color: var(--fg);
+    font-family: inherit;
+    line-height: var(--leading-normal);
+  }
+
+  /* Off-screen rather than display:none — a bot reading the DOM finds it either
+     way, but some fill only what is technically focusable. */
+  .subscribe-hp {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .subscribe-pending {
+    margin: 0;
+  }
+
+  .subscribe-note {
+    color: var(--fg-subtle);
+    font-size: var(--text-sm);
+    margin-block: var(--space-3) 0;
+    max-width: var(--width-prose);
+  }
+</style>

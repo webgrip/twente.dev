@@ -3,6 +3,21 @@ import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
 import { DEFAULT_LOCALE, LOCALES, SITE_URL } from './src/i18n/config.ts';
+import { NEWSLETTER_FORM_ACTION } from './src/config/site.ts';
+
+/**
+ * `form-action`, derived rather than maintained.
+ *
+ * The subscribe form POSTs cross-origin to whatever list host we end up on, and
+ * a CSP that forbids it fails at submit time with nothing in the UI to see — so
+ * the policy reads the same constant the form's `action` does. Set
+ * NEWSLETTER_FORM_ACTION and the origin is admitted in the same commit; leave it
+ * null and the policy stays exactly `'self'`.
+ */
+const formAction = [
+  "'self'",
+  ...(NEWSLETTER_FORM_ACTION ? [new URL(NEWSLETTER_FORM_ACTION).origin] : []),
+].join(' ');
 
 // https://astro.build/config
 export default defineConfig({
@@ -86,7 +101,7 @@ export default defineConfig({
         "font-src 'self'",
         "connect-src 'self'",
         "base-uri 'self'",
-        "form-action 'self'",
+        `form-action ${formAction}`,
         "object-src 'none'",
       ],
       /**

@@ -82,6 +82,12 @@ export const nl = {
 
   'newsletter.subscribe': 'Aanmelden',
   'newsletter.mailFallback': 'Mail ons om aan te haken',
+  'newsletter.emailLabel': 'E-mailadres',
+  'newsletter.pendingNote':
+    'Het aanmeldformulier staat er nog niet — we versturen liever niets dan iets dat in je spamfilter belandt.',
+  'newsletter.consentNote':
+    'Je krijgt eerst een bevestigingsmail; pas als je daarop klikt sta je op de lijst. Afmelden kan onderaan elke mail. We delen je adres met niemand en meten niet of je de mail opent.',
+  'newsletter.privacyLink': 'Wat we bewaren',
 
   'events.title': 'Events',
   'events.description':
@@ -233,6 +239,12 @@ export const en: Record<UIKey, string> = {
 
   'newsletter.subscribe': 'Subscribe',
   'newsletter.mailFallback': 'Email us to be added',
+  'newsletter.emailLabel': 'Email address',
+  'newsletter.pendingNote':
+    'The signup form is not up yet — we would rather send nothing than something that lands in your spam folder.',
+  'newsletter.consentNote':
+    'You get a confirmation email first; you are on the list only once you click it. Every email carries an unsubscribe link. We share your address with no one and do not measure whether you open anything.',
+  'newsletter.privacyLink': 'What we keep',
 
   'events.title': 'Events',
   'events.description':

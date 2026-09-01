@@ -1,6 +1,8 @@
 ---
 import ProsePage from '../../templates/ProsePage.astro';
 import ContactForm from '../../components/ContactForm.astro';
+import NewsletterForm from '../../components/NewsletterForm.astro';
+import Tabs from '../../components/Tabs.astro';
 import { routePath } from '../../i18n/routes.ts';
 import { CONTACT_EMAIL, PRETALX_CFP_URL, REPO_URL, editionName } from '../../config/site.ts';
 
@@ -19,113 +21,150 @@ const edition = editionName('001');
     <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a> — één zin is genoeg.
   </p>
 
-  <h2>Vertel iets op {edition}</h2>
-  <p>
-    De avond opent met twee field reports van twaalf minuten: één concreet ding dat je hebt gebouwd,
-    gerepareerd of verprutst, en wat je eraan overhield. Geen slidedeck vol logo's, geen
-    productpitch, geen "de toekomst van". Spreekervaring is niet nodig — een goed verhaal over een
-    echt systeem is het enige criterium, en we helpen je met de opzet.
-  </p>
-  <ul>
-    <li>Twaalf minuten, plus vragen. Nederlands of Engels, allebei prima.</li>
-    <li>Het onderwerp maakt niet uit zolang je het zelf hebt gedaan.</li>
-    <li>Wie er op het podium staat bepaalt de open call, op dezelfde voorwaarden voor iedereen.</li>
-  </ul>
   {
-    PRETALX_CFP_URL ? (
-      <p>
-        <a class="button button--primary" href={PRETALX_CFP_URL} rel="noopener">
-          Dien je verhaal in
-        </a>
-      </p>
-    ) : (
-      <p>
-        De open call loopt op dit moment per mail: stuur in drie zinnen waar het over gaat naar{' '}
-        <a href={`mailto:${CONTACT_EMAIL}?subject=Open%20call%20${edition}`}>{CONTACT_EMAIL}</a>.
-        Zijn er meer voorstellen dan plekken, dan verhuist de call naar een openbaar indienformulier
-        met beschikbaarheid en review — dat staat klaar en gaat pas open als het iets toevoegt.
-      </p>
-    )
+    /* Vier alternatieven, geen volgorde — dus tabs. Onder elkaar stond het
+       aanmeldformulier voor een event drie schermen onder de vouw, terwijl
+       niemand de drie routes erboven hoefde te lezen om erbij te komen. */
   }
-
-  <h2>Bied een zaal aan</h2>
-  <p>
-    Een editie heeft een ruimte nodig voor veertig mensen, met eten en drinken erbij. Dat is de
-    meest waardevolle bijdrage die een bedrijf kan doen, en de eerste die we vragen — steun in
-    natura gaat hier altijd vóór geld. Wat je ervoor terugkrijgt en wat je nadrukkelijk niet koopt,
-    staat op <a href={routePath('companies', 'nl')}>bedrijven</a>.
-  </p>
-  <ContactForm
-    id="host"
-    to={CONTACT_EMAIL}
-    subject="Zaal aanbieden voor een twente.dev-editie"
-    submitLabel="Verstuur"
-    fallbackLabel="Mail ons"
-    note="Versturen opent je eigen mailprogramma met dit bericht erin — er gaat niets naar een externe dienst."
-    fields={[
-      { name: 'org', label: 'Organisatie', required: true },
-      { name: 'contact', label: 'Naam en e-mailadres', required: true },
-      { name: 'city', label: 'Plaats in Twente', required: true },
-      { name: 'capacity', label: 'Hoeveel mensen passen er zittend?', required: true },
-      {
-        name: 'offer',
-        label: 'Wat kun je bieden — ruimte, eten, allebei, iets anders?',
-        type: 'textarea',
-        required: true,
-      },
-      { name: 'when', label: 'In welke maanden zou het uitkomen?', type: 'textarea' },
+  <Tabs
+    id="routes"
+    label="Manieren om bij te dragen"
+    tabs={[
+      { id: 'speak', label: 'Vertellen' },
+      { id: 'venue', label: 'Zaal aanbieden' },
+      { id: 'fieldnote', label: 'Field note' },
+      { id: 'listing', label: 'Event aanmelden' },
     ]}
-  />
-
-  <h2>Schrijf een field note</h2>
-  <p>
-    De wekelijkse field note is één concrete les uit een lokaal systeem, geschreven door iemand die
-    er zelf mee werkt. Vierhonderd tot achthonderd woorden is genoeg. Je hoeft geen blogger te zijn
-    en het hoeft niet af te zijn als je het voorstelt — we redigeren mee, en je naam staat erboven.
-    Het staat daarna in het <a href={routePath('blog', 'nl')}>archief</a>, dus het blijft vindbaar.
-  </p>
-  <ContactForm
-    id="fieldnote"
-    to={CONTACT_EMAIL}
-    subject="Field note voorstellen"
-    submitLabel="Verstuur"
-    fallbackLabel="Mail ons"
-    note="Versturen opent je eigen mailprogramma met dit bericht erin — er gaat niets naar een externe dienst."
-    fields={[
-      { name: 'name', label: 'Naam en e-mailadres', required: true },
-      { name: 'subject', label: 'Waar gaat het over?', required: true },
+  >
+    <div id="speak" data-tabs-panel>
+      <h2 data-tabs-heading>Vertel iets op {edition}</h2>
+      <p>
+        De avond opent met twee field reports van twaalf minuten: één concreet ding dat je hebt
+        gebouwd, gerepareerd of verprutst, en wat je eraan overhield. Geen slidedeck vol logo's,
+        geen productpitch, geen "de toekomst van". Spreekervaring is niet nodig — een goed verhaal
+        over een echt systeem is het enige criterium, en we helpen je met de opzet.
+      </p>
+      <ul>
+        <li>Twaalf minuten, plus vragen. Nederlands of Engels, allebei prima.</li>
+        <li>Het onderwerp maakt niet uit zolang je het zelf hebt gedaan.</li>
+        <li>
+          Wie er op het podium staat bepaalt de open call, op dezelfde voorwaarden voor iedereen.
+        </li>
+      </ul>
       {
-        name: 'lesson',
-        label: 'Wat is de les? Eén of twee zinnen is genoeg',
-        type: 'textarea',
-        required: true,
-      },
-      { name: 'language', label: 'Nederlands of Engels?' },
-    ]}
-  />
+        PRETALX_CFP_URL ? (
+          <p>
+            <a class="button button--primary" href={PRETALX_CFP_URL} rel="noopener">
+              Dien je verhaal in
+            </a>
+          </p>
+        ) : (
+          <p>
+            De open call loopt op dit moment per mail: stuur in drie zinnen waar het over gaat naar{' '}
+            <a href={`mailto:${CONTACT_EMAIL}?subject=Open%20call%20${edition}`}>{CONTACT_EMAIL}</a>
+            . Zijn er meer voorstellen dan plekken, dan verhuist de call naar een openbaar
+            indienformulier met beschikbaarheid en review — dat staat klaar en gaat pas open als het
+            iets toevoegt.
+          </p>
+        )
+      }
+    </div>
 
-  <h2>Meld een event of een community aan</h2>
+    <div id="venue" data-tabs-panel>
+      <h2 data-tabs-heading>Bied een zaal aan</h2>
+      <p>
+        Een editie heeft een ruimte nodig voor veertig mensen, met eten en drinken erbij. Dat is de
+        meest waardevolle bijdrage die een bedrijf kan doen, en de eerste die we vragen — steun in
+        natura gaat hier altijd vóór geld. Wat je ervoor terugkrijgt en wat je nadrukkelijk niet
+        koopt, staat op <a href={routePath('companies', 'nl')}>bedrijven</a>.
+      </p>
+      <ContactForm
+        id="host"
+        to={CONTACT_EMAIL}
+        subject="Zaal aanbieden voor een twente.dev-editie"
+        submitLabel="Verstuur"
+        fallbackLabel="Mail ons"
+        note="Versturen opent je eigen mailprogramma met dit bericht erin — er gaat niets naar een externe dienst."
+        fields={[
+          { name: 'org', label: 'Organisatie', required: true },
+          { name: 'contact', label: 'Naam en e-mailadres', required: true },
+          { name: 'city', label: 'Plaats in Twente', required: true },
+          { name: 'capacity', label: 'Hoeveel mensen passen er zittend?', required: true },
+          {
+            name: 'offer',
+            label: 'Wat kun je bieden — ruimte, eten, allebei, iets anders?',
+            type: 'textarea',
+            required: true,
+          },
+          { name: 'when', label: 'In welke maanden zou het uitkomen?', type: 'textarea' },
+        ]}
+      />
+    </div>
+
+    <div id="fieldnote" data-tabs-panel>
+      <h2 data-tabs-heading>Schrijf een field note</h2>
+      <p>
+        De wekelijkse field note is één concrete les uit een lokaal systeem, geschreven door iemand
+        die er zelf mee werkt. Vierhonderd tot achthonderd woorden is genoeg. Je hoeft geen blogger
+        te zijn en het hoeft niet af te zijn als je het voorstelt — we redigeren mee, en je naam
+        staat erboven. Het staat daarna in het <a href={routePath('blog', 'nl')}>archief</a>, dus
+        het blijft vindbaar.
+      </p>
+      <ContactForm
+        id="fieldnote-form"
+        to={CONTACT_EMAIL}
+        subject="Field note voorstellen"
+        submitLabel="Verstuur"
+        fallbackLabel="Mail ons"
+        note="Versturen opent je eigen mailprogramma met dit bericht erin — er gaat niets naar een externe dienst."
+        fields={[
+          { name: 'name', label: 'Naam en e-mailadres', required: true },
+          { name: 'subject', label: 'Waar gaat het over?', required: true },
+          {
+            name: 'lesson',
+            label: 'Wat is de les? Eén of twee zinnen is genoeg',
+            type: 'textarea',
+            required: true,
+          },
+          { name: 'language', label: 'Nederlands of Engels?' },
+        ]}
+      />
+    </div>
+
+    <div id="listing" data-tabs-panel>
+      <h2 data-tabs-heading>Meld een event of een community aan</h2>
+      <p>
+        Alles op deze site is een bestand in een openbare repository, dus een aanmelding is een
+        issue of een pull request. Kies wat je makkelijker vindt:
+      </p>
+      <ul>
+        <li>
+          <strong>Een event</strong> — openbaar toegankelijk en relevant voor developers.
+          <a href={`${REPO_URL}/issues/new/choose`}>Open het formulier</a>, of voeg zelf een bestand
+          toe. Het verschijnt direct in de agenda en in de ICS-feed.
+        </li>
+        <li>
+          <strong>Een community</strong> — Discord, Slack, user group of meetup. We vermelden niemand
+          zonder het te vragen, dus meld je bij voorkeur je eigen groep aan;
+          <a href={routePath('communities', 'nl')}>de directory</a> legt uit hoe dat werkt.
+        </li>
+      </ul>
+      <p>
+        Iets kapot of onjuist gevonden? <a href={REPO_URL}>Open een issue</a>. De volledige
+        stap-voor-stap staat in <a href={`${REPO_URL}/src/branch/main/CONTRIBUTING.md`}
+          >CONTRIBUTING</a
+        >.
+      </p>
+    </div>
+  </Tabs>
+
+  <h2>Blijf op de hoogte</h2>
   <p>
-    Alles op deze site is een bestand in een openbare repository, dus een aanmelding is een issue of
-    een pull request. Kies wat je makkelijker vindt:
+    Bijdragen hoeft niet meteen. Eén mail als het programma van {edition} rond is, één als aanmelden opent,
+    en daarna de field note — dan zie je vanzelf wat voor verhalen hier langskomen voordat je er zelf
+    een instuurt.
   </p>
-  <ul>
-    <li>
-      <strong>Een event</strong> — openbaar toegankelijk en relevant voor developers.
-      <a href={`${REPO_URL}/issues/new/choose`}>Open het formulier</a>, of voeg zelf een bestand
-      toe. Het verschijnt direct in de agenda en in de ICS-feed.
-    </li>
-    <li>
-      <strong>Een community</strong> — Discord, Slack, user group of meetup. We vermelden niemand zonder
-      het te vragen, dus meld je bij voorkeur je eigen groep aan;
-      <a href={routePath('communities', 'nl')}>de directory</a> legt uit hoe dat werkt.
-    </li>
-  </ul>
-  <p>
-    Iets kapot of onjuist gevonden? <a href={REPO_URL}>Open een issue</a>. De volledige
-    stap-voor-stap staat in <a href={`${REPO_URL}/src/branch/main/CONTRIBUTING.md`}>CONTRIBUTING</a
-    >.
-  </p>
+  <NewsletterForm locale="nl" id="contribute-updates" />
 
   <h2>Steunen</h2>
   <p>

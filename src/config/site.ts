@@ -27,8 +27,34 @@ export const REPO_URL = 'https://forgejo.webgrip.dev/webgrip/twente.dev';
  */
 export const REGISTRATION_URL: string | null = null;
 
-/** Brevo double-opt-in form URL. null = newsletter not yet live. */
+/** Hosted double-opt-in signup page. null = newsletter not yet live. */
 export const NEWSLETTER_URL: string | null = null;
+
+/**
+ * Endpoint the on-site subscribe form POSTs to — the provider's public
+ * subscription endpoint, cross-origin.
+ *
+ * Setting this is what turns `<NewsletterForm>` from an honest mailto into a
+ * real form: the input stays on twente.dev (no third-party script, no cookie,
+ * no iframe), the browser POSTs straight to the list, and the provider sends
+ * the confirmation mail. Every candidate provider accepts a plain form POST —
+ * listmonk `/subscription/form`, EmailOctopus's embedded form action, Brevo's
+ * hosted form — so the shape here does not commit us to one of them.
+ *
+ * **The CSP is derived from this value**, not maintained beside it:
+ * `astro.config.mjs` reads it and appends the origin to `form-action`. Filling
+ * this in without that would ship a form the browser blocks on submit, with no
+ * error anyone would see — the same class of bug `scripts/validate-csp.ts`
+ * exists to catch for scripts.
+ */
+export const NEWSLETTER_FORM_ACTION: string | null = null;
+
+/**
+ * Hidden fields the provider's endpoint needs alongside the e-mail address —
+ * a list id or UUID, a form token. Kept as data because every provider spells
+ * it differently (listmonk: `l=<uuid>`; Brevo: `locale`, `email_address_check`).
+ */
+export const NEWSLETTER_FORM_FIELDS: Readonly<Record<string, string>> = {};
 
 /**
  * Pretalx call-for-participation URL for the current edition.
@@ -91,6 +117,28 @@ export const EDITION_001 = {
   capacity: 40,
   costEur: 0,
 } as const;
+
+/** One field report on the programme. */
+export interface Speaker {
+  name: string;
+  /** Where they build — a company, lab or school. Not a job title. */
+  affiliation?: string;
+  /** Working title of the field report, per locale. */
+  talk?: { nl: string; en: string };
+}
+
+/**
+ * The /001 field reports, in running order. **Empty = not announced yet**, and
+ * the edition page says so rather than implying a programme that does not
+ * exist. Two slots, filled from the open call (see PRETALX_CFP_URL above).
+ *
+ * Announcing a name here is a commitment to a person who then tells their
+ * colleagues — so an entry goes in when the speaker has confirmed the date, not
+ * when a conversation looks promising. The page reads the length of this array,
+ * so filling it is the whole announcement: the "to be announced" state, the
+ * updates prompt and the programme list all follow from it.
+ */
+export const EDITION_001_SPEAKERS: readonly Speaker[] = [];
 
 /** "twente.dev/001" — how an edition is written, everywhere, always lowercase. */
 export function editionName(number: string): string {

@@ -217,17 +217,31 @@
 
       /* Nachtvariant: zelfde kaart, inkt als grond. Rode tekst neemt de
          lichte snede (#ea6250); vullingen blijven vlagrood. */
-      .art.nacht { background: var(--ink); color: var(--paper); }
+      .art.nacht {
+        background: var(--ink);
+        color: var(--paper);
+      }
       .art.nacht::after {
         background:
           repeating-linear-gradient(to right, #2a343e 0 2px, transparent 2px 150px),
           repeating-linear-gradient(to bottom, #2a343e 0 2px, transparent 2px 150px);
       }
-      .art.nacht .wordmark path:first-child { fill: var(--paper); }
-      .art.nacht .mark rect:first-child { stroke: #2a343e; stroke-width: 2; }
-      .art.nacht .sub { color: #b4bcc2; }
-      .art.nacht .foot { color: #8b949d; }
-      .art.nacht .dot { color: #ea6250; }
+      .art.nacht .wordmark path:first-child {
+        fill: var(--paper);
+      }
+      .art.nacht .mark rect:first-child {
+        stroke: #2a343e;
+        stroke-width: 2;
+      }
+      .art.nacht .sub {
+        color: #b4bcc2;
+      }
+      .art.nacht .foot {
+        color: #8b949d;
+      }
+      .art.nacht .dot {
+        color: #ea6250;
+      }
     </style>
   </head>
 
@@ -320,7 +334,6 @@
 
       <div class="foot" contenteditable="true">twente.dev/001 // reconnect the region // free</div>
     </div>
-  
 
     <!-- ============ nachtvarianten — zelfde inhoud, inkt als grond ============ -->
     <div class="art nacht" id="group-nacht" data-export="banner-meetup-nacht-1200x675@2x">

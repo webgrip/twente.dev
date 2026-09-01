@@ -18,7 +18,7 @@ for (const tpl of ['banners.html', 'cover-16x9.html']) {
   await page.goto(`file://${repo}/docs/brand/templates/${tpl}`, { waitUntil: 'networkidle' });
   await page.evaluate(() => document.fonts.ready);
   await page.waitForTimeout(300);
-  const names = await page.$$eval('[data-export]', els => els.map(e => e.dataset.export));
+  const names = await page.$$eval('[data-export]', (els) => els.map((e) => e.dataset.export));
   for (const name of names) {
     const el = page.locator(`[data-export="${name}"]`);
     const box = await el.boundingBox();

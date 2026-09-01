@@ -23,27 +23,27 @@ export is reproduceerbaar.
 
 ## De set
 
-| Bestand | Wat | Wanneer verversen |
-| --- | --- | --- |
-| `banner-omloop-{nacht,dag}-{nl,en}-…` | generieke headers: echte geografie, draden tussen de twentse kernen, gestippelde noaberdraden naar de NL-buren (klein) | bij elke nieuwe editie (knoop verspringt) |
-| `banner-commitlog-…` | generieke header: echt-saaie commits, één eerlijke echte hash | zelden — alleen als de log-inhoud veroudert |
-| `banner-NNN-statusbord-…` | de editie-announce: `systemctl status editie@NNN` met beide sprekers | zodra beide sprekers bevestigd zijn (T−4) |
-| `banner-meetup[-NNN][-nacht]-…` | de covers uit `cover-16x9.html`, in licht én nacht | per editie: tekst in de template bijwerken (contenteditable-velden) |
+| Bestand                               | Wat                                                                                                                    | Wanneer verversen                                                   |
+| ------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `banner-omloop-{nacht,dag}-{nl,en}-…` | generieke headers: echte geografie, draden tussen de twentse kernen, gestippelde noaberdraden naar de NL-buren (klein) | bij elke nieuwe editie (knoop verspringt)                           |
+| `banner-commitlog-…`                  | generieke header: echt-saaie commits, één eerlijke echte hash                                                          | zelden — alleen als de log-inhoud veroudert                         |
+| `banner-NNN-statusbord-…`             | de editie-announce: `systemctl status editie@NNN` met beide sprekers                                                   | zodra beide sprekers bevestigd zijn (T−4)                           |
+| `banner-meetup[-NNN][-nacht]-…`       | de covers uit `cover-16x9.html`, in licht én nacht                                                                     | per editie: tekst in de template bijwerken (contenteditable-velden) |
 
 ## Wat upload je waar
 
-| Platform | Bestand | Opmerking |
-| --- | --- | --- |
-| X — header | `banner-omloop-nacht-nl-1500x500@2x.png` | of `-en` / `-dag` naar smaak; één 3:1-bestand dient X, Bluesky én Mastodon |
-| Bluesky — banner | zelfde 3:1-bestand | avatar overlapt linksonder — daarom is die hoek leeg |
-| Mastodon — header | zelfde 3:1-bestand | |
-| LinkedIn — persoonlijk profiel | `banner-omloop-{dag,nacht}-nl-1584x396@2x.png` | 4:1; compositie rechts omdat je profielfoto links staat |
-| LinkedIn — bedrijfspagina | — nog te bouwen | 1128×191 (5.9:1); ticker-ontwerp wacht op keuze |
-| Meetup — groepsfoto | `banner-omloop-dag-nl-1200x675@2x.png` | de event-cover per editie is `banner-meetup-NNN[-nacht]-…` (licht en donker beschikbaar) |
-| Discord — serverbanner | `banner-omloop-nacht-nl-1200x675@2x.png` | 16:9 |
-| Facebook — paginacover | `banner-omloop-dag-nl-820x462@2x.png` | alles wezenlijks staat in het mobiel-veilige midden |
-| YouTube — kanaalkunst | — nog te bouwen | 2560×1440 met veilige strook; ontwerp wacht op keuze |
-| Announce-post (alle kanalen) | `banner-NNN-statusbord-…` | geen header maar een post-afbeelding: 16:9 voor feeds, 4:1 voor LinkedIn, 3:1 als tijdelijke header in campagnetijd |
+| Platform                       | Bestand                                        | Opmerking                                                                                                           |
+| ------------------------------ | ---------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| X — header                     | `banner-omloop-nacht-nl-1500x500@2x.png`       | of `-en` / `-dag` naar smaak; één 3:1-bestand dient X, Bluesky én Mastodon                                          |
+| Bluesky — banner               | zelfde 3:1-bestand                             | avatar overlapt linksonder — daarom is die hoek leeg                                                                |
+| Mastodon — header              | zelfde 3:1-bestand                             |                                                                                                                     |
+| LinkedIn — persoonlijk profiel | `banner-omloop-{dag,nacht}-nl-1584x396@2x.png` | 4:1; compositie rechts omdat je profielfoto links staat                                                             |
+| LinkedIn — bedrijfspagina      | — nog te bouwen                                | 1128×191 (5.9:1); ticker-ontwerp wacht op keuze                                                                     |
+| Meetup — groepsfoto            | `banner-omloop-dag-nl-1200x675@2x.png`         | de event-cover per editie is `banner-meetup-NNN[-nacht]-…` (licht en donker beschikbaar)                            |
+| Discord — serverbanner         | `banner-omloop-nacht-nl-1200x675@2x.png`       | 16:9                                                                                                                |
+| Facebook — paginacover         | `banner-omloop-dag-nl-820x462@2x.png`          | alles wezenlijks staat in het mobiel-veilige midden                                                                 |
+| YouTube — kanaalkunst          | — nog te bouwen                                | 2560×1440 met veilige strook; ontwerp wacht op keuze                                                                |
+| Announce-post (alle kanalen)   | `banner-NNN-statusbord-…`                      | geen header maar een post-afbeelding: 16:9 voor feeds, 4:1 voor LinkedIn, 3:1 als tijdelijke header in campagnetijd |
 
 ## Nieuwe editie, stap voor stap
 

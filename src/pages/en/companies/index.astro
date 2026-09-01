@@ -1,97 +1,33 @@
 ---
 import ProsePage from '../../../templates/ProsePage.astro';
 import { routePath } from '../../../i18n/routes.ts';
-import { CONTACT_EMAIL, EDITION_001 } from '../../../config/site.ts';
+import { formatDate } from '../../../i18n/utils.ts';
+import { CONTACT_EMAIL, EDITION_001, editionName } from '../../../config/site.ts';
 ---
 
 <ProsePage
   locale="en"
   routeKey="companies"
   title="Companies"
-  description="Five ways a company can attach itself to twente.dev — and the four things that explicitly cannot be bought."
+  description="Letting your people go, or offering a room for a later edition."
 >
   <p>
-    Do you employ a group of people who build technology in Twente, and want to do something with
-    that? This page is ordered by what we need most. In-kind support comes before money here — not
-    out of principle, but because a room and forty sandwiches make an evening happen and a figure in
-    an account does not.
+    <a href={routePath('edition001', 'en')}>{editionName(EDITION_001.number)}</a> is on {
+      formatDate(EDITION_001.doors, 'en')
+    } at Code14 in {EDITION_001.city}, so the room is sorted. Most of what we need from companies
+    does not involve a room either: let your people go that evening and count it as work time. For
+    most companies that is the real step.
   </p>
-
-  <h2>What you can do</h2>
-  <ol>
-    <li>
-      <strong>Host an edition.</strong> A room for {EDITION_001.capacity} people, food and drinks, and
-      someone to open the door. This is the contribution that actually makes an edition possible.
-    </li>
-    <li>
-      <strong>Send your people — on work time.</strong> The scarce resource in this region is not money,
-      it is time. Freeing up an evening, or counting it as work, is a bigger contribution than most sponsorship
-      sums. It also returns more: people talking to peers who do not work for you.
-    </li>
-    <li>
-      <strong>Let someone tell a story.</strong> Twelve minutes about something you built, fixed or broke.
-      Note the order of operations: this goes through the
-      <a href={routePath('contribute', 'en')}>open call</a>, on the same terms as everyone else. A
-      speaking slot is not part of a sponsorship deal and will not become one.
-    </li>
-    <li>
-      <strong>Bring a demo.</strong> Something that works, on a table, that people can stand around and
-      ask questions about. No booth, no flyers, no badge scanner.
-    </li>
-    <li>
-      <strong>Give something in kind.</strong> Printing, recording gear, a photographer, coffee, transport.
-      Tell us what you already happen to have; it is often exactly what is missing.
-    </li>
-  </ol>
   <p>
-    You can back an edition financially, but there is no rate card and no donate button here. That
-    is a conversation per edition, and only relevant once there is something to pay for that cannot
-    be given in kind. What was and was not paid for goes into the public write-up afterwards.
+    Editions rotate across the region, so for later ones we are always looking for a new host: a
+    room that fits {EDITION_001.capacity} people, with food and drinks. Your name goes on the edition
+    page and up in the room, and that is where it stops. A speaking slot is not part of it, not even for
+    the host, because that runs through the
+    <a href={routePath('contribute', 'en')}>open call</a>. The attendee list goes to nobody, and the
+    rest of the arrangements are on <a href={routePath('partners', 'en')}>partners</a>.
   </p>
-
-  <h2>What you get for it</h2>
-  <ul>
-    <li>Named on the edition page and in the room, and thanked in the write-up afterwards.</li>
-    <li>
-      Your people in a room with peers from other organisations and other disciplines — the meeting
-      that a single-subject meetup by definition cannot produce.
-    </li>
-    <li>An honest picture of what is going on in the region, from the people doing the work.</li>
-  </ul>
-
-  <h2>What you do not buy</h2>
   <p>
-    This list is here because otherwise it gets asked anyway, and it is better answered up front
-    than halfway through an evening:
-  </p>
-  <ul>
-    <li><strong>No attendee data.</strong> Not the list, not the badges, for anyone.</li>
-    <li><strong>No speaking time.</strong> Not even "just a few words at the opening".</li>
-    <li><strong>No editorial influence</strong> over what appears on this site or on stage.</li>
-    <li>
-      <strong>No exclusivity.</strong> You are not the only one in your industry who may take part, and
-      that is never offered.
-    </li>
-  </ul>
-  <p>
-    The same rules apply to the organisations closest to this project — named on
-    <a href={routePath('about', 'en')}>about</a>. The full agreement, including how we treat other
-    communities' existing sponsors, is on <a href={routePath('partners', 'en')}>partners</a>.
-  </p>
-
-  <h2>What about the company directory?</h2>
-  <p>
-    There isn't one, and that is a choice. A directory with three entries reads as an abandoned
-    site, and whether twente.dev should be a company directory at all is a question better answered
-    after the first edition than before it. So this page is about taking part, not about being
-    listed.
-  </p>
-
-  <h2>Getting started</h2>
-  <p>
-    The quickest route is the form on <a href={routePath('contribute', 'en')}>contribute</a> — it says
-    what we need to know about a room. Prefer plain e-mail? <a
-      href={`mailto:${CONTACT_EMAIL}?subject=Company%20contribution`}>{CONTACT_EMAIL}</a
-    >, one paragraph is enough.
+    Mail <a href={`mailto:${CONTACT_EMAIL}?subject=Company%20contribution`}>{CONTACT_EMAIL}</a>, one
+    paragraph is enough.
   </p>
 </ProsePage>

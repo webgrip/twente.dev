@@ -28,6 +28,7 @@ export is reproduceerbaar.
 | `banner-omloop-{nacht,dag}-{nl,en}-…` | generieke headers: echte geografie, draden tussen de twentse kernen, gestippelde noaberdraden naar de NL-buren (klein) | bij elke nieuwe editie (knoop verspringt) |
 | `banner-commitlog-…` | generieke header: echt-saaie commits, één eerlijke echte hash | zelden — alleen als de log-inhoud veroudert |
 | `banner-NNN-statusbord-…` | de editie-announce: `systemctl status editie@NNN` met beide sprekers | zodra beide sprekers bevestigd zijn (T−4) |
+| `banner-meetup[-NNN][-nacht]-…` | de covers uit `cover-16x9.html`, in licht én nacht | per editie: tekst in de template bijwerken (contenteditable-velden) |
 
 ## Wat upload je waar
 
@@ -38,7 +39,7 @@ export is reproduceerbaar.
 | Mastodon — header | zelfde 3:1-bestand | |
 | LinkedIn — persoonlijk profiel | `banner-omloop-{dag,nacht}-nl-1584x396@2x.png` | 4:1; compositie rechts omdat je profielfoto links staat |
 | LinkedIn — bedrijfspagina | — nog te bouwen | 1128×191 (5.9:1); ticker-ontwerp wacht op keuze |
-| Meetup — groepsfoto | `banner-omloop-dag-nl-1200x675@2x.png` | de event-cover per editie blijft `banner-meetup-NNN-…` uit cover-16x9.html |
+| Meetup — groepsfoto | `banner-omloop-dag-nl-1200x675@2x.png` | de event-cover per editie is `banner-meetup-NNN[-nacht]-…` (licht en donker beschikbaar) |
 | Discord — serverbanner | `banner-omloop-nacht-nl-1200x675@2x.png` | 16:9 |
 | Facebook — paginacover | `banner-omloop-dag-nl-820x462@2x.png` | alles wezenlijks staat in het mobiel-veilige midden |
 | YouTube — kanaalkunst | — nog te bouwen | 2560×1440 met veilige strook; ontwerp wacht op keuze |
@@ -53,7 +54,8 @@ export is reproduceerbaar.
    met TBA is geen announce.
 2. Kies of bouw het wisselstuk voor deze editie (nieuw `.art`-blok; geef het een
    `data-export`-naam met het editienummer erin).
-3. `node scripts/export-banners.mjs` — de bestanden landen in
+3. `node scripts/export-banners.mjs` — exporteert álle banners (banners.html
+   én de meetup-covers uit cover-16x9.html); de bestanden landen in
    `public/brand/social/` onder de bestaande naamconventie
    (`banner-…-1500x500@2x.png` voor 3:1, `…-1200x675@2x.png` voor 16:9).
 4. Controleer de kaart even op labelbotsingen (steden staan op echte
@@ -65,4 +67,8 @@ export is reproduceerbaar.
 
 Huisregels blijven gelden: rood alleen voor verbindingen, data en acties (de
 knoop, de editieregel, de cursor); wordmark nooit opnieuw zetten (het template
-gebruikt de outlines); geen uitroeptekens; twente.dev met kleine letters.
+gebruikt de outlines); geen uitroeptekens; twente.dev met kleine letters. Twee
+compositieregels uit de review van 2026-09-01: op terminal-banners staat de
+lockup gróót rechtsonder met de titelregel erboven, en de separator in
+footer-regels is altijd `//`, nooit een enkele `/` — dus
+`twente.dev // we build it. we run it. we share it.`

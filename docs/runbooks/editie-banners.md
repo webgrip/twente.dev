@@ -29,6 +29,7 @@ export is reproduceerbaar.
 | `banner-commitlog-…`                  | generieke header: echt-saaie commits, één eerlijke echte hash                                                          | zelden — alleen als de log-inhoud veroudert                         |
 | `banner-NNN-statusbord-…`             | de editie-announce: `systemctl status editie@NNN` met beide sprekers                                                   | zodra beide sprekers bevestigd zijn (T−4)                           |
 | `banner-meetup[-NNN][-nacht]-…`       | de covers uit `cover-16x9.html`, in licht én nacht                                                                     | per editie: tekst in de template bijwerken (contenteditable-velden) |
+| `banner-vertrekbord[-nacht]-…` | LinkedIn-bedrijfspagina: ticker met de waarborgen en de rode editie-regel | bij elke nieuwe editie (regel verspringt mee) |
 
 ## Wat upload je waar
 
@@ -38,7 +39,7 @@ export is reproduceerbaar.
 | Bluesky — banner               | zelfde 3:1-bestand                             | avatar overlapt linksonder — daarom is die hoek leeg                                                                |
 | Mastodon — header              | zelfde 3:1-bestand                             |                                                                                                                     |
 | LinkedIn — persoonlijk profiel | `banner-omloop-{dag,nacht}-nl-1584x396@2x.png` | 4:1; compositie rechts omdat je profielfoto links staat                                                             |
-| LinkedIn — bedrijfspagina      | — nog te bouwen                                | 1128×191 (5.9:1); ticker-ontwerp wacht op keuze                                                                     |
+| LinkedIn — bedrijfspagina | `banner-vertrekbord[-nacht]-1128x191@2x.png` | 5.9:1 vertrekbord-ticker; de rode regel (editie + registratie) komt uit het `EDITIE`-blok |
 | Meetup — groepsfoto            | `banner-omloop-dag-nl-1200x675@2x.png`         | de event-cover per editie is `banner-meetup-NNN[-nacht]-…` (licht en donker beschikbaar)                            |
 | Discord — serverbanner         | `banner-omloop-nacht-nl-1200x675@2x.png`       | 16:9                                                                                                                |
 | Facebook — paginacover         | `banner-omloop-dag-nl-820x462@2x.png`          | alles wezenlijks staat in het mobiel-veilige midden                                                                 |

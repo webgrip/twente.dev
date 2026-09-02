@@ -30,3 +30,5 @@ minimumReleaseAgeExclude:
 overrides:
   "nanoid@<3.3.17": ">=3.3.17"
   "undici@<7.29.0": ">=7.29.0"
+  # fast-uri <3.1.6 — GHSA-jqff-g426-hqxp (via @astrojs/check > yaml-language-server > ajv)
+  "fast-uri@<3.1.6": ">=3.1.6"

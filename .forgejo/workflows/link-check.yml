@@ -44,7 +44,42 @@ jobs:
 
       - name: Check internal links
         # Internal breakage is our fault and blocks.
-        run: lychee --offline --include-fragments --no-progress 'dist/**/*.html'
+        #
+        # `--fallback-extensions html` because build.format 'file' emits
+        # nl/events.html while pages link to /nl/events (clean URLs) — without
+        # it, clean-URL links go under-checked. The sanity guard exists because
+        # this job's shape elsewhere was green for weeks while checking zero
+        # files (vacuous run).
+        run: |
+          set -euo pipefail
+          count="$(find dist -name '*.html' | wc -l)"
+          echo "checking ${count} html file(s)"
+          [ "${count}" -gt 0 ] || { echo "FAIL: dist bevat geen html — vacuous run"; exit 1; }
+          lychee --offline --include-fragments --fallback-extensions html \
+            --root-dir "$(pwd)/dist" --no-progress 'dist/**/*.html'
+
+      - name: Check registration link (blocking once it exists)
+        # The one external link that may never rot silently once it is set:
+        # every "meld je aan" CTA points at it, and a guardrail that only warns
+        # guards nothing. While REGISTRATION_URL is null there is no link on
+        # the site to guard, and the step says so and passes (honest
+        # pre-launch state, src/config/site.ts).
+        #
+        # Meetup fronts registration pages with bot protection, so a 403 still
+        # means "alive"; what must fail is NXDOMAIN/timeout (000), a 404/410
+        # (event page deleted) or a 5xx.
+        run: |
+          set -euo pipefail
+          url="$(node --experimental-strip-types -e 'import("./src/config/site.ts").then((m) => console.log(m.REGISTRATION_URL ?? ""))')"
+          if [ -z "${url}" ]; then
+            echo "REGISTRATION_URL is null — nothing to guard yet"
+            exit 0
+          fi
+          code="$(curl -s -o /dev/null -w '%{http_code}' --max-time 20 "${url}" || echo 000)"
+          echo "${url} -> ${code}"
+          case "${code}" in
+            000|404|410|5*) echo "FAIL: het aanmeldlink-doel is weg of stuk (${code})"; exit 1 ;;
+          esac
 
       - name: Check external links
         # External breakage is the world's fault and only warns — a meetup site
@@ -60,6 +95,7 @@ jobs:
         continue-on-error: true
         run: |
           lychee --no-progress --max-concurrency 4 --timeout 20 --accept 200,206,301,302,403,429 \
+            --fallback-extensions html --root-dir "$(pwd)/dist" \
             --exclude '^https://twente\.dev' \
             'dist/**/*.html' 'src/content/communities.yml'
 

@@ -10,6 +10,13 @@
       "labels": ["dependencies", "needs-manual-review"]
     },
     {
+      "description": "TypeScript majors (7.x is the native-port major) are planned deliberately, never automerged.",
+      "matchPackageNames": ["typescript"],
+      "matchUpdateTypes": ["major"],
+      "automerge": false,
+      "labels": ["dependencies", "needs-manual-review"]
+    },
+    {
       "description": "zod must track the major Astro itself depends on — see src/content.config.ts.",
       "matchPackageNames": ["zod"],
       "matchUpdateTypes": ["major"],

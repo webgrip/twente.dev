@@ -157,6 +157,7 @@ for path in /nl /nl/bedrijven /events.ics /this/does/not/exist; do
   header "$path" X-Content-Type-Options nosniff
 done
 header /nl X-Frame-Options DENY
+header /nl Cross-Origin-Opener-Policy same-origin
 header /nl Referrer-Policy strict-origin-when-cross-origin
 header /nl Content-Security-Policy "frame-ancestors 'none'"
 

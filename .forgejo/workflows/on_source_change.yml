@@ -289,6 +289,10 @@ jobs:
     name: "Deploy Production"
     needs:
       - build
+      # Production waits for both quality gates: een budget- of axe-regressie
+      # mag nooit live. Previews wachten bewust niet (reviewsnelheid).
+      - lighthouse
+      - accessibility
     if: github.ref == 'refs/heads/main'
     runs-on: docker
     environment: production
@@ -336,7 +340,9 @@ jobs:
           # /nl/vacatures and /en/jobs are gone since the lean-launch scope cut
           # (job board removed) — the directory pages stand in as the deepest
           # localized routes worth smoke-testing.
-          for path in /nl /en /nl/001 /en/001 /nl/bedrijven /en/companies /events.ics /robots.txt; do
+          for path in /nl /en /nl/001 /en/001 /nl/bedrijven /en/companies /events.ics \
+                      /nl/rss.xml /en/rss.xml /sitemap-index.xml /robots.txt \
+                      /.well-known/security.txt; do
             code="$(curl -s -o /dev/null -w '%{http_code}' --max-time 15 "https://twente.dev${path}")"
             echo "${path} -> ${code}"
             [ "${code}" = "200" ] || { echo "FAIL ${path} (expected 200)"; exit 1; }
@@ -352,3 +358,10 @@ jobs:
           check_status /nl/this-page-does-not-exist 404
           check_status / 302
           check_status /001 301
+          # Every rule in public/_redirects gets a line here — a new redirect
+          # without its smoke check is an unguarded promise. These three paths
+          # are out in the world: press-page links, and the compact mark is an
+          # <img src> in every e-mail signature pasted from the template.
+          check_status /brand/twente-dev-mark.svg 301
+          check_status /brand/twente-dev-mark.png 301
+          check_status /brand/twente-dev-logo.png 301

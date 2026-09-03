@@ -123,10 +123,22 @@ Cloudflare Workers Static Assets, deployed with `wrangler` from Forgejo Actions.
 git integration supports GitHub and GitLab only, so there is no "connect the repo" path for a Forgejo
 consumer — [`wrangler.toml`](wrangler.toml) plus the CI job _is_ the deployment contract.
 
-CI needs two Forgejo secrets: `CLOUDFLARE_API_TOKEN` (scoped to Workers Scripts: Edit + Account:
-Read — not a global key) and `CLOUDFLARE_ACCOUNT_ID`.
+CI needs two Forgejo secrets: `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`. The token
+carries three scopes — **Account · Workers Scripts · Edit**, **Account · Account Settings ·
+Read** and **Zone (twente.dev) · Workers Routes · Edit** — not a global key. The zone scope is
+the one people forget: creating the route binding needs it, and without it a deploy uploads the
+worker and then dies on the route step (see [`wrangler.toml`](wrangler.toml)). A token minted
+with only the first two scopes reproduces the 522 war story.
+
+Both secrets exist as **org secrets** (published hourly out of OpenBao by the homelab cluster,
+rolled monthly — see the `homelab-cluster` runbooks). A repo-level secret with the same name
+shadows the org one; this repo still carries hand-set repo-level copies from before the org
+chain existed, and deleting those (plus revoking the old token in Cloudflare) is the open
+migration step. Roll-window symptom: an auth failure on the 1st of the month, within ~2 hours,
+resolves by re-running the job.
 
 Pushes to any branch get a preview URL; `main` deploys to production and runs a smoke test.
+Bad deploy live? See [`docs/runbooks/rollback.md`](docs/runbooks/rollback.md).
 
 ## Licence
 

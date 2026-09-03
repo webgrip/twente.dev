@@ -132,10 +132,12 @@ content:
 build:
     pnpm build
 
-# Lighthouse budgets (lighthouserc.json) against a fresh build
+# Lighthouse budgets (lighthouserc.json) against a fresh build. Pinned to the
+# major CI runs (npx @lhci/cli@0.15.x in on_source_change.yml) so local and CI
+# use the same scorer.
 [group('check')]
 lhci: build
-    pnpm dlx @lhci/cli autorun
+    pnpm dlx @lhci/cli@0.15.x autorun
 
 # axe-core accessibility gate against a fresh build. Needs a local Chrome —
 # override the path if yours lives elsewhere:

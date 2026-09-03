@@ -84,6 +84,15 @@ Run metadata (which job failed) is public; log bodies need the token.
   resolves the called workflow's `runs-on` server-side, and a full URL leaves the job queued
   forever with an empty label list.
 - **`actions/checkout@v5`, never `@v6`** — v6 is broken on non-GitHub runners.
+- **`pnpm exec wrangler`, never `pnpm dlx`** — dlx installs into a throwaway project that never
+  sees `pnpm-workspace.yaml`'s allowBuilds, so pnpm's build-scripts guard prompts interactively
+  for esbuild/workerd and a CI job hangs forever.
+- **wrangler.toml: the `routes` key stays above the first `[table]` header**, and
+  `workers_dev = false` without a route is a green deploy and a dead site — every path 522s while
+  `/robots.txt` serves Cloudflare's managed default (the full diagnosis is in the file itself).
+- **`compressHTML` stays off** (whitespace-eating bug, see `astro.config.mjs`), and
+  `build.format: 'file'` pairs with wrangler's `html_handling = "auto-trailing-slash"` — change
+  either half alone and clean URLs break.
 - **The CI runner's docker is a sibling, not a child.** Published ports and bind mounts resolve in
   the host namespace where the checkout does not exist; share a network namespace or `docker cp`
   (see `efa10df`).

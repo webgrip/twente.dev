@@ -40,6 +40,17 @@ export default defineConfig({
     // asset handler serves clean URLs without a trailing-slash redirect hop.
     format: 'file',
   },
+  vite: {
+    build: {
+      // Never inline assets as data: URIs — font-src in the CSP below lists
+      // 'self' (data: is admitted for images only), and Vite's default 4 KB
+      // inlining turns any sub-4 KB font subset into a CSP-blocked data: font
+      // that errors in the console on every page. webgrip.nl hit exactly this
+      // with a cyrillic-ext subset; here it is latent until a package update
+      // shrinks one of the Inter subsets below the threshold.
+      assetsInlineLimit: 0,
+    },
+  },
   i18n: {
     locales: [...LOCALES],
     defaultLocale: DEFAULT_LOCALE,
@@ -75,7 +86,15 @@ export default defineConfig({
        */
       filter: (page) => {
         const path = new URL(page).pathname.replace(/\/+$/, '');
-        const noindexPaths = new Set(['', '/001', '/styleguide', '/nl/zoeken', '/en/search']);
+        const noindexPaths = new Set([
+          '',
+          '/001',
+          '/styleguide',
+          '/nl/zoeken',
+          '/en/search',
+          '/nl/bedankt',
+          '/en/thanks',
+        ]);
         return !noindexPaths.has(path) && !path.endsWith('/404');
       },
     }),

@@ -1,8 +1,9 @@
 # Response headers for Cloudflare Workers Static Assets.
 #
-# Mirrored in ops/docker/web/security-headers.conf so the local preview
-# container serves the same headers as production. Change one, change both —
-# the container exists to catch exactly this kind of drift.
+# The local preview container DERIVES its copy: scripts/gen-ops.ts generates
+# ops/docker/web/security-headers.conf from the /* block below and verifies
+# every Cache-Control tier here against nginx.conf — run `pnpm gen:ops` after
+# editing. CI (container-parity) fails on drift, so the mirror cannot rot.
 #
 # The main Content-Security-Policy is NOT here: Astro emits it as a <meta>
 # element with per-page hashes for every inline script and scoped style

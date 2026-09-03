@@ -93,6 +93,17 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
+      - name: Check derived ops config (gen-ops)
+        # nginx's redirect blocks and security-headers.conf are GENERATED from
+        # public/_redirects and public/_headers; drift means the parity
+        # container is testing a different contract than production serves.
+        # Stdlib-only script, so no pnpm install needed here.
+        run: node --experimental-strip-types scripts/gen-ops.ts --check
+
       - name: Build image
         run: docker build -f ops/docker/web/Dockerfile -t twente-dev-web:ci .
 

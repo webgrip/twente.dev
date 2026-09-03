@@ -27,6 +27,7 @@
     "test": "node --test --experimental-strip-types \"src/lib/**/*.test.ts\"",
     "validate:content": "node --experimental-strip-types scripts/validate-content.ts",
     "validate:csp": "node --experimental-strip-types scripts/validate-csp.ts",
+    "gen:ops": "node --experimental-strip-types scripts/gen-ops.ts",
     "deploy": "wrangler deploy",
     "deploy:preview": "wrangler versions upload",
     "validate:a11y": "node --experimental-strip-types scripts/axe-scan.ts",

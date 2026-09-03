@@ -97,6 +97,7 @@ image:
 [group('container')]
 parity:
     @just _need docker
+    pnpm gen:ops --check
     ./ops/local/parity-check.sh
 
 # --- quality gates ----------------------------------------------------------

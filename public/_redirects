@@ -1,7 +1,9 @@
 # Redirect rules for Cloudflare Workers Static Assets.
 #
-# Mirrored in ops/docker/web/nginx.conf so the local preview container behaves
-# like production. Change one, change both.
+# The local preview container DERIVES its copy: scripts/gen-ops.ts generates
+# nginx.conf's redirect locations from this file — run `pnpm gen:ops` after
+# editing here. CI (container-parity) fails on drift, so the mirror cannot
+# silently rot.
 #
 # The bare domain and the /001 short URL redirect at the HTTP layer so crawlers
 # and link tools see a real 30x instead of a 200 meta-refresh stub. The stubs

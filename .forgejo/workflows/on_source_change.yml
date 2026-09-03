@@ -127,252 +127,78 @@ jobs:
         if: always()
         run: docker rm -f twente-web-ci || true
 
-  # Enforces the budgets in lighthouserc.json — without this job they are
-  # documentation, not gates. Lighthouse needs Chrome, which the runner image
-  # may not carry, so it runs inside a Chrome-equipped container via the same
-  # docker capability container-parity already assumes. Same caveat as that
-  # job: if the runner turns out not to support it, deleting this job costs
-  # nothing and `just lhci` still enforces the budgets locally.
+  # Budgets and the axe rule set are shared gates now — extracted to
+  # webgrip/workflows after this job and webgrip.nl's were found to be
+  # hand-synced copies. Budget numbers and the a11y page list stay in THIS
+  # repo (lighthouserc.json, scripts/axe-scan.ts); the machinery is shared.
   lighthouse:
     name: "Lighthouse Budgets"
     needs:
       - build
-    runs-on: docker
-    steps:
-      # v5, not v6 — v6 is broken on non-GitHub runners (webgrip/workflows ADR-0002).
-      - uses: actions/checkout@v5
+    # TODO(post-merge): pin the tag cut by webgrip/workflows PR #58, then delete this line.
+    uses: webgrip/workflows/.forgejo/workflows/lighthouse-budgets.yml@vTODO
 
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "24"
-
-      - name: Enable pnpm
-        run: corepack enable
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Build
-        run: pnpm build
-
-      - name: Run Lighthouse CI
-        run: |
-          # autorun with staticDistDir serves ./dist itself, so the container
-          # needs no project dependencies — only Node and Chrome.
-          #
-          # Files go in via `docker cp`, not a bind mount: the job runs in a
-          # container, so a -v "$PWD:..." mount resolves $PWD on the HOST
-          # daemon, where the checkout does not exist, and lhci sees an empty
-          # directory.
-          docker rm -f lhci >/dev/null 2>&1 || true
-          docker run -d --name lhci -w /repo cypress/browsers:latest sleep 1800
-          docker cp dist lhci:/repo/dist
-          docker cp lighthouserc.json lhci:/repo/lighthouserc.json
-          docker exec -w /repo lhci bash -c "npx --yes @lhci/cli@0.15.x autorun"
-
-      - name: Clean up Lighthouse container
-        if: always()
-        run: docker rm -f lhci || true
-
-  # Runs the real axe rule set (10x-plan §6.6 item 5). Lighthouse already
-  # asserts categories:accessibility at 1.0, but that score is a sampling
-  # heuristic — it misses most ARIA and focus-order defects, which is why this
-  # exists alongside it rather than instead of it.
-  #
-  # Same container trick as lighthouse, for the same reason: the runner's docker
-  # is a sibling, so bind mounts resolve on the HOST where the checkout does not
-  # exist. Everything goes in by `docker cp`.
   accessibility:
     name: "Accessibility (axe-core)"
     needs:
       - build
-    runs-on: docker
-    steps:
-      # v5, not v6 — v6 is broken on non-GitHub runners (webgrip/workflows ADR-0002).
-      - uses: actions/checkout@v5
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "24"
-
-      - name: Enable pnpm
-        run: corepack enable
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Build
-        run: pnpm build
-
-      - name: Run axe scan
-        run: |
-          set -euo pipefail
-          # Versions come from package.json so the container cannot drift from
-          # the versions a developer gets locally. playwright-core, not
-          # playwright: core skips the ~150MB browser download, and the image
-          # already ships Chrome — which scripts/axe-scan.ts targets via
-          # CHROME_PATH.
-          AXE=$(node -p "require('./package.json').devDependencies['@axe-core/playwright']")
-          PWC=$(node -p "require('./package.json').devDependencies['playwright-core']")
-
-          docker rm -f axe >/dev/null 2>&1 || true
-          docker run -d --name axe -w /repo cypress/browsers:latest sleep 1800
-          docker cp dist axe:/repo/dist
-          docker cp lighthouserc.json axe:/repo/lighthouserc.json
-          docker cp scripts axe:/repo/scripts
-          # A MINIMAL package.json, not the repo's. The script is ESM so the
-          # container needs "type": "module" to load a .ts entrypoint at all —
-          # but copying the real one would make `npm i` resolve every
-          # devDependency (astro, eslint, wrangler, …) before installing the two
-          # packages actually wanted, which is minutes of nothing useful.
-          docker exec -w /repo axe bash -c 'echo "{\"type\":\"module\"}" > package.json'
-          docker exec -w /repo axe bash -c \
-            "npm i --no-save --silent '@axe-core/playwright@${AXE}' 'playwright-core@${PWC}'"
-          docker exec -w /repo axe bash -c \
-            "node --experimental-strip-types scripts/axe-scan.ts"
-
-      - name: Clean up axe container
-        if: always()
-        run: docker rm -f axe || true
+    uses: webgrip/workflows/.forgejo/workflows/axe-scan.yml@vTODO
 
   # ---------------------------------------------------------------------------
-  # Deploy.
+  # Deploy — via the shared cloudflare-deploy workflow (the ADR-0003 "Phase 2"
+  # extraction, landed 2026-09). environment is passed as a LITERAL and ref
+  # routing happens inside the reusable: Forgejo v15 drops if-conditions on
+  # uses-caller jobs and evaluates caller with-expressions against an empty
+  # github context. needs: DOES survive flattening, which is how production
+  # waits for both quality gates here — een budget- of axe-regressie mag nooit
+  # live; previews wachten bewust niet (reviewsnelheid).
   #
-  # Inlined on purpose. There is no Cloudflare workflow in webgrip/workflows yet
-  # — this repo is the org's first Cloudflare consumer — and cross-repo
-  # `workflow_call` to a local `./.forgejo/...` path is not something we have
-  # verified on forgejo-runner. Phase 2 of the plan extracts this into
-  # webgrip/workflows as `cloudflare-deploy.yml` in BOTH trees (.github/ and
-  # .forgejo/, per that repo's two-tree ADR) and this becomes a `uses:`.
-  #
-  # wrangler is invoked through `pnpm exec` (it is a devDependency, installed
-  # by the install step) rather than a marketplace action so nothing depends on
-  # how the runner resolves third-party actions. NOT `pnpm dlx`: dlx installs
-  # into a throwaway project that never sees pnpm-workspace.yaml's allowBuilds,
-  # so pnpm's build-scripts guard prompts interactively for esbuild/workerd and
-  # the job hangs forever.
+  # Redirect rules are checked against production straight from
+  # public/_redirects by the shared workflow, so a new redirect cannot ship
+  # without its check.
   # ---------------------------------------------------------------------------
   deploy-preview:
     name: "Deploy Preview"
     needs:
       - build
-    if: github.ref != 'refs/heads/main'
-    runs-on: docker
-    environment: preview
-    permissions:
-      contents: read
-    steps:
-      # v5, not v6 — v6 is broken on non-GitHub runners (webgrip/workflows ADR-0002).
-      - uses: actions/checkout@v5
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "24"
-
-      - name: Enable pnpm
-        run: corepack enable
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Build
-        run: pnpm build
-
-      - name: Upload preview version
-        id: upload
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-        run: |
-          # `versions upload` publishes a non-production version and prints a
-          # preview URL. Reviewers see the rendered page, not the YAML diff —
-          # the single highest-value CI feature for a content site.
-          pnpm exec wrangler versions upload | tee upload.log
-          url="$(grep -oE 'https://[a-z0-9-]+\.[a-z0-9-]+\.workers\.dev' upload.log | head -1 || true)"
-          echo "preview-url=${url}" >> "$GITHUB_OUTPUT"
-
-      - name: Report preview URL
-        if: steps.upload.outputs.preview-url != ''
-        run: |
-          echo "Preview: ${{ steps.upload.outputs.preview-url }}" >> "$GITHUB_STEP_SUMMARY"
+    uses: webgrip/workflows/.forgejo/workflows/cloudflare-deploy.yml@vTODO
+    with:
+      environment: preview
+      apex-url: "https://twente.dev"
+      edge-probe-path: /nl
+    secrets:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
 
   deploy-production:
     name: "Deploy Production"
     needs:
       - build
-      # Production waits for both quality gates: een budget- of axe-regressie
-      # mag nooit live. Previews wachten bewust niet (reviewsnelheid).
       - lighthouse
       - accessibility
-    if: github.ref == 'refs/heads/main'
-    runs-on: docker
-    environment: production
-    permissions:
-      contents: read
-    steps:
-      - uses: actions/checkout@v5
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "24"
-
-      - name: Enable pnpm
-        run: corepack enable
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Build
-        run: pnpm build
-
-      - name: Deploy
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-        run: pnpm exec wrangler deploy
-
-      - name: Smoke test
-        run: |
-          set -euo pipefail
-
-          # Wait for the edge before asserting anything. Run 8 deployed the route
-          # successfully ("Deployed twente-dev triggers: twente.dev/*") and then failed
-          # here on /nl -> 522, because the smoke step started seconds later and the
-          # trigger had not taken effect yet. Asserting immediately turns a healthy
-          # deploy into a red pipeline, which is how a smoke test stops being believed.
-          for attempt in $(seq 1 12); do
-            code="$(curl -s -o /dev/null -w '%{http_code}' --max-time 15 https://twente.dev/nl || echo 000)"
-            [ "${code}" = "200" ] && { echo "edge ready after ${attempt} attempt(s)"; break; }
-            echo "waiting for edge (/nl -> ${code}, attempt ${attempt}/12)"
-            [ "${attempt}" = "12" ] && { echo "FAIL: edge never became ready"; exit 1; }
-            sleep 10
-          done
-
-          # /nl/vacatures and /en/jobs are gone since the lean-launch scope cut
-          # (job board removed) — the directory pages stand in as the deepest
-          # localized routes worth smoke-testing.
-          for path in /nl /en /nl/001 /en/001 /nl/bedrijven /en/companies /events.ics \
-                      /nl/rss.xml /en/rss.xml /sitemap-index.xml /robots.txt \
-                      /.well-known/security.txt; do
-            code="$(curl -s -o /dev/null -w '%{http_code}' --max-time 15 "https://twente.dev${path}")"
-            echo "${path} -> ${code}"
-            [ "${code}" = "200" ] || { echo "FAIL ${path} (expected 200)"; exit 1; }
-          done
-
-          # not_found_handling and the front-door redirects are wrangler.toml and
-          # _redirects contracts; nothing else in CI exercises them against production.
-          check_status() {
-            code="$(curl -s -o /dev/null -w '%{http_code}' --max-time 15 "https://twente.dev${1}")"
-            echo "${1} -> ${code} (expected ${2})"
-            [ "${code}" = "${2}" ] || { echo "FAIL ${1}"; exit 1; }
-          }
-          check_status /nl/this-page-does-not-exist 404
-          check_status / 302
-          check_status /001 301
-          # Every rule in public/_redirects gets a line here — a new redirect
-          # without its smoke check is an unguarded promise. These three paths
-          # are out in the world: press-page links, and the compact mark is an
-          # <img src> in every e-mail signature pasted from the template.
-          check_status /brand/twente-dev-mark.svg 301
-          check_status /brand/twente-dev-mark.png 301
-          check_status /brand/twente-dev-logo.png 301
+    uses: webgrip/workflows/.forgejo/workflows/cloudflare-deploy.yml@vTODO
+    with:
+      environment: production
+      apex-url: "https://twente.dev"
+      edge-probe-path: /nl
+      # /nl/vacatures and /en/jobs are gone since the lean-launch scope cut —
+      # the directory pages stand in as the deepest localized routes worth
+      # smoke-testing. Redirect rules need no lines here: the shared workflow
+      # derives their checks from public/_redirects.
+      smoke-paths: |
+        /nl
+        /en
+        /nl/001
+        /en/001
+        /nl/bedrijven
+        /en/companies
+        /events.ics
+        /nl/rss.xml
+        /en/rss.xml
+        /sitemap-index.xml
+        /robots.txt
+        /.well-known/security.txt
+      not-found-path: /nl/this-page-does-not-exist
+    secrets:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

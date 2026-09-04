@@ -109,13 +109,19 @@ header.d=twente.dev`, `dmarc=pass` and `compauth=pass reason=100`. mail-tester s
    the migration plan buys.
 4. **Google Postmaster Tools** for both domains. Free, and the only place the real spam rate
    and authentication rate are visible rather than guessed at.
-5. **Registrar transfer**, Hostnet → Namecheap, for webgrip.nl and ryangrippeling.nl. Verify
-   Namecheap accepts `.nl` _transfers_ first; ccTLD support is narrower than gTLD support.
-   Cloudflare Registrar is not an option here — it does not carry `.nl`.
-6. **DNSSEC** on all zones — **after** the registrar transfer, never during. Enabling it means
-   a DS record at the registry managed through the registrar; a transfer with DNSSEC live can
-   leave a signed zone with no matching DS, which resolves as SERVFAIL rather than as a visible
-   error.
+5. ~~**Registrar transfer**, Hostnet → Namecheap, for webgrip.nl and ryangrippeling.nl.~~
+   **Done, verified 2026-09-04** with `whois`: both `.nl` domains answer `Registrar: NAMECHEAP,
+INC.` The ccTLD worry was unfounded. Cloudflare Registrar was never an option here; it does
+   not carry `.nl`.
+6. **DNSSEC** on all zones. **Unblocked by item 5, and webgrip.nl is already halfway there in a
+   way worth naming.** Measured 2026-09-04: `webgrip.nl` publishes a `DNSKEY` (algorithm 13) and
+   **no `DS` at the parent**, so Cloudflare signs the zone while no resolver validates it. That
+   is the harmless half of the pair. The dangerous half is the reverse, a `DS` with no matching
+   key, which resolves as SERVFAIL and is invisible from a browser on a cached resolver.
+   Finishing it is one action per zone: take the DS values Cloudflare generates and enter them at
+   Namecheap under Domain List → Manage → Advanced DNS → DNSSEC, as KeyTag, Algorithm, DigestType
+   and Digest. `twente.dev` and `ryangrippeling.nl` have neither half yet, so those start in the
+   Cloudflare dashboard.
 7. **MTA-STS + TLS-RPT** on twente.dev. **Unblocked and half-shipped, 2026-09-04.** Decision 3
    is taken, so the `mx:` list is knowable: the policy at `public/.well-known/mta-sts.txt` is
    served from the Worker on `mta-sts.twente.dev` in `mode: testing`, listing `smtp.google.com`
@@ -364,10 +370,13 @@ The consequence is concrete and it is the whole point of the migration:
 | `ryan@twente.dev` | `hello@twente.dev` | twente.dev | d=twente.dev | yes         |
 | `ryan@webgrip.nl` | `hello@twente.dev` | webgrip.nl | d=twente.dev | no          |
 
-DKIM aligns either way, so DMARC passes either way. The second leg exists only when the mail
-actually leaves from the twente.dev mailbox. A licence on that account is therefore worth
-paying for only if it is the mailbox you sit in for twente.dev mail; otherwise the groups are
-free on a secondary domain and the user account can go.
+DKIM aligns either way, so DMARC passes either way. SPF alignment exists only when the mail
+actually leaves from the twente.dev mailbox.
+
+**Decided 2026-09-04: `ryan@twente.dev` is the mailbox twente.dev mail is sent from**, with
+`hello@twente.dev` as the From. That is what the licence buys, and it is the only arrangement
+where both DMARC checks align. Sending that same From from the webgrip.nl mailbox still
+arrives, on DKIM alone, so a slip is not an outage.
 
 ### A new Google Group rejects external senders by default
 

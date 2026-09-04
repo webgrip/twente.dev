@@ -20,7 +20,7 @@ interface DomainIntent {
 
 interface MailAuthIntent {
   resolver: string;
-  mtaSts: { policyInRepo: string; policyUrl: string; txtPublished: boolean };
+  mtaSts: { policyInRepo: string; policyUrl: string; dnsRecordsPublished: boolean };
   domains: Record<string, DomainIntent>;
 }
 
@@ -109,7 +109,7 @@ for (const [domain, want] of Object.entries(intent.domains)) {
 const policyHost = new URL(intent.mtaSts.policyUrl).hostname.replace(/^mta-sts\./, '');
 const stsTxt = (await txt(`_mta-sts.${policyHost}`)).filter((r) => r.startsWith('v=STSv1'));
 
-if (intent.mtaSts.txtPublished) {
+if (intent.mtaSts.dnsRecordsPublished) {
   if (stsTxt.length !== 1) {
     failures.push(
       `_mta-sts.${policyHost}: expected exactly one STSv1 record, found ${stsTxt.length}`,
@@ -123,7 +123,7 @@ if (intent.mtaSts.txtPublished) {
   }
 } else if (stsTxt.length > 0) {
   failures.push(
-    `_mta-sts.${policyHost} is published while ${INTENT_FILE} still says txtPublished: false`,
+    `_mta-sts.${policyHost} is published while ${INTENT_FILE} still says dnsRecordsPublished: false`,
   );
 } else {
   declaredPending.push('the _mta-sts TXT record is declared not yet published');

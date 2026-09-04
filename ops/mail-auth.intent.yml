@@ -3,7 +3,7 @@ resolver: 8.8.8.8
 mtaSts:
   policyInRepo: public/.well-known/mta-sts.txt
   policyUrl: https://mta-sts.twente.dev/.well-known/mta-sts.txt
-  txtPublished: false
+  dnsRecordsPublished: false
 
 domains:
   twente.dev:

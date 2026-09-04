@@ -318,15 +318,14 @@ const speakers = EDITION_001_SPEAKERS;
   jsonLd={jsonLd}
 >
   <div class="container edition">
-    <nav class="breadcrumb" aria-label="Breadcrumb">
-      <a class="label-mono" href={routePath('events', locale)}>
-        <span aria-hidden="true">←</span>
-        {t('events.title')}
-      </a>
-    </nav>
-
     <div class="edition-grid">
-      <header class="edition-hero">
+      <header class="edition-hero grid-band">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a class="label-mono" href={routePath('events', locale)}>
+            <span aria-hidden="true">←</span>
+            {t('events.title')}
+          </a>
+        </nav>
         <p class="edition-lockup label-mono" aria-hidden="true">
           <span class="lockup-name">{editionName(EDITION_001.number)}</span>
           <span class="lockup-date">
@@ -566,7 +565,7 @@ const speakers = EDITION_001_SPEAKERS;
   }
 
   .breadcrumb {
-    padding-block: var(--space-5) var(--space-6);
+    padding-block-end: var(--space-6);
   }
 
   .breadcrumb a {
@@ -614,7 +613,7 @@ const speakers = EDITION_001_SPEAKERS;
   }
 
   .edition-hero {
-    padding-block-end: var(--space-7);
+    padding-block: var(--space-5) var(--space-7);
     border-block-end: var(--border-width) solid var(--border);
   }
 

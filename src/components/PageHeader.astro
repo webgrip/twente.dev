@@ -9,7 +9,7 @@ const { title, description, kicker } = Astro.props;
 const hasAside = Astro.slots.has('default');
 ---
 
-<div class="page-header">
+<div class="page-header grid-band">
   {kicker && <p class="label-mono page-kicker">{kicker}</p>}
   <div class:list={['page-header-grid', hasAside && 'has-aside']}>
     <div>

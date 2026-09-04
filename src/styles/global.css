@@ -39,6 +39,7 @@
 html {
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
+  overflow-x: clip;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -203,6 +204,28 @@ hr {
 }
 
 .thread-grid--bleed {
+  background-size:
+    100% var(--grid-cell),
+    var(--grid-cell) 100%;
+  background-position:
+    0 0,
+    calc(50% + var(--grid-cell) / 2) 0;
+}
+
+.grid-band {
+  position: relative;
+}
+
+.grid-band::before {
+  content: '';
+  position: absolute;
+  inset-block: 0;
+  inset-inline: calc(50% - 50vw);
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
   background-size:
     100% var(--grid-cell),
     var(--grid-cell) 100%;

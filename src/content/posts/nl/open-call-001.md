@@ -13,7 +13,6 @@ author:
 tags:
   - open-call
   - twente-dev-001
-pillar: open-calls
 draft: false
 ---
 

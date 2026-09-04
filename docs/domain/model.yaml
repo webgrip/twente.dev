@@ -151,6 +151,17 @@ terms:
     synonyms: [oproep]
     see_also: [Talk, Speaker]
 
+  - name: Editieverslag
+    context: Publicatie
+    definition: >-
+      Het gepubliceerde stuk over een Edition die geweest is, met de slides, de
+      foto's en wat er wel en niet werkte. Verschijnt binnen tien werkdagen en
+      maakt van een avond een Archief. Onderscheidt zich van een Field Report
+      doordat het over de avond zelf gaat en niet over het werk van één persoon.
+    synonyms: [edition report]
+    avoid: [meetup report, naverslag]
+    see_also: [Edition, Archief, Pillar]
+
   - name: Week in Twente Tech
     context: Publicatie
     definition: >-
@@ -201,9 +212,10 @@ terms:
     context: Publicatie
     definition: >-
       De redactionele soort van een gepubliceerd stuk, en het label dat een lezer
-      op de kaart ziet. Er zijn er drie: field-reports, open-calls en
+      op de kaart ziet. Er zijn er drie: field-reports, edition-reports en
       week-in-twente-tech. Een stuk heeft er hoogstens één; een algemeen artikel
-      heeft er geen.
+      heeft er geen, en een Open Call is er geen van, want dat is een oproep en
+      geen soort.
     avoid: [categorie, tag]
     see_also: [Field Report, Open Call, Week in Twente Tech]
 
@@ -384,7 +396,7 @@ entities:
         trigger: De avond zelf
       - from: Gehouden
         to: Gearchiveerd
-        trigger: Openbaar verslag gepubliceerd, binnen tien werkdagen
+        trigger: Editieverslag gepubliceerd, binnen tien werkdagen
     relationships:
       - to: Talk
         kind: has_many

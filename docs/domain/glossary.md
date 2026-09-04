@@ -15,6 +15,15 @@ Een bestaande groep in de regio die van iemand anders is en met toestemming in d
 
 **Examples:** TkkrLab; Agile Meetup Twente  
 
+## Editieverslag
+*Context: Publicatie*
+
+Het gepubliceerde stuk over een Edition die geweest is, met de slides, de foto's en wat er wel en niet werkte. Verschijnt binnen tien werkdagen en maakt van een avond een Archief. Onderscheidt zich van een Field Report doordat het over de avond zelf gaat en niet over het werk van één persoon.
+
+**Also known as:** edition report  
+**Do not use:** meetup report, naverslag  
+**See also:** [Edition](#edition), [Archief](#archief), [Pillar](#pillar)  
+
 ## Edition
 *Context: Editie*
 
@@ -101,7 +110,7 @@ De titelreeks waaronder de interview-Field Reports verschijnen, zodat een lezer 
 ## Pillar
 *Context: Publicatie*
 
-De redactionele soort van een gepubliceerd stuk, en het label dat een lezer op de kaart ziet. Er zijn er drie: field-reports, open-calls en week-in-twente-tech. Een stuk heeft er hoogstens één; een algemeen artikel heeft er geen.
+De redactionele soort van een gepubliceerd stuk, en het label dat een lezer op de kaart ziet. Er zijn er drie: field-reports, edition-reports en week-in-twente-tech. Een stuk heeft er hoogstens één; een algemeen artikel heeft er geen, en een Open Call is er geen van, want dat is een oproep en geen soort.
 
 **Do not use:** categorie, tag  
 **See also:** [Field Report](#field-report), [Open Call](#open-call), [Week in Twente Tech](#week-in-twente-tech)  

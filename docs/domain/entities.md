@@ -29,7 +29,7 @@ stateDiagram-v2
     Aangekondigd --> Aanmelden_open : Registration-kanaal live gezet
     Aanmelden_open --> Programma_rond : Twee Speakers bevestigd (R6)
     Programma_rond --> Gehouden : De avond zelf
-    Gehouden --> Gearchiveerd : Openbaar verslag gepubliceerd, binnen tien werkdagen
+    Gehouden --> Gearchiveerd : Editieverslag gepubliceerd, binnen tien werkdagen
 ```
 
 ## Talk

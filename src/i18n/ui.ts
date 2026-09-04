@@ -127,7 +127,7 @@ export const nl = {
   'blog.onlyInOtherLocale': 'Dit artikel is alleen in het Engels beschikbaar.',
 
   'pillar.field-reports': 'Field report',
-  'pillar.open-calls': 'Open call',
+  'pillar.edition-reports': 'Editieverslag',
   'pillar.week-in-twente-tech': 'Week in Twente Tech',
 
   'search.label': 'Zoeken',
@@ -289,7 +289,7 @@ export const en: Record<UIKey, string> = {
   'blog.onlyInOtherLocale': 'This article is only available in Dutch.',
 
   'pillar.field-reports': 'Field report',
-  'pillar.open-calls': 'Open call',
+  'pillar.edition-reports': 'Edition report',
   'pillar.week-in-twente-tech': 'Week in Twente Tech',
 
   'search.label': 'Search',

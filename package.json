@@ -27,6 +27,7 @@
     "test": "node --test --experimental-strip-types \"src/lib/**/*.test.ts\"",
     "validate:content": "node --experimental-strip-types scripts/validate-content.ts",
     "validate:csp": "node --experimental-strip-types scripts/validate-csp.ts",
+    "validate:mail-auth": "node --experimental-strip-types scripts/validate-mail-auth.ts",
     "banners": "node --experimental-strip-types scripts/sync-editie.mjs && node scripts/export-banners.mjs",
     "gen:ops": "node --experimental-strip-types scripts/gen-ops.ts",
     "deploy": "wrangler deploy",

@@ -1,0 +1,23 @@
+name: "[Scheduled] Mail Auth Drift"
+
+on:
+  schedule:
+    - cron: "0 6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  drift:
+    name: "Check SPF, DKIM, DMARC and MTA-STS against declared intent"
+    runs-on: docker
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
+      - name: Check for drift
+        run: node --experimental-strip-types scripts/validate-mail-auth.ts

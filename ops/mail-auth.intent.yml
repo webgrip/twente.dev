@@ -1,0 +1,48 @@
+resolver: 8.8.8.8
+
+mtaSts:
+  policyInRepo: public/.well-known/mta-sts.txt
+  policyUrl: https://mta-sts.twente.dev/.well-known/mta-sts.txt
+  txtPublished: false
+
+domains:
+  twente.dev:
+    mx: [smtp.google.com]
+    spf: v=spf1 include:_spf.google.com ~all
+    dkim:
+      - selector: google
+        keyCharacters: 408
+    dmarcPolicy: p=none
+    dmarcReportsTo: [dmarc@twente.dev]
+
+  send.twente.dev:
+    mx: []
+    spf: deliberately-absent
+    dkim:
+      - selector: brevo1
+      - selector: brevo2
+    dmarcPolicy: p=none
+    dmarcReportsTo: [dmarc@twente.dev, rua@dmarc.brevo.com]
+
+  webgrip.nl:
+    mx:
+      [
+        aspmx.l.google.com,
+        alt1.aspmx.l.google.com,
+        alt2.aspmx.l.google.com,
+        alt3.aspmx.l.google.com,
+        alt4.aspmx.l.google.com,
+      ]
+    spf: v=spf1 include:_spf.google.com ~all
+    dkim:
+      - selector: google
+        keyCharacters: 408
+    dmarcPolicy: p=none
+    dmarcReportsTo: [dmarc@webgrip.nl]
+
+  ryangrippeling.nl:
+    mx: []
+    spf: v=spf1 -all
+    dkim: []
+    dmarcPolicy: p=reject
+    dmarcReportsTo: []

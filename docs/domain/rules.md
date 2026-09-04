@@ -22,13 +22,13 @@ twente.dev wordt altijd met kleine letters geschreven, ook aan het begin van een
 
 De feiten van de huidige Edition (datum, tijden, stad, venue, capaciteit, kosten) staan uitsluitend in src/config/site.ts. Geen enkele pagina herhaalt ze als letterlijke tekst.
 
-**Why:** Toen ze wel werden herhaald, liep de capaciteit uiteen (100 tegenover 40) en de stad (Enschede tegenover Rijssen) op vier plekken tegelijk. Mensen boeken reizen op die velden.
+**Why:** Herhaalde feiten lopen uiteen, en mensen boeken reizen op deze velden.
 
 ### R6
 
 Zijn er op T−4 weken geen twee bevestigde Speakers, dan wordt het een lichte avond en geen Edition met een TBA-programma.
 
-**Why:** Een leeg programma dat toch wordt aangekondigd, kost meer vertrouwen dan een eerlijk kleinere avond. Deze regel verzette /001 van 7 oktober naar 4 november.
+**Why:** Een leeg programma dat toch wordt aangekondigd, kost meer vertrouwen dan een eerlijk kleinere avond.
 
 **Also applies to:** Speaker
 
@@ -52,7 +52,7 @@ Een Host wordt publiek genoemd met een eindig aantal edities, en dat aantal is h
 
 De nieuwsbrief is één lijst met één afmeldknop. Wie zijn adres achterlaat krijgt de Field Reports, de Open Calls en de aankondigingen rond een Edition, en de opt-intekst noemt ze alle drie.
 
-**Why:** Aparte lijsten per soort zijn administratie zonder opbrengst zolang er één afzender en een handvol verzendingen per kwartaal zijn. Wat wél moet: niet meer beloven dan je stuurt, en niet minder. De doos heette "De field note" terwijl er meer dan dat uit kwam.
+**Why:** Aparte lijsten per soort zijn administratie zonder opbrengst zolang er één afzender en een handvol verzendingen per kwartaal zijn. Wat wél moet: niet meer beloven dan je stuurt, en niet minder. Een lijst die naar één soort post is vernoemd, belooft minder dan hij levert.
 
 **Also applies to:** Field Report
 

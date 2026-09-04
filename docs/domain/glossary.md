@@ -72,7 +72,7 @@ De titelreeks waaronder de interview-Field Reports verschijnen, zodat een lezer 
 ## Registration
 *Context: Editie*
 
-De RSVP van één persoon voor één Edition, sinds 2026-09-02 afgehandeld op meetup.com. De site blijft het verslag van de avond; Meetup draagt alleen de aanmelding.
+De RSVP van één persoon voor één Edition, afgehandeld op meetup.com. De site blijft het verslag van de avond; Meetup draagt alleen de aanmelding.
 
 **Also known as:** aanmelding, RSVP  
 **Do not use:** ticket, kaartje  
@@ -120,8 +120,3 @@ Short exchanges showing the terms used precisely at concept boundaries.
 
 > **Ryan:** Code14 betaalt nu ook zes maanden mee. Zijn ze dan Partner geworden?
 > **Redactie:** Ze zijn allebei. **Host** gaat over de zaal, **Partner** over de bijdrage. Wat niet verandert is R4: geen **Talk**-slot, geen deelnemerslijst, geen inspraak op het programma.
-
-## Resolved ambiguities
-
-- **field report** — Talk (Ryan, 2026-09-04, "de talks zijn talks, geen field reports"). Voorkomt in elf plekken in de site-copy en moet daar vervangen worden.
-- **field note** — Ryan, 2026-09-04. Field Note is afgeschaft. Field Report is de enige naam voor het geschreven stuk en dekt allebei de vormen: het interview en de eerstepersoonsles. People Who Build blijft bestaan als titelreeks boven de interviews, niet als tweede soort. Talk blijft voorbehouden aan de gesproken twaalf minuten op een Edition.

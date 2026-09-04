@@ -52,9 +52,8 @@ terms:
   - name: Registration
     context: Editie
     definition: >-
-      De RSVP van één persoon voor één Edition, sinds 2026-09-02 afgehandeld op
-      meetup.com. De site blijft het verslag van de avond; Meetup draagt alleen
-      de aanmelding.
+      De RSVP van één persoon voor één Edition, afgehandeld op meetup.com. De
+      site blijft het verslag van de avond; Meetup draagt alleen de aanmelding.
     synonyms: [aanmelding, RSVP]
     avoid: [ticket, kaartje]
     see_also: [Edition]
@@ -148,9 +147,7 @@ rules:
       kosten) staan uitsluitend in src/config/site.ts. Geen enkele pagina
       herhaalt ze als letterlijke tekst.
     rationale: >-
-      Toen ze wel werden herhaald, liep de capaciteit uiteen (100 tegenover 40)
-      en de stad (Enschede tegenover Rijssen) op vier plekken tegelijk. Mensen
-      boeken reizen op die velden.
+      Herhaalde feiten lopen uiteen, en mensen boeken reizen op deze velden.
     applies_to: [Edition]
   - id: R3
     statement: Spreektijd is niet te koop. Een Speaker wordt redactioneel geselecteerd.
@@ -174,8 +171,7 @@ rules:
       lichte avond en geen Edition met een TBA-programma.
     rationale: >-
       Een leeg programma dat toch wordt aangekondigd, kost meer vertrouwen dan
-      een eerlijk kleinere avond. Deze regel verzette /001 van 7 oktober naar
-      4 november.
+      een eerlijk kleinere avond.
     applies_to: [Edition, Speaker]
   - id: R7
     statement: >-
@@ -191,8 +187,8 @@ rules:
     rationale: >-
       Aparte lijsten per soort zijn administratie zonder opbrengst zolang er één
       afzender en een handvol verzendingen per kwartaal zijn. Wat wél moet: niet
-      meer beloven dan je stuurt, en niet minder. De doos heette "De field note"
-      terwijl er meer dan dat uit kwam.
+      meer beloven dan je stuurt, en niet minder. Een lijst die naar één soort
+      post is vernoemd, belooft minder dan hij levert.
     applies_to: [Newsletter, Field Report]
   - id: R9
     statement: >-
@@ -302,11 +298,8 @@ entities:
       - name: editionsCommitted
         type: int
         description: >-
-          Wat er publiek wordt toegezegd, en dat is expliciet eindig. Code14
-          zegde op 2026-09-04 twaalf edities toe (zaal én bijdrage); publiek
-          noemen we er drie, zodat de rotatiebelofte overeind blijft en de zaal
-          zichtbaar weer vrijkomt. Voor de eerste zes ligt aan de achterkant een
-          uitwijklocatie klaar.
+          Het aantal edities dat publiek is toegezegd. Eindig, en hoogstens wat
+          de host werkelijk heeft toegezegd.
     relationships:
       - to: Edition
         kind: has_many
@@ -346,45 +339,6 @@ events:
     entity: Edition
     description: De avond heeft plaatsgevonden.
     triggers: Bedankmail naar Speakers binnen drie dagen, verslag binnen tien werkdagen.
-
-ambiguities:
-  - phrase: field report
-    issue: >-
-      Werd gebruikt voor de twaalfminutentalks op de avond, terwijl "field note"
-      een geschreven vorm aanduidt. Twee woorden die op elkaar lijken voor twee
-      dingen die niets met elkaar te maken hebben.
-    options:
-      - "Talk voor het gesproken stuk, field report afschaffen"
-      - "Field report houden en de geschreven vorm hernoemen"
-    recommendation: >-
-      Talk. Het is wat mensen toch al zeggen, en het laat "field" vrij voor de
-      geschreven kant.
-    status: resolved
-    resolution: >-
-      Talk (Ryan, 2026-09-04, "de talks zijn talks, geen field reports").
-      Voorkomt in elf plekken in de site-copy en moet daar vervangen worden.
-
-  - phrase: field note
-    issue: >-
-      Had drie betekenissen tegelijk: de pillar "één concrete les", de naam van
-      de nieuwsbrief op de homepage, en de lezing dat het de interviews zijn.
-      Bovendien stond het te dicht op "field report", dat toen nog voor de talks
-      werd gebruikt. Twee woorden die op elkaar lijken en niet hetzelfde zijn,
-      is precies wat een lezer niet kan onthouden.
-    options:
-      - "Field Note houden voor de les, People Who Build voor het interview"
-      - "Field Report als enige naam voor beide; People Who Build wordt titelreeks"
-    recommendation: >-
-      De tweede, en dat is ook wat Ryan koos. Eén woord voor het geschreven stuk
-      is makkelijker uit te leggen dan twee die naast elkaar leven, en "field
-      note" was toch al besmet.
-    status: resolved
-    resolution: >-
-      Ryan, 2026-09-04. Field Note is afgeschaft. Field Report is de enige naam
-      voor het geschreven stuk en dekt allebei de vormen: het interview en de
-      eerstepersoonsles. People Who Build blijft bestaan als titelreeks boven de
-      interviews, niet als tweede soort. Talk blijft voorbehouden aan de
-      gesproken twaalf minuten op een Edition.
 
 dialogues:
   - title: Talk tegenover Field Report

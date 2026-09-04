@@ -274,8 +274,8 @@
 
         <div class="card">
           <div class="edition" contenteditable="true">twente.dev/001</div>
-          <div class="date" contenteditable="true">07.10</div>
-          <div class="where" contenteditable="true">Rijssen · 18:00</div>
+          <div class="date" contenteditable="true" data-editie-datum>07.10</div>
+          <div class="where" contenteditable="true" data-editie-waar>Rijssen · 18:00</div>
         </div>
       </div>
 
@@ -358,12 +358,21 @@
 
         <div class="card">
           <div class="edition" contenteditable="true">twente.dev/001</div>
-          <div class="date" contenteditable="true">07.10</div>
-          <div class="where" contenteditable="true">Rijssen · 18:00</div>
+          <div class="date" contenteditable="true" data-editie-datum>07.10</div>
+          <div class="where" contenteditable="true" data-editie-waar>Rijssen · 18:00</div>
         </div>
       </div>
 
       <div class="foot" contenteditable="true">twente.dev/001 // reconnect the region // free</div>
     </div>
+    <script src="editie.js"></script>
+    <script>
+      document.querySelectorAll('[data-editie-datum]').forEach((el) => {
+        el.textContent = EDITIE.datumCompact;
+      });
+      document.querySelectorAll('[data-editie-waar]').forEach((el) => {
+        el.textContent = `${EDITIE.stad.replace(/^./, (c) => c.toUpperCase())} · ${EDITIE.tijd}`;
+      });
+    </script>
   </body>
 </html>

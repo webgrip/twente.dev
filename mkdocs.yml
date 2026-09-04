@@ -46,6 +46,10 @@ nav:
       - adrs/0007-container-for-dev-and-parity.md
       - adrs/0008-playbook-first-launch-scope.md
       - adrs/0009-lean-launch-remove-job-board.md
+      - adrs/0010-participation-over-listing.md
+      - adrs/0011-brevo-for-machine-sent-mail.md
+      - adrs/0012-meetup-for-registration.md
+      - adrs/0013-counterscale-for-campaign-attribution.md
       - adrs/0000-template.md
   - Community agreements:
       - partner-compact.md

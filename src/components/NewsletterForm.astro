@@ -54,7 +54,7 @@ const subject = locale === 'nl' ? 'Nieuwsbrief' : 'Newsletter';
               name="EMAIL"
               required
               autocomplete="email"
-              placeholder="jij@voorbeeld.nl"
+              placeholder={t('newsletter.emailPlaceholder')}
             />
           </p>
           <button class:list={['button', submit === 'primary' && 'button--primary']} type="submit">

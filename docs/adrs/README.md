@@ -19,6 +19,7 @@ MADR 4.0.0, matching the `webgrip/workflows` convention. New records use
 | [0012](0012-meetup-for-registration.md)                        | Registration runs on Meetup, the site stays the record         | Accepted | 2026-09-02 |
 | [0013](0013-counterscale-for-campaign-attribution.md)          | Campaign attribution on Counterscale, reported from the Worker | Accepted | 2026-09-04 |
 | [0014](0014-monthly-editions-and-the-language-that-follows.md) | Editions are monthly, and the vocabulary drops "flagship"      | Accepted | 2026-09-04 |
+| [0015](0015-release-vocabulary.md)                             | The evening is a Release, the write-up is release notes        | Accepted | 2026-09-04 |
 
 ## Open decisions
 

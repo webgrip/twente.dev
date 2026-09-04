@@ -30,6 +30,7 @@ export const EDITION_001 = {
   end: new Date('2026-11-04T21:30:00+01:00'),
   city: 'Rijssen',
   venueName: VENUE_NAME as string | null,
+  venueLogo: null as string | null,
   venueAddress: VENUE_ADDRESS as string | null,
   venue: `${VENUE_NAME}, ${VENUE_ADDRESS}` as string | null,
   capacity: 40,

@@ -9,7 +9,7 @@
 ## The product, per the playbook
 
 An independent, practitioner-led community platform: **shared calendar + directory + archive/
-editorial + newsletter + numbered flagship events**. The site's four jobs: understand the
+editorial + newsletter + numbered editions**. The site's four jobs: understand the
 proposition, attend the next event, discover regional activity, contribute — with RSVP or
 contribute reachable in two clicks. Explicitly deferred: accounts, profiles, chat, merchandise,
 "elaborate web features". The job board of the original plan is **off-playbook and now deleted

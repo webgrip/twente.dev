@@ -32,17 +32,17 @@ are checked against each platform's current limits.
 
 ### What you may claim today
 
-| Claim                                        | Status                                                            |
-| -------------------------------------------- | ----------------------------------------------------------------- |
-| Events calendar you can subscribe to (ICS)   | ✅ live                                                           |
-| Field reports and articles by practitioners  | ✅ live                                                           |
-| Numbered flagship events, starting with /001 | ✅ live                                                           |
-| Partner compact, published terms             | ✅ live                                                           |
-| No cookies, no tracking, everything in git   | ✅ live                                                           |
-| Community directory                          | ⚠️ page live, listings **not yet published**: say "in the making" |
-| Company directory                            | ⚠️ placeholder: do not claim                                      |
-| Job board                                    | ❌ **deleted**: never mention                                     |
-| Newsletter                                   | ⚠️ not open yet: do not promise a signup                          |
+| Claim                                       | Status                                                            |
+| ------------------------------------------- | ----------------------------------------------------------------- |
+| Events calendar you can subscribe to (ICS)  | ✅ live                                                           |
+| Field reports and articles by practitioners | ✅ live                                                           |
+| Numbered editions, starting with /001       | ✅ live                                                           |
+| Partner compact, published terms            | ✅ live                                                           |
+| No cookies, no tracking, everything in git  | ✅ live                                                           |
+| Community directory                         | ⚠️ page live, listings **not yet published**: say "in the making" |
+| Company directory                           | ⚠️ placeholder: do not claim                                      |
+| Job board                                   | ❌ **deleted**: never mention                                     |
+| Newsletter                                  | ⚠️ not open yet: do not promise a signup                          |
 
 Launch line to append where a field has room (drop after 4 Nov 2026):
 

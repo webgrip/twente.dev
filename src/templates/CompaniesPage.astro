@@ -15,6 +15,7 @@ interface Props {
 const { locale, title, description } = Astro.props;
 const t = useTranslations(locale);
 const host = EDITION_001.venueName;
+const hostLogo = EDITION_001.venueLogo;
 ---
 
 <BaseLayout locale={locale} routeKey="companies" title={title} description={description}>
@@ -30,7 +31,19 @@ const host = EDITION_001.venueName;
             <p class="label-mono host-kicker">
               {t('companies.hostKicker')} // {editionName(EDITION_001.number)}
             </p>
-            <p class="host-name">{host}</p>
+            {hostLogo ? (
+              <img
+                class="host-logo"
+                src={`/brand/hosts/${hostLogo}`}
+                alt={host}
+                width="200"
+                height="68"
+                loading="lazy"
+                decoding="async"
+              />
+            ) : (
+              <p class="host-name">{host}</p>
+            )}
             <p class="host-where">
               {EDITION_001.venueAddress} · {EDITION_001.city}
             </p>
@@ -67,6 +80,15 @@ const host = EDITION_001.venueName;
   .host-kicker {
     color: var(--fg-subtle);
     margin-block-end: var(--space-2);
+  }
+
+  .host-logo {
+    width: auto;
+    max-width: 12rem;
+    height: 3rem;
+    object-fit: contain;
+    object-position: left center;
+    margin-block: var(--space-1) var(--space-2);
   }
 
   .host-name {

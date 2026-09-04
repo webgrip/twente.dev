@@ -1,7 +1,7 @@
 # twente.dev — internal docs
 
 The reference material behind [twente.dev](https://twente.dev): an independent,
-practitioner-led technology community for Twente, built around numbered flagship events.
+practitioner-led technology community for Twente, built around numbered editions.
 First edition — **twente.dev/001: Reconnect**, Wednesday 4 November 2026, Rijssen.
 
 This is the working documentation, not the public site. Source lives in

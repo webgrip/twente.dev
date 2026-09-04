@@ -1,7 +1,7 @@
 ---
 title: 'Open call: vertel Twente wat jij bouwt op twente.dev/001'
 description: >-
-  Twee talks van ongeveer een halfuur openen de eerste flagship-avond op
+  Twee talks van ongeveer een halfuur openen de eerste editie op
   4 november. Eén daarvan kan van jou zijn. Spreekervaring is niet nodig.
 locale: nl
 translationKey: open-call-001

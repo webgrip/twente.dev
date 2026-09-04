@@ -85,7 +85,7 @@ the published safeguards below.
 Nobody — including Webgrip and Code14 — buys stage time, attendee data or editorial
 influence. Partner money buys credits and places, never access.
 
-After every flagship event we publish a public report, including what did not work, with a
+After every edition we publish a public report, including what did not work, with a
 financial summary.
 
 ## Changing this compact
@@ -178,7 +178,7 @@ aan de gepubliceerde waarborgen hieronder.
 Niemand — Webgrip en Code14 dus ook niet — koopt podiumtijd, deelnemersgegevens of
 redactionele invloed. Partnergeld koopt credits en plekken, nooit toegang.
 
-Na elk flagship-event publiceren we een openbaar verslag, inclusief wat niet werkte, met
+Na elke editie publiceren we een openbaar verslag, inclusief wat niet werkte, met
 een financiële samenvatting.
 
 ## Deze afspraak wijzigen

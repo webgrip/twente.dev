@@ -18,11 +18,15 @@ const href = event.data.canonicalRoute
   ? routePath(event.data.canonicalRoute, locale)
   : routePath('events', locale, event.id);
 
-const isFlagship = event.data.attribution === 'own';
+const isOwnEdition = event.data.attribution === 'own';
 ---
 
 <article
-  class:list={['event-card', isFlagship && 'is-flagship', event.data.cancelled && 'is-cancelled']}
+  class:list={[
+    'event-card',
+    isOwnEdition && 'is-own-edition',
+    event.data.cancelled && 'is-cancelled',
+  ]}
 >
   <p class="event-date">
     <time datetime={event.data.start.toISOString()}>
@@ -125,17 +129,17 @@ const isFlagship = event.data.attribution === 'own';
     font-variant-numeric: tabular-nums;
   }
 
-  .is-flagship {
+  .is-own-edition {
     border-inline-start-color: var(--accent);
     background: var(--bg-subtle);
   }
 
-  .is-flagship .event-date {
+  .is-own-edition .event-date {
     color: var(--accent-strong);
     font-weight: 700;
   }
 
-  .is-flagship .event-title {
+  .is-own-edition .event-title {
     font-size: var(--text-xl);
   }
 

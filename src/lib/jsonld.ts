@@ -62,18 +62,18 @@ export function websiteSchema(): JsonLd {
 
 export function eventSchema(event: EventEntry, locale: Locale): JsonLd {
   const online = event.data.venue.online;
-  const isFlagship = event.data.canonicalRoute === 'edition001';
+  const isOwnEdition = event.data.canonicalRoute === 'edition001';
 
   const offers: JsonLd = {
     '@type': 'Offer',
     price: event.data.costEur,
     priceCurrency: 'EUR',
     availability:
-      isFlagship && !REGISTRATION_URL
+      isOwnEdition && !REGISTRATION_URL
         ? 'https://schema.org/PreOrder'
         : 'https://schema.org/InStock',
     url: event.data.url,
-    ...(isFlagship ? { validFrom: toAmsterdamIso(REGISTRATION_OPENS) } : {}),
+    ...(isOwnEdition ? { validFrom: toAmsterdamIso(REGISTRATION_OPENS) } : {}),
   };
 
   return {

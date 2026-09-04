@@ -4,3 +4,7 @@ node_modules/
 pnpm-lock.yaml
 .wrangler/
 CHANGELOG.md
+
+# Generated from docs/domain/model.yaml by the domain-language generator.
+# Edit the model and regenerate; never hand-format these.
+docs/domain/*.md

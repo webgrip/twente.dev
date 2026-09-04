@@ -3,7 +3,7 @@ description: >-
   De onafhankelijke, practitioner-led techcommunity van Twente. Een gezamenlijke
   agenda, een directory, een archief en een nieuwsbrief het hele jaar door, plus
   een klein aantal genummerde, bewust multidisciplinaire avonden.
-version: '0.1.0'
+version: "0.1.0"
 
 contexts:
   - name: Editie
@@ -28,7 +28,7 @@ terms:
       met opgegeven reden.
     synonyms: [editie, flagship]
     avoid: [meetup, event night]
-    examples: ['twente.dev/001 — Reconnect', 'twente.dev/002']
+    examples: ["twente.dev/001 — Reconnect", "twente.dev/002"]
     see_also: [Talk, Registration, Host]
 
   - name: Talk
@@ -189,10 +189,10 @@ entities:
         description: Wat de zaal echt kan, niet wat we hopen.
         required: true
       - name: speakers
-        type: 'Speaker[]'
+        type: "Speaker[]"
         description: Leeg tot bevestigd. De lengte bepaalt wat de pagina toont.
     states:
-      - from: '[start]'
+      - from: "[start]"
         to: Gepland
         trigger: Datum en zaal vastgelegd, collision-check gedraaid
       - from: Gepland
@@ -308,8 +308,8 @@ ambiguities:
       een geschreven vorm aanduidt. Twee woorden die op elkaar lijken voor twee
       dingen die niets met elkaar te maken hebben.
     options:
-      - 'Talk voor het gesproken stuk, field report afschaffen'
-      - 'Field report houden en de geschreven vorm hernoemen'
+      - "Talk voor het gesproken stuk, field report afschaffen"
+      - "Field report houden en de geschreven vorm hernoemen"
     recommendation: >-
       Talk. Het is wat mensen toch al zeggen, en het laat "field" vrij voor de
       geschreven kant.
@@ -329,7 +329,7 @@ ambiguities:
     options:
       - 'Field Note = de pillar "één concrete les"; de nieuwsbrief krijgt een eigen naam'
       - 'Field Note = koepel voor alles wat geschreven en gemaild wordt; de pillar "één concrete les" krijgt een nieuwe naam'
-      - 'Field Note = de interviews; People Who Build vervalt als aparte naam'
+      - "Field Note = de interviews; People Who Build vervalt als aparte naam"
     recommendation: >-
       Optie 1. Het laat de vier pillars staan zoals ze zijn gebouwd en verzonden,
       en repareert de enige echte overlap: een nieuwsbrief die naar één van zijn

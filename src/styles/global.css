@@ -205,7 +205,10 @@ hr {
 .thread-grid--bleed {
   background-size:
     100% var(--grid-cell),
-    calc(100% / var(--grid-columns)) 100%;
+    var(--grid-cell) 100%;
+  background-position:
+    0 0,
+    calc(50% + var(--grid-cell) / 2) 0;
 }
 
 .label-mono {

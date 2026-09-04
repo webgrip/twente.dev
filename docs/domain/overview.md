@@ -16,12 +16,15 @@ erDiagram
     Edition {}
     Talk {}
     Host {}
+    Venue {}
     Speaker {}
     Edition ||--o{ Talk : has_many
     Edition }o..o{ Host : references
     Talk }o--|| Speaker : belongs_to
     Talk }o--|| Edition : belongs_to
     Host ||--o{ Edition : has_many
+    Host ||--|| Venue : has_one
+    Venue ||--o{ Edition : has_many
     Speaker ||--|| Talk : has_one
 ```
 

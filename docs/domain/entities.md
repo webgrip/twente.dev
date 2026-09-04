@@ -13,6 +13,7 @@ Eén genummerde avond, van datumbesluit tot gepubliceerd verslag.
 | `theme` | `string` | yes | Eén woord dat de avond typeert, bijvoorbeeld Reconnect. |
 | `date` | `datetime` | yes | Doorgaans de eerste woensdag van de maand. Let op de winter/zomertijdovergang. |
 | `capacity` | `int` | yes | Wat de zaal echt kan, niet wat we hopen. |
+| `venue` | `Venue` | yes | De zaal van deze avond. Kan per Edition wisselen. |
 | `speakers` | `Speaker[]` |  | Leeg tot bevestigd. De lengte bepaalt wat de pagina toont. |
 
 **Relationships**
@@ -54,11 +55,25 @@ De organisatie die de zaal levert, onder de waarborgen van R4.
 | Attribute | Type | Required | Description |
 |---|---|---|---|
 | `organisation` | `string` | yes |  |
-| `address` | `string` | yes | Staat op de editiepagina, want mensen boeken er reizen op. |
 | `editionsCommitted` | `int` |  | Het aantal edities dat publiek is toegezegd. Eindig, en hoogstens wat de host werkelijk heeft toegezegd. |
 
 **Relationships**
 - has_many **Edition** — Een Host kan meerdere Editions achter elkaar leveren.
+- has_one **Venue** — De ruimte die de Host beschikbaar stelt.
+
+## Venue
+*Context: Editie*
+
+De ruimte waar een Edition gehouden wordt.
+
+| Attribute | Type | Required | Description |
+|---|---|---|---|
+| `name` | `string` | yes | Hoe de plek heet in de zaal en op de kaart. |
+| `address` | `string` | yes | Staat op de editiepagina, want mensen boeken er reizen op. |
+| `city` | `string` | yes | Een van de gemeenten uit Twente. |
+
+**Relationships**
+- has_many **Edition** — Een Venue kan meerdere Editions herbergen.
 
 ## Speaker
 *Context: Editie*

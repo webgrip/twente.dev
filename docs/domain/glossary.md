@@ -18,10 +18,10 @@ Een bestaande groep in de regio die in de directory staat, met een eigen identit
 ## Edition
 *Context: Editie*
 
-Eén genummerde avond, geschreven als twente.dev/001. Onderscheidt zich van een gewone meetup doordat het nummer permanent is en de avond een Archief achterlaat.
+Eén genummerde avond, geschreven als twente.dev/001. Onderscheidt zich van een gewone meetup doordat het nummer permanent is en de avond een Archief achterlaat. Het nummer hoort bij de avond die gehouden wordt: schuift een Edition naar een andere maand, dan reist het nummer mee en blijft de reeks aaneengesloten.
 
-**Also known as:** editie, flagship  
-**Do not use:** meetup, event night  
+**Also known as:** editie  
+**Do not use:** meetup, event night, flagship  
 **Examples:** twente.dev/001: Reconnect; twente.dev/002  
 **See also:** [Talk](#talk), [Registration](#registration), [Host](#host), [Archief](#archief)  
 
@@ -129,6 +129,15 @@ Een gesproken bijdrage van ongeveer een halfuur op een Edition, met één claim,
 De veertien gemeenten van de Regio Twente, plus wat er direct tegenaan ligt. De grens is opzoekbaar en niet op gevoel, zodat iemand anders hem ook kan trekken. Zwolle valt erbuiten en blijft wel op de collision-check staan, want het publiek overlapt.
 
 **See also:** [Community](#community), [Edition](#edition)  
+
+## Venue
+*Context: Editie*
+
+De fysieke plek waar een Edition gehouden wordt, met naam, adres en stad. Onderscheidt zich van de Host doordat een Venue een ruimte is en een Host een organisatie: dezelfde partij kan allebei zijn, maar een gehuurde zaal heeft wel een Venue en geen Host.
+
+**Also known as:** zaal, locatie  
+**Examples:** Code14, Hogepad 81, Rijssen  
+**See also:** [Edition](#edition), [Host](#host)  
 
 ## Week in Twente Tech
 *Context: Publicatie*

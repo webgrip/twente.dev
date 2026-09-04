@@ -40,7 +40,7 @@ const isFlagship = event.data.attribution === 'own';
         ? 'Online'
         : event.data.venue.name
           ? `${event.data.venue.name}, ${event.data.venue.city}`
-          : `${t('edition.venueTba')} — ${event.data.venue.city}`
+          : `${t('edition.venueTba')}, ${event.data.venue.city}`
     }
   </p>
 

@@ -2,7 +2,7 @@
 title: Waarom twente.dev bestaat
 description: >-
   De Twentse tech-scene is groter dan hij voelt. Het probleem is niet gebrek aan
-  activiteit, maar gebrek aan één plek waar je die activiteit ziet.
+  activiteit. Het is gebrek aan één plek waar je die activiteit ziet.
 locale: nl
 translationKey: why-twente-dev
 publishedAt: 2026-08-03

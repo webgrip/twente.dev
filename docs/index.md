@@ -2,7 +2,7 @@
 
 The reference material behind [twente.dev](https://twente.dev): an independent,
 practitioner-led technology community for Twente, built around numbered flagship events.
-First edition — **twente.dev/001 — Reconnect**, Wednesday 4 November 2026, Rijssen.
+First edition — **twente.dev/001: Reconnect**, Wednesday 4 November 2026, Rijssen.
 
 This is the working documentation, not the public site. Source lives in
 [`webgrip/twente.dev`](https://forgejo.webgrip.dev/webgrip/twente.dev) on Forgejo; commits
@@ -23,7 +23,7 @@ carry `VIK-<id>` trailers back to the board.
 Single source: `src/config/site.ts`. Do not restate these anywhere without reading them
 from there.
 
-- **twente.dev/001 — Reconnect** · Wednesday 4 November 2026 · doors and food 18:00,
+- **twente.dev/001: Reconnect** · Wednesday 4 November 2026 · doors and food 18:00,
   programme 18:45, hard finish 21:30 · Rijssen (Code14, Hogepad 81) · free.
 - Tagline: **"We build it. We run it. We share it."** — always paired with a literal
   description of what the site is, never standing alone.

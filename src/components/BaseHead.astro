@@ -39,7 +39,7 @@ const siteName = t('site.name');
 
 const isHome = routeKey === 'home' && !slug && !errorPage;
 
-const fullTitle = isHome ? `${siteName} — ${t('site.tagline')}` : `${title} — ${siteName}`;
+const fullTitle = isHome ? `${siteName} // ${t('site.tagline')}` : `${title} // ${siteName}`;
 
 const ogTitle = isHome ? fullTitle : title;
 
@@ -48,7 +48,7 @@ const canonical = absoluteUrl(routePath(routeKey, locale, canonicalSlug));
 const { alternates, xDefault } = getAlternates(routeKey, slug);
 
 const ogImage: string | undefined = absoluteUrl('/brand/social/banner-meetup-1200x675@2x.png');
-const ogImageAlt = `${siteName} — ${t('site.tagline')}`;
+const ogImageAlt = `${siteName} // ${t('site.tagline')}`;
 
 const twitterCard = ogImage ? 'summary_large_image' : 'summary';
 
@@ -107,13 +107,13 @@ const graph = [organisationSchema(), websiteSchema(), ...jsonLd];
 <link
   rel="alternate"
   type="application/rss+xml"
-  title={`${siteName} — ${t('blog.title')}`}
+  title={`${siteName} // ${t('blog.title')}`}
   href={`${SITE_URL}/${locale}/rss.xml`}
 />
 <link
   rel="alternate"
   type="text/calendar"
-  title={`${siteName} — ${t('events.title')}`}
+  title={`${siteName} // ${t('events.title')}`}
   href={`${SITE_URL}/events.ics`}
 />
 

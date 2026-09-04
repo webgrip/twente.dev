@@ -14,7 +14,7 @@ export async function buildRssFeed(locale: Locale): Promise<Response> {
   const selfUrl = `${SITE_URL}/${locale}/rss.xml`;
 
   return rss({
-    title: `${t('site.name')} — ${t('blog.title')}`,
+    title: `${t('site.name')} // ${t('blog.title')}`,
     description: t('blog.description'),
     site: absoluteUrl(routePath('blog', locale)),
     trailingSlash: false,
@@ -60,7 +60,7 @@ export async function buildEventsIcs(locale: Locale = 'nl'): Promise<Response> {
   });
 
   const body = buildIcsCalendar({
-    name: `${t('site.name')} — ${t('events.title')}`,
+    name: `${t('site.name')} // ${t('events.title')}`,
     description: t('events.description'),
     domain: 'twente.dev',
     events: icsEvents,

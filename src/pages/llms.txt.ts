@@ -33,7 +33,7 @@ function hm(date: Date): string {
 
 const e = EDITION_001;
 const editionLines = [
-  `- Datum: ${ymd(e.doors, 'nl-NL')} — deuren en eten ${hm(e.doors)}, programma ${hm(e.start)}, einde ${hm(e.end)}`,
+  `- Datum: ${ymd(e.doors, 'nl-NL')}. Deuren en eten ${hm(e.doors)}, programma ${hm(e.start)}, einde ${hm(e.end)}`,
   `- Locatie: ${[e.venue, e.city].filter(Boolean).join(', ')}`,
   `- Capaciteit: ${e.capacity} plekken · ${e.costEur === 0 ? 'gratis' : `€${e.costEur}`}`,
   REGISTRATION_URL && `- Aanmelden: ${REGISTRATION_URL}`,
@@ -48,7 +48,7 @@ const body = `# twente.dev
 
 ${UI.nl['site.description']}
 
-## ${editionName(e.number)} — ${e.theme}
+## ${editionName(e.number)}: ${e.theme}
 ${editionLines.join('\n')}
 
 ## Feeds en bronnen
@@ -66,7 +66,7 @@ ${editionLines.join('\n')}
 ## English
 ${UI.en['site.description']}
 The site is fully bilingual; the English pages live under ${SITE_URL}/en and
-carry the same facts as above — this file deliberately does not restate them.
+carry the same facts as above. This file deliberately does not restate them.
 `;
 
 export const GET: APIRoute = () =>

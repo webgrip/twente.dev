@@ -15,7 +15,7 @@ const COLORS = [
     name: 'Signal red',
     token: '--signal-red',
     hex: '#C3291B',
-    role: "Connections, dates and actions — the Twente flag's red (RGB 195 41 27), never decoration",
+    role: "Connections, dates and actions in the Twente flag's red (RGB 195 41 27), never decoration",
   },
   { name: 'Warm paper', token: '--warm-paper', hex: '#F7F3EA', role: 'Community / openness' },
   { name: 'Thread grey', token: '--thread-grey', hex: '#D9DFDC', role: 'Structure / grid' },
@@ -28,14 +28,14 @@ const COLORS = [
 ];
 
 const TYPE_SCALE = [
-  { token: '--text-display', label: 'Display — one statement per view' },
-  { token: '--text-3xl', label: '3xl — page titles' },
-  { token: '--text-2xl', label: '2xl — section titles' },
-  { token: '--text-xl', label: 'xl — card titles' },
-  { token: '--text-lg', label: 'lg — leads' },
-  { token: '--text-base', label: 'base — body' },
-  { token: '--text-sm', label: 'sm — meta' },
-  { token: '--text-xs', label: 'xs — labels' },
+  { token: '--text-display', label: 'Display, one statement per view' },
+  { token: '--text-3xl', label: '3xl, page titles' },
+  { token: '--text-2xl', label: '2xl, section titles' },
+  { token: '--text-xl', label: 'xl, card titles' },
+  { token: '--text-lg', label: 'lg, leads' },
+  { token: '--text-base', label: 'base, body' },
+  { token: '--text-sm', label: 'sm, meta' },
+  { token: '--text-xs', label: 'xs, labels' },
 ];
 
 const SPACES = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
@@ -48,12 +48,12 @@ const SPACES = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="robots" content="noindex, nofollow" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <title>twente.dev — styleguide</title>
+    <title>twente.dev // styleguide</title>
   </head>
   <body data-pagefind-ignore="all">
     <header class="sg-hero grid-band">
       <div class="container">
-        <p class="label-mono">twente.dev // design system / v1</p>
+        <p class="label-mono">twente.dev // design system // v1</p>
         <h1 class="text-display">A shared thread for Twente technology.</h1>
         <p class="sg-lede">
           Many disciplines remain distinct; one red connector makes useful crossings visible.
@@ -67,7 +67,7 @@ const SPACES = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
       <section>
         <h2><span class="label-mono sg-index">01</span> Colour is structural</h2>
         <p class="sg-note">
-          One deliberate red emphasis per view — never turn every element into a signal. Light mode
+          One deliberate red emphasis per view. Never turn every element into a signal. Light mode
           is ink on warm paper; dark mode is warm paper on ink.
         </p>
         <div class="sg-swatches">
@@ -88,7 +88,7 @@ const SPACES = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
         <h2><span class="label-mono sg-index">02</span> Readable at room distance</h2>
         <p class="sg-note">
           Inter Variable carries statements and body; IBM Plex Mono carries labels, dates, indices
-          and wayfinding — the technical texture. Both self-hosted.
+          and wayfinding, the technical texture. Both self-hosted.
         </p>
         <div class="sg-typespecimens">
           {
@@ -114,7 +114,7 @@ const SPACES = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
         <h2><span class="label-mono sg-index">03</span> Grid, dot, thread</h2>
         <p class="sg-note">
           Grid for systems and calendars. The red dot marks the invitation, decision or next action.
-          The thread is a thin route between people or ideas — not decorative circuitry.
+          The thread is a thin route between people or ideas, never decorative circuitry.
         </p>
         <div class="sg-motifs">
           <div class="sg-motif thread-grid">
@@ -122,10 +122,10 @@ const SPACES = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
           </div>
           <div class="sg-motif">
             <span class="sg-dot" aria-hidden="true"></span>
-            <span class="label-mono">red dot — the connector</span>
+            <span class="label-mono">red dot, the connector</span>
           </div>
           <div class="sg-motif sg-redbar">
-            <span class="label-mono">red edge — the frame</span>
+            <span class="label-mono">red edge, the frame</span>
           </div>
         </div>
       </section>
@@ -183,7 +183,7 @@ const SPACES = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
         <h2><span class="label-mono sg-index">07</span> Rules</h2>
         <ul class="sg-rules">
           <li>
-            Red marks connections, dates and actions — never decoration. Metadata (labels, indices,
+            Red marks connections, dates and actions, never decoration. Metadata (labels, indices,
             companies, counts) stays in the grey ramp so the red keeps its meaning.
           </li>
           <li>

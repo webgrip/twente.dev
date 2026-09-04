@@ -22,7 +22,7 @@ Eén genummerde avond, geschreven als twente.dev/001. Onderscheidt zich van een 
 
 **Also known as:** editie, flagship  
 **Do not use:** meetup, event night  
-**Examples:** twente.dev/001 — Reconnect; twente.dev/002  
+**Examples:** twente.dev/001: Reconnect; twente.dev/002  
 **See also:** [Talk](#talk), [Registration](#registration), [Host](#host), [Archief](#archief)  
 
 ## Field Report

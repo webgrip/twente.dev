@@ -36,7 +36,7 @@ mean, so this table now tracks _live_, not _built_.
 
 ## Facts every surface must agree on (single source: `src/config/site.ts`)
 
-- **twente.dev/001 — Reconnect** · Wednesday 4 November 2026 · doors/food 18:00, programme 18:45,
+- **twente.dev/001: Reconnect** · Wednesday 4 November 2026 · doors/food 18:00, programme 18:45,
   hard finish 21:30 · **Rijssen — Code14, Hogepad 81** · free · **capacity 40** · Dutch by default,
   English whenever internationals are in the room.
   (Date was Wednesday 7 October until 2026-09-04, moved one cadence slot because the two

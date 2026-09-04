@@ -4,7 +4,14 @@ import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 
 const ROOTS = ['src/pages/nl', 'src/pages/en', 'src/templates', 'src/content', 'docs/brand'];
-const EXTRA_FILES = ['src/i18n/ui.ts'];
+const EXTRA_FILES = [
+  'src/i18n/ui.ts',
+  'src/components/BaseHead.astro',
+  'src/components/EventCard.astro',
+  'src/lib/feeds.ts',
+  'src/pages/llms.txt.ts',
+  'src/pages/styleguide.astro',
+];
 const EXTENSIONS = new Set(['.astro', '.md', '.mdx', '.yml', '.yaml', '.html']);
 
 interface Rule {
@@ -29,7 +36,7 @@ const FORBIDDEN: Rule[] = [
   },
   {
     name: 'niet-X-maar-Y template',
-    pattern: /\bniet\s+[^.;:\n]{1,45}?\bmaar\b/i,
+    pattern: /\b(?:niet|geen)\s+[^.;:]{1,60}?\bmaar\b/i,
     rationale: 'house style 2026-09-02: the contrastive niet-X-maar-Y frame is banned in copy',
     active: true,
   },

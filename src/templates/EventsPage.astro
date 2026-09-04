@@ -95,6 +95,20 @@ const GOOGLE_CALENDAR_URL = `https://calendar.google.com/calendar/r?cid=${encode
           </section>
         ))
       }
+
+      <section class="month-group more-group">
+        <h3 class="label-mono month-label">
+          <span class="month-dot month-dot--open" aria-hidden="true"></span>
+          {t('events.moreTitle')}
+        </h3>
+        <div class="more-panel">
+          <p>{t('events.moreBody')}</p>
+          <p class="more-links">
+            <a href={routePath('contribute', locale)}>{t('events.emptyCta')} →</a>
+            <a href={routePath('companies', locale)}>{t('events.offerVenue')} →</a>
+          </p>
+        </div>
+      </section>
     </div>
 
     {
@@ -190,6 +204,39 @@ const GOOGLE_CALENDAR_URL = `https://calendar.google.com/calendar/r?cid=${encode
     border-radius: var(--radius-full);
     background: var(--accent);
     border: 2px solid var(--bg);
+  }
+
+  .month-dot--open {
+    background: var(--bg);
+    border: 2px solid var(--border-strong);
+  }
+
+  .more-group {
+    padding-block-end: 0;
+  }
+
+  .more-panel {
+    max-width: var(--width-prose);
+    padding: var(--space-5);
+    border: var(--border-width) dashed var(--border-strong);
+    border-radius: var(--radius-lg);
+    color: var(--fg-muted);
+  }
+
+  .more-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-5);
+    margin-block-start: var(--space-4);
+    font-weight: 550;
+  }
+
+  .more-links a {
+    text-decoration: none;
+  }
+
+  .more-links a:hover {
+    text-decoration: underline;
   }
 
   .is-past .month-dot {

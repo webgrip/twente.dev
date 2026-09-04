@@ -88,6 +88,10 @@ export const nl = {
   'events.organisedBy': 'Georganiseerd door',
   'events.moreInfo': 'Meer informatie',
   'events.listedBy': 'Vermeld door twente.dev',
+  'events.moreTitle': 'Meer volgt',
+  'events.moreBody':
+    'De agenda groeit met wat er wordt aangemeld. Ken je een tech-event in Twente, of heb je een zaal voor een volgende editie? Beide routes staan open.',
+  'events.offerVenue': 'Bied een zaal aan',
   'events.inCollaboration': 'In samenwerking met twente.dev',
 
   'communities.description':
@@ -105,6 +109,8 @@ export const nl = {
   'communities.suggest': 'Run je een community in Twente?',
   'communities.awaiting': 'groepen in de regio staan onderzocht klaar en wachten op hun ja.',
   'communities.terms': "Onze afspraken met community's",
+
+  'companies.hostKicker': 'Gastheer',
 
   'blog.title': 'Blog',
   'blog.description': 'Field reports en open calls uit de Twentse techcommunity.',
@@ -240,6 +246,10 @@ export const en: Record<UIKey, string> = {
   'events.organisedBy': 'Organised by',
   'events.moreInfo': 'More information',
   'events.listedBy': 'Listed by twente.dev',
+  'events.moreTitle': 'More to come',
+  'events.moreBody':
+    'The calendar grows with what gets submitted. Know a tech event in Twente, or have a room for a later edition? Both routes are open.',
+  'events.offerVenue': 'Offer a venue',
   'events.inCollaboration': 'In collaboration with twente.dev',
 
   'communities.description':
@@ -257,6 +267,8 @@ export const en: Record<UIKey, string> = {
   'communities.suggest': 'Do you run a community in Twente?',
   'communities.awaiting': 'groups in the region are researched and waiting on their yes.',
   'communities.terms': 'Our terms with communities',
+
+  'companies.hostKicker': 'Host',
 
   'blog.title': 'Blog',
   'blog.description': 'Field reports and open calls from the Twente tech community.',

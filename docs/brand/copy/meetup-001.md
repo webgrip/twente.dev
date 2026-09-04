@@ -64,6 +64,12 @@ Code14, Hogepad 81, 7462 TB Rijssen
 
 · · ·
 
+📷 FOTO EN VIDEO
+
+We maken foto's en video-opnames van de avond, voor het archief en om te laten zien wat hier gebeurt. Liever niet in beeld? Laat het weten bij je aanmelding of bij de check-in, dan houden we daar rekening mee. Sta je er achteraf toch op, dan halen we het eruit op één bericht naar hello@twente.dev.
+
+· · ·
+
 🔗 Alles over deze avond: https://twente.dev/nl/001
 ```
 
@@ -119,6 +125,12 @@ Code14, Hogepad 81, 7462 TB Rijssen
 
 · · ·
 
+📷 PHOTOS AND VIDEO
+
+We take photos and record video on the night, for the archive and to show what happens here. Rather not be in shot? Say so when you RSVP or at check-in and we will work around you. If you end up in something anyway, one message to hello@twente.dev gets it removed.
+
+· · ·
+
 🔗 Everything about this evening: https://twente.dev/en/001
 ```
 
@@ -126,9 +138,14 @@ Code14, Hogepad 81, 7462 TB Rijssen
 
 ## RSVP-vraag
 
-Meetup laat maar één vraag toe, dus de drie dingen die we willen weten zitten in
-één veld: het kanaal (de enige attributie die /001 oplevert), dieetwensen en
-toegankelijkheid. Zet hem op verplicht, anders vervalt de attributie stilletjes.
+Meetup laat maar één vraag toe, dus alles wat we willen weten zit in één veld:
+het kanaal (de enige attributie die /001 oplevert), dieetwensen,
+toegankelijkheid en of iemand liever niet in beeld komt. Zet hem op verplicht,
+anders vervalt de attributie stilletjes.
+
+Die laatste vraag staat er ook omdat de editiepagina belooft dat fotografie op
+toestemming werkt. Iemand die dat liever niet ter plekke bij de check-in zegt,
+kan het zo vooraf en privé kwijt.
 
 Gevolg om te weten: het antwoord komt terug als vrije tekst en niet als een
 keuzelijst, dus je codeert de kanalen met de hand terug naar de bronnen uit
@@ -138,25 +155,27 @@ wil je een echt formulier.
 ### Nederlands
 
 ```
-👋 Leuk dat je komt! Drie korte vragen helpen ons de avond toegankelijk en gezellig te maken, en om te leren wat werkt. Antwoord elk op een eigen regel:
+👋 Leuk dat je komt! Een paar korte vragen helpen ons de avond toegankelijk en gezellig te maken, en om te leren wat werkt. Antwoord elk op een eigen regel:
 1) Hoe hoorde je van twente.dev?
 2) Dieetwensen of allergieën?
 3) Heb je iets nodig om er goed bij te kunnen zijn?
+4) Liever niet op foto of video? Laat het hier weten.
 Alles mag leeg blijven, en "niks" is ook een antwoord.
 ```
 
 ### English
 
 ```
-👋 Glad you are coming! Three short questions help us keep the evening accessible and enjoyable, and help us learn what works. Answer each on its own line:
+👋 Glad you are coming! A few short questions help us keep the evening accessible and enjoyable, and help us learn what works. Answer each on its own line:
 1) How did you hear about twente.dev?
 2) Any dietary needs or allergies?
 3) Anything you need in order to take part comfortably?
+4) Rather not be photographed or filmed? Say so here.
 All of it may stay empty, and "nothing" is a fine answer.
 ```
 
 ### Korte variant, als het veld te kort is
 
 ```
-Drie korte vragen, elk op een eigen regel: 1) Hoe hoorde je van twente.dev? 2) Dieetwensen of allergieën? 3) Iets nodig om er goed bij te kunnen zijn? Alles mag leeg.
+Elk op een eigen regel: 1) Hoe hoorde je van twente.dev? 2) Dieetwensen of allergieën? 3) Iets nodig om er goed bij te kunnen zijn? 4) Liever niet op foto of video? Alles mag leeg.
 ```

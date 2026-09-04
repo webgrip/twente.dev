@@ -283,6 +283,8 @@ const entry = await getEntry('events', 'twente-dev-001-reconnect');
 const jsonLd = entry ? [eventSchema(entry, locale)] : [];
 
 const registrationOpen = REGISTRATION_URL !== null;
+const opensIso = REGISTRATION_OPENS.toISOString();
+const opensOn = formatDate(REGISTRATION_OPENS, locale);
 const speakers = EDITION_001_SPEAKERS;
 ---
 
@@ -293,198 +295,230 @@ const speakers = EDITION_001_SPEAKERS;
   description={c.metaDescription}
   jsonLd={jsonLd}
 >
-  <div class="container">
-    <nav class="breadcrumb" aria-label="Breadcrumb">
-      <a href={routePath('events', locale)}>{t('events.title')}</a>
-    </nav>
+  <div class="edition-band thread-grid thread-grid--bleed">
+    <div class="container">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a class="label-mono" href={routePath('events', locale)}>
+          <span aria-hidden="true">←</span>
+          {t('events.title')}
+        </a>
+      </nav>
 
-    <header class="edition-header thread-grid">
-      <p class="edition-lockup label-mono" aria-hidden="true">
-        <span class="lockup-name">{editionName(EDITION_001.number)}</span>
-        <span class="lockup-date">
-          {String(EDITION_001.doors.getDate()).padStart(2, '0')}.{
-            String(EDITION_001.doors.getMonth() + 1).padStart(2, '0')
-          }
-        </span>
-        <span class="lockup-place">{EDITION_001.city} · {time(EDITION_001.doors)}</span>
-      </p>
-      <h1 class="text-display">{EDITION_001.theme}</h1>
-      {c.intro.map((paragraph) => <p class="edition-intro">{paragraph}</p>)}
+      <header class="edition-header">
+        <p class="edition-lockup label-mono" aria-hidden="true">
+          <span class="lockup-name">{editionName(EDITION_001.number)}</span>
+          <span class="lockup-date">
+            {String(EDITION_001.doors.getDate()).padStart(2, '0')}.{
+              String(EDITION_001.doors.getMonth() + 1).padStart(2, '0')
+            }
+          </span>
+          <span class="lockup-place">{EDITION_001.city} · {time(EDITION_001.doors)}</span>
+        </p>
+        <h1 class="text-display">{EDITION_001.theme}</h1>
+        {c.intro.map((paragraph) => <p class="edition-intro">{paragraph}</p>)}
 
-      <dl class="facts">
-        <div>
-          <dt>{c.factDate}</dt>
-          <dd>
-            <time datetime={EDITION_001.doors.toISOString()}>
-              {formatDate(EDITION_001.doors, locale)}
-            </time>
-          </dd>
-        </div>
-        <div>
-          <dt>{c.factTime}</dt>
-          <dd>{time(EDITION_001.doors)}–{time(EDITION_001.end)}</dd>
-        </div>
-        <div>
-          <dt>{c.factVenue}</dt>
-          <dd>{EDITION_001.venue ?? `${EDITION_001.city} — ${t('edition.venueTba')}`}</dd>
-        </div>
-        <div>
-          <dt>{c.factLanguage}</dt>
-          <dd>{t('edition.language')}</dd>
-        </div>
-        <div>
-          <dt>{c.factCost}</dt>
-          <dd>{t('edition.free')}</dd>
-        </div>
-      </dl>
+        <ul class="outcomes" role="list">
+          {c.outcomes.map((outcome) => <li>{outcome}</li>)}
+        </ul>
+      </header>
+    </div>
+  </div>
 
-      <ul class="outcomes" role="list">
-        {c.outcomes.map((outcome) => <li>{outcome}</li>)}
-      </ul>
-    </header>
-
-    <section class="edition-section">
-      <h2>{c.actionsTitle}</h2>
-      <Tabs
-        id="take-part"
-        label={c.actionsTitle}
-        tabs={[
-          { id: 'reserve', label: c.tabReserve },
-          { id: 'updates', label: c.tabUpdates },
-          { id: 'contribute', label: c.tabContribute },
-        ]}
-      >
-        <div id="reserve" data-tabs-panel>
-          <h3 data-tabs-heading>{c.registrationTitle}</h3>
-          {
-            registrationOpen ? (
-              <p>
-                <a class="button button--primary" href={REGISTRATION_URL}>
-                  {c.registrationCta}
-                </a>
-              </p>
-            ) : (
-              <p class="registration-opens">
-                {c.registrationOpens}{' '}
-                <strong>
-                  <time datetime={REGISTRATION_OPENS.toISOString()}>
-                    {formatDate(REGISTRATION_OPENS, locale)}
-                  </time>
-                </strong>
-                . <a href={routePath('events', locale)}>{c.registrationCalendarHint}</a>
-              </p>
-            )
-          }
-          <p class="consent-note">{c.registrationConsentNote}</p>
-        </div>
-
-        <div id="updates" data-tabs-panel>
-          <h3 data-tabs-heading>{c.updatesTitle}</h3>
-          <p>{c.updatesBody}</p>
-          <NewsletterForm locale={locale} id="edition-updates" />
-        </div>
-
-        <div id="contribute" data-tabs-panel>
-          <h3 data-tabs-heading>{c.openCallTitle}</h3>
-          <p>{c.openCallBody}</p>
-          <p>
-            <a class="button" href={routePath('contribute', locale)}>
-              {c.openCallCta}
+  <div class="container edition-body">
+    <aside class="edition-aside" aria-label={c.practicalTitle}>
+      <div class="edition-aside-inner">
+        <dl class="facts">
+          <div>
+            <dt>{c.factDate}</dt>
+            <dd>
+              <time datetime={EDITION_001.doors.toISOString()}>
+                {formatDate(EDITION_001.doors, locale)}
+              </time>
+            </dd>
+          </div>
+          <div>
+            <dt>{c.factTime}</dt>
+            <dd>{time(EDITION_001.doors)}–{time(EDITION_001.end)}</dd>
+          </div>
+          <div>
+            <dt>{c.factVenue}</dt>
+            <dd>{EDITION_001.venue ?? `${EDITION_001.city} — ${t('edition.venueTba')}`}</dd>
+          </div>
+          <div>
+            <dt>{c.factLanguage}</dt>
+            <dd class="fact-long">{t('edition.language')}</dd>
+          </div>
+          <div>
+            <dt>{c.factCost}</dt>
+            <dd>{t('edition.free')}</dd>
+          </div>
+        </dl>
+        {
+          registrationOpen && (
+            <a class="button button--primary aside-cta" href={REGISTRATION_URL}>
+              {c.registrationCta}
             </a>
-          </p>
-        </div>
-      </Tabs>
-    </section>
+          )
+        }
+      </div>
+    </aside>
 
-    <section class="edition-section">
-      <h2>{c.speakersTitle}</h2>
-      {
-        speakers.length === 0 ? (
-          <div class="speakers-tba">
-            <p class="label-mono speakers-badge">{c.speakersTba}</p>
-            <p>{c.speakersTbaBody}</p>
+    <div class="edition-main">
+      <section class="edition-section">
+        <h2>{c.actionsTitle}</h2>
+        <Tabs
+          id="take-part"
+          label={c.actionsTitle}
+          tabs={[
+            { id: 'reserve', label: c.tabReserve },
+            { id: 'updates', label: c.tabUpdates },
+            { id: 'contribute', label: c.tabContribute },
+          ]}
+        >
+          <div id="reserve" data-tabs-panel>
+            <h3 data-tabs-heading>{c.registrationTitle}</h3>
+            {
+              registrationOpen ? (
+                <p>
+                  <a class="button button--primary" href={REGISTRATION_URL}>
+                    {c.registrationCta}
+                  </a>
+                </p>
+              ) : (
+                <p class="registration-opens">
+                  {c.registrationOpens}{' '}
+                  <strong>
+                    <time datetime={opensIso}>{opensOn}.</time>
+                  </strong>
+                  <a href={routePath('events', locale)}>{c.registrationCalendarHint}</a>
+                </p>
+              )
+            }
+            <p class="consent-note">{c.registrationConsentNote}</p>
+          </div>
+
+          <div id="updates" data-tabs-panel>
+            <h3 data-tabs-heading>{c.updatesTitle}</h3>
+            <p>{c.updatesBody}</p>
+            <NewsletterForm locale={locale} id="edition-updates" />
+          </div>
+
+          <div id="contribute" data-tabs-panel>
+            <h3 data-tabs-heading>{c.openCallTitle}</h3>
+            <p>{c.openCallBody}</p>
             <p>
-              <a class="button" href="#updates">
-                {c.speakersTbaCta}
+              <a class="button" href={routePath('contribute', locale)}>
+                {c.openCallCta}
               </a>
             </p>
           </div>
-        ) : (
-          <ul class="speakers" role="list">
-            {speakers.map((speaker) => (
-              <li>
-                <p class="speaker-name">{speaker.name}</p>
-                {speaker.affiliation && <p class="speaker-affiliation">{speaker.affiliation}</p>}
-                {speaker.talk && <p class="speaker-talk">{speaker.talk[locale]}</p>}
-              </li>
-            ))}
-          </ul>
-        )
-      }
-    </section>
+        </Tabs>
+      </section>
 
-    <section class="edition-section">
-      <h2>{c.expectTitle}</h2>
-      <ol class="run-of-show" role="list">
+      <section class="edition-section">
+        <h2>{c.speakersTitle}</h2>
         {
-          c.runOfShow.map(({ time: at, item }) => (
-            <li>
-              <span class="ros-time">{at}</span>
-              <span>{item}</span>
-            </li>
-          ))
-        }
-      </ol>
-    </section>
-
-    <section class="edition-section">
-      <h2>{c.whoTitle}</h2>
-      <p>{c.whoBody}</p>
-      <p><strong>{c.whoWelcome}</strong></p>
-
-      <div class="is-isnot">
-        <div>
-          <h3>{c.isTitle}</h3>
-          <ul>{c.isList.map((item) => <li>{item}</li>)}</ul>
-        </div>
-        <div>
-          <h3>{c.isNotTitle}</h3>
-          <ul>{c.isNotList.map((item) => <li>{item}</li>)}</ul>
-        </div>
-      </div>
-    </section>
-
-    <section class="edition-section">
-      <h2>{c.practicalTitle}</h2>
-      <dl class="practical">
-        {
-          c.practical.map(({ term, detail }) => (
-            <div>
-              <dt>{term}</dt>
-              <dd>{detail}</dd>
+          speakers.length === 0 ? (
+            <div class="speakers-tba">
+              <p class="label-mono speakers-badge">{c.speakersTba}</p>
+              <p>{c.speakersTbaBody}</p>
+              <p>
+                <a class="button" href="#updates">
+                  {c.speakersTbaCta}
+                </a>
+              </p>
             </div>
-          ))
+          ) : (
+            <ul class="speakers" role="list">
+              {speakers.map((speaker) => (
+                <li>
+                  <p class="speaker-name">{speaker.name}</p>
+                  {speaker.affiliation && <p class="speaker-affiliation">{speaker.affiliation}</p>}
+                  {speaker.talk && <p class="speaker-talk">{speaker.talk[locale]}</p>}
+                </li>
+              ))}
+            </ul>
+          )
         }
-      </dl>
-    </section>
+      </section>
 
-    <section class="edition-section">
-      <h2>{c.safeguardsTitle}</h2>
-      <ul>
-        {c.safeguards.map((item) => <li>{item}</li>)}
-      </ul>
-      <p class="safeguard-links">
-        <a href={routePath('conduct', locale)}>{c.conductCta}</a>
-        <a href={routePath('partners', locale)}>{c.partnersCta}</a>
-      </p>
-    </section>
+      <section class="edition-section">
+        <h2>{c.expectTitle}</h2>
+        <ol class="run-of-show" role="list">
+          {
+            c.runOfShow.map(({ time: at, item }) => (
+              <li>
+                <span class="ros-time">{at}</span>
+                <span>{item}</span>
+              </li>
+            ))
+          }
+        </ol>
+      </section>
+
+      <section class="edition-section">
+        <h2>{c.whoTitle}</h2>
+        <p>{c.whoBody}</p>
+        <p><strong>{c.whoWelcome}</strong></p>
+
+        <div class="is-isnot">
+          <div class="is-panel is-panel--yes">
+            <h3 class="label-mono">{c.isTitle}</h3>
+            <ul role="list">{c.isList.map((item) => <li>{item}</li>)}</ul>
+          </div>
+          <div class="is-panel is-panel--no">
+            <h3 class="label-mono">{c.isNotTitle}</h3>
+            <ul role="list">{c.isNotList.map((item) => <li>{item}</li>)}</ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="edition-section">
+        <h2>{c.practicalTitle}</h2>
+        <dl class="practical">
+          {
+            c.practical.map(({ term, detail }) => (
+              <div>
+                <dt>{term}</dt>
+                <dd>{detail}</dd>
+              </div>
+            ))
+          }
+        </dl>
+      </section>
+
+      <section class="edition-section">
+        <h2>{c.safeguardsTitle}</h2>
+        <ul class="safeguards">
+          {c.safeguards.map((item) => <li>{item}</li>)}
+        </ul>
+        <p class="safeguard-links">
+          <a href={routePath('conduct', locale)}>{c.conductCta}</a>
+          <a href={routePath('partners', locale)}>{c.partnersCta}</a>
+        </p>
+      </section>
+    </div>
   </div>
 </BaseLayout>
 
 <style>
-  .edition-header {
-    padding-block: var(--space-7) var(--space-5);
-    max-width: none;
+  .edition-band {
+    background-color: var(--bg);
+    border-block-end: var(--border-width) solid var(--border);
+    padding-block-end: var(--space-7);
+  }
+
+  .breadcrumb {
+    padding-block: var(--space-5) var(--space-6);
+  }
+
+  .breadcrumb a {
+    color: var(--fg-subtle);
+    text-decoration: none;
+  }
+
+  .breadcrumb a:hover {
+    color: var(--accent-strong);
   }
 
   .edition-lockup {
@@ -519,37 +553,13 @@ const speakers = EDITION_001_SPEAKERS;
     max-width: var(--width-prose);
   }
 
-  .facts {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
-    gap: var(--space-4);
-    margin-block: var(--space-5);
-    padding: var(--space-4);
-    border: var(--border-width) solid var(--border);
-    border-radius: var(--radius-lg);
-    background: var(--bg-raised);
-  }
-
-  .facts dt {
-    font-size: var(--text-xs);
-    text-transform: uppercase;
-    letter-spacing: var(--tracking-caps);
-    color: var(--fg-subtle);
-  }
-
-  .facts dd {
-    margin: var(--space-1) 0 0;
-    font-weight: var(--weight-semibold);
-    font-variant-numeric: tabular-nums;
-  }
-
   .outcomes {
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-2);
     list-style: none;
     padding: 0;
-    margin: 0;
+    margin: var(--space-5) 0 0;
   }
 
   .outcomes li {
@@ -561,13 +571,106 @@ const speakers = EDITION_001_SPEAKERS;
     background: var(--bg-subtle);
   }
 
+  .edition-body {
+    display: grid;
+    gap: var(--space-6);
+    padding-block-start: var(--space-7);
+  }
+
+  @media (min-width: 64rem) {
+    .edition-body {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 20rem);
+      gap: var(--space-8);
+      align-items: start;
+    }
+
+    .edition-main {
+      grid-column: 1;
+      grid-row: 1;
+    }
+
+    .edition-aside {
+      grid-column: 2;
+      grid-row: 1;
+    }
+
+    .edition-aside-inner {
+      position: sticky;
+      top: calc(var(--header-height-compact) + var(--space-5));
+    }
+  }
+
+  .facts {
+    display: grid;
+    margin: 0;
+    border: var(--border-width) solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--bg-raised);
+  }
+
+  .facts > div {
+    display: grid;
+    gap: var(--space-1);
+    padding: var(--space-3) var(--space-4);
+  }
+
+  .facts > div + div {
+    border-block-start: var(--border-width) solid var(--border);
+  }
+
+  .facts dt {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-label);
+    color: var(--fg-subtle);
+  }
+
+  .facts dd {
+    margin: 0;
+    font-weight: var(--weight-semibold);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .facts .fact-long {
+    font-weight: 400;
+    color: var(--fg-muted);
+  }
+
+  .aside-cta {
+    width: 100%;
+    margin-block-start: var(--space-4);
+  }
+
+  @media (min-width: 40rem) and (max-width: 63.99rem) {
+    .facts {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .facts > div:nth-child(odd) + div {
+      border-block-start: 0;
+      border-inline-start: var(--border-width) solid var(--border);
+    }
+
+    .facts > div:nth-child(2) ~ div {
+      border-block-start: var(--border-width) solid var(--border);
+    }
+  }
+
   .edition-section {
     max-width: var(--width-prose);
+  }
+
+  .edition-section + .edition-section {
     margin-block-start: var(--space-7);
   }
 
   .edition-section h2 {
-    margin-block-end: var(--space-3);
+    margin-block-end: var(--space-4);
+  }
+
+  .edition-section > p + p {
+    margin-block-start: var(--space-3);
   }
 
   .run-of-show {
@@ -575,15 +678,18 @@ const speakers = EDITION_001_SPEAKERS;
     padding: 0;
     margin: 0;
     display: grid;
-    gap: var(--space-2);
   }
 
   .run-of-show li {
     display: grid;
     grid-template-columns: 4.5rem 1fr;
     gap: var(--space-3);
-    padding-block: var(--space-2);
+    padding-block: var(--space-3);
     border-block-end: var(--border-width) solid var(--border);
+  }
+
+  .run-of-show li:first-child {
+    border-block-start: var(--border-width) solid var(--border);
   }
 
   .ros-time {
@@ -594,9 +700,9 @@ const speakers = EDITION_001_SPEAKERS;
 
   .is-isnot {
     display: grid;
-    gap: var(--space-5);
+    gap: var(--space-4);
     grid-template-columns: 1fr;
-    margin-block-start: var(--space-4);
+    margin-block-start: var(--space-5);
   }
 
   @media (min-width: 40rem) {
@@ -605,18 +711,42 @@ const speakers = EDITION_001_SPEAKERS;
     }
   }
 
-  .is-isnot h3 {
-    font-size: var(--text-base);
-    margin-block-end: var(--space-2);
+  .is-panel {
+    padding: var(--space-4) var(--space-5);
+    border: var(--border-width) solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--bg-subtle);
   }
 
-  .is-isnot ul {
+  .is-panel--yes {
+    border-inline-start: 3px solid var(--border-strong);
+  }
+
+  .is-panel--no {
+    border-inline-start: 3px solid var(--border);
+    background: transparent;
+  }
+
+  .is-panel h3 {
+    color: var(--fg-subtle);
+    font-size: var(--text-xs);
+    margin-block-end: var(--space-3);
+  }
+
+  .is-panel ul {
     margin: 0;
-    padding-inline-start: var(--space-5);
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: var(--space-2);
   }
 
-  .is-isnot li {
-    margin-block-end: var(--space-1);
+  .is-panel li {
+    font-size: var(--text-sm);
+  }
+
+  .is-panel--no li {
+    color: var(--fg-muted);
   }
 
   .practical {
@@ -645,13 +775,12 @@ const speakers = EDITION_001_SPEAKERS;
     background: var(--bg-subtle);
   }
 
-  .speakers-badge {
-    color: var(--accent-strong);
-    margin-block-end: var(--space-3);
+  .speakers-tba > * + * {
+    margin-block-start: var(--space-3);
   }
 
-  .speakers-tba p:last-child {
-    margin-block-end: 0;
+  .speakers-badge {
+    color: var(--accent-strong);
   }
 
   .speakers {
@@ -681,18 +810,19 @@ const speakers = EDITION_001_SPEAKERS;
   .consent-note {
     color: var(--fg-subtle);
     font-size: var(--text-sm);
-    margin-block-start: var(--space-2);
+  }
+
+  .safeguards {
+    display: grid;
+    gap: var(--space-2);
+    margin: 0;
+    padding-inline-start: var(--space-5);
   }
 
   .safeguard-links {
     display: flex;
-    gap: var(--space-4);
+    gap: var(--space-5);
     flex-wrap: wrap;
-    margin-block-start: var(--space-3);
-  }
-
-  .breadcrumb {
-    font-size: var(--text-sm);
-    padding-block-start: var(--space-4);
+    margin-block-start: var(--space-5);
   }
 </style>

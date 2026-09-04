@@ -20,6 +20,8 @@ MADR 4.0.0, matching the `webgrip/workflows` convention. New records use
 | [0013](0013-counterscale-for-campaign-attribution.md)          | Campaign attribution on Counterscale, reported from the Worker | Accepted | 2026-09-04 |
 | [0014](0014-monthly-editions-and-the-language-that-follows.md) | Editions are monthly, and the vocabulary drops "flagship"      | Accepted | 2026-09-04 |
 | [0015](0015-release-vocabulary.md)                             | The evening is a Release, the write-up is release notes        | Accepted | 2026-09-04 |
+| [0016](0016-release-as-content.md)                             | A Release is a content entry, not a config constant            | Accepted | 2026-09-04 |
+| [0017](0017-mail-reaches-brevo-as-a-draft.md)                  | Generated mail reaches Brevo as a draft, a human sends it      | Accepted | 2026-09-04 |
 
 ## Open decisions
 

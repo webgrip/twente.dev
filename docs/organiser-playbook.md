@@ -128,7 +128,7 @@ Elke talk laat drie artefacten na, en dat wordt de sprekers vooraf beloofd:
    acceptatie voor, zaalvragen worden niet uitgezonden of worden geparafraseerd door de
    moderator.
 2. **Slides + verslag**: slides als PDF plus een korte schriftelijke samenvatting als
-   field note op de site — de permanente, citeerbare URL voor cv en LinkedIn.
+   field report op de site — de permanente, citeerbare URL voor cv en LinkedIn.
 3. **Badge**: een "sprak op twente.dev/001"-beeldje (uit de brand-templates te snijden)
    dat de spreker op LinkedIn kan zetten. Klein gebaar, grote kans dat het de volgende
    spreker aantrekt.
@@ -184,7 +184,7 @@ CTO, de andere een junior. Het bestaande editorial-pillar `People Who Build` is 
 de plek.
 
 - **Format**: zes vaste vragen per mail of een half uur bellen; Ryan schrijft het uit tot
-  een field note van ±500 woorden; de geïnterviewde leest mee voor publicatie.
+  een field report van ±500 woorden; de geïnterviewde leest mee voor publicatie.
 - **Pijplijn**: dezelfde scoutinglijst als voor sprekers — en elk interview eindigt met
   "wie moet ik hierna spreken?", zodat de serie zichzelf vult. Een interview is ook de
   zachtste sprekerswerving die er bestaat.

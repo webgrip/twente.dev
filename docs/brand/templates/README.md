@@ -14,7 +14,7 @@ live in [`../README.md`](../README.md).
 | `email-doi.html`              | bevestiging dubbele opt-in         | Templates → tag `optin` is verplicht                   |
 | `email-welcome.html`          | eerste mail na bevestiging         | Automations → contact toegevoegd aan lijst             |
 | `email-001-aankondiging.html` | **gevulde** aankondiging /001      | Campaigns → "paste your code", klaar om te sturen      |
-| `email-field-note.html`       | field note, campagne               | Brevo → Campaigns → "paste your code"                  |
+| `email-field-report.html`     | field report, campagne             | Brevo → Campaigns → "paste your code"                  |
 | `email-announcement.html`     | één bericht, één knop              | Brevo → Campaigns → "paste your code"                  |
 | `email-transactional.html`    | bevestiging of herinnering         | Brevo → **Transactional** → Templates                  |
 | `speaker-tile.html`           | speaker announcement, 1:1          | PNG at exactly 1080×1080 (see below), or PDF           |

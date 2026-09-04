@@ -2,12 +2,12 @@
 
 De onafhankelijke, practitioner-led techcommunity van Twente. Een gezamenlijke agenda, een directory, een archief en een nieuwsbrief het hele jaar door, plus een klein aantal genummerde, bewust multidisciplinaire avonden.
 
-*Model version 0.1.0. Generated from `model.yaml` — do not edit by hand.*
+*Model version 1.0.0. Generated from `model.yaml` — do not edit by hand.*
 
 ## Bounded contexts
 
 - **Editie** — De avond zelf en alles wat eromheen geregeld moet worden: datum, zaal, programma, aanmelden. Hier is "praten" een Talk en is een Editie een gebeurtenis met een datum.
-- **Publicatie** — Wat er geschreven en verstuurd wordt: artikelen op de site en de mail die erover gaat. Hier is "praten" schrijven, en hebben stukken een pillar in plaats van een spreker. De woordbotsing die dit model oplost zit precies op de grens tussen deze twee contexten.
+- **Publicatie** — Wat er geschreven en verstuurd wordt: artikelen op de site en de mail die erover gaat. Hier heeft een stuk een Pillar in plaats van een spreker, en is er geen zaal en geen datum.
 
 ## Entity relationships
 

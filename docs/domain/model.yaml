@@ -3,7 +3,7 @@ description: >-
   De onafhankelijke, practitioner-led techcommunity van Twente. Een gezamenlijke
   agenda, een directory, een archief en een nieuwsbrief het hele jaar door, plus
   een klein aantal genummerde, bewust multidisciplinaire avonden.
-version: "0.1.0"
+version: "1.0.0"
 
 contexts:
   - name: Editie
@@ -14,22 +14,20 @@ contexts:
   - name: Publicatie
     description: >-
       Wat er geschreven en verstuurd wordt: artikelen op de site en de mail die
-      erover gaat. Hier is "praten" schrijven, en hebben stukken een pillar in
-      plaats van een spreker. De woordbotsing die dit model oplost zit precies
-      op de grens tussen deze twee contexten.
+      erover gaat. Hier heeft een stuk een Pillar in plaats van een spreker, en
+      is er geen zaal en geen datum.
 
 terms:
   - name: Edition
     context: Editie
     definition: >-
       Eén genummerde avond, geschreven als twente.dev/001. Onderscheidt zich van
-      een gewone meetup doordat het nummer permanent is en de avond een archief
-      achterlaat. Iedere eerste woensdag van de maand, met verplaatsing alleen
-      met opgegeven reden.
+      een gewone meetup doordat het nummer permanent is en de avond een Archief
+      achterlaat.
     synonyms: [editie, flagship]
     avoid: [meetup, event night]
     examples: ["twente.dev/001 — Reconnect", "twente.dev/002"]
-    see_also: [Talk, Registration, Host]
+    see_also: [Talk, Registration, Host, Archief]
 
   - name: Talk
     context: Editie
@@ -37,15 +35,15 @@ terms:
       Een gesproken bijdrage van twaalf minuten op een Edition, met één claim,
       één echt voorbeeld en één vraag aan de zaal. Gegeven door iemand die het
       werk zelf deed, niet door een vertegenwoordiger ervan.
-    synonyms: [talk, praatje]
+    synonyms: [praatje]
     avoid: [field report, veldverslag, keynote, presentatie, sessie]
     see_also: [Speaker, Open Call, Edition]
 
   - name: Speaker
     context: Editie
     definition: >-
-      Iemand die een Talk geeft op een Edition. Wordt redactioneel geselecteerd
-      en bevestigt zelf de datum voordat de naam ergens verschijnt.
+      Iemand die een Talk geeft op een Edition. Onderscheidt zich van een
+      geïnterviewde doordat de bijdrage gesproken is en aan één avond hangt.
     synonyms: [spreker]
     see_also: [Talk, Open Call]
 
@@ -61,10 +59,9 @@ terms:
   - name: Host
     context: Editie
     definition: >-
-      De organisatie die de zaal levert voor een Edition. Krijgt logo,
-      bedanking bij de opening en hooguit twee minuten welkomstwoord. Krijgt
-      nadrukkelijk geen Talk-slot, geen deelnemerslijst en geen inspraak op het
-      programma.
+      De organisatie die de zaal levert voor een Edition. Onderscheidt zich van
+      een Partner doordat de bijdrage de ruimte zelf is, en van een organisator
+      doordat een Host de avond niet vormgeeft.
     synonyms: [gastheer]
     avoid: [eigenaar, organisator]
     examples: [Code14]
@@ -79,9 +76,9 @@ terms:
 
   - name: Community
     definition: >-
-      Een bestaande groep in de regio die in de directory staat. twente.dev
-      concurreert niet met een Community en draait geen eigen avond op hun
-      avond.
+      Een bestaande groep in de regio die in de directory staat, met een eigen
+      identiteit, eigen lijst en eigen podium. twente.dev maakt ze vindbaar en
+      neemt ze niet over.
     examples: [TkkrLab, Agile Meetup Twente]
 
   - name: Field Report
@@ -90,10 +87,9 @@ terms:
       Een geschreven stuk uit de praktijk in de regio, gepubliceerd op de site en
       meegestuurd met de nieuwsbrief. Het is één van twee dingen: een interview
       met iemand die hier bouwt, of één concrete les die degene die hem leerde
-      zelf opschrijft. Ryans eigen lessen uit het organiseren zijn ook Field
-      Reports. Onderscheidt zich van een Talk doordat het geschreven is en niet
-      aan een Edition hangt.
-    synonyms: [field report]
+      zelf opschrijft. Ook de lessen van de organisator zelf vallen eronder.
+      Onderscheidt zich van een Talk doordat het geschreven is en niet aan een
+      Edition hangt.
     avoid: [field note, veldnotitie, portret]
     examples:
       - "Een interview met een embedded engineer bij Thales over wat er misging"
@@ -108,22 +104,51 @@ terms:
       soort en geen pillar: een People Who Build is een Field Report, net als een
       les dat is.
     examples: ["People Who Build: Sanne over de storing die niemand zag"]
-    see_also: [Field Report]
+    see_also: [Field Report, Pillar]
 
   - name: Open Call
     context: Publicatie
     definition: >-
       Een gepubliceerde oproep om iets bij te dragen, meestal een Talk voor de
       eerstvolgende Edition. Staat open zolang de plekken niet gevuld zijn.
-    synonyms: [open call, oproep]
+    synonyms: [oproep]
     see_also: [Talk, Speaker]
 
   - name: Week in Twente Tech
     context: Publicatie
     definition: >-
       Een periodiek overzicht van wat er in de regio speelt, samengesteld uit
-      de agenda en de Communities. Onderscheidt zich van de andere pillars
+      de agenda en de Communities. Onderscheidt zich van de andere Pillars
       doordat het niets nieuws beweert, alleen verzamelt.
+    see_also: [Pillar, Community]
+
+  - name: Pillar
+    context: Publicatie
+    definition: >-
+      De redactionele soort van een gepubliceerd stuk, en het label dat een lezer
+      op de kaart ziet. Er zijn er drie: field-reports, open-calls en
+      week-in-twente-tech. Een stuk heeft er hoogstens één; een algemeen artikel
+      heeft er geen.
+    avoid: [categorie, tag]
+    see_also: [Field Report, Open Call, Week in Twente Tech]
+
+  - name: Archief
+    definition: >-
+      Wat er van een gehouden Edition blijft staan: het openbare verslag, de
+      slides en waar die er is de opname. Onderscheidt zich van de agenda
+      doordat het achteruit kijkt en niet vooruit, en het is de helft van de
+      belofte "We share it".
+    synonyms: [archive]
+    see_also: [Edition]
+
+  - name: Lichte avond
+    context: Editie
+    definition: >-
+      Een avond die wel doorgaat maar geen programma heeft: geen Talks, geen
+      Host-bijdrage, alleen de zaal en de mensen. Telt volledig mee voor het
+      ritme en kost bijna niets.
+    synonyms: [light evening, borrel]
+    see_also: [Edition, Talk]
 
   - name: Newsletter
     context: Publicatie
@@ -190,6 +215,23 @@ rules:
       meer beloven dan je stuurt, en niet minder. Een lijst die naar één soort
       post is vernoemd, belooft minder dan hij levert.
     applies_to: [Newsletter, Field Report]
+  - id: R10
+    statement: >-
+      Een Edition valt op de eerste woensdag van de maand. Verplaatsen mag, mits
+      de reden erbij wordt gezegd, en de volgende datum staat op de site voordat
+      de vorige Edition voorbij is.
+    rationale: >-
+      Een datum die iedereen zelf kan uitrekenen breekt niet, en een pauze zonder
+      aangekondigde terugkeer is hoe communities doodgaan.
+    applies_to: [Edition]
+  - id: R11
+    statement: >-
+      twente.dev draait geen Edition op de avond van een Community uit de
+      directory, en benadert hun bestaande sponsors niet.
+    rationale: >-
+      Het staat zo in het partnercompact. Een directory die je concurrent blijkt
+      te zijn, is een directory waar niemand meer in wil staan.
+    applies_to: [Community, Edition]
   - id: R9
     statement: >-
       Een Host wordt publiek genoemd met een eindig aantal edities, en dat aantal

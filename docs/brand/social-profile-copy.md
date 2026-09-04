@@ -35,7 +35,7 @@ are checked against each platform's current limits.
 | Claim                                        | Status                                                             |
 | -------------------------------------------- | ------------------------------------------------------------------ |
 | Events calendar you can subscribe to (ICS)   | ✅ live                                                            |
-| Field notes and articles by practitioners    | ✅ live                                                            |
+| Field reports and articles by practitioners  | ✅ live                                                            |
 | Numbered flagship events, starting with /001 | ✅ live                                                            |
 | Partner compact, published terms             | ✅ live                                                            |
 | No cookies, no tracking, everything in git   | ✅ live                                                            |
@@ -97,11 +97,11 @@ below are these, trimmed to each limit.
 
 **EN (152):**
 
-> Independent, practitioner-led tech community for Twente. Events, field notes and a shared calendar — across Twente. We build it. We run it. We share it.
+> Independent, practitioner-led tech community for Twente. Events, field reports and a shared calendar — across Twente. We build it. We run it. We share it.
 
 **NL (141):**
 
-> Practitioner-led techcommunity voor Twente. Events, field notes en een gedeelde agenda — in heel Twente. We build it. We run it. We share it.
+> Practitioner-led techcommunity voor Twente. Events, field reports en een gedeelde agenda — in heel Twente. We build it. We run it. We share it.
 
 Location: `Twente, NL` · Website: `https://twente.dev` · Banner: `banner-x-bluesky-1500x500@2x.png`
 
@@ -144,17 +144,17 @@ answers 302, which is the deliberate locale redirect to `/nl` or `/en`, not a fa
 
 **Tagline EN (100/120):**
 
-> Twente's practitioner-led tech community. Events, field notes and a shared calendar — across Twente.
+> Twente's practitioner-led tech community. Events, field reports and a shared calendar — across Twente.
 
 **Tagline NL (106/120):**
 
-> De practitioner-led techcommunity van Twente. Events, field notes en een gedeelde agenda — in heel Twente.
+> De practitioner-led techcommunity van Twente. Events, field reports en een gedeelde agenda — in heel Twente.
 
 **About (EN first, NL below — well under the 2,000-char limit):**
 
 > twente.dev is an independent, practitioner-led technology community for Twente. We make local people, events and practical knowledge easier to find — across Twente — and a few times a year we bring software, hardware, data, design and product people together for one useful evening.
 >
-> On the site: an events calendar you can subscribe to, field notes written by people who did the work, and a directory of the region's communities — which we are building with those communities, not about them.
+> On the site: an events calendar you can subscribe to, field reports written by people who did the work, and a directory of the region's communities — which we are building with those communities, not about them.
 >
 > What we hold ourselves to: independent over corporate — businesses fund and host, but never own. Practitioner over policy — talks from people who built the thing, not slideware about it. And no exceptions: no paid speaking slots, no attendee data for anyone, no product pitches disguised as education.
 >
@@ -176,7 +176,7 @@ Banners: `banner-linkedin-page-1128x191@2x.png` (page) · `banner-linkedin-1584x
 
 **NL (139):**
 
-> Techcommunity voor Twente. Events, field notes en een gedeelde agenda — in heel Twente. Geen tracking. We build it. We run it. We share it.
+> Techcommunity voor Twente. Events, field reports en een gedeelde agenda — in heel Twente. Geen tracking. We build it. We run it. We share it.
 
 Website field: `https://twente.dev`
 
@@ -188,13 +188,13 @@ Reuse the Bluesky EN bio; append the launch line while /001 is upcoming.
 
 **Intro EN/NL mix (96/101):**
 
-> Practitioner-led techcommunity voor Twente. Events, field notes, gedeelde agenda. Geen tracking.
+> Practitioner-led techcommunity voor Twente. Events, field reports, gedeelde agenda. Geen tracking.
 
 **About (NL):**
 
 > twente.dev is een onafhankelijke, practitioner-led techcommunity voor Twente. We maken lokale mensen, events en praktijkkennis beter vindbaar — in heel Twente — en brengen een paar keer per jaar makers uit software, hardware, data, design en product bij elkaar voor één nuttige avond.
 >
-> Op de site: een events-kalender waarop je je kunt abonneren, field notes van mensen die het werk zelf deden, en een gids van de community's in de regio — die we mét die community's bouwen, niet over ze heen.
+> Op de site: een events-kalender waarop je je kunt abonneren, field reports van mensen die het werk zelf deden, en een gids van de community's in de regio — die we mét die community's bouwen, niet over ze heen.
 >
 > Bestaande meetups houden hun eigen identiteit, hun eigen lijst en hun eigen podium — wij maken ze beter vindbaar en verwijzen altijd door naar de bron. Wat we met ze afspreken staat op twente.dev/nl/partners.
 >
@@ -217,7 +217,7 @@ Website: `https://twente.dev`. Pin a README that links the canonical repo on
 >
 > What you will not find here: product pitches disguised as talks, recruiter content, or speakers presenting work they did not do themselves.
 >
-> Editions run a few times a year, across Twente. The calendar and the field notes live at https://twente.dev — no cookies, no tracking.
+> Editions run a few times a year, across Twente. The calendar and the field reports live at https://twente.dev — no cookies, no tracking.
 >
 > We build it. We run it. We share it.
 
@@ -233,7 +233,7 @@ presence exists anyway, it mirrors the field-note framing:
 
 **About page:**
 
-> The field note of twente.dev, the independent, practitioner-led tech community for Twente. Every issue: one concrete lesson from a system someone in the region actually built and ran, what is coming up, and one open call.
+> The field report of twente.dev, the independent, practitioner-led tech community for Twente. Every issue: one concrete lesson from a system someone in the region actually built and ran, what is coming up, and one open call.
 >
 > Written by practitioners, not marketers. Replies go to a person, not a funnel.
 >
@@ -243,7 +243,7 @@ presence exists anyway, it mirrors the field-note framing:
 
 **EN (126):**
 
-> Independent tech community for Twente. Field notes, builder profiles and open calls — written by practitioners, not marketers.
+> Independent tech community for Twente. Field reports, builder profiles and open calls — written by practitioners, not marketers.
 
 Syndicated posts always carry the canonical URL back to twente.dev.
 
@@ -316,9 +316,9 @@ Welcome-channel blurb:
 
 ## Small fields, if ever needed
 
-- **TikTok (61/80):** `Techcommunity voor Twente. Events, field notes, gedeelde agenda.`
+- **TikTok (61/80):** `Techcommunity voor Twente. Events, field reports, gedeelde agenda.`
 - **WhatsApp channel:** `Events en open calls uit de Twentse techcommunity. Van in heel Twente, geen tracking.`
-- **Reddit community description:** `The independent, practitioner-led tech community for Twente. Events and field notes — twente.dev.`
+- **Reddit community description:** `The independent, practitioner-led tech community for Twente. Events and field reports — twente.dev.`
 
 ---
 

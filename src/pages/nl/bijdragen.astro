@@ -13,7 +13,7 @@ const edition = editionName('001');
   locale="nl"
   routeKey="contribute"
   title="Bijdragen"
-  description="Vier routes: een verhaal op het podium, een zaal, een field note, of een event dat je kent. Geen daarvan kost geld."
+  description="Vier routes: een verhaal op het podium, een zaal, een field report, of een event dat je kent. Geen daarvan kost geld."
 >
   <p>
     Deze community bestaat uit wat mensen erin stoppen. Hieronder staan de vier routes die er nu
@@ -27,7 +27,7 @@ const edition = editionName('001');
     tabs={[
       { id: 'speak', label: 'Vertellen' },
       { id: 'venue', label: 'Zaal aanbieden' },
-      { id: 'fieldnote', label: 'Field note' },
+      { id: 'fieldnote', label: 'Field report' },
       { id: 'listing', label: 'Event aanmelden' },
     ]}
   >
@@ -97,18 +97,18 @@ const edition = editionName('001');
     </div>
 
     <div id="fieldnote" data-tabs-panel>
-      <h2 data-tabs-heading>Schrijf een field note</h2>
+      <h2 data-tabs-heading>Schrijf een field report</h2>
       <p>
-        De field note is één concrete les uit een lokaal systeem, geschreven door iemand die er zelf
-        mee werkt. Vierhonderd tot achthonderd woorden is genoeg. Je hoeft geen blogger te zijn en
-        het hoeft niet af te zijn als je het voorstelt — we redigeren mee, en je naam staat erboven.
-        Het staat daarna in het <a href={routePath('blog', 'nl')}>archief</a>, dus het blijft
-        vindbaar.
+        De field report is één concrete les uit een lokaal systeem, geschreven door iemand die er
+        zelf mee werkt. Vierhonderd tot achthonderd woorden is genoeg. Je hoeft geen blogger te zijn
+        en het hoeft niet af te zijn als je het voorstelt — we redigeren mee, en je naam staat
+        erboven. Het staat daarna in het <a href={routePath('blog', 'nl')}>archief</a>, dus het
+        blijft vindbaar.
       </p>
       <ContactForm
         id="fieldnote-form"
         to={CONTACT_EMAIL}
-        subject="Field note voorstellen"
+        subject="Field report voorstellen"
         submitLabel="Verstuur"
         fallbackLabel="Mail ons"
         note="Versturen opent je eigen mailprogramma met dit bericht erin — er gaat niets naar een externe dienst."
@@ -156,7 +156,7 @@ const edition = editionName('001');
   <h2>Blijf op de hoogte</h2>
   <p>
     Bijdragen hoeft niet meteen. Eén mail als het programma van {edition} rond is, één als aanmelden opent,
-    en daarna de field note — dan zie je vanzelf wat voor verhalen hier langskomen voordat je er zelf
+    en daarna de field report — dan zie je vanzelf wat voor verhalen hier langskomen voordat je er zelf
     een instuurt.
   </p>
   <NewsletterForm locale="nl" id="contribute-updates" />

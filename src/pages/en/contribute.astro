@@ -13,7 +13,7 @@ const edition = editionName('001');
   locale="en"
   routeKey="contribute"
   title="Contribute"
-  description="Four routes: a story on stage, a room, a field note, or an event you know about. None of them costs money."
+  description="Four routes: a story on stage, a room, a field report, or an event you know about. None of them costs money."
 >
   <p>
     This community is made of whatever people put into it. Below are the four routes that exist
@@ -27,7 +27,7 @@ const edition = editionName('001');
     tabs={[
       { id: 'speak', label: 'Speak' },
       { id: 'venue', label: 'Offer a room' },
-      { id: 'fieldnote', label: 'Field note' },
+      { id: 'fieldnote', label: 'Field report' },
       { id: 'listing', label: 'List an event' },
     ]}
   >
@@ -94,9 +94,9 @@ const edition = editionName('001');
     </div>
 
     <div id="fieldnote" data-tabs-panel>
-      <h2 data-tabs-heading>Write a field note</h2>
+      <h2 data-tabs-heading>Write a field report</h2>
       <p>
-        The field note is one concrete lesson from a local system, written by someone who works on
+        The field report is one concrete lesson from a local system, written by someone who works on
         it. Four to eight hundred words is enough. You do not have to be a blogger, and it does not
         have to be finished when you propose it — we edit alongside you, and your name goes on it.
         After that it lives in the <a href={routePath('blog', 'en')}>archive</a>, so it stays
@@ -105,7 +105,7 @@ const edition = editionName('001');
       <ContactForm
         id="fieldnote-form"
         to={CONTACT_EMAIL}
-        subject="Proposing a field note"
+        subject="Proposing a field report"
         submitLabel="Send"
         fallbackLabel="Mail us"
         note="Sending opens your own mail app with this message in it — nothing goes to an external service."
@@ -151,8 +151,8 @@ const edition = editionName('001');
   <h2>Stay in the loop</h2>
   <p>
     Contributing does not have to start today. One email when the {edition} programme is set, one when
-    registration opens, and the field note after that — so you can see the kind of story that lands here
-    before you send one in yourself.
+    registration opens, and the field report after that — so you can see the kind of story that lands
+    here before you send one in yourself.
   </p>
   <NewsletterForm locale="en" id="contribute-updates" />
 

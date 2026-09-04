@@ -10,6 +10,14 @@ Content die aan een echte regionale organisatie wordt toegeschreven, komt uit de
 
 **Why:** De directory is alleen iets waard als alles erin klopt.
 
+### R11
+
+twente.dev draait geen Edition op de avond van een Community uit de directory, en benadert hun bestaande sponsors niet.
+
+**Why:** Het staat zo in het partnercompact. Een directory die je concurrent blijkt te zijn, is een directory waar niemand meer in wil staan.
+
+**Also applies to:** Edition
+
 ## Edition
 
 ### R1
@@ -31,6 +39,12 @@ Zijn er op T−4 weken geen twee bevestigde Speakers, dan wordt het een lichte a
 **Why:** Een leeg programma dat toch wordt aangekondigd, kost meer vertrouwen dan een eerlijk kleinere avond.
 
 **Also applies to:** Speaker
+
+### R10
+
+Een Edition valt op de eerste woensdag van de maand. Verplaatsen mag, mits de reden erbij wordt gezegd, en de volgende datum staat op de site voordat de vorige Edition voorbij is.
+
+**Why:** Een datum die iedereen zelf kan uitrekenen breekt niet, en een pauze zonder aangekondigde terugkeer is hoe communities doodgaan.
 
 ## Host
 

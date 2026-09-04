@@ -2,28 +2,34 @@
 
 *Generated from `model.yaml` — do not edit by hand.*
 
+## Archief
+
+Wat er van een gehouden Edition blijft staan: het openbare verslag, de slides en waar die er is de opname. Onderscheidt zich van de agenda doordat het achteruit kijkt en niet vooruit, en het is de helft van de belofte "We share it".
+
+**Also known as:** archive  
+**See also:** [Edition](#edition)  
+
 ## Community
 
-Een bestaande groep in de regio die in de directory staat. twente.dev concurreert niet met een Community en draait geen eigen avond op hun avond.
+Een bestaande groep in de regio die in de directory staat, met een eigen identiteit, eigen lijst en eigen podium. twente.dev maakt ze vindbaar en neemt ze niet over.
 
 **Examples:** TkkrLab; Agile Meetup Twente  
 
 ## Edition
 *Context: Editie*
 
-Eén genummerde avond, geschreven als twente.dev/001. Onderscheidt zich van een gewone meetup doordat het nummer permanent is en de avond een archief achterlaat. Iedere eerste woensdag van de maand, met verplaatsing alleen met opgegeven reden.
+Eén genummerde avond, geschreven als twente.dev/001. Onderscheidt zich van een gewone meetup doordat het nummer permanent is en de avond een Archief achterlaat.
 
 **Also known as:** editie, flagship  
 **Do not use:** meetup, event night  
 **Examples:** twente.dev/001 — Reconnect; twente.dev/002  
-**See also:** [Talk](#talk), [Registration](#registration), [Host](#host)  
+**See also:** [Talk](#talk), [Registration](#registration), [Host](#host), [Archief](#archief)  
 
 ## Field Report
 *Context: Publicatie*
 
-Een geschreven stuk uit de praktijk in de regio, gepubliceerd op de site en meegestuurd met de nieuwsbrief. Het is één van twee dingen: een interview met iemand die hier bouwt, of één concrete les die degene die hem leerde zelf opschrijft. Ryans eigen lessen uit het organiseren zijn ook Field Reports. Onderscheidt zich van een Talk doordat het geschreven is en niet aan een Edition hangt.
+Een geschreven stuk uit de praktijk in de regio, gepubliceerd op de site en meegestuurd met de nieuwsbrief. Het is één van twee dingen: een interview met iemand die hier bouwt, of één concrete les die degene die hem leerde zelf opschrijft. Ook de lessen van de organisator zelf vallen eronder. Onderscheidt zich van een Talk doordat het geschreven is en niet aan een Edition hangt.
 
-**Also known as:** field report  
 **Do not use:** field note, veldnotitie, portret  
 **Examples:** Een interview met een embedded engineer bij Thales over wat er misging; Ryan over wat het kostte om /001 vier weken op te schuiven  
 **See also:** [People Who Build](#people-who-build), [Newsletter](#newsletter), [Talk](#talk)  
@@ -31,12 +37,20 @@ Een geschreven stuk uit de praktijk in de regio, gepubliceerd op de site en meeg
 ## Host
 *Context: Editie*
 
-De organisatie die de zaal levert voor een Edition. Krijgt logo, bedanking bij de opening en hooguit twee minuten welkomstwoord. Krijgt nadrukkelijk geen Talk-slot, geen deelnemerslijst en geen inspraak op het programma.
+De organisatie die de zaal levert voor een Edition. Onderscheidt zich van een Partner doordat de bijdrage de ruimte zelf is, en van een organisator doordat een Host de avond niet vormgeeft.
 
 **Also known as:** gastheer  
 **Do not use:** eigenaar, organisator  
 **Examples:** Code14  
 **See also:** [Partner](#partner), [Edition](#edition)  
+
+## Lichte avond
+*Context: Editie*
+
+Een avond die wel doorgaat maar geen programma heeft: geen Talks, geen Host-bijdrage, alleen de zaal en de mensen. Telt volledig mee voor het ritme en kost bijna niets.
+
+**Also known as:** light evening, borrel  
+**See also:** [Edition](#edition), [Talk](#talk)  
 
 ## Newsletter
 *Context: Publicatie*
@@ -52,7 +66,7 @@ De opt-in maillijst waarop lezers zich abonneren, met dubbele opt-in via Brevo. 
 
 Een gepubliceerde oproep om iets bij te dragen, meestal een Talk voor de eerstvolgende Edition. Staat open zolang de plekken niet gevuld zijn.
 
-**Also known as:** open call, oproep  
+**Also known as:** oproep  
 **See also:** [Talk](#talk), [Speaker](#speaker)  
 
 ## Partner
@@ -67,7 +81,15 @@ Een organisatie die twente.dev steunt onder het gepubliceerde partnercompact. On
 De titelreeks waaronder de interview-Field Reports verschijnen, zodat een lezer aan de kop ziet dat iemand anders aan het woord is. Geen aparte soort en geen pillar: een People Who Build is een Field Report, net als een les dat is.
 
 **Examples:** People Who Build: Sanne over de storing die niemand zag  
-**See also:** [Field Report](#field-report)  
+**See also:** [Field Report](#field-report), [Pillar](#pillar)  
+
+## Pillar
+*Context: Publicatie*
+
+De redactionele soort van een gepubliceerd stuk, en het label dat een lezer op de kaart ziet. Er zijn er drie: field-reports, open-calls en week-in-twente-tech. Een stuk heeft er hoogstens één; een algemeen artikel heeft er geen.
+
+**Do not use:** categorie, tag  
+**See also:** [Field Report](#field-report), [Open Call](#open-call), [Week in Twente Tech](#week-in-twente-tech)  
 
 ## Registration
 *Context: Editie*
@@ -81,7 +103,7 @@ De RSVP van één persoon voor één Edition, afgehandeld op meetup.com. De site
 ## Speaker
 *Context: Editie*
 
-Iemand die een Talk geeft op een Edition. Wordt redactioneel geselecteerd en bevestigt zelf de datum voordat de naam ergens verschijnt.
+Iemand die een Talk geeft op een Edition. Onderscheidt zich van een geïnterviewde doordat de bijdrage gesproken is en aan één avond hangt.
 
 **Also known as:** spreker  
 **See also:** [Talk](#talk), [Open Call](#open-call)  
@@ -91,15 +113,16 @@ Iemand die een Talk geeft op een Edition. Wordt redactioneel geselecteerd en bev
 
 Een gesproken bijdrage van twaalf minuten op een Edition, met één claim, één echt voorbeeld en één vraag aan de zaal. Gegeven door iemand die het werk zelf deed, niet door een vertegenwoordiger ervan.
 
-**Also known as:** talk, praatje  
+**Also known as:** praatje  
 **Do not use:** field report, veldverslag, keynote, presentatie, sessie  
 **See also:** [Speaker](#speaker), [Open Call](#open-call), [Edition](#edition)  
 
 ## Week in Twente Tech
 *Context: Publicatie*
 
-Een periodiek overzicht van wat er in de regio speelt, samengesteld uit de agenda en de Communities. Onderscheidt zich van de andere pillars doordat het niets nieuws beweert, alleen verzamelt.
+Een periodiek overzicht van wat er in de regio speelt, samengesteld uit de agenda en de Communities. Onderscheidt zich van de andere Pillars doordat het niets nieuws beweert, alleen verzamelt.
 
+**See also:** [Pillar](#pillar), [Community](#community)  
 
 ---
 

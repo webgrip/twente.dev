@@ -10,12 +10,20 @@ interface Props {
   routeKey: RouteKey;
   title: string;
   description: string;
+  /** For pages that exist as a destination, not as a search result. */
+  noindex?: boolean;
 }
 
-const { locale, routeKey, title, description } = Astro.props;
+const { locale, routeKey, title, description, noindex } = Astro.props;
 ---
 
-<BaseLayout locale={locale} routeKey={routeKey} title={title} description={description}>
+<BaseLayout
+  locale={locale}
+  routeKey={routeKey}
+  title={title}
+  description={description}
+  noindex={noindex}
+>
   <div class="container">
     <PageHeader title={title} description={description} />
     <div class="prose">

@@ -1,0 +1,54 @@
+---
+import ProsePage from '../../templates/ProsePage.astro';
+import { CONTACT_EMAIL } from '../../config/site.ts';
+import { routePath } from '../../i18n/routes.ts';
+
+/**
+ * Waar het aanmeldformulier naartoe redirect na versturen.
+ *
+ * Het formulier POST cross-origin, dus de browser verlaat twente.dev hoe dan
+ * ook. Zonder deze pagina landt iemand op een generieke pagina van de provider
+ * en denkt hij dat hij klaar is — terwijl de bevestigingsklik nog moet. Dat is
+ * de plek waar een dubbele opt-in de meeste mensen verliest, en dus de enige
+ * reden dat deze pagina bestaat.
+ *
+ * noindex: dit is een bestemming, geen zoekresultaat.
+ */
+---
+
+<ProsePage
+  locale="nl"
+  routeKey="thanks"
+  noindex
+  title="Nog één klik"
+  description="Je aanmelding is binnen. In je inbox staat een mail met een bevestigingsknop — pas na die klik sturen we je iets."
+>
+  <p>
+    <strong>Je staat er nog niet op.</strong> We hebben je zojuist een mail gestuurd met één knop erin.
+    Klik die, en het is rond.
+  </p>
+
+  <p>
+    Die tussenstap is er met opzet: zo weten we zeker dat dit adres van jou is en niet van iemand
+    die het voor je invulde. Klik je niet, dan voegen we je niet toe en hoor je nooit meer iets van
+    ons. De link is dertig dagen geldig.
+  </p>
+
+  <h2>Niets ontvangen?</h2>
+  <p>
+    Kijk in je spam- of ongewensteberichtenmap. De afzender is <code>post@send.twente.dev</code> — een
+    adres dat je nog nooit eerder hebt gezien, en precies daarom filteren sommige mailprogramma's het
+    weg. Zet het gerust op je lijst met veilige afzenders.
+  </p>
+  <p>
+    Blijft het stil, mail dan <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a> — dan zoek ik uit
+    waar het misging.
+  </p>
+
+  <h2>Ondertussen</h2>
+  <p>
+    De <a href={routePath('events', 'nl')}>agenda</a> staat open voor iedereen, ook zonder aanmelding,
+    en je kunt erop abonneren met je eigen kalender. Wil je meedoen in plaats van meelezen: op
+    <a href={routePath('contribute', 'nl')}>bijdragen</a> staat waar we nu hulp bij kunnen gebruiken.
+  </p>
+</ProsePage>

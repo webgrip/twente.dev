@@ -1,0 +1,43 @@
+---
+import ProsePage from '../../templates/ProsePage.astro';
+import { CONTACT_EMAIL } from '../../config/site.ts';
+import { routePath } from '../../i18n/routes.ts';
+
+/** English twin of /nl/bedankt — see that file for why this page exists. */
+---
+
+<ProsePage
+  locale="en"
+  routeKey="thanks"
+  noindex
+  title="One more click"
+  description="We have your sign-up. There is a mail in your inbox with a confirmation button — nothing is sent until you click it."
+>
+  <p>
+    <strong>You are not on the list yet.</strong> We have just sent you an email with a single button
+    in it. Click that, and you are in.
+  </p>
+
+  <p>
+    That extra step is deliberate: it is how we know this address is yours and not one somebody else
+    typed in for you. If you do not click, we do not add you and you never hear from us again. The
+    link stays valid for thirty days.
+  </p>
+
+  <h2>Nothing arrived?</h2>
+  <p>
+    Check your spam or junk folder. The sender is <code>post@send.twente.dev</code> — an address you have
+    never seen before, which is exactly why some mail clients hold it back. Feel free to mark it as safe.
+  </p>
+  <p>
+    If it stays quiet, email <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a> and I will work out
+    what went wrong.
+  </p>
+
+  <h2>In the meantime</h2>
+  <p>
+    The <a href={routePath('events', 'en')}>calendar</a> is open to everyone, sign-up or not, and you
+    can subscribe to it from your own calendar app. If you would rather take part than read along,
+    <a href={routePath('contribute', 'en')}>contribute</a> lists what we could use help with right now.
+  </p>
+</ProsePage>

@@ -5,13 +5,20 @@ step, no slide software, no subscription. Copy the file, edit, print to PDF. Fon
 come from Google Fonts and fall back to the system stack offline; the visual rules
 live in [`../README.md`](../README.md).
 
-| File                   | What                       | Output                                                 |
-| ---------------------- | -------------------------- | ------------------------------------------------------ |
-| `slides.html`          | slide deck, 7 slide types  | present in browser, or PDF at exactly 16:9             |
-| `letterhead.html`      | briefpapier, A4            | PDF, or type directly in the browser (contenteditable) |
-| `email-signature.html` | signature block            | copy-paste into any mail client                        |
-| `speaker-tile.html`    | speaker announcement, 1:1  | PNG at exactly 1080×1080 (see below), or PDF           |
-| `cover-16x9.html`      | Meetup group + event cover | PNG at exactly 2400×1350 (see below), or PDF           |
+| File                          | What                               | Output                                                 |
+| ----------------------------- | ---------------------------------- | ------------------------------------------------------ |
+| `slides.html`                 | slide deck, 7 slide types          | present in browser, or PDF at exactly 16:9             |
+| `letterhead.html`             | briefpapier, A4                    | PDF, or type directly in the browser (contenteditable) |
+| `email-signature.html`        | signature block                    | copy-paste into any mail client                        |
+| `email-base.html`             | lege basis voor een nieuw mailtype | kopieer dit als je een type mist                       |
+| `email-doi.html`              | bevestiging dubbele opt-in         | Templates → tag `optin` is verplicht                   |
+| `email-welcome.html`          | eerste mail na bevestiging         | Automations → contact toegevoegd aan lijst             |
+| `email-001-aankondiging.html` | **gevulde** aankondiging /001      | Campaigns → "paste your code", klaar om te sturen      |
+| `email-field-note.html`       | field note, campagne               | Brevo → Campaigns → "paste your code"                  |
+| `email-announcement.html`     | één bericht, één knop              | Brevo → Campaigns → "paste your code"                  |
+| `email-transactional.html`    | bevestiging of herinnering         | Brevo → **Transactional** → Templates                  |
+| `speaker-tile.html`           | speaker announcement, 1:1          | PNG at exactly 1080×1080 (see below), or PDF           |
+| `cover-16x9.html`             | Meetup group + event cover         | PNG at exactly 2400×1350 (see below), or PDF           |
 
 ## Exporting a PNG (speaker tile, 16:9 covers)
 

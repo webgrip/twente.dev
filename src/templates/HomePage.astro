@@ -3,17 +3,11 @@ import type { Locale } from '../i18n/config.ts';
 import { formatDate, useTranslations } from '../i18n/utils.ts';
 import { routePath } from '../i18n/routes.ts';
 import { getPosts, getUpcomingEvents } from '../lib/content.ts';
-import {
-  CONTACT_EMAIL,
-  EDITION_001,
-  NEWSLETTER_URL,
-  REGISTRATION_OPENS,
-  REGISTRATION_URL,
-  editionName,
-} from '../config/site.ts';
+import { EDITION_001, REGISTRATION_OPENS, REGISTRATION_URL, editionName } from '../config/site.ts';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import EventCard from '../components/EventCard.astro';
 import PostCard from '../components/PostCard.astro';
+import NewsletterForm from '../components/NewsletterForm.astro';
 
 /**
  * The playbook's contract for this page: promise, explanation, next event,
@@ -246,20 +240,7 @@ const bands = [
             <p>{t('home.newsletter.body')}</p>
           </div>
           <div class="newsletter-actions">
-            {
-              NEWSLETTER_URL ? (
-                <a class="button" href={NEWSLETTER_URL}>
-                  {t('newsletter.subscribe')}
-                </a>
-              ) : (
-                <a
-                  class="button"
-                  href={`mailto:${CONTACT_EMAIL}?subject=Field%20note%20newsletter`}
-                >
-                  {t('newsletter.mailFallback')}
-                </a>
-              )
-            }
+            <NewsletterForm locale={locale} id="home" />
             <a class="newsletter-write" href={routePath('contribute', locale)}>
               {t('home.newsletter.write')} →
             </a>
@@ -578,14 +559,6 @@ const bands = [
     background: var(--bg-subtle);
   }
 
-  @media (min-width: 56rem) {
-    .newsletter {
-      grid-template-columns: minmax(0, 1fr) auto;
-      align-items: center;
-      gap: var(--space-7);
-    }
-  }
-
   .newsletter p {
     color: var(--fg-muted);
     margin-block-start: var(--space-3);
@@ -596,6 +569,11 @@ const bands = [
     display: grid;
     gap: var(--space-3);
     justify-items: start;
+  }
+
+  /* The form is a child component, so its root needs :global() to be reached. */
+  .newsletter-actions :global(.subscribe) {
+    width: 100%;
   }
 
   .newsletter-write {

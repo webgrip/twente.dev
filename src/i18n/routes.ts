@@ -28,6 +28,8 @@ export const ROUTES = {
   guidelines: { nl: 'richtlijnen', en: 'guidelines' },
   conduct: { nl: 'gedragscode', en: 'code-of-conduct' },
   privacy: { nl: 'privacy', en: 'privacy' },
+  /** Where the newsletter form's provider redirects after submit. noindex. */
+  thanks: { nl: 'bedankt', en: 'thanks' },
   search: { nl: 'zoeken', en: 'search' },
 } as const satisfies Record<string, Record<Locale, string>>;
 

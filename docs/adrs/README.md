@@ -15,11 +15,12 @@ MADR 4.0.0, matching the `webgrip/workflows` convention. New records use
 | [0008](0008-playbook-first-launch-scope.md)         | Launch scope follows the strategy playbook               | Accepted | 2026-08-13 |
 | [0009](0009-lean-launch-remove-job-board.md)        | Lean launch: no job board, directory held as placeholder | Accepted | 2026-08-13 |
 | [0010](0010-participation-over-listing.md)          | Participation over listing: consent-gated communities    | Accepted | 2026-08-31 |
+| [0011](0011-brevo-for-machine-sent-mail.md)         | Brevo on send.twente.dev for every machine-sent mail     | Accepted | 2026-09-02 |
+| [0012](0012-meetup-for-registration.md)             | Registration runs on Meetup, the site stays the record   | Accepted | 2026-09-02 |
 
 ## Open decisions
 
 Deliberately not yet recorded — see [`../plan/10x-plan.md`](../plan/10x-plan.md) §2:
 
-- Newsletter provider (Buttondown vs. self-hosted listmonk) — Phase 3
 - Whether company profiles gain a paid sponsorship tier — Phase 5. The `tier` field already exists in
   the schema so the model does not need retrofitting.

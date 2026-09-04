@@ -67,9 +67,9 @@ export const nl = {
   'home.community.title': 'Bestaande communities houden het podium',
   'home.community.body':
     'Bestaande meetups houden hun eigen identiteit, hun eigen lijst en hun eigen podium. twente.dev maakt ze beter vindbaar en verwijst altijd door naar de bron.',
-  'home.newsletter.title': 'De wekelijkse field note',
+  'home.newsletter.title': 'De field note',
   'home.newsletter.body':
-    'Elke week één concrete les uit een lokaal systeem — geschreven door iemand die hier werkt, niet door ons. Plus de events van komende week en één open call. Reply-vriendelijk, opt-in, geen tracking.',
+    'Eén concrete les uit een lokaal systeem — geschreven door iemand die hier werkt, niet door ons. Plus wat eraan komt en één open call. Je hoort van ons als er iets te melden is, niet omdat het dinsdag is. Reply-vriendelijk, opt-in, geen tracking.',
   'home.newsletter.write': 'Schrijf er zelf een',
   'home.agenda.empty': 'Verder staat er nog niets in de gedeelde agenda.',
   'home.posts.all': 'Alle artikelen',
@@ -224,9 +224,9 @@ export const en: Record<UIKey, string> = {
   'home.community.title': 'Existing communities keep the stage',
   'home.community.body':
     'Existing meetups keep their own identity, their own list and their own stage. twente.dev makes them easier to find and always links to the source.',
-  'home.newsletter.title': 'The weekly field note',
+  'home.newsletter.title': 'The field note',
   'home.newsletter.body':
-    "One concrete lesson from a local system every week — written by someone who works here, not by us. Plus the coming week's events and one open call. Reply-friendly, opt-in, no tracking.",
+    'One concrete lesson from a local system — written by someone who works here, not by us. Plus what is coming up and one open call. You hear from us when there is something worth saying, not because it is Tuesday. Reply-friendly, opt-in, no tracking.',
   'home.newsletter.write': 'Write one yourself',
   'home.agenda.empty': 'Nothing else is in the shared calendar yet.',
   'home.posts.all': 'All articles',

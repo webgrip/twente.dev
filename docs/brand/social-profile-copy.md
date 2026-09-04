@@ -229,11 +229,11 @@ presence exists anyway, it mirrors the field-note framing:
 
 **Short description:**
 
-> One concrete lesson from a local system, the coming week's events in Twente and one open call. Reply-friendly, opt-in, no tracking.
+> One concrete lesson from a local system, what is coming up in Twente and one open call. Reply-friendly, opt-in, no tracking.
 
 **About page:**
 
-> The field note of twente.dev, the independent, practitioner-led tech community for Twente. Every issue: one concrete lesson from a system someone in the region actually built and ran, the events of the coming week, and one open call.
+> The field note of twente.dev, the independent, practitioner-led tech community for Twente. Every issue: one concrete lesson from a system someone in the region actually built and ran, what is coming up, and one open call.
 >
 > Written by practitioners, not marketers. Replies go to a person, not a funnel.
 >

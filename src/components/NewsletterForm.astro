@@ -40,16 +40,35 @@ const subject = `Field note ${locale === 'nl' ? 'nieuwsbrief' : 'newsletter'}`;
         {Object.entries(NEWSLETTER_FORM_FIELDS).map(([name, value]) => (
           <input type="hidden" name={name} value={value} />
         ))}
-        {/* Which half of a bilingual list someone belongs to, for free: a
-            provider that does not map this field simply ignores it. */}
+        {/* Brevo's own field, and it earns its place: it picks the language of
+            the double opt-in mail, so a Dutch subscriber is asked to confirm in
+            Dutch. It does not split the list — that needs either a second form
+            and list per locale, or a contact attribute. */}
         <input type="hidden" name="locale" value={locale} />
+        {/* Dezelfde waarde, maar als contactattribuut, zodat je op taal kunt
+            segmenteren — `locale` stuurt alleen de taal van de bevestigingsmail
+            en blijft niet op het contact staan. Werkt pas als het attribuut
+            TAAL in Brevo bestaat én op het formulier staat; controleer dat met
+            één echte aanmelding. Doet een provider er niets mee, dan negeert
+            hij het veld gewoon. */}
+        <input type="hidden" name="TAAL" value={locale} />
         {/* Honeypot. Bots fill every field they find; people never see this one.
-            Rename to the endpoint's own field when wiring a provider —
-            listmonk calls it `nonce`. */}
+            The name is Brevo's own — `email_address_check` is the field their
+            embed ships — so this is their spam gate rather than a second one
+            beside it. It must arrive empty. */}
         <p class="subscribe-hp" aria-hidden="true">
-          <label for={`${id}-hp`}>Leave this empty</label>
-          <input id={`${id}-hp`} type="text" name="hp" tabindex="-1" autocomplete="off" />
+          <label for={`${id}-check`}>Leave this empty</label>
+          <input
+            id={`${id}-check`}
+            type="text"
+            name="email_address_check"
+            tabindex="-1"
+            autocomplete="off"
+          />
         </p>
+        {/* Uppercase because Brevo maps form fields onto contact attributes by
+            name, and those are uppercase. A lowercase `email` is not an error
+            at the endpoint — it is a submission with no address in it. */}
         <p class="subscribe-field">
           <label class="label-mono" for={`${id}-email`}>
             {t('newsletter.emailLabel')}
@@ -57,7 +76,7 @@ const subject = `Field note ${locale === 'nl' ? 'nieuwsbrief' : 'newsletter'}`;
           <input
             id={`${id}-email`}
             type="email"
-            name="email"
+            name="EMAIL"
             required
             autocomplete="email"
             placeholder="jij@voorbeeld.nl"

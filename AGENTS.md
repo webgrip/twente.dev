@@ -100,3 +100,12 @@ Run metadata (which job failed) is public; log bodies need the token.
   `null` there is deliberate — components render an honest pre-launch state instead of a dead link.
 - Secrets go through SOPS or the Forgejo secret store, never into a workflow, config file or
   committed `.env` (`guard-secrets` skill).
+
+## Current state (dated — update when it drifts)
+
+_2026-09-04._ Launch tracking lives in
+[`docs/plan/playbook-alignment.md`](docs/plan/playbook-alignment.md); which plan doc is
+authoritative for what: [`docs/plan/README.md`](docs/plan/README.md). CI runs through the shared
+static-site lanes in `webgrip/workflows` (v2.1.0); the copied toolchain configs are being replaced
+by the `@webgrip/*` packages (VIK-813). Several sessions share this working tree: commit by
+pathspec, and a local commit can be pushed by a peer at any time.

@@ -76,8 +76,12 @@ Run metadata (which job failed) is public; log bodies need the token.
   smaller function, a test that states the case. A comment is a failure. This holds for every
   language in the repo, prose in YAML and TOML included. Machine-read directives stay, because the
   toolchain acts on them as syntax: `// @ts-check`, `eslint-disable`, `<!-- prettier-ignore -->`,
-  `# syntax=`, and shebangs. Anything that outlives a single expression belongs in `docs/` or an
-  ADR, where it gets reviewed, linked and kept current.
+  `# syntax=`, `# renovate:`, `# yaml-language-server:`, and shebangs. Doc-comment forms the
+  toolchain itself reads are not comments either and stay: godoc directly above an exported
+  identifier, rustdoc `///` and `//!`, and PHPDoc blocks carrying type tags. Anything that outlives
+  a single expression belongs in `docs/` or an ADR, where it gets reviewed, linked and kept
+  current. The estate decision is
+  [ADR 0006](https://forgejo.webgrip.dev/webgrip/workflows/src/branch/main/docs/adrs/0006-no-comments-in-code.md).
 - **Never build a URL by swapping a locale prefix.** Route _segments_ are localized
   (`/nl/bedrijven` ↔ `/en/companies`), so `/en/bedrijven` does not exist. Always go through
   `routePath()` / `alternatesFor()` in [`src/i18n/routes.ts`](src/i18n/routes.ts).

@@ -3,21 +3,28 @@
 **Owner: Ryan** (needs Cloudflare DNS and Google Workspace admin; neither is available to an
 agent). Originally filed as the blocker on all outreach — VIK-798.
 
-> **Verified state, 2026-09-01** (measured with `dig` against 8.8.8.8, not asserted). Both
+> **Verified state, 2026-09-04** (measured with `dig` against 8.8.8.8, not asserted). Both
 > zones are on the same Cloudflare account (`lynn`/`nadia.ns.cloudflare.com`).
 >
-> |         | twente.dev                              | webgrip.nl               | ryangrippeling.nl |
-> | ------- | --------------------------------------- | ------------------------ | ----------------- |
-> | MX      | Cloudflare Email Routing (inbound only) | Google Workspace         | **none**          |
-> | SPF     | ✅ Cloudflare + Google includes         | ✅ Google include        | ✅ `-all`, no MX  |
-> | DKIM    | ✅ 408 chars, `google` selector         | ✅ 408 chars             | ❌ absent         |
-> | DMARC   | ✅ `p=none`, two `rua`, `fo=1`          | ✅ `p=none`, two `rua`   | ✅ `p=reject`     |
-> | DNSSEC  | ❌ deliberately deferred                | ❌ deliberately deferred | ❌                |
-> | MTA-STS | ❌ not yet                              | ❌ not yet               | ❌ n/a            |
+> |         | twente.dev                          | webgrip.nl               | ryangrippeling.nl |
+> | ------- | ----------------------------------- | ------------------------ | ----------------- |
+> | MX      | Google Workspace, `smtp.google.com` | Google Workspace         | **none**          |
+> | SPF     | ✅ Google include                   | ✅ Google include        | ✅ `-all`, no MX  |
+> | DKIM    | ✅ 408 chars, `google` selector     | ✅ 408 chars             | ❌ absent         |
+> | DMARC   | ✅ `p=none`, two `rua`, `fo=1`      | ✅ `p=none`, two `rua`   | ✅ `p=reject`     |
+> | DNSSEC  | ❌ deliberately deferred            | ❌ deliberately deferred | ❌                |
+> | MTA-STS | 🔶 policy served, TXT pending       | ❌ not yet               | ❌ n/a            |
+> | CAA     | ❌ none, any CA may issue           | ❌ none                  | ❌ none           |
 >
-> **The baseline is done on both sending domains.** Outreach from `ryan@webgrip.nl` is
-> authenticated. What remains is hardening, one unverified assumption, and one architectural
-> decision — all listed under "Still open".
+> **twente.dev moved from domain alias to secondary domain on 2026-09-04**, MX included. The
+> DKIM key was reminted that day and ends `OG82QF3EobbNIQIDAQAB`; the pre-migration key ended
+> `pxe6hNv5yIv9ewIDAQAB`. Cloudflare Email Routing is off and its catch-all is replaced by a
+> Workspace Default routing rule scoped to `.*@twente\.dev$`, acting only on non-recognized
+> addresses. `hello@`, `conduct@`, `press@` and `dmarc@` are Google Groups, verified receiving
+> from an external sender at every member.
+>
+> **The baseline is done on both sending domains.** What remains is hardening, listed under
+> "Still open".
 
 ---
 
@@ -30,6 +37,22 @@ In roughly one sitting, from a starting position of zero of eight:
 2. **DMARC `p=none`** on both domains, with `fo=1; adkim=r; aspf=r`.
 3. **`dmarc@` made deliverable** on both — a Cloudflare routing rule on twente.dev, a Google
    Group on webgrip.nl.
+   **Corrected 2026-09-04, from the dashboard: neither half of that sentence is right for
+   twente.dev.** There is no routing rule for `dmarc@`, and there are no per-address rules at
+   all. The zone has exactly one rule, a **catch-all to `ryan+twentedev@webgrip.nl`**, and it
+   is the only reason `hello@`, `conduct@`, `press@` and `dmarc@` resolve to anything.
+   Worse, `dmarc@` is **not deliverable**: over the last seven days Email Routing received 42
+   messages, forwarded 15 and failed 27, and every failure in the log is a Google aggregate
+   report from `noreply-dmarc-support@google.com` to `dmarc@twente.dev`, going back at least
+   23 hours in an unbroken run. Test messages from an outside mailbox to `hello@`, `conduct@`,
+   `press@` and `dmarc@` forwarded fine on the same day, so the address works and the reports
+   specifically do not. The likely mechanism is the forwarding hop: an aggregate report is
+   `From: google.com`, which publishes `p=reject`, and a forward that breaks the original DKIM
+   signature leaves nothing aligned for the receiving side to accept. Confirm against the
+   failure reason in the Activity Log before treating that as the cause.
+   Consequence while it lasts: the DMARC ladder cannot be climbed on the mailbox leg. What is
+   keeping the record honest is the Cloudflare `rua`, whose dashboard does have data, so the
+   reports are being collected even though the copy addressed to us is being dropped.
 4. **twente.dev added to Google Workspace** as a domain alias of webgrip.nl, so Google can
    sign for it.
 5. **DKIM generated, published and authentication started** on both domains, 2048-bit.
@@ -63,10 +86,10 @@ header.d=twente.dev`, `dmarc=pass` and `compauth=pass reason=100`. mail-tester s
    template before it goes to a real list.
 2. ~~**Lock down ryangrippeling.nl.**~~ **Done, 2026-09-04.** `v=spf1 -all` and
    `_dmarc` `p=reject` are published; the domain has no MX and now cannot be spoofed.
-3. **Decide: domain alias or secondary domain for twente.dev.** **Decided 2026-09-04:
-   secondary domain, licence included — route C below.** Execution is pending; the checklist
-   is in [`plan/nu-te-doen.md`](../plan/nu-te-doen.md). The analysis that led there stands
-   below, because it is what makes the fallback usable if the sitting slips.
+3. ~~**Decide: domain alias or secondary domain for twente.dev.**~~ **Done, 2026-09-04.**
+   Secondary domain, licence included, executed the same evening; see the state table above.
+   The analysis that led there stands below, because routes A and B remain the fallbacks if
+   this ever has to be unwound.
    No longer forced by DKIM
    (item 1 proved alignment works under the alias). **Corrected 2026-09-04: it is not forced
    by the alias either.** This item used to say a domain alias has no namespace of its own,
@@ -93,9 +116,13 @@ header.d=twente.dev`, `dmarc=pass` and `compauth=pass reason=100`. mail-tester s
    a DS record at the registry managed through the registrar; a transfer with DNSSEC live can
    leave a signed zone with no matching DS, which resolves as SERVFAIL rather than as a visible
    error.
-7. **MTA-STS + TLS-RPT** on twente.dev. Enforces TLS on inbound mail so a downgrade attack
-   cannot strip STARTTLS. Blocked on decision 3, because the policy's `mx:` list must match the
-   real MX exactly.
+7. **MTA-STS + TLS-RPT** on twente.dev. **Unblocked and half-shipped, 2026-09-04.** Decision 3
+   is taken, so the `mx:` list is knowable: the policy at `public/.well-known/mta-sts.txt` is
+   served from the Worker on `mta-sts.twente.dev` in `mode: testing`, listing `smtp.google.com`
+   plus the classic `aspmx` names so a revert does not invalidate it. What remains is Ryan's
+   half: the `tlsrpt@` group, the `_mta-sts` and `_smtp._tls` TXT records, and after two clean
+   weeks `mode: enforce` with a bumped `id`. Publish the policy before the TXT record, never the
+   other way round.
 8. **Subdomain lockdown** — `v=spf1 -all` plus `_dmarc` `p=reject` on anything that never
    sends, and `sp=reject` on the apex once the apex is at quarantine. Cloudflare's DMARC
    Management does not cover subdomains; these are manual.
@@ -301,6 +328,46 @@ A **secondary domain** has its own namespace: `hello@`, `conduct@` and `press@` 
 Groups directly at twente.dev, free, with no webgrip.nl twins. That is the shape this project
 actually needs. Recorded here because the domain alias was chosen first and the limitation was
 only discovered at the dialog.
+
+### A brand-new user cannot sign in while 2SV is enforced
+
+Creating `ryan@twente.dev` and then signing in fails with _"Your sign-in settings don't meet
+your organization's 2-Step Verification policy"_. The account has no second factor yet,
+enforcement blocks the sign-in, and the admin console says plainly that **only the user can
+turn on 2-step verification**. The backup codes offered on the user's Security page do not
+help; those are for an account that already has 2SV.
+
+Two ways out: set a **New user enrollment period** on the org unit (Security → Authentication
+→ 2-step verification), which is the mechanism Google built for exactly this and is timeboxed
+by design, or move the user to an org unit with enforcement off, sign in, enrol, and put
+enforcement back. Do not leave enforcement off: this account holds a paid licence and a public
+address.
+
+### Gmail will not send an internal From address through a custom SMTP server
+
+This is the one that decides whether the licence buys anything.
+
+Gmail's _Send mail as_ offers SMTP-server fields only for a From address **outside** your own
+Workspace domains. The admin setting that appears to control it, Apps → Google Workspace →
+Gmail → End User Access → **Allow per-user outbound gateways**, says so in its own label:
+"Allow users to send mail through an external SMTP server when configuring a 'from' address
+hosted outside your email domain." Turning it on changes nothing for `hello@twente.dev`,
+because the moment twente.dev became a secondary domain that address became internal.
+
+So for any address in the Workspace, Google delivers the mail and **the envelope sender is the
+mailbox you pressed send in**. Not the From header, not the group, not a setting.
+
+The consequence is concrete and it is the whole point of the migration:
+
+| Signed in as      | From               | Envelope   | DKIM         | SPF aligned |
+| ----------------- | ------------------ | ---------- | ------------ | ----------- |
+| `ryan@twente.dev` | `hello@twente.dev` | twente.dev | d=twente.dev | yes         |
+| `ryan@webgrip.nl` | `hello@twente.dev` | webgrip.nl | d=twente.dev | no          |
+
+DKIM aligns either way, so DMARC passes either way. The second leg exists only when the mail
+actually leaves from the twente.dev mailbox. A licence on that account is therefore worth
+paying for only if it is the mailbox you sit in for twente.dev mail; otherwise the groups are
+free on a secondary domain and the user account can go.
 
 ### A new Google Group rejects external senders by default
 

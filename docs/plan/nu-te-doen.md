@@ -60,12 +60,25 @@ geslaagde testmail staat DMARC even op nul benen. Dat is te overzien op een
 rustige dag en het is de reden om het niet uit te stellen tot de week dat er
 iets van afhangt.
 
-- [ ] Schrijf je Cloudflare Email Routing-regels voor twente.dev op: welk adres
-      naar welke bestemming. Die zijn niet via DNS te lezen, staan alleen in het
-      dashboard, en ze zijn de helft van je weg terug. De DNS-helft staat al
-      gemeten in het runbook onder "Vooraf, en sla dit ergens op".
+- [x] Cloudflare Email Routing-regels opgeschreven, 4 september. Het zijn er
+      geen. Er is precies één regel, een catch-all naar
+      `ryan+twentedev@webgrip.nl`, en die is de enige reden dat `hello@`,
+      `conduct@`, `press@` en `dmarc@` ergens aankomen. Je weg terug is dus die
+      ene regel plus de DNS-stand in het runbook onder "Vooraf".
+- [ ] **Welke adressen zijn echt in gebruik?** Activity Log op `Last 30 days`,
+      unieke waarden in de kolom `Recipient`. Dit is de lijst die stap 5 moet
+      dekken. De catch-all verbergt vandaag wat je gebruikt, en na stap 7
+      bestaat alleen nog wat je expliciet hebt aangemaakt.
+- [ ] **Waarom falen de DMARC-rapporten?** Activity Log, een rij met
+      `Delivery failed` openklikken en de reden lezen. 27 van de 42 berichten
+      van de afgelopen week zijn mislukt en het zijn allemaal Google-rapporten
+      aan `dmarc@`. Waarschijnlijk lost de verhuizing dit op, omdat Google dan
+      direct aflevert zonder doorstuurhop, en dat wil je weten voordat je erop
+      rekent.
 - [ ] Loop de acht stappen af in die volgorde. Stap 1 tot en met 6 raken je
-      inbox niet. Stap 7 zet de MX om en dat is het onomkeerbare moment.
+      inbox niet. Stap 7 zet de MX om en dat is het onomkeerbare moment. Er is
+      geen knop die een alias omzet naar een secondary domain; Workspace biedt
+      alleen `Remove`, dus stap 1 en 2 zijn echt twee stappen.
 - [ ] Stap 4 kost geld: `ryan@twente.dev` als echt account is een licentie. Dat
       is de stap die de envelope koopt. Sla je hem over, dan heb je de groepen
       en blijft de envelope op `webgrip.nl` staan.
@@ -77,6 +90,9 @@ iets van afhangt.
       `spf=pass smtp.mailfrom=twente.dev`.
 - [ ] En als een mail van buiten naar `conduct@twente.dev` bij **elk** lid
       aankomt. Dat adres staat op de gedragscodepagina.
+- [ ] Bij stap 7 een besluit: Google heeft geen catch-all zoals Cloudflare, wel
+      _Default routing_. Zet die op `ryan@twente.dev`, dan loopt een adres dat we
+      vergeten stil door in plaats van hard te bouncen.
 - [ ] Werk daarna het runbook bij: punt 3 afvinken, de tabel bovenin op de
       nieuwe MX en de nieuwe DKIM-staart zetten, en punt 7 (MTA-STS) is dan niet
       langer geblokkeerd.

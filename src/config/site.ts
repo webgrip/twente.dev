@@ -24,31 +24,7 @@ export const ANALYTICS_TOKEN: string | null = null;
 
 export const REGISTRATION_OPENS = new Date('2026-09-14T09:00:00+02:00');
 
-const VENUE_NAME = 'Code14';
-const VENUE_ADDRESS = 'Hogepad 81';
-
-export const RELEASE_001 = {
-  number: '001',
-  theme: 'Reconnect',
-  doors: new Date('2026-11-04T18:00:00+01:00'),
-  start: new Date('2026-11-04T18:45:00+01:00'),
-  end: new Date('2026-11-04T21:30:00+01:00'),
-  city: 'Rijssen',
-  venueName: VENUE_NAME as string | null,
-  venueLogo: 'code14.png' as string | null,
-  venueAddress: VENUE_ADDRESS as string | null,
-  venue: `${VENUE_NAME}, ${VENUE_ADDRESS}` as string | null,
-  capacity: 40,
-  costEur: 0,
-} as const;
-
-export interface Speaker {
-  name: string;
-  affiliation?: string;
-  talk?: { nl: string; en: string };
-}
-
-export const RELEASE_001_SPEAKERS: readonly Speaker[] = [];
+export const CURRENT_RELEASE = '001';
 
 export function releaseName(number: string): string {
   return `twente.dev/${number}`;

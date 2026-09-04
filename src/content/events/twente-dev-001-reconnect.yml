@@ -32,4 +32,10 @@ tags:
   - cross-disciplinary
 cancelled: false
 attribution: own
-canonicalRoute: release001
+release:
+  number: "001"
+  theme: Reconnect
+  programmeStart: 2026-11-04T18:45:00+01:00
+  capacity: 40
+  venueLogo: code14.png
+  speakers: []

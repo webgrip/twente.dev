@@ -2,9 +2,12 @@
 import type { Locale } from '../i18n/config.ts';
 import { formatDate, useTranslations } from '../i18n/utils.ts';
 import { routePath } from '../i18n/routes.ts';
-import { RELEASE_001, releaseName } from '../config/site.ts';
+import { releaseName } from '../config/site.ts';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHeader from '../components/PageHeader.astro';
+import { getCurrentRelease } from '../lib/content.ts';
+
+const release = await getCurrentRelease();
 
 interface Props {
   locale: Locale;
@@ -14,8 +17,8 @@ interface Props {
 
 const { locale, title, description } = Astro.props;
 const t = useTranslations(locale);
-const host = RELEASE_001.venueName;
-const hostLogo = RELEASE_001.venueLogo;
+const host = release.venueName;
+const hostLogo = release.venueLogo;
 ---
 
 <BaseLayout locale={locale} routeKey="companies" title={title} description={description}>
@@ -29,7 +32,7 @@ const hostLogo = RELEASE_001.venueLogo;
         host && (
           <div class="host-card">
             <p class="label-mono host-kicker">
-              {t('companies.hostKicker')} // {releaseName(RELEASE_001.number)}
+              {t('companies.hostKicker')} // {releaseName(release.number)}
             </p>
             {hostLogo ? (
               <span class="host-plate">
@@ -47,15 +50,15 @@ const hostLogo = RELEASE_001.venueLogo;
               <p class="host-name">{host}</p>
             )}
             <p class="host-where">
-              {RELEASE_001.venueAddress} · {RELEASE_001.city}
+              {release.venueAddress} · {release.city}
             </p>
             <p class="host-when">
-              <time datetime={RELEASE_001.doors.toISOString()}>
-                {formatDate(RELEASE_001.doors, locale)}
+              <time datetime={release.doors.toISOString()}>
+                {formatDate(release.doors, locale)}
               </time>
             </p>
             <p class="host-link">
-              <a href={routePath('release001', locale)}>{t('release.details')} →</a>
+              <a href={routePath('release', locale, release.number)}>{t('release.details')} →</a>
             </p>
           </div>
         )

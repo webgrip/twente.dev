@@ -1,7 +1,7 @@
 ---
 import ProsePage from '../../templates/ProsePage.astro';
 import { routePath } from '../../i18n/routes.ts';
-import { CONTACT_EMAIL, REPO_URL } from '../../config/site.ts';
+import { CONTACT_EMAIL, CURRENT_RELEASE, REPO_URL } from '../../config/site.ts';
 ---
 
 <ProsePage
@@ -38,7 +38,7 @@ import { CONTACT_EMAIL, REPO_URL } from '../../config/site.ts';
     </li>
     <li>
       <strong>Een avond zonder vakgebied.</strong> Elke maand één release die niet om één taal of framework
-      draait. <a href={routePath('release001', 'nl')}>twente.dev/001</a> is de eerste.
+      draait. <a href={routePath('release', 'nl', CURRENT_RELEASE)}>twente.dev/001</a> is de eerste.
     </li>
     <li>
       <strong>Een archief.</strong> Field reports uit de praktijk, geschreven door mensen die hier werken.

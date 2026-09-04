@@ -3,7 +3,7 @@ import type { Locale } from '../i18n/config.ts';
 import { absoluteUrl } from '../i18n/utils.ts';
 import { routePath } from '../i18n/routes.ts';
 import { REGISTRATION_OPENS, REGISTRATION_URL } from '../config/site.ts';
-import { postSlug } from './content.ts';
+import { eventPath, postSlug } from './content.ts';
 import type { CompanyEntry, EventEntry, PostEntry } from './content.ts';
 
 type JsonLd = Record<string, unknown>;
@@ -62,7 +62,7 @@ export function websiteSchema(): JsonLd {
 
 export function eventSchema(event: EventEntry, locale: Locale): JsonLd {
   const online = event.data.venue.online;
-  const isOwnRelease = event.data.canonicalRoute === 'release001';
+  const isOwnRelease = event.data.release !== undefined;
 
   const offers: JsonLd = {
     '@type': 'Offer',
@@ -109,11 +109,7 @@ export function eventSchema(event: EventEntry, locale: Locale): JsonLd {
       name: event.data.organiser.name,
       ...(event.data.organiser.url ? { url: event.data.organiser.url } : {}),
     },
-    url: absoluteUrl(
-      event.data.canonicalRoute
-        ? routePath(event.data.canonicalRoute, locale)
-        : routePath('events', locale, event.id),
-    ),
+    url: absoluteUrl(eventPath(event, locale)),
     offers,
     isAccessibleForFree: event.data.costEur === 0,
   };

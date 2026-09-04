@@ -1,11 +1,14 @@
 ---
 import ProsePage from '../../templates/ProsePage.astro';
 import { formatDate, formatTimeRange, formatWeekday } from '../../i18n/utils.ts';
-import { RELEASE_001, PRESS_EMAIL } from '../../config/site.ts';
+import { PRESS_EMAIL } from '../../config/site.ts';
+import { getCurrentRelease } from '../../lib/content.ts';
 
-const releaseDate = formatDate(RELEASE_001.doors, 'en');
-const releaseDay = formatWeekday(RELEASE_001.doors, 'en');
-const releaseHours = formatTimeRange(RELEASE_001.doors, RELEASE_001.end);
+const release = await getCurrentRelease();
+
+const releaseDate = formatDate(release.doors, 'en');
+const releaseDay = formatWeekday(release.doors, 'en');
+const releaseHours = formatTimeRange(release.doors, release.end);
 ---
 
 <ProsePage
@@ -40,8 +43,8 @@ const releaseHours = formatTimeRange(RELEASE_001.doors, RELEASE_001.end);
     <li>
       First release: <strong>twente.dev/001: Reconnect</strong>, {releaseDay}
       {releaseDate},
-      {releaseHours}, {RELEASE_001.city}. Free, capacity {RELEASE_001.capacity}. Dutch by default;
-      English whenever internationals are in the room.
+      {releaseHours}, {release.city}. Free, capacity {release.capacity}. Dutch by default; English
+      whenever internationals are in the room.
     </li>
     <li>Releases are numbered (/001, /002, /003) and aim to rotate across the region.</li>
     <li>
@@ -54,7 +57,7 @@ const releaseHours = formatTimeRange(RELEASE_001.doors, RELEASE_001.end);
   <p>
     twente.dev is an independent, practitioner-led technology community for Twente. Its first
     release, twente.dev/001: Reconnect, brings software, hardware, data, design and product
-    practitioners together in {RELEASE_001.city} on {releaseDate} for two half-hour talks and an unhurried
+    practitioners together in {release.city} on {releaseDate} for two half-hour talks and an unhurried
     network hour. Free and open to all builders.
   </p>
 
@@ -64,7 +67,7 @@ const releaseHours = formatTimeRange(RELEASE_001.doors, RELEASE_001.end);
     hard to discover across companies and disciplines. twente.dev is the independent,
     practitioner-led community fixing that: a shared calendar, a directory, an archive and a
     newsletter all year, plus one deliberately cross-disciplinary evening every month. The first,
-    twente.dev/001: Reconnect ({RELEASE_001.city}, {releaseDate}), pairs two roughly half-hour talks
+    twente.dev/001: Reconnect ({release.city}, {releaseDate}), pairs two roughly half-hour talks
     with an unhurried network hour to actually meet each other. It is not a recruitment fair or
     vendor stage: sponsors receive no attendee data and speakers are selected editorially.
   </p>

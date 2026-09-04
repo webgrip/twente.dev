@@ -2,7 +2,7 @@ import { releaseName } from '../../config/site.ts';
 import { LOCALE_TAGS, SITE_URL, TIMEZONE } from '../../i18n/config.ts';
 import type { Locale } from '../../i18n/config.ts';
 import { routePath } from '../../i18n/routes.ts';
-import type { RouteKey } from '../../i18n/routes.ts';
+import type { ReleaseSpeaker, ResolvedRelease } from '../release.ts';
 import { MAIL_COPY } from './copy.ts';
 import type { MailDocument, MailFact } from './document.ts';
 
@@ -30,24 +30,8 @@ export interface EventSource {
   url: string;
   costEur: number;
   language: 'nl' | 'en' | 'both';
-  canonicalRoute?: RouteKey;
+  release?: { number: string };
   cancelled: boolean;
-}
-
-export interface SpeakerSource {
-  name: string;
-  affiliation?: string;
-  talk?: Record<Locale, string>;
-}
-
-export interface ReleaseSource {
-  number: string;
-  theme: string;
-  doors: Date;
-  city: string;
-  venueName: string | null;
-  venueAddress: string | null;
-  route: RouteKey;
 }
 
 export function slugify(value: string): string {
@@ -116,7 +100,7 @@ function venueLabel(locale: Locale, venue: EventSource['venue']): string {
   return [venue.name, venue.address, venue.city].filter(Boolean).join(', ');
 }
 
-function releaseVenueLabel(locale: Locale, release: ReleaseSource): string {
+function releaseVenueLabel(locale: Locale, release: ResolvedRelease): string {
   if (!release.venueName) return MAIL_COPY[locale].venueUnknown;
   return [release.venueName, release.venueAddress, release.city].filter(Boolean).join(', ');
 }
@@ -126,7 +110,7 @@ export function postUrl(post: PostSource): string {
 }
 
 export function eventUrl(event: EventSource, locale: Locale): string {
-  if (event.canonicalRoute) return `${SITE_URL}${routePath(event.canonicalRoute, locale)}`;
+  if (event.release) return `${SITE_URL}${routePath('release', locale, event.release.number)}`;
   return event.url;
 }
 
@@ -189,8 +173,8 @@ export function mailForEvent(
 }
 
 export function mailForSpeaker(
-  speaker: SpeakerSource,
-  release: ReleaseSource,
+  speaker: ReleaseSpeaker,
+  release: ResolvedRelease,
   locale: Locale,
 ): MailDocument {
   const copy = MAIL_COPY[locale];
@@ -206,7 +190,7 @@ export function mailForSpeaker(
   return {
     locale,
     kind: 'speaker',
-    key: slugify(speaker.name),
+    key: `${release.number}-${slugify(speaker.name)}`,
     subject: copy.speakerSubject(speaker.name, name),
     preheader: talk ?? `${name} // ${formatShortDate(release.doors, locale)}`,
     kicker: `${name} // ${copy.kickerSpeaker}`,
@@ -217,7 +201,7 @@ export function mailForSpeaker(
     facts,
     callToAction: {
       label: copy.ctaViewRelease,
-      href: `${SITE_URL}${routePath(release.route, locale)}`,
+      href: `${SITE_URL}${routePath('release', locale, release.number)}`,
     },
     reason: copy.reasonSubscriber,
   };

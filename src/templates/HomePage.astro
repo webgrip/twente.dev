@@ -2,12 +2,14 @@
 import type { Locale } from '../i18n/config.ts';
 import { formatDate, formatTimeRange, useTranslations } from '../i18n/utils.ts';
 import { routePath } from '../i18n/routes.ts';
-import { getPosts, getUpcomingEvents } from '../lib/content.ts';
-import { RELEASE_001, REGISTRATION_OPENS, REGISTRATION_URL, releaseName } from '../config/site.ts';
+import { getCurrentRelease, getPosts, getUpcomingEvents, isOwnRelease } from '../lib/content.ts';
+import { REGISTRATION_OPENS, REGISTRATION_URL, releaseName } from '../config/site.ts';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import EventCard from '../components/EventCard.astro';
 import PostCard from '../components/PostCard.astro';
 import NewsletterForm from '../components/NewsletterForm.astro';
+
+const release = await getCurrentRelease();
 
 interface Props {
   locale: Locale;
@@ -18,12 +20,12 @@ const t = useTranslations(locale);
 
 const [events, posts] = await Promise.all([getUpcomingEvents(), getPosts(locale)]);
 
-const otherEvents = events.filter((event) => event.data.canonicalRoute !== 'release001');
+const otherEvents = events.filter((event) => !isOwnRelease(event));
 
-const release = `${releaseName(RELEASE_001.number)}: ${RELEASE_001.theme}`;
+const releaseTitle = `${releaseName(release.number)}: ${release.theme}`;
 const motto = `twente.dev // ${t('site.tagline').toLowerCase()}`;
 
-const hours = formatTimeRange(RELEASE_001.doors, RELEASE_001.end);
+const hours = formatTimeRange(release.doors, release.end);
 
 const bands = [
   { id: 'agenda', index: '01', title: t('home.does.calendar.title') },
@@ -46,7 +48,7 @@ const bands = [
           <h1 class="text-display">{t('home.hero.title')}</h1>
           <p class="hero-subtitle">{t('home.hero.subtitle')}</p>
           <div class="hero-actions">
-            <a class="button button--primary" href={routePath('release001', locale)}>
+            <a class="button button--primary" href={routePath('release', locale, release.number)}>
               {REGISTRATION_URL ? t('home.hero.ctaReserve') : t('release.details')}
             </a>
             <a class="button" href={routePath('contribute', locale)}>
@@ -85,17 +87,15 @@ const bands = [
       <p class="label-mono feature-kicker">{t('home.next.kicker')}</p>
       <div class="feature-grid">
         <div class="feature-main">
-          <h2 id="feature-title">{release}</h2>
+          <h2 id="feature-title">{releaseTitle}</h2>
           <p class="feature-when">
-            <time datetime={RELEASE_001.doors.toISOString()}>
-              {formatDate(RELEASE_001.doors, locale)}
+            <time datetime={release.doors.toISOString()}>
+              {formatDate(release.doors, locale)}
             </time>
             {` · ${hours}`}
           </p>
           <p class="feature-where">
-            {RELEASE_001.venue ?? t('release.venueTba')}{' · '}{RELEASE_001.city}{' · '}{
-              t('release.free')
-            }
+            {release.venue ?? t('release.venueTba')}{' · '}{release.city}{' · '}{t('release.free')}
           </p>
           <p class="feature-language">{t('release.language')}</p>
         </div>
@@ -113,7 +113,7 @@ const bands = [
               </p>
             )
           }
-          <a class="button button--primary" href={routePath('release001', locale)}>
+          <a class="button button--primary" href={routePath('release', locale, release.number)}>
             {REGISTRATION_URL ? t('home.hero.ctaReserve') : t('home.next.cta')}
           </a>
         </div>

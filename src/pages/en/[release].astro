@@ -1,0 +1,17 @@
+---
+import { getCollection } from 'astro:content';
+
+import ReleasePage from '../../templates/ReleasePage.astro';
+
+export async function getStaticPaths() {
+  const releases = await getCollection('events', (entry) => entry.data.release !== undefined);
+  return releases.map((entry) => ({
+    params: { release: entry.data.release?.number },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+---
+
+<ReleasePage locale="en" entry={entry} />

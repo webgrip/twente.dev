@@ -120,6 +120,13 @@ sourced from the resolved current Release instead of from a constant.
   `edition001` to `release001` without changing the shape this ADR is about.
 - 2026-09-04 — the mail generator landed in `ae9f199` and inherited the single-Release
   limitation through `RELEASE_001_SPEAKERS`.
+- 2026-09-04 — landed. Two things were removed that the record did not anticipate. The
+  `canonicalRoute` field disappeared from the events schema, because it existed only to mark
+  our own evening and the `release` block now does that. And the four call sites that spelled
+  out "the canonical path of an event" collapsed into `eventPath()` in `src/lib/content.ts`,
+  used by the event card, the ICS and RSS feeds, the JSON-LD and the event detail routes.
+  Reading a release off disk for the node scripts lives in `scripts/read-releases.ts`, shared
+  by the banner generator and the mail generator.
 - Refines [ADR 0005](0005-contributions-as-data.md): a Release is versioned data like every
   other contribution.
 - Supported by [ADR 0017](0017-mail-reaches-brevo-as-a-draft.md), whose generator reads the

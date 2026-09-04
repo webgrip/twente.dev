@@ -2,11 +2,10 @@ import type { APIRoute } from 'astro';
 
 import { SITE_URL, TIMEZONE } from '../i18n/config.ts';
 import { UI } from '../i18n/ui.ts';
+import { getCurrentRelease } from '../lib/content.ts';
 import {
   CONDUCT_EMAIL,
   CONTACT_EMAIL,
-  RELEASE_001,
-  RELEASE_001_SPEAKERS,
   PRESS_EMAIL,
   PRETALX_CFP_URL,
   REGISTRATION_URL,
@@ -31,15 +30,14 @@ function hm(date: Date): string {
   }).format(date);
 }
 
-const e = RELEASE_001;
+const e = await getCurrentRelease();
 const releaseLines = [
   `- Datum: ${ymd(e.doors, 'nl-NL')}. Deuren en eten ${hm(e.doors)}, programma ${hm(e.start)}, einde ${hm(e.end)}`,
   `- Locatie: ${[e.venue, e.city].filter(Boolean).join(', ')}`,
   `- Capaciteit: ${e.capacity} plekken · ${e.costEur === 0 ? 'gratis' : `€${e.costEur}`}`,
   REGISTRATION_URL && `- Aanmelden: ${REGISTRATION_URL}`,
   PRETALX_CFP_URL && `- Call for talks: ${PRETALX_CFP_URL}`,
-  RELEASE_001_SPEAKERS.length > 0 &&
-    `- Programma: ${RELEASE_001_SPEAKERS.map((s) => s.name).join(', ')}`,
+  e.speakers.length > 0 && `- Programma: ${e.speakers.map((s) => s.name).join(', ')}`,
 ].filter(Boolean);
 
 const body = `# twente.dev

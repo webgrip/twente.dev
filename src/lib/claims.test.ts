@@ -4,7 +4,9 @@ import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { parse } from 'yaml';
 
-import { RELEASE_001 } from '../config/site.ts';
+import { CURRENT_RELEASE } from '../config/site.ts';
+import { resolveRelease } from './release.ts';
+import type { ReleaseEntryData } from './release.ts';
 import { formatDate, formatTimeRange } from '../i18n/utils.ts';
 
 const ROOTS = ['src/pages/nl', 'src/pages/en', 'src/templates', 'src/content', 'docs/brand'];
@@ -28,12 +30,32 @@ interface Rule {
 
 const escape = (value: string): string => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
+function currentRelease(): ReturnType<typeof resolveRelease> {
+  const dir = 'src/content/events';
+  for (const file of readdirSync(dir)) {
+    if (!file.endsWith('.yml') && !file.endsWith('.yaml')) continue;
+    const data = parse(readFileSync(join(dir, file), 'utf8')) as ReleaseEntryData & {
+      release?: { number: string; programmeStart: Date | string };
+    };
+    if (data.release?.number !== CURRENT_RELEASE) continue;
+    return resolveRelease({
+      ...data,
+      start: new Date(data.start),
+      end: data.end === undefined ? undefined : new Date(data.end),
+      release: { ...data.release, programmeStart: new Date(data.release.programmeStart) },
+    });
+  }
+  throw new Error(`no events entry carries release ${CURRENT_RELEASE}`);
+}
+
+const RELEASE = currentRelease();
+
 const EDITION_LITERALS = [
-  formatDate(RELEASE_001.doors, 'nl'),
-  formatDate(RELEASE_001.doors, 'en'),
-  formatTimeRange(RELEASE_001.doors, RELEASE_001.end),
-  RELEASE_001.city,
-  RELEASE_001.venueAddress,
+  formatDate(RELEASE.doors, 'nl'),
+  formatDate(RELEASE.doors, 'en'),
+  formatTimeRange(RELEASE.doors, RELEASE.end),
+  RELEASE.city,
+  RELEASE.venueAddress,
 ].filter((value): value is string => Boolean(value));
 
 const FORBIDDEN: Rule[] = [
@@ -66,7 +88,7 @@ const FORBIDDEN: Rule[] = [
     name: 'literal release fact',
     pattern: new RegExp(EDITION_LITERALS.map(escape).join('|')),
     rationale:
-      'the date, hours, city and address of the current release render from RELEASE_001; a page that spells them out goes stale the moment the edition moves. The venue NAME stays out of this pattern: Code14 is also the employer in the funding disclosure, where it is not an edition fact',
+      'the date, hours, city and address of the current release render from the events entry; a page that spells them out goes stale the moment the edition moves. The venue NAME stays out of this pattern: Code14 is also the employer in the funding disclosure, where it is not an edition fact',
     active: true,
     scope: /^src\/(?:pages|templates|i18n)\//,
   },
@@ -74,8 +96,9 @@ const FORBIDDEN: Rule[] = [
     name: 'hardcoded capacity',
     pattern: /\b(?:capaciteit|capacity)\b\D{0,12}\d+/i,
     rationale:
-      'capacity shipped as 100 while the room seats 40 — the number renders from RELEASE_001.capacity, never as a literal',
+      'capacity shipped as 100 while the room seats 40 — the number renders from the release block in the events entry, never as a literal in copy',
     active: true,
+    scope: /^src\/(?:pages|templates|i18n)\//,
   },
 ];
 
@@ -135,28 +158,6 @@ test('source copy carries no banned variants', () => {
   );
 });
 
-test('the events entry agrees with RELEASE_001', () => {
-  const entry = parse(readFileSync('src/content/events/twente-dev-001-reconnect.yml', 'utf8')) as {
-    start: Date | string;
-    end: Date | string;
-    venue: { name?: string; city: string; address?: string };
-  };
-  const at = (value: Date | string): number => new Date(value).getTime();
-
-  assert.equal(
-    at(entry.start),
-    RELEASE_001.doors.getTime(),
-    'start differs from RELEASE_001.doors',
-  );
-  assert.equal(at(entry.end), RELEASE_001.end.getTime(), 'end differs from RELEASE_001.end');
-  assert.equal(entry.venue.city, RELEASE_001.city, 'venue city differs from RELEASE_001.city');
-  assert.equal(entry.venue.name, RELEASE_001.venueName, 'venue name differs from RELEASE_001');
-  assert.ok(
-    RELEASE_001.venueAddress && entry.venue.address?.startsWith(RELEASE_001.venueAddress),
-    'venue address does not start with RELEASE_001.venueAddress',
-  );
-});
-
 test('every rule matches its own canonical violation (mutation guard)', () => {
   const canonical: Record<string, string> = {
     'em dash in copy': 'een zin — met kastlijntje',
@@ -164,7 +165,7 @@ test('every rule matches its own canonical violation (mutation guard)', () => {
     'niet-X-maar-Y template': 'het is niet activiteit maar zicht',
     'wrong venue city': 'Code14, kantoor in Enschede',
     'hardcoded capacity': 'capaciteit: 100 plekken',
-    'literal release fact': `de avond is op ${formatDate(RELEASE_001.doors, 'nl')}`,
+    'literal release fact': `de avond is op ${formatDate(RELEASE.doors, 'nl')}`,
   };
   for (const rule of FORBIDDEN) {
     assert.ok(

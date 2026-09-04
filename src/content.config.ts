@@ -3,9 +3,6 @@ import { file, glob } from 'astro/loaders';
 import { z } from 'zod';
 
 import { LOCALES } from './i18n/config.ts';
-import { ROUTES } from './i18n/routes.ts';
-
-const ROUTE_KEYS = Object.keys(ROUTES) as [keyof typeof ROUTES, ...(keyof typeof ROUTES)[]];
 
 const i18nString = z.object({
   nl: z.string().min(1),
@@ -91,12 +88,37 @@ const events = defineCollection({
       cancelled: z.boolean().default(false),
       updatedAt: z.coerce.date().optional(),
       attribution: z.enum(['own', 'listed', 'collaboration']).default('listed'),
-      canonicalRoute: z.enum(ROUTE_KEYS).optional(),
+      release: z
+        .object({
+          number: z.string().regex(/^\d{3}$/),
+          theme: z.string().min(1),
+          programmeStart: z.coerce.date(),
+          capacity: z.number().int().positive(),
+          venueLogo: z.string().min(1).optional(),
+          speakers: z
+            .array(
+              z.object({
+                name: z.string().min(1),
+                affiliation: z.string().min(1).optional(),
+                talk: i18nString.optional(),
+              }),
+            )
+            .default([]),
+        })
+        .optional(),
       fixture,
     })
     .refine((e) => !e.end || e.end >= e.start, {
       message: 'end must not be before start',
       path: ['end'],
+    })
+    .refine((e) => !e.release || e.release.programmeStart >= e.start, {
+      message: 'release.programmeStart must not be before the doors time in start',
+      path: ['release', 'programmeStart'],
+    })
+    .refine((e) => !e.release || !e.end || e.release.programmeStart <= e.end, {
+      message: 'release.programmeStart must not be after end',
+      path: ['release', 'programmeStart'],
     }),
 });
 

@@ -2,27 +2,19 @@ import { readdir, readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { parse } from 'yaml';
 
-import { RELEASE_001, RELEASE_001_SPEAKERS, REGISTRATION_URL } from '../src/config/site.ts';
-import { LOCALES } from '../src/i18n/config.ts';
+import { REGISTRATION_URL } from '../src/config/site.ts';
+import { DEFAULT_LOCALE, LOCALES } from '../src/i18n/config.ts';
 import type { Locale } from '../src/i18n/config.ts';
 import type { MailDocument } from '../src/lib/mail/document.ts';
-import { mailForEvent, mailForPost, mailForSpeaker, slugify } from '../src/lib/mail/sources.ts';
-import type { EventSource, Pillar, PostSource, ReleaseSource } from '../src/lib/mail/sources.ts';
+import { mailForEvent, mailForPost, mailForSpeaker } from '../src/lib/mail/sources.ts';
+import type { ResolvedRelease } from '../src/lib/release.ts';
+import { releaseFromEntry } from './read-releases.ts';
+import type { EventSource, Pillar, PostSource } from '../src/lib/mail/sources.ts';
 
 export const REPO = new URL('..', import.meta.url).pathname;
 const CONTENT = join(REPO, 'src/content');
 
 const PILLARS = new Set<Pillar>(['field-reports', 'release-notes', 'upstream']);
-
-const RELEASE: ReleaseSource = {
-  number: RELEASE_001.number,
-  theme: RELEASE_001.theme,
-  doors: RELEASE_001.doors,
-  city: RELEASE_001.city,
-  venueName: RELEASE_001.venueName,
-  venueAddress: RELEASE_001.venueAddress,
-  route: 'release001',
-};
 
 export function die(message: string): never {
   console.error(`mail: ${message}`);
@@ -87,19 +79,21 @@ function localePair(value: unknown, where: string): Record<Locale, string> {
   return pair;
 }
 
-async function readEvents(): Promise<EventSource[]> {
+async function readEvents(): Promise<{ events: EventSource[]; releases: ResolvedRelease[] }> {
   const dir = join(CONTENT, 'events');
   let files: string[];
   try {
     files = (await readdir(dir)).filter((f) => f.endsWith('.yml') || f.endsWith('.yaml'));
   } catch {
-    return [];
+    return { events: [], releases: [] };
   }
   const events: EventSource[] = [];
+  const releases: ResolvedRelease[] = [];
   for (const file of files) {
     const where = `events/${file}`;
     const data = parse(await readFile(join(dir, file), 'utf8')) as Record<string, unknown>;
     const venue = (data.venue ?? {}) as Record<string, unknown>;
+    const release = releaseFromEntry(data);
     events.push({
       slug: file.replace(/\.(yml|yaml)$/, ''),
       title: localePair(data.title, `${where} title`),
@@ -115,11 +109,12 @@ async function readEvents(): Promise<EventSource[]> {
       url: String(data.url ?? ''),
       costEur: typeof data.costEur === 'number' ? data.costEur : 0,
       language: (data.language as EventSource['language']) ?? 'both',
-      canonicalRoute: data.canonicalRoute as EventSource['canonicalRoute'],
+      release: release ? { number: release.number } : undefined,
       cancelled: data.cancelled === true,
     });
+    if (release) releases.push(release);
   }
-  return events;
+  return { events, releases };
 }
 
 export interface Target {
@@ -139,18 +134,22 @@ export async function collectTargets(): Promise<Target[]> {
     targets.push({ id: `post:${key}`, documents: group.map(mailForPost) });
   }
 
-  for (const event of await readEvents()) {
+  const { events, releases } = await readEvents();
+
+  for (const event of events) {
     targets.push({
       id: `event:${event.slug}`,
       documents: LOCALES.map((locale) => mailForEvent(event, locale, REGISTRATION_URL)),
     });
   }
 
-  for (const speaker of RELEASE_001_SPEAKERS) {
-    targets.push({
-      id: `speaker:${slugify(speaker.name)}`,
-      documents: LOCALES.map((locale) => mailForSpeaker(speaker, RELEASE, locale)),
-    });
+  for (const release of releases) {
+    for (const speaker of release.speakers) {
+      targets.push({
+        id: `speaker:${mailForSpeaker(speaker, release, DEFAULT_LOCALE).key}`,
+        documents: LOCALES.map((locale) => mailForSpeaker(speaker, release, locale)),
+      });
+    }
   }
 
   return targets.sort((a, b) => a.id.localeCompare(b.id));

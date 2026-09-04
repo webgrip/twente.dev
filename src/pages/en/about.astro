@@ -1,7 +1,7 @@
 ---
 import ProsePage from '../../templates/ProsePage.astro';
 import { routePath } from '../../i18n/routes.ts';
-import { CONTACT_EMAIL, REPO_URL } from '../../config/site.ts';
+import { CONTACT_EMAIL, CURRENT_RELEASE, REPO_URL } from '../../config/site.ts';
 ---
 
 <ProsePage
@@ -38,8 +38,9 @@ import { CONTACT_EMAIL, REPO_URL } from '../../config/site.ts';
     </li>
     <li>
       <strong>An evening with no speciality.</strong> Every month, one release that does not revolve around
-      a single language or framework. <a href={routePath('release001', 'en')}>twente.dev/001</a> is the
-      first.
+      a single language or framework. <a href={routePath('release', 'en', CURRENT_RELEASE)}
+        >twente.dev/001</a
+      > is the first.
     </li>
     <li>
       <strong>An archive.</strong> Field reports from practice, written by people who work here. Once

@@ -2,10 +2,12 @@ import { writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { EDITION_001, EDITION_001_SPEAKERS } from '../src/config/site.ts';
+import { CURRENT_RELEASE } from '../src/config/site.ts';
+import { readRelease } from './read-releases.ts';
 
 const repo = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const out = `${repo}/docs/brand/templates/editie.js`;
+const release = await readRelease(`${repo}/src/content`, CURRENT_RELEASE);
 
 const COORDS = {
   Rijssen: { lat: 52.3078, lon: 6.517 },
@@ -15,19 +17,17 @@ const COORDS = {
 };
 
 const amsterdam = (opts) =>
-  new Intl.DateTimeFormat('nl-NL', { timeZone: 'Europe/Amsterdam', ...opts }).format(
-    EDITION_001.doors,
-  );
+  new Intl.DateTimeFormat('nl-NL', { timeZone: 'Europe/Amsterdam', ...opts }).format(release.doors);
 
-const coords = COORDS[EDITION_001.city];
+const coords = COORDS[release.city];
 if (!coords) {
   throw new Error(
-    `Geen coordinaten voor ${EDITION_001.city}. Vul ze aan in COORDS in scripts/sync-editie.mjs; ` +
+    `Geen coordinaten voor ${release.city}. Vul ze aan in COORDS in scripts/sync-editie.mjs; ` +
       'de omloopkaart tekent de knoop op echte geografie en kan er geen verzinnen.',
   );
 }
 
-const namen = EDITION_001_SPEAKERS.map((s) => s.name);
+const namen = release.speakers.map((s) => s.name);
 const sprekers = {
   nl: namen.length > 0 ? namen : ['[ spreker een ]', '[ spreker twee ]'],
   en: namen.length > 0 ? namen : ['[ speaker one ]', '[ speaker two ]'],
@@ -36,10 +36,10 @@ const sprekers = {
 const tz = amsterdam({ timeZoneName: 'short' }).split(' ').at(-1);
 
 const EDITIE = {
-  nr: EDITION_001.number,
-  thema: EDITION_001.theme.toLowerCase(),
-  stad: EDITION_001.city.toLowerCase(),
-  venue: (EDITION_001.venue ?? '').split(',')[0].toLowerCase(),
+  nr: release.number,
+  thema: release.theme.toLowerCase(),
+  stad: release.city.toLowerCase(),
+  venue: (release.venue ?? '').split(',')[0].toLowerCase(),
   datumNL: amsterdam({ weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' })
     .replaceAll('.', '')
     .replace(/^(\w{2})\w*/, '$1'),
@@ -50,15 +50,15 @@ const EDITIE = {
     month: 'short',
     year: 'numeric',
   })
-    .format(EDITION_001.doors)
+    .format(release.doors)
     .replaceAll(',', '')
     .toLowerCase(),
   datumCompact: amsterdam({ day: '2-digit', month: '2-digit' }).replace('-', '.'),
   tijd: amsterdam({ hour: '2-digit', minute: '2-digit' }),
   tz: tz === 'CET' || tz === 'CEST' ? tz : 'CET',
-  seats: EDITION_001.capacity,
+  seats: release.capacity,
   sprekers,
-  knotLabelNL: EDITION_001.city.toUpperCase(),
+  knotLabelNL: release.city.toUpperCase(),
   knotLat: coords.lat,
   knotLon: coords.lon,
 };

@@ -1,6 +1,4 @@
 ---
-import { getEntry } from 'astro:content';
-
 import type { Locale } from '../i18n/config.ts';
 import {
   formatDate,
@@ -10,13 +8,9 @@ import {
   useTranslations,
 } from '../i18n/utils.ts';
 import { routePath } from '../i18n/routes.ts';
-import {
-  RELEASE_001,
-  RELEASE_001_SPEAKERS,
-  REGISTRATION_OPENS,
-  REGISTRATION_URL,
-  releaseName,
-} from '../config/site.ts';
+import { REGISTRATION_OPENS, REGISTRATION_URL, releaseName } from '../config/site.ts';
+import type { EventEntry } from '../lib/content.ts';
+import { resolveRelease } from '../lib/release.ts';
 import { eventSchema } from '../lib/jsonld.ts';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import NewsletterForm from '../components/NewsletterForm.astro';
@@ -24,6 +18,7 @@ import Tabs from '../components/Tabs.astro';
 
 interface Props {
   locale: Locale;
+  entry: EventEntry;
 }
 
 interface Copy {
@@ -76,14 +71,15 @@ interface Copy {
   partnersCta: string;
 }
 
-const { locale } = Astro.props;
+const { locale, entry } = Astro.props;
+const release = resolveRelease(entry.data);
 
-const name = `${releaseName(RELEASE_001.number)}: ${RELEASE_001.theme}`;
+const name = `${releaseName(release.number)}: ${release.theme}`;
 const time = formatTime;
-const hours = formatTimeRange(RELEASE_001.doors, RELEASE_001.end);
+const hours = formatTimeRange(release.doors, release.end);
 const sentenceCase = (value: string) => value.charAt(0).toUpperCase() + value.slice(1);
 const whenWhere = (loc: Locale) =>
-  `${sentenceCase(formatWeekday(RELEASE_001.doors, loc))} ${formatDate(RELEASE_001.doors, loc)}, ${hours}, ${RELEASE_001.city}`;
+  `${sentenceCase(formatWeekday(release.doors, loc))} ${formatDate(release.doors, loc)}, ${hours}, ${release.city}`;
 
 const COPY: Record<Locale, Copy> = {
   en: {
@@ -106,8 +102,8 @@ const COPY: Record<Locale, Copy> = {
     outcomes: ['One useful idea', 'One useful introduction', 'One reason to return'],
     expectTitle: 'The evening',
     runOfShow: [
-      { time: time(RELEASE_001.doors), item: 'Doors, food and first introductions' },
-      { time: time(RELEASE_001.start), item: 'Welcome' },
+      { time: time(release.doors), item: 'Doors, food and first introductions' },
+      { time: time(release.start), item: 'Welcome' },
       {
         time: '19:00',
         item: 'Talk 1: something the speaker built, fixed or broke themselves',
@@ -115,7 +111,7 @@ const COPY: Record<Locale, Copy> = {
       { time: '19:30', item: 'Break' },
       { time: '19:45', item: 'Talk 2' },
       { time: '20:15', item: 'Networking' },
-      { time: time(RELEASE_001.end), item: 'Hard finish' },
+      { time: time(release.end), item: 'Hard finish' },
     ],
     whoTitle: 'Who the room is for',
     whoBody:
@@ -214,8 +210,8 @@ const COPY: Record<Locale, Copy> = {
     outcomes: ['Eén nuttig idee', 'Eén nuttige kennismaking', 'Eén reden om terug te komen'],
     expectTitle: 'De avond',
     runOfShow: [
-      { time: time(RELEASE_001.doors), item: 'Inloop, eten en eerste kennismakingen' },
-      { time: time(RELEASE_001.start), item: 'Welkomstwoord' },
+      { time: time(release.doors), item: 'Inloop, eten en eerste kennismakingen' },
+      { time: time(release.start), item: 'Welkomstwoord' },
       {
         time: '19:00',
         item: 'Talk 1: iets dat de spreker zelf heeft gebouwd, gerepareerd of verprutst',
@@ -223,7 +219,7 @@ const COPY: Record<Locale, Copy> = {
       { time: '19:30', item: 'Pauze' },
       { time: '19:45', item: 'Talk 2' },
       { time: '20:15', item: 'Networking' },
-      { time: time(RELEASE_001.end), item: 'Strakke eindtijd' },
+      { time: time(release.end), item: 'Strakke eindtijd' },
     ],
     whoTitle: 'Voor wie de avond is',
     whoBody:
@@ -306,8 +302,7 @@ const COPY: Record<Locale, Copy> = {
 
 const c = COPY[locale];
 const t = useTranslations(locale);
-const entry = await getEntry('events', 'twente-dev-001-reconnect');
-const jsonLd = entry ? [eventSchema(entry, locale)] : [];
+const jsonLd = [eventSchema(entry, locale)];
 
 const registrationOpen = REGISTRATION_URL !== null;
 const sections = [
@@ -322,12 +317,13 @@ const num = (id: (typeof sections)[number]['id']) =>
   String(sections.findIndex((s) => s.id === id) + 1).padStart(2, '0');
 const opensIso = REGISTRATION_OPENS.toISOString();
 const opensOn = formatDate(REGISTRATION_OPENS, locale);
-const speakers = RELEASE_001_SPEAKERS;
+const speakers = release.speakers;
 ---
 
 <BaseLayout
   locale={locale}
-  routeKey="release001"
+  routeKey="release"
+  slug={release.number}
   title={c.metaTitle}
   description={c.metaDescription}
   jsonLd={jsonLd}
@@ -342,15 +338,15 @@ const speakers = RELEASE_001_SPEAKERS;
           </a>
         </nav>
         <p class="edition-lockup label-mono" aria-hidden="true">
-          <span class="lockup-name">{releaseName(RELEASE_001.number)}</span>
+          <span class="lockup-name">{releaseName(release.number)}</span>
           <span class="lockup-date">
-            {String(RELEASE_001.doors.getDate()).padStart(2, '0')}.{
-              String(RELEASE_001.doors.getMonth() + 1).padStart(2, '0')
+            {String(release.doors.getDate()).padStart(2, '0')}.{
+              String(release.doors.getMonth() + 1).padStart(2, '0')
             }
           </span>
-          <span class="lockup-place">{RELEASE_001.city} · {time(RELEASE_001.doors)}</span>
+          <span class="lockup-place">{release.city} · {time(release.doors)}</span>
         </p>
-        <h1 class="text-display">{RELEASE_001.theme}</h1>
+        <h1 class="text-display">{release.theme}</h1>
         {c.intro.map((paragraph) => <p class="edition-intro">{paragraph}</p>)}
 
         <ul class="outcomes" role="list">
@@ -365,8 +361,8 @@ const speakers = RELEASE_001_SPEAKERS;
             <div>
               <dt>{c.factDate}</dt>
               <dd>
-                <time datetime={RELEASE_001.doors.toISOString()}>
-                  {formatDate(RELEASE_001.doors, locale)}
+                <time datetime={release.doors.toISOString()}>
+                  {formatDate(release.doors, locale)}
                 </time>
               </dd>
             </div>
@@ -376,11 +372,11 @@ const speakers = RELEASE_001_SPEAKERS;
             </div>
             <div>
               <dt>{c.factVenue}</dt>
-              <dd>{RELEASE_001.venue ?? `${RELEASE_001.city}, ${t('release.venueTba')}`}</dd>
+              <dd>{release.venue ?? `${release.city}, ${t('release.venueTba')}`}</dd>
             </div>
             <div>
               <dt>{c.factCapacity}</dt>
-              <dd>{RELEASE_001.capacity}</dd>
+              <dd>{release.capacity}</dd>
             </div>
             <div>
               <dt>{c.factCost}</dt>

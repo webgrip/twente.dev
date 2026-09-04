@@ -1,9 +1,10 @@
 ---
+import { CURRENT_RELEASE } from '../config/site.ts';
 import { DEFAULT_LOCALE } from '../i18n/config.ts';
 import { routePath } from '../i18n/routes.ts';
 import { absoluteUrl } from '../i18n/utils.ts';
 
-const target = routePath('release001', DEFAULT_LOCALE);
+const target = routePath('release', DEFAULT_LOCALE, CURRENT_RELEASE);
 const canonical = absoluteUrl(target);
 ---
 

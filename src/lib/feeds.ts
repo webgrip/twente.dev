@@ -4,7 +4,7 @@ import { SITE_URL } from '../i18n/config.ts';
 import type { Locale } from '../i18n/config.ts';
 import { absoluteUrl, useTranslations } from '../i18n/utils.ts';
 import { routePath } from '../i18n/routes.ts';
-import { getAllEvents, getPosts, postSlug } from './content.ts';
+import { eventPath, getAllEvents, getPosts, postSlug } from './content.ts';
 import { buildIcsCalendar } from './ics.ts';
 import type { IcsEvent } from './ics.ts';
 
@@ -39,9 +39,7 @@ export async function buildEventsIcs(locale: Locale = 'nl'): Promise<Response> {
   const events = await getAllEvents();
 
   const icsEvents: IcsEvent[] = events.map((event) => {
-    const path = event.data.canonicalRoute
-      ? routePath(event.data.canonicalRoute, locale)
-      : routePath('events', locale, event.id);
+    const path = eventPath(event, locale);
     return {
       uid: event.id,
       start: event.data.start,

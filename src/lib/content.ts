@@ -1,12 +1,44 @@
 import { getCollection, getEntry } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 
+import { CURRENT_RELEASE } from '../config/site.ts';
 import type { Locale } from '../i18n/config.ts';
+import { routePath } from '../i18n/routes.ts';
+import { releaseByNumber, resolveRelease } from './release.ts';
+import type { ResolvedRelease } from './release.ts';
 
 export type EventEntry = CollectionEntry<'events'>;
 export type CompanyEntry = CollectionEntry<'companies'>;
 export type PostEntry = CollectionEntry<'posts'>;
 export type CommunityEntry = CollectionEntry<'communities'>;
+
+export function isOwnRelease(entry: EventEntry): boolean {
+  return entry.data.release !== undefined;
+}
+
+export function eventPath(entry: EventEntry, locale: Locale): string {
+  const release = entry.data.release;
+  return release
+    ? routePath('release', locale, release.number)
+    : routePath('events', locale, entry.id);
+}
+
+export async function getReleases(): Promise<ResolvedRelease[]> {
+  const releases = await getCollection('events', (e) => e.data.release !== undefined);
+  return releases
+    .map((entry) => resolveRelease(entry.data))
+    .sort((a, b) => a.number.localeCompare(b.number));
+}
+
+export async function getCurrentRelease(): Promise<ResolvedRelease> {
+  const release = releaseByNumber(await getReleases(), CURRENT_RELEASE);
+  if (!release) {
+    throw new Error(
+      `CURRENT_RELEASE ${CURRENT_RELEASE} has no events entry carrying a release block`,
+    );
+  }
+  return release;
+}
 
 export function now(): Date {
   return new Date();

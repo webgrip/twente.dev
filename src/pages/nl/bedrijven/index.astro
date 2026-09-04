@@ -2,7 +2,10 @@
 import CompaniesPage from '../../../templates/CompaniesPage.astro';
 import { routePath } from '../../../i18n/routes.ts';
 import { formatDate } from '../../../i18n/utils.ts';
-import { CONTACT_EMAIL, RELEASE_001, releaseName } from '../../../config/site.ts';
+import { CONTACT_EMAIL, releaseName } from '../../../config/site.ts';
+import { getCurrentRelease } from '../../../lib/content.ts';
+
+const release = await getCurrentRelease();
 ---
 
 <CompaniesPage
@@ -11,17 +14,17 @@ import { CONTACT_EMAIL, RELEASE_001, releaseName } from '../../../config/site.ts
   description="Je mensen laten gaan, of een zaal aanbieden voor een latere release."
 >
   <p>
-    <a href={routePath('release001', 'nl')}>{releaseName(RELEASE_001.number)}</a> is op {
-      formatDate(RELEASE_001.doors, 'nl')
-    } bij {RELEASE_001.venueName} in {RELEASE_001.city}, dus de zaal is rond. Het meeste waar we
-    bedrijven voor nodig hebben kost ook geen zaal: laat je mensen die avond gaan en reken het als
-    werktijd. Voor de meeste bedrijven is dat de echte stap.
+    <a href={routePath('release', 'nl', release.number)}>{releaseName(release.number)}</a> is op {
+      formatDate(release.doors, 'nl')
+    } bij {release.venueName} in {release.city}, dus de zaal is rond. Het meeste waar we bedrijven
+    voor nodig hebben kost ook geen zaal: laat je mensen die avond gaan en reken het als werktijd.
+    Voor de meeste bedrijven is dat de echte stap.
   </p>
   <p>
     Releases rouleren elke maand door de regio, dus voor later zoeken we steeds een nieuwe host: een
     ruimte waar
-    {RELEASE_001.capacity} man in past, met eten en drinken erbij. Je naam staat dan op de editiepagina
-    en in de zaal, en daar houdt het op. Een spreekplek zit er niet bij, ook niet voor de host, want dat
+    {release.capacity} man in past, met eten en drinken erbij. Je naam staat dan op de editiepagina en
+    in de zaal, en daar houdt het op. Een spreekplek zit er niet bij, ook niet voor de host, want dat
     loopt via de <a href={routePath('contribute', 'nl')}>open call</a>. De deelnemerslijst gaat naar
     niemand, en de rest van de afspraken staat op
     <a href={routePath('partners', 'nl')}>partners</a>.

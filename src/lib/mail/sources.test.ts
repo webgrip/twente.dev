@@ -2,7 +2,8 @@ import { strict as assert } from 'node:assert';
 import { test, describe } from 'node:test';
 
 import { mailForEvent, mailForPost, mailForSpeaker, slugify } from './sources.ts';
-import type { EventSource, PostSource, ReleaseSource } from './sources.ts';
+import type { ResolvedRelease } from '../release.ts';
+import type { EventSource, PostSource } from './sources.ts';
 
 const nlPost: PostSource = {
   slug: 'waarom-twente-dev',
@@ -32,18 +33,24 @@ const event: EventSource = {
   url: 'https://twente.dev/nl/001',
   costEur: 0,
   language: 'both',
-  canonicalRoute: 'release001',
+  release: { number: '001' },
   cancelled: false,
 };
 
-const release: ReleaseSource = {
+const release: ResolvedRelease = {
   number: '001',
   theme: 'Reconnect',
   doors: new Date('2026-11-04T18:00:00+01:00'),
+  start: new Date('2026-11-04T18:45:00+01:00'),
+  end: new Date('2026-11-04T21:30:00+01:00'),
   city: 'Rijssen',
   venueName: 'Code14',
+  venueLogo: 'code14.png',
   venueAddress: 'Hogepad 81',
-  route: 'release001',
+  venue: 'Code14, Hogepad 81',
+  capacity: 40,
+  costEur: 0,
+  speakers: [],
 };
 
 describe('mailForPost', () => {
@@ -76,13 +83,13 @@ describe('mailForPost', () => {
 });
 
 describe('mailForEvent', () => {
-  test('localizes the canonical route instead of reusing the nl url', () => {
+  test('builds the release url per locale instead of reusing the nl url', () => {
     assert.equal(mailForEvent(event, 'en', null).callToAction.href, 'https://twente.dev/en/001');
     assert.equal(mailForEvent(event, 'nl', null).callToAction.href, 'https://twente.dev/nl/001');
   });
 
-  test('falls back to the entry url when there is no canonical route', () => {
-    const external = { ...event, canonicalRoute: undefined, url: 'https://example.org/meetup' };
+  test('falls back to the entry url when the event is not one of ours', () => {
+    const external = { ...event, release: undefined, url: 'https://example.org/meetup' };
     assert.equal(
       mailForEvent(external, 'nl', null).callToAction.href,
       'https://example.org/meetup',
@@ -144,6 +151,15 @@ describe('mailForSpeaker', () => {
     const mail = mailForSpeaker({ name: 'Iemand Anders' }, release, 'nl');
     assert.ok(!mail.facts.some((f) => f.label === 'Talk'));
     assert.match(mail.subject, /Iemand Anders spreekt op twente\.dev\/001/);
+  });
+
+  test('keys the mail by release, so two releases cannot collide on one speaker name', () => {
+    const speaker = { name: 'Iemand Anders' };
+    assert.equal(mailForSpeaker(speaker, release, 'nl').key, '001-iemand-anders');
+    assert.equal(
+      mailForSpeaker(speaker, { ...release, number: '002' }, 'nl').key,
+      '002-iemand-anders',
+    );
   });
 
   test('names the affiliation in the lead when there is one', () => {

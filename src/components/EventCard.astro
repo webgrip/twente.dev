@@ -1,7 +1,7 @@
 ---
 import type { Locale } from '../i18n/config.ts';
 import { formatDateTime, useTranslations } from '../i18n/utils.ts';
-import { routePath } from '../i18n/routes.ts';
+import { eventPath } from '../lib/content.ts';
 import type { EventEntry } from '../lib/content.ts';
 import Tag from './Tag.astro';
 
@@ -14,9 +14,7 @@ interface Props {
 const { event, locale, headingLevel = 'h3' } = Astro.props;
 const Heading = headingLevel;
 const t = useTranslations(locale);
-const href = event.data.canonicalRoute
-  ? routePath(event.data.canonicalRoute, locale)
-  : routePath('events', locale, event.id);
+const href = eventPath(event, locale);
 
 const isOwnRelease = event.data.attribution === 'own';
 ---

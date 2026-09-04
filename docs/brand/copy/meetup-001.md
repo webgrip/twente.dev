@@ -89,3 +89,42 @@ Everything about this evening: https://twente.dev/en/001
 
 With thanks to Code14 for hosting. Code14 is the host and not the owner: the programme is ours.
 ```
+
+---
+
+## RSVP-vraag
+
+Meetup laat maar één vraag toe, dus de drie dingen die we willen weten zitten in
+één veld: het kanaal (de enige attributie die /001 oplevert), dieetwensen en
+toegankelijkheid. Zet hem op verplicht, anders vervalt de attributie stilletjes.
+
+Gevolg om te weten: het antwoord komt terug als vrije tekst en niet als een
+keuzelijst, dus je codeert de kanalen met de hand terug naar de bronnen uit
+`utm-convention.md`. Bij veertig mensen is dat tien minuten. Bij vierhonderd
+wil je een echt formulier.
+
+### Nederlands
+
+```
+Leuk dat je komt! Drie korte vragen helpen ons de avond toegankelijk en gezellig te maken, en om te leren wat werkt. Antwoord elk op een eigen regel:
+1) Hoe hoorde je van twente.dev?
+2) Dieetwensen of allergieën?
+3) Heb je iets nodig om er goed bij te kunnen zijn?
+Alles mag leeg blijven, en "niks" is ook een antwoord.
+```
+
+### English
+
+```
+Glad you are coming! Three short questions help us keep the evening accessible and enjoyable, and help us learn what works. Answer each on its own line:
+1) How did you hear about twente.dev?
+2) Any dietary needs or allergies?
+3) Anything you need in order to take part comfortably?
+All of it may stay empty, and "nothing" is a fine answer.
+```
+
+### Korte variant, als het veld te kort is
+
+```
+Drie korte vragen, elk op een eigen regel: 1) Hoe hoorde je van twente.dev? 2) Dieetwensen of allergieën? 3) Iets nodig om er goed bij te kunnen zijn? Alles mag leeg.
+```

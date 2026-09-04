@@ -36,14 +36,14 @@ pnpm mail event:twente-dev-001-reconnect nl  # alleen het Nederlandse bestand
 De uitvoer belandt in `build/mail/`, buiten git. Het onderwerp en de preheader komen op de
 terminal te staan, want die twee typ je in Brevo apart in.
 
-| Bron                                                               | Mail         | Kicker                    |
-| ------------------------------------------------------------------ | ------------ | ------------------------- |
-| `posts/**` met `pillar: field-reports`                             | field report | Field report              |
-| `posts/**` met `pillar: release-notes`                             | verslag      | Release notes             |
-| `posts/**` met `pillar: upstream`                                  | signalering  | Upstream                  |
-| `posts/**` zonder pillar                                           | nieuw stuk   | Nieuw op twente.dev       |
-| `events/*.yml`                                                     | aankondiging | Aankondiging              |
-| `RELEASE_001_SPEAKERS` in [`site.ts`](../../../src/config/site.ts) | spreker      | twente.dev/001 // Spreker |
+| Bron                                   | Mail         | Kicker                    |
+| -------------------------------------- | ------------ | ------------------------- |
+| `posts/**` met `pillar: field-reports` | field report | Field report              |
+| `posts/**` met `pillar: release-notes` | verslag      | Release notes             |
+| `posts/**` met `pillar: upstream`      | signalering  | Upstream                  |
+| `posts/**` zonder pillar               | nieuw stuk   | Nieuw op twente.dev       |
+| `events/*.yml`                         | aankondiging | Aankondiging              |
+| `release.speakers` op een events-entry | spreker      | twente.dev/001 // Spreker |
 
 Datum, tijd, locatie, taal en toegang komen uit de entry, dus die feiten staan nooit twee keer
 in de wereld. Drie dingen bewaakt de generator zelf, en
@@ -56,9 +56,13 @@ in de wereld. Drie dingen bewaakt de generator zelf, en
   trackinglink die 404't, wat op 4 september 2026 gebeurde met een campagne die uit
   `email-announcement.html` was geplakt.
 
-De sprekersmail blijft leeg tot iemand de datum bevestigd heeft, want `RELEASE_001_SPEAKERS`
-is leeg. Dat is de regel uit [`docs/domain/model.yaml`](../../domain/model.yaml), niet een
-gat in de pijplijn.
+De sprekersmail blijft leeg tot iemand de datum bevestigd heeft, want `release.speakers` op
+[het events-entry](../../../src/content/events/twente-dev-001-reconnect.yml) is leeg. Dat is de
+regel uit [`docs/domain/model.yaml`](../../domain/model.yaml), niet een gat in de pijplijn. Een
+naam erbij levert meteen `speaker:001-<naam>` op in `pnpm mail`, in beide talen.
+
+Een tweede Release kost geen regel code: schrijf een events-entry met een `release`-blok en
+`pnpm mail` ziet de aankondiging en de sprekers vanzelf. Dat is [ADR 0016](../../adrs/0016-release-as-content.md).
 
 De handgemaakte templates hieronder blijven de ontwerpmasters, en ze blijven de enige route
 voor de mails die niet uit content komen: `email-doi.html`, `email-welcome.html` en

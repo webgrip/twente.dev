@@ -18,14 +18,15 @@ Eén genummerde avond, geschreven als twente.dev/001. Onderscheidt zich van een 
 **Examples:** twente.dev/001 — Reconnect; twente.dev/002  
 **See also:** [Talk](#talk), [Registration](#registration), [Host](#host)  
 
-## Field Note
+## Field Report
 *Context: Publicatie*
 
-Eén concrete les uit de praktijk, in de eerste persoon opgeschreven door degene die hem geleerd heeft. Ook Ryans eigen lessen uit het organiseren vallen hieronder. Het onderscheid met People Who Build is wie de pen vasthoudt: bij een Field Note schrijft de betrokkene zelf, bij People Who Build interviewen wij.
+Een geschreven stuk uit de praktijk in de regio, gepubliceerd op de site en meegestuurd met de nieuwsbrief. Het is één van twee dingen: een interview met iemand die hier bouwt, of één concrete les die degene die hem leerde zelf opschrijft. Ryans eigen lessen uit het organiseren zijn ook Field Reports. Onderscheidt zich van een Talk doordat het geschreven is en niet aan een Edition hangt.
 
-**Also known as:** veldnotitie  
-**Do not use:** field report  
-**See also:** [People Who Build](#people-who-build), [Newsletter](#newsletter)  
+**Also known as:** field report  
+**Do not use:** field note, veldnotitie, portret  
+**Examples:** Een interview met een embedded engineer bij Thales over wat er misging; Ryan over wat het kostte om /001 vier weken op te schuiven  
+**See also:** [People Who Build](#people-who-build), [Newsletter](#newsletter), [Talk](#talk)  
 
 ## Host
 *Context: Editie*
@@ -43,8 +44,8 @@ De organisatie die de zaal levert voor een Edition. Krijgt logo, bedanking bij d
 De opt-in maillijst waarop lezers zich abonneren, met dubbele opt-in via Brevo. Verstuurt de Publicatie-stukken en de aankondigingen rond een Edition. Geen wekelijkse cadans; er gaat een mail uit als er iets te melden is.
 
 **Also known as:** nieuwsbrief  
-**Do not use:** de field note  
-**See also:** [People Who Build](#people-who-build), [Field Note](#field-note)  
+**Do not use:** de field note, de field report  
+**See also:** [Field Report](#field-report), [People Who Build](#people-who-build)  
 
 ## Open Call
 *Context: Publicatie*
@@ -63,11 +64,10 @@ Een organisatie die twente.dev steunt onder het gepubliceerde partnercompact. On
 ## People Who Build
 *Context: Publicatie*
 
-Een interview met iemand die in de regio bouwt, opgebouwd uit vaste vragen. Wij stellen de vragen, zij geven de antwoorden. Onderscheidt zich van een Field Note doordat iemand anders de pen vasthoudt, en van een Talk doordat het geschreven is en niet aan een Edition hangt.
+De titelreeks waaronder de interview-Field Reports verschijnen, zodat een lezer aan de kop ziet dat iemand anders aan het woord is. Geen aparte soort en geen pillar: een People Who Build is een Field Report, net als een les dat is.
 
-**Also known as:** portret, interview  
-**Do not use:** field report, veldverslag  
-**See also:** [Field Note](#field-note), [Newsletter](#newsletter)  
+**Examples:** People Who Build: Sanne over de storing die niemand zag  
+**See also:** [Field Report](#field-report)  
 
 ## Registration
 *Context: Editie*
@@ -107,29 +107,21 @@ Een periodiek overzicht van wat er in de regio speelt, samengesteld uit de agend
 
 Short exchanges showing the terms used precisely at concept boundaries.
 
-### Talk tegenover Field Note
+### Talk tegenover Field Report
 
-> **Ryan:** Kan iemand een **Field Note** komen geven op /001?
-> **Redactie:** Nee. Op een **Edition** geef je een **Talk**, twaalf minuten gesproken. Een **Field Note** is geschreven en staat op de site.
+> **Ryan:** Kan iemand een **Field Report** komen geven op /001?
+> **Redactie:** Nee. Op een **Edition** geef je een **Talk**, twaalf minuten gesproken. Een **Field Report** is geschreven en staat op de site.
 > **Ryan:** En als iemand zijn Talk daarna opschrijft?
-> **Redactie:** Dan is dat een tweede ding, geen omzetting. De **Talk** blijft in het archief van die **Edition** staan, en het geschreven stuk krijgt een eigen pillar.
+> **Redactie:** Dan is dat een tweede ding, geen omzetting. De **Talk** blijft in het archief van die **Edition** staan, en het opgeschreven stuk is een **Field Report** van de soort "eigen les".
+> **Ryan:** En als ik hém erover interview in plaats van dat hij het schrijft?
+> **Redactie:** Ook een **Field Report**, alleen de andere vorm, en die verschijnt onder de kop **People Who Build**. De grens is wie de pen vasthoudt.
 
 ### Host tegenover Partner
 
 > **Ryan:** Code14 betaalt nu ook zes maanden mee. Zijn ze dan Partner geworden?
 > **Redactie:** Ze zijn allebei. **Host** gaat over de zaal, **Partner** over de bijdrage. Wat niet verandert is R4: geen **Talk**-slot, geen deelnemerslijst, geen inspraak op het programma.
 
----
-
-## ⚠ Flagged ambiguities
-
-### field note
-
-Drie betekenissen tegelijk in gebruik. (1) De pillar field-notes in content.config.ts, gedefinieerd als "één concrete les uit een lokaal systeem". (2) De naam van de nieuwsbrief op de homepage, "De field note", die alle pillars verstuurt en dus meer dekt dan de pillar. (3) Ryans uitspraak op 2026-09-04 dat field notes "echt de interviews met developers zijn", wat de betekenis van People Who Build is.
-
-**Options:** Field Note = de pillar "één concrete les"; de nieuwsbrief krijgt een eigen naam, Field Note = koepel voor alles wat geschreven en gemaild wordt; de pillar "één concrete les" krijgt een nieuwe naam, Field Note = de interviews; People Who Build vervalt als aparte naam  
-**Recommendation:** Optie 1. Het laat de vier pillars staan zoals ze zijn gebouwd en verzonden, en repareert de enige echte overlap: een nieuwsbrief die naar één van zijn vier pillars is vernoemd, belooft abonnees minder dan hij levert. Optie 3 valt af omdat Ryan People Who Build juist wil houden, en dan zijn het twee namen voor één ding.  
-
 ## Resolved ambiguities
 
 - **field report** — Talk (Ryan, 2026-09-04, "de talks zijn talks, geen field reports"). Voorkomt in elf plekken in de site-copy en moet daar vervangen worden.
+- **field note** — Ryan, 2026-09-04. Field Note is afgeschaft. Field Report is de enige naam voor het geschreven stuk en dekt allebei de vormen: het interview en de eerstepersoonsles. People Who Build blijft bestaan als titelreeks boven de interviews, niet als tweede soort. Talk blijft voorbehouden aan de gesproken twaalf minuten op een Edition.

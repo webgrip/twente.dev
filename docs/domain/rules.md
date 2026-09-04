@@ -42,19 +42,19 @@ Een Host krijgt logo, bedanking en hooguit twee minuten. Nooit een Talk-slot, de
 
 ### R9
 
-Een Host wordt publiek genoemd met het aantal edities dat is toegezegd, en dat aantal is eindig.
+Een Host wordt publiek genoemd met een eindig aantal edities, en dat aantal is hoogstens wat er is toegezegd. Achter de schermen ligt voor dezelfde periode een uitwijklocatie klaar.
 
-**Why:** Andere bedrijven moeten kunnen zien wanneer de zaal weer vrijkomt, anders is de open uitnodiging aan de regio een dode letter.
+**Why:** Andere bedrijven moeten kunnen zien wanneer de zaal weer vrijkomt, anders is de open uitnodiging aan de regio een dode letter, en de site belooft dat edities door de regio rouleren. Minder toezeggen dan je hebt, geeft ook ruimte om te verhuizen zonder iets terug te nemen. De uitwijklocatie bestaat omdat een host die halverwege afhaakt anders het ritme breekt, en het ritme is de hele belofte.
 
 ## Newsletter
 
 ### R8
 
-De nieuwsbrief is één lijst met één afmeldknop. Wie zijn adres achterlaat krijgt People Who Build, Field Notes, de Open Calls en de aankondigingen rond een Edition, en de opt-intekst noemt ze alle vier.
+De nieuwsbrief is één lijst met één afmeldknop. Wie zijn adres achterlaat krijgt de Field Reports, de Open Calls en de aankondigingen rond een Edition, en de opt-intekst noemt ze alle drie.
 
-**Why:** Aparte lijsten per soort zijn administratie zonder opbrengst zolang er één afzender en een handvol verzendingen per kwartaal zijn. Wat wél moet: niet meer beloven dan je stuurt, en niet minder. De doos heette "De field note" terwijl er vier soorten uit kwamen.
+**Why:** Aparte lijsten per soort zijn administratie zonder opbrengst zolang er één afzender en een handvol verzendingen per kwartaal zijn. Wat wél moet: niet meer beloven dan je stuurt, en niet minder. De doos heette "De field note" terwijl er meer dan dat uit kwam.
 
-**Also applies to:** Field Note, People Who Build
+**Also applies to:** Field Report
 
 ## Speaker
 

@@ -57,7 +57,7 @@ De organisatie die de zaal levert, onder de waarborgen van R4.
 |---|---|---|---|
 | `organisation` | `string` | yes |  |
 | `address` | `string` | yes | Staat op de editiepagina, want mensen boeken er reizen op. |
-| `editionsCommitted` | `int` |  | Expliciet eindig, en publiek gecommuniceerd als zodanig. Code14 zegde op 2026-09-04 twaalf edities toe, zaal én bijdrage. |
+| `editionsCommitted` | `int` |  | Wat er publiek wordt toegezegd, en dat is expliciet eindig. Code14 zegde op 2026-09-04 twaalf edities toe (zaal én bijdrage); publiek noemen we er drie, zodat de rotatiebelofte overeind blijft en de zaal zichtbaar weer vrijkomt. Voor de eerste zes ligt aan de achterkant een uitwijklocatie klaar. |
 
 **Relationships**
 - has_many **Edition** — Een Host kan meerdere Editions achter elkaar leveren.

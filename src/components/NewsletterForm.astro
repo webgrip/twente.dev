@@ -11,7 +11,7 @@ interface Props {
 
 const { locale, id } = Astro.props;
 const t = useTranslations(locale);
-const subject = `Field note ${locale === 'nl' ? 'nieuwsbrief' : 'newsletter'}`;
+const subject = locale === 'nl' ? 'Nieuwsbrief' : 'Newsletter';
 ---
 
 <div class="subscribe">

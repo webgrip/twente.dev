@@ -35,7 +35,7 @@ export const nl = {
     'Een paar keer per jaar één avond die niet om één taal, framework of branche draait. Dat is precies wat er nog niet was.',
   'home.does.archive.title': 'Het archief',
   'home.does.archive.body':
-    'Field notes uit de praktijk, geschreven door mensen die hier werken. Wat verteld is blijft staan en blijft vindbaar.',
+    'Field reports uit de praktijk, geschreven door en met mensen die hier werken. Wat verteld is blijft staan en blijft vindbaar.',
   'home.next.kicker': 'Binnenkort',
   'home.next.cta': 'Alles over de avond',
   'home.what.title': 'Wat is twente.dev?',
@@ -46,7 +46,7 @@ export const nl = {
     'Bestaande meetups houden hun eigen identiteit, hun eigen lijst en hun eigen podium. twente.dev maakt ze beter vindbaar en verwijst altijd door naar de bron.',
   'home.newsletter.title': 'De nieuwsbrief',
   'home.newsletter.body':
-    'Eén lijst, één afmeldknop, vier soorten post. People Who Build, waarin we iemand uit de regio interviewen over wat die bouwt. Field notes, waarin iemand zelf één concrete les opschrijft. De open calls. En wat er aankomt rond een editie. Je hoort van ons als er iets te melden is, niet omdat het dinsdag is. Reply-vriendelijk, opt-in, geen tracking.',
+    'Eén lijst, één afmeldknop. Je krijgt de field reports: een interview met iemand die hier bouwt, of één concrete les die iemand zelf opschrijft. Plus de open calls en wat er aankomt rond een editie. Je hoort van ons als er iets te melden is, niet omdat het dinsdag is. Reply-vriendelijk, opt-in, geen tracking.',
   'home.newsletter.write': 'Schrijf er zelf een',
   'home.agenda.empty': 'Verder staat er nog niets in de gedeelde agenda.',
   'home.posts.all': 'Alle artikelen',
@@ -107,7 +107,7 @@ export const nl = {
   'communities.terms': "Onze afspraken met community's",
 
   'blog.title': 'Blog',
-  'blog.description': 'Field notes, portretten en open calls uit de Twentse techcommunity.',
+  'blog.description': 'Field reports en open calls uit de Twentse techcommunity.',
   'blog.empty': 'Nog geen artikelen.',
   'blog.emptyCta': 'Draag een verhaal bij',
   'blog.readingTime': 'min leestijd',
@@ -116,8 +116,7 @@ export const nl = {
   'blog.by': 'Door',
   'blog.onlyInOtherLocale': 'Dit artikel is alleen in het Engels beschikbaar.',
 
-  'pillar.field-notes': 'Field note',
-  'pillar.people-who-build': 'People Who Build',
+  'pillar.field-reports': 'Field report',
   'pillar.open-calls': 'Open call',
   'pillar.week-in-twente-tech': 'Week in Twente Tech',
 
@@ -188,7 +187,7 @@ export const en: Record<UIKey, string> = {
     'A few times a year, one evening that does not revolve around a single language, framework or industry. That is the part that did not exist yet.',
   'home.does.archive.title': 'The archive',
   'home.does.archive.body':
-    'Field notes from practice, written by people who work here. What gets told stays up, and stays findable.',
+    'Field reports from practice, written by and with people who work here. What gets told stays up, and stays findable.',
   'home.next.kicker': 'Next up',
   'home.next.cta': 'All about the evening',
   'home.what.title': 'What is twente.dev?',
@@ -199,7 +198,7 @@ export const en: Record<UIKey, string> = {
     'Existing meetups keep their own identity, their own list and their own stage. twente.dev makes them easier to find and always links to the source.',
   'home.newsletter.title': 'The newsletter',
   'home.newsletter.body':
-    'One list, one unsubscribe, four kinds of post. People Who Build, where we interview someone in the region about what they build. Field notes, where someone writes up one concrete lesson themselves. The open calls. And what is coming up around an edition. You hear from us when there is something worth saying, not because it is Tuesday. Reply-friendly, opt-in, no tracking.',
+    'One list, one unsubscribe. You get the field reports: an interview with someone who builds here, or one concrete lesson someone writes up themselves. Plus the open calls and what is coming up around an edition. You hear from us when there is something worth saying, not because it is Tuesday. Reply-friendly, opt-in, no tracking.',
   'home.newsletter.write': 'Write one yourself',
   'home.agenda.empty': 'Nothing else is in the shared calendar yet.',
   'home.posts.all': 'All articles',
@@ -260,8 +259,7 @@ export const en: Record<UIKey, string> = {
   'communities.terms': 'Our terms with communities',
 
   'blog.title': 'Blog',
-  'blog.description':
-    'Field notes, builder profiles and open calls from the Twente tech community.',
+  'blog.description': 'Field reports and open calls from the Twente tech community.',
   'blog.empty': 'No articles yet.',
   'blog.emptyCta': 'Contribute a story',
   'blog.readingTime': 'min read',
@@ -270,8 +268,7 @@ export const en: Record<UIKey, string> = {
   'blog.by': 'By',
   'blog.onlyInOtherLocale': 'This article is only available in Dutch.',
 
-  'pillar.field-notes': 'Field note',
-  'pillar.people-who-build': 'People Who Build',
+  'pillar.field-reports': 'Field report',
   'pillar.open-calls': 'Open call',
   'pillar.week-in-twente-tech': 'Week in Twente Tech',
 

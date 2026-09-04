@@ -62,8 +62,17 @@ Waar je op let voordat je een zaal toezegt — geleerd van de /001-onderhandelin
    tweede ruimte of hoek als stilteplek.
 2. **AV**: beamer/scherm + HDMI én USB-C, geluid dat achterin verstaanbaar is, en bij >30
    mensen een microfoon. Test met je eigen laptop, niet die van de host.
-3. **Eten**: wie bestelt, wie betaalt (factuur van de leverancier rechtstreeks naar de
-   sponsor — er loopt geen geld door twente.dev), dieetwensen doorgeefbaar tot T−3 dagen.
+3. **Eten**: wie bestelt, wie betaalt, dieetwensen doorgeefbaar tot T−3 dagen.
+
+   > **Hoe het geld werkelijk loopt, bijgesteld 2026-09-04.** Dit stond hier als "factuur
+   > van de leverancier rechtstreeks naar de sponsor, er loopt geen geld door twente.dev".
+   > Dat klopt niet meer. Webgrip betaalt de kosten en factureert door wat gesponsord
+   > wordt; een deel wordt niet gedekt en blijft voor rekening van Webgrip. Zeg dat zo,
+   > want partners lezen de oude zin als een garantie die er niet is. De ambitie blijft een
+   > avond die de regio zelf draagt, en dat is een richting en geen huidige staat: zolang
+   > één eenmanszaak het gat dicht, is twente.dev niet community-supported maar
+   > Webgrip-supported met bijdragen.
+
 4. **Toegankelijkheid**: drempelvrije route van straat tot zaal, toilet, en de stille
    ruimte. Dit staat als belofte op de site — check het fysiek, niet telefonisch.
 5. **Bereikbaarheid**: OV-route en late terugreis (sectie hieronder), fietsenstalling,

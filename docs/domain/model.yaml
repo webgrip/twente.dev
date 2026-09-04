@@ -85,28 +85,31 @@ terms:
       avond.
     examples: [TkkrLab, Agile Meetup Twente]
 
+  - name: Field Report
+    context: Publicatie
+    definition: >-
+      Een geschreven stuk uit de praktijk in de regio, gepubliceerd op de site en
+      meegestuurd met de nieuwsbrief. Het is één van twee dingen: een interview
+      met iemand die hier bouwt, of één concrete les die degene die hem leerde
+      zelf opschrijft. Ryans eigen lessen uit het organiseren zijn ook Field
+      Reports. Onderscheidt zich van een Talk doordat het geschreven is en niet
+      aan een Edition hangt.
+    synonyms: [field report]
+    avoid: [field note, veldnotitie, portret]
+    examples:
+      - "Een interview met een embedded engineer bij Thales over wat er misging"
+      - "Ryan over wat het kostte om /001 vier weken op te schuiven"
+    see_also: [People Who Build, Newsletter, Talk]
+
   - name: People Who Build
     context: Publicatie
     definition: >-
-      Een interview met iemand die in de regio bouwt, opgebouwd uit vaste
-      vragen. Wij stellen de vragen, zij geven de antwoorden. Onderscheidt zich
-      van een Field Note doordat iemand anders de pen vasthoudt, en van een Talk
-      doordat het geschreven is en niet aan een Edition hangt.
-    synonyms: [portret, interview]
-    avoid: [field report, veldverslag]
-    see_also: [Field Note, Newsletter]
-
-  - name: Field Note
-    context: Publicatie
-    definition: >-
-      Eén concrete les uit de praktijk, in de eerste persoon opgeschreven door
-      degene die hem geleerd heeft. Ook Ryans eigen lessen uit het organiseren
-      vallen hieronder. Het onderscheid met People Who Build is wie de pen
-      vasthoudt: bij een Field Note schrijft de betrokkene zelf, bij People Who
-      Build interviewen wij.
-    synonyms: [veldnotitie]
-    avoid: [field report]
-    see_also: [People Who Build, Newsletter]
+      De titelreeks waaronder de interview-Field Reports verschijnen, zodat een
+      lezer aan de kop ziet dat iemand anders aan het woord is. Geen aparte
+      soort en geen pillar: een People Who Build is een Field Report, net als een
+      les dat is.
+    examples: ["People Who Build: Sanne over de storing die niemand zag"]
+    see_also: [Field Report]
 
   - name: Open Call
     context: Publicatie
@@ -131,8 +134,8 @@ terms:
       Edition. Geen wekelijkse cadans; er gaat een mail uit als er iets te
       melden is.
     synonyms: [nieuwsbrief]
-    avoid: [de field note]
-    see_also: [People Who Build, Field Note]
+    avoid: [de field note, de field report]
+    see_also: [Field Report, People Who Build]
 
 rules:
   - id: R1
@@ -183,21 +186,26 @@ rules:
   - id: R8
     statement: >-
       De nieuwsbrief is één lijst met één afmeldknop. Wie zijn adres achterlaat
-      krijgt People Who Build, Field Notes, de Open Calls en de aankondigingen
-      rond een Edition, en de opt-intekst noemt ze alle vier.
+      krijgt de Field Reports, de Open Calls en de aankondigingen rond een
+      Edition, en de opt-intekst noemt ze alle drie.
     rationale: >-
       Aparte lijsten per soort zijn administratie zonder opbrengst zolang er één
       afzender en een handvol verzendingen per kwartaal zijn. Wat wél moet: niet
       meer beloven dan je stuurt, en niet minder. De doos heette "De field note"
-      terwijl er vier soorten uit kwamen.
-    applies_to: [Newsletter, Field Note, People Who Build]
+      terwijl er meer dan dat uit kwam.
+    applies_to: [Newsletter, Field Report]
   - id: R9
     statement: >-
-      Een Host wordt publiek genoemd met het aantal edities dat is toegezegd, en
-      dat aantal is eindig.
+      Een Host wordt publiek genoemd met een eindig aantal edities, en dat aantal
+      is hoogstens wat er is toegezegd. Achter de schermen ligt voor dezelfde
+      periode een uitwijklocatie klaar.
     rationale: >-
       Andere bedrijven moeten kunnen zien wanneer de zaal weer vrijkomt, anders
-      is de open uitnodiging aan de regio een dode letter.
+      is de open uitnodiging aan de regio een dode letter, en de site belooft dat
+      edities door de regio rouleren. Minder toezeggen dan je hebt, geeft ook
+      ruimte om te verhuizen zonder iets terug te nemen. De uitwijklocatie
+      bestaat omdat een host die halverwege afhaakt anders het ritme breekt, en
+      het ritme is de hele belofte.
     applies_to: [Host]
 
 entities:
@@ -294,8 +302,11 @@ entities:
       - name: editionsCommitted
         type: int
         description: >-
-          Expliciet eindig, en publiek gecommuniceerd als zodanig. Code14 zegde
-          op 2026-09-04 twaalf edities toe, zaal én bijdrage.
+          Wat er publiek wordt toegezegd, en dat is expliciet eindig. Code14
+          zegde op 2026-09-04 twaalf edities toe (zaal én bijdrage); publiek
+          noemen we er drie, zodat de rotatiebelofte overeind blijft en de zaal
+          zichtbaar weer vrijkomt. Voor de eerste zes ligt aan de achterkant een
+          uitwijklocatie klaar.
     relationships:
       - to: Edition
         kind: has_many
@@ -355,40 +366,48 @@ ambiguities:
 
   - phrase: field note
     issue: >-
-      Drie betekenissen tegelijk in gebruik. (1) De pillar field-notes in
-      content.config.ts, gedefinieerd als "één concrete les uit een lokaal
-      systeem". (2) De naam van de nieuwsbrief op de homepage, "De field note",
-      die alle pillars verstuurt en dus meer dekt dan de pillar. (3) Ryans
-      uitspraak op 2026-09-04 dat field notes "echt de interviews met
-      developers zijn", wat de betekenis van People Who Build is.
+      Had drie betekenissen tegelijk: de pillar "één concrete les", de naam van
+      de nieuwsbrief op de homepage, en de lezing dat het de interviews zijn.
+      Bovendien stond het te dicht op "field report", dat toen nog voor de talks
+      werd gebruikt. Twee woorden die op elkaar lijken en niet hetzelfde zijn,
+      is precies wat een lezer niet kan onthouden.
     options:
-      - 'Field Note = de pillar "één concrete les"; de nieuwsbrief krijgt een eigen naam'
-      - 'Field Note = koepel voor alles wat geschreven en gemaild wordt; de pillar "één concrete les" krijgt een nieuwe naam'
-      - "Field Note = de interviews; People Who Build vervalt als aparte naam"
+      - "Field Note houden voor de les, People Who Build voor het interview"
+      - "Field Report als enige naam voor beide; People Who Build wordt titelreeks"
     recommendation: >-
-      Optie 1. Het laat de vier pillars staan zoals ze zijn gebouwd en verzonden,
-      en repareert de enige echte overlap: een nieuwsbrief die naar één van zijn
-      vier pillars is vernoemd, belooft abonnees minder dan hij levert. Optie 3
-      valt af omdat Ryan People Who Build juist wil houden, en dan zijn het twee
-      namen voor één ding.
-    status: open
+      De tweede, en dat is ook wat Ryan koos. Eén woord voor het geschreven stuk
+      is makkelijker uit te leggen dan twee die naast elkaar leven, en "field
+      note" was toch al besmet.
+    status: resolved
+    resolution: >-
+      Ryan, 2026-09-04. Field Note is afgeschaft. Field Report is de enige naam
+      voor het geschreven stuk en dekt allebei de vormen: het interview en de
+      eerstepersoonsles. People Who Build blijft bestaan als titelreeks boven de
+      interviews, niet als tweede soort. Talk blijft voorbehouden aan de
+      gesproken twaalf minuten op een Edition.
 
 dialogues:
-  - title: Talk tegenover Field Note
+  - title: Talk tegenover Field Report
     lines:
       - speaker: Ryan
-        text: Kan iemand een **Field Note** komen geven op /001?
+        text: Kan iemand een **Field Report** komen geven op /001?
       - speaker: Redactie
         text: >-
           Nee. Op een **Edition** geef je een **Talk**, twaalf minuten gesproken.
-          Een **Field Note** is geschreven en staat op de site.
+          Een **Field Report** is geschreven en staat op de site.
       - speaker: Ryan
         text: En als iemand zijn Talk daarna opschrijft?
       - speaker: Redactie
         text: >-
           Dan is dat een tweede ding, geen omzetting. De **Talk** blijft in het
-          archief van die **Edition** staan, en het geschreven stuk krijgt een
-          eigen pillar.
+          archief van die **Edition** staan, en het opgeschreven stuk is een
+          **Field Report** van de soort "eigen les".
+      - speaker: Ryan
+        text: En als ik hém erover interview in plaats van dat hij het schrijft?
+      - speaker: Redactie
+        text: >-
+          Ook een **Field Report**, alleen de andere vorm, en die verschijnt
+          onder de kop **People Who Build**. De grens is wie de pen vasthoudt.
   - title: Host tegenover Partner
     lines:
       - speaker: Ryan

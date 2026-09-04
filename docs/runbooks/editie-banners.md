@@ -73,3 +73,10 @@ compositieregels uit de review van 2026-09-01: op terminal-banners staat de
 lockup gróót rechtsonder met de titelregel erboven, en de separator in
 footer-regels is altijd `//`, nooit een enkele `/` — dus
 `twente.dev // we build it. we run it. we share it.`
+
+Eén maat is specifiek voor de meetup-cover (review 2026-09-04): Meetup legt op de
+event-kaart eigen knoppen over de afbeelding, deel en hart rechtsboven (tot
+ongeveer 23% van de hoogte) en de organisatorknop rechtsonder (vanaf ongeveer
+80%). Het datumblok hoort daar tussenin en groeit alleen binnen die strook. Op
+dezelfde datum zijn lockup, ondertitel, datumblok en onderregel vergroot, omdat
+de kaart in de feed op ongeveer een derde van de exportbreedte getoond wordt.

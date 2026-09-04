@@ -122,6 +122,34 @@ terms:
       doordat het niets nieuws beweert, alleen verzamelt.
     see_also: [Pillar, Community]
 
+  - name: Opkomst
+    context: Editie
+    definition: >-
+      Het aantal mensen dat op de avond zelf in de zaal stond. Onderscheidt zich
+      van Registration doordat een RSVP een voornemen is en Opkomst een telling;
+      het verschil tussen die twee is de no-showmarge waarop de overboekfactor
+      wordt gezet.
+    synonyms: [attendance]
+    avoid: [aanmeldingen, RSVPs]
+    see_also: [Registration, Edition, KPI]
+
+  - name: KPI
+    definition: >-
+      Een getal dat een besluit verandert, met een eigenaar en een meetmoment.
+      De set voor /001: Opkomst tegen de veertig stoelen, nieuwe leden op de
+      Meetup-groep, en op LinkedIn de weergaven, volgers en reacties. Een getal
+      dat je alleen bekijkt zonder dat het iets verandert, is geen KPI maar een
+      tellertje.
+    see_also: [Opkomst, Registration]
+
+  - name: Twente
+    definition: >-
+      De veertien gemeenten van de Regio Twente, plus wat er direct tegenaan
+      ligt. De grens is opzoekbaar en niet op gevoel, zodat iemand anders hem ook
+      kan trekken. Zwolle valt erbuiten en blijft wel op de collision-check
+      staan, want het publiek overlapt.
+    see_also: [Community, Edition]
+
   - name: Pillar
     context: Publicatie
     definition: >-
@@ -140,15 +168,6 @@ terms:
       belofte "We share it".
     synonyms: [archive]
     see_also: [Edition]
-
-  - name: Lichte avond
-    context: Editie
-    definition: >-
-      Een avond die wel doorgaat maar geen programma heeft: geen Talks, geen
-      Host-bijdrage, alleen de zaal en de mensen. Telt volledig mee voor het
-      ritme en kost bijna niets.
-    synonyms: [light evening, borrel]
-    see_also: [Edition, Talk]
 
   - name: Newsletter
     context: Publicatie
@@ -192,11 +211,12 @@ rules:
     applies_to: [Speaker]
   - id: R6
     statement: >-
-      Zijn er op T−4 weken geen twee bevestigde Speakers, dan wordt het een
-      lichte avond en geen Edition met een TBA-programma.
+      Zijn er op T−4 weken geen twee bevestigde Speakers, dan schuift de Edition
+      op naar de volgende maand. Een avond met een TBA-programma gaat niet door.
     rationale: >-
-      Een leeg programma dat toch wordt aangekondigd, kost meer vertrouwen dan
-      een eerlijk kleinere avond.
+      Een leeg programma dat toch wordt aangekondigd kost meer vertrouwen dan een
+      datum die opschuift met de reden erbij. Opschuiven kan omdat het ritme een
+      belofte over de eerste woensdag is en niet over de nummerreeks.
     applies_to: [Edition, Speaker]
   - id: R7
     statement: >-
@@ -215,6 +235,16 @@ rules:
       meer beloven dan je stuurt, en niet minder. Een lijst die naar één soort
       post is vernoemd, belooft minder dan hij levert.
     applies_to: [Newsletter, Field Report]
+  - id: R12
+    statement: >-
+      Een Speaker kan de opname van de eigen Talk laten verwijderen uit het
+      Archief. De tekstpagina van die Talk blijft staan.
+    rationale: >-
+      De site belooft dat wat verteld is blijft staan en vindbaar blijft. Die
+      belofte gaat over het verhaal en niet over iemands gezicht op video, en
+      omstandigheden veranderen: van werkgever wisselen is genoeg reden. Zo blijft
+      het archief compleet zonder dat iemand aan een opname vastzit.
+    applies_to: [Archief, Speaker, Talk]
   - id: R10
     statement: >-
       Een Edition valt op de eerste woensdag van de maand. Verplaatsen mag, mits
@@ -283,13 +313,7 @@ entities:
       - from: Aanmelden open
         to: Programma rond
         trigger: Twee Speakers bevestigd (R6)
-      - from: Aanmelden open
-        to: Lichte avond
-        trigger: Op T−4 geen twee bevestigde Speakers (R6)
       - from: Programma rond
-        to: Gehouden
-        trigger: De avond zelf
-      - from: Lichte avond
         to: Gehouden
         trigger: De avond zelf
       - from: Gehouden

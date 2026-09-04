@@ -73,8 +73,8 @@ sectie "Plan: van domain alias naar secondary domain". Doe hem in één zitting.
 - [ ] **14 september**: aanmelden opent. Dit staat al zo op de site.
 - [ ] **T−6, dinsdag 23 september**: open call live en de persoonlijke
       sprekervragen de deur uit. Sprekers komen uit de asks, niet uit de call.
-- [ ] **T−4, dinsdag 7 oktober**: beide sprekers bevestigd, anders wordt het een
-      lichte avond. Dit is de regel die /001 heeft verzet; hem nog een keer
+- [ ] **T−4, dinsdag 7 oktober**: beide sprekers bevestigd, anders schuift de
+      editie een maand op. Dit is de regel die /001 al een keer heeft verzet; hem
       negeren kost meer dan hem volgen.
 - [ ] **T−2, dinsdag 21 oktober**: OV-tijden opnieuw verifiëren voordat ze op de
       editiepagina komen. De cijfers in het playbook zijn gecontroleerd tegen

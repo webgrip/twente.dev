@@ -44,13 +44,11 @@ De organisatie die de zaal levert voor een Edition. Onderscheidt zich van een Pa
 **Examples:** Code14  
 **See also:** [Partner](#partner), [Edition](#edition)  
 
-## Lichte avond
-*Context: Editie*
+## KPI
 
-Een avond die wel doorgaat maar geen programma heeft: geen Talks, geen Host-bijdrage, alleen de zaal en de mensen. Telt volledig mee voor het ritme en kost bijna niets.
+Een getal dat een besluit verandert, met een eigenaar en een meetmoment. De set voor /001: Opkomst tegen de veertig stoelen, nieuwe leden op de Meetup-groep, en op LinkedIn de weergaven, volgers en reacties. Een getal dat je alleen bekijkt zonder dat het iets verandert, is geen KPI maar een tellertje.
 
-**Also known as:** light evening, borrel  
-**See also:** [Edition](#edition), [Talk](#talk)  
+**See also:** [Opkomst](#opkomst), [Registration](#registration)  
 
 ## Newsletter
 *Context: Publicatie*
@@ -68,6 +66,15 @@ Een gepubliceerde oproep om iets bij te dragen, meestal een Talk voor de eerstvo
 
 **Also known as:** oproep  
 **See also:** [Talk](#talk), [Speaker](#speaker)  
+
+## Opkomst
+*Context: Editie*
+
+Het aantal mensen dat op de avond zelf in de zaal stond. Onderscheidt zich van Registration doordat een RSVP een voornemen is en Opkomst een telling; het verschil tussen die twee is de no-showmarge waarop de overboekfactor wordt gezet.
+
+**Also known as:** attendance  
+**Do not use:** aanmeldingen, RSVPs  
+**See also:** [Registration](#registration), [Edition](#edition), [KPI](#kpi)  
 
 ## Partner
 
@@ -116,6 +123,12 @@ Een gesproken bijdrage van twaalf minuten op een Edition, met één claim, één
 **Also known as:** praatje  
 **Do not use:** field report, veldverslag, keynote, presentatie, sessie  
 **See also:** [Speaker](#speaker), [Open Call](#open-call), [Edition](#edition)  
+
+## Twente
+
+De veertien gemeenten van de Regio Twente, plus wat er direct tegenaan ligt. De grens is opzoekbaar en niet op gevoel, zodat iemand anders hem ook kan trekken. Zwolle valt erbuiten en blijft wel op de collision-check staan, want het publiek overlapt.
+
+**See also:** [Community](#community), [Edition](#edition)  
 
 ## Week in Twente Tech
 *Context: Publicatie*

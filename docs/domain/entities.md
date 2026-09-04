@@ -27,9 +27,7 @@ stateDiagram-v2
     Gepland --> Aangekondigd : Datum en venue publiek op de site
     Aangekondigd --> Aanmelden_open : Registration-kanaal live gezet
     Aanmelden_open --> Programma_rond : Twee Speakers bevestigd (R6)
-    Aanmelden_open --> Lichte_avond : Op T−4 geen twee bevestigde Speakers (R6)
     Programma_rond --> Gehouden : De avond zelf
-    Lichte_avond --> Gehouden : De avond zelf
     Gehouden --> Gearchiveerd : Openbaar verslag gepubliceerd, binnen tien werkdagen
 ```
 

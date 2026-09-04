@@ -18,33 +18,34 @@ die kan breken, wel een datum die iedereen kan uitrekenen. /001 valt erop (woens
 november 2026); /002 is woensdag 2 december 2026, /003 woensdag 6 januari 2027.
 
 /001 stond tot 2026-09-04 op woensdag 7 oktober. Verzet omdat de twee sprekersplekken niet
-op tijd rond kwamen, en de T−4-regel dan zegt: lichte avond of opschuiven. Het werd
+op tijd rond kwamen, en de T−4-regel dan zegt: opschuiven. Het werd
 opschuiven, precies één slot, zodat de cadans-belofte heel blijft. De twee botsingen die
 de check verderop op 4 november vond zijn daarbij bewust geaccepteerd. Lees ze wel, want
 ze bepalen wie er die avond niet is.
 
 - De volgende datum staat op de site **vóór** de vorige editie voorbij is — een pauze
   zonder aangekondigde terugkeer is hoe Tech Nottingham stierf.
-- Niet elke eerste woensdag hoeft een volwaardige editie te zijn. Een lichte avond
-  (borrel, dev-lunch-model: geen sprekers, geen sponsor, alleen de zaal) telt ook en kost
-  bijna niets — het ritme is heiliger dan het programma.
+- **Er zijn geen lichte avonden.** Een editie heeft een programma of hij gaat niet door.
+  Is het programma op T−4 niet rond, dan schuift de datum een maand op met de reden erbij.
+  Dat kan, omdat de belofte over de eerste woensdag gaat en niet over de nummerreeks: /001
+  blijft /001, ook als hij een maand later valt.
 - Valt de eerste woensdag in een vakantie of op een botsend event, verplaats dan binnen
   dezelfde week en zeg erbij waarom. De collision-check hieronder is daarvoor.
 
 ## Een nieuwe editie draaien (T-min-checklist)
 
-| Wanneer        | Wat                                                                                                                                                                          | Af voor /002? |
-| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- |
-| T−8 weken      | Venue bevestigd (checklist hieronder); datum collision-gecheckt; editienummer + thema vastgelegd in `src/config/site.ts` en een events-entry                                 |               |
-| T−6 weken      | Open call gepubliceerd én de persoonlijke sprekervragen verstuurd (sprekers komen uit de asks, niet uit de call)                                                             |               |
-| T−4 weken      | **Beide sprekers bevestigd** — Ryans eigen minimum: minimaal een maand van tevoren. Geen twee sprekers op T−4? Dan wordt het een lichte avond, geen editie met TBA-programma |               |
-| T−3 weken      | Redactiegesprek per spreker (claim, voorbeeld, vraag aan de zaal); slidetemplate gedeeld                                                                                     |               |
-| T−2 weken      | Toegankelijkheids- en OV-informatie op de editiepagina (site-belofte); reminder in agenda-feed en LinkedIn                                                                   |               |
-| T−1 week       | Technische rehearsal (mag remote); bevestigingsmail naar aanmeldingen met de annuleer-één-antwoord-regel; wachtlijst bijgewerkt                                              |               |
-| T−1 dag        | Reminder aan deelnemers ("kun je niet, antwoord nu — er is een wachtlijst"); AV-check op locatie of foto's van de zaal opgevraagd                                            |               |
-| Dag zelf       | Runbook hieronder                                                                                                                                                            |               |
-| T+3 dagen      | Bedankmail sprekers met wat de zaal zei; opname + slides naar het archief                                                                                                    |               |
-| T+10 werkdagen | Openbaar verslag, inclusief wat niet werkte (site-belofte, tracker-milestone)                                                                                                |               |
+| Wanneer        | Wat                                                                                                                                                                                                         | Af voor /002? |
+| -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- |
+| T−8 weken      | Venue bevestigd (checklist hieronder); datum collision-gecheckt; editienummer + thema vastgelegd in `src/config/site.ts` en een events-entry                                                                |               |
+| T−6 weken      | Open call gepubliceerd én de persoonlijke sprekervragen verstuurd (sprekers komen uit de asks, niet uit de call)                                                                                            |               |
+| T−4 weken      | **Beide sprekers bevestigd** — Ryans eigen minimum: minimaal een maand van tevoren. Geen twee sprekers op T−4? Dan schuift de editie een maand op, met de reden erbij. Nooit doorgaan met een TBA-programma |               |
+| T−3 weken      | Redactiegesprek per spreker (claim, voorbeeld, vraag aan de zaal); slidetemplate gedeeld                                                                                                                    |               |
+| T−2 weken      | Toegankelijkheids- en OV-informatie op de editiepagina (site-belofte); reminder in agenda-feed en LinkedIn                                                                                                  |               |
+| T−1 week       | Technische rehearsal (mag remote); bevestigingsmail naar aanmeldingen met de annuleer-één-antwoord-regel; wachtlijst bijgewerkt                                                                             |               |
+| T−1 dag        | Reminder aan deelnemers ("kun je niet, antwoord nu — er is een wachtlijst"); AV-check op locatie of foto's van de zaal opgevraagd                                                                           |               |
+| Dag zelf       | Runbook hieronder                                                                                                                                                                                           |               |
+| T+3 dagen      | Bedankmail sprekers met wat de zaal zei; opname + slides naar het archief                                                                                                                                   |               |
+| T+10 werkdagen | Openbaar verslag, inclusief wat niet werkte (site-belofte, tracker-milestone)                                                                                                                               |               |
 
 Banners en announce-graphics horen bij dit ritme: werk bij T−8 (datum + stad
 vast) het `EDITIE`-blok in `docs/brand/templates/banners.html` bij en exporteer

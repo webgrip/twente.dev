@@ -2,6 +2,16 @@
 
 *Generated from `model.yaml` — do not edit by hand. Cite rules by id in specs.*
 
+## Archief
+
+### R12
+
+Een Speaker kan de opname van de eigen Talk laten verwijderen uit het Archief. De tekstpagina van die Talk blijft staan.
+
+**Why:** De site belooft dat wat verteld is blijft staan en vindbaar blijft. Die belofte gaat over het verhaal en niet over iemands gezicht op video, en omstandigheden veranderen: van werkgever wisselen is genoeg reden. Zo blijft het archief compleet zonder dat iemand aan een opname vastzit.
+
+**Also applies to:** Speaker, Talk
+
 ## Community
 
 ### R7
@@ -34,9 +44,9 @@ De feiten van de huidige Edition (datum, tijden, stad, venue, capaciteit, kosten
 
 ### R6
 
-Zijn er op T−4 weken geen twee bevestigde Speakers, dan wordt het een lichte avond en geen Edition met een TBA-programma.
+Zijn er op T−4 weken geen twee bevestigde Speakers, dan schuift de Edition op naar de volgende maand. Een avond met een TBA-programma gaat niet door.
 
-**Why:** Een leeg programma dat toch wordt aangekondigd, kost meer vertrouwen dan een eerlijk kleinere avond.
+**Why:** Een leeg programma dat toch wordt aangekondigd kost meer vertrouwen dan een datum die opschuift met de reden erbij. Opschuiven kan omdat het ritme een belofte over de eerste woensdag is en niet over de nummerreeks.
 
 **Also applies to:** Speaker
 

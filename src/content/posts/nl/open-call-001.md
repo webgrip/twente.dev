@@ -1,7 +1,7 @@
 ---
 title: 'Open call: vertel Twente wat jij bouwt op twente.dev/001'
 description: >-
-  Twee talks van 12 minuten openen de eerste flagship-avond op
+  Twee talks van ongeveer een halfuur openen de eerste flagship-avond op
   4 november. Eén daarvan kan van jou zijn — spreekervaring is niet nodig.
 locale: nl
 translationKey: open-call-001
@@ -19,12 +19,14 @@ draft: false
 
 > **Bijgewerkt op 4 september 2026**: de avond is verzet van woensdag 7 oktober naar
 > woensdag 4 november 2026, zodat er tijd is om het programma goed rond te krijgen. De
-> open call blijft open en je hebt er vier weken bij.
+> open call blijft open en je hebt er vier weken bij. Twee dingen zijn veranderd sinds
+> dit stuk verscheen: een talk duurt nu ongeveer een halfuur in plaats van twaalf
+> minuten, en het begeleide gesprek is uit het programma gehaald.
 
 Wat moet Twente weten over wat jij bouwt — of op de harde manier leert?
 
 Op woensdag 4 november opent [twente.dev/001 — Reconnect](/nl/001) met twee **talks** van
-12 minuten: korte, eerlijke verhalen van mensen die het werk zelf deden. Geen keynotes, geen
+ongeveer een halfuur: eerlijke verhalen van mensen die het werk zelf deden. Geen keynotes, geen
 productdemo's — één claim, één echt voorbeeld, en één vraag aan de zaal.
 
 ## Wat we zoeken

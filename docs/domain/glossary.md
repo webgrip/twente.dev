@@ -118,7 +118,7 @@ Iemand die een Talk geeft op een Edition. Onderscheidt zich van een geïnterview
 ## Talk
 *Context: Editie*
 
-Een gesproken bijdrage van twaalf minuten op een Edition, met één claim, één echt voorbeeld en één vraag aan de zaal. Gegeven door iemand die het werk zelf deed, niet door een vertegenwoordiger ervan.
+Een gesproken bijdrage van ongeveer een halfuur op een Edition, met één claim, één echt voorbeeld en één vraag aan de zaal. Gegeven door iemand die het werk zelf deed, niet door een vertegenwoordiger ervan. Twee per Edition, met een pauze ertussen.
 
 **Also known as:** praatje  
 **Do not use:** field report, veldverslag, keynote, presentatie, sessie  
@@ -146,7 +146,7 @@ Short exchanges showing the terms used precisely at concept boundaries.
 ### Talk tegenover Field Report
 
 > **Ryan:** Kan iemand een **Field Report** komen geven op /001?
-> **Redactie:** Nee. Op een **Edition** geef je een **Talk**, twaalf minuten gesproken. Een **Field Report** is geschreven en staat op de site.
+> **Redactie:** Nee. Op een **Edition** geef je een **Talk**, ongeveer een halfuur gesproken. Een **Field Report** is geschreven en staat op de site.
 > **Ryan:** En als iemand zijn Talk daarna opschrijft?
 > **Redactie:** Dan is dat een tweede ding, geen omzetting. De **Talk** blijft in het archief van die **Edition** staan, en het opgeschreven stuk is een **Field Report** van de soort "eigen les".
 > **Ryan:** En als ik hém erover interview in plaats van dat hij het schrijft?

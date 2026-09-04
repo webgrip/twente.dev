@@ -101,13 +101,13 @@ podium. Zo werkt de pijplijn:
    in de zaal iets interessants zei tijdens het community-vragenrondje. De belangrijkste
    output van editie N is de sprekerslijst van editie N+1.
 2. **Vragen**: persoonlijk, over iets concreets dat diegene bouwde. Niet "wil je een keer
-   spreken" maar "jij hebt X gedaan — wil je daar 12 minuten over vertellen: één claim,
+   spreken" maar "jij hebt X gedaan — wil je daar een halfuur over vertellen: één claim,
    één echt voorbeeld, één vraag aan de zaal". Eén mail, één herinnering, daarna klaar
    (dezelfde twee-touch-regel als alle outreach). **Versturen doet Ryan zelf, altijd.**
 3. **Vormen**: redactiegesprek van een half uur, slidetemplate, en een rehearsal in de
    week voor het event. First-timers krijgen expliciet te horen dat de zaal klein en
    vriendelijk is en dat de moderator de Q&A bewaakt.
-4. **Op de avond**: zichtbaar tijdsignaal, moderator kapt om 12 minuten af (dat is een
+4. **Op de avond**: zichtbaar tijdsignaal, moderator kapt op tijd af (dat is een
    belofte aan de spreker, geen sanctie), Q&A via de moderator.
 5. **Erna**: binnen drie dagen een bedankje mét wat de zaal zei, de opname en slides op
    een permanente URL, en de vraag wie zij de volgende keer op dat podium willen zien.
@@ -157,7 +157,7 @@ Besloten 2026-08-30: op deze schaal is een ticketingplatform overhead. Het hele 
 16:30 opbouw en AV-check · 17:45 eten klaar, naamstickers en de fotografie-signalen bij
 de deur · 18:00 inloop · 18:40 sprekersbriefing van twee minuten · 18:45 welkom: wie je
 bent, de gedragscode en het aanspreekpunt, de fotoregel, max 2 minuten host · 19:00
-talks · 19:30 pauze + kennismakingen in tweetallen · 19:45 begeleid gesprek ·
+talk 1 · 19:30 pauze · 19:45 talk 2 ·
 20:25 community-vragen ("wat moet Twente weten over wat jij bouwt?" — dit is de
 sprekersscouting voor de volgende editie, schrijf mee) · 20:35 netwerkuur · 21:25
 afronding en de datum van de volgende editie · 21:30 harde eindtijd · 22:00 opgeruimd.

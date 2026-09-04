@@ -1,7 +1,7 @@
 ---
 title: 'Open call: tell Twente what you are building at twente.dev/001'
 description: >-
-  Two 12-minute talks open the first flagship evening on 4 November.
+  Two half-hour talks open the first flagship evening on 4 November.
   One of them could be yours — no speaking experience required.
 locale: en
 translationKey: open-call-001
@@ -19,13 +19,15 @@ draft: false
 
 > **Updated 4 September 2026**: the evening moved from Wednesday 7 October to Wednesday
 > 4 November 2026, to leave time to get the programme right. The open call stays open
-> and you have four more weeks.
+> and you have four more weeks. Two things changed since this piece went up: a talk is
+> now roughly half an hour rather than twelve minutes, and the facilitated conversation
+> has been dropped from the programme.
 
 What should Twente know you are building — or learning the hard way?
 
-On Wednesday 4 November, [twente.dev/001 — Reconnect](/en/001) opens with two 12-minute **field
-reports**: short, candid talks by people who did the work. Not keynotes, not product demos —
-one claim, one real example, and one question for the room.
+On Wednesday 4 November, [twente.dev/001 — Reconnect](/en/001) opens with two half-hour **talks**:
+candid stories from people who did the work. Not keynotes, not product demos, but one claim,
+one real example, and one question for the room.
 
 ## What we are looking for
 

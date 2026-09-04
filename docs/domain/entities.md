@@ -34,7 +34,7 @@ stateDiagram-v2
 ## Talk
 *Context: Editie*
 
-Twaalf minuten gesproken, één claim, één voorbeeld, één vraag.
+Ongeveer een halfuur gesproken, één claim, één voorbeeld, één vraag.
 
 | Attribute | Type | Required | Description |
 |---|---|---|---|

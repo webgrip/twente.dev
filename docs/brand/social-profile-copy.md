@@ -213,7 +213,7 @@ Website: `https://twente.dev`. Pin a README that links the canonical repo on
 
 **EN:**
 
-> twente.dev is an independent, practitioner-led technology community for Twente. This channel carries recordings from our editions: 12-minute talks from people who built and ran real systems in the region, plus the occasional introduction worth keeping.
+> twente.dev is an independent, practitioner-led technology community for Twente. This channel carries recordings from our editions: half-hour talks from people who built and ran real systems in the region, plus the occasional introduction worth keeping.
 >
 > What you will not find here: product pitches disguised as talks, recruiter content, or speakers presenting work they did not do themselves.
 >
@@ -259,7 +259,7 @@ software development, DevOps, data, embedded, product, UX — not "networking" o
 
 **EN:**
 
-> twente.dev is an independent, practitioner-led tech community for Twente. A few times a year we bring software, hardware, data, design and product people together for one useful evening: 12-minute talks from people who did the work, and enough time to actually meet each other. One useful idea, one useful introduction, one reason to return.
+> twente.dev is an independent, practitioner-led tech community for Twente. A few times a year we bring software, hardware, data, design and product people together for one useful evening: two half-hour talks from people who did the work, and enough time to actually meet each other. One useful idea, one useful introduction, one reason to return.
 >
 > This group is only for our own editions. Twente already has good meetups — they keep their own identity, their own list and their own stage. Our terms with them are published at twente.dev/en/partners, including the part where we do not run events on their nights and do not approach their sponsors.
 >
@@ -292,7 +292,7 @@ holds here too: one canonical description everywhere.
 
 **Description EN:**
 
-> A practitioner-led evening for software, infrastructure, embedded systems, manufacturing, data, security, design, product, research and technical education. Two short talks and one facilitated conversation create the shared question; structured introductions and an open network hour make the room useful. This is not a recruitment fair or vendor stage.
+> A practitioner-led evening for everyone building technology in and around Twente: software, infrastructure, embedded systems, manufacturing, data, security, design, product, research and technical education. Two roughly half-hour talks by people who did the work themselves, and then an unhurried network hour to actually meet each other. This is not a recruitment fair or vendor stage.
 >
 > 18:00 doors and food · 18:45 programme · 21:30 hard finish. Free.
 >

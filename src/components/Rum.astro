@@ -1,0 +1,71 @@
+---
+import { SITE_URL } from '../i18n/config.ts';
+import { TELEMETRY_URL } from '../config/site.ts';
+
+/**
+ * Cookieless Web-Vitals RUM (mirrors webgrip.nl, ADR-0006 there). Reports
+ * LCP/INP/CLS/FCP/TTFB to the self-hosted Grafana Faro receiver
+ * (telemetry.webgrip.dev) as anonymous measurements — no cookie, no session,
+ * no profile. The `web-vitals` lib (~2 KB) is bundled by Astro (script-src
+ * 'self'; the beacon host is in connect-src) and loads on idle so it never
+ * touches the render path. The endpoint + app host are passed via
+ * data-attributes (never inline: the meta CSP forbids is:inline).
+ */
+const version = import.meta.env.PROD ? 'prod' : 'dev';
+---
+
+{
+  TELEMETRY_URL && (
+    <span
+      id="rum-config"
+      hidden
+      data-endpoint={TELEMETRY_URL}
+      data-app={new URL(SITE_URL).hostname}
+      data-version={version}
+    />
+  )
+}
+
+<script>
+  import { onLCP, onINP, onCLS, onFCP, onTTFB } from 'web-vitals';
+
+  const cfg = document.getElementById('rum-config');
+  const endpoint = cfg?.dataset.endpoint;
+  const appName = cfg?.dataset.app ?? '';
+
+  // Beacon only from the real production origin: anywhere else (localhost, a
+  // preview deploy, the Lighthouse/axe server) the collector's CORS would
+  // reject the origin and the resulting console error would fail the
+  // best-practices gate — for a data point that would be dropped anyway.
+  if (endpoint && location.hostname === appName) {
+    const app = { name: appName, version: cfg?.dataset.version ?? '' };
+
+    const send = (metric: { name: string; value: number }) => {
+      const body = JSON.stringify({
+        meta: { app, page: { url: location.href } },
+        measurements: [
+          { type: 'web-vitals', values: { [metric.name.toLowerCase()]: metric.value } },
+        ],
+      });
+      try {
+        navigator.sendBeacon(endpoint, new Blob([body], { type: 'application/json' }));
+      } catch {
+        /* beacon unavailable — a missed data point is not worth a fallback */
+      }
+    };
+
+    const start = () => {
+      onLCP(send);
+      onINP(send);
+      onCLS(send);
+      onFCP(send);
+      onTTFB(send);
+    };
+
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(start);
+    } else {
+      addEventListener('load', () => setTimeout(start, 0));
+    }
+  }
+</script>

@@ -118,7 +118,9 @@ export default defineConfig({
         "default-src 'self'",
         "img-src 'self' data:",
         "font-src 'self'",
-        "connect-src 'self'",
+        // 'self' + the self-hosted, cookieless Web-Vitals RUM endpoint (Grafana
+        // Faro receiver in the homelab, shared with webgrip.nl; ADR-0006 there).
+        "connect-src 'self' https://telemetry.webgrip.dev",
         "base-uri 'self'",
         `form-action ${formAction}`,
         "object-src 'none'",

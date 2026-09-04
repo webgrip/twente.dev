@@ -7,6 +7,7 @@ import type { RouteKey } from '../i18n/routes.ts';
 import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import Rum from '../components/Rum.astro';
 import '../styles/global.css';
 
 interface Props {
@@ -76,5 +77,6 @@ const t = useTranslations(locale);
       <slot />
     </main>
     <Footer locale={locale} />
+    <Rum />
   </body>
 </html>

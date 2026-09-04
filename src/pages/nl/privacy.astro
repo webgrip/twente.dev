@@ -7,7 +7,7 @@ import { CONTACT_EMAIL } from '../../config/site.ts';
   locale="nl"
   routeKey="privacy"
   title="Privacy"
-  description="Deze site zet geen cookies, laadt geen scripts van derden, en verzamelt alleen wat een eventaanmelding of nieuwsbrief-opt-in strikt nodig heeft."
+  description="Deze site zet geen cookies en laadt geen scripts van derden. Naast anonieme snelheidsmeting verzamelt hij alleen wat een eventaanmelding of nieuwsbrief-opt-in strikt nodig heeft."
 >
   <p>
     Kort antwoord: de site bezoeken verzamelt niets over jou persoonlijk. Aanmelden voor een event
@@ -24,8 +24,10 @@ import { CONTACT_EMAIL } from '../../config/site.ts';
   <h2>Statistieken</h2>
   <p>
     We meten hoeveel mensen welke pagina bezoeken via een geaggregeerde teller die geen individuele
-    bezoekers kan onderscheiden: geen cookies, geen fingerprinting, geen profielen. Daarom is er ook
-    geen cookiebanner nodig.
+    bezoekers kan onderscheiden: geen cookies, geen fingerprinting, geen profielen. Daarnaast meten
+    we anoniem en cookieloos hoe snel pagina's laden (de Web Vitals) — geen wie-je-bent, alleen
+    hoe-snel-het-was. Die snelheidsmeting sturen we naar onze eigen, zelf-gehoste telemetrieserver,
+    geen dienst van derden. Daarom is er ook geen cookiebanner nodig.
   </p>
 
   <h2>Externe partijen</h2>
@@ -87,10 +89,12 @@ import { CONTACT_EMAIL } from '../../config/site.ts';
   <h2>Verwerkers</h2>
   <p>
     De site wordt geserveerd door Cloudflare, dat ook de mail naar onze adressen routeert.
-    Eventaanmeldingen lopen per e-mail — er zit geen ticketingplatform tussen. Zodra de nieuwsbrief
-    live is, draait die op Brevo (e-mail), dat gegevens uitsluitend in onze opdracht verwerkt,
-    binnen het EU/AVG-kader. We noemen hier elke verwerker, en werken die lijst bij als er een
-    verandert. Gegevens worden nooit verkocht of gedeeld.
+    Eventaanmeldingen lopen per e-mail — er zit geen ticketingplatform tussen. Alle mail die wij
+    geautomatiseerd versturen — om te beginnen de nieuwsbrief, later ook bevestigingen rond een
+    event — loopt via Brevo, een Franse dienst die gegevens uitsluitend in onze opdracht verwerkt
+    binnen het EU/AVG-kader. Die mail komt van <code>send.twente.dev</code>; mail die een mens hier
+    zelf schrijft blijft daarbuiten. We noemen hier elke verwerker, en werken die lijst bij als er
+    een verandert. Gegevens worden nooit verkocht of gedeeld.
   </p>
 
   <h2>Jouw rechten</h2>

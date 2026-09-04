@@ -27,10 +27,11 @@ if (!coords) {
   );
 }
 
-const sprekers =
-  EDITION_001_SPEAKERS.length > 0
-    ? EDITION_001_SPEAKERS.map((s) => s.name)
-    : ['[ spreker een ]', '[ spreker twee ]'];
+const namen = EDITION_001_SPEAKERS.map((s) => s.name);
+const sprekers = {
+  nl: namen.length > 0 ? namen : ['[ spreker een ]', '[ spreker twee ]'],
+  en: namen.length > 0 ? namen : ['[ speaker one ]', '[ speaker two ]'],
+};
 
 const tz = amsterdam({ timeZoneName: 'short' }).split(' ').at(-1);
 
@@ -42,6 +43,16 @@ const EDITIE = {
   datumNL: amsterdam({ weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' })
     .replaceAll('.', '')
     .replace(/^(\w{2})\w*/, '$1'),
+  datumEN: new Intl.DateTimeFormat('en-GB', {
+    timeZone: 'Europe/Amsterdam',
+    weekday: 'short',
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+  })
+    .format(EDITION_001.doors)
+    .replaceAll(',', '')
+    .toLowerCase(),
   datumCompact: amsterdam({ day: '2-digit', month: '2-digit' }).replace('-', '.'),
   tijd: amsterdam({ hour: '2-digit', minute: '2-digit' }),
   tz: tz === 'CET' || tz === 'CEST' ? tz : 'CET',

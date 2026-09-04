@@ -374,31 +374,61 @@
       </div>
     </div>
 
-    <div class="art nacht a31" data-export="banner-EDITIENR-statusbord-1500x500@2x">
+    <div
+      class="art nacht a31"
+      data-lang="nl"
+      data-export="banner-EDITIENR-statusbord-nl-1500x500@2x"
+    >
       <div class="stage">
         <span class="edge"></span>
-        <div class="term" style="left: 66px; top: 60px; font-size: 22px" data-statusbord></div>
-        <div
-          class="sub"
-          style="right: 66px; bottom: 172px; font-size: 16px; text-align: right"
-          data-announce-sub
-        ></div>
-        <div class="lk" style="right: 64px; bottom: 56px; height: 100px">
+        <div class="term" style="left: 72px; top: 62px; font-size: 22px" data-statusbord></div>
+        <div class="sub" style="left: 72px; top: 358px; font-size: 15px" data-announce-sub></div>
+        <div class="lk" style="right: 72px; bottom: 58px; height: 92px">
           <svg viewBox="0 0 930.837 160"><use href="#lock-paper" /></svg>
         </div>
       </div>
     </div>
 
-    <div class="art nacht a169" data-export="banner-EDITIENR-statusbord-1200x675@2x">
+    <div
+      class="art nacht a31"
+      data-lang="en"
+      data-export="banner-EDITIENR-statusbord-en-1500x500@2x"
+    >
+      <div class="stage">
+        <span class="edge"></span>
+        <div class="term" style="left: 72px; top: 62px; font-size: 22px" data-statusbord></div>
+        <div class="sub" style="left: 72px; top: 358px; font-size: 15px" data-announce-sub></div>
+        <div class="lk" style="right: 72px; bottom: 58px; height: 92px">
+          <svg viewBox="0 0 930.837 160"><use href="#lock-paper" /></svg>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="art nacht a169"
+      data-lang="nl"
+      data-export="banner-EDITIENR-statusbord-nl-1200x675@2x"
+    >
       <div class="stage" style="width: 1200px; height: 675px">
         <span class="edge"></span>
-        <div class="term" style="left: 58px; top: 64px; font-size: 24px" data-statusbord></div>
-        <div
-          class="sub"
-          style="right: 58px; bottom: 200px; font-size: 16px; text-align: right"
-          data-announce-sub
-        ></div>
-        <div class="lk" style="right: 56px; bottom: 64px; height: 110px">
+        <div class="term" style="left: 72px; top: 84px; font-size: 23px" data-statusbord></div>
+        <div class="sub" style="left: 72px; top: 507px; font-size: 15px" data-announce-sub></div>
+        <div class="lk" style="right: 72px; bottom: 72px; height: 104px">
+          <svg viewBox="0 0 930.837 160"><use href="#lock-paper" /></svg>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="art nacht a169"
+      data-lang="en"
+      data-export="banner-EDITIENR-statusbord-en-1200x675@2x"
+    >
+      <div class="stage" style="width: 1200px; height: 675px">
+        <span class="edge"></span>
+        <div class="term" style="left: 72px; top: 84px; font-size: 23px" data-statusbord></div>
+        <div class="sub" style="left: 72px; top: 507px; font-size: 15px" data-announce-sub></div>
+        <div class="lk" style="right: 72px; bottom: 72px; height: 104px">
           <svg viewBox="0 0 930.837 160"><use href="#lock-paper" /></svg>
         </div>
       </div>
@@ -442,11 +472,29 @@
       </div>
     </div>
 
-    <div class="art nacht a41" data-export="banner-EDITIENR-statusbord-1584x396@2x">
+    <div
+      class="art nacht a41"
+      data-lang="nl"
+      data-export="banner-EDITIENR-statusbord-nl-1584x396@2x"
+    >
       <div class="stage" style="width: 1584px; height: 396px">
         <span class="edge"></span>
-        <div class="term" style="left: 500px; top: 52px; font-size: 19px" data-statusbord></div>
-        <div class="lk" style="right: 56px; bottom: 44px; height: 80px">
+        <div class="term" style="left: 72px; top: 56px; font-size: 19px" data-statusbord></div>
+        <div class="lk" style="right: 72px; bottom: 48px; height: 76px">
+          <svg viewBox="0 0 930.837 160"><use href="#lock-paper" /></svg>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="art nacht a41"
+      data-lang="en"
+      data-export="banner-EDITIENR-statusbord-en-1584x396@2x"
+    >
+      <div class="stage" style="width: 1584px; height: 396px">
+        <span class="edge"></span>
+        <div class="term" style="left: 72px; top: 56px; font-size: 19px" data-statusbord></div>
+        <div class="lk" style="right: 72px; bottom: 48px; height: 76px">
           <svg viewBox="0 0 930.837 160"><use href="#lock-paper" /></svg>
         </div>
       </div>
@@ -527,17 +575,38 @@
 
     <script src="editie.js"></script>
     <script>
-      const statusLines = `$ systemctl status editie@${EDITIE.nr}
+      const COPY = {
+        nl: {
+          unit: 'editie',
+          datum: EDITIE.datumNL,
+          kosten: 'gratis',
+          cta: 'aanmelden',
+          eind: 'harde eindtijd 21:30',
+        },
+        en: {
+          unit: 'edition',
+          datum: EDITIE.datumEN,
+          kosten: 'free',
+          cta: 'register',
+          eind: 'hard finish 21:30',
+        },
+      };
+      const statusLines = (lang) => {
+        const c = COPY[lang] ?? COPY.nl;
+        return `$ systemctl status ${c.unit}@${EDITIE.nr}
 <b><i>●</i> twente.dev/${EDITIE.nr} — ${EDITIE.thema}</b>
-   Active: <b>scheduled</b> — ${EDITIE.datumNL}, ${EDITIE.tijd} ${EDITIE.tz} · ${EDITIE.venue}, ${EDITIE.stad}
-   Talks:  <b>${EDITIE.sprekers[0]}</b>
-           <b>${EDITIE.sprekers[1]}</b>
-   Seats:  ${EDITIE.seats} · gratis · aanmelden: <i>hello@twente.dev</i>`;
+   Active: <b>scheduled</b> — ${c.datum}, ${EDITIE.tijd} ${EDITIE.tz} · ${EDITIE.venue}, ${EDITIE.stad}
+   Talks:  <b>${EDITIE.sprekers[lang]?.[0] ?? EDITIE.sprekers.nl[0]}</b>
+           <b>${EDITIE.sprekers[lang]?.[1] ?? EDITIE.sprekers.nl[1]}</b>
+   Seats:  ${EDITIE.seats} · ${c.kosten} · ${c.cta}: <i>twente.dev/${EDITIE.nr}</i>`;
+      };
+      const langOf = (el) => el.closest('[data-lang]')?.dataset.lang ?? 'nl';
       document.querySelectorAll('[data-statusbord]').forEach((el) => {
-        el.innerHTML = statusLines;
+        el.innerHTML = statusLines(langOf(el));
       });
       document.querySelectorAll('[data-announce-sub]').forEach((el) => {
-        el.textContent = `twente.dev/${EDITIE.nr} · ${EDITIE.datumNL} · ${EDITIE.stad} · harde eindtijd 21:30`;
+        const c = COPY[langOf(el)] ?? COPY.nl;
+        el.textContent = `twente.dev/${EDITIE.nr} · ${c.datum} · ${EDITIE.stad} · ${c.eind}`;
       });
       document.querySelectorAll('[data-export]').forEach((el) => {
         el.dataset.export = el.dataset.export.replace('EDITIENR', EDITIE.nr);

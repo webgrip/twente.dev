@@ -102,6 +102,8 @@ const subject = `Field note ${locale === 'nl' ? 'nieuwsbrief' : 'newsletter'}`;
       if (button instanceof HTMLButtonElement) button.disabled = true;
       show('busy', form.dataset.sending);
 
+      const postWithoutJavaScript = () => HTMLFormElement.prototype.submit.call(form);
+
       try {
         const body = new URLSearchParams();
         for (const [key, value] of new FormData(form)) {
@@ -109,17 +111,33 @@ const subject = `Field note ${locale === 'nl' ? 'nieuwsbrief' : 'newsletter'}`;
         }
 
         const response = await fetch(form.action, { method: 'POST', body });
-        const payload = await response.json().catch(() => null);
+        const raw = await response.text();
 
-        if (!response.ok || !payload || payload.success !== true) {
-          throw new Error('rejected');
+        if (!response.ok) {
+          throw new Error(`provider returned ${response.status}: ${raw.slice(0, 300)}`);
+        }
+
+        let payload: unknown = null;
+        try {
+          payload = JSON.parse(raw);
+        } catch {
+          payload = null;
+        }
+
+        if (payload && typeof payload === 'object' && 'success' in payload) {
+          if ((payload as { success?: unknown }).success === false) {
+            throw new Error(`provider rejected the address: ${raw.slice(0, 300)}`);
+          }
         }
 
         show('ok', form.dataset.success);
         form.hidden = true;
-      } catch {
-        show('error', form.dataset.error);
-        if (button instanceof HTMLButtonElement) button.disabled = false;
+      } catch (error) {
+        console.warn(
+          '[newsletter] background subscribe failed, retrying as a plain form post.',
+          error,
+        );
+        postWithoutJavaScript();
       }
     });
   }

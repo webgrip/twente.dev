@@ -35,7 +35,7 @@ are checked against each platform's current limits.
 | Claim                                        | Status                                                             |
 | -------------------------------------------- | ------------------------------------------------------------------ |
 | Events calendar you can subscribe to (ICS)   | ✅ live                                                            |
-| Field notes / articles by practitioners      | ✅ live                                                            |
+| Field notes and articles by practitioners    | ✅ live                                                            |
 | Numbered flagship events, starting with /001 | ✅ live                                                            |
 | Partner compact, published terms             | ✅ live                                                            |
 | No cookies, no tracking, everything in git   | ✅ live                                                            |
@@ -44,10 +44,10 @@ are checked against each platform's current limits.
 | Job board                                    | ❌ **deleted** — never mention                                     |
 | Newsletter                                   | ⚠️ not open yet — do not promise a signup                          |
 
-Launch line to append where a field has room (drop after 7 Oct 2026):
+Launch line to append where a field has room (drop after 4 Nov 2026):
 
-> EN: `twente.dev/001 — Reconnect. 7 October 2026, Rijssen. Free.`
-> NL: `twente.dev/001 — Reconnect. 7 oktober 2026, Rijssen. Gratis.`
+> EN: `twente.dev/001 — Reconnect. 4 November 2026, Rijssen. Free.`
+> NL: `twente.dev/001 — Reconnect. 4 november 2026, Rijssen. Gratis.`
 
 ---
 
@@ -126,7 +126,7 @@ metadata fields show as verified.
 >
 > No tracking on the site, no product pitches on stage, no attendee data for anyone.
 >
-> First edition: twente.dev/001 — Reconnect. 7 October 2026, Rijssen. Free.
+> First edition: twente.dev/001 — Reconnect. 4 November 2026, Rijssen. Free.
 >
 > We build it. We run it. We share it.
 
@@ -160,7 +160,7 @@ answers 302, which is the deliberate locale redirect to `/nl` or `/en`, not a fa
 >
 > Existing meetups keep their own identity, their own list and their own stage. We make them easier to find and always link to the source. Our terms with them are published at twente.dev/en/partners.
 >
-> First edition: twente.dev/001 — Reconnect. Wednesday 7 October 2026, Rijssen. Free.
+> First edition: twente.dev/001 — Reconnect. Wednesday 4 November 2026, Rijssen. Free.
 >
 > Funded by its founder through Webgrip, with time and a small budget from Code14. Everything — site, content, process — lives in git.
 >
@@ -265,7 +265,7 @@ software development, DevOps, data, embedded, product, UX — not "networking" o
 >
 > What we hold ourselves to: no paid speaking slots, no attendee data for anyone, no product pitches disguised as education.
 >
-> First edition: twente.dev/001 — Reconnect. Wednesday 7 October 2026, Rijssen. Doors and food at 18:00, programme at 18:45, hard finish at 21:30. Free.
+> First edition: twente.dev/001 — Reconnect. Wednesday 4 November 2026, Rijssen. Doors and food at 18:00, programme at 18:45, hard finish at 21:30. Free.
 >
 > We build it. We run it. We share it.
 

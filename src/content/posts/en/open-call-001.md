@@ -1,11 +1,12 @@
 ---
 title: 'Open call: tell Twente what you are building at twente.dev/001'
 description: >-
-  Two 12-minute field reports open the first flagship evening on 7 October.
+  Two 12-minute field reports open the first flagship evening on 4 November.
   One of them could be yours — no speaking experience required.
 locale: en
 translationKey: open-call-001
 publishedAt: 2026-08-11
+updatedAt: 2026-09-04
 author:
   name: Ryan Grippeling
   url: https://webgrip.nl
@@ -16,9 +17,13 @@ pillar: open-calls
 draft: false
 ---
 
+> **Updated 4 September 2026**: the evening moved from Wednesday 7 October to Wednesday
+> 4 November 2026, to leave time to get the programme right. The open call stays open
+> and you have four more weeks.
+
 What should Twente know you are building — or learning the hard way?
 
-On Wednesday 7 October, [twente.dev/001 — Reconnect](/en/001) opens with two 12-minute **field
+On Wednesday 4 November, [twente.dev/001 — Reconnect](/en/001) opens with two 12-minute **field
 reports**: short, candid talks by people who did the work. Not keynotes, not product demos —
 one claim, one real example, and one question for the room.
 

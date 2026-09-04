@@ -14,8 +14,14 @@ een woensdagavond overeind krijgt staat hier.
 ## Het ritme
 
 **Iedere eerste woensdag van de maand.** Dat is de hele cadans-belofte: geen jaarkalender
-die kan breken, wel een datum die iedereen kan uitrekenen. /001 valt erop (woensdag 7
-oktober 2026); /002 is woensdag 4 november 2026, /003 woensdag 2 december 2026.
+die kan breken, wel een datum die iedereen kan uitrekenen. /001 valt erop (woensdag 4
+november 2026); /002 is woensdag 2 december 2026, /003 woensdag 6 januari 2027.
+
+/001 stond tot 2026-09-04 op woensdag 7 oktober. Verzet omdat de twee sprekersplekken niet
+op tijd rond kwamen, en de T−4-regel dan zegt: lichte avond of opschuiven. Het werd
+opschuiven, precies één slot, zodat de cadans-belofte heel blijft. De twee botsingen die
+de check verderop op 4 november vond zijn daarbij bewust geaccepteerd. Lees ze wel, want
+ze bepalen wie er die avond niet is.
 
 - De volgende datum staat op de site **vóór** de vorige editie voorbij is — een pauze
   zonder aangekondigde terugkeer is hoe Tech Nottingham stierf.
@@ -157,7 +163,7 @@ regels — papier bij de deur of een QR:
 
 1. Welk idee neem je mee? (vrije tekst)
 2. Met wie heb je kennisgemaakt die je wilt terugzien? (vrije tekst, mag leeg)
-3. Kom je naar /002 op 4 november? (ja / waarschijnlijk / nee)
+3. Kom je naar /002 op 2 december? (ja / waarschijnlijk / nee)
 
 Vraag 3 is het "repeat intent"-cijfer dat de perspagina belooft. De uitkomsten gaan
 geanonimiseerd in het openbare verslag.
@@ -187,6 +193,13 @@ eenpersoonsproces geloofwaardig houdt. Zodra er een tweede vaste vrijwilliger is
 tweede aanspreekpunt de eerste rol die je weggeeft.
 
 ## OV en bereikbaarheid Rijssen
+
+> **Verlopen verificatie, opnieuw draaien.** De tijden hieronder zijn gecontroleerd voor
+> woensdag 7 oktober 2026, en die avond bestaat niet meer. Het lijnpatroon (Sprinter 7000,
+> twee keer per uur, ook 's avonds) verandert zelden, dus de conclusie over lopen en de
+> laatste bus houdt waarschijnlijk stand. De exacte vertrektijden staan hier als
+> geverifieerd en zijn dat voor woensdag 4 november 2026 niet. Draai de check opnieuw
+> vóórdat deze cijfers op de editiepagina komen te staan (T−2 in de checklist hierboven).
 
 Geverifieerd 2026-08-30 tegen de gepubliceerde dienstregeling voor woensdag 7 oktober
 2026 zelf (officiële Nederlandse GTFS-feed via `api.transitous.org`, gecontroleerd tegen
@@ -233,21 +246,40 @@ weken vooruit, dus **herhaal de check ±5 weken voor elke editie**.
 Uitkomst van de check op 2026-08-30 (bronnen: het vakantieoverzicht van de rijksoverheid,
 de UT-jaarkalender 2026–2027, `zwinc.nl`, `jfall.nl`, `devoxx.be` en `meetup.com`):
 
-- **Wo 7 okt 2026 (/001) — schoon.** Geen lokale, regionale of landelijke botsing op de
+- **Wo 7 okt 2026 (/001 tot 2026-09-04) — schoon.** Geen lokale, regionale of landelijke botsing op de
   datum zelf. Enige aftrek: Devoxx België (5–9 okt, Antwerpen) houdt een deel van de
   Java-hoek die week weg. Herfstvakantie regio Noord begint pas 10 okt; UT zit in een
   gewone collegeweek.
-- **Wo 4 nov 2026 (beoogd /002) — conflict, twee keer.** (1) ZWINC "AI Connect" staat
+- **Wo 4 nov 2026 (sinds 2026-09-04 /001) — conflict, twee keer.** (1) ZWINC "AI Connect" staat
   exact die avond in Zwolle (deels overlappend publiek, zelfde sponsorvijver). (2) Het is
   midden in de UT-tentamenweken van kwartiel 1 (26 okt–6 nov) — de studenten uit de
   brugambitie zijn er dan niet. Structureel: de eerste woensdag van november valt vaker
   in de UT-tentamenweek. Alternatief binnen het ritme-met-uitleg: wo 18 nov (11–12 nov is
   J-Fall, dus niet de tweede woensdag). Besluit is aan Ryan; leg het vast vóór /001, want
   de /002-datum wordt op /001 aangekondigd.
-- **Wo 2 dec 2026 (beoogd /003) — kan, maar druk.** DevPulse #7 is de avond erna (do 3
+- **Wo 2 dec 2026 (sinds 2026-09-04 /002) — kan, maar druk.** DevPulse #7 is de avond erna (do 3
   dec, Zwolle, gratis met diner, deels zelfde publiek), en het is Sinterklaasweek
   (pakjesavond za 5 dec) — reken op dunnere opkomst bij ouders. UT zit in een gewone
   collegeweek.
+
+Besluit op 2026-09-04, nadat /001 van 7 oktober naar 4 november is verzet:
+
+- **De twee botsingen op 4 november zijn geaccepteerd, niet opgelost.** Ryans afweging:
+  sprekersruimte woog zwaarder. Ze gelden dus nog steeds, en de campagne moet erop
+  aangepast worden. (1) Reken het Zwolse deel van de zaal niet mee, want ZWINC "AI Connect"
+  is diezelfde avond; stem partner- en sponsorvragen daarop af. (2) De UT-tentamenweken van
+  kwartiel 1 lopen tot en met 6 november, dus de studenten uit de brugambitie zijn er
+  grotendeels niet. Mik /001 op de werkende praktijk en tel studentenbereik pas mee vanaf
+  /002.
+- **De structurele les blijft staan**: de eerste woensdag van november valt vaker in de
+  UT-tentamenweek. Voor volgende jaren is dat een reden om november standaard naar de derde
+  woensdag te zetten. Niet de tweede, want 11 en 12 november is J-Fall.
+- **Wo 2 dec 2026 is nu /002**, met dezelfde uitkomst als hierboven (kan, maar druk). Leg
+  die datum vast vóór /001, want /002 wordt op /001 aangekondigd.
+- **Wo 6 jan 2027 (beoogd /003) — nog niet gecheckt.** Eerste woensdag van januari; de
+  kerstvakantie loopt in de meeste regio's tot en met zondag 3 januari.
+- **Herhaal de volledige ronde langs de bronnen hierboven** in de week van 30 september
+  (±5 weken voor 4 november).
 
 Niet verifieerbaar op 2026-08-30 (opnieuw checken ±5 weken vooraf): agenda's van Agile
 Meetup Twente, Flutter Twente/Baseflow, DevSessions Zwolle (alle drie 0 aankomende

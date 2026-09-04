@@ -86,14 +86,18 @@ const bands = [
         </div>
 
         <div class="feature-panel">
-          <p class="feature-registration">
-            <span class="label-mono feature-registration-label">
-              {t('edition.registrationOpens')}
-            </span>
-            <time class="feature-registration-date" datetime={REGISTRATION_OPENS.toISOString()}>
-              {formatDate(REGISTRATION_OPENS, locale)}
-            </time>
-          </p>
+          {
+            !REGISTRATION_URL && (
+              <p class="feature-registration">
+                <span class="label-mono feature-registration-label">
+                  {t('edition.registrationOpens')}
+                </span>
+                <time class="feature-registration-date" datetime={REGISTRATION_OPENS.toISOString()}>
+                  {formatDate(REGISTRATION_OPENS, locale)}
+                </time>
+              </p>
+            )
+          }
           <a class="button button--primary" href={routePath('edition001', locale)}>
             {REGISTRATION_URL ? t('home.hero.ctaReserve') : t('home.next.cta')}
           </a>

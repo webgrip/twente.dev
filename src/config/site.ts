@@ -22,9 +22,9 @@ export const REGISTRATION_OPENS = new Date('2026-09-02T09:00:00+02:00');
 export const EDITION_001 = {
   number: '001',
   theme: 'Reconnect',
-  doors: new Date('2026-10-07T18:00:00+02:00'),
-  start: new Date('2026-10-07T18:45:00+02:00'),
-  end: new Date('2026-10-07T21:30:00+02:00'),
+  doors: new Date('2026-11-04T18:00:00+01:00'),
+  start: new Date('2026-11-04T18:45:00+01:00'),
+  end: new Date('2026-11-04T21:30:00+01:00'),
   city: 'Rijssen',
   venue: 'Code14, Hogepad 81' as string | null,
   capacity: 40,

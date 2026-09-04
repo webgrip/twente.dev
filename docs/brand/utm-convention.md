@@ -19,11 +19,11 @@ Companion to [`social-profile-copy.md`](social-profile-copy.md). Tracker item TD
 
 ## What actually attributes, today
 
-| Question                           | Where the answer comes from                                                                                                                                                                                                                                                                               |
-| ---------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Which **websites** send us traffic | Cloudflare Web Analytics → Referers. Works for any link clicked from a page: partner sites, community pages, press.                                                                                                                                                                                       |
-| Which channel **filled the room**  | **A question in the registration exchange** (pretix was dropped 2026-08-30; registration is by e-mail, so the confirmation reply asks it). This is the real instrument — it is the only one that covers email, QR codes, print, word of mouth and "an organiser told me", none of which leave a referrer. |
-| Which **page** people land on      | Cloudflare → Top Paths. Note a 301 through a vanity path does not help: the beacon fires on the destination, so `/go/x → /en/001` records only `/en/001`.                                                                                                                                                 |
+| Question                           | Where the answer comes from                                                                                                                                                                                                                                                                                           |
+| ---------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Which **websites** send us traffic | Cloudflare Web Analytics → Referers. Works for any link clicked from a page: partner sites, community pages, press.                                                                                                                                                                                                   |
+| Which channel **filled the room**  | **A question at registration** (a Meetup RSVP question since 2026-09-02; pretix was dropped 2026-08-30 and the e-mail route retired before it opened). This is the real instrument — it is the only one that covers email, QR codes, print, word of mouth and "an organiser told me", none of which leave a referrer. |
+| Which **page** people land on      | Cloudflare → Top Paths. Note a 301 through a vanity path does not help: the beacon fires on the destination, so `/go/x → /en/001` records only `/en/001`.                                                                                                                                                             |
 
 **Therefore: the registration question is not optional.** Without it, edition 001 produces no
 attribution data at all, tagged links or not. One question, optional, free text plus a
@@ -116,4 +116,4 @@ Ryan's email signature, no edition
   even the referrer half is not being recorded yet. That is a prerequisite for learning
   anything from edition 001, tagged links or not.
 - Revisit if we move to self-hosted Umami: it does read query strings, at which point the
-  tags above start answering the question directly rather than only via pretix.
+  tags above start answering the question directly rather than only via the RSVP question.

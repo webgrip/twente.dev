@@ -3,9 +3,9 @@ import assert from 'node:assert/strict';
 import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 
-const ROOTS = ['src/pages/nl', 'src/pages/en', 'src/templates', 'src/content'];
+const ROOTS = ['src/pages/nl', 'src/pages/en', 'src/templates', 'src/content', 'docs/brand'];
 const EXTRA_FILES = ['src/i18n/ui.ts'];
-const EXTENSIONS = new Set(['.astro', '.md', '.mdx', '.yml', '.yaml']);
+const EXTENSIONS = new Set(['.astro', '.md', '.mdx', '.yml', '.yaml', '.html']);
 
 interface Rule {
   name: string;
@@ -71,6 +71,8 @@ function copyOf(path: string, raw: string): string {
     s = s.replace(/^\s*\/\/.*$/gm, (m) => m.replace(/[^\n]/g, ' '));
   } else if (path.endsWith('.md') || path.endsWith('.mdx')) {
     s = s.replace(/^```[\s\S]*?^```/gm, (m) => m.replace(/[^\n]/g, ' '));
+  } else if (path.endsWith('.html')) {
+    s = s.replace(/<(style|script)[^>]*>[\s\S]*?<\/\1>/g, (m) => m.replace(/[^\n]/g, ' '));
   } else if (path.endsWith('.yml') || path.endsWith('.yaml')) {
     s = s.replace(/^\s*#.*$/gm, (m) => m.replace(/[^\n]/g, ' '));
   }

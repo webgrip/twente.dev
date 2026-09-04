@@ -110,6 +110,10 @@ bij elkaar voor één nuttige avond.
 
 Het is geen meetup. Het is geen recruiter. Het is geen platform.
 
+Dat gaat over wat de avond ís, niet over waar je op de knop drukt: aanmelden loopt sinds
+2026-09-02 via meetup.com, omdat daar de mensen zitten die twente.dev nog niet kennen. De
+zaal, het programma en de waarborgen hierboven veranderen daar niet van.
+
 ## Wat twente.dev niet doet
 
 > twente.dev is er om te versterken wat er al gebeurt in Twente. **We doen niet nog eens

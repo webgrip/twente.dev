@@ -1,15 +1,5 @@
 name: "[Scheduled] Link Check"
 
-# Weekly sweep over the built output — via the shared link-check-static-site
-# workflow (extracted 2026-09; this repo contributed the source-file checking
-# and the multi-resolver DNS sweep, webgrip.nl the vacuous-run guard and the
-# blocking-critical-link pattern). What stays here is exactly what is
-# twente-specific: which files, which URL may never rot, which hosts.
-#
-# Community-submitted content links out to employer career pages and meetup
-# sites, which rot faster than anything we control — a dead "Apply" link is
-# the most damaging kind of broken link here.
-
 on:
   schedule:
     - cron: "0 3 * * 1"
@@ -24,18 +14,12 @@ env:
 jobs:
   links:
     name: "Check links in built output"
-    uses: webgrip/workflows/.forgejo/workflows/link-check-static-site.yml@cfca5d381db0ae44912faf34e105721eede2ee3e # v2.1.0
+    uses: webgrip/workflows/.forgejo/workflows/link-check-static-site.yml@cfca5d381db0ae44912faf34e105721eede2ee3e
     with:
       exclude-pattern: '^https://twente\.dev'
-      # communities.yml is checked DIRECTLY, not via dist/: getCommunities()
-      # was defined and never called, so no community URL was ever rendered
-      # into a page and two of twelve had silently rotted before anyone looked.
       extra-sources: |
         src/content/communities.yml
       dns-hosts-source: src/content/communities.yml
-      # The registration link may never rot silently once it exists; while
-      # REGISTRATION_URL is null the command prints nothing and the check
-      # honestly skips (there is no link on the site to guard yet).
       blocking-urls-command: >-
         node --experimental-strip-types -e
         'import("./src/config/site.ts").then((m) => console.log(m.REGISTRATION_URL ?? ""))'

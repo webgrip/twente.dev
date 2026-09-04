@@ -8,7 +8,6 @@ import { getAllEvents, getPosts, postSlug } from './content.ts';
 import { buildIcsCalendar } from './ics.ts';
 import type { IcsEvent } from './ics.ts';
 
-/** Per-locale RSS feed. Each locale gets its own — a mixed-language feed serves nobody. */
 export async function buildRssFeed(locale: Locale): Promise<Response> {
   const t = useTranslations(locale);
   const posts = await getPosts(locale);
@@ -17,8 +16,6 @@ export async function buildRssFeed(locale: Locale): Promise<Response> {
   return rss({
     title: `${t('site.name')} — ${t('blog.title')}`,
     description: t('blog.description'),
-    // The channel <link> is this locale's blog index — not the bare domain,
-    // which serves the noindex root redirect stub.
     site: absoluteUrl(routePath('blog', locale)),
     trailingSlash: false,
     xmlns: {
@@ -31,29 +28,17 @@ export async function buildRssFeed(locale: Locale): Promise<Response> {
       pubDate: post.data.publishedAt,
       link: absoluteUrl(routePath('blog', locale, postSlug(post))),
       categories: post.data.tags,
-      // RSS 2.0's <author> is defined as an email address; a bare name fails
-      // the W3C validator. Dublin Core's dc:creator is the name-shaped field.
       customData: `<dc:creator><![CDATA[${post.data.author.name}]]></dc:creator>`,
     })),
     customData: `<language>${locale}</language><atom:link href="${selfUrl}" rel="self" type="application/rss+xml"/>`,
   });
 }
 
-/**
- * The public calendar feed (plan lever L2).
- *
- * One feed for both locales rather than one per language: a calendar
- * subscription is long-lived, and asking someone to re-subscribe because they
- * switched the site language would be a poor trade. Summaries use Dutch, the
- * default locale, with the venue city carrying the rest.
- */
 export async function buildEventsIcs(locale: Locale = 'nl'): Promise<Response> {
   const t = useTranslations(locale);
   const events = await getAllEvents();
 
   const icsEvents: IcsEvent[] = events.map((event) => {
-    // Flagship editions have a bespoke canonical page instead of a generated
-    // detail page; the feed must point subscribers at the real listing.
     const path = event.data.canonicalRoute
       ? routePath(event.data.canonicalRoute, locale)
       : routePath('events', locale, event.id);

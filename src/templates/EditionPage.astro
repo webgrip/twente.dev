@@ -17,15 +17,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import NewsletterForm from '../components/NewsletterForm.astro';
 import Tabs from '../components/Tabs.astro';
 
-/**
- * twente.dev/001 — Reconnect. The flagship edition's canonical page.
- *
- * The playbook's contract for this page: headline, audience and outcome above
- * the fold; complete time, language, access, food, venue and cancellation
- * information on the same page; who the evening is and is not for; and a
- * contribution route. Facts come from `src/config/site.ts` and the events
- * collection entry so every surface stays synchronised.
- */
 interface Props {
   locale: Locale;
 }
@@ -294,7 +285,6 @@ const entry = await getEntry('events', 'twente-dev-001-reconnect');
 const jsonLd = entry ? [eventSchema(entry, locale)] : [];
 
 const registrationOpen = REGISTRATION_URL !== null;
-/** Empty until the open call has produced two confirmed speakers. */
 const speakers = EDITION_001_SPEAKERS;
 ---
 
@@ -306,10 +296,6 @@ const speakers = EDITION_001_SPEAKERS;
   jsonLd={jsonLd}
 >
   <div class="container">
-    {
-      /* Same wayfinding as every other detail page — the edition is reached
-        from the events timeline, so "back to the calendar" needs a path. */
-    }
     <nav class="breadcrumb" aria-label="Breadcrumb">
       <a href={routePath('events', locale)}>{t('events.title')}</a>
     </nav>
@@ -340,11 +326,6 @@ const speakers = EDITION_001_SPEAKERS;
           <dt>{c.factTime}</dt>
           <dd>{time(EDITION_001.doors)}–{time(EDITION_001.end)}</dd>
         </div>
-        {
-          /* Facts that also render on other surfaces (homepage, event cards)
-             come from ui.ts, so one edit updates every surface — the inline
-             ternaries here had already drifted from the homepage's copy. */
-        }
         <div>
           <dt>{c.factVenue}</dt>
           <dd>{EDITION_001.venue ?? `${EDITION_001.city} — ${t('edition.venueTba')}`}</dd>
@@ -364,13 +345,6 @@ const speakers = EDITION_001_SPEAKERS;
       </ul>
     </header>
 
-    {
-      /* Reserving, following along and speaking are three doors, not three
-         steps — so they are tabs. Stacked, the contribution route sat two
-         screens below the fold and the updates prompt did not exist at all.
-         Panel ids are the deep link (`/nl/001#updates`), so they stay stable
-         and locale-neutral: a hash is not a route and is never translated. */
-    }
     <section class="edition-section">
       <h2>{c.actionsTitle}</h2>
       <Tabs
@@ -392,7 +366,6 @@ const speakers = EDITION_001_SPEAKERS;
                 </a>
               </p>
             ) : (
-              /* Links to the events page, not /events.ics: see Footer.astro. */
               <p class="registration-opens">
                 {c.registrationOpens}{' '}
                 <strong>
@@ -516,8 +489,6 @@ const speakers = EDITION_001_SPEAKERS;
     max-width: none;
   }
 
-  /* The red signal on this page: the banner's info-card lockup. White mono
-     on signal red at these sizes is large-text AA. */
   .edition-lockup {
     display: inline-grid;
     gap: var(--space-1);
@@ -676,8 +647,6 @@ const speakers = EDITION_001_SPEAKERS;
     background: var(--bg-subtle);
   }
 
-  /* Dashed frame plus a stated label: "to be announced" is a fact about the
-     programme, not a placeholder someone forgot to fill in. */
   .speakers-badge {
     color: var(--accent-strong);
     margin-block-end: var(--space-3);
@@ -728,6 +697,4 @@ const speakers = EDITION_001_SPEAKERS;
     font-size: var(--text-sm);
     padding-block-start: var(--space-4);
   }
-
-  /* .button / .button--primary come from global.css — one recipe, no copies. */
 </style>

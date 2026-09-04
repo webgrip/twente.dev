@@ -19,7 +19,6 @@ interface Props {
   ogType?: 'website' | 'article';
   jsonLd?: Record<string, unknown>[];
   noindex?: boolean;
-  /** See BaseHead: suppresses canonical/hreflang/og:url on the 404. */
   errorPage?: boolean;
 }
 
@@ -43,36 +42,22 @@ const t = useTranslations(locale);
       errorPage={errorPage}
     />
     <script is:inline>
-      // Runs before first paint to avoid a flash of the wrong theme. Kept
-      // inline and tiny on purpose — this is the only render-blocking script
-      // on the site.
       (function () {
+        const fallBackToPrefersColorScheme = function () {};
         try {
           const stored = localStorage.getItem('twente-dev-theme');
           if (stored === 'light' || stored === 'dark') {
             document.documentElement.dataset.theme = stored;
           }
         } catch {
-          /* storage unavailable — fall through to prefers-color-scheme */
+          fallBackToPrefersColorScheme();
         }
       })();
     </script>
   </head>
-  <!--
-    A page excluded from search engines is excluded from site search too.
-    Without this, the 404 page joins the Pagefind index and — because it renders
-    both locales at once — splits it into a third pseudo-language, degrading
-    results for the two real ones.
-  -->
   <body data-pagefind-ignore={noindex ? 'all' : undefined}>
     <a class="skip-link" href="#main">{t('nav.skipToContent')}</a>
     <Header locale={locale} current={routeKey} slug={slug} />
-    <!--
-      No tabindex on main: the skip link's fragment navigation sets the
-      sequential focus navigation starting point here per the HTML spec, so
-      the next Tab lands inside the content in every modern browser without
-      making a non-interactive element focusable.
-    -->
     <main id="main" data-pagefind-body>
       <slot />
     </main>

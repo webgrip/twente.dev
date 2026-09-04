@@ -2,15 +2,6 @@ import { strict as assert } from 'node:assert';
 import { test, describe } from 'node:test';
 import { readFileSync } from 'node:fs';
 
-/**
- * The dark palette exists twice in tokens.css by CSS necessity: once under
- * `@media (prefers-color-scheme: dark)` and once under `[data-theme='dark']`
- * so the manual toggle beats the OS preference in both directions. The two
- * blocks must stay character-identical or the toggle and the OS preference
- * silently diverge — exactly the drift class the file's header warns about.
- * CSS cannot express "same declarations in two scopes"; this test can.
- */
-
 const css = readFileSync(new URL('../styles/tokens.css', import.meta.url), 'utf8');
 
 function declarationsOf(block: string): string[] {
@@ -25,7 +16,6 @@ function extractBlock(afterMarker: string): string {
   const start = css.indexOf(afterMarker);
   assert.notEqual(start, -1, `marker not found: ${afterMarker}`);
   const open = css.indexOf('{', start + afterMarker.length);
-  // Find the matching close brace for the *inner* rule body.
   let depth = 1;
   let i = open + 1;
   while (i < css.length && depth > 0) {

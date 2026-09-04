@@ -56,9 +56,9 @@ dialog.
 2. Duplicate the `<section class="slide …">` blocks you need, delete the rest.
    The seven types: title, content, stats, two-column, quote, section divider
    (the red edge), closing.
-3. The house rules are in a comment at the top of the file. The two that people
-   break first: **one statement per view** at display size, and **one red signal
-   per slide**.
+3. The two house rules people break first: **one statement per view** at display
+   size (if it needs two sentences, it is two slides), and **one red signal per
+   slide** (a date, an action, the dot; never a heading that "needs some colour").
 
 ## What is deliberately missing
 

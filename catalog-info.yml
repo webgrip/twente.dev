@@ -20,9 +20,6 @@ metadata:
     - astro
     - community
   annotations:
-    # mkdocs.yml lives at the repo root here, not under docs/techdocs — see the
-    # comment at the top of that file for why. Hence `dir:.`, matching the
-    # backstage-application variant rather than the estate default.
     backstage.io/techdocs-ref: dir:.
     backstage.io/adr-location: docs/adrs
     backstage.io/source-location: url:https://forgejo.webgrip.dev/webgrip/twente.dev

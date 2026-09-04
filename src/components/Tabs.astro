@@ -1,45 +1,11 @@
 ---
-/**
- * A tab switcher for blocks that are *alternatives*, not a sequence.
- *
- * Three long forms stacked vertically read as three things you must work
- * through; as tabs they read as three doors, one of which is yours. That is the
- * only reason this exists — it is a wayfinding device, not decoration, so it is
- * used where the panels are mutually exclusive and never to hide a step someone
- * has to complete.
- *
- * Progressive enhancement, in the same shape as ContactForm: the server renders
- * every panel open, with the tabs as ordinary in-page anchors. Without script
- * that is a perfectly good page — nothing is hidden behind a control that does
- * not work. The script then upgrades the markup to the ARIA tabs pattern
- * (roving tabindex, arrow/Home/End keys) and hides the inactive panels.
- *
- * Two consequences worth knowing:
- *
- *  - **Pagefind indexes the built HTML**, where no panel carries `hidden`, so
- *    search finds text inside every tab. Hiding at runtime keeps it that way;
- *    hiding at build time would quietly drop two thirds of the page from the
- *    index.
- *  - **The hash is the deep link.** `/nl/001#updates` opens that tab, and
- *    switching rewrites the hash with `replaceState`, so a link to one tab
- *    survives being copied out of the address bar without stacking history
- *    entries.
- *
- * Panels are the default slot. Each one must be an element with
- * `data-tabs-panel` and an `id` matching a tab, containing a heading marked
- * `data-tabs-heading` — that heading is what a no-script visitor reads, and the
- * script hides it once the tab label says the same thing.
- */
 interface Tab {
-  /** Matches the panel's `id`; also the URL hash that deep-links to it. */
   id: string;
   label: string;
 }
 
 interface Props {
-  /** Unique per page. */
   id: string;
-  /** Names the tab list for screen readers — usually the section heading. */
   label: string;
   tabs: Tab[];
 }
@@ -73,8 +39,6 @@ const { id, label, tabs } = Astro.props;
     border-block-end: var(--border-width) solid var(--border);
   }
 
-  /* `.prose li + li` puts space between list items; inside a tab strip that
-     would drop every tab after the first by half a line. */
   .tabs-list li {
     margin: 0;
   }
@@ -87,8 +51,6 @@ const { id, label, tabs } = Astro.props;
     letter-spacing: var(--tracking-caps);
     color: var(--fg-muted);
     text-decoration: none;
-    /* The 2px sits on the shared border-block-end above, so the selected tab
-       reads as joined to its panel rather than as a floating pill. */
     border-block-end: 2px solid transparent;
     margin-block-end: -1px;
   }
@@ -98,8 +60,6 @@ const { id, label, tabs } = Astro.props;
     background: var(--bg-subtle);
   }
 
-  /* Selected state is colour *and* a weight/rule change: red alone would be the
-     only signal for anyone who cannot see it. */
   .tabs-tab[aria-selected='true'] {
     color: var(--accent-strong);
     border-block-end-color: var(--accent);
@@ -110,15 +70,11 @@ const { id, label, tabs } = Astro.props;
     padding-block-start: var(--space-5);
   }
 
-  /* Without script every panel is open, so each needs its own visible heading
-     and a rule to separate it from the next. */
   .tabs-panels > :global([data-tabs-panel] + [data-tabs-panel]) {
     border-block-start: var(--border-width) solid var(--border);
     margin-block-start: var(--space-5);
   }
 
-  /* …and with script, the panels are exclusive: the separator would be a rule
-     above nothing. */
   :global([data-tabs-ready]) .tabs-panels > :global([data-tabs-panel] + [data-tabs-panel]) {
     border-block-start: 0;
     margin-block-start: 0;
@@ -130,12 +86,6 @@ const { id, label, tabs } = Astro.props;
 </style>
 
 <script>
-  /**
-   * Upgrade every tab group to the ARIA tabs pattern.
-   *
-   * Everything here is additive: if this never runs, the page is the stacked
-   * version the server rendered.
-   */
   for (const root of document.querySelectorAll<HTMLElement>('[data-tabs]')) {
     const list = root.querySelector<HTMLElement>('[data-tabs-list]');
     const tabs = [...root.querySelectorAll<HTMLAnchorElement>('[data-tabs-tab]')];
@@ -145,8 +95,6 @@ const { id, label, tabs } = Astro.props;
     for (const tab of tabs) {
       const id = tab.dataset.tabsTab ?? '';
       const panel = document.getElementById(id);
-      // A tab pointing at a panel that is not on the page would become a
-      // control that does nothing; leave the whole group as anchors instead.
       if (!panel) continue;
       panels.set(id, panel);
     }
@@ -158,8 +106,6 @@ const { id, label, tabs } = Astro.props;
     for (const [id, panel] of panels) {
       panel.setAttribute('role', 'tabpanel');
       panel.setAttribute('aria-labelledby', `${id}-tab`);
-      // Panels hold long prose and forms, so they scroll: without this a
-      // keyboard user could not reach the scrollbar of the panel they opened.
       panel.tabIndex = 0;
       panel.querySelector('[data-tabs-heading]')?.setAttribute('hidden', '');
     }
@@ -169,12 +115,10 @@ const { id, label, tabs } = Astro.props;
       tab.setAttribute('aria-controls', tab.dataset.tabsTab ?? '');
     }
 
-    /** @param moveFocus false on first paint — landing on a page must not steal focus. */
     const select = (id: string, moveFocus: boolean) => {
       for (const tab of tabs) {
         const selected = tab.dataset.tabsTab === id;
         tab.setAttribute('aria-selected', String(selected));
-        // Roving tabindex: one stop for the whole group, arrows move within it.
         tab.tabIndex = selected ? 0 : -1;
         if (selected && moveFocus) tab.focus();
       }
@@ -188,8 +132,6 @@ const { id, label, tabs } = Astro.props;
 
     for (const [index, tab] of tabs.entries()) {
       tab.addEventListener('click', (event) => {
-        // The href stays a real anchor for the no-script path; here it would
-        // scroll the panel under the header, so take over.
         event.preventDefault();
         const id = tab.dataset.tabsTab ?? '';
         select(id, false);
@@ -217,7 +159,6 @@ const { id, label, tabs } = Astro.props;
       });
     }
 
-    // A link from elsewhere on the site — "see the updates tab" — lands here.
     window.addEventListener('hashchange', () => {
       const id = openFromHash();
       if (id) select(id, false);

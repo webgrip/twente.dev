@@ -16,9 +16,6 @@ interface Props {
 const { locale, current, slug } = Astro.props;
 const t = useTranslations(locale);
 
-// Order mirrors the playbook's information architecture: events and community
-// lead, then the directory. Partners is a B2B page most visitors never need;
-// it moved to the footer.
 const navItems: { key: RouteKey; label: string }[] = [
   { key: 'events', label: t('nav.events') },
   { key: 'companies', label: t('nav.companies') },
@@ -32,15 +29,6 @@ const navItems: { key: RouteKey; label: string }[] = [
 <header class="site-header" data-site-header>
   <div class="container header-inner">
     <a class="brand" href={routePath('home', locale)}>
-      {
-        /* The compact mark (t.d, ratified 2026-08-30) inlined rather than
-          <img src="/brand/mark.svg">: inline, the badge follows currentColor,
-          so it is ink on paper in light mode and paper on ink in dark, with
-          the letters knocked out to the page background. A referenced file
-          would need two assets and would still be wrong at the theme switch.
-          Geometry is copied verbatim from public/brand/mark-currentcolor.svg —
-          never re-draw it here. */
-      }
       <svg class="brand-mark" viewBox="0 0 160 160" aria-hidden="true" focusable="false">
         <path
           fill="currentColor"
@@ -88,10 +76,6 @@ const navItems: { key: RouteKey; label: string }[] = [
     z-index: 10;
   }
 
-  /* Scrolled state — set by the script below, so without JS the header simply
-     stays at its resting height and nothing is lost. The lockup keeps the name
-     at every size: twente.dev is a two-week-old brand, and a mark nobody has
-     learnt yet is not a name. It just gets out of the way of the reading. */
   .site-header[data-scrolled] {
     --header-height: var(--header-height-compact);
     --brand-size: var(--text-sm);
@@ -115,22 +99,16 @@ const navItems: { key: RouteKey; label: string }[] = [
     font-weight: 700;
     letter-spacing: var(--tracking-tight);
     margin-inline-end: auto;
-    /* One size drives the whole lockup: the mark is sized in em, so mark and
-       wordmark shrink together and the spacing between them holds. */
     font-size: var(--brand-size, var(--text-base));
     transition: font-size var(--duration-base) var(--ease-out);
   }
 
-  /* Optical, not mathematical: the badge reads heavier than the wordmark's
-     cap height, so it is set slightly below 2em to sit level with it. */
   .brand-mark {
     width: 1.9em;
     height: 1.9em;
     flex: none;
   }
 
-  /* The brand pack's wordmark: lowercase, mono, with the red connector dot.
-     The dot is the header's one red signal. */
   .brand-name {
     font-family: var(--font-mono);
     font-weight: 700;
@@ -178,9 +156,6 @@ const navItems: { key: RouteKey; label: string }[] = [
 
   @media (max-width: 47.99rem) {
     .header-inner {
-      /* The nav wraps to its own row here, so the resting height is already
-         exceeded — let the content set it and keep the compaction to the
-         lockup alone. */
       min-height: 0;
       padding-block: var(--space-3);
     }
@@ -197,19 +172,12 @@ const navItems: { key: RouteKey; label: string }[] = [
 </style>
 
 <script>
-  // Progressive enhancement: the header is fully usable without this — it just
-  // keeps its resting height. State comes from the scroll *position*, never the
-  // direction, so a restored scroll offset on back-navigation renders the same
-  // header as scrolling there by hand.
   const header = document.querySelector<HTMLElement>('[data-site-header]');
 
   if (header) {
     let compact: boolean | null = null;
 
     const sync = (): void => {
-      // A few pixels of tolerance: iOS rubber-banding and anchor scrolling both
-      // land a hair off zero, and a header that flickers at the top of the page
-      // is worse than one that compacts a moment late.
       const next = window.scrollY > 8;
       if (next === compact) return;
       compact = next;

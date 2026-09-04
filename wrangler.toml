@@ -1,61 +1,14 @@
-# Cloudflare Workers Static Assets — ADR-0002.
-#
-# There is no `main` entrypoint: this is an assets-only Worker, so Cloudflare
-# serves `dist/` straight from the edge and static asset requests are not
-# metered as Worker invocations.
-#
-# Deploys come from Forgejo Actions via `wrangler deploy` (ADR-0003).
-# Cloudflare's native git integration supports GitHub/GitLab only, so there is
-# no "connect the repo" path available to us — this file is the contract.
-
 name = "twente-dev"
 compatibility_date = "2026-08-01"
 workers_dev = false
 
-# Without this, the worker deploys successfully and then answers on nothing:
-# `workers_dev = false` removes the *.workers.dev fallback and no route binds the
-# apex. That is why every path on twente.dev returned Cloudflare 522 (proxied to a
-# dead origin) while /robots.txt returned Cloudflare's own managed default instead
-# of public/robots.txt — a green `wrangler deploy` was never going to be a live site.
-#
-# A *route*, not `custom_domain = true`, and the difference matters here.
-#
-# A custom domain has Cloudflare create the DNS record itself, and it refuses while a
-# conflicting proxied A/AAAA for the same name exists — which is precisely the stale
-# record producing the 522. It would fail on "record already exists" until someone
-# deletes it by hand.
-#
-# A route instead *intercepts* requests to a hostname that already has a proxied
-# record, before they reach the (dead) origin. It therefore turns the existing 522
-# into a served page without touching DNS at all.
-#
-# Follow-up once the apex is live: delete the stale record and convert this to a
-# custom domain, so the binding no longer depends on a placeholder record that looks
-# like garbage to the next person reading the zone.
-#
-# NOTE: this key must stay above the first [table] header — TOML would otherwise
-# read it as part of that table.
 routes = [{ pattern = "twente.dev/*", zone_name = "twente.dev" }]
 
 [assets]
 directory = "./dist"
-# `astro build` with format:'file' emits /nl/events.html; serve it at /nl/events.
 html_handling = "auto-trailing-slash"
 not_found_handling = "404-page"
 
 [observability]
 enabled = true
 
-# The zone is confirmed in this account: twente.dev delegates to
-# lynn/nadia.ns.cloudflare.com, so the placeholder that used to stand here
-# ("kept out of source until the zone is verified") is obsolete.
-#
-# Run 6's deploy log proved the token can already upload the worker ("Uploaded
-# twente-dev", then "No targets deployed for twente-dev"), so Workers Scripts rights
-# are fine. The one unproven permission is zone-level **Workers Routes: Edit**, which
-# creating the route above needs. If a deploy fails on the route step, that is the
-# permission to widen — not Workers Scripts, and not DNS, since a route touches no
-# DNS record.
-#
-# www is deliberately NOT routed: serving both hostnames would duplicate every
-# canonical URL. It has the same dead proxied record and wants a 301 to the apex.

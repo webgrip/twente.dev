@@ -1,9 +1,3 @@
-// Export the social-banner masters from docs/brand/templates/banners.html.
-// Each element with [data-export] is screenshotted at its native pixel size
-// (the .art blocks are laid out at @2x) into public/brand/social/<name>.png.
-//
-// Usage: node scripts/export-banners.mjs
-// Needs: the repo's playwright-core + a cached Chromium (the axe test setup).
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import { chromium } from 'playwright-core';

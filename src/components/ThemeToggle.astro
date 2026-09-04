@@ -10,9 +10,6 @@ const { locale } = Astro.props;
 const t = useTranslations(locale);
 ---
 
-<!-- hidden until the script un-hides it: without JS the toggle does nothing
-     (the OS theme still applies), so a dead focusable control is worse than
-     no control. -->
 <button
   type="button"
   class="theme-toggle"
@@ -36,8 +33,6 @@ const t = useTranslations(locale);
 </button>
 
 <style>
-  /* The author display beats the UA's [hidden] { display: none } — without
-     this rule the no-JS hiding above would silently not hide anything. */
   .theme-toggle[hidden] {
     display: none;
   }
@@ -46,7 +41,6 @@ const t = useTranslations(locale);
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    /* 36px hit target — comfortably above the 24px SC 2.5.8 (AA) minimum. */
     min-width: 2.25rem;
     min-height: 2.25rem;
     padding: 0;
@@ -63,7 +57,6 @@ const t = useTranslations(locale);
     background: var(--bg-subtle);
   }
 
-  /* Show the icon for the theme you would switch *to*. */
   .icon-moon {
     display: none;
   }
@@ -88,10 +81,8 @@ const t = useTranslations(locale);
 </style>
 
 <script>
-  // Progressive enhancement: without JS the site still respects the OS theme,
-  // it just cannot be overridden. The pre-paint script that avoids the flash
-  // of wrong theme lives inline in BaseLayout, before any content renders.
   const STORAGE_KEY = 'twente-dev-theme';
+  const ignoreStorageDenied = (): void => {};
 
   function currentTheme(): 'light' | 'dark' {
     const explicit = document.documentElement.dataset.theme;
@@ -99,12 +90,6 @@ const t = useTranslations(locale);
     return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   }
 
-  /**
-   * The icon swap is aria-hidden, so without this a screen-reader user hears
-   * only "Thema wisselen, knop" — no current state, no effect of pressing
-   * (SC 4.1.2). aria-pressed carries the state ("dark mode on"); the label
-   * says what pressing will do.
-   */
   function syncState(button: HTMLButtonElement): void {
     const dark = currentTheme() === 'dark';
     button.setAttribute('aria-pressed', String(dark));
@@ -113,7 +98,7 @@ const t = useTranslations(locale);
   }
 
   document.querySelectorAll<HTMLButtonElement>('[data-theme-toggle]').forEach((button) => {
-    button.hidden = false; // JS is running: the toggle is a live control
+    button.hidden = false;
     syncState(button);
     button.addEventListener('click', () => {
       const next = currentTheme() === 'dark' ? 'light' : 'dark';
@@ -121,7 +106,7 @@ const t = useTranslations(locale);
       try {
         localStorage.setItem(STORAGE_KEY, next);
       } catch {
-        // Private mode / storage disabled: the toggle still works for this page.
+        ignoreStorageDenied();
       }
       syncState(button);
     });

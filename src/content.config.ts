@@ -1,7 +1,5 @@
 import { defineCollection, reference } from 'astro:content';
 import { file, glob } from 'astro/loaders';
-// Imported directly rather than via the deprecated `astro:content` re-export.
-// Pinned to the same zod major Astro itself uses.
 import { z } from 'zod';
 
 import { LOCALES } from './i18n/config.ts';
@@ -9,38 +7,11 @@ import { ROUTES } from './i18n/routes.ts';
 
 const ROUTE_KEYS = Object.keys(ROUTES) as [keyof typeof ROUTES, ...(keyof typeof ROUTES)[]];
 
-/**
- * Content collections — the contribution contract.
- *
- * Every community submission (an event, a company) lands here as a versioned
- * file and is validated at build time. A malformed contribution fails CI
- * before a human reviews it, which is what makes it safe to accept pull
- * requests from people we have never met (plan ADR-0005).
- *
- * Two shapes are used deliberately:
- *
- *  - **Locale-owned documents** (`posts`): an article is *written* in one
- *    language. Translations are sibling files linked by `translationKey`.
- *  - **Translatable fields** (`events`, `companies`, `communities`): an event
- *    is one event, not two — only its prose is bilingual.
- *
- * `communities` additionally carries a publication gate: an entry renders only
- * once consent is recorded on it. See the `consent` field.
- */
-
-/** A value that must exist in every locale. Adding a locale changes this shape. */
 const i18nString = z.object({
   nl: z.string().min(1),
   en: z.string().min(1),
 });
 
-/**
- * Marks an entry as invented demo content. Rendered with a visible
- * "Voorbeelddata / Example data" tag, and `pnpm validate:content` fails when
- * one is present with FIXTURES_ALLOWED unset — so fixtures physically cannot
- * reach production. A source comment can't enforce "delete before launch";
- * this field can.
- */
 const fixture = z.boolean().default(false);
 
 const TWENTE_CITIES = [
@@ -72,10 +43,6 @@ const socials = z
   })
   .optional();
 
-/* -------------------------------------------------------------------------- */
-/* posts                                                                      */
-/* -------------------------------------------------------------------------- */
-
 const posts = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/posts' }),
   schema: ({ image }) =>
@@ -83,12 +50,6 @@ const posts = defineCollection({
       title: z.string().min(1).max(120),
       description: z.string().min(1).max(300),
       locale: z.enum(LOCALES),
-      /**
-       * Shared key linking translations of the same article. Two files with
-       * the same `translationKey` are the NL and EN versions of one post; a
-       * post with no sibling renders an honest "only available in <other
-       * language>" notice rather than a machine translation.
-       */
       translationKey: z.string().min(1),
       publishedAt: z.coerce.date(),
       updatedAt: z.coerce.date().optional(),
@@ -97,12 +58,6 @@ const posts = defineCollection({
         url: z.url().optional(),
       }),
       tags: z.array(z.string().min(1)).default([]),
-      /**
-       * Editorial pillar per the launch playbook: Field Notes (one concrete
-       * lesson from a local system), People Who Build (five-question
-       * practitioner profiles), Open Calls, and Week in Twente Tech.
-       * Optional — general articles carry no pillar.
-       */
       pillar: z
         .enum(['field-notes', 'people-who-build', 'open-calls', 'week-in-twente-tech'])
         .optional(),
@@ -112,27 +67,15 @@ const posts = defineCollection({
     }),
 });
 
-/* -------------------------------------------------------------------------- */
-/* events                                                                     */
-/* -------------------------------------------------------------------------- */
-
 const events = defineCollection({
   loader: glob({ pattern: '**/*.yml', base: './src/content/events' }),
   schema: z
     .object({
       title: i18nString,
       description: i18nString,
-      /** Timezone-aware start. Always written with an explicit offset. */
       start: z.coerce.date(),
       end: z.coerce.date().optional(),
       venue: z.object({
-        /**
-         * Optional so "venue not yet known" is representable. Templates
-         * render the localized "Locatie volgt" / "Venue to be announced"
-         * string when absent — never store an English sentinel here, it
-         * bypasses translation. Keep names to proper nouns (no descriptive
-         * words like "kantoor"), since this field cannot be localized.
-         */
         name: z.string().min(1).optional(),
         city: z.enum(TWENTE_CITIES).or(z.string().min(1)),
         address: z.string().optional(),
@@ -144,33 +87,12 @@ const events = defineCollection({
         company: reference('companies').optional(),
       }),
       url: z.url(),
-      /** `0` renders as "free", which is a meaningful filter for students. */
       costEur: z.number().min(0).default(0),
-      /** Spoken language at the event — the practical question for expats. */
       language: z.enum(['nl', 'en', 'both']),
       tags: z.array(z.string().min(1)).default([]),
       cancelled: z.boolean().default(false),
-      /**
-       * When the entry was last edited (time change, venue confirmation,
-       * cancellation). Drives SEQUENCE and LAST-MODIFIED in the ICS feed —
-       * without a bump, Outlook won't propagate the edit to subscribers.
-       * Bump it whenever a fact changes.
-       */
       updatedAt: z.coerce.date().optional(),
-      /**
-       * Who runs this event, and how we credit it. Partner events are
-       * "listed" — they keep their identity and their own registration, and
-       * we always link to the source (the playbook's non-displacement
-       * commitment: never rebrand another community's event as our own).
-       * `own` is reserved for twente.dev flagship editions.
-       */
       attribution: z.enum(['own', 'listed', 'collaboration']).default('listed'),
-      /**
-       * Route key of a bespoke page that is this event's canonical home
-       * (e.g. `edition001` → `/nl/001`, `/en/001`). When set, no generated
-       * detail page exists for the entry and every card links there instead —
-       * one canonical listing, synchronised everywhere.
-       */
       canonicalRoute: z.enum(ROUTE_KEYS).optional(),
       fixture,
     })
@@ -179,10 +101,6 @@ const events = defineCollection({
       path: ['end'],
     }),
 });
-
-/* -------------------------------------------------------------------------- */
-/* companies                                                                  */
-/* -------------------------------------------------------------------------- */
 
 const companies = defineCollection({
   loader: glob({ pattern: '**/*.yml', base: './src/content/companies' }),
@@ -196,20 +114,11 @@ const companies = defineCollection({
       locations: z.array(z.enum(TWENTE_CITIES).or(z.string().min(1))).min(1),
       stack: z.array(z.string().min(1)).default([]),
       hiring: z.boolean().default(false),
-      /**
-       * Present from day one even though everything is `community` today.
-       * A sponsorship tier is a Phase 5 question, but retrofitting the field
-       * later would mean touching every entry.
-       */
       tier: z.enum(['community', 'partner']).default('community'),
       socials,
       fixture,
     }),
 });
-
-/* -------------------------------------------------------------------------- */
-/* communities                                                                */
-/* -------------------------------------------------------------------------- */
 
 const communities = defineCollection({
   loader: file('./src/content/communities.yml'),
@@ -221,24 +130,9 @@ const communities = defineCollection({
     platform: z.enum(['discord', 'slack', 'matrix', 'telegram', 'meetup', 'forum', 'other']),
     language: z.enum(['nl', 'en', 'both']),
     focus: z.array(z.string().min(1)).default([]),
-    /**
-     * Recorded consent to be listed, and the one thing that publishes an entry.
-     *
-     * The partner compact says it verbatim on a public page: *"We zetten je er
-     * niet op zonder te vragen."* A group being real, public and verified is
-     * therefore still not a publishable entry — someone has to have said yes.
-     * `getCommunities()` filters on this, so research can land in the file
-     * (and be reviewed, and be ready) long before the directory may show it.
-     *
-     * Defaulting to `false` is the load-bearing part: a new entry added by
-     * anyone, through any route, is invisible until consent is written down.
-     * `evidence` and `at` are required alongside `granted` so the claim can be
-     * checked later by someone who was not in the conversation.
-     */
     consent: z
       .object({
         granted: z.boolean().default(false),
-        /** Who said yes, where — "reply from <name>, board@…" or "our own channel". */
         evidence: z.string().min(1).optional(),
         at: z.coerce.date().optional(),
       })

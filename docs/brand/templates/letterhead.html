@@ -3,21 +3,6 @@
   <head>
     <meta charset="utf-8" />
     <title>twente.dev — letterhead</title>
-    <!--
-  twente.dev letterhead (A4) — a file, not an app.
-
-  HOW TO USE
-  1. Copy this file (letter-2026-xx-venue.html, ...).
-  2. Type directly in the browser: the address block, date, subject and body
-     are contenteditable — click and write.
-  3. Ctrl+P → save as PDF → margins: none → background graphics: ON.
-     One A4 page; a second page follows automatically if the text runs long
-     (follow-on pages keep the footer only, as proper letterhead does).
-
-  Sender identity comes from one place: edit the address in the footer once
-  per copy. Dutch letters: switch <html lang="en"> to lang="nl" so
-  spell-checking follows. Fonts fall back to the system stack offline.
--->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -107,7 +92,6 @@
         letter-spacing: 0.08em;
         color: var(--muted);
       }
-      /* twente.dev is never uppercased — brand-carrying lines stay lowercase. */
       .label.lc {
         text-transform: lowercase;
       }
@@ -191,8 +175,6 @@
       </header>
 
       <div class="meta">
-        <!-- Lines break with <br />, not literal newlines — Prettier collapses
-             those and pre-line would silently become one line. -->
         <div class="address" contenteditable="true">
           Recipient name<br />Organisation<br />Street 1<br />7500 AA Enschede
         </div>

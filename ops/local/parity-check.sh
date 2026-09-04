@@ -1,14 +1,4 @@
 #!/usr/bin/env bash
-#
-# Asserts that the nginx container serves the site the way Cloudflare Workers
-# Static Assets will.
-#
-# The container is only useful if that claim is true, and it is easy to break
-# by accident — an `add_header` in the wrong block silently drops every
-# security header, and a try_files fallback turns the 404 page into a soft 404.
-# So the claim is a test, not a comment.
-#
-# Usage: ./ops/local/parity-check.sh   (or `just parity`)
 
 set -euo pipefail
 
@@ -16,9 +6,6 @@ COMPOSE="docker compose -f ops/local/docker-compose.yml"
 BASE="${PARITY_BASE_URL:-http://localhost:8080}"
 FAILURES=0
 
-# When PARITY_BASE_URL is set the caller owns the container's lifecycle (CI
-# starts it with plain `docker run`, since compose may not be present on the
-# runner). Otherwise this script brings it up and tears it down itself.
 if [ -n "${PARITY_BASE_URL:-}" ]; then
   MANAGE_CONTAINER=0
 else
@@ -34,16 +21,12 @@ trap cleanup EXIT
 pass() { printf '  \033[32mok\033[0m   %s\n' "$1"; }
 fail() { printf '  \033[31mFAIL\033[0m %s\n' "$1"; FAILURES=$((FAILURES + 1)); }
 
-# status <path> <expected>
 status() {
   local got
   got="$(curl -s -o /dev/null -w '%{http_code}' "${BASE}$1")"
   [ "$got" = "$2" ] && pass "$1 -> $2" || fail "$1 -> expected $2, got $got"
 }
 
-# redirects <path> <expected-code> <expected-location>
-# Location must be relative: an absolute one leaks the container's own
-# listen address, and Cloudflare redirects relatively.
 redirects() {
   local code loc
   code="$(curl -s -o /dev/null -w '%{http_code}' "${BASE}$1")"
@@ -55,10 +38,6 @@ redirects() {
   fi
 }
 
-# content_type <path> <expected-substring>
-# Worth asserting explicitly: a single stray `types` block in nginx replaces
-# the whole mime map, and every asset silently becomes octet-stream — which
-# makes the browser download the page rather than render it.
 content_type() {
   local got
   got="$(curl -s -o /dev/null -w '%{content_type}' "${BASE}$1")"
@@ -68,7 +47,6 @@ content_type() {
   esac
 }
 
-# header <path> <header> <expected-substring>
 header() {
   local got
   got="$(curl -s -o /dev/null -D - "${BASE}$1" | tr -d '\r' | awk -F': ' -v h="$(echo "$2" | tr '[:upper:]' '[:lower:]')" 'tolower($1)==h{print $2}')"
@@ -78,13 +56,6 @@ header() {
   esac
 }
 
-# body_contains <path> <substring>
-#
-# The body is captured before matching rather than piped into `grep -q`.
-# Under `set -o pipefail`, `grep -q` exits on the first match and SIGPIPEs
-# curl, so the pipeline fails *sometimes* depending on how much of the
-# response curl had already written — an intermittent red build with no real
-# cause. Capture first, match second.
 body_contains() {
   local body
   body="$(curl -s "${BASE}$1")"
@@ -117,8 +88,6 @@ fi
 
 echo
 echo "Routing (html_handling = auto-trailing-slash)"
-# `/` is a front-door 302 to /nl (public/_redirects; 302 until edge language
-# negotiation lands, per the note there) and /001 a permanent brand short URL.
 redirects /                     302 /nl
 redirects /001                  301 /nl/001
 status    /nl                   200
@@ -132,7 +101,6 @@ redirects /en/companies.html    301 /en/companies
 
 echo
 echo "Not found (not_found_handling = 404-page)"
-# A 200 here would be a soft 404 — the error page gets indexed.
 status /this/does/not/exist 404
 body_contains /this/does/not/exist "404"
 
@@ -180,14 +148,9 @@ fi
 
 echo
 echo "Caching"
-# Same SIGPIPE reasoning as body_contains: reuse the captured body, and let
-# awk take the first match instead of piping into `head`.
-# Pick a stylesheet specifically — the first /_astro/ reference on the page
-# is a preloaded font, whose type would rightly not be css.
 ASSET="$(printf '%s' "$HOME_HTML" | grep -oE '/_astro/[^"]+\.css' | awk 'NR==1' || true)"
 if [ -n "$ASSET" ]; then
   header "$ASSET" Cache-Control immutable
-  # The inheritance trap: this location sets its own add_header.
   header "$ASSET" X-Content-Type-Options nosniff
   content_type "$ASSET" css
 else

@@ -6,37 +6,12 @@ import { REGISTRATION_OPENS, REGISTRATION_URL } from '../config/site.ts';
 import { postSlug } from './content.ts';
 import type { CompanyEntry, EventEntry, PostEntry } from './content.ts';
 
-/**
- * schema.org JSON-LD.
- *
- * This module is plan lever L2: correct `Event` markup is what puts a
- * *static* site into Google Events. It is the highest-leverage code in the
- * repository per line, and also the easiest to get subtly wrong — Google
- * silently ignores malformed entries rather than reporting an error, so
- * changes here should be checked against the Rich Results Test before
- * merging.
- */
-
 type JsonLd = Record<string, unknown>;
 
 const ORGANISATION_ID = `${SITE_URL}/#organisation`;
 
-/**
- * Shared fallback image for Article/Event rich results — Google effectively
- * gates Article rich results on `image` being present. Per-entry images can
- * override this when the content grows them.
- */
-// Evergreen banner, matching BaseHead's og:image. The old default carried a
-// campaign block reading "twente.dev/001 · 07.10 · ENSCHEDE" in the artwork —
-// wrong town, and dated by design. See BaseHead.astro for the full reasoning.
 const DEFAULT_SCHEMA_IMAGE = '/brand/social/banner-meetup-1200x675@2x.png';
 
-/**
- * `2026-09-10T19:00:00+02:00` — local Europe/Amsterdam time with an explicit
- * offset. Google's Event docs recommend this over UTC `Z` so the surfaced
- * date/time cannot drift, and a date-boundary event (a 00:30 CEST start is
- * the previous day in UTC) still displays on the right day.
- */
 function toAmsterdamIso(date: Date): string {
   const parts = new Intl.DateTimeFormat('en-CA', {
     timeZone: TIMEZONE,
@@ -51,9 +26,7 @@ function toAmsterdamIso(date: Date): string {
   }).formatToParts(date);
 
   const get = (type: string): string => parts.find((p) => p.type === type)?.value ?? '';
-  // "GMT+02:00" → "+02:00"; the zone never resolves to bare "GMT" for NL.
   const offset = get('timeZoneName').replace('GMT', '') || '+00:00';
-  // en-CA hour formatting can yield "24" at midnight; normalise to "00".
   const hour = get('hour') === '24' ? '00' : get('hour');
 
   return `${get('year')}-${get('month')}-${get('day')}T${hour}:${get('minute')}:${get('second')}${offset}`;
@@ -82,30 +55,15 @@ export function websiteSchema(): JsonLd {
     '@id': `${SITE_URL}/#website`,
     url: SITE_URL,
     name: 'twente.dev',
-    // One entity, one definition. Emitting the same @id with a per-page
-    // `inLanguage` would define the entity contradictorily across the corpus.
     inLanguage: ['nl', 'en'],
     publisher: { '@id': ORGANISATION_ID },
   };
 }
 
-/**
- * `Event` — the Google Events contract.
- *
- * `eventStatus` must flip to `EventCancelled` rather than the entry being
- * deleted: subscribers who already added it to their calendar need the update
- * to propagate, which only happens if the event keeps existing.
- */
 export function eventSchema(event: EventEntry, locale: Locale): JsonLd {
   const online = event.data.venue.online;
   const isFlagship = event.data.canonicalRoute === 'edition001';
 
-  /**
-   * Offers honesty: `validFrom` is only meaningful when a real on-sale date
-   * exists — a build timestamp ("on sale since the last rebuild") is noise
-   * that changes nightly. For the flagship that date is REGISTRATION_OPENS;
-   * until its REGISTRATION_URL exists the offer is a PreOrder, not InStock.
-   */
   const offers: JsonLd = {
     '@type': 'Offer',
     price: event.data.costEur,
@@ -137,7 +95,6 @@ export function eventSchema(event: EventEntry, locale: Locale): JsonLd {
       ? { '@type': 'VirtualLocation', url: event.data.url }
       : {
           '@type': 'Place',
-          // Venue may be unannounced; the city still names the Place.
           name: event.data.venue.name ?? event.data.venue.city,
           address: {
             '@type': 'PostalAddress',

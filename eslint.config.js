@@ -22,14 +22,10 @@ export default defineConfig([
     },
   },
   {
-    // Node-side scripts legitimately write to stdout.
     files: ['scripts/**/*.ts', 'scripts/**/*.mjs'],
     rules: { 'no-console': 'off' },
   },
   {
-    // Plain-JS config files and Node-side scripts run in Node. typescript-eslint
-    // already disables `no-undef` for .ts files (the compiler covers it), but not
-    // for these. The glob needs both halves: `*.mjs` matches only the repo root.
     files: ['*.js', '*.mjs', 'scripts/**/*.mjs'],
     languageOptions: {
       globals: {
@@ -42,9 +38,6 @@ export default defineConfig([
     },
   },
   {
-    // The banner exporter passes callbacks to playwright, which serialises them
-    // and runs them inside the page — so `document` is a browser global here,
-    // not a Node one.
     files: ['scripts/export-banners.mjs'],
     languageOptions: { globals: { document: 'readonly' } },
   },

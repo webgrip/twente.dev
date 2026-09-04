@@ -18,11 +18,6 @@ const t = useTranslations(locale);
 
 const [upcoming, past] = await Promise.all([getUpcomingEvents(), getPastEvents()]);
 
-/**
- * The calendar is rendered as the brand's own motif: one thread running down
- * the page, a red dot where each month begins. Grouping happens here so the
- * markup is a plain list of month sections.
- */
 const monthFormatter = new Intl.DateTimeFormat(LOCALE_TAGS[locale], {
   timeZone: TIMEZONE,
   month: 'long',
@@ -46,12 +41,6 @@ function groupByMonth(events: EventEntry[]): { label: string; events: EventEntry
 const upcomingGroups = groupByMonth(upcoming);
 const pastGroups = groupByMonth(past.slice(0, 12));
 
-/**
- * Subscription targets for the one shared feed. `webcal://` makes Apple
- * Calendar and Outlook open a *subscription* (auto-refreshing) instead of a
- * one-off import; Google needs the same URL passed through its add-by-URL
- * route. The plain file stays for everything else.
- */
 const WEBCAL_URL = 'webcal://twente.dev/events.ics';
 const GOOGLE_CALENDAR_URL = `https://calendar.google.com/calendar/r?cid=${encodeURIComponent(WEBCAL_URL)}`;
 ---
@@ -162,7 +151,6 @@ const GOOGLE_CALENDAR_URL = `https://calendar.google.com/calendar/r?cid=${encode
     font-weight: 550;
   }
 
-  /* One thread down the page; a red dot where each month begins. */
   .timeline {
     position: relative;
     padding-inline-start: var(--space-5);

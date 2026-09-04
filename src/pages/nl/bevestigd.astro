@@ -2,18 +2,6 @@
 import ProsePage from '../../templates/ProsePage.astro';
 import { CONTACT_EMAIL } from '../../config/site.ts';
 import { routePath } from '../../i18n/routes.ts';
-
-/**
- * Waar de provider naartoe stuurt na de klik op de bevestigingsknop in de mail.
- *
- * Dit is een tweede, losse redirect in Brevo, naast die van het formulier zelf.
- * Die eerste landt op /bedankt ("er staat een mail voor je klaar"); deze pas na
- * de klik. Zonder deze pagina eindigt de belangrijkste stap van de aanmelding op
- * een generieke pagina van de provider, precies op het moment dat iemand wil
- * weten of het gelukt is.
- *
- * noindex: dit is een bestemming, geen zoekresultaat.
- */
 ---
 
 <ProsePage

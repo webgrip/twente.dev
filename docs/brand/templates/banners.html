@@ -1,21 +1,4 @@
 <!doctype html>
-<!--
-  Social-banner masters — export with: node scripts/export-banners.mjs
-
-  Reusable chassis + per-edition uniqueness:
-  * The chassis is constant: edge bar, lockup, mono facts line, palette.
-  * EDITIE below is the only thing a new edition edits (number, theme, date,
-    city, speakers, seats). The map, statusbord and commitlog re-render from it.
-  * The unique per-edition graphic (the "wisselstuk") lives in its own .art
-    blocks — for /001 that is the statusbord; for /002 pick or build a new
-    plate (parts bin: the Vaandels design documents) and swap the block.
-
-  Geography is computed from real lat/lon (equirectangular around the Twente
-  centroid) — do not move towns by eye. Rings are true 20/40 km distances.
-  Wordmark and mark are outlines from ../wordmark.svg and ../mark.svg —
-  never re-set in a live font; if those files change, re-inject (see
-  scripts/brand-assets.py note) or re-copy.
--->
 <html lang="nl">
   <head>
     <meta charset="utf-8" />
@@ -80,8 +63,6 @@
         width: 1640px;
         height: 924px;
       }
-      /* everything inside draws on a 1500x500 (3:1) or 1200x675 (16:9) design
-     grid, scaled 2x for export */
       .stage {
         position: absolute;
         inset: 0;
@@ -141,10 +122,6 @@
         height: 100%;
         display: block;
       }
-      /* white-space:pre — the commitlog's line breaks live in the markup, so
-         those .term blocks carry <!-- prettier-ignore -->: prettier reflows
-         HTML by the element's DEFAULT display, not this rule, and rewraps the
-         log into one paragraph. */
       .term {
         position: absolute;
         font-family: var(--mono);
@@ -257,7 +234,6 @@
       </defs>
     </svg>
 
-    <!-- ===== omloopkaart · nacht · nl · 3:1 ===== -->
     <div class="art nacht a31" data-export="banner-omloop-nacht-nl-1500x500@2x">
       <div class="stage">
         <span class="edge"></span>
@@ -275,7 +251,6 @@
       </div>
     </div>
 
-    <!-- ===== omloopkaart · nacht · en · 3:1 ===== -->
     <div class="art nacht a31" data-export="banner-omloop-nacht-en-1500x500@2x">
       <div class="stage">
         <span class="edge"></span>
@@ -293,7 +268,6 @@
       </div>
     </div>
 
-    <!-- ===== omloopkaart · dag · nl · 3:1 ===== -->
     <div class="art a31" data-export="banner-omloop-dag-nl-1500x500@2x">
       <div class="stage">
         <span class="edge"></span>
@@ -311,7 +285,6 @@
       </div>
     </div>
 
-    <!-- ===== omloopkaart · dag · en · 3:1 ===== -->
     <div class="art a31" data-export="banner-omloop-dag-en-1500x500@2x">
       <div class="stage">
         <span class="edge"></span>
@@ -329,7 +302,6 @@
       </div>
     </div>
 
-    <!-- ===== omloopkaart · nacht · nl · 16:9 ===== -->
     <div class="art nacht a169" data-export="banner-omloop-nacht-nl-1200x675@2x">
       <div class="stage" style="width: 1200px; height: 675px">
         <span class="edge"></span>
@@ -347,7 +319,6 @@
       </div>
     </div>
 
-    <!-- ===== omloopkaart · dag · nl · 16:9 ===== -->
     <div class="art a169" data-export="banner-omloop-dag-nl-1200x675@2x">
       <div class="stage" style="width: 1200px; height: 675px">
         <span class="edge"></span>
@@ -365,7 +336,6 @@
       </div>
     </div>
 
-    <!-- ===== commitlog · generiek · 3:1 ===== -->
     <div class="art nacht a31" data-export="banner-commitlog-1500x500@2x">
       <div class="stage">
         <span class="edge"></span>
@@ -385,7 +355,6 @@
       </div>
     </div>
 
-    <!-- ===== commitlog · generiek · 16:9 ===== -->
     <div class="art nacht a169" data-export="banner-commitlog-1200x675@2x">
       <div class="stage" style="width: 1200px; height: 675px">
         <span class="edge"></span>
@@ -405,7 +374,6 @@
       </div>
     </div>
 
-    <!-- ===== statusbord · editie-announce · 3:1 ===== -->
     <div class="art nacht a31" data-export="banner-EDITIENR-statusbord-1500x500@2x">
       <div class="stage">
         <span class="edge"></span>
@@ -421,7 +389,6 @@
       </div>
     </div>
 
-    <!-- ===== statusbord · editie-announce · 16:9 ===== -->
     <div class="art nacht a169" data-export="banner-EDITIENR-statusbord-1200x675@2x">
       <div class="stage" style="width: 1200px; height: 675px">
         <span class="edge"></span>
@@ -437,7 +404,6 @@
       </div>
     </div>
 
-    <!-- ===== omloopkaart · nacht · nl · linkedin 4:1 ===== -->
     <div class="art nacht a41" data-export="banner-omloop-nacht-nl-1584x396@2x">
       <div class="stage" style="width: 1584px; height: 396px">
         <span class="edge"></span>
@@ -457,7 +423,6 @@
       </div>
     </div>
 
-    <!-- ===== omloopkaart · dag · nl · linkedin 4:1 ===== -->
     <div class="art a41" data-export="banner-omloop-dag-nl-1584x396@2x">
       <div class="stage" style="width: 1584px; height: 396px">
         <span class="edge"></span>
@@ -477,7 +442,6 @@
       </div>
     </div>
 
-    <!-- ===== statusbord · editie-announce · linkedin 4:1 ===== -->
     <div class="art nacht a41" data-export="banner-EDITIENR-statusbord-1584x396@2x">
       <div class="stage" style="width: 1584px; height: 396px">
         <span class="edge"></span>
@@ -488,7 +452,6 @@
       </div>
     </div>
 
-    <!-- ===== omloopkaart · dag · nl · facebook 820x462 ===== -->
     <div class="art afb" data-export="banner-omloop-dag-nl-820x462@2x">
       <div class="stage" style="width: 820px; height: 462px">
         <span class="edge"></span>
@@ -506,7 +469,6 @@
       </div>
     </div>
 
-    <!-- ===== vertrekbord · linkedin-bedrijfspagina 5.9:1 · licht ===== -->
     <div class="art a59" data-export="banner-vertrekbord-1128x191@2x">
       <div class="stage" style="width: 1128px; height: 191px">
         <span class="edge" style="width: 10px"></span>
@@ -535,7 +497,6 @@
       </div>
     </div>
 
-    <!-- ===== vertrekbord · linkedin-bedrijfspagina 5.9:1 · nacht ===== -->
     <div class="art nacht a59" data-export="banner-vertrekbord-nacht-1128x191@2x">
       <div class="stage" style="width: 1128px; height: 191px">
         <span class="edge" style="width: 10px"></span>
@@ -565,9 +526,6 @@
     </div>
 
     <script>
-      /* ============================================================
-   EDITIE — the only block a new edition edits.
-   ============================================================ */
       const EDITIE = {
         nr: '001',
         thema: 'reconnect',
@@ -577,13 +535,11 @@
         tijd: '18:00',
         seats: 40,
         sprekers: ['[ spreker één ]', '[ spreker twee ]'],
-        // de knoop op de kaart: label + echte coördinaten van de editie-stad
         knotLabelNL: 'RIJSSEN',
         knotLat: 52.3078,
         knotLon: 6.517,
       };
 
-      /* ---- statusbord (event announce) ---- */
       const statusLines = `$ systemctl status editie@${EDITIE.nr}
 <b><i>●</i> twente.dev/${EDITIE.nr} — ${EDITIE.thema}</b>
    Active: <b>scheduled</b> — ${EDITIE.datumNL}, ${EDITIE.tijd} CEST · ${EDITIE.venue}, ${EDITIE.stad}
@@ -604,16 +560,9 @@
         el.textContent = `/${EDITIE.nr} — ${kortedatum} · ${EDITIE.stad.toUpperCase()} · REGISTRATIE OPEN`;
       });
 
-      /* ============================================================
-   Omloopkaart — real geography. Towns are lat/lon; rings are
-   true 20/40 km circles around the Twente centroid. Label
-   offsets (dx,dy in px) exist purely to avoid collisions —
-   the DOTS never move.
-   ============================================================ */
       const CENTER = { lat: 52.269, lon: 6.721 };
       const KM_LAT = 110.57,
         KM_LON = 111.32 * Math.cos((CENTER.lat * Math.PI) / 180);
-      // name, lat, lon, tier (t=twente, n=noaber), label dx, dy, anchor
       const TOWNS = [
         ['ENSCHEDE', 52.2215, 6.8937, 't', 16, 6, 'start'],
         ['HENGELO', 52.2659, 6.793, 't', 14, -10, 'start'],
@@ -627,7 +576,6 @@
         ['HARDENBERG', 52.5758, 6.6194, 'n', 14, 6, 'start'],
         ['WINTERSWIJK', 51.9725, 6.7197, 'n', -10, 26, 'end'],
       ];
-      // het web: draden tussen de twentse kernen (posities blijven geografisch)
       const EDGES = [
         ['RIJSSEN', 'GOOR'],
         ['RIJSSEN', 'ALMELO'],
@@ -641,7 +589,6 @@
         ['ENSCHEDE', 'OLDENZAAL'],
         ['ENSCHEDE', 'HAAKSBERGEN'],
       ];
-      // gestippelde noaberdraden naar de buren, elk naar de dichtstbijzijnde kern
       const NOABER_THREADS = [
         ['DEVENTER', 'RIJSSEN'],
         ['ZWOLLE', 'ALMELO'],
@@ -651,7 +598,7 @@
       const KNOT = { lat: EDITIE.knotLat, lon: EDITIE.knotLon };
       function drawMap(el) {
         const p = JSON.parse(el.dataset.map);
-        const km = p.scale; // px per km
+        const km = p.scale;
         const P = (lat, lon) => [
           p.cx + (lon - CENTER.lon) * KM_LON * km,
           p.cy + (CENTER.lat - lat) * KM_LAT * km,
@@ -678,13 +625,12 @@
               red: '#C3291B',
             };
         const skip = p.skip || [];
-        const ft = Math.max(10, Math.round(2.2 * km)); // twentse labels
-        const fn = Math.max(8, Math.round(1.7 * km)); // noaber-labels
+        const ft = Math.max(10, Math.round(2.2 * km));
+        const fn = Math.max(8, Math.round(1.7 * km));
         const pos = { RIJSSEN: P(KNOT.lat, KNOT.lon) };
         for (const t of TOWNS) pos[t[0]] = P(t[1], t[2]);
         const [kx, ky] = pos.RIJSSEN;
         let s = `<svg viewBox="0 0 ${p.w} ${p.h}" font-family="IBM Plex Mono,monospace">`;
-        // the web first, dots and labels on top
         for (const [x1, x2] of EDGES) {
           const [ax, ay] = pos[x1],
             [bx, by] = pos[x2];
@@ -697,7 +643,6 @@
           s += `<line x1="${ax.toFixed(1)}" y1="${ay.toFixed(1)}" x2="${bx.toFixed(1)}" y2="${by.toFixed(1)}"
           stroke="${c.ring}" stroke-width="${Math.max(1.1, 0.25 * km).toFixed(1)}" stroke-dasharray="3 8"/>`;
         }
-        // towns
         for (const [name, lat, lon, tier, ldx, ldy, anchor] of TOWNS) {
           if (skip.includes(name)) continue;
           const [x, y] = P(lat, lon);
@@ -710,7 +655,6 @@
           s += `<text x="${(x + ldx).toFixed(1)}" y="${(y + ldy).toFixed(1)}" font-size="${fs}" letter-spacing="1.5"
           fill="${lfill}" text-anchor="${anchor}">${name}</text>`;
         }
-        // the knot: current edition
         const rk = 1.7 * km;
         s += `<circle cx="${kx.toFixed(1)}" cy="${ky.toFixed(1)}" r="${rk.toFixed(1)}" fill="${c.red}"/>`;
         s += `<text x="${(kx - rk - 6).toFixed(1)}" y="${(ky - 2.8 * km).toFixed(1)}" font-size="${Math.round(2.3 * km)}" font-weight="600"

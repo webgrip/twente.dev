@@ -1,32 +1,3 @@
-/**
- * Derive the nginx preview-container config from the Cloudflare deploy contract,
- * so the two can no longer drift apart by hand.
- *
- * Why this exists: ops/docker/web mirrored public/_redirects and public/_headers
- * manually, guarded only by "Change one, change both" comments — a contract that
- * held exactly until someone forgot (three near-misses in the 2026-09-03 parity
- * round alone). The parity container is only useful if its behaviour matches
- * Cloudflare's, and behaviour that must match should be derived, not copied.
- *
- * What it does:
- *   1. GENERATES ops/docker/web/security-headers.conf entirely from the `/*`
- *      block of public/_headers.
- *   2. GENERATES the redirect `location` blocks in nginx.conf from
- *      public/_redirects.
- *   3. GENERATES the cache-tier `location` blocks in nginx.conf from every
- *      Cache-Control rule in public/_headers. Both artifacts extend the same
- *      source; there is nothing left to compare. nginx's longest-prefix rule
- *      makes /pagefind/index/ beat /pagefind/ without regexes, and the one
- *      format-specific extra (.ics needs default_type text/calendar or no
- *      client will subscribe) is knowledge the generator owns.
- *
- * Only the marked regions of nginx.conf are spliced; the rest (clean-URL
- * canonicalisation, the HTML fallback, the 404 contract) stays hand-written.
- *
- * Modes: `pnpm gen:ops` rewrites the derived files; `pnpm gen:ops --check`
- * fails (exit 1) if the files on disk differ from what would be generated —
- * that is the CI guard in the container-parity job and `just parity`.
- */
 import { readFileSync, writeFileSync } from 'node:fs';
 
 const HEADERS_FILE = 'public/_headers';
@@ -46,7 +17,6 @@ interface HeaderBlock {
   headers: Array<{ name: string; value: string }>;
 }
 
-/** Parse Cloudflare's _headers format: a path line, then indented `Name: value` lines. */
 function parseHeaders(text: string): HeaderBlock[] {
   const blocks: HeaderBlock[] = [];
   for (const rawLine of text.split('\n')) {
@@ -67,7 +37,6 @@ function parseHeaders(text: string): HeaderBlock[] {
   return blocks;
 }
 
-/** Parse Cloudflare's _redirects format: `source target status` per rule line. */
 function parseRedirects(text: string): Array<{ source: string; target: string; status: string }> {
   const rules: Array<{ source: string; target: string; status: string }> = [];
   for (const rawLine of text.split('\n')) {
@@ -125,16 +94,11 @@ function generateCacheRegion(blocks: HeaderBlock[]): string {
     if (block.path === '/*') continue;
     const cc = block.headers.find((h) => h.name.toLowerCase() === 'cache-control');
     if (!cc) continue;
-    // `/x/*` becomes a prefix location; an exact path an exact one. nginx's
-    // longest-prefix rule orders overlapping tiers (/pagefind/index/ beats
-    // /pagefind/) with no regexes needed.
     const selector = block.path.endsWith('*')
       ? `location ${block.path.slice(0, -1)}`
       : `location = ${block.path}`;
     const body = ['        include /etc/nginx/conf.d/security-headers.conf;'];
     if (block.path.endsWith('.ics')) {
-      // .ics is absent from nginx's mime.types; a calendar served as
-      // application/octet-stream will not subscribe in any client.
       body.push('        default_type text/calendar;');
     }
     body.push(`        add_header Cache-Control "${cc.value}" always;`);

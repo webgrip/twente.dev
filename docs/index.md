@@ -34,8 +34,8 @@ from there.
 ## Two conventions that bite
 
 **Everything under `docs/` publishes.** This repo puts `mkdocs.yml` at the root with
-`docs_dir: docs`, rather than the estate's usual `docs/techdocs/` layout — see the comment
-at the top of `mkdocs.yml` for why. The consequence is that there is no "unpublished"
+`docs_dir: docs`, rather than the estate's usual `docs/techdocs/` layout. The consequence
+is that there is no "unpublished"
 corner of `docs/`. Anything that must not be public — outreach contact data in particular —
 belongs in `media/`, which is gitignored.
 

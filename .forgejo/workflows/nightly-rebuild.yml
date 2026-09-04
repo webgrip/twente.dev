@@ -1,16 +1,5 @@
 name: "[Scheduled] Nightly Rebuild"
 
-# Plan lever L9.
-#
-# The site has no backend, so "this meetup already happened" only becomes true
-# when the site is rebuilt. The time-based selectors in src/lib/content.ts filter
-# on the current time, and this nightly run is what re-evaluates them — it is the
-# entire expiry mechanism, and nothing deletes files.
-#
-# 04:00 Europe/Amsterdam. Cron on the runner is UTC, so 02:00 UTC ≈ 04:00 CEST
-# (03:00 CET in winter) — close enough for a hygiene job, and the org standard
-# timezone is Europe/Amsterdam (see the shared Renovate preset).
-
 on:
   schedule:
     - cron: "0 2 * * *"
@@ -49,6 +38,4 @@ jobs:
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-        # `pnpm exec`, not `pnpm dlx` — dlx never sees pnpm-workspace.yaml's
-        # allowBuilds and hangs on pnpm's interactive build-scripts prompt.
         run: pnpm exec wrangler deploy

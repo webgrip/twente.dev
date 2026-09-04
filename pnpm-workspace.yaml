@@ -1,14 +1,7 @@
-# Build scripts are denied by default (pnpm supply-chain guard). Only the two
-# packages the toolchain genuinely cannot run without are allowed:
-#   esbuild  — required by Astro/Vite to build the site at all
-#   workerd  — required by wrangler for local Cloudflare Workers emulation
 allowBuilds:
   esbuild: true
   workerd: true
 
-# pnpm holds new releases for a cooldown period before they become installable.
-# These were pinned deliberately at scaffold time (2026-08-03) and bypass it.
-# Renovate manages upgrades from here on — see renovate.json.
 minimumReleaseAgeExclude:
   - "@typescript-eslint/eslint-plugin@8.66.0"
   - "@typescript-eslint/parser@8.66.0"
@@ -22,17 +15,7 @@ minimumReleaseAgeExclude:
   - "@typescript-eslint/visitor-keys@8.66.0"
   - typescript-eslint@8.66.0
 
-# Security floors for transitive deps flagged by `pnpm audit --audit-level high`
-# (the CI gate in the shared static-analysis workflow):
-#   nanoid  <3.3.17 — GHSA-2v37-7h3g-55p8 (via postcss, which allows ^3.3.16)
-#   undici  <7.29.0 — GHSA-4cwx-7wf7-3272 (via wrangler > miniflare)
-# Drop each override once the parent packages require the patched version.
-# Both ranges are capped INSIDE the parent's major on purpose: the previous
-# uncapped ">=" floors resolved nanoid to 6.x inside postcss and (on
-# webgrip.nl) undici to 8.x inside miniflare — semver-major jumps the parent
-# packages never tested.
 overrides:
   "nanoid@<3.3.17": "^3.3.17"
   "undici@<7.29.0": "^7.29.0"
-  # fast-uri <3.1.6 — GHSA-jqff-g426-hqxp (via @astrojs/check > yaml-language-server > ajv)
   "fast-uri@<3.1.6": ">=3.1.6"

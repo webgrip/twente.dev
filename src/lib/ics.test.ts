@@ -19,7 +19,6 @@ describe('escapeIcsText', () => {
   });
 
   test('escapes backslashes before they can be reintroduced', () => {
-    // A naive implementation that escapes commas first would yield `a\\,b`.
     assert.equal(escapeIcsText('a\\b,c'), 'a\\\\b\\,c');
   });
 });
@@ -40,7 +39,6 @@ describe('foldLine', () => {
   });
 
   test('never splits a multi-byte codepoint', () => {
-    // 'é' is two octets; a naive character-based fold corrupts it near the limit.
     const folded = foldLine(`SUMMARY:${'é'.repeat(80)}`);
     const rejoined = folded.split('\r\n ').join('');
     assert.equal(rejoined, `SUMMARY:${'é'.repeat(80)}`);

@@ -1,22 +1,10 @@
 set shell := ["bash", "-euo", "pipefail", "-c"]
 
-# `just` is the only task runner in this repo. The toolchain it expects (node,
-# just itself) is pinned in mise.toml, so recipes never install tools:
-#
-#     mise install && just setup
-#
-# Recipes that shell out to docker or pnpm guard on the binary first via
-# `_need` — a recipe that fails with "command not found" three steps in is a
-# worse error message than one that says which tool is missing and why.
-
 compose := "docker compose -f ops/local/docker-compose.yml"
 
 default:
     @just --list --unsorted
 
-# --- guards -----------------------------------------------------------------
-
-# Fail unless every named binary is on PATH.
 [private]
 _need +bins:
     #!/usr/bin/env bash
@@ -32,126 +20,93 @@ _need +bins:
         exit 1
     fi
 
-# --- setup ------------------------------------------------------------------
-
-# One-time provisioning after `mise install`
 [group('setup')]
 setup:
     @just _need node
     corepack enable
     pnpm install --frozen-lockfile
 
-# --- local development ------------------------------------------------------
-
-# Dev server with hot reload (http://localhost:4321)
 [group('dev')]
 dev:
     @just _need pnpm
     pnpm dev
 
-# Dev server in a container — no local Node needed (http://localhost:4321)
 [group('dev')]
 dev-docker:
     @just _need docker
     {{ compose }} up dev
 
-# Build and serve the production image (http://localhost:8080)
 [group('dev')]
 preview:
     @just _need docker
     {{ compose }} up --build preview
 
-# Stop containers
 [group('dev')]
 down:
     @just _need docker
     {{ compose }} down
 
-# Stop containers and drop the named volumes
 [group('dev')]
 clean:
     @just _need docker
     {{ compose }} down --volumes --remove-orphans
 
-# Tail container logs
 [group('dev')]
 logs:
     @just _need docker
     {{ compose }} logs -f
 
-# Shell into the dev container
 [group('dev')]
 shell:
     @just _need docker
     {{ compose }} run --rm --entrypoint sh dev
 
-# --- container --------------------------------------------------------------
-
-# Build the web image
 [group('container')]
 image:
     @just _need docker
     docker build -f ops/docker/web/Dockerfile -t twente-dev-web:local .
 
-# Verify the container serves the site the way Cloudflare will
 [group('container')]
 parity:
     @just _need docker
     pnpm gen:ops --check
     ./ops/local/parity-check.sh
 
-# --- quality gates ----------------------------------------------------------
-# Individually runnable, and `check` runs the same set CI does.
-
-# Check formatting
 [group('check')]
 fmt:
     pnpm format:check
 
-# Lint
 [group('check')]
 lint:
     pnpm lint
 
-# Typecheck — also the i18n completeness gate (see src/i18n/ui.ts)
 [group('check')]
 typecheck:
     pnpm typecheck
 
-# Unit tests for src/lib
 [group('check')]
 test:
     pnpm test
 
-# Cross-entry content checks (references, duplicate slugs, translations)
 [group('check')]
 content:
     pnpm validate:content
 
-# Static build plus the Pagefind index
 [group('check')]
 build:
     pnpm build
 
-# Lighthouse budgets (lighthouserc.json) against a fresh build. Pinned to the
-# major CI runs (npx @lhci/cli@0.15.x in on_source_change.yml) so local and CI
-# use the same scorer.
 [group('check')]
 lhci: build
     pnpm dlx @lhci/cli@0.15.x autorun
 
-# axe-core accessibility gate against a fresh build. Needs a local Chrome —
-# override the path if yours lives elsewhere:
-#   CHROME_PATH="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" just a11y
 [group('check')]
 a11y: build
     CHROME_PATH="${CHROME_PATH:-/Applications/Google Chrome.app/Contents/MacOS/Google Chrome}" pnpm run validate:a11y
 
-# Every gate CI runs
 [group('check')]
 check: fmt lint typecheck test content build
 
-# Auto-fix formatting and lint
 [group('check')]
 fix:
     pnpm format

@@ -8,7 +8,6 @@ import type { PostEntry } from '../lib/content.ts';
 interface Props {
   post: PostEntry;
   locale: Locale;
-  /** Heading level of the card title — h2 on list pages, h3 under a section. */
   headingLevel?: 'h2' | 'h3';
 }
 
@@ -45,7 +44,6 @@ const href = routePath('blog', locale, postSlug(post));
     outline-offset: 2px;
   }
 
-  /* Register comes from the global .label-mono class; only the color is ours. */
   .post-pillar {
     color: var(--fg-subtle);
   }
@@ -61,7 +59,6 @@ const href = routePath('blog', locale, postSlug(post));
   }
 
   .post-title a:hover {
-    /* The text-safe red cut — raw --accent as text fails contrast on ink. */
     color: var(--accent-strong);
     transition: color var(--duration-fast) var(--ease-out);
   }

@@ -14,16 +14,6 @@ import {
   editionName,
 } from '../config/site.ts';
 
-/**
- * /llms.txt — a plain-text brief for AI assistants (pattern from webgrip.nl,
- * parity audit item 21 / VIK-816). Generated from site.ts and the i18n
- * dictionaries so it cannot drift from the claims registry: every fact here
- * is a constant, never a second copy. A constant that is null simply does not
- * appear — the honest pre-launch state, same rule as the components.
- *
- * NL-primary with a short English section that points at /en rather than
- * restating facts: one fact, one place, per the site's own doctrine.
- */
 export const prerender = true;
 
 function ymd(date: Date, locale: string): string {

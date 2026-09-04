@@ -1,17 +1,10 @@
-<!--
-This is the authoritative Architecture Decision Record (ADR) template for the Codex organisation.
-It follows **MADR v3+** conventions (see https://adr.github.io/madr/) and augments them with
-Codex corporate‑tier compliance, security and lifecycle fields.
-Delete all guidance in angle brackets (<>) after filling in.
--->
-
 # \<ADR NN> – \<Concise Title>
 
 - **Status**: \<Proposed │ Accepted │ Rejected │ Deprecated │ Superseded by ADR‑NN>
 - **Deciders**: <Names of people who give formal approval>
 - **Date**: \<YYYY‑MM‑DD>
 - **Tags**: \<Domain::Subdomain, Security, Performance, etc.>
-- **Version**: 1.0.0 <!-- bump on significant edits; keep history in Revision Log -->
+- **Version**: 1.0.0
 
 ---
 

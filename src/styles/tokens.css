@@ -1,44 +1,16 @@
-/**
- * Design tokens — the "shared thread" brand system.
- *
- * Palette per the twente.dev brand pack (Aug 2026): Ink for authority,
- * Signal red for connection and action, Warm paper for openness, Thread
- * grey for structure. The rule that matters: **red marks connections,
- * dates and actions — never decoration**. Links and primary actions are
- * red by design; anything that is merely metadata (labels, indices,
- * companies, counts) stays in the grey ramp so the red keeps its meaning.
- * Light mode lives on warm paper; dark mode lives on ink.
- *
- * Light and dark are both first-class: `prefers-color-scheme` is the default
- * signal, and `[data-theme]` on the root wins over it in both directions so
- * the manual toggle actually works.
- */
-
 :root {
-  /* ---- brand ------------------------------------------------------------ */
   --ink: #111820;
-  /* RGB 195 41 27 — the Twente flag's actual red, adopted 2026-08-11 over
-     the pack's #e44734. A happy side effect: it is 5.2:1 on warm paper, so
-     in light mode the graphic red and the interactive red are one color. */
   --signal-red: #c3291b;
   --warm-paper: #f7f3ea;
   --thread-grey: #d9dfdc;
 
-  /* Derived brand shades (darkened/lightened for states and dark mode).
-     The lightened cut is tuned to ≥4.5:1 on every dark surface *including*
-     --bg-raised (#1c2530) — the pack's #e85c48 was 4.46:1 there, a hair
-     under AA for the red text sitting on raised cards. */
   --signal-red-dark: #a52114;
   --signal-red-light: #ea6250;
 
-  /* ---- type ------------------------------------------------------------- */
-  /* Brand pack prescribes DejaVu in print templates; Inter and IBM Plex
-     Mono are the sanctioned web upgrades (strategy playbook §brand). */
   --font-sans:
     'Inter Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
   --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
 
-  /* Fluid type scale — clamps mean no breakpoint-specific font sizes. */
   --text-xs: clamp(0.75rem, 0.73rem + 0.1vw, 0.8rem);
   --text-sm: clamp(0.875rem, 0.85rem + 0.12vw, 0.925rem);
   --text-base: clamp(1rem, 0.96rem + 0.2vw, 1.075rem);
@@ -46,12 +18,6 @@
   --text-xl: clamp(1.375rem, 1.28rem + 0.45vw, 1.625rem);
   --text-2xl: clamp(1.75rem, 1.55rem + 0.95vw, 2.375rem);
   --text-3xl: clamp(2.25rem, 1.9rem + 1.7vw, 3.5rem);
-  /* Display: the slide system's "readable at room distance" register. One
-     statement per view earns this size; body copy never does. Capped at
-     4.25rem, not the slide system's 6rem: a slide carries three words at
-     arm's length, the hero carries a full sentence on a laptop — at 6rem the
-     homepage statement ran four screaming lines and pushed everything else
-     below the fold. */
   --text-display: clamp(2.25rem, 1.4rem + 4.2vw, 4.25rem);
 
   --leading-tight: 1.15;
@@ -61,16 +27,13 @@
   --tracking-tight: -0.02em;
   --tracking-display: -0.035em;
   --tracking-normal: 0;
-  /* Mono labels track open, uppercase, xs — the "technical texture" register. */
   --tracking-label: 0.08em;
-  /* Non-mono small caps (tags, dt labels) track tighter than mono labels. */
   --tracking-caps: 0.04em;
 
   --weight-medium: 550;
   --weight-semibold: 650;
   --weight-display: 830;
 
-  /* ---- space (4px base) -------------------------------------------------- */
   --space-1: 0.25rem;
   --space-2: 0.5rem;
   --space-3: 0.75rem;
@@ -81,9 +44,6 @@
   --space-8: 4rem;
   --space-9: 6rem;
 
-  /* ---- shape ------------------------------------------------------------- */
-  /* Near-square. The brand is structural — a baseline grid, hairlines and
-     hard edges — not a stack of pillowy cards. */
   --radius-sm: 1px;
   --radius-md: 2px;
   --radius-lg: 3px;
@@ -91,39 +51,21 @@
 
   --border-width: 1px;
 
-  /* ---- thread grid -------------------------------------------------------- */
-  /* The slide system's structural grid, as a background utility (.thread-grid).
-     Line colors are theme-scoped below.
-
-     The module is the *screen*, not a fixed pixel size. A fixed cell divides
-     into the viewport with a remainder, so the last column was always sliced
-     off mid-cell at the right edge; deriving the cell from a whole number of
-     columns puts a line on both screen edges at every width. --grid-columns
-     steps up with the breakpoints below so the cell stays near the pack's
-     5.5rem module (85-110px) instead of stretching with the window. Cells stay
-     square: the row step is the same division. */
   --grid-columns: 4;
   --grid-cell: calc(100vw / var(--grid-columns));
 
-  /* ---- layout ------------------------------------------------------------ */
   --width-prose: 68ch;
   --width-content: 72rem;
   --width-wide: 84rem;
 
-  /* The sticky header's resting height, and the height it compacts to once the
-     page has scrolled (Header.astro). A full-screen hero subtracts the resting
-     one to land exactly on the fold, so the two move together. */
   --header-height: 4.5rem;
   --header-height-compact: 3.5rem;
 
-  /* ---- motion ------------------------------------------------------------ */
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --duration-fast: 120ms;
   --duration-base: 220ms;
 }
 
-/* How many columns the screen divides into. Purely a density decision — the
-   grid always fits its width exactly; this only sets how fine it reads. */
 @media (min-width: 36rem) {
   :root {
     --grid-columns: 6;
@@ -148,7 +90,6 @@
   }
 }
 
-/* ---- light (default): ink on warm paper ---------------------------------- */
 :root,
 :root[data-theme='light'] {
   color-scheme: light;
@@ -160,17 +101,12 @@
 
   --fg: var(--ink);
   --fg-muted: #4a545c;
-  /* ≥4.5:1 on every light surface, including --bg-subtle — this token is
-     used at 12–14px, so the large-text 3:1 allowance never applies. */
   --fg-subtle: #5d666e;
 
   --border: var(--thread-grey);
   --border-strong: #b6bfbb;
 
   --accent: var(--signal-red);
-  /* The Twente red is AA-safe on warm paper (5.2:1), so graphic and
-     interactive red coincide in light mode. The token stays separate
-     because dark mode still needs a lightened cut for text on ink. */
   --accent-strong: var(--signal-red);
   --accent-hover: var(--signal-red-dark);
   --accent-fill-hover: var(--signal-red-dark);
@@ -182,7 +118,6 @@
   --grid-line: rgb(17 24 32 / 0.07);
 }
 
-/* ---- dark: warm paper on ink ---------------------------------------------- */
 @media (prefers-color-scheme: dark) {
   :root {
     color-scheme: dark;
@@ -199,9 +134,6 @@
     --border: #2a343e;
     --border-strong: #3d4954;
 
-    /* Fills keep the true flag red — white on #c3291b is 5.7:1, so buttons,
-       dots, spines and edges stay the real brand color on ink. Only red
-       *text* on ink needs the lightened cut (--accent-strong). */
     --accent: var(--signal-red);
     --accent-strong: var(--signal-red-light);
     --accent-hover: #ef7361;
@@ -215,7 +147,6 @@
   }
 }
 
-/* Explicit toggle must beat the media query in both directions. */
 :root[data-theme='dark'] {
   color-scheme: dark;
 

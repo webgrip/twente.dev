@@ -6,11 +6,6 @@ import type { SlugInput } from '../i18n/utils.ts';
 import { routePath } from '../i18n/routes.ts';
 import type { RouteKey } from '../i18n/routes.ts';
 
-/**
- * Links to the *equivalent* page in the other locale, not to its homepage.
- * Because route segments are localized, that target is resolved through
- * `routePath` rather than by rewriting the current URL.
- */
 interface Props {
   locale: Locale;
   routeKey: RouteKey;
@@ -19,22 +14,11 @@ interface Props {
 
 const { locale, routeKey, slug } = Astro.props;
 
-/**
- * Accessible names are phrased in the *target* language (matching the link's
- * `lang` attribute) — the reader who needs "switch to English" is the one who
- * doesn't read Dutch. A sibling visually-hidden span wouldn't join the link's
- * accessible name; aria-label on the link itself does.
- */
 const SWITCH_LABELS: Record<Locale, string> = {
   nl: 'Overschakelen naar Nederlands',
   en: 'Switch to English',
 };
 
-/**
- * When the current page has no counterpart in the target locale — an article
- * written only in Dutch, say — the switcher falls back to that section's index
- * rather than linking to a URL that was never built.
- */
 const targets = otherLocales(locale).map((target) => {
   const targetSlug = slugFor(slug, target);
   const missing = slug !== undefined && targetSlug === undefined;

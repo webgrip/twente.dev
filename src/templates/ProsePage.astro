@@ -4,13 +4,11 @@ import type { RouteKey } from '../i18n/routes.ts';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHeader from '../components/PageHeader.astro';
 
-/** Shell for hand-written prose pages (about, guidelines, privacy). */
 interface Props {
   locale: Locale;
   routeKey: RouteKey;
   title: string;
   description: string;
-  /** For pages that exist as a destination, not as a search result. */
   noindex?: boolean;
 }
 

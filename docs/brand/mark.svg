@@ -1,9 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-label="twente.dev">
   <title>twente.dev — compact mark</title>
-  <!-- Vector master of the compact mark (ratified 2026-08-30, supersedes the
-       constructed t of 2026-08-11): "t.d" in the wordmark's own IBM Plex Mono
-       Bold outlines on the ink badge, the full stop in flag red. Corner
-       radius is 30/160 of the size — keep the ratio when scaling. -->
   <rect width="160" height="160" rx="30" fill="#111820"/>
   <g fill="#f7f3ea">
     <path d="M37.38 116Q29.45 116 25.58 111.83Q21.71 107.67 21.71 101.22V76.21H7.82V64.8H16.84Q20.12 64.8 21.51 63.51Q22.9 62.22 22.9 58.75V46.74H36.39V64.8H56.34V76.21H36.39V104.59H56.34V116Z"/>

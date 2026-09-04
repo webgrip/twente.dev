@@ -1,35 +1,19 @@
-/**
- * twente.dev — brand tokens, standalone.
- *
- * This file is for things that are NOT the website: templates, embeds,
- * third-party pages that want to reference the brand. The website's tokens
- * live in src/styles/tokens.css and remain authoritative — if the two ever
- * disagree, that file wins and this one is regenerated to match.
- *
- * The one rule that matters: red marks connections, dates and actions —
- * never decoration. Anything that is merely metadata stays in the grey ramp.
- */
-
 :root {
-  /* ---- the four brand colours ---- */
-  --twente-ink: #111820; /* authority — type, dark ground */
-  --twente-red: #c3291b; /* the Twente flag's red — connection, action */
-  --twente-paper: #f7f3ea; /* openness — light ground */
-  --twente-grey: #d9dfdc; /* structure — hairlines, grid; never text */
+  --twente-ink: #111820;
+  --twente-red: #c3291b;
+  --twente-paper: #f7f3ea;
+  --twente-grey: #d9dfdc;
 
-  /* ---- derived cuts ---- */
-  --twente-red-dark: #a52114; /* hover / pressed on light ground */
-  --twente-red-light: #ea6250; /* red TEXT on ink — the flag red itself is 3.1:1 there */
+  --twente-red-dark: #a52114;
+  --twente-red-light: #ea6250;
 
-  /* ---- type ---- */
   --twente-font-sans:
     'Inter', 'Inter Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
   --twente-font-mono:
     'IBM Plex Mono', ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
 
-  /* Registers (mirrors src/styles/tokens.css) */
-  --twente-weight-display: 830; /* display statements, tracking -0.035em, leading 0.98 */
-  --twente-weight-heading: 650; /* headings, tracking -0.02em */
+  --twente-weight-display: 830;
+  --twente-weight-heading: 650;
   --twente-weight-medium: 550;
-  --twente-tracking-label: 0.08em; /* mono labels: uppercase, small, open tracking */
+  --twente-tracking-label: 0.08em;
 }

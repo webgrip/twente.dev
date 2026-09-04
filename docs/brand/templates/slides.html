@@ -4,26 +4,6 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>twente.dev — slide template</title>
-    <!--
-  twente.dev slide deck — a file, not an app.
-
-  HOW TO USE
-  1. Copy this file next to your talk (slides-001-reconnect.html, ...).
-  2. Duplicate the <section class="slide ..."> block you need; delete the rest.
-  3. Present straight from the browser (F11, arrow keys / PgDn navigate), or
-     print to PDF: Ctrl+P → destination PDF → margins: none →
-     background graphics: ON. Pages come out exactly 16:9.
-
-  THE RULES THAT MAKE IT LOOK RIGHT
-  - One statement per view. The display register is earned; if a slide needs
-    two sentences at display size, it is two slides.
-  - Red is a signal: a date, an action, the dot. One red signal per slide.
-    Never colour a heading red because it "needs some colour".
-  - twente.dev is always lowercase, also on the title slide.
-  - Labels are IBM Plex Mono, uppercase, tracked +8% — that is the technical
-    texture; use it for edition numbers, dates, slide indices.
-  Fonts load from Google Fonts and fall back to the system stack offline.
--->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -50,8 +30,6 @@
         background: #0c1218;
       }
 
-      /* Each slide is a 16:9 container; all sizes are in cqi (1% of slide width),
-     so screen and print render identically. */
       .slide {
         container-type: size;
         width: min(100vw, 177.78vh);
@@ -71,7 +49,6 @@
         color: var(--paper);
       }
 
-      /* the thread grid — structural background, light-handed */
       .grid-bg {
         position: absolute;
         inset: 0;
@@ -87,7 +64,6 @@
           linear-gradient(to bottom, rgb(247 243 234 / 0.06) 1px, transparent 1px);
       }
 
-      /* the red edge — section dividers only */
       .edge::before {
         content: '';
         position: absolute;
@@ -110,8 +86,6 @@
       .label .signal {
         color: var(--red);
       }
-      /* Wayfinding lines that carry the brand string stay lowercase — twente.dev
-     is never uppercased, so the whole line follows the footer-motto register. */
       .label.lc {
         text-transform: lowercase;
       }
@@ -146,7 +120,6 @@
         flex: 1;
       }
 
-      /* wordmark, re-set live per the site-header precedent — lowercase, red dot */
       .wordmark {
         font-family: var(--mono);
         font-weight: 700;
@@ -166,7 +139,6 @@
         align-items: baseline;
       }
 
-      /* stat row — stats beat charts for single values */
       .stats {
         display: flex;
         gap: 9cqi;
@@ -228,7 +200,6 @@
     </style>
   </head>
   <body>
-    <!-- ======================= 1 · TITLE (ink) =========================== -->
     <section class="slide ink">
       <div class="grid-bg"></div>
       <span class="label lc"
@@ -243,7 +214,6 @@
       </div>
     </section>
 
-    <!-- ======================= 2 · CONTENT (paper) ======================= -->
     <section class="slide">
       <span class="label">programme</span>
       <h2 class="heading" style="margin-top: 1.5cqi">Three talks, one room, a hard finish</h2>
@@ -260,7 +230,6 @@
       </div>
     </section>
 
-    <!-- ======================= 3 · STATS (paper) ========================= -->
     <section class="slide">
       <span class="label">the shape of the evening</span>
       <div class="spacer"></div>
@@ -284,7 +253,6 @@
       </div>
     </section>
 
-    <!-- ======================= 4 · TWO COLUMNS (paper) =================== -->
     <section class="slide">
       <span class="label">why this exists</span>
       <h2 class="heading" style="margin-top: 1.5cqi">The region ships more than it shows</h2>
@@ -308,7 +276,6 @@
       <div class="foot"><span class="label lc">twente.dev</span></div>
     </section>
 
-    <!-- ======================= 5 · QUOTE (ink) =========================== -->
     <section class="slide ink">
       <div class="spacer"></div>
       <blockquote>
@@ -318,7 +285,6 @@
       <div class="spacer"></div>
     </section>
 
-    <!-- ======================= 6 · SECTION DIVIDER (ink + edge) ========== -->
     <section class="slide ink edge">
       <div class="grid-bg"></div>
       <div class="spacer"></div>
@@ -327,7 +293,6 @@
       <div class="spacer"></div>
     </section>
 
-    <!-- ======================= 7 · CLOSING (ink) ========================= -->
     <section class="slide ink">
       <div class="grid-bg"></div>
       <div class="spacer"></div>
@@ -356,7 +321,6 @@
     </section>
 
     <script>
-      // Arrow / PgDn / space navigation between slides.
       const slides = [...document.querySelectorAll('.slide')];
       let i = 0;
       addEventListener('keydown', (e) => {

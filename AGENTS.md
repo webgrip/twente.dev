@@ -72,6 +72,12 @@ Run metadata (which job failed) is public; log bodies need the token.
 
 ## Repo rules that are load-bearing
 
+- **Comments are NOT allowed.** Always communicate intent with code: a precise name, a type, a
+  smaller function, a test that states the case. A comment is a failure. This holds for every
+  language in the repo, prose in YAML and TOML included. Machine-read directives stay, because the
+  toolchain acts on them as syntax: `// @ts-check`, `eslint-disable`, `<!-- prettier-ignore -->`,
+  `# syntax=`, and shebangs. Anything that outlives a single expression belongs in `docs/` or an
+  ADR, where it gets reviewed, linked and kept current.
 - **Never build a URL by swapping a locale prefix.** Route _segments_ are localized
   (`/nl/bedrijven` ↔ `/en/companies`), so `/en/bedrijven` does not exist. Always go through
   `routePath()` / `alternatesFor()` in [`src/i18n/routes.ts`](src/i18n/routes.ts).
@@ -89,8 +95,8 @@ Run metadata (which job failed) is public; log bodies need the token.
   for esbuild/workerd and a CI job hangs forever.
 - **wrangler.toml: the `routes` key stays above the first `[table]` header**, and
   `workers_dev = false` without a route is a green deploy and a dead site — every path 522s while
-  `/robots.txt` serves Cloudflare's managed default (the full diagnosis is in the file itself).
-- **`compressHTML` stays off** (whitespace-eating bug, see `astro.config.mjs`), and
+  `/robots.txt` serves Cloudflare's managed default.
+- **`compressHTML` stays off** (whitespace-eating bug), and
   `build.format: 'file'` pairs with wrangler's `html_handling = "auto-trailing-slash"` — change
   either half alone and clean URLs break.
 - **The CI runner's docker is a sibling, not a child.** Published ports and bind mounts resolve in

@@ -2,7 +2,6 @@
 interface Props {
   title: string;
   description?: string;
-  /** Mono wayfinding line above the title, e.g. "twente.dev // agenda". */
   kicker?: string;
 }
 
@@ -39,8 +38,6 @@ const { title, description, kicker } = Astro.props;
     align-items: start;
   }
 
-  /* The slot (subscribe block, actions) sits beside the title on wide
-     viewports instead of leaving a dead column. */
   @media (min-width: 64rem) {
     .page-header-grid {
       grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);

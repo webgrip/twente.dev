@@ -1,10 +1,3 @@
-# Build context hygiene for ops/docker/web/Dockerfile (context = repo root).
-#
-# node_modules is the important one: the host's copy contains darwin-arm64
-# binaries for esbuild and workerd. Copying those into a linux image produces
-# a build that fails in a genuinely confusing way, so the image always
-# installs its own.
-
 .git
 .gitignore
 node_modules
@@ -12,31 +5,26 @@ dist
 .astro
 .wrangler
 
-# local env / secrets — never in a build context
 .env
 .env.*
 !.env.example
 .dev.vars
 .dev.vars.*
 
-# tooling output
 .lighthouseci
 lhci-report
 test-results
 playwright-report
 coverage
 
-# editors / OS
 .DS_Store
 .idea
 .vscode
 *.swp
 
-# docs and CI config are not needed to build the site
 docs
 .forgejo
 
-# host toolchain config — the image pins its own Node in the Dockerfile
 mise.toml
 mise.lock
 justfile

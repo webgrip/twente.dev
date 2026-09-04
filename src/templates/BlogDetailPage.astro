@@ -21,22 +21,10 @@ const t = useTranslations(locale);
 const { Content } = await render(post);
 const minutes = readingTimeMinutes(post.body);
 
-/**
- * If this article has no sibling in the other locale we say so plainly and
- * link the version that does exist. Machine-translating prose without review
- * is explicitly out of bounds (plan ADR-0004) — a half-translated article is
- * worse than an honest pointer.
- */
 const [other] = otherLocales(locale);
 const translation = other ? await getTranslation(post, other) : undefined;
 const missingTranslation = Boolean(other && !translation);
 
-/**
- * Translated articles have *different* slugs (`waarom-twente-dev` vs
- * `why-twente-dev-exists`), so alternates must be built from the sibling entry
- * that actually exists. Passing a single shared slug here would emit hreflang
- * links to pages the build never produced.
- */
 const slugs: Partial<Record<Locale, string>> = { [locale]: postSlug(post) };
 if (other && translation) {
   slugs[other] = postSlug(translation);

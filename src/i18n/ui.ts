@@ -1,21 +1,3 @@
-/**
- * UI strings.
- *
- * Dutch is the structural source of truth: `en` is typed as
- * `Record<UIKey, string>`, so a key added to `nl` and forgotten in `en` is a
- * **compile error**, not a runtime fallback. That makes `pnpm typecheck` the
- * i18n-completeness gate described in the plan (§6.6 item 7) — no bespoke
- * lint script required.
- *
- * Content strings (articles, job descriptions) do NOT live here; they live in
- * the content collections, which carry their own per-locale fields.
- *
- * The tagline "We build it. We run it. We share it." is the brand line and
- * stays verbatim in both locales — the rule is that it is always paired with
- * a literal explanation, never left to carry meaning alone. (Replaced the
- * founding pack's "Build here. Share here." on 2026-08-11.)
- */
-
 export const nl = {
   'site.name': 'twente.dev',
   'site.tagline': 'We build it. We run it. We share it.',
@@ -45,11 +27,6 @@ export const nl = {
     'Eén avond in Rijssen met mensen die technologie bouwen in Twente — met welke techniek dan ook. Twee korte verhalen uit de praktijk, en verder vooral elkaar.',
   'home.hero.ctaReserve': 'Reserveer een plek',
   'home.hero.ctaContribute': 'Meld een verhaal aan',
-  // The three things twente.dev actually runs. They replaced a promised-outcome
-  // trio ("één nuttig idee, één nuttige kennismaking, één reden om terug te
-  // komen") — outcomes we cannot deliver on anyone's behalf, and which said
-  // nothing about what the site is. These describe the product instead, and
-  // each one is a claim the site can be checked against.
   'home.does.calendar.title': 'De gedeelde agenda',
   'home.does.calendar.body':
     'Tech-events uit de regio in één agenda waarop je je kunt abonneren — die van anderen net zo goed, altijd met een link naar de bron.',
@@ -90,8 +67,6 @@ export const nl = {
   'newsletter.sending': 'Versturen…',
   'newsletter.success':
     'Gelukt. Er staat nu een mail voor je klaar met een bevestigingsknop erin. Pas na die klik sta je op de lijst. Niets gezien? Kijk even in je spam.',
-  // Loopt bewust door in het adres: NewsletterForm plakt CONTACT_EMAIL eraan
-  // vast, zodat dat adres op één plek in de repo staat.
   'newsletter.error': 'Er ging iets mis bij het versturen. Probeer het zo nog eens, of mail',
   'newsletter.privacyLink': 'Wat we bewaren',
 
@@ -103,11 +78,6 @@ export const nl = {
   'events.empty': 'Nog geen events gepland.',
   'events.emptyCta': 'Ken je er een? Meld het aan',
   'events.subscribe': 'Abonneer op de agenda',
-  // Only the first two links produce a *subscription* that keeps refreshing.
-  // The plain file is a one-off copy: a later venue change or cancellation
-  // never reaches it. So the promise is attached to subscribing, and the file
-  // says on the tin that it is a snapshot — an unqualified "always current"
-  // above all three would be a promise we cannot keep for the third.
   'events.subscribeHint':
     'Abonneer je één keer — daarna verschijnen nieuwe events en wijzigingen vanzelf in je agenda.',
   'events.subscribeGoogle': 'Google Agenda',
@@ -120,9 +90,6 @@ export const nl = {
   'events.listedBy': 'Vermeld door twente.dev',
   'events.inCollaboration': 'In samenwerking met twente.dev',
 
-  // Communities directory. Entries render only with recorded consent
-  // (content.config.ts) — the partner compact promises we ask first, so the
-  // page has to be able to be honest about a short list.
   'communities.description':
     'Discords, Slacks, user groups en meetups waar Twentse techmakers samenkomen. Elke community houdt het eigen podium — wij maken ze alleen beter vindbaar en verwijzen altijd naar de bron.',
   'communities.searchLabel': 'Zoeken',

@@ -9,22 +9,6 @@ import EventCard from '../components/EventCard.astro';
 import PostCard from '../components/PostCard.astro';
 import NewsletterForm from '../components/NewsletterForm.astro';
 
-/**
- * The playbook's contract for this page: promise, explanation, next event,
- * proof, partners, contribution CTA — and a new visitor reaches RSVP or
- * contribute in two clicks.
- *
- * Visual grammar comes from the brand pack's social banner: warm paper, the
- * thread grid, a red edge, mono wayfinding lines, one dominant statement.
- *
- * The page is organised as one numbered sequence — the hero's index strip and
- * the three bands share the numbers 01–03. It used to carry two competing
- * sequences (an outcomes trio 01–03 inside the hero, then sections numbered
- * 01–03 again below it), which read as a numbering bug rather than a rhythm.
- * The flagship also appeared twice: once as a facts card and again as the only
- * card in "upcoming events", so a full-width feature covers it once and the
- * agenda band lists what else is on.
- */
 interface Props {
   locale: Locale;
 }
@@ -34,18 +18,11 @@ const t = useTranslations(locale);
 
 const [events, posts] = await Promise.all([getUpcomingEvents(), getPosts(locale)]);
 
-/**
- * The flagship has its own feature block above, so the agenda band lists the
- * rest. Matched on the canonical route rather than on `attribution: own`: it is
- * the field that says "this entry's home is a bespoke page", which is exactly
- * the entry the feature is already rendering.
- */
 const otherEvents = events.filter((event) => event.data.canonicalRoute !== 'edition001');
 
 const edition = `${editionName(EDITION_001.number)} — ${EDITION_001.theme}`;
 const motto = `twente.dev // ${t('site.tagline').toLowerCase()}`;
 
-/** Hero index strip and the bands below it are the same three things. */
 const bands = [
   { id: 'agenda', index: '01', title: t('home.does.calendar.title') },
   { id: 'avond', index: '02', title: t('home.does.evening.title') },
@@ -61,20 +38,10 @@ const bands = [
 >
   <div class="hero thread-grid thread-grid--bleed">
     <div class="container">
-      {
-        /* The motto is deliberate English branding on both locales; the lang
-          attribute keeps screen readers from reading it with Dutch rules
-          (SC 3.1.2 Language of Parts). */
-      }
       <p class="label-mono hero-motto" lang="en">{motto}</p>
       <h1 class="text-display">{t('home.hero.title')}</h1>
       <p class="hero-subtitle">{t('home.hero.subtitle')}</p>
       <div class="hero-actions">
-        {
-          /* Until registration opens the button must not promise "reserve a
-             place" — the very first click on the site's most prominent CTA
-             would end in "you can't do this yet". */
-        }
         <a class="button button--primary" href={routePath('edition001', locale)}>
           {REGISTRATION_URL ? t('home.hero.ctaReserve') : t('edition.details')}
         </a>
@@ -83,10 +50,6 @@ const bands = [
         </a>
       </div>
 
-      {
-        /* Sits on the fold as the cue that there is more below, and doubles as
-           the page's contents: each entry jumps to the band that delivers it. */
-      }
       <ol class="hero-index" role="list">
         {
           bands.map((band) => (
@@ -103,16 +66,11 @@ const bands = [
   </div>
 
   <div class="container">
-    {/* The next edition, once, at full width. */}
     <section class="feature" aria-labelledby="feature-title">
       <p class="label-mono feature-kicker">{t('home.next.kicker')}</p>
       <div class="feature-grid">
         <div class="feature-main">
           <h2 id="feature-title">{edition}</h2>
-          {
-            /* Separators are explicit strings: Astro collapses the whitespace
-              around expression boundaries, which rendered "Locatie volgt ·Gratis". */
-          }
           <p class="feature-when">
             <time datetime={EDITION_001.doors.toISOString()}>
               {formatDate(EDITION_001.doors, locale)}
@@ -136,13 +94,6 @@ const bands = [
               {formatDate(REGISTRATION_OPENS, locale)}
             </time>
           </p>
-          {
-            /* The hero already carries the edition's full name one screen up,
-               and the heading beside this button repeats it — so the button
-               says what it does. The long label also wrapped mid-word inside
-               the panel, which is what a 25-character mono uppercase CTA does
-               in a column narrower than itself. */
-          }
           <a class="button button--primary" href={routePath('edition001', locale)}>
             {REGISTRATION_URL ? t('home.hero.ctaReserve') : t('home.next.cta')}
           </a>
@@ -150,11 +101,6 @@ const bands = [
       </div>
     </section>
 
-    {
-      /* Kept as its own section rather than folded into the hero: on a site
-         this young "what is this" is a question a first-time visitor actually
-         asks, and the answer should not depend on reading three bands first. */
-    }
     <section class="intro" aria-labelledby="intro-title">
       <div class="band-head">
         <h2 id="intro-title">{t('home.what.title')}</h2>
@@ -196,10 +142,6 @@ const bands = [
         <p class="band-intro">{t('home.does.evening.body')}</p>
       </div>
       <div class="band-content">
-        {
-          /* The non-displacement promise, stated on the page that could most
-             easily be read as competing with the region's other meetups. */
-        }
         <div class="note">
           <h3>{t('home.community.title')}</h3>
           <p>{t('home.community.body')}</p>
@@ -252,7 +194,6 @@ const bands = [
 </BaseLayout>
 
 <style>
-  /* The banner's frame: paper, grid, one red edge on the leading side. */
   .hero {
     position: relative;
     display: flex;
@@ -262,13 +203,6 @@ const bands = [
     border-block-end: var(--border-width) solid var(--border);
   }
 
-  /* One screen of grid, exactly: the section takes the viewport minus the
-     header, so the pattern meets the fold instead of stopping in an arbitrary
-     band, and the index strip sits on the edge as the cue that there is more.
-     svh, not vh, so a collapsing mobile URL bar cannot break that promise.
-     Only from 48rem up: below it the header wraps to two rows (height unknown
-     here) and the copy already overflows a phone screen, so the floor would
-     only push the strip out of view. */
   @media (min-width: 48rem) {
     .hero {
       min-height: calc(100svh - var(--header-height));
@@ -288,9 +222,6 @@ const bands = [
     color: var(--fg-subtle);
   }
 
-  /* 16ch was a slide's measure — on a laptop it broke the sentence into four
-     stacked lines that read as four statements. 22ch keeps the display register
-     while letting the line hold a clause. */
   .hero h1 {
     margin-block-start: var(--space-4);
     max-width: 22ch;
@@ -310,7 +241,6 @@ const bands = [
     margin-block-start: var(--space-6);
   }
 
-  /* Three columns of the page's own contents, on the fold. */
   .hero-index {
     display: grid;
     gap: 0;
@@ -334,8 +264,6 @@ const bands = [
     color: var(--accent-strong);
   }
 
-  /* Metadata numerals, not actions — they stay in the grey ramp so the
-     hero's red budget belongs to the edge and the primary button. */
   .hero-index-num {
     color: var(--fg-subtle);
   }
@@ -356,13 +284,6 @@ const bands = [
     }
   }
 
-  /* --- the next edition, once, at full width ------------------------------ */
-
-  /* A ticket, not a paragraph that happens to sit in a box: the kicker rules
-     off a header band, and the registration column is a column of the same
-     record — it used to be a bordered, differently-coloured card nested
-     inside this one, three rectangles deep with a full-bleed red bar at the
-     bottom of it. */
   .feature {
     position: relative;
     margin-block-start: var(--space-7);
@@ -391,10 +312,6 @@ const bands = [
     padding-block-start: var(--space-5);
   }
 
-  /* The panel stops the block ending in a dead right column at desktop width,
-     which is what the single centred card did before. 64rem, not 56rem: below
-     it the two columns each get too little width to set their own type, and
-     the CTA is the thing that pays for it. */
   @media (min-width: 64rem) {
     .feature-grid {
       grid-template-columns: minmax(0, 1fr) minmax(0, 20rem);
@@ -402,8 +319,6 @@ const bands = [
       gap: var(--space-6);
     }
 
-    /* One hairline instead of a box. Stretched, so the rule spans the whole
-       record rather than stopping under the button. */
     .feature-panel {
       align-self: stretch;
       padding-block-start: 0;
@@ -413,10 +328,6 @@ const bands = [
     }
   }
 
-  /* Date and time carry this block, so they sit in the ink ramp at reading
-     size. All six facts used to run together in one uppercase mono line at
-     label size and label colour, which reads as fine print — not as the one
-     thing a visitor came to find. */
   .feature-when {
     margin-block-start: var(--space-3);
     font-family: var(--font-mono);
@@ -436,8 +347,6 @@ const bands = [
     font-size: var(--text-sm);
   }
 
-  /* Stacked, the same hairline runs across instead of down — the ticket keeps
-     its stub at every width. */
   .feature-panel {
     display: grid;
     gap: var(--space-4);
@@ -447,9 +356,6 @@ const bands = [
     border-block-start: var(--border-width) solid var(--border);
   }
 
-  /* Label above value, not a sentence around a bold fragment: at panel width
-     "Aanmelden opent 2 september 2026" broke after the "2", orphaning the day
-     from its month. */
   .feature-registration {
     display: grid;
     gap: var(--space-1);
@@ -465,8 +371,6 @@ const bands = [
     font-variant-numeric: tabular-nums;
   }
 
-  /* --- the three bands ---------------------------------------------------- */
-
   .intro,
   .band {
     margin-block-start: var(--space-8);
@@ -479,8 +383,6 @@ const bands = [
     padding-block-start: var(--space-3);
   }
 
-  /* Heading and intro sit side by side so the section head uses the full
-     measure instead of stacking two prose-width blocks against a dead column. */
   .band-head {
     display: grid;
     gap: var(--space-3);
@@ -571,7 +473,6 @@ const bands = [
     justify-items: start;
   }
 
-  /* The form is a child component, so its root needs :global() to be reached. */
   .newsletter-actions :global(.subscribe) {
     width: 100%;
   }

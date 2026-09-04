@@ -4,35 +4,8 @@ import { useTranslations } from '../i18n/utils.ts';
 import { routePath } from '../i18n/routes.ts';
 import { CONTACT_EMAIL, NEWSLETTER_FORM_ACTION, NEWSLETTER_FORM_FIELDS } from '../config/site.ts';
 
-/**
- * Subscribe to the field note and the edition updates.
- *
- * The input is on twente.dev and the POST goes straight to the list host — no
- * third-party script, no iframe, no cookie, so this page stays as clean as the
- * privacy statement says it is. The trade is one origin in the CSP's
- * `form-action`, derived from NEWSLETTER_FORM_ACTION in astro.config.mjs so the
- * two can never drift apart.
- *
- * There is no checkbox to tick. Consent for a mailing list is the double opt-in
- * itself — nothing is sent until the confirmation link in the visitor's own
- * inbox is clicked — and that click is the record, held by the provider with a
- * timestamp. A pre-ticked box would be worth less and look like more.
- *
- * Until an endpoint is configured this renders the honest pre-launch state: a
- * mailto to hello@, the same fallback the rest of the site uses. It is a real
- * route, not a placeholder — a human adds you to the list by hand at this size.
- *
- * Submitting is progressively enhanced. Without JavaScript the browser does a
- * normal cross-origin POST and the provider redirects to /bedankt, which is why
- * that page exists and why the redirect stays configured on their side. With
- * JavaScript the script below posts the same body with `fetch` and renders the
- * outcome in place, so nobody leaves twente.dev to read a line of raw JSON. The
- * provider allows this: the endpoint answers a cross-origin POST with
- * `access-control-allow-origin` echoing our own origin.
- */
 interface Props {
   locale: Locale;
-  /** Unique per form on a page — ids are derived from it. */
   id: string;
 }
 
@@ -58,22 +31,8 @@ const subject = `Field note ${locale === 'nl' ? 'nieuwsbrief' : 'newsletter'}`;
           {Object.entries(NEWSLETTER_FORM_FIELDS).map(([name, value]) => (
             <input type="hidden" name={name} value={value} />
           ))}
-          {/* Brevo's own field, and it earns its place: it picks the language of
-              the double opt-in mail, so a Dutch subscriber is asked to confirm in
-              Dutch. It does not split the list — that needs either a second form
-              and list per locale, or a contact attribute. */}
           <input type="hidden" name="locale" value={locale} />
-          {/* Dezelfde waarde, maar als contactattribuut, zodat je op taal kunt
-              segmenteren — `locale` stuurt alleen de taal van de bevestigingsmail
-              en blijft niet op het contact staan. Werkt pas als het attribuut
-              TAAL in Brevo bestaat én op het formulier staat; controleer dat met
-              één echte aanmelding. Doet een provider er niets mee, dan negeert
-              hij het veld gewoon. */}
           <input type="hidden" name="TAAL" value={locale} />
-          {/* Honeypot. Bots fill every field they find; people never see this one.
-              The name is Brevo's own — `email_address_check` is the field their
-              embed ships — so this is their spam gate rather than a second one
-              beside it. It must arrive empty. */}
           <p class="subscribe-hp" aria-hidden="true">
             <label for={`${id}-check`}>Leave this empty</label>
             <input
@@ -84,9 +43,6 @@ const subject = `Field note ${locale === 'nl' ? 'nieuwsbrief' : 'newsletter'}`;
               autocomplete="off"
             />
           </p>
-          {/* Uppercase because Brevo maps form fields onto contact attributes by
-              name, and those are uppercase. A lowercase `email` is not an error
-              at the endpoint — it is a submission with no address in it. */}
           <p class="subscribe-field">
             <label class="label-mono" for={`${id}-email`}>
               {t('newsletter.emailLabel')}
@@ -104,9 +60,6 @@ const subject = `Field note ${locale === 'nl' ? 'nieuwsbrief' : 'newsletter'}`;
             {t('newsletter.subscribe')}
           </button>
         </form>
-        {/* Leeg en verborgen tot er iets te melden valt. role=status plus
-            aria-live zorgen dat een schermlezer de uitkomst hoort zonder dat
-            de focus verspringt. */}
         <p class="subscribe-status" id={`${id}-status`} role="status" aria-live="polite" hidden />
       </Fragment>
     ) : (
@@ -126,23 +79,6 @@ const subject = `Field note ${locale === 'nl' ? 'nieuwsbrief' : 'newsletter'}`;
 </div>
 
 <script>
-  /**
-   * Async versturen, met de uitkomst op de pagina zelf.
-   *
-   * Zonder dit script doet de browser een gewone cross-origin POST en stuurt de
-   * provider door naar /bedankt. Dat pad blijft werken en is de reden dat die
-   * redirect aan hun kant ingesteld staat. Met dit script blijft de bezoeker
-   * hier.
-   *
-   * URLSearchParams en niet FormData: dat post als
-   * application/x-www-form-urlencoded, wat het endpoint aantoonbaar accepteert
-   * en wat als "simple request" langs de CORS-preflight gaat. FormData zou
-   * multipart sturen, en dat is niet geverifieerd.
-   *
-   * Het endpoint antwoordt met {"success":true} zodra het de POST aanneemt, ook
-   * op een adres dat het daarna weggooit. De echte controle op geldigheid is
-   * dus type="email" op het invoerveld, hier vlak boven.
-   */
   const forms = document.querySelectorAll('form[data-newsletter-form]');
 
   for (const form of forms) {
@@ -167,9 +103,6 @@ const subject = `Field note ${locale === 'nl' ? 'nieuwsbrief' : 'newsletter'}`;
       show('busy', form.dataset.sending);
 
       try {
-        // Veld voor veld, want URLSearchParams neemt een FormData niet
-        // rechtstreeks aan in TypeScript en een File hoort hier sowieso niet
-        // thuis. Het resultaat is application/x-www-form-urlencoded.
         const body = new URLSearchParams();
         for (const [key, value] of new FormData(form)) {
           if (typeof value === 'string') body.append(key, value);
@@ -200,10 +133,6 @@ const subject = `Field note ${locale === 'nl' ? 'nieuwsbrief' : 'newsletter'}`;
     gap: var(--space-3);
   }
 
-  /* Nodig, en niet vanzelfsprekend: het script zet `hidden` op het formulier
-     zodra de aanmelding geslaagd is, maar `display: flex` hierboven is een
-     auteursregel en die wint van de UA-regel achter het attribuut. Zonder deze
-     regel blijft het formulier na een geslaagde aanmelding gewoon staan. */
   .subscribe-form[hidden] {
     display: none;
   }
@@ -231,8 +160,6 @@ const subject = `Field note ${locale === 'nl' ? 'nieuwsbrief' : 'newsletter'}`;
     line-height: var(--leading-normal);
   }
 
-  /* Off-screen rather than display:none — a bot reading the DOM finds it either
-     way, but some fill only what is technically focusable. */
   .subscribe-hp {
     position: absolute;
     width: 1px;
@@ -254,9 +181,6 @@ const subject = `Field note ${locale === 'nl' ? 'nieuwsbrief' : 'newsletter'}`;
     max-width: var(--width-prose);
   }
 
-  /* De accentkleur is rood, dus kleur kan hier geen succes of fout betekenen.
-     Het onderscheid zit in de tekst; de rand vraagt alleen om aandacht als er
-     iets is misgegaan. */
   .subscribe-status {
     margin-block: var(--space-3) 0;
     padding: var(--space-3);

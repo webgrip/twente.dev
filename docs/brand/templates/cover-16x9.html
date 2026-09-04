@@ -3,42 +3,6 @@
   <head>
     <meta charset="utf-8" />
     <title>twente.dev — 16:9 covers</title>
-    <!--
-  twente.dev 16:9 cover artboards, 2400x1350 — a file, not an app.
-
-  This is the master for the Meetup photos in public/brand/social/. Meetup
-  refuses any cover below 1200x675 and crops it differently on every surface,
-  so the artboard is 2x that floor and keeps every word inside the middle band.
-
-  WHY THIS FILE EXISTS
-  The six campaign banners in public/brand/social/ are hand-made PNGs with no
-  source, which is why their hairlines drifted to #dadcd4 and their subhead to
-  a slate in no token file. These two are drawn from the tokens instead, so the
-  date on them can be changed by editing text rather than redrawing pixels.
-
-  HOW TO USE
-  1. Copy this file (cover-002-<theme>.html, ...) or edit in place for a re-cut.
-  2. Click and type: every field marked contenteditable is a field.
-  3. Export at exactly 2400x1350: DevTools -> Elements -> right-click the
-     <div class="art"> node you want -> "Capture node screenshot". That writes
-     a PNG at the artboard's true pixel size, which is what Meetup wants.
-     Upload it as-is; do not let an editor resize it below 1200x675.
-
-  THE TWO ARTBOARDS
-  - #group  the evergreen group cover. No date, so it never goes stale.
-  - #event  the per-edition event cover. The red card carries the date, which
-            is the whole reason it is red: red marks connections, dates and
-            actions. Re-cut it per edition; never reuse 001's card.
-
-  HOUSE RULES THIS FILE ENCODES
-  - Hairlines are Thread Grey #d9dfdc and the subhead is --fg-muted #4a545c,
-    both straight from src/styles/tokens.css. Do not eyeball a replacement.
-  - The wordmark is the outlined path from ../wordmark.svg, copied verbatim —
-    never re-set it in a live font. If that file ever changes, re-copy it.
-  - One statement per view at display size. The subhead is not a second one.
-  - Signal Red on the paper ground only. White on a red fill is 5.75:1; the
-    red edge and the date card are fills, not text.
--->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -68,8 +32,6 @@
         color: var(--ink);
       }
 
-      /* The artboard. Fixed at the export size — do not make it responsive,
-         the whole point is that a node screenshot lands on 2400x1350. */
       .art {
         width: 2400px;
         height: 1350px;
@@ -104,8 +66,6 @@
         }
       }
 
-      /* Structure, not decoration: the grid is the drawing surface the brand
-         is built on, at the faintest legible weight (1.22:1, hairlines only). */
       .art::after {
         content: '';
         position: absolute;
@@ -116,7 +76,6 @@
           repeating-linear-gradient(to bottom, var(--grey) 0 2px, transparent 2px 150px);
       }
 
-      /* Signal one: the red edge. */
       .art::before {
         content: '';
         position: absolute;
@@ -150,7 +109,6 @@
         min-width: 0;
       }
 
-      /* The one statement. Display register: 830, -3.5% tracking, 0.98 leading. */
       .display {
         font-weight: 830;
         font-size: 176px;
@@ -167,8 +125,6 @@
         max-width: 22ch;
       }
 
-      /* The mark, inline so the file stays self-contained. Geometry is the
-         ratified 160x160 master: bar 30, radius 30, dot r 17.5 at (120,120). */
       .mark {
         flex: 0 0 400px;
         width: 400px;
@@ -176,8 +132,6 @@
         display: block;
       }
 
-      /* Signal two on the event board: the date. A fill, so it takes the true
-         flag red with white on it (5.75:1), not the lightened text cut. */
       .card {
         flex: 0 0 620px;
         background: var(--red);
@@ -215,8 +169,6 @@
         letter-spacing: 0.02em;
       }
 
-      /* Nachtvariant: zelfde kaart, inkt als grond. Rode tekst neemt de
-         lichte snede (#ea6250); vullingen blijven vlagrood. */
       .art.nacht {
         background: var(--ink);
         color: var(--paper);
@@ -246,9 +198,7 @@
   </head>
 
   <body>
-    <!-- ================= group cover — evergreen, no date ================= -->
     <div class="art" id="group" data-export="banner-meetup-1200x675@2x">
-      <!-- Outlines from ../wordmark.svg. Copied, not re-set in a live font. -->
       <svg
         class="wordmark"
         viewBox="5.2093 -91.7829 735.628 93.2713"
@@ -267,8 +217,6 @@
 
       <div class="body">
         <div class="col">
-          <!-- Lines break with <br />, not literal newlines — Prettier collapses
-               those and pre-line would silently become one line. -->
           <div class="display" contenteditable="true">
             We build it.<br />We run it.<br />We share it.
           </div>
@@ -299,7 +247,6 @@
       </div>
     </div>
 
-    <!-- ============ event cover — re-cut per edition, carries a date ============ -->
     <div class="art" id="event" data-export="banner-meetup-001-1200x675@2x">
       <svg
         class="wordmark"
@@ -335,9 +282,7 @@
       <div class="foot" contenteditable="true">twente.dev/001 // reconnect the region // free</div>
     </div>
 
-    <!-- ============ nachtvarianten — zelfde inhoud, inkt als grond ============ -->
     <div class="art nacht" id="group-nacht" data-export="banner-meetup-nacht-1200x675@2x">
-      <!-- Outlines from ../wordmark.svg. Copied, not re-set in a live font. -->
       <svg
         class="wordmark"
         viewBox="5.2093 -91.7829 735.628 93.2713"
@@ -356,8 +301,6 @@
 
       <div class="body">
         <div class="col">
-          <!-- Lines break with <br />, not literal newlines — Prettier collapses
-               those and pre-line would silently become one line. -->
           <div class="display" contenteditable="true">
             We build it.<br />We run it.<br />We share it.
           </div>

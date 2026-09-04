@@ -1,15 +1,4 @@
 ---
-/**
- * The living styleguide — every token, register and component on one page,
- * rendered by the same CSS the site ships. This is the design system's
- * source of truth: if it looks right here, it is right, because it IS the
- * implementation (the reason this exists instead of a Storybook: Astro
- * components have no first-class Storybook framework, and a parallel
- * component catalogue would drift).
- *
- * English-only, noindex, excluded from the sitemap (astro.config.mjs) and
- * from Pagefind. Companion export for design tools: docs/design/tokens.json.
- */
 import '../styles/global.css';
 
 import { getPosts, getUpcomingEvents } from '../lib/content.ts';
@@ -261,8 +250,6 @@ const SPACES = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
     gap: var(--space-3);
   }
 
-  /* Grey, matching the homepage's kickers — section indices are wayfinding
-     metadata, not one of the view's red signals. */
   .sg-index {
     color: var(--fg-subtle);
   }
@@ -339,8 +326,6 @@ const SPACES = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
     gap: var(--space-4);
   }
 
-  /* The swatch demonstrates the grid's texture, not the screen's division —
-     at a viewport-derived cell a 14rem box would show a single line. */
   .sg-motif.thread-grid {
     --grid-cell: 2.75rem;
   }
@@ -416,7 +401,4 @@ const SPACES = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
     padding-block: var(--space-6);
     color: var(--fg-subtle);
   }
-
-  /* .button / .button--primary come from global.css (imported above) — the
-     guide renders the exact recipe the site ships, no duplicated copy. */
 </style>

@@ -1,13 +1,5 @@
 name: "[Workflow] On Source Change"
 
-# Consumes the shared library at its Forgejo path (`.forgejo/` tree, per
-# webgrip/workflows ADR-0002). NOTE: the `uses:` reference must be the
-# `org/repo/path@ref` shorthand, NOT a full https:// URL — Forgejo resolves
-# the called workflow's `runs-on` server-side to assign runner labels, and
-# with a full URL that resolution fails, leaving the job queued forever with
-# an empty label list. The working consumers (e.g. webgrip/workflows'
-# on_docs_change.yml) all use the shorthand, SHA-pinned.
-
 concurrency:
   group: push-${{ github.ref_name }}
   cancel-in-progress: true
@@ -27,34 +19,13 @@ env:
 jobs:
   static-analysis:
     name: "Static Analysis"
-    uses: webgrip/workflows/.forgejo/workflows/node-application-static-analysis.yml@f2e235efd0589ee32cef70cd79ee7f110f80d1da # main
+    uses: webgrip/workflows/.forgejo/workflows/node-application-static-analysis.yml@f2e235efd0589ee32cef70cd79ee7f110f80d1da
     with:
       node-version: "24"
       package-manager: pnpm
       run-format-check: true
       run-lint: true
       run-typecheck: true
-      # TIJDELIJK UIT (2026-09-04) — zet terug zodra npm weer antwoordt.
-      #
-      # `pnpm audit` kan "de registry gaf geen antwoord" niet onderscheiden van
-      # "je hebt een high-severity CVE": allebei exit 1. npm's advisories-API is
-      # stil gevallen — hij accepteert de POST en stuurt nul bytes terug.
-      # Reproduceerbaar vanaf deze laptop en vanaf de runner, over h2 en h1.1,
-      # over v4 en v6, met en zonder npm-user-agent. GET op dezelfde host geeft
-      # 200 in 0,1s, en daarom blijft status.npmjs.org groen: die bewaakt het
-      # leespad, niet deze dienst. Run 91 en 92 vielen hier allebei om na exact
-      # 4m11s (3 pogingen x 60s + wachttijd) en trokken elke job erachter mee,
-      # inclusief beide deploys.
-      #
-      # De check die zegt of hij terug is:
-      #   curl --max-time 20 -X POST -H 'Content-Type: application/json' \
-      #     -d '{"lodash":["4.17.20"]}' \
-      #     https://registry.npmjs.org/-/npm/v1/security/advisories/bulk
-      # Alles behalve een time-out betekent dat hij weer leeft.
-      #
-      # Wat er ondertussen nog wel staat: de supply-chain-policy op de lockfile
-      # bij install (549 entries) en Renovate. Weg is alleen de CVE-check op de
-      # geinstalleerde boom.
       run-audit: false
       run-knip: true
 
@@ -62,7 +33,7 @@ jobs:
     name: "Unit Tests"
     needs:
       - static-analysis
-    uses: webgrip/workflows/.forgejo/workflows/node-application-tests.yml@f2e235efd0589ee32cef70cd79ee7f110f80d1da # main
+    uses: webgrip/workflows/.forgejo/workflows/node-application-tests.yml@f2e235efd0589ee32cef70cd79ee7f110f80d1da
     with:
       node-version: "24"
       package-manager: pnpm
@@ -72,14 +43,10 @@ jobs:
     name: "Content Validation"
     needs:
       - static-analysis
-    uses: webgrip/workflows/.forgejo/workflows/node-application-tests.yml@f2e235efd0589ee32cef70cd79ee7f110f80d1da # main
+    uses: webgrip/workflows/.forgejo/workflows/node-application-tests.yml@f2e235efd0589ee32cef70cd79ee7f110f80d1da
     with:
       node-version: "24"
       package-manager: pnpm
-      # REQUIRE_REAL_CONTENT=1 turns the fixture warning into a hard failure: the
-      # fixtures are gone, and reintroducing fictional organisations attributed to
-      # a real region must not be able to reach main. `test-command` is interpolated
-      # into a bash `run:` by the shared workflow, so the env prefix is honoured.
       test-command: REQUIRE_REAL_CONTENT=1 pnpm validate:content
 
   build:
@@ -87,25 +54,12 @@ jobs:
     needs:
       - unit-tests
       - content-validation
-    # The shared Node "tests" workflow is reused as a build gate via
-    # test-command — the same pattern the org's dotnet/node monorepo example
-    # uses for its frontend build step.
-    uses: webgrip/workflows/.forgejo/workflows/node-application-tests.yml@f2e235efd0589ee32cef70cd79ee7f110f80d1da # main
+    uses: webgrip/workflows/.forgejo/workflows/node-application-tests.yml@f2e235efd0589ee32cef70cd79ee7f110f80d1da
     with:
       node-version: "24"
       package-manager: pnpm
       test-command: pnpm build
 
-  # Builds ops/docker/web and asserts it serves dist/ under the same rules
-  # wrangler.toml configures on Cloudflare: extensionless URLs, a real 404
-  # status, correct content types, and the headers from public/_headers.
-  #
-  # Deliberately NOT a dependency of the deploy jobs. It guards the local
-  # preview container, not production, and it assumes the forgejo-runner can
-  # build images and reach a published port — which the org does elsewhere
-  # (`runs-on: docker` in webgrip/workflows' docker-build-and-push) but we have
-  # not verified on this runner. If it turns out unsupported, deleting this one
-  # job costs nothing; `just parity` still works locally.
   container-parity:
     name: "Container Parity"
     needs:
@@ -119,10 +73,6 @@ jobs:
           node-version: "24"
 
       - name: Check derived ops config (gen-ops)
-        # nginx's redirect blocks and security-headers.conf are GENERATED from
-        # public/_redirects and public/_headers; drift means the parity
-        # container is testing a different contract than production serves.
-        # Stdlib-only script, so no pnpm install needed here.
         run: node --experimental-strip-types scripts/gen-ops.ts --check
 
       - name: Build image
@@ -132,13 +82,6 @@ jobs:
         run: docker run -d --name twente-web-ci twente-dev-web:ci
 
       - name: Check Cloudflare parity
-        # The job itself runs in a container, so the web container is a
-        # sibling on the host daemon — localhost and published ports point at
-        # the wrong network namespace. Run the checks in a helper container
-        # that SHARES the web container's namespace (--network container:),
-        # where localhost:8080 is correct regardless of runner topology. The
-        # script rides in on stdin, because bind mounts resolve against the
-        # host, where the checkout does not exist.
         run: |
           docker run --rm -i --network container:twente-web-ci \
             -e PARITY_BASE_URL=http://localhost:8080 \
@@ -148,40 +91,23 @@ jobs:
         if: always()
         run: docker rm -f twente-web-ci || true
 
-  # Budgets and the axe rule set are shared gates now — extracted to
-  # webgrip/workflows after this job and webgrip.nl's were found to be
-  # hand-synced copies. Budget numbers and the a11y page list stay in THIS
-  # repo (lighthouserc.json, scripts/axe-scan.ts); the machinery is shared.
   lighthouse:
     name: "Lighthouse Budgets"
     needs:
       - build
-    uses: webgrip/workflows/.forgejo/workflows/lighthouse-budgets.yml@cfca5d381db0ae44912faf34e105721eede2ee3e # v2.1.0
+    uses: webgrip/workflows/.forgejo/workflows/lighthouse-budgets.yml@cfca5d381db0ae44912faf34e105721eede2ee3e
 
   accessibility:
     name: "Accessibility (axe-core)"
     needs:
       - build
-    uses: webgrip/workflows/.forgejo/workflows/axe-scan.yml@cfca5d381db0ae44912faf34e105721eede2ee3e # v2.1.0
+    uses: webgrip/workflows/.forgejo/workflows/axe-scan.yml@cfca5d381db0ae44912faf34e105721eede2ee3e
 
-  # ---------------------------------------------------------------------------
-  # Deploy — via the shared cloudflare-deploy workflow (the ADR-0003 "Phase 2"
-  # extraction, landed 2026-09). environment is passed as a LITERAL and ref
-  # routing happens inside the reusable: Forgejo v15 drops if-conditions on
-  # uses-caller jobs and evaluates caller with-expressions against an empty
-  # github context. needs: DOES survive flattening, which is how production
-  # waits for both quality gates here — een budget- of axe-regressie mag nooit
-  # live; previews wachten bewust niet (reviewsnelheid).
-  #
-  # Redirect rules are checked against production straight from
-  # public/_redirects by the shared workflow, so a new redirect cannot ship
-  # without its check.
-  # ---------------------------------------------------------------------------
   deploy-preview:
     name: "Deploy Preview"
     needs:
       - build
-    uses: webgrip/workflows/.forgejo/workflows/cloudflare-deploy.yml@cfca5d381db0ae44912faf34e105721eede2ee3e # v2.1.0
+    uses: webgrip/workflows/.forgejo/workflows/cloudflare-deploy.yml@cfca5d381db0ae44912faf34e105721eede2ee3e
     with:
       environment: preview
       apex-url: "https://twente.dev"
@@ -196,15 +122,11 @@ jobs:
       - build
       - lighthouse
       - accessibility
-    uses: webgrip/workflows/.forgejo/workflows/cloudflare-deploy.yml@cfca5d381db0ae44912faf34e105721eede2ee3e # v2.1.0
+    uses: webgrip/workflows/.forgejo/workflows/cloudflare-deploy.yml@cfca5d381db0ae44912faf34e105721eede2ee3e
     with:
       environment: production
       apex-url: "https://twente.dev"
       edge-probe-path: /nl
-      # /nl/vacatures and /en/jobs are gone since the lean-launch scope cut —
-      # the directory pages stand in as the deepest localized routes worth
-      # smoke-testing. Redirect rules need no lines here: the shared workflow
-      # derives their checks from public/_redirects.
       smoke-paths: |
         /nl
         /en

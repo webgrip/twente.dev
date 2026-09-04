@@ -1,31 +1,9 @@
-/**
- * Assert the partner compact still says the things we told organisers it says.
- *
- * Why this exists: the compact's commitments are quoted verbatim in outreach to
- * community organisers — that we will not run events on their nights, will not
- * approach their existing sponsors, and will remove a listing on one message.
- * Every other gate is blind to their removal. axe loads the partners page, so an
- * accessibility regression fails; lychee catches dead links; neither notices a
- * deleted paragraph. The one page whose *content* is a promise to a third party
- * had no test at all.
- *
- * Deliberately matched on meaning, not prose. Each commitment passes if ANY of
- * its alternative phrasings survives, so the page can be rewritten, tightened or
- * translated better without tripping this — an assertion that breaks on every
- * copy edit gets deleted the first time it is inconvenient, and then it protects
- * nothing.
- *
- * Runs inside `pnpm build` (like validate-csp), so it fails locally and in CI
- * rather than waiting for someone to notice in production.
- */
 import { readFileSync } from 'node:fs';
 
 const DIST = 'dist';
 
 interface Commitment {
-  /** What breaks in the world if this line disappears. */
   readonly name: string;
-  /** Any one of these surviving is enough. Lower-cased, whitespace-collapsed text. */
   readonly anyOf: readonly RegExp[];
 }
 
@@ -124,17 +102,8 @@ const COMMITMENTS: Record<string, readonly Commitment[]> = {
   ],
 };
 
-/**
- * Sponsor pricing is contradictory between the playbook and the deck (VIK-689),
- * so the partners page deliberately names no amount. A figure appearing here
- * means someone published a number that has not been agreed.
- *
- * Matches a currency symbol or an explicit euro amount — not bare digits, which
- * would fire on dates, times and the 2,000-character notes.
- */
 const AMOUNT = /€\s?\d|\b\d[\d.,]*\s?(?:euro|eur)\b/i;
 
-/** Strip tags and collapse whitespace so a re-flowed paragraph still matches. */
 function textOf(path: string): string {
   const html = readFileSync(`${DIST}/${path}`, 'utf8');
   return html

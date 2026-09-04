@@ -4,13 +4,6 @@ import { useTranslations } from '../i18n/utils.ts';
 import { routePath } from '../i18n/routes.ts';
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-/**
- * A single site-wide 404, served by Cloudflare for any unmatched path
- * (`not_found_handling = "404-page"` in wrangler.toml).
- *
- * Because it answers for both locale trees, it shows the message in every
- * locale rather than guessing — a static page cannot read `Accept-Language`.
- */
 const t = useTranslations(DEFAULT_LOCALE);
 ---
 

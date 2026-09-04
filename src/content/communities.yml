@@ -1,28 +1,3 @@
-# Real, verified communities (research pass 2026-08-11; activity and URLs
-# checked via web search). This is the playbook's regional directory seed
-# (TD-016): link out, credit the source, never claim ownership.
-#
-# NOTHING IN THIS FILE IS PUBLISHED UNTIL SOMEONE SAYS YES.
-#
-# The partner compact promises it in those words on a public page — "we zetten
-# je er niet op zonder te vragen" — so an entry renders only once it carries a
-# `consent` block. The schema defaults `consent.granted` to false, which means
-# adding a group here is safe and reversible: it is research, not a listing.
-# Publish one by adding, at the entry's top level:
-#
-#   consent:
-#     granted: true
-#     evidence: reply from <name>, <where>       # checkable by someone else
-#     at: 2026-09-04
-#
-# Removing that block un-publishes it again, which is the one-message exit the
-# compact promises. Ask during outreach; the honest question is "may we list
-# you, and would you like the calendar feed?".
-#
-# Dormant groups deliberately NOT listed (last activity pre-2024): Twente.js,
-# Functional Twente, PHP Twente, Docker/DevSecOps Enschede, WordPress Meetup
-# Twente, Enschede Web Developers, Software Development Twente.
-
 - id: agile-meetup-twente
   name: Agile Meetup Twente
   url: https://www.meetup.com/agile-meetup-twente/
@@ -94,12 +69,6 @@
       the Flutter Netherlands community.
 
 - id: tkkrlab
-  # Points at .com, not their .nl: tkkrlab.nl returns SERVFAIL on Google Public DNS
-  # (8.8.8.8) and times out on some resolvers, while 1.1.1.1 still answers from cache —
-  # so the .nl link is dead for a large share of visitors. Not DNSSEC (no DS record, and
-  # +cd does not help); their nameservers at nicolai.cloud are not answering
-  # authoritatively. tkkrlab.com resolves everywhere and serves the current, actively
-  # updated site. Checked 2026-08-30. Switch back once their .nl resolves again.
   name: TkkrLab
   url: https://tkkrlab.com/
   platform: other
@@ -196,16 +165,6 @@
       and workshops.
 
 - id: space-society-twente
-  # VERIFY BEFORE PUBLISHING. Conflicting evidence as of 2026-08-30:
-  #   against — the events page reads "Unfortunately, there are no events scheduled", and
-  #     the newest datable news items are "Launchday 31 March 2023" and "Discover Your
-  #     Space 2023". By this file's own pre-2024 rule that would make it dormant.
-  #   for — Board #10 (Sep 2025 - Sep 2026) is seated with named officers, the KvK
-  #     registration and office hours (Mon-Fri 12:30-13:45, De Hems 10) are current.
-  # So: governed and legally alive, but publicly quiet for ~3 years. Not deleted, because
-  # that is an editorial call and the association plainly still exists. Resolve it by
-  # asking them during outreach — "is the group still running?" is the honest question,
-  # and their answer decides whether this entry ships.
   name: Space Society Twente
   url: https://spacesocietytwente.nl/
   platform: other
@@ -225,8 +184,6 @@
       social events.
 
 - id: syntaxis
-  # No own website; Instagram is the canonical channel (activity confirmed
-  # via Saxion, June 2025).
   name: S.V. Syntaxis
   url: https://www.instagram.com/svsyntaxis/
   platform: other
@@ -245,12 +202,6 @@
       monthly drinks, workshops, lunch lectures and a biennial LAN party.
 
 - id: coderdojo-enschede
-  # Their own host previously served a certificate for server97.icehosting.nl, so this
-  # pointed at the Code Club/CoderDojo Foundation listing instead to avoid sending every
-  # visitor into a full-page browser security warning. Re-checked 2026-08-30: the
-  # certificate now validates (HTTP 200, ssl_verify_result 0), so the link points back at
-  # the club's own site. Monthly sessions at Maakplaats053 in the Centrale Bibliotheek,
-  # run by Stichting CoderDojo Twente.
   name: CoderDojo Enschede
   url: https://coderdojo-enschede.nl/
   platform: other
@@ -270,19 +221,6 @@
       each month at the Enschede public library.
 
 - id: dutch-laravel-foundation
-  # NATIONAL, not regional — the one deliberate exception in this file, and it
-  # needs a reason. This file's own header records PHP Twente as dormant since
-  # before 2024, so a Laravel or PHP developer in Twente has no local group at
-  # all; the nearest active one is national. Listing it is more useful than
-  # pretending the gap does not exist. If a regional PHP/Laravel group revives,
-  # prefer that one.
-  #
-  # Facts checked 2026-08-31 via web search: non-profit foundation strengthening
-  # the Laravel ecosystem in the Netherlands, running meetups with technical
-  # talks and networking, with agencies, freelancers and IT departments as
-  # members. Canonical link is the Meetup group (that is where the events are);
-  # VERIFY the spoken language with them when asking for consent — the evidence
-  # shows both Dutch and English events and this entry guesses "both".
   name: Dutch Laravel Foundation
   url: https://www.meetup.com/dutchlaravelfoundation/
   platform: meetup
@@ -303,10 +241,6 @@
       Twente group, but the nearest active one for Laravel and PHP developers
       from the region.
 
-# twente.dev's own Discord. Consent is ours to give, which is why this is the
-# only entry that could publish on day one. The invite is deliberately
-# NON-EXPIRING — Discord's default invites die after 7 days, and a dead link in
-# a directory is worse than no link. Re-check it if the server is ever recreated.
 - id: twente-dev-discord
   name: twente.dev Discord
   url: https://discord.gg/E6qxD48dfH

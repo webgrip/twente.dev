@@ -1,26 +1,4 @@
 #!/usr/bin/env python3
-"""Regenerate the twente.dev brand asset set into docs/brand/, then deploy it.
-
-All glyphs — the wordmark's and the mark's — are converted to outlines from
-IBM Plex Mono Bold (SIL OFL 1.1) so no font is needed to display them.
-
-The mark is "t.d" (ratified 2026-08-30, supersedes the constructed-t badge of
-2026-08-11): the wordmark's own t, full stop and d, kerned tight on the ink
-badge, the stop in flag red. Glyph scale is 0.8 x the wordmark's 64-unit
-x-height; outline gaps are 9.6 badge-units; the baseline sits at y 116 so the
-ascender band centres optically on the 160-unit badge, and the group carries a
--3 unit optical nudge (OPTICAL_NUDGE) because equal bounding-box margins read
-right-heavy with these two letters. The round variant
-(avatars, circular masks) carries the same letters at 0.68 x on a circle.
-
-Masters land in docs/brand/; the press-kit copy the site serves is written to
-public/brand/ with the same filenames, so the two can never drift.
-
-Usage:  python3 scripts/brand-assets.py
-Needs:  pip install fonttools    (the font downloads itself on first run)
-        resvg on PATH, or `pip install resvg_py`, for the png/ exports
-        (skipped with a warning when neither is present)
-"""
 from fontTools.ttLib import TTFont
 from fontTools.pens.svgPathPen import SVGPathPen
 from fontTools.pens.transformPen import TransformPen
@@ -33,7 +11,7 @@ import urllib.request
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(REPO, 'docs', 'brand')
-FONT = os.path.join(OUT, '.cache-plex-mono-bold.ttf')  # gitignored cache
+FONT = os.path.join(OUT, '.cache-plex-mono-bold.ttf')
 FONT_URL = 'https://github.com/google/fonts/raw/main/ofl/ibmplexmono/IBMPlexMono-Bold.ttf'
 if not os.path.exists(FONT):
     print('downloading IBM Plex Mono Bold (SIL OFL 1.1) ...')
@@ -46,15 +24,13 @@ RED = '#c3291b'
 font = TTFont(FONT)
 glyphset = font.getGlyphSet()
 cmap = font.getBestCmap()
-UPM = font['head'].unitsPerEm  # 1000
-ADV = 600                      # monospace advance
+UPM = font['head'].unitsPerEm
+ADV = 600
 
-# Scale: wordmark x-height = 64 units against the 160-unit badge (40%).
-XH = 516                       # Plex Mono x-height in font units
-S = 64 / XH                    # font units -> mark units
+XH = 516
+S = 64 / XH
 
 def glyph_path(ch, x, baseline, s=S):
-    """SVG path for ch, pen-baseline at (x, baseline), y flipped."""
     pen = SVGPathPen(glyphset, ntos=lambda v: f'{round(v, 2):g}')
     tpen = TransformPen(pen, Transform(s, 0, 0, -s, x, baseline))
     glyphset[cmap[ord(ch)]].draw(tpen)
@@ -63,10 +39,9 @@ def glyph_path(ch, x, baseline, s=S):
 def glyph_bounds(ch):
     bp = BoundsPen(glyphset)
     glyphset[cmap[ord(ch)]].draw(bp)
-    return bp.bounds  # font units, y up
+    return bp.bounds
 
 def word_paths(text, x0, baseline, s=S):
-    """Returns (ink_path, red_path) — the '.' is the red one."""
     ink, red = [], []
     x = x0
     for ch in text:
@@ -88,40 +63,18 @@ def bounds(text, x0, baseline, s=S):
 
 TEXT = 'twente.dev'
 
-# --- geometry shared by every file ------------------------------------------
-BAR = 30          # historic unit: still the badge radius, gap and clear-space unit
+BAR = 30
 BADGE = 160
-GAP = BAR         # badge <-> wordmark
+GAP = BAR
 
-# Standalone wordmark: tight box.
 wx0, wy0, wx1, wy1 = bounds(TEXT, 0, 0)
 
 BADGE_PATH = ('M30 0H130A30 30 0 0 1 160 30V130A30 30 0 0 1 130 160H30'
               'A30 30 0 0 1 0 130V30A30 30 0 0 1 30 0Z')
 
-# --- the t.d mark ------------------------------------------------------------
-# Kerned by outline edges, not by the mono advance: gaps of 9.6 badge-units
-# (12 wordmark-units) between t, the stop and d.
-# Optical nudge, in badge units, applied to the whole t.d group (negative =
-# left). Bounding-box centring puts equal margins either side (10.82 each) and
-# still reads right-heavy, because the two edge letters are not equal weights:
-# the d carries 52.6% of the ink and meets the badge with a full-height stem,
-# while the t contributes 38.7% and meets it with a crossbar that exists over
-# only a sixth of the letter's height. Three measurements agree on the
-# direction and bracket the size — ink centroid -8.11, counterform balance over
-# the whole letter band -9.54, counterform balance within each edge letter's
-# own band -6.01 — and rendering the candidates at real sizes shows every full
-# correction overshooting into left-heavy. -3 is half the fairest of the three,
-# and it is the cut that holds from a 32 px header badge up to a banner.
-# Re-measure, do not re-eyeball: the method is written up in docs/brand/README.md
-# section 1, under Construction.
 OPTICAL_NUDGE = -3.0
 
-
 def td_paths(scale, cx, baseline, gap, nudge=0.0):
-    """t.d at glyph scale `scale`, outline gaps `gap`, centred on cx.
-    `nudge` shifts the whole group for optical centring (see OPTICAL_NUDGE).
-    Returns (t_d, dot_d, d_d, total_width, x_left)."""
     chars = 't.d'
     boxes = [glyph_bounds(ch) for ch in chars]
     widths = [(b[2] - b[0]) * scale for b in boxes]
@@ -133,18 +86,14 @@ def td_paths(scale, cx, baseline, gap, nudge=0.0):
         x += w + gap
     return paths[0], paths[1], paths[2], total, cx - total / 2 + nudge
 
-MS = 0.8 * S              # mark glyph scale (square badge)
+MS = 0.8 * S
 M_T, M_DOT, M_D, M_W, M_X0 = td_paths(MS, 80, 116, 9.6, OPTICAL_NUDGE)
-RS = 0.68 * S             # round badge glyph scale
-# The nudge is a property of the letter group, not of the canvas, so it scales
-# with the glyphs: same optical result on a smaller setting of the same word.
+RS = 0.68 * S
 R_T, R_DOT, R_D, R_W, _ = td_paths(RS, 80, 109, 8.16, OPTICAL_NUDGE * RS / MS)
-FS = MS / 5               # favicon: the mark at 1:5 on a 32-unit canvas
+FS = MS / 5
 F_T, F_DOT, F_D, F_W, _ = td_paths(FS, 16, 23.2, 1.92, OPTICAL_NUDGE / 5)
 
 def letters_body(t, dot, d, stroke=0.0):
-    """The three letter paths; `stroke` adds a same-colour outline — the
-    optical compensation for small raster sizes (in 160-canvas units)."""
     sl = f' stroke="{PAPER}" stroke-width="{stroke:g}"' if stroke else ''
     sd = f' stroke="{RED}" stroke-width="{stroke:g}"' if stroke else ''
     return (f'  <g fill="{PAPER}"{sl}>\n    <path d="{t}"/>\n    <path d="{d}"/>\n  </g>\n'
@@ -152,7 +101,7 @@ def letters_body(t, dot, d, stroke=0.0):
 
 MARK_LETTERS = letters_body(M_T, M_DOT, M_D)
 MONO_PATH = f'{BADGE_PATH} {M_T} {M_DOT} {M_D}'
-KNOCKOUT_PATH = f'{BADGE_PATH} {M_T} {M_D}'   # letters out, stop drawn on top
+KNOCKOUT_PATH = f'{BADGE_PATH} {M_T} {M_D}'
 
 def mark_svg_string(stroke=0.0):
     return (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160">\n'
@@ -174,7 +123,6 @@ def svg(name, vb, body, title):
         f.write(w)
     print('wrote', name, vb)
 
-# --- mark variants -----------------------------------------------------------
 svg('mark.svg', '0 0 160 160', f'''  <!-- Vector master of the compact mark (ratified 2026-08-30, supersedes the
        constructed t of 2026-08-11): "t.d" in the wordmark's own IBM Plex Mono
        Bold outlines on the ink badge, the full stop in flag red. Corner
@@ -213,7 +161,6 @@ svg('mark-currentcolor.svg', '0 0 160 160', f'''  <!-- Theme-following mark: bad
   <path fill="var(--twente-red, {RED})" d="{M_DOT}"/>''',
     'twente.dev — mark, theme-following')
 
-# --- wordmark ----------------------------------------------------------------
 ink_d, red_d, _ = word_paths(TEXT, 0, 0)
 vb = f'{wx0:g} {wy0:g} {wx1 - wx0:g} {wy1 - wy0:g}'
 for name, fill, label in (('wordmark.svg', INK, 'ink'), ('wordmark-white.svg', '#ffffff', 'white')):
@@ -223,12 +170,6 @@ for name, fill, label in (('wordmark.svg', INK, 'ink'), ('wordmark-white.svg', '
   <path fill="{fill}" d="{ink_d}"/>
   <path fill="{RED}" d="{red_d}"/>''', f'twente.dev — wordmark, {label}')
 
-# --- horizontal lockup -------------------------------------------------------
-# Three vertical alignments of the wordmark against the badge; all derived from
-# the same font metrics — never re-spaced by eye:
-#   (default)  x-height band centred on the badge     -> baseline 112
-#   -middle    wordmark tight box centred on the badge
-#   -bottom    wordmark tight box flush with the badge bottom
 X0 = BADGE + GAP
 LOCKUP_ALIGNMENTS = (
     ('', 112, 'x-height band centred on the badge'),
@@ -238,7 +179,7 @@ LOCKUP_ALIGNMENTS = (
 for suffix, BASELINE, align_note in LOCKUP_ALIGNMENTS:
     ink_d, red_d, xend = word_paths(TEXT, X0, BASELINE)
     lx0, ly0, lx1, ly1 = bounds(TEXT, X0, BASELINE)
-    W = lx1  # right edge of the v
+    W = lx1
     for name, wm_fill, mark in (
         (f'lockup-horizontal{suffix}.svg', INK, f'''  <rect width="160" height="160" rx="30" fill="{INK}"/>
 {MARK_LETTERS}'''),
@@ -251,8 +192,6 @@ for suffix, BASELINE, align_note in LOCKUP_ALIGNMENTS:
   <path fill="{wm_fill}" d="{ink_d}"/>
   <path fill="{RED}" d="{red_d}"/>''', 'twente.dev')
 
-# --- stacked lockup ----------------------------------------------------------
-# Mark centred above the wordmark, gap one bar width.
 wm_w = wx1 - wx0
 mark_x = (wm_w - BADGE) / 2
 wm_top_gap = BADGE + GAP
@@ -275,10 +214,6 @@ for name, wm_fill, mark in (
   <path fill="{wm_fill}" d="{ink_d2}"/>
   <path fill="{RED}" d="{red_d2}"/>''', 'twente.dev')
 
-# --- favicon -----------------------------------------------------------------
-# The mark at 1:5 on a 32-unit canvas. Small-size cut: the letter paths carry
-# a hairline same-colour stroke (+0.5 a side) so the strokes hold ~2 device
-# pixels in a non-retina 16 px tab. Deployed copy: public/favicon.svg.
 with open(os.path.join(OUT, 'favicon.svg'), 'w') as f:
     f.write(f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="twente.dev">
   <title>twente.dev</title>
@@ -297,13 +232,6 @@ print(f'metrics: mark t.d width {M_W:g} (x {M_X0:g}..{M_X0 + M_W:g}), round widt
 print(f'metrics: wordmark tight box {wx0:g},{wy0:g} -> {wx1:g},{wy1:g} (w={wx1-wx0:g} h={wy1-wy0:g})')
 print(f'horizontal lockup: {W:g} x 160; stacked: {wm_w:g} x {H:g}')
 
-# --- png exports -------------------------------------------------------------
-# Every variant except the currentColor ones (no colour outside CSS) and the
-# favicon (same artwork at canvas scale — use the mark PNGs or favicon.svg).
-# Each size is rendered from vector at that exact size — never downscaled from
-# a bigger raster. The marks additionally get a small ladder (32–256) whose
-# ≤128 px cuts carry a graded same-colour letter stroke, so consumers that
-# need a small bitmap get a tuned one instead of scaling our 512 themselves.
 PNG_VARIANTS = ('mark', 'mark-round', 'mark-black', 'mark-white',
                 'wordmark', 'wordmark-white',
                 'lockup-horizontal', 'lockup-horizontal-white',
@@ -311,7 +239,7 @@ PNG_VARIANTS = ('mark', 'mark-round', 'mark-black', 'mark-white',
                 'lockup-horizontal-bottom', 'lockup-horizontal-bottom-white',
                 'lockup-stacked', 'lockup-stacked-white')
 LARGE_SIZES = (512, 1024, 2048)
-SMALL_LADDER = ((32, 5.0), (64, 2.5), (128, 2.5), (256, 0.0))  # (px, letter stroke)
+SMALL_LADDER = ((32, 5.0), (64, 2.5), (128, 2.5), (256, 0.0))
 
 resvg = shutil.which('resvg')
 try:
@@ -350,10 +278,6 @@ else:
     print(f'rendered png/ at {", ".join(map(str, LARGE_SIZES))} px '
           f'(+ marks at {", ".join(str(p) for p, _ in SMALL_LADDER)} px, size-cut)')
 
-# --- favicons + apple touch icon ---------------------------------------------
-# Exact-size renders so no browser or platform ever scales our vector itself:
-# favicon.ico carries true per-size 16/32/48 rasters of the small-size cut,
-# apple-touch-icon is the mark flattened on ink (iOS composites on white).
 if resvg or resvg_py:
     from PIL import Image
     import io as _io
@@ -379,11 +303,6 @@ if resvg or resvg_py:
     flat.save(os.path.join(REPO, 'public', 'apple-touch-icon.png'))
     print('wrote public/favicon.ico (16/32/48) and public/apple-touch-icon.png (180)')
 
-# --- deploy ------------------------------------------------------------------
-# The site serves a copy of this kit at /brand/ — it is the press download set
-# and the source of the mark in every pasted e-mail signature. Same filenames,
-# copied, never edited in place. public/favicon.svg is deliberately not in
-# this list — it is the deployed favicon at the site root, not the press kit.
 DEPLOY = os.path.join(REPO, 'public', 'brand')
 SVG_DEPLOY = ('mark', 'mark-round', 'mark-white', 'mark-black', 'mark-mono',
               'mark-currentcolor', 'wordmark', 'wordmark-white',
@@ -406,9 +325,6 @@ shutil.copyfile(os.path.join(OUT, 'favicon.svg'), os.path.join(REPO, 'public', '
 print(f'deployed {len(SVG_DEPLOY)} svg + {len(PNG_FILES) if (resvg or resvg_py) else 0} png '
       'to public/brand/, favicon.svg to public/')
 
-# --- QA gate -----------------------------------------------------------------
-# Hard-verify what was written: exact pixel sizes, RGBA with clean transparent
-# corners on every kit PNG, and matching bytes between masters and deploy.
 if resvg or resvg_py:
     from PIL import Image
     import re as _re

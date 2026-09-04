@@ -2,18 +2,6 @@
 import ProsePage from '../../templates/ProsePage.astro';
 import { CONTACT_EMAIL } from '../../config/site.ts';
 import { routePath } from '../../i18n/routes.ts';
-
-/**
- * Waar het aanmeldformulier naartoe redirect na versturen.
- *
- * Het formulier POST cross-origin, dus de browser verlaat twente.dev hoe dan
- * ook. Zonder deze pagina landt iemand op een generieke pagina van de provider
- * en denkt hij dat hij klaar is — terwijl de bevestigingsklik nog moet. Dat is
- * de plek waar een dubbele opt-in de meeste mensen verliest, en dus de enige
- * reden dat deze pagina bestaat.
- *
- * noindex: dit is een bestemming, geen zoekresultaat.
- */
 ---
 
 <ProsePage

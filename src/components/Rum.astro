@@ -2,15 +2,6 @@
 import { SITE_URL } from '../i18n/config.ts';
 import { TELEMETRY_URL } from '../config/site.ts';
 
-/**
- * Cookieless Web-Vitals RUM (mirrors webgrip.nl, ADR-0006 there). Reports
- * LCP/INP/CLS/FCP/TTFB to the self-hosted Grafana Faro receiver
- * (telemetry.webgrip.dev) as anonymous measurements — no cookie, no session,
- * no profile. The `web-vitals` lib (~2 KB) is bundled by Astro (script-src
- * 'self'; the beacon host is in connect-src) and loads on idle so it never
- * touches the render path. The endpoint + app host are passed via
- * data-attributes (never inline: the meta CSP forbids is:inline).
- */
 const version = import.meta.env.PROD ? 'prod' : 'dev';
 ---
 
@@ -32,11 +23,8 @@ const version = import.meta.env.PROD ? 'prod' : 'dev';
   const cfg = document.getElementById('rum-config');
   const endpoint = cfg?.dataset.endpoint;
   const appName = cfg?.dataset.app ?? '';
+  const ignoreBeaconRejection = (): void => {};
 
-  // Beacon only from the real production origin: anywhere else (localhost, a
-  // preview deploy, the Lighthouse/axe server) the collector's CORS would
-  // reject the origin and the resulting console error would fail the
-  // best-practices gate — for a data point that would be dropped anyway.
   if (endpoint && location.hostname === appName) {
     const app = { name: appName, version: cfg?.dataset.version ?? '' };
 
@@ -50,7 +38,7 @@ const version = import.meta.env.PROD ? 'prod' : 'dev';
       try {
         navigator.sendBeacon(endpoint, new Blob([body], { type: 'application/json' }));
       } catch {
-        /* beacon unavailable — a missed data point is not worth a fallback */
+        ignoreBeaconRejection();
       }
     };
 

@@ -6,34 +6,6 @@
     <meta name="color-scheme" content="light dark" />
     <meta name="supported-color-schemes" content="light dark" />
     <title>twente.dev — field note (Brevo-template)</title>
-    <!--
-  twente.dev field note — campagnetemplate voor Brevo.
-
-  HOE TE GEBRUIKEN
-  1. Brevo → Campaigns → Email → New campaign → kies "Paste your code"
-     (of Templates → New template → Code your own) en plak dit hele bestand.
-  2. Vervang alles tussen ⟦ ⟧. Laat {{ unsubscribe }} staan: dat is Brevo's
-     eigen merge tag en wordt de afmeldlink. Zonder werkende afmeldlink mag
-     de campagne niet weg — en de privacypagina belooft één klik.
-  3. Verzend eerst een test naar jezelf én naar een outlook.com-adres.
-     Controleer in Gmail via "Show original" dat DKIM slaagt met
-     d=send.twente.dev. Zie docs/runbooks/email-authentication.md.
-
-  ENGELSE TWEELING
-  Kopieer dit bestand en vervang zes strings: het eyebrow-label, "Waarom je
-  dit krijgt", "Afmelden", "Antwoorden mag", de open call-kop en de
-  footerregel. De rest is taalonafhankelijk.
-
-  WAAROM HET ER ZO UITZIET
-  - Tabellen en inline styles, want mailclients negeren externe CSS en de
-    helft kent geen flexbox. Geen kaart-in-een-kaart: één vlak warm papier.
-  - Eén rood signaal (de punt in het woordmerk, en de rand van de open call).
-    Rood is hier betekenis, geen decoratie.
-  - Separator is altijd // — nooit één schuine streep.
-  - Geen tracking pixel, geen afbeeldingen die er een zijn. Open-tracking
-    staat uit in Brevo (anonymised tracking) en dat is een belofte op
-    /privacy, geen voorkeur.
--->
   </head>
   <body
     style="
@@ -45,8 +17,6 @@
       -webkit-font-smoothing: antialiased;
     "
   >
-    <!-- Preheader: de regel die in de inbox naast het onderwerp staat. Vul hem,
-         anders leest de client de eerste zin van de body voor. -->
     <div
       style="
         display: none;
@@ -79,8 +49,6 @@
             width="600"
             style="width: 100%; max-width: 600px; text-align: left"
           >
-            <!-- Woordmerk. Kleinkapitaal-gevoel via letter-spacing; de punt is
-                 het enige rood boven de vouw. -->
             <tr>
               <td style="padding-bottom: 28px">
                 <a href="https://twente.dev" style="text-decoration: none"
@@ -94,7 +62,6 @@
               </td>
             </tr>
 
-            <!-- Eyebrow: pijler // editie. Mono, want het is een label en geen zin. -->
             <tr>
               <td
                 style="
@@ -141,8 +108,6 @@
               </td>
             </tr>
 
-            <!-- Open call. Linkerrand in signaalrood: het enige blok dat om iets
-                 vraagt, dus het enige blok met een rand. -->
             <tr>
               <td style="padding: 4px 0 28px">
                 <table
@@ -182,8 +147,6 @@
               </td>
             </tr>
 
-            <!-- Agenda. Verwijder de hele rij als er niets staat: een lege kop
-                 is erger dan geen kop. -->
             <tr>
               <td style="padding-bottom: 28px">
                 <div

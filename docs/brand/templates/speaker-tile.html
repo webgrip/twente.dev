@@ -3,34 +3,6 @@
   <head>
     <meta charset="utf-8" />
     <title>twente.dev — speaker tile</title>
-    <!--
-  twente.dev speaker announcement tile, 1080x1080 — a file, not an app.
-
-  This replaces the flat speaker-tile.png that used to sit in public/brand/:
-  a rendered mockup with FIRSTNAME LASTNAME burned into the pixels, which was
-  served at a public URL and could not be filled in by anyone.
-
-  HOW TO USE
-  1. Copy this file (speaker-001-<surname>.html, ...).
-  2. Drop the portrait next to the copy as portrait.jpg — square-ish, at least
-     700px wide. Until it exists the slot shows a labelled placeholder.
-  3. Click and type: every field below is contenteditable.
-  4. Export at exactly 1080x1080: DevTools -> Elements -> right-click the
-     <div class="tile"> node -> "Capture node screenshot". Gives a PNG at the
-     artboard's true pixel size, which is what social platforms want.
-     Ctrl+P -> Save as PDF (margins: none, background graphics: ON) also works
-     and is the right output for print.
-
-  HOUSE RULES THIS FILE ENCODES
-  - The date line is Red Light (#ea6250), not Signal Red. Signal Red on ink is
-    3.11:1 — it passes the graphic threshold and fails the text one. The PNG
-    this replaces used #e85c48, which is neither of the two brand cuts.
-  - "SPEAKER" is metadata, so it sits in the grey ramp, not in red. Red marks
-    connections, dates and actions — never decoration. That leaves two red
-    signals: the edge frame and the date.
-  - The talk title is the one statement at display size. Three lines maximum;
-    a title that needs four is a title that needs cutting.
--->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -48,8 +20,6 @@
         --sans: 'Inter', -apple-system, system-ui, sans-serif;
         --mono: 'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace;
 
-        /* The one measure both columns are cut to: 1080 minus the top padding
-           and the ink band. Change it here, never in one column only. */
         --block: 726px;
       }
       * {
@@ -62,8 +32,6 @@
         color: var(--ink);
       }
 
-      /* The artboard. Fixed at the export size — do not make it responsive,
-         the whole point is that a node screenshot lands on 1080x1080. */
       .tile {
         width: 1080px;
         height: 1080px;
@@ -94,7 +62,6 @@
         }
       }
 
-      /* Signal one: the red edge. The brand's structural device, not decoration. */
       .tile::before {
         content: '';
         position: absolute;
@@ -125,7 +92,6 @@
         position: relative;
         z-index: 1;
       }
-      /* Sits behind the <img>; visible only while portrait.jpg is missing. */
       .portrait::after {
         content: 'portrait.jpg';
         position: absolute;
@@ -186,7 +152,7 @@
       .rule {
         border: 0;
         border-top: 1px solid var(--ink);
-        margin: auto 0 34px; /* auto: bottom-align the talk with the portrait */
+        margin: auto 0 34px;
       }
 
       .talk {
@@ -196,7 +162,6 @@
         letter-spacing: -0.02em;
       }
 
-      /* The ink band carries the facts: when, where, and the motto. */
       .band {
         margin: auto -72px 0 -96px;
         background: var(--ink);
@@ -209,7 +174,7 @@
         font-size: 22px;
         letter-spacing: 0.08em;
         text-transform: uppercase;
-        color: var(--red-light); /* signal two: the date */
+        color: var(--red-light);
       }
       .motto {
         font-weight: 650;
@@ -228,8 +193,6 @@
           <div class="edition" contenteditable="true">twente<span class="dot">.</span>dev/001</div>
           <div class="label" style="margin-top: 34px">speaker</div>
 
-          <!-- Lines break with <br />, not literal newlines — Prettier collapses
-               those and pre-line would silently become one line. -->
           <div class="name" contenteditable="true">Firstname<br />Lastname</div>
           <div class="role" contenteditable="true">Role · organisation</div>
 

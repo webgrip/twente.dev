@@ -1,18 +1,3 @@
-/**
- * Cross-cutting content checks.
- *
- * The Zod schemas in `src/content.config.ts` validate each entry in isolation
- * and run during `astro build`. This script covers what a per-entry schema
- * structurally cannot see:
- *
- *   - references that point at a company file which does not exist
- *   - duplicate slugs within a collection
- *   - translation keys that pair more than two posts, or pair a locale to itself
- *   - fixture content still present (blocks a real launch, warns otherwise)
- *
- * Run by CI as a separate gate so a broken cross-reference is reported as a
- * content problem rather than as a mysterious build failure.
- */
 import { readdir, readFile } from 'node:fs/promises';
 import { basename, join } from 'node:path';
 import { parse } from 'yaml';
@@ -47,16 +32,12 @@ function slugOf(filename: string): string {
   return basename(filename).replace(/\.(yml|yaml|md)$/, '');
 }
 
-/* ---- companies ------------------------------------------------------------ */
-
 const companyFiles = await listYaml('companies');
 const companySlugs = new Set(companyFiles.map(slugOf));
 
 if (companySlugs.size !== companyFiles.length) {
   fail('companies/', 'duplicate company slugs');
 }
-
-/* ---- events --------------------------------------------------------------- */
 
 for (const file of await listYaml('events')) {
   const path = `events/${file}`;
@@ -69,15 +50,12 @@ for (const file of await listYaml('events')) {
   }
 }
 
-/* ---- posts ---------------------------------------------------------------- */
-
 const postsByKey = new Map<string, { file: string; locale: string }[]>();
 
 async function listPosts(locale: string): Promise<string[]> {
   try {
     return (await readdir(join(CONTENT, 'posts', locale))).filter((f) => f.endsWith('.md'));
   } catch {
-    // No posts for this locale yet.
     return [];
   }
 }
@@ -129,8 +107,6 @@ for (const [key, group] of postsByKey) {
   }
 }
 
-/* ---- fixtures ------------------------------------------------------------- */
-
 const fixtureFiles: string[] = [];
 for (const [dir, files] of [
   ['companies', companyFiles],
@@ -139,10 +115,6 @@ for (const [dir, files] of [
   for (const file of files) {
     const raw = await readFile(join(CONTENT, dir, file), 'utf8');
     const data = parse(raw) as Record<string, unknown> | null;
-    // The schema field is the source of truth (comments don't survive into
-    // the data pipeline, and templates render a visible "Voorbeelddata" tag
-    // from it); the FIXTURE comment scan stays as a belt-and-braces check
-    // for an entry that was invented but never flagged.
     if (data?.fixture === true || raw.includes('FIXTURE')) {
       fixtureFiles.push(`${dir}/${file}`);
       if (data?.fixture !== true && raw.includes('FIXTURE')) {
@@ -154,16 +126,12 @@ for (const [dir, files] of [
 
 if (fixtureFiles.length > 0) {
   const message = `${fixtureFiles.length} fixture file(s) still present — delete before launch`;
-  // In CI on main this is a warning; a human decides when launch happens.
-  // `REQUIRE_REAL_CONTENT=1` turns it into a hard gate for the launch commit.
   if (process.env.REQUIRE_REAL_CONTENT === '1') {
     fail(fixtureFiles.join(', '), message);
   } else {
     warn(fixtureFiles.join(', '), message);
   }
 }
-
-/* ---- report --------------------------------------------------------------- */
 
 for (const { file, message } of warnings) {
   console.warn(`warning  ${file}: ${message}`);

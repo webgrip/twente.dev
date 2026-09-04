@@ -79,6 +79,16 @@ const subject = locale === 'nl' ? 'Nieuwsbrief' : 'Newsletter';
 </div>
 
 <script>
+  const PROVIDER_THANK_YOU_PAGE = { success: true };
+
+  const verdictFrom = (body: string) => {
+    try {
+      return JSON.parse(body);
+    } catch {
+      return PROVIDER_THANK_YOU_PAGE;
+    }
+  };
+
   const forms = document.querySelectorAll('form[data-newsletter-form]');
 
   for (const form of forms) {
@@ -123,12 +133,7 @@ const subject = locale === 'nl' ? 'Nieuwsbrief' : 'Newsletter';
 
       const raw = await response.text().catch(() => '');
 
-      let rejected = !response.ok;
-      try {
-        rejected ||= JSON.parse(raw)?.success === false;
-      } catch {
-        // A non-JSON body from a 2xx is the provider's own thank-you page, which is a success.
-      }
+      const rejected = !response.ok || verdictFrom(raw)?.success === false;
 
       if (rejected) {
         console.warn(

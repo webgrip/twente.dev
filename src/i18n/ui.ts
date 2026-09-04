@@ -111,7 +111,7 @@ export const nl = {
   'events.subscribeHint':
     'Abonneer je één keer — daarna verschijnen nieuwe events en wijzigingen vanzelf in je agenda.',
   'events.subscribeGoogle': 'Google Agenda',
-  'events.subscribeWebcal': 'Apple Calendar / Outlook',
+  'events.subscribeWebcal': 'Apple Calendar // Outlook',
   'events.subscribeDirect': 'Los .ics-bestand (eenmalige import)',
   'events.free': 'Gratis',
   'events.cancelled': 'Geannuleerd',
@@ -267,7 +267,7 @@ export const en: Record<UIKey, string> = {
   'events.subscribeHint':
     'Subscribe once — new events and changes then appear in your calendar by themselves.',
   'events.subscribeGoogle': 'Google Calendar',
-  'events.subscribeWebcal': 'Apple Calendar / Outlook',
+  'events.subscribeWebcal': 'Apple Calendar // Outlook',
   'events.subscribeDirect': 'Plain .ics file (one-off import)',
   'events.free': 'Free',
   'events.cancelled': 'Cancelled',

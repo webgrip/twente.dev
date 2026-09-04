@@ -104,7 +104,7 @@ const mailSubject = encodeURIComponent(
 
             <p class="count label-mono" aria-live="polite">
               <span data-count>{communities.length}</span>
-              {' / '}
+              {' // '}
               {communities.length} {t('communities.results')}
             </p>
           </form>
@@ -137,7 +137,7 @@ const mailSubject = encodeURIComponent(
                   <li>
                     <Tag variant="muted">
                       {community.data.language === 'both'
-                        ? 'NL / EN'
+                        ? 'NL // EN'
                         : community.data.language.toUpperCase()}
                     </Tag>
                   </li>

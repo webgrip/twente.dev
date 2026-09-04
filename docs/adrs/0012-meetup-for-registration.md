@@ -56,7 +56,8 @@ mailto plus a hand-kept list (the standing decision) · Meetup · Luma · pretix
   be asked anyway — the mailto route asked the same three things by hand.
 - **The waitlist is on, and registrations are accepted above seated capacity.** Free evenings
   no-show heavily; the exact overbooking factor is an open question put to an experienced organiser
-  in [the Code14 briefing](../plan/code14-call-briefing.md).
+  in the Code14 call briefing (`docs/plan/code14-call-briefing.md`, which is not part of the
+  published docs site).
 
 We are buying distribution, not software. The RSVP handling is a side effect of the thing being
 paid for.

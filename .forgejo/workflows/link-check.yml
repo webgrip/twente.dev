@@ -24,8 +24,7 @@ env:
 jobs:
   links:
     name: "Check links in built output"
-    # TODO(post-merge): pin the tag cut by webgrip/workflows PR #58, then delete this line.
-    uses: webgrip/workflows/.forgejo/workflows/link-check-static-site.yml@vTODO
+    uses: webgrip/workflows/.forgejo/workflows/link-check-static-site.yml@cfca5d381db0ae44912faf34e105721eede2ee3e # v2.1.0
     with:
       exclude-pattern: '^https://twente\.dev'
       # communities.yml is checked DIRECTLY, not via dist/: getCommunities()

@@ -135,14 +135,13 @@ jobs:
     name: "Lighthouse Budgets"
     needs:
       - build
-    # TODO(post-merge): pin the tag cut by webgrip/workflows PR #58, then delete this line.
-    uses: webgrip/workflows/.forgejo/workflows/lighthouse-budgets.yml@vTODO
+    uses: webgrip/workflows/.forgejo/workflows/lighthouse-budgets.yml@cfca5d381db0ae44912faf34e105721eede2ee3e # v2.1.0
 
   accessibility:
     name: "Accessibility (axe-core)"
     needs:
       - build
-    uses: webgrip/workflows/.forgejo/workflows/axe-scan.yml@vTODO
+    uses: webgrip/workflows/.forgejo/workflows/axe-scan.yml@cfca5d381db0ae44912faf34e105721eede2ee3e # v2.1.0
 
   # ---------------------------------------------------------------------------
   # Deploy — via the shared cloudflare-deploy workflow (the ADR-0003 "Phase 2"
@@ -161,7 +160,7 @@ jobs:
     name: "Deploy Preview"
     needs:
       - build
-    uses: webgrip/workflows/.forgejo/workflows/cloudflare-deploy.yml@vTODO
+    uses: webgrip/workflows/.forgejo/workflows/cloudflare-deploy.yml@cfca5d381db0ae44912faf34e105721eede2ee3e # v2.1.0
     with:
       environment: preview
       apex-url: "https://twente.dev"
@@ -176,7 +175,7 @@ jobs:
       - build
       - lighthouse
       - accessibility
-    uses: webgrip/workflows/.forgejo/workflows/cloudflare-deploy.yml@vTODO
+    uses: webgrip/workflows/.forgejo/workflows/cloudflare-deploy.yml@cfca5d381db0ae44912faf34e105721eede2ee3e # v2.1.0
     with:
       environment: production
       apex-url: "https://twente.dev"

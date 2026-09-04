@@ -88,12 +88,25 @@ terms:
   - name: People Who Build
     context: Publicatie
     definition: >-
-      Een geschreven portret van iemand die in de regio bouwt, opgebouwd uit
-      vaste vragen. Onderscheidt zich van een Talk doordat het geschreven is en
-      niet aan een Edition hangt, en van een nieuwsbericht doordat de persoon
-      het onderwerp is en niet de aanleiding.
+      Een interview met iemand die in de regio bouwt, opgebouwd uit vaste
+      vragen. Wij stellen de vragen, zij geven de antwoorden. Onderscheidt zich
+      van een Field Note doordat iemand anders de pen vasthoudt, en van een Talk
+      doordat het geschreven is en niet aan een Edition hangt.
     synonyms: [portret, interview]
-    see_also: [Newsletter, Open Call]
+    avoid: [field report, veldverslag]
+    see_also: [Field Note, Newsletter]
+
+  - name: Field Note
+    context: Publicatie
+    definition: >-
+      Eén concrete les uit de praktijk, in de eerste persoon opgeschreven door
+      degene die hem geleerd heeft. Ook Ryans eigen lessen uit het organiseren
+      vallen hieronder. Het onderscheid met People Who Build is wie de pen
+      vasthoudt: bij een Field Note schrijft de betrokkene zelf, bij People Who
+      Build interviewen wij.
+    synonyms: [veldnotitie]
+    avoid: [field report]
+    see_also: [People Who Build, Newsletter]
 
   - name: Open Call
     context: Publicatie
@@ -118,7 +131,8 @@ terms:
       Edition. Geen wekelijkse cadans; er gaat een mail uit als er iets te
       melden is.
     synonyms: [nieuwsbrief]
-    see_also: [People Who Build, Open Call]
+    avoid: [de field note]
+    see_also: [People Who Build, Field Note]
 
 rules:
   - id: R1
@@ -166,6 +180,25 @@ rules:
       uit de contributiepijplijn en wordt nooit verzonnen.
     rationale: De directory is alleen iets waard als alles erin klopt.
     applies_to: [Community]
+  - id: R8
+    statement: >-
+      De nieuwsbrief is één lijst met één afmeldknop. Wie zijn adres achterlaat
+      krijgt People Who Build, Field Notes, de Open Calls en de aankondigingen
+      rond een Edition, en de opt-intekst noemt ze alle vier.
+    rationale: >-
+      Aparte lijsten per soort zijn administratie zonder opbrengst zolang er één
+      afzender en een handvol verzendingen per kwartaal zijn. Wat wél moet: niet
+      meer beloven dan je stuurt, en niet minder. De doos heette "De field note"
+      terwijl er vier soorten uit kwamen.
+    applies_to: [Newsletter, Field Note, People Who Build]
+  - id: R9
+    statement: >-
+      Een Host wordt publiek genoemd met het aantal edities dat is toegezegd, en
+      dat aantal is eindig.
+    rationale: >-
+      Andere bedrijven moeten kunnen zien wanneer de zaal weer vrijkomt, anders
+      is de open uitnodiging aan de regio een dode letter.
+    applies_to: [Host]
 
 entities:
   - name: Edition
@@ -260,7 +293,9 @@ entities:
         required: true
       - name: editionsCommitted
         type: int
-        description: Expliciet eindig, en publiek gecommuniceerd als zodanig.
+        description: >-
+          Expliciet eindig, en publiek gecommuniceerd als zodanig. Code14 zegde
+          op 2026-09-04 twaalf edities toe, zaal én bijdrage.
     relationships:
       - to: Edition
         kind: has_many

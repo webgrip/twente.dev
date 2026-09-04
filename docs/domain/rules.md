@@ -40,6 +40,22 @@ Een Host krijgt logo, bedanking en hooguit twee minuten. Nooit een Talk-slot, de
 
 **Why:** De gepubliceerde waarborgen gelden ook voor wie de zaal betaalt, anders zijn het geen waarborgen.
 
+### R9
+
+Een Host wordt publiek genoemd met het aantal edities dat is toegezegd, en dat aantal is eindig.
+
+**Why:** Andere bedrijven moeten kunnen zien wanneer de zaal weer vrijkomt, anders is de open uitnodiging aan de regio een dode letter.
+
+## Newsletter
+
+### R8
+
+De nieuwsbrief is één lijst met één afmeldknop. Wie zijn adres achterlaat krijgt People Who Build, Field Notes, de Open Calls en de aankondigingen rond een Edition, en de opt-intekst noemt ze alle vier.
+
+**Why:** Aparte lijsten per soort zijn administratie zonder opbrengst zolang er één afzender en een handvol verzendingen per kwartaal zijn. Wat wél moet: niet meer beloven dan je stuurt, en niet minder. De doos heette "De field note" terwijl er vier soorten uit kwamen.
+
+**Also applies to:** Field Note, People Who Build
+
 ## Speaker
 
 ### R5

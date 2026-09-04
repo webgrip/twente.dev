@@ -18,6 +18,15 @@ Eén genummerde avond, geschreven als twente.dev/001. Onderscheidt zich van een 
 **Examples:** twente.dev/001 — Reconnect; twente.dev/002  
 **See also:** [Talk](#talk), [Registration](#registration), [Host](#host)  
 
+## Field Note
+*Context: Publicatie*
+
+Eén concrete les uit de praktijk, in de eerste persoon opgeschreven door degene die hem geleerd heeft. Ook Ryans eigen lessen uit het organiseren vallen hieronder. Het onderscheid met People Who Build is wie de pen vasthoudt: bij een Field Note schrijft de betrokkene zelf, bij People Who Build interviewen wij.
+
+**Also known as:** veldnotitie  
+**Do not use:** field report  
+**See also:** [People Who Build](#people-who-build), [Newsletter](#newsletter)  
+
 ## Host
 *Context: Editie*
 
@@ -34,7 +43,8 @@ De organisatie die de zaal levert voor een Edition. Krijgt logo, bedanking bij d
 De opt-in maillijst waarop lezers zich abonneren, met dubbele opt-in via Brevo. Verstuurt de Publicatie-stukken en de aankondigingen rond een Edition. Geen wekelijkse cadans; er gaat een mail uit als er iets te melden is.
 
 **Also known as:** nieuwsbrief  
-**See also:** [People Who Build](#people-who-build), [Open Call](#open-call)  
+**Do not use:** de field note  
+**See also:** [People Who Build](#people-who-build), [Field Note](#field-note)  
 
 ## Open Call
 *Context: Publicatie*
@@ -53,10 +63,11 @@ Een organisatie die twente.dev steunt onder het gepubliceerde partnercompact. On
 ## People Who Build
 *Context: Publicatie*
 
-Een geschreven portret van iemand die in de regio bouwt, opgebouwd uit vaste vragen. Onderscheidt zich van een Talk doordat het geschreven is en niet aan een Edition hangt, en van een nieuwsbericht doordat de persoon het onderwerp is en niet de aanleiding.
+Een interview met iemand die in de regio bouwt, opgebouwd uit vaste vragen. Wij stellen de vragen, zij geven de antwoorden. Onderscheidt zich van een Field Note doordat iemand anders de pen vasthoudt, en van een Talk doordat het geschreven is en niet aan een Edition hangt.
 
 **Also known as:** portret, interview  
-**See also:** [Newsletter](#newsletter), [Open Call](#open-call)  
+**Do not use:** field report, veldverslag  
+**See also:** [Field Note](#field-note), [Newsletter](#newsletter)  
 
 ## Registration
 *Context: Editie*

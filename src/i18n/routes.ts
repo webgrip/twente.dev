@@ -30,6 +30,8 @@ export const ROUTES = {
   privacy: { nl: 'privacy', en: 'privacy' },
   /** Where the newsletter form's provider redirects after submit. noindex. */
   thanks: { nl: 'bedankt', en: 'thanks' },
+  /** Where that same provider redirects after the confirmation click. noindex. */
+  confirmed: { nl: 'bevestigd', en: 'confirmed' },
   search: { nl: 'zoeken', en: 'search' },
 } as const satisfies Record<string, Record<Locale, string>>;
 

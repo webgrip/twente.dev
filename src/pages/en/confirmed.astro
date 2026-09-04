@@ -1,0 +1,39 @@
+---
+import ProsePage from '../../templates/ProsePage.astro';
+import { CONTACT_EMAIL } from '../../config/site.ts';
+import { routePath } from '../../i18n/routes.ts';
+
+/** English twin of /nl/bevestigd, see that file for why this page exists. */
+---
+
+<ProsePage
+  locale="en"
+  routeKey="confirmed"
+  noindex
+  title="You are on the list"
+  description="Your subscription is confirmed. You hear from us when there is something worth saying."
+>
+  <p><strong>That is it.</strong> Your address is on the list and there is nothing left to do.</p>
+
+  <p>
+    What you get: one concrete lesson from a local system, written by someone who works here. Along
+    with what is coming up in the region and one open call. You hear from us when there is something
+    worth saying, not because it is Tuesday.
+  </p>
+
+  <p>
+    Replies are welcome, there is a person on the other end. Every email carries an unsubscribe link
+    at the bottom, one click and no explanation needed.
+  </p>
+
+  <h2>In the meantime</h2>
+  <p>
+    The <a href={routePath('events', 'en')}>calendar</a> is open to everyone and you can subscribe to
+    it from your own calendar app. <a href={routePath('contribute', 'en')}>Contribute</a> lists what we
+    could use help with right now: a story, a room, or an event you know about that is missing here.
+  </p>
+  <p>
+    Something wrong with your sign-up? Email <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a
+    >.
+  </p>
+</ProsePage>

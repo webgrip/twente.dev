@@ -94,6 +94,8 @@ export default defineConfig({
           '/en/search',
           '/nl/bedankt',
           '/en/thanks',
+          '/nl/bevestigd',
+          '/en/confirmed',
         ]);
         return !noindexPaths.has(path) && !path.endsWith('/404');
       },

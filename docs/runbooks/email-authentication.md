@@ -90,6 +90,94 @@ header.d=twente.dev`, `dmarc=pass` and `compauth=pass reason=100`. mail-tester s
 
 ---
 
+## Plan: van domain alias naar secondary domain
+
+Dit is de klus die punt 3 en punt 5 hierboven in één keer oplost. Alles is
+Cloudflare-DNS en Workspace-admin, dus het is handwerk. Doe het in één zitting.
+
+### Wat er klaar is als je klaar bent
+
+1. `twente.dev` staat in Workspace als **secondary domain**, niet als alias.
+2. `ryan@twente.dev` is een echt gebruikersaccount met een eigen licentie.
+3. `hello@`, `conduct@`, `press@` en `dmarc@` op twente.dev zijn **Google Groups**,
+   dus met meer dan één lid en zonder doorstuurregel ertussen.
+4. MX van twente.dev wijst naar Google; Cloudflare Email Routing staat uit voor
+   dit domein.
+5. Een testmail vanaf `ryan@twente.dev` laat **beide** DMARC-benen slagen:
+   `dkim=pass header.d=twente.dev` én `spf=pass smtp.mailfrom=twente.dev`.
+
+Punt 5 is de winst die de licentie koopt. Zonder een echt account op het domein
+blijft de envelope `webgrip.nl` en blijft DMARC op één been staan, hoe je het
+domein ook koppelt.
+
+### Vooraf, en sla dit ergens op
+
+- **Noteer het huidige DKIM-record**: `google._domainkey.twente.dev`, de hele
+  waarde. De selector blijft straks hetzelfde en alleen de waarde verandert, dus
+  dit is je vergelijkingspunt en je weg terug.
+- **Schrijf elke Cloudflare Email Routing-regel voor twente.dev op**: welk adres
+  naar welke bestemming. Je bouwt ze straks na als Groups en je hebt ze nodig als
+  je terug moet.
+- **Noteer de huidige MX-records** van twente.dev.
+- Plan het niet vlak voor een verzending en niet op vrijdagmiddag.
+
+### De volgorde, en waarom die zo is
+
+De volgorde is gekozen zodat inkomende mail blijft werken tot het allerlaatste
+moment. Cloudflare Email Routing hangt niet aan Workspace, dus stap 1 tot en met
+6 raken je inbox niet. Pas stap 7 zet de post om.
+
+1. **Verwijder de domain alias.** Admin console → Account → Domains → Manage
+   domains → twente.dev → verwijderen. Google vraagt mogelijk eerst om
+   verwijzingen op te ruimen. Kijk eerst even of er inmiddels een knop staat die
+   een alias omzet naar een secondary domain; die kende ik niet, maar dan sla je
+   stap 1 en 2 over.
+2. **Voeg twente.dev toe als secondary domain.** Add domain → nadrukkelijk
+   _secondary domain_, niet _alias_.
+3. **Verifieer het eigendom** met het TXT-record dat Google geeft, in Cloudflare
+   DNS op de apex.
+4. **Maak `ryan@twente.dev`** als gebruiker. Dit kost een licentie en dit is de
+   stap die SPF-alignment mogelijk maakt.
+5. **Maak de Groups**: `hello@`, `conduct@`, `press@`, `dmarc@`. Zet er de leden
+   in die nu in je Cloudflare-routeringsregels staan. Let op de valkuil verderop:
+   een nieuwe Group weigert externe afzenders standaard, en dat is precies wat
+   `hello@` en `conduct@` moeten kunnen ontvangen.
+6. **Genereer DKIM opnieuw** voor twente.dev (Apps → Google Workspace → Gmail →
+   Authenticate email), publiceer de nieuwe TXT-waarde in Cloudflare op
+   `google._domainkey`, en zet daarna Start authentication aan. 2048 bit is 408
+   tekens en moet in zijn geheel geplakt.
+7. **Zet MX om naar Google** en schakel Cloudflare Email Routing uit voor
+   twente.dev. Dit is het onomkeerbare moment; alles ervoor moet kloppen.
+8. **Laat SPF met rust.** Het record heeft nu al beide includes en blijft
+   slagen. De Cloudflare-include eruit halen is opruimwerk voor later, geen
+   onderdeel van deze klus.
+
+### Verifiëren voordat je het klaar noemt
+
+```bash
+dig +short twente.dev MX                      # moet Google zijn
+dig +short google._domainkey.twente.dev TXT   # moet de NIEUWE waarde zijn
+dig +short twente.dev TXT | grep spf          # ongewijzigd
+```
+
+Daarna, en dit is het echte bewijs:
+
+- Stuur vanaf `ryan@twente.dev` naar mail-tester en naar een outlook-adres. Je
+  wilt in de headers `dkim=pass header.d=twente.dev` **en** `spf=pass
+smtp.mailfrom=twente.dev` zien. Eén van de twee is de oude situatie.
+- Stuur vanaf een extern adres naar `conduct@twente.dev` en controleer dat
+  **elk** groepslid hem krijgt. Dit is het meldadres dat op de gedragscodepagina
+  staat; een meldadres dat niet aankomt is erger dan geen meldadres.
+- Stuur vanaf een extern adres naar `hello@` en `press@`.
+- Controleer dat `dmarc@` nog aankomt, want daar wijzen de rua-adressen heen.
+
+### Terug als het misgaat
+
+Tot stap 7 is er niets stuk: inbound loopt nog over Cloudflare. Na stap 7 is de
+weg terug de MX-records herstellen en Email Routing weer aanzetten met de regels
+die je vooraf hebt opgeschreven. De DKIM-sleutel is dan een nieuwe, en dat is
+geen probleem zolang de TXT klopt.
+
 ## Gotchas that cost time, and what they actually mean
 
 The point of this section: none of these produce an error message. They all look like success

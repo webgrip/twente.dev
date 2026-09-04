@@ -11,14 +11,17 @@
  * What it does:
  *   1. GENERATES ops/docker/web/security-headers.conf entirely from the `/*`
  *      block of public/_headers.
- *   2. GENERATES the redirect `location` blocks in ops/docker/web/nginx.conf
- *      from public/_redirects, splicing only the marked region — everything
- *      else in nginx.conf stays hand-written.
- *   3. VERIFIES the cache tiers: every path rule in public/_headers that sets
- *      Cache-Control must be served by an nginx location carrying the same
- *      value. Verified rather than generated because those locations carry
- *      nginx-specific extras (`default_type text/calendar`, `try_files`) that
- *      are not mechanical.
+ *   2. GENERATES the redirect `location` blocks in nginx.conf from
+ *      public/_redirects.
+ *   3. GENERATES the cache-tier `location` blocks in nginx.conf from every
+ *      Cache-Control rule in public/_headers. Both artifacts extend the same
+ *      source; there is nothing left to compare. nginx's longest-prefix rule
+ *      makes /pagefind/index/ beat /pagefind/ without regexes, and the one
+ *      format-specific extra (.ics needs default_type text/calendar or no
+ *      client will subscribe) is knowledge the generator owns.
+ *
+ * Only the marked regions of nginx.conf are spliced; the rest (clean-URL
+ * canonicalisation, the HTML fallback, the 404 contract) stays hand-written.
  *
  * Modes: `pnpm gen:ops` rewrites the derived files; `pnpm gen:ops --check`
  * fails (exit 1) if the files on disk differ from what would be generated —
@@ -31,8 +34,10 @@ const REDIRECTS_FILE = 'public/_redirects';
 const NGINX_CONF = 'ops/docker/web/nginx.conf';
 const SECURITY_CONF = 'ops/docker/web/security-headers.conf';
 
-const BEGIN_MARK = '# BEGIN generated from public/_redirects';
-const END_MARK = '# END generated from public/_redirects';
+const REDIRECTS_BEGIN = '# BEGIN generated from public/_redirects';
+const REDIRECTS_END = '# END generated from public/_redirects';
+const CACHE_BEGIN = '# BEGIN generated from public/_headers';
+const CACHE_END = '# END generated from public/_headers';
 
 const CHECK = process.argv.includes('--check');
 
@@ -108,93 +113,50 @@ function generateRedirectRegion(
     (r) => `    location = ${r.source} {\n        return ${r.status} ${r.target};\n    }`,
   );
   const header =
-    `    ${BEGIN_MARK}\n` +
+    `    ${REDIRECTS_BEGIN}\n` +
     '    # Do not edit by hand — the rationale for each rule lives as comments in\n' +
     '    # public/_redirects; change that file and run `pnpm gen:ops`.';
-  return [header, ...blocks, `    ${END_MARK}`].join('\n\n');
+  return [header, ...blocks, `    ${REDIRECTS_END}`].join('\n\n');
 }
 
-function spliceNginx(conf: string, region: string): string {
-  const begin = conf.indexOf(`    ${BEGIN_MARK}`);
-  const endMark = `    ${END_MARK}`;
-  const end = conf.indexOf(endMark);
-  if (begin === -1 || end === -1 || end < begin) {
-    console.error(`gen-ops: ${NGINX_CONF} is missing the ${BEGIN_MARK} / ${END_MARK} markers`);
-    process.exit(1);
-  }
-  return conf.slice(0, begin) + region + conf.slice(end + endMark.length);
-}
-
-interface NginxLocation {
-  modifier: string; // '', '=', '~'
-  pattern: string;
-  cacheControl: string | null;
-  order: number;
-}
-
-function parseNginxLocations(conf: string): NginxLocation[] {
-  const locations: NginxLocation[] = [];
-  const re = /location\s+(?:(=|~\*?|\^~)\s+)?(\S+)\s*\{([^}]*)\}/g;
-  let m: RegExpExecArray | null;
-  let order = 0;
-  while ((m = re.exec(conf)) !== null) {
-    const body = m[3] ?? '';
-    const cc = body.match(/add_header\s+Cache-Control\s+"([^"]*)"/);
-    locations.push({
-      modifier: m[1] ?? '',
-      pattern: m[2] as string,
-      cacheControl: cc?.[1] ?? null,
-      order: order++,
-    });
-  }
-  return locations;
-}
-
-/**
- * nginx location selection, simplified for this config (no ^~ blocks): an
- * exact match wins; otherwise regex locations are tried in file order; only
- * when none matches does the longest matching prefix serve the request.
- */
-function matchLocation(locations: NginxLocation[], url: string): NginxLocation | null {
-  const exact = locations.find((l) => l.modifier === '=' && l.pattern === url);
-  if (exact) return exact;
-  for (const l of locations) {
-    if (l.modifier.startsWith('~') && new RegExp(l.pattern).test(url)) return l;
-  }
-  let best: NginxLocation | null = null;
-  for (const l of locations) {
-    if (l.modifier === '' && url.startsWith(l.pattern)) {
-      if (!best || l.pattern.length > best.pattern.length) best = l;
-    }
-  }
-  return best;
-}
-
-/** Every Cache-Control rule in _headers must be served identically by nginx. */
-function verifyCacheTiers(blocks: HeaderBlock[], conf: string): string[] {
-  const failures: string[] = [];
-  const locations = parseNginxLocations(conf);
+function generateCacheRegion(blocks: HeaderBlock[]): string {
+  const locations: string[] = [];
   for (const block of blocks) {
     if (block.path === '/*') continue;
     const cc = block.headers.find((h) => h.name.toLowerCase() === 'cache-control');
     if (!cc) continue;
-    // A representative URL for the pattern: `/_astro/*` must serve like `/_astro/x`.
-    const url = block.path.endsWith('*') ? `${block.path.slice(0, -1)}x` : block.path;
-    const loc = matchLocation(locations, url);
-    if (!loc || loc.cacheControl === null) {
-      failures.push(
-        `${block.path}: public/_headers sets "Cache-Control: ${cc.value}" but no nginx ` +
-          `location serving ${url} sets Cache-Control at all`,
-      );
-    } else if (loc.cacheControl !== cc.value) {
-      failures.push(
-        `${block.path}: Cache-Control drifted\n` +
-          `    public/_headers  ${cc.value}\n` +
-          `    nginx (${loc.modifier || 'prefix'} ${loc.pattern})  ${loc.cacheControl}`,
-      );
+    // `/x/*` becomes a prefix location; an exact path an exact one. nginx's
+    // longest-prefix rule orders overlapping tiers (/pagefind/index/ beats
+    // /pagefind/) with no regexes needed.
+    const selector = block.path.endsWith('*')
+      ? `location ${block.path.slice(0, -1)}`
+      : `location = ${block.path}`;
+    const body = ['        include /etc/nginx/conf.d/security-headers.conf;'];
+    if (block.path.endsWith('.ics')) {
+      // .ics is absent from nginx's mime.types; a calendar served as
+      // application/octet-stream will not subscribe in any client.
+      body.push('        default_type text/calendar;');
     }
+    body.push(`        add_header Cache-Control "${cc.value}" always;`);
+    body.push('        try_files $uri =404;');
+    locations.push(`    ${selector} {\n${body.join('\n')}\n    }`);
   }
-  return failures;
+  const header =
+    `    ${CACHE_BEGIN}\n` +
+    '    # Do not edit by hand — each tier and its rationale live as comments in\n' +
+    '    # public/_headers; change that file and run `pnpm gen:ops`.';
+  return [header, ...locations, `    ${CACHE_END}`].join('\n\n');
+}
+
+function splice(conf: string, beginMark: string, endMark: string, region: string): string {
+  const begin = conf.indexOf(`    ${beginMark}`);
+  const endWithIndent = `    ${endMark}`;
+  const end = conf.indexOf(endWithIndent);
+  if (begin === -1 || end === -1 || end < begin) {
+    console.error(`gen-ops: ${NGINX_CONF} is missing the ${beginMark} / ${endMark} markers`);
+    process.exit(1);
+  }
+  return conf.slice(0, begin) + region + conf.slice(end + endWithIndent.length);
 }
 
 function emit(path: string, content: string, drift: string[]): void {
@@ -210,27 +172,25 @@ function emit(path: string, content: string, drift: string[]): void {
 
 const headerBlocks = parseHeaders(readFileSync(HEADERS_FILE, 'utf8'));
 const redirectRules = parseRedirects(readFileSync(REDIRECTS_FILE, 'utf8'));
-const nginxBefore = readFileSync(NGINX_CONF, 'utf8');
 
 const drift: string[] = [];
 emit(SECURITY_CONF, generateSecurityConf(headerBlocks), drift);
-emit(NGINX_CONF, spliceNginx(nginxBefore, generateRedirectRegion(redirectRules)), drift);
 
-const cacheFailures = verifyCacheTiers(headerBlocks, readFileSync(NGINX_CONF, 'utf8'));
+let nginx = readFileSync(NGINX_CONF, 'utf8');
+nginx = splice(nginx, REDIRECTS_BEGIN, REDIRECTS_END, generateRedirectRegion(redirectRules));
+nginx = splice(nginx, CACHE_BEGIN, CACHE_END, generateCacheRegion(headerBlocks));
+emit(NGINX_CONF, nginx, drift);
 
-if (drift.length > 0 || cacheFailures.length > 0) {
-  if (drift.length > 0) {
-    console.error(`\ngen-ops: ${drift.length} derived file(s) out of date:\n`);
-    for (const d of drift) console.error(`  ${d}`);
-  }
-  if (cacheFailures.length > 0) {
-    console.error(`\ngen-ops: ${cacheFailures.length} cache-tier mismatch(es):\n`);
-    for (const f of cacheFailures) console.error(`  ${f}\n`);
-  }
+if (drift.length > 0) {
+  console.error(`\ngen-ops: ${drift.length} derived file(s) out of date:\n`);
+  for (const d of drift) console.error(`  ${d}`);
   process.exit(1);
 }
 
+const tiers = headerBlocks.filter(
+  (b) => b.path !== '/*' && b.headers.some((h) => h.name.toLowerCase() === 'cache-control'),
+).length;
 console.log(
-  `gen-ops: security headers + ${redirectRules.length} redirect(s) derived, ` +
-    `cache tiers verified${CHECK ? ' (check mode)' : ''}`,
+  `gen-ops: security headers + ${redirectRules.length} redirect(s) + ${tiers} cache tier(s) ` +
+    `derived${CHECK ? ' (check mode)' : ''}`,
 );

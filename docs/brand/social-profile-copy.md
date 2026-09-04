@@ -21,7 +21,7 @@ are checked against each platform's current limits.
 - English is the default for platforms with an international dev audience
   (Bluesky, Mastodon, GitHub, Medium, Substack). Dutch for the local-first ones
   (Instagram, Facebook). LinkedIn gets both.
-- **The edition city is RIJSSEN, not Enschede.** Code14 hosts /001 at Hogepad 81, Rijssen.
+- **The release city is RIJSSEN, not Enschede.** Code14 hosts /001 at Hogepad 81, Rijssen.
   Everything said Enschede until 2026-08-30, the plan's placeholder from before a venue
   existed. Still Twente; the region is not one city.
 - **Never state a capacity.** It lives in `src/config/site.ts` and is mid-change
@@ -36,7 +36,7 @@ are checked against each platform's current limits.
 | ------------------------------------------- | ----------------------------------------------------------------- |
 | Events calendar you can subscribe to (ICS)  | ✅ live                                                           |
 | Field reports and articles by practitioners | ✅ live                                                           |
-| Numbered editions, starting with /001       | ✅ live                                                           |
+| Numbered releases, starting with /001       | ✅ live                                                           |
 | Partner compact, published terms            | ✅ live                                                           |
 | No cookies, no tracking, everything in git  | ✅ live                                                           |
 | Community directory                         | ⚠️ page live, listings **not yet published**: say "in the making" |
@@ -126,7 +126,7 @@ metadata fields show as verified.
 >
 > No tracking on the site, no product pitches on stage, no attendee data for anyone.
 >
-> First edition: twente.dev/001: Reconnect. 4 November 2026, Rijssen. Free.
+> First release: twente.dev/001: Reconnect. 4 November 2026, Rijssen. Free.
 >
 > We build it. We run it. We share it.
 
@@ -160,7 +160,7 @@ answers 302, which is the deliberate locale redirect to `/nl` or `/en`, not a fa
 >
 > Existing meetups keep their own identity, their own list and their own stage. We make them easier to find and always link to the source. Our terms with them are published at twente.dev/en/partners.
 >
-> First edition: twente.dev/001: Reconnect. Wednesday 4 November 2026, Rijssen. Free.
+> First release: twente.dev/001: Reconnect. Wednesday 4 November 2026, Rijssen. Free.
 >
 > Funded by its founder through Webgrip, with time and a small budget from Code14. Everything (site, content, process) lives in git.
 >
@@ -213,11 +213,11 @@ Website: `https://twente.dev`. Pin a README that links the canonical repo on
 
 **EN:**
 
-> twente.dev is an independent, practitioner-led technology community for Twente. This channel carries recordings from our editions: half-hour talks from people who built and ran real systems in the region, plus the occasional introduction worth keeping.
+> twente.dev is an independent, practitioner-led technology community for Twente. This channel carries recordings from our releases: half-hour talks from people who built and ran real systems in the region, plus the occasional introduction worth keeping.
 >
 > What you will not find here: product pitches disguised as talks, recruiter content, or speakers presenting work they did not do themselves.
 >
-> Editions run a few times a year, across Twente. The calendar and the field reports live at https://twente.dev. No cookies, no tracking.
+> Releases run a few times a year, across Twente. The calendar and the field reports live at https://twente.dev. No cookies, no tracking.
 >
 > We build it. We run it. We share it.
 
@@ -261,11 +261,11 @@ available). **Location:** Enschede, Netherlands. **Topics:** pick the practition
 
 > twente.dev is an independent, practitioner-led tech community for Twente. A few times a year we bring software, hardware, data, design and product people together for one useful evening: two half-hour talks from people who did the work, and enough time to actually meet each other. One useful idea, one useful introduction, one reason to return.
 >
-> This group is only for our own editions. Twente already has good meetups. They keep their own identity, their own list and their own stage. Our terms with them are published at twente.dev/en/partners, including the part where we do not run events on their nights and do not approach their sponsors.
+> This group is only for our own releases. Twente already has good meetups. They keep their own identity, their own list and their own stage. Our terms with them are published at twente.dev/en/partners, including the part where we do not run events on their nights and do not approach their sponsors.
 >
 > What we hold ourselves to: no paid speaking slots, no attendee data for anyone, no product pitches disguised as education.
 >
-> First edition: twente.dev/001: Reconnect. Wednesday 4 November 2026, Rijssen. Doors and food at 18:00, programme at 18:45, hard finish at 21:30. Free.
+> First release: twente.dev/001: Reconnect. Wednesday 4 November 2026, Rijssen. Doors and food at 18:00, programme at 18:45, hard finish at 21:30. Free.
 >
 > We build it. We run it. We share it.
 
@@ -281,7 +281,7 @@ an editor resize them down.
 | Group cover | `social/banner-meetup-1200x675@2x.png`     | 2400 × 1350 |
 | Event cover | `social/banner-meetup-001-1200x675@2x.png` | 2400 × 1350 |
 
-The event cover carries the date, so it is **per edition**: re-cut it from
+The event cover carries the date, so it is **per release**: re-cut it from
 [`templates/cover-16x9.html`](templates/cover-16x9.html) for 002 rather than reusing 001's.
 
 ### Event listing: twente.dev/001

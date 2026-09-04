@@ -328,16 +328,16 @@ const speakers = release.speakers;
   description={c.metaDescription}
   jsonLd={jsonLd}
 >
-  <div class="container edition">
-    <div class="edition-grid">
-      <header class="edition-hero grid-band">
+  <div class="container release">
+    <div class="release-grid">
+      <header class="release-hero grid-band">
         <nav class="breadcrumb" aria-label="Breadcrumb">
           <a class="label-mono" href={routePath('events', locale)}>
             <span aria-hidden="true">←</span>
             {t('events.title')}
           </a>
         </nav>
-        <p class="edition-lockup label-mono" aria-hidden="true">
+        <p class="release-lockup label-mono" aria-hidden="true">
           <span class="lockup-name">{releaseName(release.number)}</span>
           <span class="lockup-date">
             {String(release.doors.getDate()).padStart(2, '0')}.{
@@ -347,16 +347,16 @@ const speakers = release.speakers;
           <span class="lockup-place">{release.city} · {time(release.doors)}</span>
         </p>
         <h1 class="text-display">{release.theme}</h1>
-        {c.intro.map((paragraph) => <p class="edition-intro">{paragraph}</p>)}
+        {c.intro.map((paragraph) => <p class="release-intro">{paragraph}</p>)}
 
         <ul class="outcomes" role="list">
           {c.outcomes.map((outcome) => <li>{outcome}</li>)}
         </ul>
       </header>
 
-      <aside class="edition-aside" aria-labelledby="edition-facts">
-        <div class="edition-aside-inner">
-          <h2 class="visually-hidden" id="edition-facts">{c.factsTitle}</h2>
+      <aside class="release-aside" aria-labelledby="release-facts">
+        <div class="release-aside-inner">
+          <h2 class="visually-hidden" id="release-facts">{c.factsTitle}</h2>
           <dl class="facts">
             <div>
               <dt>{c.factDate}</dt>
@@ -413,8 +413,8 @@ const speakers = release.speakers;
         </div>
       </aside>
 
-      <div class="edition-main">
-        <section class="edition-section reveal" id="avond">
+      <div class="release-main">
+        <section class="release-section reveal" id="avond">
           <p class="label-mono section-index">{num('avond')}</p>
           <h2>{c.expectTitle}</h2>
           <ol class="run-of-show" role="list">
@@ -429,7 +429,7 @@ const speakers = release.speakers;
           </ol>
         </section>
 
-        <section class="edition-section reveal" id="sprekers">
+        <section class="release-section reveal" id="sprekers">
           <p class="label-mono section-index">{num('sprekers')}</p>
           <h2>{c.speakersTitle}</h2>
           {
@@ -469,7 +469,7 @@ const speakers = release.speakers;
           }
         </section>
 
-        <section class="edition-section reveal" id="voor-wie">
+        <section class="release-section reveal" id="voor-wie">
           <p class="label-mono section-index">{num('voor-wie')}</p>
           <h2>{c.whoTitle}</h2>
           <p>{c.whoBody}</p>
@@ -487,7 +487,7 @@ const speakers = release.speakers;
           </div>
         </section>
 
-        <section class="edition-section reveal" id="praktisch">
+        <section class="release-section reveal" id="praktisch">
           <p class="label-mono section-index">{num('praktisch')}</p>
           <h2>{c.practicalTitle}</h2>
           <dl class="practical">
@@ -502,7 +502,7 @@ const speakers = release.speakers;
           </dl>
         </section>
 
-        <section class="edition-section reveal" id="meedoen">
+        <section class="release-section reveal" id="meedoen">
           <p class="label-mono section-index">{num('meedoen')}</p>
           <h2>{c.actionsTitle}</h2>
           <Tabs
@@ -539,7 +539,7 @@ const speakers = release.speakers;
             <div id="updates" data-tabs-panel>
               <h3 data-tabs-heading>{c.updatesTitle}</h3>
               <p>{c.updatesBody}</p>
-              <NewsletterForm locale={locale} id="edition-updates" />
+              <NewsletterForm locale={locale} id="release-updates" />
             </div>
 
             <div id="contribute" data-tabs-panel>
@@ -554,7 +554,7 @@ const speakers = release.speakers;
           </Tabs>
         </section>
 
-        <section class="edition-section reveal" id="waarborgen">
+        <section class="release-section reveal" id="waarborgen">
           <p class="label-mono section-index">{num('waarborgen')}</p>
           <h2>{c.safeguardsTitle}</h2>
           <ul class="safeguards">
@@ -571,7 +571,7 @@ const speakers = release.speakers;
 </BaseLayout>
 
 <style>
-  .edition {
+  .release {
     padding-block-end: var(--space-8);
   }
 
@@ -588,47 +588,47 @@ const speakers = release.speakers;
     color: var(--accent-strong);
   }
 
-  .edition-grid {
+  .release-grid {
     display: grid;
     gap: var(--space-6);
   }
 
   @media (min-width: 64rem) {
-    .edition-grid {
+    .release-grid {
       grid-template-columns: minmax(0, 1fr) minmax(0, 20rem);
       column-gap: var(--space-8);
       align-items: start;
     }
 
-    .edition-hero {
+    .release-hero {
       grid-column: 1;
       grid-row: 1;
     }
 
-    .edition-aside {
+    .release-aside {
       grid-column: 2;
       grid-row: 1 / span 2;
       align-self: stretch;
       height: 100%;
     }
 
-    .edition-main {
+    .release-main {
       grid-column: 1;
       grid-row: 2;
     }
 
-    .edition-aside-inner {
+    .release-aside-inner {
       position: sticky;
       top: calc(var(--header-height-compact) + var(--space-5));
     }
   }
 
-  .edition-hero {
+  .release-hero {
     padding-block: var(--space-5) var(--space-7);
     border-block-end: var(--border-width) solid var(--border);
   }
 
-  .edition-lockup {
+  .release-lockup {
     display: inline-grid;
     gap: var(--space-1);
     padding: var(--space-4) var(--space-5);
@@ -649,12 +649,12 @@ const speakers = release.speakers;
     letter-spacing: 0;
   }
 
-  .edition-hero h1 {
+  .release-hero h1 {
     margin-block: var(--space-5) var(--space-4);
     max-width: 12ch;
   }
 
-  .edition-intro {
+  .release-intro {
     color: var(--fg-muted);
     margin-block-end: var(--space-3);
     max-width: var(--width-prose);
@@ -771,7 +771,7 @@ const speakers = release.speakers;
     }
   }
 
-  .edition-section {
+  .release-section {
     max-width: var(--width-prose);
     padding-block-start: var(--space-7);
     scroll-margin-block-start: calc(var(--header-height-compact) + var(--space-4));
@@ -782,11 +782,11 @@ const speakers = release.speakers;
     padding-block-end: var(--space-3);
   }
 
-  .edition-section h2 {
+  .release-section h2 {
     margin-block-end: var(--space-4);
   }
 
-  .edition-section > p + p {
+  .release-section > p + p {
     margin-block-start: var(--space-3);
   }
 
@@ -1002,7 +1002,7 @@ const speakers = release.speakers;
 
   @media (prefers-reduced-motion: no-preference) {
     @supports (animation-timeline: scroll()) {
-      .edition-lockup {
+      .release-lockup {
         animation: lockup-drift linear both;
         animation-timeline: scroll(root block);
         animation-range: 0 80vh;

@@ -80,12 +80,12 @@ For the speaker tile, drop the portrait next to the file as `portrait.jpg` first
 until it exists the slot shows a labelled placeholder.
 
 `cover-16x9.html` holds two artboards, which are the two photos Meetup asks for:
-`#group` is the evergreen group cover and `#event` the per-edition event cover. The
+`#group` is the evergreen group cover and `#event` the per-release event cover. The
 artboard is 2× Meetup's 1200 × 675 floor — below that, Meetup refuses the upload —
 and every word sits inside the middle band, because the crop differs on every
 surface Meetup shows a cover on. The rendered pair lives at
 `public/brand/social/banner-meetup-1200x675@2x.png` and `…-meetup-001-…@2x.png`;
-re-cut the event one per edition rather than reusing 001's date card.
+re-cut the event one per release rather than reusing 001's date card.
 
 This template replaced a flat `speaker-tile.png` that shipped in `public/brand/`
 until 2026-08-30 — a rendered mockup with `FIRSTNAME LASTNAME` burned into the
@@ -119,7 +119,7 @@ dialog.
 - An editable source for the six **channel** banners in `public/brand/social/`
   (X/Bluesky, evergreen, the two LinkedIn cuts). Those are hand-made PNGs with no
   master in this repo, which means the date on them cannot be changed without
-  redrawing them. `cover-16x9.html` is the pattern to follow when edition 002
+  redrawing them. `cover-16x9.html` is the pattern to follow when release 002
   needs its own set.
 
   They have already drifted off the palette, which is what having no source

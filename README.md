@@ -1,7 +1,7 @@
 # twente.dev
 
 Twente's practitioner-led technology community — a shared calendar, directory, archive and
-newsletter, built around numbered editions (first up: **twente.dev/001 — Reconnect**,
+newsletter, built around numbered releases (first up: **twente.dev/001 — Reconnect**,
 4 November 2026, Rijssen). Bilingual NL/EN. _We build it. We run it. We share it._
 
 A static Astro site on Cloudflare's free tier, built and deployed from Forgejo Actions. No backend,

@@ -1,6 +1,6 @@
 # Organisator-playbook
 
-Hoe je een twente.dev-editie draait, van venue tot verslag — geschreven voor een
+Hoe je een twente.dev-release draait, van venue tot verslag — geschreven voor een
 organisatie van precies één persoon. Dit is het draaiboek, niet de strategie: waarom
 twente.dev bestaat staat in de [ADRs](adrs/README.md) en het positioneringsdeck; hoe je
 een woensdagavond overeind krijgt staat hier.
@@ -23,35 +23,35 @@ opschuiven, precies één slot, zodat de cadans-belofte heel blijft. De twee bot
 de check verderop op 4 november vond zijn daarbij bewust geaccepteerd. Lees ze wel, want
 ze bepalen wie er die avond niet is.
 
-- De volgende datum staat op de site **vóór** de vorige editie voorbij is — een pauze
+- De volgende datum staat op de site **vóór** de vorige release voorbij is — een pauze
   zonder aangekondigde terugkeer is hoe Tech Nottingham stierf.
-- **Er zijn geen lichte avonden.** Een editie heeft een programma of hij gaat niet door.
+- **Er zijn geen lichte avonden.** Een release heeft een programma of hij gaat niet door.
   Is het programma op T−4 niet rond, dan schuift de datum een maand op met de reden erbij.
   Dat kan, omdat de belofte over de eerste woensdag gaat en niet over de nummerreeks: /001
   blijft /001, ook als hij een maand later valt.
 - Valt de eerste woensdag in een vakantie of op een botsend event, verplaats dan binnen
   dezelfde week en zeg erbij waarom. De collision-check hieronder is daarvoor.
 
-## Een nieuwe editie draaien (T-min-checklist)
+## Een nieuwe release draaien (T-min-checklist)
 
-| Wanneer        | Wat                                                                                                                                                                                                         | Af voor /002? |
-| -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- |
-| T−8 weken      | Venue bevestigd (checklist hieronder); datum collision-gecheckt; editienummer + thema vastgelegd in `src/config/site.ts` en een events-entry                                                                |               |
-| T−6 weken      | Open call gepubliceerd én de persoonlijke sprekervragen verstuurd (sprekers komen uit de asks, niet uit de call)                                                                                            |               |
-| T−4 weken      | **Beide sprekers bevestigd** — Ryans eigen minimum: minimaal een maand van tevoren. Geen twee sprekers op T−4? Dan schuift de editie een maand op, met de reden erbij. Nooit doorgaan met een TBA-programma |               |
-| T−3 weken      | Redactiegesprek per spreker (claim, voorbeeld, vraag aan de zaal); slidetemplate gedeeld                                                                                                                    |               |
-| T−2 weken      | Toegankelijkheids- en OV-informatie op de editiepagina (site-belofte); reminder in agenda-feed en LinkedIn                                                                                                  |               |
-| T−1 week       | Technische rehearsal (mag remote); bevestigingsmail naar aanmeldingen met de annuleer-één-antwoord-regel; wachtlijst bijgewerkt                                                                             |               |
-| T−1 dag        | Reminder aan deelnemers ("kun je niet, antwoord nu — er is een wachtlijst"); AV-check op locatie of foto's van de zaal opgevraagd                                                                           |               |
-| Dag zelf       | Runbook hieronder                                                                                                                                                                                           |               |
-| T+3 dagen      | Bedankmail sprekers met wat de zaal zei; opname + slides naar het archief                                                                                                                                   |               |
-| T+10 werkdagen | Openbaar verslag, inclusief wat niet werkte (site-belofte, tracker-milestone)                                                                                                                               |               |
+| Wanneer        | Wat                                                                                                                                                                                                          | Af voor /002? |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------- |
+| T−8 weken      | Venue bevestigd (checklist hieronder); datum collision-gecheckt; releasenummer + thema vastgelegd in `src/config/site.ts` en een events-entry                                                                |               |
+| T−6 weken      | Open call gepubliceerd én de persoonlijke sprekervragen verstuurd (sprekers komen uit de asks, niet uit de call)                                                                                             |               |
+| T−4 weken      | **Beide sprekers bevestigd** — Ryans eigen minimum: minimaal een maand van tevoren. Geen twee sprekers op T−4? Dan schuift de release een maand op, met de reden erbij. Nooit doorgaan met een TBA-programma |               |
+| T−3 weken      | Redactiegesprek per spreker (claim, voorbeeld, vraag aan de zaal); slidetemplate gedeeld                                                                                                                     |               |
+| T−2 weken      | Toegankelijkheids- en OV-informatie op de releasepagina (site-belofte); reminder in agenda-feed en LinkedIn                                                                                                  |               |
+| T−1 week       | Technische rehearsal (mag remote); bevestigingsmail naar aanmeldingen met de annuleer-één-antwoord-regel; wachtlijst bijgewerkt                                                                              |               |
+| T−1 dag        | Reminder aan deelnemers ("kun je niet, antwoord nu — er is een wachtlijst"); AV-check op locatie of foto's van de zaal opgevraagd                                                                            |               |
+| Dag zelf       | Runbook hieronder                                                                                                                                                                                            |               |
+| T+3 dagen      | Bedankmail sprekers met wat de zaal zei; opname + slides naar het archief                                                                                                                                    |               |
+| T+10 werkdagen | Openbaar verslag, inclusief wat niet werkte (site-belofte, tracker-milestone)                                                                                                                                |               |
 
 Banners en announce-graphics horen bij dit ritme: werk bij T−8 (datum + stad
 vast) het `RELEASE`-blok in `docs/brand/templates/banners.html` bij en exporteer
 de generieke set; het announce-statusbord met beide sprekers volgt bij T−4.
 Volledige procedure, inclusief het chassis-plus-wisselstuk-principe voor een
-unieke graphic per editie: [runbooks/release-banners.md](runbooks/release-banners.md).
+unieke graphic per release: [runbooks/release-banners.md](runbooks/release-banners.md).
 
 ## Venue regelen
 
@@ -77,7 +77,7 @@ Waar je op let voordat je een zaal toezegt — geleerd van de /001-onderhandelin
 4. **Toegankelijkheid**: drempelvrije route van straat tot zaal, toilet, en de stille
    ruimte. Dit staat als belofte op de site — check het fysiek, niet telefonisch.
 5. **Bereikbaarheid**: OV-route en late terugreis (sectie hieronder), fietsenstalling,
-   parkeren. Publiceer het op de editiepagina.
+   parkeren. Publiceer het op de releasepagina.
 6. **Huisregels host**: maximaal 2 minuten welkomstwoord, geen recruiting door de host op
    de avond, geen toegang tot de deelnemerslijst, logo-credit "mede mogelijk gemaakt
    door" — nooit co-branding. Dit zijn de gepubliceerde waarborgen; een venue die dit niet
@@ -87,7 +87,7 @@ Waar je op let voordat je een zaal toezegt — geleerd van de /001-onderhandelin
 8. **Aansprakelijkheid**: vraag of de locatie-verzekering evenementen van derden dekt; zo
    niet, weet dat je daar zelf het risico draagt en houd de avond navenant simpel.
 
-Meer stoelen dan 40 is pas aan de orde als de wachtlijst dat twee edities op rij bewijst —
+Meer stoelen dan 40 is pas aan de orde als de wachtlijst dat twee releases op rij bewijst —
 animo eerst, zaal daarna.
 
 ## Sprekers regelen
@@ -99,7 +99,7 @@ podium. Zo werkt de pijplijn:
    engineers met zichtbaar werk — engineeringblogs van regionale werkgevers,
    conferentiesprekers uit de regio, open-source-maintainers, en vanaf /001: iedereen die
    in de zaal iets interessants zei tijdens het community-vragenrondje. De belangrijkste
-   output van editie N is de sprekerslijst van editie N+1.
+   output van release N is de sprekerslijst van release N+1.
 2. **Vragen**: persoonlijk, over iets concreets dat diegene bouwde. Niet "wil je een keer
    spreken" maar "jij hebt X gedaan — wil je daar een halfuur over vertellen: één claim,
    één echt voorbeeld, één vraag aan de zaal". Eén mail, één herinnering, daarna klaar
@@ -159,8 +159,8 @@ de deur · 18:00 inloop · 18:40 sprekersbriefing van twee minuten · 18:45 welk
 bent, de gedragscode en het aanspreekpunt, de fotoregel, max 2 minuten host · 19:00
 talk 1 · 19:30 pauze · 19:45 talk 2 ·
 20:25 community-vragen ("wat moet Twente weten over wat jij bouwt?" — dit is de
-sprekersscouting voor de volgende editie, schrijf mee) · 20:35 netwerkuur · 21:25
-afronding en de datum van de volgende editie · 21:30 harde eindtijd · 22:00 opgeruimd.
+sprekersscouting voor de volgende release, schrijf mee) · 20:35 netwerkuur · 21:25
+afronding en de datum van de volgende release · 21:30 harde eindtijd · 22:00 opgeruimd.
 
 Neem mee: verlengsnoer, HDMI/USB-C-adapters, clicker, tape, naamstickers + stiften, de
 deelnemerslijst op papier, en de exitvragen (hieronder).
@@ -209,14 +209,14 @@ tweede aanspreekpunt de eerste rol die je weggeeft.
 > twee keer per uur, ook 's avonds) verandert zelden, dus de conclusie over lopen en de
 > laatste bus houdt waarschijnlijk stand. De exacte vertrektijden staan hier als
 > geverifieerd en zijn dat voor woensdag 4 november 2026 niet. Draai de check opnieuw
-> vóórdat deze cijfers op de editiepagina komen te staan (T−2 in de checklist hierboven).
+> vóórdat deze cijfers op de releasepagina komen te staan (T−2 in de checklist hierboven).
 
 Geverifieerd 2026-08-30 tegen de gepubliceerde dienstregeling voor woensdag 7 oktober
 2026 zelf (officiële Nederlandse GTFS-feed via `api.transitous.org`, gecontroleerd tegen
 het lijnpatroon op secundaire bronnen). Herchecken op `ns.nl` in de week van het event —
 werkzaamheden kunnen avondtreinen vervangen door bussen.
 
-**De conclusie voor de editiepagina**: Code14 ligt op 780 m / 10 minuten lopen van
+**De conclusie voor de releasepagina**: Code14 ligt op 780 m / 10 minuten lopen van
 station Rijssen en is daarmee een van de makkelijkst autoloos bereikbare venues van
 Twente — mits mensen weten dat de terugreis per tréin is: **de laatste bus vertrekt om
 exact 21:30**, precies de eindtijd.
@@ -251,7 +251,7 @@ Twente/Baseflow en de Zwolse groepen · TkkrLab · activiteitenagenda's van Inte
 Proto en Syntaxis · Novel-T/Kennispark en `zwinc.nl` · landelijke dev-conferenties (J-Fall,
 TEQnation, PyCon NL, Devoxx) · het UT-kwartielrooster (tentamenweken) · schoolvakanties
 en feestdagen. Botst het, verplaats en zeg waarom. Lokale groepen publiceren maar 2–8
-weken vooruit, dus **herhaal de check ±5 weken voor elke editie**.
+weken vooruit, dus **herhaal de check ±5 weken voor elke release**.
 
 Uitkomst van de check op 2026-08-30 (bronnen: het vakantieoverzicht van de rijksoverheid,
 de UT-jaarkalender 2026–2027, `zwinc.nl`, `jfall.nl`, `devoxx.be` en `meetup.com`):

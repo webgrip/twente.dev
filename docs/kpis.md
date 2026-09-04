@@ -1,6 +1,6 @@
 # KPI's
 
-Wat we meten aan een editie, en per cijfer het besluit dat het verandert. Een
+Wat we meten aan een release, en per cijfer het besluit dat het verandert. Een
 getal dat geen besluit verandert staat hier niet in; dat is een tellertje en die
 horen op een dashboard, niet in een set waarop je stuurt.
 
@@ -26,7 +26,7 @@ tegenhanger meet of de mensen die er wáren er iets aan hadden.
 - **Formule** Opkomst gedeeld door capaciteit. Opkomst is een telling aan de
   deur, geen aantal aanmeldingen.
 - **Bron** Handmatige telling op de avond, naast het RSVP-aantal op Meetup.
-- **Frequentie** Per editie · **Richting** omhoog
+- **Frequentie** Per release · **Richting** omhoog
 - **Nulmeting** Geen. /001 is de eerste meting.
 - **Norm voor /001** 20 van de 40. Dat is de lat die op 2026-08-30 is
   vastgelegd, en het is een norm en geen voorspelling.
@@ -43,7 +43,7 @@ De kwaliteitstegenhanger van K1.
 - **Formule** Aandeel "ja" op exitvraag 3, van de ingevulde formulieren.
   "Waarschijnlijk" telt niet mee als ja.
 - **Bron** Exit-enquête, papier bij de deur of QR.
-- **Frequentie** Per editie · **Richting** omhoog
+- **Frequentie** Per release · **Richting** omhoog
 - **Nulmeting** Geen · **Signaaldrempel** onder 60% is een probleem
 - **Eigenaar** Ryan · **Herzien** na /002
 - **Besluit dat het verandert** Onder de 60%: het formaat wordt herzien vóór
@@ -54,7 +54,7 @@ De kwaliteitstegenhanger van K1.
 
 - **Formule** Aandeel ingevulde formulieren waar exitvraag 2 niet leeg is.
 - **Bron** Exit-enquête.
-- **Frequentie** Per editie · **Richting** omhoog
+- **Frequentie** Per release · **Richting** omhoog
 - **Nulmeting** Geen · **Signaaldrempel** onder 50%
 - **Eigenaar** Ryan · **Herzien** na /002
 - **Besluit dat het verandert** Onder de 50%: het netwerkuur krijgt weer
@@ -65,9 +65,9 @@ De kwaliteitstegenhanger van K1.
 
 ### K4 · Nieuwe leden op de Meetup-groep
 
-- **Formule** Aantal nieuwe leden in de periode tussen twee edities.
+- **Formule** Aantal nieuwe leden in de periode tussen twee releases.
 - **Bron** Meetup-dashboard.
-- **Frequentie** Per editie · **Richting** omhoog
+- **Frequentie** Per release · **Richting** omhoog
 - **Nulmeting** 0 bij de start · **Norm** nog niet te stellen
 - **Eigenaar** Ryan · **Herzien** na /002
 - **Besluit dat het verandert** Blijft de groei uit, dan is de 99 euro per jaar
@@ -82,7 +82,7 @@ De kwaliteitstegenhanger van K4.
   noemt.
 - **Bron** De RSVP-vraag, met de hand teruggelegd op de bronnen uit
   `brand/utm-convention.md`.
-- **Frequentie** Per editie · **Richting** omhoog
+- **Frequentie** Per release · **Richting** omhoog
 - **Nulmeting** Geen · **Signaaldrempel** onder 25% naast een groeiend ledental
 - **Eigenaar** Ryan · **Herzien** na /002
 - **Besluit dat het verandert** Groeien de leden wel maar komt er niemand
@@ -114,6 +114,6 @@ uit.
 
 ## Wat hier niet aan de orde is
 
-Metingen op persoonsniveau. twente.dev meet edities en kanalen, geen mensen. De
+Metingen op persoonsniveau. twente.dev meet releases en kanalen, geen mensen. De
 exit-enquête is anoniem en de uitkomsten gaan geanonimiseerd het openbare
 verslag in.

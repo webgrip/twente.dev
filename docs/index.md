@@ -1,8 +1,8 @@
 # twente.dev — internal docs
 
 The reference material behind [twente.dev](https://twente.dev): an independent,
-practitioner-led technology community for Twente, built around numbered editions.
-First edition — **twente.dev/001: Reconnect**, Wednesday 4 November 2026, Rijssen.
+practitioner-led technology community for Twente, built around numbered releases.
+First release — **twente.dev/001: Reconnect**, Wednesday 4 November 2026, Rijssen.
 
 This is the working documentation, not the public site. Source lives in
 [`webgrip/twente.dev`](https://forgejo.webgrip.dev/webgrip/twente.dev) on Forgejo; commits
@@ -12,7 +12,7 @@ carry `VIK-<id>` trailers back to the board.
 
 | Section                                         | What it holds                                                                                                                               |
 | ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| **[Organiser playbook](organiser-playbook.md)** | How to actually run an edition — venue, speakers, e-mail registration, archive, the monthly rhythm — written for a one-person organisation. |
+| **[Organiser playbook](organiser-playbook.md)** | How to actually run an release — venue, speakers, e-mail registration, archive, the monthly rhythm — written for a one-person organisation. |
 | **[Decision records](adrs/README.md)**          | Every architecture and scope decision, MADR 4.0.0, append-only. Start here to understand why the site is shaped the way it is.              |
 | **[Community agreements](partner-compact.md)**  | The partner compact offered to listed communities, and the legitimate-interest assessment behind outreach.                                  |
 | **[Brand](brand/README.md)**                    | Mark construction, colour, type, lockups, and the tone-of-voice house rules that govern every surface.                                      |

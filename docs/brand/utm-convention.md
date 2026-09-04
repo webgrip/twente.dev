@@ -1,6 +1,6 @@
 # Campaign link convention (UTM)
 
-How every link we hand out is tagged, so that after an edition we can say which channel
+How every link we hand out is tagged, so that after an release we can say which channel
 actually filled the room, the single most useful thing to learn from twente.dev/001.
 
 Companion to [`social-profile-copy.md`](social-profile-copy.md). Tracker item TD-044.
@@ -25,7 +25,7 @@ Companion to [`social-profile-copy.md`](social-profile-copy.md). Tracker item TD
 | Which channel **filled the room**  | **A question at registration** (a Meetup RSVP question since 2026-09-02; pretix was dropped 2026-08-30 and the e-mail route retired before it opened). This is the real instrument, and the only one that covers email, QR codes, print, word of mouth and "an organiser told me", none of which leave a referrer. |
 | Which **page** people land on      | Cloudflare → Top Paths. Note a 301 through a vanity path does not help: the beacon fires on the destination, so `/go/x → /en/001` records only `/en/001`.                                                                                                                                                          |
 
-**Therefore: the registration question is not optional.** Without it, edition 001 produces no
+**Therefore: the registration question is not optional.** Without it, release 001 produces no
 attribution data at all, tagged links or not. One question, optional, free text plus a
 short list; see VIK-675.
 
@@ -38,13 +38,13 @@ short list; see VIK-675.
 All values **lowercase-kebab**, no spaces, no capitals, no diacritics. Enumerable on
 purpose: a value not on these lists is a mistake, not a new category.
 
-### utm_campaign: the edition
+### utm_campaign: the release
 
 | Value            | When                                                 |
 | ---------------- | ---------------------------------------------------- |
-| `twente-dev-001` | Everything promoting the first edition               |
-| `twente-dev-002` | The next one; bump per edition                       |
-| `evergreen`      | Links in bios and signatures that outlive an edition |
+| `twente-dev-001` | Everything promoting the first release               |
+| `twente-dev-002` | The next one; bump per release                       |
+| `evergreen`      | Links in bios and signatures that outlive an release |
 
 ### utm_medium: how it was delivered
 
@@ -93,7 +93,7 @@ Code14 linking from their site
 TkkrLab sharing it to their members
   https://twente.dev/en/001?utm_source=community-tkkrlab&utm_medium=chat&utm_campaign=twente-dev-001
 
-Ryan's email signature, no edition
+Ryan's email signature, no release
   https://twente.dev/?utm_source=signature&utm_medium=email&utm_campaign=evergreen
 ```
 
@@ -114,6 +114,6 @@ Ryan's email signature, no edition
 
 - Cloudflare Web Analytics is still switched off (`ANALYTICS_TOKEN` is `null`, VIK-677), so
   even the referrer half is not being recorded yet. That is a prerequisite for learning
-  anything from edition 001, tagged links or not.
+  anything from release 001, tagged links or not.
 - Revisit if we move to self-hosted Umami: it does read query strings, at which point the
   tags above start answering the question directly rather than only via the RSVP question.

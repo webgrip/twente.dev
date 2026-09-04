@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { readdirSync, readFileSync, statSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { parse } from 'yaml';
 
@@ -50,7 +50,7 @@ function currentRelease(): ReturnType<typeof resolveRelease> {
 
 const RELEASE = currentRelease();
 
-const EDITION_LITERALS = [
+const RELEASE_LITERALS = [
   formatDate(RELEASE.doors, 'nl'),
   formatDate(RELEASE.doors, 'en'),
   formatTimeRange(RELEASE.doors, RELEASE.end),
@@ -86,9 +86,9 @@ const FORBIDDEN: Rule[] = [
   },
   {
     name: 'literal release fact',
-    pattern: new RegExp(EDITION_LITERALS.map(escape).join('|')),
+    pattern: new RegExp(RELEASE_LITERALS.map(escape).join('|')),
     rationale:
-      'the date, hours, city and address of the current release render from the events entry; a page that spells them out goes stale the moment the edition moves. The venue NAME stays out of this pattern: Code14 is also the employer in the funding disclosure, where it is not an edition fact',
+      'the date, hours, city and address of the current release render from the events entry; a page that spells them out goes stale the moment the release moves. The venue NAME stays out of this pattern: Code14 is also the employer in the funding disclosure, where it is not an release fact',
     active: true,
     scope: /^src\/(?:pages|templates|i18n)\//,
   },
@@ -155,6 +155,65 @@ test('source copy carries no banned variants', () => {
     violations.length,
     0,
     `banned copy variants found:\n\n${violations.join('\n')}\n\n(${violations.length} total)`,
+  );
+});
+
+interface RetiredWord {
+  word: string;
+  use: string;
+}
+
+const RETIRED_ROOTS = ['src', 'docs/brand', 'docs/runbooks', '.forgejo', 'scripts'];
+const RETIRED_FILES = [
+  'README.md',
+  'docs/index.md',
+  'docs/kpis.md',
+  'docs/organiser-playbook.md',
+  'docs/partner-compact.md',
+  'docs/deliberate-non-actions.md',
+];
+const RETIRED_EXTENSIONS = new Set([...EXTENSIONS, '.ts', '.mjs', '.js', '.json']);
+
+function retiredTargets(dir: string): string[] {
+  return readdirSync(dir).flatMap((entry) => {
+    const path = join(dir, entry);
+    if (entry === 'node_modules' || entry === 'dist') return [];
+    if (statSync(path).isDirectory()) return retiredTargets(path);
+    return RETIRED_EXTENSIONS.has(path.slice(path.lastIndexOf('.'))) ? [path] : [];
+  });
+}
+
+test('no retired vocabulary outside the decision record', () => {
+  const model = parse(readFileSync('docs/domain/model.yaml', 'utf8')) as {
+    retired?: RetiredWord[];
+  };
+  const retired = model.retired ?? [];
+  assert.ok(retired.length > 0, 'docs/domain/model.yaml declares no retired vocabulary');
+
+  const targets = [
+    ...RETIRED_ROOTS.filter((d) => existsSync(d)).flatMap(retiredTargets),
+    ...RETIRED_FILES.filter((f) => existsSync(f)),
+  ];
+  const violations: string[] = [];
+
+  for (const { word, use } of retired) {
+    const pattern = new RegExp(`(?<![a-z])${escape(word)}`, 'i');
+    for (const path of targets) {
+      readFileSync(path, 'utf8')
+        .split('\n')
+        .forEach((line, i) => {
+          if (!pattern.test(line)) return;
+          violations.push(
+            `${path}:${i + 1}  "${word}" is retired, use ${use}\n      ${line.trim().slice(0, 90)}`,
+          );
+        });
+    }
+  }
+
+  assert.equal(
+    violations.length,
+    0,
+    `retired vocabulary still in the tree:\n\n${violations.join('\n')}\n\n(${violations.length} total)`,
   );
 });
 

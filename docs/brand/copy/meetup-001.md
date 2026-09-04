@@ -1,7 +1,7 @@
 # Meetup-beschrijving voor twente.dev/001
 
 Kopieer de blokken hieronder naar meetup.com. Feiten komen uit
-`src/config/site.ts` en het programma uit `EditionPage`; verandert daar iets,
+`src/config/site.ts` en het programma uit `ReleasePage`; verandert daar iets,
 dan verandert het hier ook.
 
 Bewust weggelaten: de OV-tijden. Die zijn gecontroleerd tegen 7 oktober en die
@@ -25,7 +25,7 @@ twente.dev/001: Reconnect
 **Beschrijving**
 
 ```
-👋 De eerste editie van twente.dev. Een avond voor iedereen die in en rondom Twente technologie bouwt, waarmee dan ook: software, infrastructuur, embedded, maakindustrie, data, security, design, product, onderzoek en technisch onderwijs.
+👋 De eerste release van twente.dev. Een avond voor iedereen die in en rondom Twente technologie bouwt, waarmee dan ook: software, infrastructuur, embedded, maakindustrie, data, security, design, product, onderzoek en technisch onderwijs.
 
 Twente bouwt technologie met wereldwijde impact. Alleen zijn de mensen en de praktijklessen erachter moeilijk te vinden, over bedrijven en disciplines heen. Daar is deze avond voor. 🔌
 
@@ -86,7 +86,7 @@ twente.dev/001: Reconnect
 **Beschrijving**
 
 ```
-👋 The first edition of twente.dev. An evening for everyone building technology in and around Twente, whatever they build it with: software, infrastructure, embedded, manufacturing, data, security, design, product, research and technical education.
+👋 The first release of twente.dev. An evening for everyone building technology in and around Twente, whatever they build it with: software, infrastructure, embedded, manufacturing, data, security, design, product, research and technical education.
 
 Twente builds technology with global reach. The people and the practical lessons behind it are just hard to find across companies and disciplines. That is what this evening is for. 🔌
 
@@ -143,7 +143,7 @@ het kanaal (de enige attributie die /001 oplevert), dieetwensen,
 toegankelijkheid en of iemand liever niet in beeld komt. Zet hem op verplicht,
 anders vervalt de attributie stilletjes.
 
-Die laatste vraag staat er ook omdat de editiepagina belooft dat fotografie op
+Die laatste vraag staat er ook omdat de releasepagina belooft dat fotografie op
 toestemming werkt. Iemand die dat liever niet ter plekke bij de check-in zegt,
 kan het zo vooraf en privé kwijt.
 

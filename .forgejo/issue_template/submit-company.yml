@@ -9,7 +9,7 @@ body:
     attributes:
       value: |
         > **There is no company directory, and this does not create one.**
-        > `/en/companies` is a page about *taking part* — hosting an edition,
+        > `/en/companies` is a page about *taking part* — hosting an release,
         > sending your people, bringing a demo
         > ([ADR-0010](https://forgejo.webgrip.dev/webgrip/twente.dev/src/branch/main/docs/adrs/0010-participation-over-listing.md)).
         > Whether a directory returns at all is decided after twente.dev/001,

@@ -85,7 +85,7 @@ the published safeguards below.
 Nobody — including Webgrip and Code14 — buys stage time, attendee data or editorial
 influence. Partner money buys credits and places, never access.
 
-After every edition we publish a public report, including what did not work.
+After every release we publish a public report, including what did not work.
 
 ## Changing this compact
 
@@ -177,7 +177,7 @@ aan de gepubliceerde waarborgen hieronder.
 Niemand — Webgrip en Code14 dus ook niet — koopt podiumtijd, deelnemersgegevens of
 redactionele invloed. Partnergeld koopt credits en plekken, nooit toegang.
 
-Na elke editie publiceren we een openbaar verslag, inclusief wat niet werkte.
+Na elke release publiceren we een openbaar verslag, inclusief wat niet werkte.
 
 ## Deze afspraak wijzigen
 

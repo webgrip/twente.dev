@@ -17,6 +17,24 @@ contexts:
       erover gaat. Hier heeft een stuk een Pillar in plaats van een spreker, en
       is er geen zaal en geen datum.
 
+retired:
+  - word: editie
+    use: Release
+  - word: edition
+    use: Release
+  - word: flagship
+    use: Release
+  - word: editieverslag
+    use: Release notes
+  - word: naverslag
+    use: Release notes
+  - word: meetup report
+    use: Release notes
+  - word: week in twente tech
+    use: Upstream
+  - word: event night
+    use: Release
+
 terms:
   - name: Release
     context: Editie

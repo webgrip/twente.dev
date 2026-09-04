@@ -1,7 +1,7 @@
 ---
 import { getEntry } from 'astro:content';
 
-import { TIMEZONE } from '../i18n/config.ts';
+import { LOCALE_TAGS, TIMEZONE } from '../i18n/config.ts';
 import type { Locale } from '../i18n/config.ts';
 import { formatDate, useTranslations } from '../i18n/utils.ts';
 import { routePath } from '../i18n/routes.ts';
@@ -80,11 +80,18 @@ const time = (d: Date) =>
     minute: '2-digit',
   }).format(d);
 
+const weekday = (d: Date, loc: Locale) =>
+  new Intl.DateTimeFormat(LOCALE_TAGS[loc], { timeZone: TIMEZONE, weekday: 'long' }).format(d);
+
+const window = `${time(EDITION_001.doors)}–${time(EDITION_001.end)}`;
+const sentenceCase = (value: string) => value.charAt(0).toUpperCase() + value.slice(1);
+const whenWhere = (loc: Locale) =>
+  `${sentenceCase(weekday(EDITION_001.doors, loc))} ${formatDate(EDITION_001.doors, loc)}, ${window}, ${EDITION_001.city}`;
+
 const COPY: Record<Locale, Copy> = {
   en: {
     metaTitle: name,
-    metaDescription:
-      'A practitioner-led evening for people who build technology in Twente. Wednesday 4 November 2026, 18:00–21:30, Rijssen. Free.',
+    metaDescription: `A practitioner-led evening for people who build technology in Twente. ${whenWhere('en')}. Free.`,
     intro: [
       'Twente builds technology with global reach, but the people and practical lessons behind it are still too hard to discover across companies and disciplines.',
       `${name} is a practitioner-led evening for everyone building technology in and around Twente: software, infrastructure, embedded systems, manufacturing, data, security, design, product, research and technical education. Two roughly half-hour talks by people who did the work themselves, and then an unhurried network hour to actually meet each other.`,
@@ -186,8 +193,7 @@ const COPY: Record<Locale, Copy> = {
   },
   nl: {
     metaTitle: name,
-    metaDescription:
-      'Een practitioner-led avond voor iedereen die technologie bouwt in Twente. Woensdag 4 november 2026, 18:00–21:30, Rijssen. Gratis.',
+    metaDescription: `Een practitioner-led avond voor iedereen die technologie bouwt in Twente. ${whenWhere('nl')}. Gratis.`,
     intro: [
       'Twente bouwt technologie met wereldwijde impact, maar de mensen en praktijklessen erachter zijn over bedrijven en disciplines heen nog te moeilijk te vinden.',
       `${name} is een practitioner-led avond voor iedereen die in en rondom Twente technologie bouwt: software, infrastructuur, embedded systems, maakindustrie, data, security, design, product, onderzoek en technisch onderwijs. Twee talks van ongeveer een halfuur, van mensen die het werk zelf deden, en daarna een ruim netwerkuur om elkaar echt te spreken.`,

@@ -39,6 +39,10 @@ export default defineConfig([
   },
   {
     files: ['scripts/export-banners.mjs'],
-    languageOptions: { globals: { document: 'readonly' } },
+    languageOptions: { globals: { document: 'readonly', EDITIE: 'readonly' } },
+  },
+  {
+    files: ['docs/brand/templates/**/*.js'],
+    languageOptions: { globals: { window: 'readonly' } },
   },
 ]);

@@ -77,6 +77,8 @@ describe('buildIcsCalendar', () => {
   test('produces a well-formed calendar', () => {
     const ics = buildIcsCalendar({ ...base, events: [event] });
     assert.ok(ics.startsWith('BEGIN:VCALENDAR\r\n'));
+    assert.match(ics, /\r\nREFRESH-INTERVAL;VALUE=DURATION:PT1H\r\n/);
+    assert.match(ics, /\r\nX-PUBLISHED-TTL:PT1H\r\n/);
     assert.ok(ics.endsWith('END:VCALENDAR\r\n'));
     assert.ok(ics.includes('BEGIN:VEVENT'));
     assert.ok(ics.includes('UID:twente-go-meetup@twente.dev'));

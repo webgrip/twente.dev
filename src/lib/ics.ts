@@ -71,6 +71,8 @@ export function buildIcsCalendar({
     line('X-WR-CALNAME', escapeIcsText(name)),
     line('X-WR-CALDESC', escapeIcsText(description)),
     'X-WR-TIMEZONE:Europe/Amsterdam',
+    'REFRESH-INTERVAL;VALUE=DURATION:PT1H',
+    'X-PUBLISHED-TTL:PT1H',
   ];
 
   for (const event of events) {

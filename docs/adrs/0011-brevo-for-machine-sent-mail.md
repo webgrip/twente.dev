@@ -4,7 +4,7 @@
 - **Deciders**: Ryan Grippeling
 - **Date**: 2026-09-02
 - **Tags**: External services, Trust & Safety, Infrastructure
-- **Version**: 1.0.0
+- **Version**: 1.1.0
 
 ---
 
@@ -61,7 +61,7 @@ human keeps going out from the apex through Google Workspace.**
   the privacy page and halve the reputation signal on both.
 - **One sending subdomain, purpose-neutral in its name.** `send.` rather than `news.`, because the
   same identity signs a registration confirmation, where "news" would be untrue. It carries its own
-  SPF and DKIM, so the apex SPF record is untouched and Workspace's DKIM keeps signing personal mail.
+  DKIM, so the apex SPF record is untouched and Workspace's DKIM keeps signing personal mail.
 - **The form stays first-party.** `<NewsletterForm>` renders our markup and POSTs cross-origin to
   Brevo's serve endpoint — no script, no iframe, no cookie. The field contract is Brevo's: `EMAIL`
   (uppercase, because Brevo maps fields onto contact attributes), `email_address_check` as the
@@ -135,10 +135,18 @@ human keeps going out from the apex through Google Workspace.**
 - `dig +short TXT _dmarc.twente.dev` returns **exactly one** record. Two DMARC records is not a
   merge; RFC 7489 treats the domain as having no policy at all.
 - `dig +short TXT send.twente.dev` returns the `brevo-code`, and
-  `dig +short TXT mail._domainkey.send.twente.dev` returns the DKIM key. **No SPF record is
-  published on the sending subdomain**: on Brevo's shared IPs the Return-Path stays on a
-  Brevo-owned domain, so an SPF pass there does not align with our From address and earns nothing.
-  DMARC passes on DKIM alignment alone, which is why the DKIM record is the load-bearing one.
+  `dig +short TXT brevo1._domainkey.send.twente.dev` returns a `k=rsa` key, as does `brevo2`.
+  **The two DKIM selectors are `brevo1` and `brevo2`, and both are CNAMEs**, delegated to
+  `b1.send-twente-dev.dkim.brevo.com` and `b2.…`, which resolve onward to Brevo-numbered hosts
+  that carry the key. The provider therefore rotates the key without a DNS change here, and a
+  check that expects a literal TXT under a selector we own reads a correct setup as broken.
+- **No SPF record is published on the sending subdomain**: on Brevo's shared IPs the Return-Path
+  stays on a Brevo-owned domain, so an SPF pass there does not align with our From address and
+  earns nothing. DMARC passes on DKIM alignment alone, which is why the DKIM records are the
+  load-bearing ones.
+- `dig +short TXT _dmarc.send.twente.dev` returns its own record rather than inheriting the apex
+  policy, with `rua@dmarc.brevo.com` alongside the two apex reporting addresses. Cloudflare's DMARC
+  Management does not cover subdomains, so this one is maintained by hand.
 - A test message to Gmail, to an outlook.com address and to mail-tester.com reads `SPF: PASS`,
   `DKIM: PASS` and `DMARC: PASS`, with **`d=send.twente.dev`**. A pass signed by `brevo.com` is the
   failure this ADR exists to prevent, and it looks like success.
@@ -155,3 +163,8 @@ human keeps going out from the apex through Google Workspace.**
   (`ee52888`).
 - 2026-09-02 — Mailcoach chosen and reversed the same day; Brevo accepted; sending domain settled on
   `send.twente.dev` after the plan grew to include event mail.
+- 2026-09-04 — the DKIM half of the Confirmation corrected. It named a `mail._domainkey` TXT that
+  has never existed on this subdomain; Brevo provisions `brevo1` and `brevo2` as CNAMEs. The check
+  was wrong when written, not overtaken by events, and it failed in the direction that matters: it
+  reports a signing setup that works as absent. The decision text above said the subdomain carries
+  "its own SPF and DKIM", which the same Confirmation already contradicted; the SPF half is struck.

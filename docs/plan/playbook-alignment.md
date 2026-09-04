@@ -23,7 +23,7 @@ companies and communities pages are placeholders pending a post-launch decision.
 | ----------- | -------------------------------------------------------------------------------------------- | ---------------------------------- |
 | 24 Aug 2026 | Minimal landing page: proposition, date, contribution route                                  | ✅ **live** at twente.dev          |
 | 31 Aug 2026 | Partner/community page with non-displacement commitment                                      | ✅ live                            |
-| 31 Aug 2026 | Code of conduct + email opt-in + save-the-date live                                          | ✅ CoC live; opt-in pending Brevo  |
+| 31 Aug 2026 | Code of conduct + email opt-in + save-the-date live                                          | ✅ CoC live; opt-in live on Brevo  |
 | 2 Sep 2026  | Registration opens (e-mail RSVP; pretix dropped 2026-08-30) — trust pages must be live first | Trust pages live; hello@ must work |
 | 28 Sep 2026 | Full practical page: access, food, language, conduct, photography                            | Partially (structure on /001)      |
 | 21 Oct 2026 | Public launch report                                                                         | After the event                    |
@@ -62,7 +62,11 @@ mean, so this table now tracks _live_, not _built_.
 2. **Registration** — pretix dropped (2026-08-30, Ryan): at ~40 seats registration is a
    mailto to hello@ plus a hand-kept list and waitlist. On 2 Sep, set `REGISTRATION_URL`
    in `src/config/site.ts` to the mailto link. Precondition: hello@ must actually receive.
-3. **Brevo** — create the double-opt-in form, then set `NEWSLETTER_URL`. Open tracking off.
+3. **Brevo** — done on 2026-09-02 (`a48e790`): the double opt-in form is live and
+   `NEWSLETTER_FORM_ACTION` is set, with the DKIM selectors resolving on `send.twente.dev`. What
+   remains is two provider settings nothing in this repo can check — open tracking off, and
+   Reply-To on `hello@twente.dev`, because `send.` has no MX and the homepage promises a reply
+   reaches a human.
 4. **Venue** — on contract, set `EDITION_001.venue` and add the address to the events entry.
 5. **Sponsor pricing** — the playbook (€7,500 / €2,500 / €1,000) and the slide deck (€5,000 /
    €2,500 / €750) disagree; the partners page therefore names no amounts ("agreed per edition").

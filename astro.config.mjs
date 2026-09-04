@@ -14,9 +14,25 @@ import { NEWSLETTER_FORM_ACTION } from './src/config/site.ts';
  * NEWSLETTER_FORM_ACTION and the origin is admitted in the same commit; leave it
  * null and the policy stays exactly `'self'`.
  */
-const formAction = [
+const newsletterOrigin = NEWSLETTER_FORM_ACTION ? new URL(NEWSLETTER_FORM_ACTION).origin : null;
+
+const formAction = ["'self'", ...(newsletterOrigin ? [newsletterOrigin] : [])].join(' ');
+
+/**
+ * `connect-src`, om dezelfde reden afgeleid.
+ *
+ * Het aanmeldformulier verstuurt met `fetch` zodra JavaScript draait, en dat is
+ * een andere directive dan `form-action`: die dekt alleen de navigatie die het
+ * formulier zonder JavaScript veroorzaakt. Staat de host hier niet in, dan
+ * mislukt precies het pad dat vrijwel iedereen loopt, en blijft het pad werken
+ * dat bijna niemand gebruikt.
+ */
+const connectSrc = [
   "'self'",
-  ...(NEWSLETTER_FORM_ACTION ? [new URL(NEWSLETTER_FORM_ACTION).origin] : []),
+  // Self-hosted, cookieless Web-Vitals RUM (Grafana Faro in de homelab,
+  // gedeeld met webgrip.nl; ADR-0006 daar).
+  'https://telemetry.webgrip.dev',
+  ...(newsletterOrigin ? [newsletterOrigin] : []),
 ].join(' ');
 
 // https://astro.build/config
@@ -120,9 +136,7 @@ export default defineConfig({
         "default-src 'self'",
         "img-src 'self' data:",
         "font-src 'self'",
-        // 'self' + the self-hosted, cookieless Web-Vitals RUM endpoint (Grafana
-        // Faro receiver in the homelab, shared with webgrip.nl; ADR-0006 there).
-        "connect-src 'self' https://telemetry.webgrip.dev",
+        `connect-src ${connectSrc}`,
         "base-uri 'self'",
         `form-action ${formAction}`,
         "object-src 'none'",

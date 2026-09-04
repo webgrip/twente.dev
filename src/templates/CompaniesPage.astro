@@ -1,0 +1,106 @@
+---
+import type { Locale } from '../i18n/config.ts';
+import { formatDate, useTranslations } from '../i18n/utils.ts';
+import { routePath } from '../i18n/routes.ts';
+import { EDITION_001, editionName } from '../config/site.ts';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+
+interface Props {
+  locale: Locale;
+  title: string;
+  description: string;
+}
+
+const { locale, title, description } = Astro.props;
+const t = useTranslations(locale);
+const host = EDITION_001.venueName;
+---
+
+<BaseLayout locale={locale} routeKey="companies" title={title} description={description}>
+  <div class="container">
+    <PageHeader
+      title={title}
+      description={description}
+      kicker={`twente.dev // ${title.toLowerCase()}`}
+    >
+      {
+        host && (
+          <div class="host-card">
+            <p class="label-mono host-kicker">
+              {t('companies.hostKicker')} // {editionName(EDITION_001.number)}
+            </p>
+            <p class="host-name">{host}</p>
+            <p class="host-where">
+              {EDITION_001.venueAddress} · {EDITION_001.city}
+            </p>
+            <p class="host-when">
+              <time datetime={EDITION_001.doors.toISOString()}>
+                {formatDate(EDITION_001.doors, locale)}
+              </time>
+            </p>
+            <p class="host-link">
+              <a href={routePath('edition001', locale)}>{t('edition.details')} →</a>
+            </p>
+          </div>
+        )
+      }
+    </PageHeader>
+
+    <div class="prose companies-body">
+      <slot />
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .host-card {
+    display: grid;
+    gap: var(--space-1);
+    padding: var(--space-4) var(--space-5);
+    border: var(--border-width) solid var(--border-strong);
+    border-inline-start: 3px solid var(--accent);
+    border-radius: var(--radius-lg);
+    background: var(--bg-raised);
+  }
+
+  .host-kicker {
+    color: var(--fg-subtle);
+    margin-block-end: var(--space-2);
+  }
+
+  .host-name {
+    font-size: var(--text-xl);
+    font-weight: var(--weight-display);
+    letter-spacing: var(--tracking-tight);
+  }
+
+  .host-where {
+    color: var(--fg-muted);
+  }
+
+  .host-when {
+    color: var(--fg-subtle);
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .host-link {
+    margin-block-start: var(--space-3);
+    font-size: var(--text-sm);
+    font-weight: 550;
+  }
+
+  .host-link a {
+    text-decoration: none;
+  }
+
+  .host-link a:hover {
+    text-decoration: underline;
+  }
+
+  .companies-body {
+    padding-block-end: var(--space-8);
+  }
+</style>

@@ -1,13 +1,12 @@
 ---
-import ProsePage from '../../../templates/ProsePage.astro';
+import CompaniesPage from '../../../templates/CompaniesPage.astro';
 import { routePath } from '../../../i18n/routes.ts';
 import { formatDate } from '../../../i18n/utils.ts';
 import { CONTACT_EMAIL, EDITION_001, editionName } from '../../../config/site.ts';
 ---
 
-<ProsePage
+<CompaniesPage
   locale="nl"
-  routeKey="companies"
   title="Bedrijven"
   description="Je mensen laten gaan, of een zaal aanbieden voor een latere editie."
 >
@@ -30,4 +29,4 @@ import { CONTACT_EMAIL, EDITION_001, editionName } from '../../../config/site.ts
     Mail <a href={`mailto:${CONTACT_EMAIL}?subject=Bedrijf%20wil%20bijdragen`}>{CONTACT_EMAIL}</a>,
     één alinea is genoeg.
   </p>
-</ProsePage>
+</CompaniesPage>

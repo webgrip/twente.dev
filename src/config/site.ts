@@ -19,6 +19,9 @@ export const ANALYTICS_TOKEN: string | null = null;
 
 export const REGISTRATION_OPENS = new Date('2026-09-14T09:00:00+02:00');
 
+const VENUE_NAME = 'Code14';
+const VENUE_ADDRESS = 'Hogepad 81';
+
 export const EDITION_001 = {
   number: '001',
   theme: 'Reconnect',
@@ -26,7 +29,9 @@ export const EDITION_001 = {
   start: new Date('2026-11-04T18:45:00+01:00'),
   end: new Date('2026-11-04T21:30:00+01:00'),
   city: 'Rijssen',
-  venue: 'Code14, Hogepad 81' as string | null,
+  venueName: VENUE_NAME as string | null,
+  venueAddress: VENUE_ADDRESS as string | null,
+  venue: `${VENUE_NAME}, ${VENUE_ADDRESS}` as string | null,
   capacity: 40,
   costEur: 0,
 } as const;

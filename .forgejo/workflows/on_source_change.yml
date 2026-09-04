@@ -33,31 +33,34 @@ jobs:
     name: "Unit Tests"
     needs:
       - static-analysis
-    uses: webgrip/workflows/.forgejo/workflows/node-application-tests.yml@f2e235efd0589ee32cef70cd79ee7f110f80d1da
+    uses: webgrip/workflows/.forgejo/workflows/node-application-tests.yml@ef2b7a61a56c57efc41a4738009c793d200b20c2
     with:
       node-version: "24"
       package-manager: pnpm
       test-command: pnpm test
+      job-name: Unit Tests
 
   content-validation:
     name: "Content Validation"
     needs:
       - static-analysis
-    uses: webgrip/workflows/.forgejo/workflows/node-application-tests.yml@f2e235efd0589ee32cef70cd79ee7f110f80d1da
+    uses: webgrip/workflows/.forgejo/workflows/node-application-tests.yml@ef2b7a61a56c57efc41a4738009c793d200b20c2
     with:
       node-version: "24"
       package-manager: pnpm
       test-command: REQUIRE_REAL_CONTENT=1 pnpm validate:content
+      job-name: Content Validation
 
   mail-validation:
     name: "Mail Validation"
     needs:
       - static-analysis
-    uses: webgrip/workflows/.forgejo/workflows/node-application-tests.yml@f2e235efd0589ee32cef70cd79ee7f110f80d1da
+    uses: webgrip/workflows/.forgejo/workflows/node-application-tests.yml@ef2b7a61a56c57efc41a4738009c793d200b20c2
     with:
       node-version: "24"
       package-manager: pnpm
       test-command: pnpm validate:mail
+      job-name: Mail Validation
 
   build:
     name: "Build Site"
@@ -65,11 +68,12 @@ jobs:
       - unit-tests
       - content-validation
       - mail-validation
-    uses: webgrip/workflows/.forgejo/workflows/node-application-tests.yml@f2e235efd0589ee32cef70cd79ee7f110f80d1da
+    uses: webgrip/workflows/.forgejo/workflows/node-application-tests.yml@ef2b7a61a56c57efc41a4738009c793d200b20c2
     with:
       node-version: "24"
       package-manager: pnpm
       test-command: pnpm build
+      job-name: Build Site
 
   container-parity:
     name: "Container Parity"

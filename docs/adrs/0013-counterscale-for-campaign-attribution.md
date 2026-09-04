@@ -68,6 +68,10 @@ using Counterscale's server module.**
   correctly the free tier covers 100,000 pageviews a day.
 - **Grafana reads the same Analytics Engine dataset** over its SQL API, so the numbers
   can sit beside everything else already being watched. Driver 6.
+- **The collector deploys from Forgejo like everything else** (ADR 0003), not from the
+  interactive installer. `@counterscale/cli` scaffolds a `wrangler.json` and shells out to
+  `wrangler deploy`; with the config checked in, the shared `cloudflare-deploy.yml` does
+  the same job with the token in the secret store instead of on a laptop.
 
 ### Rejected options and why
 
@@ -100,9 +104,10 @@ using Counterscale's server module.**
 - **Every pageview now costs a Worker invocation**, where an assets-only Worker cost
   nothing. The free tier is wide enough by a large margin, and `run_worker_first` is a
   configuration line that can silently make it thirteen times worse.
-- **Analytics Engine keeps ninety days.** The questions these sites ask span a year of
-  editions, so anything meant to outlive the window has to be copied into a store we own
-  before it closes. That export does not exist yet.
+- **Analytics Engine keeps ninety days**, and Counterscale answers that itself: its
+  shipped config carries an R2 bucket and a nightly cron that rolls the day up before the
+  window can close. R2 is a further binding to provision and a further thing that can
+  silently stop, so the rollup is worth an alert rather than a hope.
 - A second analytics system alongside Cloudflare Web Analytics, with overlapping
   coverage. Retiring one is a later decision, once there is data on which is read.
 - The privacy pages have to change before this ships. They currently say the site does
@@ -129,6 +134,9 @@ using Counterscale's server module.**
   out any client-side collector.
 - 2026-09-04 — `@webgrip/edge-analytics@1.0.0` published; first written as its own
   collector, rewritten as a Counterscale adapter once Counterscale was found.
+- 2026-09-04 — retention consequence corrected on the same day it was written. It claimed
+  the ninety-day export did not exist; Counterscale ships an R2 rollup bucket and a nightly
+  cron that already does it. The claim was wrong when made, not overtaken by events.
 - Refines [ADR 0006](0006-privacy-first-analytics.md), which stays Accepted: Cloudflare
   Web Analytics remains the pageview instrument and this covers only the query-string gap.
 - webgrip.nl adopts this decision rather than restating it; its own ADR set links here.

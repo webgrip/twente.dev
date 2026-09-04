@@ -17,7 +17,7 @@ export const PRETALX_CFP_URL: string | null = null;
 
 export const ANALYTICS_TOKEN: string | null = null;
 
-export const REGISTRATION_OPENS = new Date('2026-09-02T09:00:00+02:00');
+export const REGISTRATION_OPENS = new Date('2026-09-14T09:00:00+02:00');
 
 export const EDITION_001 = {
   number: '001',

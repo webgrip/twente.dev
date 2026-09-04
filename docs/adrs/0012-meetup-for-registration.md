@@ -115,5 +115,11 @@ paid for.
 
 - 2026-08-30 — pretix dropped; registration decided as a mailto plus a hand-kept list.
 - 2026-09-02 — Meetup accepted for /001 and /002; the mailto route retired before it ever opened.
+- 2026-09-04 — bought as **one year for EUR 99**, not the six months at ~$99.99 costed above.
+  Cheaper per month and it spans /001 through roughly /012, but it also means the "bounded and
+  stoppable" consequence now has a twelve-month floor rather than six.
+- 2026-09-04 — registration opens **14 September 2026**, four weeks before the old date and
+  seven before the new one. The open call and the newsletter run ahead of it deliberately, so
+  the edition has an audience before it has a ticket.
 - Superseded by nothing yet. The question returns after /002, when there is attendance data to
   argue from and the venue rotation makes the group's location worth revisiting.

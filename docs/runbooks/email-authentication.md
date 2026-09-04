@@ -9,9 +9,9 @@ agent). Originally filed as the blocker on all outreach — VIK-798.
 > |         | twente.dev                              | webgrip.nl               | ryangrippeling.nl |
 > | ------- | --------------------------------------- | ------------------------ | ----------------- |
 > | MX      | Cloudflare Email Routing (inbound only) | Google Workspace         | **none**          |
-> | SPF     | ✅ Cloudflare + Google includes         | ✅ Google include        | ❌ absent         |
+> | SPF     | ✅ Cloudflare + Google includes         | ✅ Google include        | ✅ `-all`, no MX  |
 > | DKIM    | ✅ 408 chars, `google` selector         | ✅ 408 chars             | ❌ absent         |
-> | DMARC   | ✅ `p=none`, two `rua`, `fo=1`          | ✅ `p=none`, two `rua`   | ❌ absent         |
+> | DMARC   | ✅ `p=none`, two `rua`, `fo=1`          | ✅ `p=none`, two `rua`   | ✅ `p=reject`     |
 > | DNSSEC  | ❌ deliberately deferred                | ❌ deliberately deferred | ❌                |
 > | MTA-STS | ❌ not yet                              | ❌ not yet               | ❌ n/a            |
 >
@@ -46,21 +46,31 @@ the domain known before it will mint a DKIM key.
 
 Ordered by what unblocks what. Items 1 and 2 are quick; 3 gates 6.
 
-1. **Verify outbound DKIM alignment.** Send from `ryan@twente.dev` to
-   [mail-tester.com](https://www.mail-tester.com) and to an outlook.com address. The line that
-   matters is `DKIM: PASS with d=twente.dev`. A pass with `d=webgrip.nl` is _not_ alignment —
-   see the domain-alias gotcha below, because that outcome forces decision 3.
-   **This is still unproven.** Every test so far has been inbound.
-2. **Lock down ryangrippeling.nl.** It has no MX, no SPF and no DMARC, which makes it free
-   material for spoofing. Two records, five minutes:
-   ```text
-   ryangrippeling.nl          TXT   v=spf1 -all
-   _dmarc.ryangrippeling.nl   TXT   v=DMARC1; p=reject;
-   ```
-3. **Decide: domain alias or secondary domain for twente.dev.** See the gotcha below. A domain
-   alias cannot give twente.dev its own addresses — `conduct@twente.dev` as a multi-member
-   group is impossible under it, which the organiser playbook requires. Cost of switching:
-   remove the alias, re-add as a secondary domain, regenerate DKIM (new key, new TXT).
+1. ~~**Verify outbound DKIM alignment.**~~ **Done, 2026-09-04.** Outbound from
+   `hello@twente.dev` lands at outlook.com with `dkim=pass (signature was verified)
+header.d=twente.dev`, `dmarc=pass` and `compauth=pass reason=100`. mail-tester scores
+   8.8/10 and awards `DKIM_VALID_AU`, which is specifically the author-domain check. The
+   signature is aligned; the alias is signing as twente.dev, not as webgrip.nl.
+   **But note which leg carries it.** SPF passes on the envelope
+   (`smtp.mailfrom=webgrip.nl`) while the header From is `twente.dev`, so SPF is _not_
+   aligned and DMARC is passing on DKIM alone. That is valid, and it is one leg. If DKIM
+   signing ever breaks (key rotation, or the alias-to-secondary-domain switch in item 3),
+   DMARC fails the same day rather than degrading. Re-run this test after any change to
+   the Workspace domain setup.
+   The 8.8 rather than 10 is content, not authentication: `HTML_IMAGE_ONLY_16` costs
+   1.048 for too little text against the images, and `HEADER_FROM_DIFFERENT_DOMAINS`
+   costs 0.25 for the envelope/From split above. Worth fixing in the announcement
+   template before it goes to a real list.
+2. ~~**Lock down ryangrippeling.nl.**~~ **Done, 2026-09-04.** `v=spf1 -all` and
+   `_dmarc` `p=reject` are published; the domain has no MX and now cannot be spoofed.
+3. **Decide: domain alias or secondary domain for twente.dev.** No longer forced by DKIM
+   (item 1 proved alignment works under the alias). The remaining reason is namespace: a
+   domain alias mirrors usernames and has no namespace of its own, so `conduct@twente.dev`
+   cannot be a group with more than one member. Inbound works today through Cloudflare
+   Email Routing, so a single organiser is fine and nothing is broken. This becomes
+   blocking the moment a second code-of-conduct contact is appointed, which the organiser
+   playbook calls the first role to hand off. Cost of switching: remove the alias, re-add
+   as a secondary domain, regenerate DKIM (new key, new TXT), then re-run item 1.
 4. **Google Postmaster Tools** for both domains. Free, and the only place the real spam rate
    and authentication rate are visible rather than guessed at.
 5. **Registrar transfer**, Hostnet → Namecheap, for webgrip.nl and ryangrippeling.nl. Verify

@@ -543,8 +543,8 @@
       const statusLines = `$ systemctl status editie@${EDITIE.nr}
 <b><i>●</i> twente.dev/${EDITIE.nr} — ${EDITIE.thema}</b>
    Active: <b>scheduled</b> — ${EDITIE.datumNL}, ${EDITIE.tijd} CET · ${EDITIE.venue}, ${EDITIE.stad}
-   Talks:  field report — <b>${EDITIE.sprekers[0]}</b>
-           field report — <b>${EDITIE.sprekers[1]}</b>
+   Talks:  <b>${EDITIE.sprekers[0]}</b>
+           <b>${EDITIE.sprekers[1]}</b>
    Seats:  ${EDITIE.seats} · gratis · aanmelden: <i>hello@twente.dev</i>`;
       document.querySelectorAll('[data-statusbord]').forEach((el) => {
         el.innerHTML = statusLines;

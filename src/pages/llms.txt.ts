@@ -37,7 +37,7 @@ const editionLines = [
   `- Locatie: ${[e.venue, e.city].filter(Boolean).join(', ')}`,
   `- Capaciteit: ${e.capacity} plekken · ${e.costEur === 0 ? 'gratis' : `€${e.costEur}`}`,
   REGISTRATION_URL && `- Aanmelden: ${REGISTRATION_URL}`,
-  PRETALX_CFP_URL && `- Call for field reports: ${PRETALX_CFP_URL}`,
+  PRETALX_CFP_URL && `- Call for talks: ${PRETALX_CFP_URL}`,
   EDITION_001_SPEAKERS.length > 0 &&
     `- Programma: ${EDITION_001_SPEAKERS.map((s) => s.name).join(', ')}`,
 ].filter(Boolean);

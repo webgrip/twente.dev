@@ -1,7 +1,7 @@
 ---
 title: 'Open call: tell Twente what you are building at twente.dev/001'
 description: >-
-  Two 12-minute field reports open the first flagship evening on 4 November.
+  Two 12-minute talks open the first flagship evening on 4 November.
   One of them could be yours — no speaking experience required.
 locale: en
 translationKey: open-call-001

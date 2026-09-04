@@ -1,0 +1,365 @@
+project: twente.dev
+description: >-
+  De onafhankelijke, practitioner-led techcommunity van Twente. Een gezamenlijke
+  agenda, een directory, een archief en een nieuwsbrief het hele jaar door, plus
+  een klein aantal genummerde, bewust multidisciplinaire avonden.
+version: '0.1.0'
+
+contexts:
+  - name: Editie
+    description: >-
+      De avond zelf en alles wat eromheen geregeld moet worden: datum, zaal,
+      programma, aanmelden. Hier is "praten" een Talk en is een Editie een
+      gebeurtenis met een datum.
+  - name: Publicatie
+    description: >-
+      Wat er geschreven en verstuurd wordt: artikelen op de site en de mail die
+      erover gaat. Hier is "praten" schrijven, en hebben stukken een pillar in
+      plaats van een spreker. De woordbotsing die dit model oplost zit precies
+      op de grens tussen deze twee contexten.
+
+terms:
+  - name: Edition
+    context: Editie
+    definition: >-
+      Eén genummerde avond, geschreven als twente.dev/001. Onderscheidt zich van
+      een gewone meetup doordat het nummer permanent is en de avond een archief
+      achterlaat. Iedere eerste woensdag van de maand, met verplaatsing alleen
+      met opgegeven reden.
+    synonyms: [editie, flagship]
+    avoid: [meetup, event night]
+    examples: ['twente.dev/001 — Reconnect', 'twente.dev/002']
+    see_also: [Talk, Registration, Host]
+
+  - name: Talk
+    context: Editie
+    definition: >-
+      Een gesproken bijdrage van twaalf minuten op een Edition, met één claim,
+      één echt voorbeeld en één vraag aan de zaal. Gegeven door iemand die het
+      werk zelf deed, niet door een vertegenwoordiger ervan.
+    synonyms: [talk, praatje]
+    avoid: [field report, veldverslag, keynote, presentatie, sessie]
+    see_also: [Speaker, Open Call, Edition]
+
+  - name: Speaker
+    context: Editie
+    definition: >-
+      Iemand die een Talk geeft op een Edition. Wordt redactioneel geselecteerd
+      en bevestigt zelf de datum voordat de naam ergens verschijnt.
+    synonyms: [spreker]
+    see_also: [Talk, Open Call]
+
+  - name: Registration
+    context: Editie
+    definition: >-
+      De RSVP van één persoon voor één Edition, sinds 2026-09-02 afgehandeld op
+      meetup.com. De site blijft het verslag van de avond; Meetup draagt alleen
+      de aanmelding.
+    synonyms: [aanmelding, RSVP]
+    avoid: [ticket, kaartje]
+    see_also: [Edition]
+
+  - name: Host
+    context: Editie
+    definition: >-
+      De organisatie die de zaal levert voor een Edition. Krijgt logo,
+      bedanking bij de opening en hooguit twee minuten welkomstwoord. Krijgt
+      nadrukkelijk geen Talk-slot, geen deelnemerslijst en geen inspraak op het
+      programma.
+    synonyms: [gastheer]
+    avoid: [eigenaar, organisator]
+    examples: [Code14]
+    see_also: [Partner, Edition]
+
+  - name: Partner
+    definition: >-
+      Een organisatie die twente.dev steunt onder het gepubliceerde
+      partnercompact. Onderscheidt zich van een Host doordat een Partner geen
+      zaal hoeft te leveren en een Host geen bijdrage hoeft te doen.
+    see_also: [Host]
+
+  - name: Community
+    definition: >-
+      Een bestaande groep in de regio die in de directory staat. twente.dev
+      concurreert niet met een Community en draait geen eigen avond op hun
+      avond.
+    examples: [TkkrLab, Agile Meetup Twente]
+
+  - name: People Who Build
+    context: Publicatie
+    definition: >-
+      Een geschreven portret van iemand die in de regio bouwt, opgebouwd uit
+      vaste vragen. Onderscheidt zich van een Talk doordat het geschreven is en
+      niet aan een Edition hangt, en van een nieuwsbericht doordat de persoon
+      het onderwerp is en niet de aanleiding.
+    synonyms: [portret, interview]
+    see_also: [Newsletter, Open Call]
+
+  - name: Open Call
+    context: Publicatie
+    definition: >-
+      Een gepubliceerde oproep om iets bij te dragen, meestal een Talk voor de
+      eerstvolgende Edition. Staat open zolang de plekken niet gevuld zijn.
+    synonyms: [open call, oproep]
+    see_also: [Talk, Speaker]
+
+  - name: Week in Twente Tech
+    context: Publicatie
+    definition: >-
+      Een periodiek overzicht van wat er in de regio speelt, samengesteld uit
+      de agenda en de Communities. Onderscheidt zich van de andere pillars
+      doordat het niets nieuws beweert, alleen verzamelt.
+
+  - name: Newsletter
+    context: Publicatie
+    definition: >-
+      De opt-in maillijst waarop lezers zich abonneren, met dubbele opt-in via
+      Brevo. Verstuurt de Publicatie-stukken en de aankondigingen rond een
+      Edition. Geen wekelijkse cadans; er gaat een mail uit als er iets te
+      melden is.
+    synonyms: [nieuwsbrief]
+    see_also: [People Who Build, Open Call]
+
+rules:
+  - id: R1
+    statement: twente.dev wordt altijd met kleine letters geschreven, ook aan het begin van een zin.
+    rationale: Het is een domeinnaam en de merkregel; een hoofdletter maakt er een bedrijfsnaam van.
+    applies_to: [Edition]
+  - id: R2
+    statement: >-
+      De feiten van de huidige Edition (datum, tijden, stad, venue, capaciteit,
+      kosten) staan uitsluitend in src/config/site.ts. Geen enkele pagina
+      herhaalt ze als letterlijke tekst.
+    rationale: >-
+      Toen ze wel werden herhaald, liep de capaciteit uiteen (100 tegenover 40)
+      en de stad (Enschede tegenover Rijssen) op vier plekken tegelijk. Mensen
+      boeken reizen op die velden.
+    applies_to: [Edition]
+  - id: R3
+    statement: Spreektijd is niet te koop. Een Speaker wordt redactioneel geselecteerd.
+    rationale: Het is een gepubliceerde waarborg en het onderscheidt de avond van een leverancierspodium.
+    applies_to: [Talk, Speaker, Partner]
+  - id: R4
+    statement: >-
+      Een Host krijgt logo, bedanking en hooguit twee minuten. Nooit een
+      Talk-slot, de deelnemerslijst of inspraak op het programma.
+    rationale: De gepubliceerde waarborgen gelden ook voor wie de zaal betaalt, anders zijn het geen waarborgen.
+    applies_to: [Host]
+  - id: R5
+    statement: Een Speaker verschijnt pas op de site nadat die persoon de datum bevestigd heeft.
+    rationale: >-
+      Een aangekondigde naam is een toezegging aan iemand die het vervolgens aan
+      collega's vertelt. Terugtrekken kost die persoon meer dan ons.
+    applies_to: [Speaker]
+  - id: R6
+    statement: >-
+      Zijn er op T−4 weken geen twee bevestigde Speakers, dan wordt het een
+      lichte avond en geen Edition met een TBA-programma.
+    rationale: >-
+      Een leeg programma dat toch wordt aangekondigd, kost meer vertrouwen dan
+      een eerlijk kleinere avond. Deze regel verzette /001 van 7 oktober naar
+      4 november.
+    applies_to: [Edition, Speaker]
+  - id: R7
+    statement: >-
+      Content die aan een echte regionale organisatie wordt toegeschreven, komt
+      uit de contributiepijplijn en wordt nooit verzonnen.
+    rationale: De directory is alleen iets waard als alles erin klopt.
+    applies_to: [Community]
+
+entities:
+  - name: Edition
+    context: Editie
+    description: Eén genummerde avond, van datumbesluit tot gepubliceerd verslag.
+    attributes:
+      - name: number
+        type: string
+        description: Drie cijfers, permanent. Vormt de URL en de naam.
+        required: true
+      - name: theme
+        type: string
+        description: Eén woord dat de avond typeert, bijvoorbeeld Reconnect.
+        required: true
+      - name: date
+        type: datetime
+        description: Doorgaans de eerste woensdag van de maand. Let op de winter/zomertijdovergang.
+        required: true
+      - name: capacity
+        type: int
+        description: Wat de zaal echt kan, niet wat we hopen.
+        required: true
+      - name: speakers
+        type: 'Speaker[]'
+        description: Leeg tot bevestigd. De lengte bepaalt wat de pagina toont.
+    states:
+      - from: '[start]'
+        to: Gepland
+        trigger: Datum en zaal vastgelegd, collision-check gedraaid
+      - from: Gepland
+        to: Aangekondigd
+        trigger: Datum en venue publiek op de site
+      - from: Aangekondigd
+        to: Aanmelden open
+        trigger: Registration-kanaal live gezet
+      - from: Aanmelden open
+        to: Programma rond
+        trigger: Twee Speakers bevestigd (R6)
+      - from: Aanmelden open
+        to: Lichte avond
+        trigger: Op T−4 geen twee bevestigde Speakers (R6)
+      - from: Programma rond
+        to: Gehouden
+        trigger: De avond zelf
+      - from: Lichte avond
+        to: Gehouden
+        trigger: De avond zelf
+      - from: Gehouden
+        to: Gearchiveerd
+        trigger: Openbaar verslag gepubliceerd, binnen tien werkdagen
+    relationships:
+      - to: Talk
+        kind: has_many
+        description: Twee bij een volwaardige Edition, nul bij een lichte avond.
+      - to: Host
+        kind: references
+        description: De organisatie die de zaal levert.
+
+  - name: Talk
+    context: Editie
+    description: Twaalf minuten gesproken, één claim, één voorbeeld, één vraag.
+    attributes:
+      - name: claim
+        type: string
+        description: Een precieze stelling, geen onderwerplabel.
+        required: true
+      - name: example
+        type: string
+        description: Het besluit, de mislukking of het resultaat dat de claim toetsbaar maakt.
+        required: true
+      - name: question
+        type: string
+        description: Het onopgeloste deel waar de zaal bij kan helpen.
+        required: true
+    relationships:
+      - to: Speaker
+        kind: belongs_to
+        description: Precies één Speaker per Talk.
+      - to: Edition
+        kind: belongs_to
+
+  - name: Host
+    context: Editie
+    description: De organisatie die de zaal levert, onder de waarborgen van R4.
+    attributes:
+      - name: organisation
+        type: string
+        required: true
+      - name: address
+        type: string
+        description: Staat op de editiepagina, want mensen boeken er reizen op.
+        required: true
+      - name: editionsCommitted
+        type: int
+        description: Expliciet eindig, en publiek gecommuniceerd als zodanig.
+    relationships:
+      - to: Edition
+        kind: has_many
+        description: Een Host kan meerdere Editions achter elkaar leveren.
+
+  - name: Speaker
+    context: Editie
+    description: Degene die een Talk geeft.
+    attributes:
+      - name: name
+        type: string
+        required: true
+      - name: affiliation
+        type: string
+        description: Waar iemand bouwt. Een bedrijf, lab of school, geen functietitel.
+      - name: confirmedAt
+        type: datetime
+        description: Leeg betekent niet publiceren (R5).
+    relationships:
+      - to: Talk
+        kind: has_one
+
+events:
+  - name: EditionAnnounced
+    entity: Edition
+    description: Datum, stad en venue worden publiek.
+    triggers: De Open Call kan de deur uit en de persoonlijke sprekervragen worden verstuurd.
+  - name: RegistrationOpened
+    entity: Edition
+    description: Het aanmeldkanaal gaat open.
+    triggers: Het aanmeldgetal wordt het bewijsmateriaal in spreker- en partnervragen.
+  - name: SpeakerConfirmed
+    entity: Speaker
+    description: Een Speaker bevestigt de datum.
+    triggers: De naam mag op de site (R5) en het is een eigen aankondigingsmoment.
+  - name: EditionHeld
+    entity: Edition
+    description: De avond heeft plaatsgevonden.
+    triggers: Bedankmail naar Speakers binnen drie dagen, verslag binnen tien werkdagen.
+
+ambiguities:
+  - phrase: field report
+    issue: >-
+      Werd gebruikt voor de twaalfminutentalks op de avond, terwijl "field note"
+      een geschreven vorm aanduidt. Twee woorden die op elkaar lijken voor twee
+      dingen die niets met elkaar te maken hebben.
+    options:
+      - 'Talk voor het gesproken stuk, field report afschaffen'
+      - 'Field report houden en de geschreven vorm hernoemen'
+    recommendation: >-
+      Talk. Het is wat mensen toch al zeggen, en het laat "field" vrij voor de
+      geschreven kant.
+    status: resolved
+    resolution: >-
+      Talk (Ryan, 2026-09-04, "de talks zijn talks, geen field reports").
+      Voorkomt in elf plekken in de site-copy en moet daar vervangen worden.
+
+  - phrase: field note
+    issue: >-
+      Drie betekenissen tegelijk in gebruik. (1) De pillar field-notes in
+      content.config.ts, gedefinieerd als "één concrete les uit een lokaal
+      systeem". (2) De naam van de nieuwsbrief op de homepage, "De field note",
+      die alle pillars verstuurt en dus meer dekt dan de pillar. (3) Ryans
+      uitspraak op 2026-09-04 dat field notes "echt de interviews met
+      developers zijn", wat de betekenis van People Who Build is.
+    options:
+      - 'Field Note = de pillar "één concrete les"; de nieuwsbrief krijgt een eigen naam'
+      - 'Field Note = koepel voor alles wat geschreven en gemaild wordt; de pillar "één concrete les" krijgt een nieuwe naam'
+      - 'Field Note = de interviews; People Who Build vervalt als aparte naam'
+    recommendation: >-
+      Optie 1. Het laat de vier pillars staan zoals ze zijn gebouwd en verzonden,
+      en repareert de enige echte overlap: een nieuwsbrief die naar één van zijn
+      vier pillars is vernoemd, belooft abonnees minder dan hij levert. Optie 3
+      valt af omdat Ryan People Who Build juist wil houden, en dan zijn het twee
+      namen voor één ding.
+    status: open
+
+dialogues:
+  - title: Talk tegenover Field Note
+    lines:
+      - speaker: Ryan
+        text: Kan iemand een **Field Note** komen geven op /001?
+      - speaker: Redactie
+        text: >-
+          Nee. Op een **Edition** geef je een **Talk**, twaalf minuten gesproken.
+          Een **Field Note** is geschreven en staat op de site.
+      - speaker: Ryan
+        text: En als iemand zijn Talk daarna opschrijft?
+      - speaker: Redactie
+        text: >-
+          Dan is dat een tweede ding, geen omzetting. De **Talk** blijft in het
+          archief van die **Edition** staan, en het geschreven stuk krijgt een
+          eigen pillar.
+  - title: Host tegenover Partner
+    lines:
+      - speaker: Ryan
+        text: Code14 betaalt nu ook zes maanden mee. Zijn ze dan Partner geworden?
+      - speaker: Redactie
+        text: >-
+          Ze zijn allebei. **Host** gaat over de zaal, **Partner** over de
+          bijdrage. Wat niet verandert is R4: geen **Talk**-slot, geen
+          deelnemerslijst, geen inspraak op het programma.

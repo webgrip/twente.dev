@@ -1,7 +1,7 @@
 ---
 title: 'Open call: vertel Twente wat jij bouwt op twente.dev/001'
 description: >-
-  Twee field reports van 12 minuten openen de eerste flagship-avond op
+  Twee talks van 12 minuten openen de eerste flagship-avond op
   4 november. Eén daarvan kan van jou zijn — spreekervaring is niet nodig.
 locale: nl
 translationKey: open-call-001
@@ -23,7 +23,7 @@ draft: false
 
 Wat moet Twente weten over wat jij bouwt — of op de harde manier leert?
 
-Op woensdag 4 november opent [twente.dev/001 — Reconnect](/nl/001) met twee **field reports** van
+Op woensdag 4 november opent [twente.dev/001 — Reconnect](/nl/001) met twee **talks** van
 12 minuten: korte, eerlijke verhalen van mensen die het werk zelf deden. Geen keynotes, geen
 productdemo's — één claim, één echt voorbeeld, en één vraag aan de zaal.
 

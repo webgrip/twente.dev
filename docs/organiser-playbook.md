@@ -147,7 +147,7 @@ Besloten 2026-08-30: op deze schaal is een ticketingplatform overhead. Het hele 
 16:30 opbouw en AV-check · 17:45 eten klaar, naamstickers en de fotografie-signalen bij
 de deur · 18:00 inloop · 18:40 sprekersbriefing van twee minuten · 18:45 welkom: wie je
 bent, de gedragscode en het aanspreekpunt, de fotoregel, max 2 minuten host · 19:00
-field reports · 19:30 pauze + kennismakingen in tweetallen · 19:45 begeleid gesprek ·
+talks · 19:30 pauze + kennismakingen in tweetallen · 19:45 begeleid gesprek ·
 20:25 community-vragen ("wat moet Twente weten over wat jij bouwt?" — dit is de
 sprekersscouting voor de volgende editie, schrijf mee) · 20:35 netwerkuur · 21:25
 afronding en de datum van de volgende editie · 21:30 harde eindtijd · 22:00 opgeruimd.

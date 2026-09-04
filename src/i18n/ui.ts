@@ -177,7 +177,7 @@ export const en: Record<UIKey, string> = {
 
   'home.hero.title': 'Spend one evening outside your own field.',
   'home.hero.subtitle':
-    'One evening in Rijssen with people who build technology in Twente — whatever they build it with. Two short field reports, and mostly each other.',
+    'One evening in Rijssen with people who build technology in Twente — whatever they build it with. Two short talks, and mostly each other.',
   'home.hero.ctaReserve': 'Reserve a place',
   'home.hero.ctaContribute': 'Propose a story',
   'home.does.calendar.title': 'The shared calendar',

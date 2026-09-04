@@ -30,6 +30,10 @@ interface Copy {
   factVenue: string;
   factLanguage: string;
   factCost: string;
+  factCapacity: string;
+  factsTitle: string;
+  onThisPage: string;
+  slotOpen: string;
   outcomes: [string, string, string];
   expectTitle: string;
   runOfShow: { time: string; item: string }[];
@@ -90,6 +94,10 @@ const COPY: Record<Locale, Copy> = {
     factVenue: 'Venue',
     factLanguage: 'Language',
     factCost: 'Cost',
+    factCapacity: 'Seats',
+    factsTitle: 'The facts',
+    onThisPage: 'On this page',
+    slotOpen: 'Open',
     outcomes: ['One useful idea', 'One useful introduction', 'One reason to return'],
     expectTitle: 'The evening',
     runOfShow: [
@@ -189,6 +197,10 @@ const COPY: Record<Locale, Copy> = {
     factVenue: 'Locatie',
     factLanguage: 'Voertaal',
     factCost: 'Kosten',
+    factCapacity: 'Plekken',
+    factsTitle: 'De feiten',
+    onThisPage: 'Op deze pagina',
+    slotOpen: 'Open',
     outcomes: ['Eén nuttig idee', 'Eén nuttige kennismaking', 'Eén reden om terug te komen'],
     expectTitle: 'De avond',
     runOfShow: [
@@ -283,6 +295,16 @@ const entry = await getEntry('events', 'twente-dev-001-reconnect');
 const jsonLd = entry ? [eventSchema(entry, locale)] : [];
 
 const registrationOpen = REGISTRATION_URL !== null;
+const sections = [
+  { id: 'avond', label: c.expectTitle },
+  { id: 'sprekers', label: c.speakersTitle },
+  { id: 'voor-wie', label: c.whoTitle },
+  { id: 'praktisch', label: c.practicalTitle },
+  { id: 'meedoen', label: c.actionsTitle },
+  { id: 'waarborgen', label: c.safeguardsTitle },
+] as const;
+const num = (id: (typeof sections)[number]['id']) =>
+  String(sections.findIndex((s) => s.id === id) + 1).padStart(2, '0');
 const opensIso = REGISTRATION_OPENS.toISOString();
 const opensOn = formatDate(REGISTRATION_OPENS, locale);
 const speakers = EDITION_001_SPEAKERS;
@@ -295,16 +317,16 @@ const speakers = EDITION_001_SPEAKERS;
   description={c.metaDescription}
   jsonLd={jsonLd}
 >
-  <div class="edition-band">
-    <div class="container">
-      <nav class="breadcrumb" aria-label="Breadcrumb">
-        <a class="label-mono" href={routePath('events', locale)}>
-          <span aria-hidden="true">←</span>
-          {t('events.title')}
-        </a>
-      </nav>
+  <div class="container edition">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a class="label-mono" href={routePath('events', locale)}>
+        <span aria-hidden="true">←</span>
+        {t('events.title')}
+      </a>
+    </nav>
 
-      <header class="edition-header">
+    <div class="edition-grid">
+      <header class="edition-hero">
         <p class="edition-lockup label-mono" aria-hidden="true">
           <span class="lockup-name">{editionName(EDITION_001.number)}</span>
           <span class="lockup-date">
@@ -321,190 +343,226 @@ const speakers = EDITION_001_SPEAKERS;
           {c.outcomes.map((outcome) => <li>{outcome}</li>)}
         </ul>
       </header>
-    </div>
-  </div>
 
-  <div class="container edition-body">
-    <aside class="edition-aside" aria-label={c.practicalTitle}>
-      <div class="edition-aside-inner">
-        <dl class="facts">
-          <div>
-            <dt>{c.factDate}</dt>
-            <dd>
-              <time datetime={EDITION_001.doors.toISOString()}>
-                {formatDate(EDITION_001.doors, locale)}
-              </time>
-            </dd>
-          </div>
-          <div>
-            <dt>{c.factTime}</dt>
-            <dd>{time(EDITION_001.doors)}–{time(EDITION_001.end)}</dd>
-          </div>
-          <div>
-            <dt>{c.factVenue}</dt>
-            <dd>{EDITION_001.venue ?? `${EDITION_001.city} — ${t('edition.venueTba')}`}</dd>
-          </div>
-          <div>
-            <dt>{c.factLanguage}</dt>
-            <dd class="fact-long">{t('edition.language')}</dd>
-          </div>
-          <div>
-            <dt>{c.factCost}</dt>
-            <dd>{t('edition.free')}</dd>
-          </div>
-        </dl>
-        {
-          registrationOpen && (
-            <a class="button button--primary aside-cta" href={REGISTRATION_URL}>
-              {c.registrationCta}
-            </a>
-          )
-        }
-      </div>
-    </aside>
+      <aside class="edition-aside" aria-labelledby="edition-facts">
+        <div class="edition-aside-inner">
+          <h2 class="visually-hidden" id="edition-facts">{c.factsTitle}</h2>
+          <dl class="facts">
+            <div>
+              <dt>{c.factDate}</dt>
+              <dd>
+                <time datetime={EDITION_001.doors.toISOString()}>
+                  {formatDate(EDITION_001.doors, locale)}
+                </time>
+              </dd>
+            </div>
+            <div>
+              <dt>{c.factTime}</dt>
+              <dd>{time(EDITION_001.doors)}–{time(EDITION_001.end)}</dd>
+            </div>
+            <div>
+              <dt>{c.factVenue}</dt>
+              <dd>{EDITION_001.venue ?? `${EDITION_001.city} — ${t('edition.venueTba')}`}</dd>
+            </div>
+            <div>
+              <dt>{c.factCapacity}</dt>
+              <dd>{EDITION_001.capacity}</dd>
+            </div>
+            <div>
+              <dt>{c.factCost}</dt>
+              <dd>{t('edition.free')}</dd>
+            </div>
+            <div>
+              <dt>{c.factLanguage}</dt>
+              <dd class="fact-long">{t('edition.language')}</dd>
+            </div>
+          </dl>
+          {
+            registrationOpen && (
+              <a class="button button--primary aside-cta" href={REGISTRATION_URL}>
+                {c.registrationCta}
+              </a>
+            )
+          }
+          <nav class="aside-index" aria-label={c.onThisPage}>
+            <ol role="list">
+              {
+                sections.map((section, index) => (
+                  <li>
+                    <a href={`#${section.id}`}>
+                      <span class="label-mono aside-index-num">
+                        {String(index + 1).padStart(2, '0')}
+                      </span>
+                      <span>{section.label}</span>
+                    </a>
+                  </li>
+                ))
+              }
+            </ol>
+          </nav>
+        </div>
+      </aside>
 
-    <div class="edition-main">
-      <section class="edition-section">
-        <h2>{c.actionsTitle}</h2>
-        <Tabs
-          id="take-part"
-          label={c.actionsTitle}
-          tabs={[
-            { id: 'reserve', label: c.tabReserve },
-            { id: 'updates', label: c.tabUpdates },
-            { id: 'contribute', label: c.tabContribute },
-          ]}
-        >
-          <div id="reserve" data-tabs-panel>
-            <h3 data-tabs-heading>{c.registrationTitle}</h3>
+      <div class="edition-main">
+        <section class="edition-section reveal" id="avond">
+          <p class="label-mono section-index">{num('avond')}</p>
+          <h2>{c.expectTitle}</h2>
+          <ol class="run-of-show" role="list">
             {
-              registrationOpen ? (
+              c.runOfShow.map(({ time: at, item }) => (
+                <li>
+                  <span class="ros-time">{at}</span>
+                  <span class="ros-item">{item}</span>
+                </li>
+              ))
+            }
+          </ol>
+        </section>
+
+        <section class="edition-section reveal" id="sprekers">
+          <p class="label-mono section-index">{num('sprekers')}</p>
+          <h2>{c.speakersTitle}</h2>
+          {
+            speakers.length === 0 ? (
+              <div class="speakers-tba">
+                <ul class="slots" role="list">
+                  <li>
+                    <span class="label-mono slot-name">Talk 1</span>
+                    <span class="label-mono slot-state">{c.slotOpen}</span>
+                  </li>
+                  <li>
+                    <span class="label-mono slot-name">Talk 2</span>
+                    <span class="label-mono slot-state">{c.slotOpen}</span>
+                  </li>
+                </ul>
+                <p class="speakers-badge label-mono">{c.speakersTba}</p>
+                <p>{c.speakersTbaBody}</p>
                 <p>
-                  <a class="button button--primary" href={REGISTRATION_URL}>
-                    {c.registrationCta}
+                  <a class="button" href="#updates">
+                    {c.speakersTbaCta}
                   </a>
                 </p>
-              ) : (
-                <p class="registration-opens">
-                  {c.registrationOpens}{' '}
-                  <strong>
-                    <time datetime={opensIso}>{opensOn}.</time>
-                  </strong>
-                  <a href={routePath('events', locale)}>{c.registrationCalendarHint}</a>
-                </p>
-              )
+              </div>
+            ) : (
+              <ul class="speakers" role="list">
+                {speakers.map((speaker) => (
+                  <li>
+                    <p class="speaker-name">{speaker.name}</p>
+                    {speaker.affiliation && (
+                      <p class="speaker-affiliation">{speaker.affiliation}</p>
+                    )}
+                    {speaker.talk && <p class="speaker-talk">{speaker.talk[locale]}</p>}
+                  </li>
+                ))}
+              </ul>
+            )
+          }
+        </section>
+
+        <section class="edition-section reveal" id="voor-wie">
+          <p class="label-mono section-index">{num('voor-wie')}</p>
+          <h2>{c.whoTitle}</h2>
+          <p>{c.whoBody}</p>
+          <p><strong>{c.whoWelcome}</strong></p>
+
+          <div class="is-isnot">
+            <div class="is-panel is-panel--yes">
+              <h3 class="label-mono">{c.isTitle}</h3>
+              <ul role="list">{c.isList.map((item) => <li>{item}</li>)}</ul>
+            </div>
+            <div class="is-panel is-panel--no">
+              <h3 class="label-mono">{c.isNotTitle}</h3>
+              <ul role="list">{c.isNotList.map((item) => <li>{item}</li>)}</ul>
+            </div>
+          </div>
+        </section>
+
+        <section class="edition-section reveal" id="praktisch">
+          <p class="label-mono section-index">{num('praktisch')}</p>
+          <h2>{c.practicalTitle}</h2>
+          <dl class="practical">
+            {
+              c.practical.map(({ term, detail }) => (
+                <div>
+                  <dt>{term}</dt>
+                  <dd>{detail}</dd>
+                </div>
+              ))
             }
-            <p class="consent-note">{c.registrationConsentNote}</p>
-          </div>
+          </dl>
+        </section>
 
-          <div id="updates" data-tabs-panel>
-            <h3 data-tabs-heading>{c.updatesTitle}</h3>
-            <p>{c.updatesBody}</p>
-            <NewsletterForm locale={locale} id="edition-updates" />
-          </div>
+        <section class="edition-section reveal" id="meedoen">
+          <p class="label-mono section-index">{num('meedoen')}</p>
+          <h2>{c.actionsTitle}</h2>
+          <Tabs
+            id="take-part"
+            label={c.actionsTitle}
+            tabs={[
+              { id: 'reserve', label: c.tabReserve },
+              { id: 'updates', label: c.tabUpdates },
+              { id: 'contribute', label: c.tabContribute },
+            ]}
+          >
+            <div id="reserve" data-tabs-panel>
+              <h3 data-tabs-heading>{c.registrationTitle}</h3>
+              {
+                registrationOpen ? (
+                  <p>
+                    <a class="button button--primary" href={REGISTRATION_URL}>
+                      {c.registrationCta}
+                    </a>
+                  </p>
+                ) : (
+                  <p class="registration-opens">
+                    {c.registrationOpens}{' '}
+                    <strong>
+                      <time datetime={opensIso}>{opensOn}.</time>
+                    </strong>
+                    <a href={routePath('events', locale)}>{c.registrationCalendarHint}</a>
+                  </p>
+                )
+              }
+              <p class="consent-note">{c.registrationConsentNote}</p>
+            </div>
 
-          <div id="contribute" data-tabs-panel>
-            <h3 data-tabs-heading>{c.openCallTitle}</h3>
-            <p>{c.openCallBody}</p>
-            <p>
-              <a class="button" href={routePath('contribute', locale)}>
-                {c.openCallCta}
-              </a>
-            </p>
-          </div>
-        </Tabs>
-      </section>
+            <div id="updates" data-tabs-panel>
+              <h3 data-tabs-heading>{c.updatesTitle}</h3>
+              <p>{c.updatesBody}</p>
+              <NewsletterForm locale={locale} id="edition-updates" />
+            </div>
 
-      <section class="edition-section">
-        <h2>{c.speakersTitle}</h2>
-        {
-          speakers.length === 0 ? (
-            <div class="speakers-tba">
-              <p class="label-mono speakers-badge">{c.speakersTba}</p>
-              <p>{c.speakersTbaBody}</p>
+            <div id="contribute" data-tabs-panel>
+              <h3 data-tabs-heading>{c.openCallTitle}</h3>
+              <p>{c.openCallBody}</p>
               <p>
-                <a class="button" href="#updates">
-                  {c.speakersTbaCta}
+                <a class="button" href={routePath('contribute', locale)}>
+                  {c.openCallCta}
                 </a>
               </p>
             </div>
-          ) : (
-            <ul class="speakers" role="list">
-              {speakers.map((speaker) => (
-                <li>
-                  <p class="speaker-name">{speaker.name}</p>
-                  {speaker.affiliation && <p class="speaker-affiliation">{speaker.affiliation}</p>}
-                  {speaker.talk && <p class="speaker-talk">{speaker.talk[locale]}</p>}
-                </li>
-              ))}
-            </ul>
-          )
-        }
-      </section>
+          </Tabs>
+        </section>
 
-      <section class="edition-section">
-        <h2>{c.expectTitle}</h2>
-        <ol class="run-of-show" role="list">
-          {
-            c.runOfShow.map(({ time: at, item }) => (
-              <li>
-                <span class="ros-time">{at}</span>
-                <span>{item}</span>
-              </li>
-            ))
-          }
-        </ol>
-      </section>
-
-      <section class="edition-section">
-        <h2>{c.whoTitle}</h2>
-        <p>{c.whoBody}</p>
-        <p><strong>{c.whoWelcome}</strong></p>
-
-        <div class="is-isnot">
-          <div class="is-panel is-panel--yes">
-            <h3 class="label-mono">{c.isTitle}</h3>
-            <ul role="list">{c.isList.map((item) => <li>{item}</li>)}</ul>
-          </div>
-          <div class="is-panel is-panel--no">
-            <h3 class="label-mono">{c.isNotTitle}</h3>
-            <ul role="list">{c.isNotList.map((item) => <li>{item}</li>)}</ul>
-          </div>
-        </div>
-      </section>
-
-      <section class="edition-section">
-        <h2>{c.practicalTitle}</h2>
-        <dl class="practical">
-          {
-            c.practical.map(({ term, detail }) => (
-              <div>
-                <dt>{term}</dt>
-                <dd>{detail}</dd>
-              </div>
-            ))
-          }
-        </dl>
-      </section>
-
-      <section class="edition-section">
-        <h2>{c.safeguardsTitle}</h2>
-        <ul class="safeguards">
-          {c.safeguards.map((item) => <li>{item}</li>)}
-        </ul>
-        <p class="safeguard-links">
-          <a href={routePath('conduct', locale)}>{c.conductCta}</a>
-          <a href={routePath('partners', locale)}>{c.partnersCta}</a>
-        </p>
-      </section>
+        <section class="edition-section reveal" id="waarborgen">
+          <p class="label-mono section-index">{num('waarborgen')}</p>
+          <h2>{c.safeguardsTitle}</h2>
+          <ul class="safeguards">
+            {c.safeguards.map((item) => <li>{item}</li>)}
+          </ul>
+          <p class="safeguard-links">
+            <a href={routePath('conduct', locale)}>{c.conductCta}</a>
+            <a href={routePath('partners', locale)}>{c.partnersCta}</a>
+          </p>
+        </section>
+      </div>
     </div>
   </div>
 </BaseLayout>
 
 <style>
-  .edition-band {
-    border-block-end: var(--border-width) solid var(--border);
-    padding-block-end: var(--space-7);
+  .edition {
+    padding-block-end: var(--space-8);
   }
 
   .breadcrumb {
@@ -520,6 +578,46 @@ const speakers = EDITION_001_SPEAKERS;
     color: var(--accent-strong);
   }
 
+  .edition-grid {
+    display: grid;
+    gap: var(--space-6);
+  }
+
+  @media (min-width: 64rem) {
+    .edition-grid {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 20rem);
+      column-gap: var(--space-8);
+      align-items: start;
+    }
+
+    .edition-hero {
+      grid-column: 1;
+      grid-row: 1;
+    }
+
+    .edition-aside {
+      grid-column: 2;
+      grid-row: 1 / span 2;
+      align-self: stretch;
+      height: 100%;
+    }
+
+    .edition-main {
+      grid-column: 1;
+      grid-row: 2;
+    }
+
+    .edition-aside-inner {
+      position: sticky;
+      top: calc(var(--header-height-compact) + var(--space-5));
+    }
+  }
+
+  .edition-hero {
+    padding-block-end: var(--space-7);
+    border-block-end: var(--border-width) solid var(--border);
+  }
+
   .edition-lockup {
     display: inline-grid;
     gap: var(--space-1);
@@ -527,6 +625,7 @@ const speakers = EDITION_001_SPEAKERS;
     background: var(--signal-red);
     color: var(--accent-fg);
     border-radius: var(--radius-md);
+    will-change: transform;
   }
 
   .lockup-name {
@@ -540,7 +639,7 @@ const speakers = EDITION_001_SPEAKERS;
     letter-spacing: 0;
   }
 
-  .edition-header h1 {
+  .edition-hero h1 {
     margin-block: var(--space-5) var(--space-4);
     max-width: 12ch;
   }
@@ -548,7 +647,6 @@ const speakers = EDITION_001_SPEAKERS;
   .edition-intro {
     color: var(--fg-muted);
     margin-block-end: var(--space-3);
-    line-height: var(--leading-normal);
     max-width: var(--width-prose);
   }
 
@@ -568,35 +666,6 @@ const speakers = EDITION_001_SPEAKERS;
     font-size: var(--text-sm);
     font-weight: 550;
     background: var(--bg-subtle);
-  }
-
-  .edition-body {
-    display: grid;
-    gap: var(--space-6);
-    padding-block-start: var(--space-7);
-  }
-
-  @media (min-width: 64rem) {
-    .edition-body {
-      grid-template-columns: minmax(0, 1fr) minmax(0, 20rem);
-      gap: var(--space-8);
-      align-items: start;
-    }
-
-    .edition-main {
-      grid-column: 1;
-      grid-row: 1;
-    }
-
-    .edition-aside {
-      grid-column: 2;
-      grid-row: 1;
-    }
-
-    .edition-aside-inner {
-      position: sticky;
-      top: calc(var(--header-height-compact) + var(--space-5));
-    }
   }
 
   .facts {
@@ -636,11 +705,6 @@ const speakers = EDITION_001_SPEAKERS;
     color: var(--fg-muted);
   }
 
-  .aside-cta {
-    width: 100%;
-    margin-block-start: var(--space-4);
-  }
-
   @media (min-width: 40rem) and (max-width: 63.99rem) {
     .facts {
       grid-template-columns: 1fr 1fr;
@@ -656,12 +720,55 @@ const speakers = EDITION_001_SPEAKERS;
     }
   }
 
-  .edition-section {
-    max-width: var(--width-prose);
+  .aside-cta {
+    width: 100%;
+    margin-block-start: var(--space-4);
   }
 
-  .edition-section + .edition-section {
-    margin-block-start: var(--space-7);
+  .aside-index {
+    margin-block-start: var(--space-6);
+  }
+
+  .aside-index ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-block-start: var(--border-width) solid var(--border);
+  }
+
+  .aside-index a {
+    display: flex;
+    gap: var(--space-3);
+    align-items: baseline;
+    padding-block: var(--space-2);
+    border-block-end: var(--border-width) solid var(--border);
+    color: var(--fg-muted);
+    text-decoration: none;
+    font-size: var(--text-sm);
+  }
+
+  .aside-index a:hover {
+    color: var(--accent-strong);
+  }
+
+  .aside-index-num {
+    color: var(--fg-subtle);
+  }
+
+  @media (max-width: 63.99rem) {
+    .aside-index {
+      display: none;
+    }
+  }
+
+  .edition-section {
+    max-width: var(--width-prose);
+    padding-block-start: var(--space-7);
+  }
+
+  .section-index {
+    color: var(--fg-subtle);
+    padding-block-end: var(--space-3);
   }
 
   .edition-section h2 {
@@ -677,24 +784,81 @@ const speakers = EDITION_001_SPEAKERS;
     padding: 0;
     margin: 0;
     display: grid;
+    position: relative;
+    padding-inline-start: var(--space-5);
+  }
+
+  .run-of-show::before {
+    content: '';
+    position: absolute;
+    inset-block: 0.9rem;
+    inset-inline-start: 0;
+    width: 1px;
+    background: var(--border-strong);
   }
 
   .run-of-show li {
+    position: relative;
     display: grid;
     grid-template-columns: 4.5rem 1fr;
     gap: var(--space-3);
     padding-block: var(--space-3);
-    border-block-end: var(--border-width) solid var(--border);
   }
 
-  .run-of-show li:first-child {
+  .run-of-show li + li {
     border-block-start: var(--border-width) solid var(--border);
+  }
+
+  .run-of-show li::before {
+    content: '';
+    position: absolute;
+    inset-inline-start: calc(-1 * var(--space-5) - 2px);
+    inset-block-start: 1.15rem;
+    inline-size: 5px;
+    block-size: 5px;
+    border-radius: var(--radius-full);
+    background: var(--border-strong);
+  }
+
+  .run-of-show li:first-child::before,
+  .run-of-show li:last-child::before {
+    inline-size: 9px;
+    block-size: 9px;
+    inset-inline-start: calc(-1 * var(--space-5) - 4px);
+    background: var(--fg-subtle);
   }
 
   .ros-time {
     font-family: var(--font-mono);
     font-variant-numeric: tabular-nums;
     color: var(--fg-muted);
+  }
+
+  .slots {
+    display: grid;
+    gap: var(--space-2);
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--space-4);
+  }
+
+  .slots li {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    border: var(--border-width) dashed var(--border-strong);
+    border-radius: var(--radius-md);
+    background: var(--bg);
+  }
+
+  .slot-name {
+    color: var(--fg);
+    font-weight: 700;
+  }
+
+  .slot-state {
+    color: var(--accent-strong);
   }
 
   .is-isnot {
@@ -769,7 +933,7 @@ const speakers = EDITION_001_SPEAKERS;
 
   .speakers-tba {
     padding: var(--space-5);
-    border: var(--border-width) dashed var(--border-strong);
+    border: var(--border-width) solid var(--border);
     border-radius: var(--radius-lg);
     background: var(--bg-subtle);
   }
@@ -779,7 +943,7 @@ const speakers = EDITION_001_SPEAKERS;
   }
 
   .speakers-badge {
-    color: var(--accent-strong);
+    color: var(--fg-subtle);
   }
 
   .speakers {
@@ -823,5 +987,21 @@ const speakers = EDITION_001_SPEAKERS;
     gap: var(--space-5);
     flex-wrap: wrap;
     margin-block-start: var(--space-5);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: scroll()) {
+      .edition-lockup {
+        animation: lockup-drift linear both;
+        animation-timeline: scroll(root block);
+        animation-range: 0 80vh;
+      }
+
+      @keyframes lockup-drift {
+        to {
+          transform: translateY(-1.75rem);
+        }
+      }
+    }
   }
 </style>

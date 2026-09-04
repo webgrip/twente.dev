@@ -1,6 +1,11 @@
 ---
 import ProsePage from '../../templates/ProsePage.astro';
+import { formatDate, formatTimeRange, formatWeekday } from '../../i18n/utils.ts';
 import { EDITION_001, PRESS_EMAIL } from '../../config/site.ts';
+
+const editionDate = formatDate(EDITION_001.doors, 'nl');
+const editionDay = formatWeekday(EDITION_001.doors, 'nl');
+const editionHours = formatTimeRange(EDITION_001.doors, EDITION_001.end);
 ---
 
 <ProsePage
@@ -36,8 +41,9 @@ import { EDITION_001, PRESS_EMAIL } from '../../config/site.ts';
       gepubliceerd.
     </li>
     <li>
-      Eerste flagship: <strong>twente.dev/001: Reconnect</strong>, woensdag 4 november 2026,
-      18:00–21:30, {EDITION_001.city}. Gratis, capaciteit {EDITION_001.capacity}. Voertaal
+      Eerste flagship: <strong>twente.dev/001: Reconnect</strong>, {editionDay}
+      {editionDate},
+      {editionHours}, {EDITION_001.city}. Gratis, capaciteit {EDITION_001.capacity}. Voertaal
       Nederlands; Engels zodra er internationale deelnemers in de zaal zitten.
     </li>
     <li>Edities zijn genummerd (/001, /002, /003) en rouleren waar mogelijk door de regio.</li>
@@ -51,8 +57,8 @@ import { EDITION_001, PRESS_EMAIL } from '../../config/site.ts';
   <p>
     twente.dev is een onafhankelijke, practitioner-led techcommunity voor Twente. De eerste
     flagship-avond, twente.dev/001: Reconnect, brengt makers uit software, hardware, data, design en
-    product op 4 november 2026 samen in Rijssen voor twee talks van een halfuur en een ruim
-    netwerkuur. Gratis en open voor iedereen die bouwt.
+    product op {editionDate} samen in {EDITION_001.city} voor twee talks van een halfuur en een ruim netwerkuur.
+    Gratis en open voor iedereen die bouwt.
   </p>
 
   <h2>Langere omschrijving (± 100 woorden)</h2>
@@ -60,10 +66,11 @@ import { EDITION_001, PRESS_EMAIL } from '../../config/site.ts';
     Twente bouwt technologie met wereldwijde impact, maar de mensen en praktijklessen erachter zijn
     over bedrijven en disciplines heen moeilijk te vinden. twente.dev is de onafhankelijke
     communitylaag die dat verandert: het hele jaar een gezamenlijke agenda, een directory, een
-    archief en een nieuwsbrief, plus een klein aantal bewust multidisciplinaire avonden. De eerste,
-    twente.dev/001: Reconnect (Rijssen, 4 november 2026), combineert twee talks van ongeveer een
-    halfuur met een ruim netwerkuur om elkaar echt te spreken. Het is geen bedrijfsmeetup of
-    banenmarkt: sponsors krijgen geen deelnemersdata en sprekers worden redactioneel geselecteerd.
+    archief en een nieuwsbrief, plus elke maand een bewust multidisciplinaire avond. De eerste,
+    twente.dev/001: Reconnect ({EDITION_001.city}, {editionDate}), combineert twee talks van
+    ongeveer een halfuur met een ruim netwerkuur om elkaar echt te spreken. Het is geen
+    bedrijfsmeetup of banenmarkt: sponsors krijgen geen deelnemersdata en sprekers worden
+    redactioneel geselecteerd.
   </p>
 
   <h2>Merkregels</h2>

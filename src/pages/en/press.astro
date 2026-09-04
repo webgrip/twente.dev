@@ -1,6 +1,11 @@
 ---
 import ProsePage from '../../templates/ProsePage.astro';
+import { formatDate, formatTimeRange, formatWeekday } from '../../i18n/utils.ts';
 import { EDITION_001, PRESS_EMAIL } from '../../config/site.ts';
+
+const editionDate = formatDate(EDITION_001.doors, 'en');
+const editionDay = formatWeekday(EDITION_001.doors, 'en');
+const editionHours = formatTimeRange(EDITION_001.doors, EDITION_001.end);
 ---
 
 <ProsePage
@@ -33,8 +38,9 @@ import { EDITION_001, PRESS_EMAIL } from '../../config/site.ts';
       Webgrip). No foundation, deliberately. The safeguards below are published instead.
     </li>
     <li>
-      First flagship: <strong>twente.dev/001: Reconnect</strong>, Wednesday 4 November 2026,
-      18:00–21:30, {EDITION_001.city}. Free, capacity {EDITION_001.capacity}. Dutch by default;
+      First flagship: <strong>twente.dev/001: Reconnect</strong>, {editionDay}
+      {editionDate},
+      {editionHours}, {EDITION_001.city}. Free, capacity {EDITION_001.capacity}. Dutch by default;
       English whenever internationals are in the room.
     </li>
     <li>Editions are numbered (/001, /002, /003) and aim to rotate across the region.</li>
@@ -48,7 +54,7 @@ import { EDITION_001, PRESS_EMAIL } from '../../config/site.ts';
   <p>
     twente.dev is an independent, practitioner-led technology community for Twente. Its first
     flagship evening, twente.dev/001: Reconnect, brings software, hardware, data, design and product
-    practitioners together in Rijssen on 4 November 2026 for two half-hour talks and an unhurried
+    practitioners together in {EDITION_001.city} on {editionDate} for two half-hour talks and an unhurried
     network hour. Free and open to all builders.
   </p>
 
@@ -57,10 +63,10 @@ import { EDITION_001, PRESS_EMAIL } from '../../config/site.ts';
     Twente builds technology with global reach, but the people and practical lessons behind it are
     hard to discover across companies and disciplines. twente.dev is the independent,
     practitioner-led community fixing that: a shared calendar, a directory, an archive and a
-    newsletter all year, plus a small number of deliberately cross-disciplinary evenings. The first,
-    twente.dev/001: Reconnect (Rijssen, 4 November 2026), pairs two roughly half-hour talks with an
-    unhurried network hour to actually meet each other. It is not a recruitment fair or vendor
-    stage: sponsors receive no attendee data and speakers are selected editorially.
+    newsletter all year, plus one deliberately cross-disciplinary evening every month. The first,
+    twente.dev/001: Reconnect ({EDITION_001.city}, {editionDate}), pairs two roughly half-hour talks
+    with an unhurried network hour to actually meet each other. It is not a recruitment fair or
+    vendor stage: sponsors receive no attendee data and speakers are selected editorially.
   </p>
 
   <h2>Brand rules</h2>

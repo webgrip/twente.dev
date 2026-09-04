@@ -2,6 +2,10 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
+import { parse } from 'yaml';
+
+import { EDITION_001 } from '../config/site.ts';
+import { formatDate, formatTimeRange } from '../i18n/utils.ts';
 
 const ROOTS = ['src/pages/nl', 'src/pages/en', 'src/templates', 'src/content', 'docs/brand'];
 const EXTRA_FILES = [
@@ -19,7 +23,18 @@ interface Rule {
   pattern: RegExp;
   rationale: string;
   active: boolean;
+  scope?: RegExp;
 }
+
+const escape = (value: string): string => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+const EDITION_LITERALS = [
+  formatDate(EDITION_001.doors, 'nl'),
+  formatDate(EDITION_001.doors, 'en'),
+  formatTimeRange(EDITION_001.doors, EDITION_001.end),
+  EDITION_001.city,
+  EDITION_001.venueAddress,
+].filter((value): value is string => Boolean(value));
 
 const FORBIDDEN: Rule[] = [
   {
@@ -46,6 +61,14 @@ const FORBIDDEN: Rule[] = [
     rationale:
       'the /001 venue is in RIJSSEN; Enschede was the placeholder that shipped on a banner once — people book travel off this',
     active: true,
+  },
+  {
+    name: 'literal edition fact',
+    pattern: new RegExp(EDITION_LITERALS.map(escape).join('|')),
+    rationale:
+      'the date, hours, city and address of the current edition render from EDITION_001; a page that spells them out goes stale the moment the edition moves. The venue NAME stays out of this pattern: Code14 is also the employer in the funding disclosure, where it is not an edition fact',
+    active: true,
+    scope: /^src\/(?:pages|templates|i18n)\//,
   },
   {
     name: 'hardcoded capacity',
@@ -96,6 +119,7 @@ test('source copy carries no banned variants', () => {
       const testable = line.replaceAll(' // ', '    ');
       for (const rule of FORBIDDEN) {
         if (!rule.active) continue;
+        if (rule.scope && !rule.scope.test(path)) continue;
         if (rule.pattern.test(testable)) {
           violations.push(
             `${path}:${i + 1}  [${rule.name}]  ${line.trim().slice(0, 90)}\n      ${rule.rationale}`,
@@ -111,6 +135,28 @@ test('source copy carries no banned variants', () => {
   );
 });
 
+test('the events entry agrees with EDITION_001', () => {
+  const entry = parse(readFileSync('src/content/events/twente-dev-001-reconnect.yml', 'utf8')) as {
+    start: Date | string;
+    end: Date | string;
+    venue: { name?: string; city: string; address?: string };
+  };
+  const at = (value: Date | string): number => new Date(value).getTime();
+
+  assert.equal(
+    at(entry.start),
+    EDITION_001.doors.getTime(),
+    'start differs from EDITION_001.doors',
+  );
+  assert.equal(at(entry.end), EDITION_001.end.getTime(), 'end differs from EDITION_001.end');
+  assert.equal(entry.venue.city, EDITION_001.city, 'venue city differs from EDITION_001.city');
+  assert.equal(entry.venue.name, EDITION_001.venueName, 'venue name differs from EDITION_001');
+  assert.ok(
+    EDITION_001.venueAddress && entry.venue.address?.startsWith(EDITION_001.venueAddress),
+    'venue address does not start with EDITION_001.venueAddress',
+  );
+});
+
 test('every rule matches its own canonical violation (mutation guard)', () => {
   const canonical: Record<string, string> = {
     'em dash in copy': 'een zin — met kastlijntje',
@@ -118,6 +164,7 @@ test('every rule matches its own canonical violation (mutation guard)', () => {
     'niet-X-maar-Y template': 'het is niet activiteit maar zicht',
     'wrong venue city': 'Code14, kantoor in Enschede',
     'hardcoded capacity': 'capaciteit: 100 plekken',
+    'literal edition fact': `de avond is op ${formatDate(EDITION_001.doors, 'nl')}`,
   };
   for (const rule of FORBIDDEN) {
     assert.ok(

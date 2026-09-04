@@ -1,9 +1,14 @@
 ---
 import { getEntry } from 'astro:content';
 
-import { LOCALE_TAGS, TIMEZONE } from '../i18n/config.ts';
 import type { Locale } from '../i18n/config.ts';
-import { formatDate, useTranslations } from '../i18n/utils.ts';
+import {
+  formatDate,
+  formatTime,
+  formatTimeRange,
+  formatWeekday,
+  useTranslations,
+} from '../i18n/utils.ts';
 import { routePath } from '../i18n/routes.ts';
 import {
   EDITION_001,
@@ -73,20 +78,11 @@ interface Copy {
 const { locale } = Astro.props;
 
 const name = `${editionName(EDITION_001.number)}: ${EDITION_001.theme}`;
-const time = (d: Date) =>
-  new Intl.DateTimeFormat('nl-NL', {
-    timeZone: TIMEZONE,
-    hour: '2-digit',
-    minute: '2-digit',
-  }).format(d);
-
-const weekday = (d: Date, loc: Locale) =>
-  new Intl.DateTimeFormat(LOCALE_TAGS[loc], { timeZone: TIMEZONE, weekday: 'long' }).format(d);
-
-const window = `${time(EDITION_001.doors)}–${time(EDITION_001.end)}`;
+const time = formatTime;
+const hours = formatTimeRange(EDITION_001.doors, EDITION_001.end);
 const sentenceCase = (value: string) => value.charAt(0).toUpperCase() + value.slice(1);
 const whenWhere = (loc: Locale) =>
-  `${sentenceCase(weekday(EDITION_001.doors, loc))} ${formatDate(EDITION_001.doors, loc)}, ${window}, ${EDITION_001.city}`;
+  `${sentenceCase(formatWeekday(EDITION_001.doors, loc))} ${formatDate(EDITION_001.doors, loc)}, ${hours}, ${EDITION_001.city}`;
 
 const COPY: Record<Locale, Copy> = {
   en: {
@@ -175,6 +171,11 @@ const COPY: Record<Locale, Copy> = {
         term: 'Photography',
         detail:
           'We take photos and record video for the archive. That runs on consent: tell us when you RSVP or at check-in and we will work around you. If you end up in something anyway, one message is enough to have it removed.',
+      },
+      {
+        term: 'Recordings',
+        detail:
+          'Where we can, we record a talk for the archive. The speaker can have that recording taken down later; the text page for the talk stays up.',
       },
       {
         term: 'Cancellation',
@@ -279,6 +280,11 @@ const COPY: Record<Locale, Copy> = {
           'We maken foto’s en video-opnames voor het archief. Dat gaat op toestemming: geef het aan bij je aanmelding of bij de check-in, dan houden we daar rekening mee. Sta je er achteraf toch op, dan is één bericht genoeg om het te laten verwijderen.',
       },
       {
+        term: 'Opnames',
+        detail:
+          'Van een talk maken we waar het kan een opname voor het archief. De spreker kan die later laten verwijderen; de tekstpagina van de talk blijft staan.',
+      },
+      {
         term: 'Annuleren',
         detail:
           'Plannen veranderen. Afmelden is één antwoord op je bevestigingsmail, en je plek gaat naar de volgende op de wachtlijst.',
@@ -363,7 +369,7 @@ const speakers = EDITION_001_SPEAKERS;
             </div>
             <div>
               <dt>{c.factTime}</dt>
-              <dd>{time(EDITION_001.doors)}–{time(EDITION_001.end)}</dd>
+              <dd>{hours}</dd>
             </div>
             <div>
               <dt>{c.factVenue}</dt>

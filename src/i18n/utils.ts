@@ -83,6 +83,18 @@ export function formatDate(date: Date, locale: Locale): string {
   return formatter(locale, { day: 'numeric', month: 'long', year: 'numeric' }).format(date);
 }
 
+export function formatTime(date: Date): string {
+  return formatter('nl', { hour: '2-digit', minute: '2-digit' }).format(date);
+}
+
+export function formatTimeRange(start: Date, end: Date): string {
+  return `${formatTime(start)}–${formatTime(end)}`;
+}
+
+export function formatWeekday(date: Date, locale: Locale): string {
+  return formatter(locale, { weekday: 'long' }).format(date);
+}
+
 export function formatDateTime(date: Date, locale: Locale): string {
   return formatter(locale, {
     weekday: 'short',

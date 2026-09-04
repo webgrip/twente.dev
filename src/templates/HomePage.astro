@@ -1,9 +1,8 @@
 ---
 import type { Locale } from '../i18n/config.ts';
-import { formatDate, useTranslations } from '../i18n/utils.ts';
+import { formatDate, formatTimeRange, useTranslations } from '../i18n/utils.ts';
 import { routePath } from '../i18n/routes.ts';
 import { getPosts, getUpcomingEvents } from '../lib/content.ts';
-import { TIMEZONE } from '../i18n/config.ts';
 import { EDITION_001, REGISTRATION_OPENS, REGISTRATION_URL, editionName } from '../config/site.ts';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import EventCard from '../components/EventCard.astro';
@@ -24,13 +23,7 @@ const otherEvents = events.filter((event) => event.data.canonicalRoute !== 'edit
 const edition = `${editionName(EDITION_001.number)}: ${EDITION_001.theme}`;
 const motto = `twente.dev // ${t('site.tagline').toLowerCase()}`;
 
-const clock = (d: Date) =>
-  new Intl.DateTimeFormat('nl-NL', {
-    timeZone: TIMEZONE,
-    hour: '2-digit',
-    minute: '2-digit',
-  }).format(d);
-const window = `${clock(EDITION_001.doors)}–${clock(EDITION_001.end)}`;
+const hours = formatTimeRange(EDITION_001.doors, EDITION_001.end);
 
 const bands = [
   { id: 'agenda', index: '01', title: t('home.does.calendar.title') },
@@ -97,7 +90,7 @@ const bands = [
             <time datetime={EDITION_001.doors.toISOString()}>
               {formatDate(EDITION_001.doors, locale)}
             </time>
-            {` · ${window}`}
+            {` · ${hours}`}
           </p>
           <p class="feature-where">
             {EDITION_001.venue ?? t('edition.venueTba')}{' · '}{EDITION_001.city}{' · '}{

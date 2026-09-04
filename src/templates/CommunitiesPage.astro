@@ -38,7 +38,18 @@ const mailSubject = encodeURIComponent(
       title={title}
       description={description}
       kicker={`twente.dev // ${title.toLowerCase()}`}
-    />
+    >
+      <div class="suggest-box">
+        <p class="suggest-title">{t('communities.suggest')}</p>
+        <p class="suggest-hint">{t('communities.consentNote')}</p>
+        <ul class="suggest-links" role="list">
+          <li>
+            <a href={`mailto:${CONTACT_EMAIL}?subject=${mailSubject}`}>{CONTACT_EMAIL}</a>
+          </li>
+          <li><a href={routePath('partners', locale)}>{t('communities.terms')}</a></li>
+        </ul>
+      </div>
+    </PageHeader>
 
     {
       communities.length === 0 ? (
@@ -140,26 +151,15 @@ const mailSubject = encodeURIComponent(
             {t('communities.noResults')}
           </p>
 
-          <p class="consent-note">{t('communities.consentNote')}</p>
-
           {awaitingConsent > 0 && (
             <p class="awaiting">
-              <span class="label-mono awaiting-count">{awaitingConsent}</span>
-              {t('communities.awaiting')}
+              <span class="awaiting-count">{awaitingConsent}</span>
+              <span>{t('communities.awaiting')}</span>
             </p>
           )}
-
-          <p class="suggest">
-            {t('communities.suggest')}{' '}
-            <a href={`mailto:${CONTACT_EMAIL}?subject=${mailSubject}`}>{CONTACT_EMAIL}</a>
-          </p>
         </>
       )
     }
-
-    <p class="back-link">
-      <a href={routePath('partners', locale)}>{t('communities.terms')} →</a>
-    </p>
   </div>
 </BaseLayout>
 
@@ -185,14 +185,50 @@ const mailSubject = encodeURIComponent(
   .awaiting {
     display: flex;
     align-items: baseline;
-    gap: var(--space-3);
+    gap: var(--space-4);
+    max-width: var(--width-prose);
+    margin-block-start: var(--space-6);
+    padding: var(--space-4) var(--space-5);
+    border: var(--border-width) dashed var(--border-strong);
+    border-radius: var(--radius-lg);
+    color: var(--fg-muted);
   }
 
   .awaiting-count {
+    font-family: var(--font-mono);
     font-size: var(--text-2xl);
     font-weight: 700;
     color: var(--fg);
     font-variant-numeric: tabular-nums;
+    line-height: 1;
+  }
+
+  .suggest-box {
+    padding: var(--space-4) var(--space-5);
+    border: var(--border-width) solid var(--border-strong);
+    border-radius: var(--radius-lg);
+    background: var(--bg-raised);
+  }
+
+  .suggest-title {
+    font-weight: 650;
+  }
+
+  .suggest-hint {
+    font-size: var(--text-sm);
+    color: var(--fg-subtle);
+    margin-block-start: var(--space-1);
+  }
+
+  .suggest-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-4);
+    list-style: none;
+    padding: 0;
+    margin-block-start: var(--space-3);
+    font-size: var(--text-sm);
+    font-weight: 550;
   }
 
   .filters {
@@ -315,16 +351,8 @@ const mailSubject = encodeURIComponent(
     padding-block: var(--space-6);
   }
 
-  .consent-note,
-  .suggest {
-    color: var(--fg-subtle);
-    font-size: var(--text-sm);
-    margin-block-start: var(--space-5);
-  }
-
-  .back-link {
-    margin-block: var(--space-7) var(--space-8);
-    font-weight: 550;
+  .community-grid {
+    margin-block-end: var(--space-8);
   }
 </style>
 

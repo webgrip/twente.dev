@@ -1,14 +1,6 @@
-/* Self-hosted fonts (plan §4: no third-party font CDN). Inter Variable and
-   IBM Plex Mono are the playbook's sanctioned web upgrades of the print
-   templates' DejaVu. Served same-origin, font-display: swap. */
-/* Hand-written @font-face instead of @fontsource-variable/inter/wght.css:
-   that file registers all seven script subsets, which shipped five woff2
-   files no NL/EN page ever downloads, and exposed every sub-4KB subset to
-   Vite's data:-URI inlining that font-src 'self' blocks (the exact bug
-   webgrip.nl hit). The woff2 files still come from the package, so a package
-   update updates the font. Latin covers Dutch incl. é/ë; latin-ext is the
-   safety net for names and loanwords (ő, ł, š, …). The latin file is
-   preloaded in BaseHead.astro — keep these paths and that import in sync. */
+@import '@fontsource/ibm-plex-mono/latin-400.css';
+@import '@fontsource/ibm-plex-mono/latin-700.css';
+@import './tokens.css';
 @font-face {
   font-family: 'Inter Variable';
   font-style: normal;
@@ -33,13 +25,6 @@
     U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F,
     U+A720-A7FF;
 }
-
-@import '@fontsource/ibm-plex-mono/latin-400.css';
-@import '@fontsource/ibm-plex-mono/latin-700.css';
-
-@import './tokens.css';
-
-/* ---- reset --------------------------------------------------------------- */
 
 *,
 *::before,
@@ -127,8 +112,6 @@ h4 {
 }
 
 a {
-  /* --accent-strong, not --accent: signal red is a graphic color and misses
-     AA for body-size text on warm paper (see tokens.css). */
   color: var(--accent-strong);
   text-decoration-thickness: 1px;
   text-underline-offset: 0.2em;
@@ -143,7 +126,6 @@ a:hover {
   color: var(--accent-fg);
 }
 
-/* One consistent, always-visible focus treatment. Never remove it. */
 :focus-visible {
   outline: 2px solid var(--focus-ring);
   outline-offset: 2px;
@@ -162,8 +144,6 @@ hr {
   border-top: var(--border-width) solid var(--border);
   margin-block: var(--space-6);
 }
-
-/* ---- utilities ------------------------------------------------------------ */
 
 .container {
   width: 100%;
@@ -190,7 +170,6 @@ hr {
   border: 0;
 }
 
-/* Keyboard users must be able to jump the nav. */
 .skip-link {
   position: absolute;
   top: var(--space-2);
@@ -212,9 +191,6 @@ hr {
   margin-block-start: var(--flow, var(--space-4));
 }
 
-/* The brand pack's structural grid, as a paintable background. Sections that
-   carry it read as part of one system — calendars, programmes, crossings.
-   The cell comes from tokens.css: an exact division of the viewport. */
 .thread-grid {
   background-image:
     linear-gradient(var(--grid-line) 1px, transparent 1px),
@@ -222,18 +198,12 @@ hr {
   background-size: var(--grid-cell) var(--grid-cell);
 }
 
-/* Full-bleed sections get the exact division. --grid-cell is 100vw/n, and on a
-   platform with classic (space-taking) scrollbars 100vw is wider than the page
-   box, which would push the last line off-screen. A percentage resolves against
-   the element's own width, so on a full-bleed element the columns land on the
-   screen edges to the pixel. Rows keep the length so the cells stay square. */
 .thread-grid--bleed {
   background-size:
     100% var(--grid-cell),
     calc(100% / var(--grid-columns)) 100%;
 }
 
-/* Mono label register: dates, kickers, section indices, wayfinding. */
 .label-mono {
   font-family: var(--font-mono);
   font-size: var(--text-xs);
@@ -242,13 +212,6 @@ hr {
   letter-spacing: var(--tracking-label);
 }
 
-/* ---- buttons --------------------------------------------------------------
-   The one button recipe. It used to live as five hand-copied blocks across
-   HomePage, EditionPage, the styleguide and two detail-page CTAs — which
-   drifted (missing justify-content, a sans-serif variant, and a hover using
-   --accent-hover, the red-*text* token, as a fill: salmon-on-white in dark
-   mode). Primary actions are `.button--primary`; never fill with
-   --accent-hover. */
 .button {
   display: inline-flex;
   align-items: center;
@@ -277,7 +240,6 @@ hr {
   color: var(--bg);
 }
 
-/* The view's one red action. */
 .button--primary {
   background: var(--accent);
   border-color: var(--accent);
@@ -290,7 +252,6 @@ hr {
   color: var(--accent-fg);
 }
 
-/* Display register: one statement per view, room-distance sized. */
 .text-display {
   font-size: var(--text-display);
   font-weight: var(--weight-display);
@@ -298,13 +259,10 @@ hr {
   letter-spacing: var(--tracking-display);
 }
 
-/* Wide content must scroll inside itself — the page body never scrolls sideways. */
 .scroll-x {
   overflow-x: auto;
   max-width: 100%;
 }
-
-/* ---- prose ---------------------------------------------------------------- */
 
 .prose {
   max-width: var(--width-prose);
@@ -351,9 +309,6 @@ hr {
   border-radius: var(--radius-sm);
 }
 
-/* Prism token theme (astro.config.mjs uses class-based Prism because the
-   hash-based CSP cannot authorize Shiki's inline style attributes). Colors
-   ride the design tokens, so code follows light/dark automatically. */
 .prose .token.comment,
 .prose .token.prolog,
 .prose .token.cdata {

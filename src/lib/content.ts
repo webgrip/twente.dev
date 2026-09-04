@@ -64,12 +64,23 @@ export async function getTranslation(
 }
 
 export async function getCommunities(): Promise<CommunityEntry[]> {
-  const communities = await getCollection('communities', (c) => c.data.consent.granted);
+  const communities = await getCollection(
+    'communities',
+    (c) => c.data.consent.granted && !c.data.ours,
+  );
   return communities.sort((a, b) => a.data.name.localeCompare(b.data.name, 'nl'));
 }
 
+export async function getOwnChannels(): Promise<CommunityEntry[]> {
+  const channels = await getCollection('communities', (c) => c.data.ours);
+  return channels.sort((a, b) => a.data.name.localeCompare(b.data.name, 'nl'));
+}
+
 export async function countCommunitiesAwaitingConsent(): Promise<number> {
-  const pending = await getCollection('communities', (c) => !c.data.consent.granted);
+  const pending = await getCollection(
+    'communities',
+    (c) => !c.data.consent.granted && !c.data.ours,
+  );
   return pending.length;
 }
 

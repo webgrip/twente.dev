@@ -22,7 +22,7 @@ Content die aan een echte regionale organisatie wordt toegeschreven, komt uit de
 
 ### R11
 
-twente.dev draait geen Edition op de avond van een Community uit de directory, en benadert hun bestaande sponsors niet.
+twente.dev draait geen Edition op de avond van een Community uit de directory, en benadert hun bestaande sponsors niet. Slaat niet op de eigen Kanalen, want die zijn van twente.dev zelf.
 
 **Why:** Het staat zo in het partnercompact. Een directory die je concurrent blijkt te zijn, is een directory waar niemand meer in wil staan.
 
@@ -44,7 +44,7 @@ De feiten van de huidige Edition (datum, tijden, stad, venue, capaciteit, kosten
 
 ### R6
 
-Zijn er op T−4 weken geen twee bevestigde Speakers, dan schuift de Edition op naar de volgende maand. Een avond met een TBA-programma gaat niet door.
+Zijn op T−4 weken niet beide Slots gevuld, dan schuift de Edition op naar de volgende maand en reist het nummer mee. Een avond met een TBA-programma gaat niet door.
 
 **Why:** Een leeg programma dat toch wordt aangekondigd kost meer vertrouwen dan een datum die opschuift met de reden erbij. Opschuiven kan omdat het ritme een belofte over de eerste woensdag is en niet over de nummerreeks.
 
@@ -79,6 +79,16 @@ De nieuwsbrief is één lijst met één afmeldknop. Wie zijn adres achterlaat kr
 **Why:** Aparte lijsten per soort zijn administratie zonder opbrengst zolang er één afzender en een handvol verzendingen per kwartaal zijn. Wat wél moet: niet meer beloven dan je stuurt, en niet minder. Een lijst die naar één soort post is vernoemd, belooft minder dan hij levert.
 
 **Also applies to:** Field Report
+
+## Registration
+
+### R13
+
+Boven de capaciteit accepteren mag, met een overboekfactor, en wie daarboven komt staat op de Wachtlijst. De factor komt uit de Opkomst van de vorige Edition; zolang die er niet is, is het een opgeschreven schatting die na de eerste meting vervalt.
+
+**Why:** Een gratis avond heeft no-shows, dus precies op de capaciteit accepteren levert lege stoelen op die iemand had willen hebben. De factor hangt aan een meting zodat hij zichzelf corrigeert in plaats van een gevoel te blijven.
+
+**Also applies to:** Opkomst, Wachtlijst
 
 ## Speaker
 

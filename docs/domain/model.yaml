@@ -36,11 +36,23 @@ terms:
     definition: >-
       Een gesproken bijdrage van ongeveer een halfuur op een Edition, met één
       claim, één echt voorbeeld en één vraag aan de zaal. Gegeven door iemand die
-      het werk zelf deed, niet door een vertegenwoordiger ervan. Twee per
-      Edition, met een pauze ertussen.
+      het werk zelf deed, niet door een vertegenwoordiger ervan. Bestaat pas
+      zodra een Speaker de datum bevestigd heeft; daarvoor is er een leeg Slot.
+      Twee per Edition, met een pauze ertussen.
     synonyms: [praatje]
     avoid: [field report, veldverslag, keynote, presentatie, sessie]
     see_also: [Speaker, Open Call, Edition]
+
+  - name: Slot
+    context: Editie
+    definition: >-
+      Een van de twee plaatsen in het programma van een Edition waar een Talk in
+      past. Een Slot is leeg tot er een bevestigde Speaker aan hangt; pas dan
+      bestaat er een Talk. Onderscheidt zich van een stoel in de zaal, die op de
+      site een plek heet.
+    synonyms: [talkplek]
+    examples: ["Talkplek 1, open", "Talkplek 2, gevuld door een bevestigde Speaker"]
+    see_also: [Talk, Speaker, Edition]
 
   - name: Speaker
     context: Editie
@@ -90,10 +102,21 @@ terms:
 
   - name: Community
     definition: >-
-      Een bestaande groep in de regio die in de directory staat, met een eigen
-      identiteit, eigen lijst en eigen podium. twente.dev maakt ze vindbaar en
-      neemt ze niet over.
+      Een bestaande groep in de regio die van iemand anders is en met
+      toestemming in de directory staat, met een eigen identiteit, eigen lijst
+      en eigen podium. Onderscheidt zich van een Kanaal doordat een Community
+      niet van twente.dev is: de directory is een lijst van anderen.
     examples: [TkkrLab, Agile Meetup Twente]
+
+  - name: Kanaal
+    definition: >-
+      Een plek van twente.dev zelf waar het gesprek loopt, zoals de Discord en de
+      Meetup-groep. Onderscheidt zich van een Community doordat een Kanaal van
+      twente.dev is en dus geen toestemming nodig heeft om vermeld te worden, en
+      doordat R11 er niet op slaat.
+    synonyms: [channel]
+    examples: ["twente.dev Discord", "de Meetup-groep"]
+    see_also: [Community, Registration]
 
   - name: Field Report
     context: Publicatie
@@ -146,6 +169,16 @@ terms:
     synonyms: [attendance]
     avoid: [aanmeldingen, RSVPs]
     see_also: [Registration, Edition, KPI]
+
+  - name: Wachtlijst
+    context: Editie
+    definition: >-
+      De geordende rij mensen die zich aanmeldden nadat het aantal geaccepteerde
+      Registrations vol was. Schuift door zodra iemand afmeldt. Onderscheidt zich
+      van de capaciteit doordat de Wachtlijst mensen telt en de capaciteit
+      stoelen.
+    synonyms: [waitlist]
+    see_also: [Registration, Opkomst]
 
   - name: KPI
     definition: >-
@@ -225,8 +258,9 @@ rules:
     applies_to: [Speaker]
   - id: R6
     statement: >-
-      Zijn er op T−4 weken geen twee bevestigde Speakers, dan schuift de Edition
-      op naar de volgende maand. Een avond met een TBA-programma gaat niet door.
+      Zijn op T−4 weken niet beide Slots gevuld, dan schuift de Edition op naar
+      de volgende maand en reist het nummer mee. Een avond met een TBA-programma
+      gaat niet door.
     rationale: >-
       Een leeg programma dat toch wordt aangekondigd kost meer vertrouwen dan een
       datum die opschuift met de reden erbij. Opschuiven kan omdat het ritme een
@@ -259,6 +293,18 @@ rules:
       omstandigheden veranderen: van werkgever wisselen is genoeg reden. Zo blijft
       het archief compleet zonder dat iemand aan een opname vastzit.
     applies_to: [Archief, Speaker, Talk]
+  - id: R13
+    statement: >-
+      Boven de capaciteit accepteren mag, met een overboekfactor, en wie daarboven
+      komt staat op de Wachtlijst. De factor komt uit de Opkomst van de vorige
+      Edition; zolang die er niet is, is het een opgeschreven schatting die na de
+      eerste meting vervalt.
+    rationale: >-
+      Een gratis avond heeft no-shows, dus precies op de capaciteit accepteren
+      levert lege stoelen op die iemand had willen hebben. De factor hangt aan een
+      meting zodat hij zichzelf corrigeert in plaats van een gevoel te blijven.
+    applies_to: [Registration, Opkomst, Wachtlijst]
+
   - id: R10
     statement: >-
       Een Edition valt op de eerste woensdag van de maand. Verplaatsen mag, mits
@@ -271,7 +317,8 @@ rules:
   - id: R11
     statement: >-
       twente.dev draait geen Edition op de avond van een Community uit de
-      directory, en benadert hun bestaande sponsors niet.
+      directory, en benadert hun bestaande sponsors niet. Slaat niet op de eigen
+      Kanalen, want die zijn van twente.dev zelf.
     rationale: >-
       Het staat zo in het partnercompact. Een directory die je concurrent blijkt
       te zijn, is een directory waar niemand meer in wil staan.
@@ -315,9 +362,10 @@ entities:
         type: Venue
         description: De zaal van deze avond. Kan per Edition wisselen.
         required: true
-      - name: speakers
-        type: "Speaker[]"
-        description: Leeg tot bevestigd. De lengte bepaalt wat de pagina toont.
+      - name: slots
+        type: "Slot[]"
+        description: Er zijn er altijd twee. Gevuld of leeg, nooit meer of minder.
+        required: true
     states:
       - from: "[start]"
         to: Gepland
@@ -408,6 +456,22 @@ entities:
       - to: Edition
         kind: has_many
         description: Een Venue kan meerdere Editions herbergen.
+
+  - name: Slot
+    context: Editie
+    description: Een van de twee programmaplaatsen van een Edition.
+    attributes:
+      - name: position
+        type: int
+        description: 1 of 2. Bepaalt de volgorde op de avond.
+        required: true
+      - name: talk
+        type: Talk
+        description: Leeg tot een Speaker de datum bevestigd heeft.
+    relationships:
+      - to: Talk
+        kind: has_one
+        description: Een gevuld Slot draagt precies een Talk.
 
   - name: Speaker
     context: Editie

@@ -7,6 +7,7 @@ import {
   communityTopics,
   countCommunitiesAwaitingConsent,
   getCommunities,
+  getOwnChannels,
 } from '../lib/content.ts';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHeader from '../components/PageHeader.astro';
@@ -19,8 +20,9 @@ interface Props {
 const { locale } = Astro.props;
 const t = useTranslations(locale);
 
-const [communities, awaitingConsent] = await Promise.all([
+const [communities, ownChannels, awaitingConsent] = await Promise.all([
   getCommunities(),
+  getOwnChannels(),
   countCommunitiesAwaitingConsent(),
 ]);
 const topics = communityTopics(communities);
@@ -62,10 +64,6 @@ const mailSubject = encodeURIComponent(
               {t('communities.awaiting')}
             </p>
           )}
-          <p class="suggest">
-            {t('communities.suggest')}{' '}
-            <a href={`mailto:${CONTACT_EMAIL}?subject=${mailSubject}`}>{CONTACT_EMAIL}</a>
-          </p>
         </section>
       ) : (
         <>
@@ -158,6 +156,39 @@ const mailSubject = encodeURIComponent(
             </p>
           )}
         </>
+      )
+    }
+
+    {
+      ownChannels.length > 0 && (
+        <section class="own-channels">
+          <h2>{t('communities.ownChannels')}</h2>
+          <p class="own-channels-body">{t('communities.ownChannelsBody')}</p>
+          <ul class="community-grid" role="list">
+            {ownChannels.map((channel) => (
+              <li class="community">
+                <h3 class="community-name">
+                  <a href={channel.data.url} rel="noopener">
+                    {channel.data.name}
+                  </a>
+                </h3>
+                <p class="community-desc">{pick(channel.data.description, locale)}</p>
+                <ul class="community-tags" role="list">
+                  <li>
+                    <Tag>{channel.data.platform}</Tag>
+                  </li>
+                  <li>
+                    <Tag variant="muted">
+                      {channel.data.language === 'both'
+                        ? 'NL // EN'
+                        : channel.data.language.toUpperCase()}
+                    </Tag>
+                  </li>
+                </ul>
+              </li>
+            ))}
+          </ul>
+        </section>
       )
     }
   </div>
@@ -353,6 +384,22 @@ const mailSubject = encodeURIComponent(
 
   .community-grid {
     margin-block-end: var(--space-8);
+  }
+
+  .own-channels {
+    margin-block-start: var(--space-8);
+    padding-block-start: var(--space-6);
+    border-block-start: var(--border-width) solid var(--border);
+  }
+
+  .own-channels h2 {
+    font-size: var(--text-xl);
+  }
+
+  .own-channels-body {
+    color: var(--fg-muted);
+    max-width: var(--width-prose);
+    margin-block: var(--space-3) var(--space-5);
   }
 </style>
 

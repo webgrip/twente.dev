@@ -127,6 +127,7 @@ const communities = defineCollection({
     url: z.url(),
     platform: z.enum(['discord', 'slack', 'matrix', 'telegram', 'meetup', 'forum', 'other']),
     language: z.enum(['nl', 'en', 'both']),
+    ours: z.boolean().default(false),
     focus: z.array(z.string().min(1)).default([]),
     consent: z
       .object({

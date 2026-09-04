@@ -245,6 +245,7 @@
   url: https://discord.gg/E6qxD48dfH
   platform: discord
   language: both
+  ours: true
   focus:
     - general
     - help

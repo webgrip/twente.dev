@@ -17,6 +17,7 @@ erDiagram
     Talk {}
     Host {}
     Venue {}
+    Slot {}
     Speaker {}
     Edition ||--o{ Talk : has_many
     Edition }o..o{ Host : references
@@ -25,6 +26,7 @@ erDiagram
     Host ||--o{ Edition : has_many
     Host ||--|| Venue : has_one
     Venue ||--o{ Edition : has_many
+    Slot ||--|| Talk : has_one
     Speaker ||--|| Talk : has_one
 ```
 

@@ -14,7 +14,7 @@ Eén genummerde avond, van datumbesluit tot gepubliceerd verslag.
 | `date` | `datetime` | yes | Doorgaans de eerste woensdag van de maand. Let op de winter/zomertijdovergang. |
 | `capacity` | `int` | yes | Wat de zaal echt kan, niet wat we hopen. |
 | `venue` | `Venue` | yes | De zaal van deze avond. Kan per Edition wisselen. |
-| `speakers` | `Speaker[]` |  | Leeg tot bevestigd. De lengte bepaalt wat de pagina toont. |
+| `slots` | `Slot[]` | yes | Er zijn er altijd twee. Gevuld of leeg, nooit meer of minder. |
 
 **Relationships**
 - has_many **Talk** — Twee bij een volwaardige Edition, nul bij een lichte avond.
@@ -74,6 +74,19 @@ De ruimte waar een Edition gehouden wordt.
 
 **Relationships**
 - has_many **Edition** — Een Venue kan meerdere Editions herbergen.
+
+## Slot
+*Context: Editie*
+
+Een van de twee programmaplaatsen van een Edition.
+
+| Attribute | Type | Required | Description |
+|---|---|---|---|
+| `position` | `int` | yes | 1 of 2. Bepaalt de volgorde op de avond. |
+| `talk` | `Talk` |  | Leeg tot een Speaker de datum bevestigd heeft. |
+
+**Relationships**
+- has_one **Talk** — Een gevuld Slot draagt precies een Talk.
 
 ## Speaker
 *Context: Editie*

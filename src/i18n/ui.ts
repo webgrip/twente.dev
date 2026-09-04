@@ -110,6 +110,9 @@ export const nl = {
   'communities.suggest': 'Run je een community in Twente?',
   'communities.awaiting': 'groepen in de regio staan onderzocht klaar en wachten op hun ja.',
   'communities.terms': "Onze afspraken met community's",
+  'communities.ownChannels': 'Onze eigen kanalen',
+  'communities.ownChannelsBody':
+    'Deze zijn van twente.dev zelf en staan daarom niet in de lijst hierboven, want die lijst is van anderen.',
 
   'companies.hostKicker': 'Gastheer',
 
@@ -269,6 +272,9 @@ export const en: Record<UIKey, string> = {
   'communities.suggest': 'Do you run a community in Twente?',
   'communities.awaiting': 'groups in the region are researched and waiting on their yes.',
   'communities.terms': 'Our terms with communities',
+  'communities.ownChannels': 'Our own channels',
+  'communities.ownChannelsBody':
+    "These belong to twente.dev itself, which is why they sit outside the list above. That list is other people's.",
 
   'companies.hostKicker': 'Host',
 

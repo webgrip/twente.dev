@@ -70,6 +70,18 @@ const { id, label, tabs } = Astro.props;
     padding-block-start: var(--space-5);
   }
 
+  .tabs-panels :global([data-tabs-panel] > * + *) {
+    margin-block-start: var(--space-4);
+  }
+
+  .tabs-panels :global([data-tabs-panel] ul) {
+    padding-inline-start: var(--space-5);
+  }
+
+  .tabs-panels :global([data-tabs-panel] li + li) {
+    margin-block-start: var(--space-2);
+  }
+
   .tabs-panels > :global([data-tabs-panel] + [data-tabs-panel]) {
     border-block-start: var(--border-width) solid var(--border);
     margin-block-start: var(--space-5);

@@ -201,10 +201,15 @@ const bands = [
   .hero {
     position: relative;
     display: flex;
-    align-items: center;
+    align-items: stretch;
     padding-block: var(--space-8);
     background-color: var(--bg);
     border-block-end: var(--border-width) solid var(--border);
+  }
+
+  .hero > .container {
+    display: flex;
+    flex-direction: column;
   }
 
   @media (min-width: 48rem) {
@@ -278,9 +283,14 @@ const bands = [
   }
 
   @media (min-width: 48rem) {
+    .hero-actions {
+      margin-block-end: var(--space-7);
+    }
+
     .hero-index {
       grid-template-columns: repeat(3, 1fr);
       gap: var(--space-6);
+      margin-block-start: auto;
     }
 
     .hero-index a {

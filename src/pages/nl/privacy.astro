@@ -29,6 +29,15 @@ import { CONTACT_EMAIL } from '../../config/site.ts';
     hoe-snel-het-was. Die snelheidsmeting sturen we naar onze eigen, zelf-gehoste telemetrieserver,
     geen dienst van derden. Daarom is er ook geen cookiebanner nodig.
   </p>
+  <p>
+    Deelt iemand een link met een campagnelabel erin (de <code>utm</code>-stukjes die je soms achter
+    een URL ziet), dan leggen we vast via welk kanaal dat bezoek binnenkwam. Dat gebeurt op de
+    server, zonder script in de pagina en zonder cookie. Bewaard worden de pagina en de labels uit
+    de link; nadrukkelijk niet je IP-adres, je browser of je apparaat. Er valt dus geen bezoeker uit
+    terug te halen, en dat is de bedoeling: de vraag is welk kanaal werkte, niet wie er langskwam.
+    Dit loopt via Counterscale, een open-source teller die we zelf draaien op
+    counterscale.webgrip.dev. Na negentig dagen zijn die gegevens weg.
+  </p>
 
   <h2>Externe partijen</h2>
   <p>
@@ -88,7 +97,8 @@ import { CONTACT_EMAIL } from '../../config/site.ts';
 
   <h2>Verwerkers</h2>
   <p>
-    De site wordt geserveerd door Cloudflare, dat ook de mail naar onze adressen routeert.
+    De site wordt geserveerd door Cloudflare, dat ook de mail naar onze adressen routeert en waar
+    onze eigen Counterscale-installatie draait; dat is dus geen extra partij, wel een extra meting.
     Eventaanmeldingen lopen via Meetup Inc., een Amerikaanse dienst, die daarbij je naam,
     e-mailadres en je antwoorden op de aanmeldvragen verwerkt. Alle mail die wij geautomatiseerd
     versturen — om te beginnen de nieuwsbrief, later ook bevestigingen rond een event — loopt via

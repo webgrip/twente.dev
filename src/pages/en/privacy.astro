@@ -30,6 +30,14 @@ import { CONTACT_EMAIL } from '../../config/site.ts';
     how fast it was. That speed measurement goes to our own, self-hosted telemetry server, not a
     third-party service. That is also why no consent banner is needed.
   </p>
+  <p>
+    When someone shares a link carrying a campaign label (the <code>utm</code> bits you sometimes see
+    after a URL), we record which channel that visit came through. That happens on the server, with no
+    script in the page and no cookie. What is kept is the page and the labels from the link; deliberately
+    not your IP address, your browser or your device. No visitor can be reconstructed from it, and that
+    is the point: the question is which channel worked, not who came by. This runs on Counterscale, an
+    open-source counter we host ourselves at counterscale.webgrip.dev. After ninety days the data is gone.
+  </p>
 
   <h2>Third parties</h2>
   <p>
@@ -88,7 +96,8 @@ import { CONTACT_EMAIL } from '../../config/site.ts';
 
   <h2>Processors</h2>
   <p>
-    The site is served by Cloudflare, which also routes mail sent to our addresses. Event
+    The site is served by Cloudflare, which also routes mail sent to our addresses and hosts our own
+    Counterscale installation; so it is not an extra party, but it is an extra measurement. Event
     registration runs on Meetup Inc., a US service, which processes your name, email address and
     your answers to the registration questions. Every mail we send automatically — the newsletter
     first, later also confirmations around an event — goes through Brevo, a French service that

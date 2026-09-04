@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "description": "twente.dev — the homepage for software developers in Twente. Bilingual (NL/EN) static community hub and blog.",
+  "description": "twente.dev \u2014 the homepage for software developers in Twente. Bilingual (NL/EN) static community hub and blog.",
   "repository": {
     "type": "git",
     "url": "https://forgejo.webgrip.dev/webgrip/twente.dev.git"
@@ -26,7 +26,7 @@
     "format:check": "prettier --check .",
     "test": "node --test --experimental-strip-types \"src/lib/**/*.test.ts\"",
     "validate:content": "node --experimental-strip-types scripts/validate-content.ts",
-    "validate:csp": "node --experimental-strip-types scripts/validate-csp.ts",
+    "validate:csp": "webgrip-validate-csp",
     "gen:ops": "node --experimental-strip-types scripts/gen-ops.ts",
     "deploy": "wrangler deploy",
     "deploy:preview": "wrangler versions upload",
@@ -46,6 +46,10 @@
     "@astrojs/check": "0.9.10",
     "@axe-core/playwright": "^4.10.2",
     "@eslint/js": "10.0.1",
+    "@webgrip/astro-site-toolkit": "^0.2.0",
+    "@webgrip/eslint-config-astro": "^0.2.0",
+    "@webgrip/prettier-config": "^0.2.0",
+    "@webgrip/tsconfig": "^0.2.0",
     "eslint": "10.8.0",
     "eslint-plugin-astro": "3.1.0",
     "pagefind": "1.5.2",
@@ -56,5 +60,6 @@
     "typescript-eslint": "8.66.0",
     "wrangler": "4.118.0",
     "yaml": "2.9.0"
-  }
+  },
+  "prettier": "@webgrip/prettier-config"
 }

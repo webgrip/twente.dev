@@ -44,6 +44,18 @@ importers:
       '@eslint/js':
         specifier: 10.0.1
         version: 10.0.1(eslint@10.8.0)
+      '@webgrip/astro-site-toolkit':
+        specifier: ^0.2.0
+        version: 0.2.0(@axe-core/playwright@4.13.0(playwright-core@1.62.1))(playwright-core@1.62.1)
+      '@webgrip/eslint-config-astro':
+        specifier: ^0.2.0
+        version: 0.2.0(@emnapi/core@2.0.0-alpha.3)(@emnapi/runtime@2.0.0-alpha.3)(@typescript-eslint/parser@8.66.0(eslint@10.8.0)(typescript@5.9.3))(eslint@10.8.0)(typescript@5.9.3)
+      '@webgrip/prettier-config':
+        specifier: ^0.2.0
+        version: 0.2.0(prettier@3.9.6)
+      '@webgrip/tsconfig':
+        specifier: ^0.2.0
+        version: 0.2.0(astro@7.1.6(@emnapi/core@2.0.0-alpha.3)(@emnapi/runtime@2.0.0-alpha.3)(@types/node@24.13.3)(yaml@2.9.0))
       eslint:
         specifier: 10.8.0
         version: 10.8.0
@@ -1245,6 +1257,37 @@ packages:
 
   '@vscode/l10n@0.0.18':
     resolution: {integrity: sha512-KYSIHVmslkaCDyw013pphY+d7x1qV8IZupYfeIfzNA+nsaWHbn5uPuQRvdRFsa9zFzGeudPuoGoZ1Op4jrJXIQ==}
+
+  '@webgrip/astro-site-toolkit@0.2.0':
+    resolution: {integrity: sha512-+kt1ZXnSne/aBehdptqV32oe5SknSQQktDpMg+g2uSJxeTrMp7KRa3h2DAUnBMahUyY4GWhPVsC/gLv/va3XBA==}
+    engines: {node: ^22.14.0 || >=24.10.0}
+    hasBin: true
+    peerDependencies:
+      '@axe-core/playwright': ^4.10.0
+      playwright-core: ^1.50.0
+    peerDependenciesMeta:
+      '@axe-core/playwright':
+        optional: true
+      playwright-core:
+        optional: true
+
+  '@webgrip/eslint-config-astro@0.2.0':
+    resolution: {integrity: sha512-o5M+k0loE+XNEf0I/9zlzeBQv1MhJ8JsSixos+bkjsdt+xpipqUyKli/cXpUkbUNW2mXM3mJtUJWEb7i1cPJ0Q==}
+    engines: {node: ^22.14.0 || >=24.10.0}
+    peerDependencies:
+      eslint: ^10.0.0
+
+  '@webgrip/prettier-config@0.2.0':
+    resolution: {integrity: sha512-2YQzbNIb1Csmrcybs89QnQVLeX356V0gDgUTlIPSO+aJRRvXmi6TulXwFKFN3v56tk6T0eRm6lnvaMWtw83C/Q==}
+    engines: {node: ^22.14.0 || >=24.10.0}
+    peerDependencies:
+      prettier: ^3.0.0
+
+  '@webgrip/tsconfig@0.2.0':
+    resolution: {integrity: sha512-qv9F8Np+XDN6nr7+oLOIIafBczOXVXoKemnGnxHsPmTHSha6p9BogN6jKhBsN8r9ef74CUFoEMahq2v9XEd9ZQ==}
+    engines: {node: ^22.14.0 || >=24.10.0}
+    peerDependencies:
+      astro: '>=5.0.0'
 
   acorn-jsx@5.3.2:
     resolution: {integrity: sha512-rq9s+JNhf0IChjtDXxllJ7g41oZk5SlXtp0LHwyA5cejwn7vKmKp4pPri6YEePv2PU65sAsegbXtIinmDFDXgQ==}
@@ -3600,6 +3643,34 @@ snapshots:
       vscode-uri: 3.1.0
 
   '@vscode/l10n@0.0.18': {}
+
+  '@webgrip/astro-site-toolkit@0.2.0(@axe-core/playwright@4.13.0(playwright-core@1.62.1))(playwright-core@1.62.1)':
+    optionalDependencies:
+      '@axe-core/playwright': 4.13.0(playwright-core@1.62.1)
+      playwright-core: 1.62.1
+
+  '@webgrip/eslint-config-astro@0.2.0(@emnapi/core@2.0.0-alpha.3)(@emnapi/runtime@2.0.0-alpha.3)(@typescript-eslint/parser@8.66.0(eslint@10.8.0)(typescript@5.9.3))(eslint@10.8.0)(typescript@5.9.3)':
+    dependencies:
+      '@eslint/js': 10.0.1(eslint@10.8.0)
+      eslint: 10.8.0
+      eslint-plugin-astro: 3.1.0(@emnapi/core@2.0.0-alpha.3)(@emnapi/runtime@2.0.0-alpha.3)(@typescript-eslint/parser@8.66.0(eslint@10.8.0)(typescript@5.9.3))(eslint@10.8.0)(typescript-eslint@8.66.0(eslint@10.8.0)(typescript@5.9.3))
+      typescript-eslint: 8.66.0(eslint@10.8.0)(typescript@5.9.3)
+    transitivePeerDependencies:
+      - '@emnapi/core'
+      - '@emnapi/runtime'
+      - '@typescript-eslint/parser'
+      - eslint-plugin-jsx-a11y
+      - supports-color
+      - typescript
+
+  '@webgrip/prettier-config@0.2.0(prettier@3.9.6)':
+    dependencies:
+      prettier: 3.9.6
+      prettier-plugin-astro: 0.14.1
+
+  '@webgrip/tsconfig@0.2.0(astro@7.1.6(@emnapi/core@2.0.0-alpha.3)(@emnapi/runtime@2.0.0-alpha.3)(@types/node@24.13.3)(yaml@2.9.0))':
+    dependencies:
+      astro: 7.1.6(@emnapi/core@2.0.0-alpha.3)(@emnapi/runtime@2.0.0-alpha.3)(@types/node@24.13.3)(yaml@2.9.0)
 
   acorn-jsx@5.3.2(acorn@8.18.0):
     dependencies:

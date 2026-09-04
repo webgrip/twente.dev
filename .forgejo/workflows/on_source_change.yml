@@ -34,7 +34,28 @@ jobs:
       run-format-check: true
       run-lint: true
       run-typecheck: true
-      run-audit: true
+      # TIJDELIJK UIT (2026-09-04) — zet terug zodra npm weer antwoordt.
+      #
+      # `pnpm audit` kan "de registry gaf geen antwoord" niet onderscheiden van
+      # "je hebt een high-severity CVE": allebei exit 1. npm's advisories-API is
+      # stil gevallen — hij accepteert de POST en stuurt nul bytes terug.
+      # Reproduceerbaar vanaf deze laptop en vanaf de runner, over h2 en h1.1,
+      # over v4 en v6, met en zonder npm-user-agent. GET op dezelfde host geeft
+      # 200 in 0,1s, en daarom blijft status.npmjs.org groen: die bewaakt het
+      # leespad, niet deze dienst. Run 91 en 92 vielen hier allebei om na exact
+      # 4m11s (3 pogingen x 60s + wachttijd) en trokken elke job erachter mee,
+      # inclusief beide deploys.
+      #
+      # De check die zegt of hij terug is:
+      #   curl --max-time 20 -X POST -H 'Content-Type: application/json' \
+      #     -d '{"lodash":["4.17.20"]}' \
+      #     https://registry.npmjs.org/-/npm/v1/security/advisories/bulk
+      # Alles behalve een time-out betekent dat hij weer leeft.
+      #
+      # Wat er ondertussen nog wel staat: de supply-chain-policy op de lockfile
+      # bij install (549 entries) en Renovate. Weg is alleen de CVE-check op de
+      # geinstalleerde boom.
+      run-audit: false
       run-knip: true
 
   unit-tests:

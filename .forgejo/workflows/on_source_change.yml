@@ -49,11 +49,22 @@ jobs:
       package-manager: pnpm
       test-command: REQUIRE_REAL_CONTENT=1 pnpm validate:content
 
+  mail-validation:
+    name: "Mail Validation"
+    needs:
+      - static-analysis
+    uses: webgrip/workflows/.forgejo/workflows/node-application-tests.yml@f2e235efd0589ee32cef70cd79ee7f110f80d1da
+    with:
+      node-version: "24"
+      package-manager: pnpm
+      test-command: pnpm validate:mail
+
   build:
     name: "Build Site"
     needs:
       - unit-tests
       - content-validation
+      - mail-validation
     uses: webgrip/workflows/.forgejo/workflows/node-application-tests.yml@f2e235efd0589ee32cef70cd79ee7f110f80d1da
     with:
       node-version: "24"

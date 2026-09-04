@@ -5,6 +5,7 @@ import { parse } from 'yaml';
 import { RELEASE_001, RELEASE_001_SPEAKERS, REGISTRATION_URL } from '../src/config/site.ts';
 import { LOCALES, isLocale } from '../src/i18n/config.ts';
 import type { Locale } from '../src/i18n/config.ts';
+import { checkMail } from '../src/lib/mail/check.ts';
 import { mailFilename } from '../src/lib/mail/document.ts';
 import type { MailDocument } from '../src/lib/mail/document.ts';
 import { renderMail } from '../src/lib/mail/render.ts';
@@ -181,6 +182,25 @@ async function build(target: Target): Promise<void> {
 
 const args = process.argv.slice(2);
 const targets = await collectTargets();
+
+if (args.includes('--check')) {
+  const problems = targets.flatMap((target) =>
+    target.documents.flatMap((document) => checkMail(document, renderMail(document))),
+  );
+  const rendered = targets.reduce((total, target) => total + target.documents.length, 0);
+
+  for (const problem of problems) {
+    console.error(`build-mail: ${problem.document}: ${problem.message}`);
+  }
+
+  if (problems.length > 0) {
+    console.error(`\nbuild-mail: ${problems.length} problemen in ${rendered} mails`);
+    process.exit(1);
+  }
+
+  console.log(`build-mail: ${rendered} mails gecontroleerd, geen problemen`);
+  process.exit(0);
+}
 
 if (args.length === 0) {
   console.log('build-mail: geef een id, of --all\n');

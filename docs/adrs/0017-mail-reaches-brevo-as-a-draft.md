@@ -60,9 +60,11 @@ environment, the same route `VIKUNJA_API_TOKEN` already takes: held in the Keych
 exported into the shell. It is deliberately not a Forgejo secret, because a scheduled job
 holding a mail-sending credential is a standing risk in exchange for saving a command.
 
-CI gets the half that carries no credential: `pnpm mail --all` renders every mail on every
-push, and fails on a placeholder, a render error or a generated link that does not resolve.
-That is the check that would have caught the 404 before it reached an inbox.
+CI gets the half that carries no credential. `pnpm validate:mail` renders every mail on every
+push and fails on a placeholder, a relative href, a link that leaves the mail's own locale, a
+missing or duplicated unsubscribe link, an empty or oversized subject or preheader, or an
+image without an alt attribute. It writes nothing and reaches no network, so it is
+deterministic. That is the check that would have caught the 404 before it reached an inbox.
 
 ### Rejected options and why
 
@@ -96,8 +98,10 @@ That is the check that would have caught the 404 before it reached an inbox.
   than failing somewhere inside an HTTP call.
 - A campaign created by the command shows as **Draft** in Brevo, and running the same command
   twice leaves one campaign, not two.
-- The source-change workflow runs `pnpm mail --all` and fails the build on a placeholder or an
-  unresolvable link.
+- `pnpm validate:mail` exits zero and reports the number of mails checked; breaking one on
+  purpose makes it exit non-zero and name the document.
+- The `Mail Validation` job in `.forgejo/workflows/on_source_change.yml` runs it, and `Build
+Site` needs it, so a broken mail stops the lane before a deploy.
 
 ## More Information
 
@@ -105,6 +109,9 @@ That is the check that would have caught the 404 before it reached an inbox.
   Brevo's redirector returned 404 for that link while every destination resolved.
 - 2026-09-04 — `pnpm mail` generated the first mails from content (`ae9f199`), and refuses to
   emit a placeholder.
+- 2026-09-04 — `pnpm validate:mail` and the `Mail Validation` job landed; the live-link half of
+  the check was dropped as flaky, since the destinations are already covered by the production
+  smoke paths.
 - Refines [ADR 0011](0011-brevo-for-machine-sent-mail.md), which stays Accepted: the platform
   decision holds, this record only settles how content reaches it.
 - Supported by [ADR 0016](0016-release-as-content.md), which is what lets the generator

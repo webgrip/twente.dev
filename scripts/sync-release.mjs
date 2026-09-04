@@ -6,7 +6,7 @@ import { CURRENT_RELEASE } from '../src/config/site.ts';
 import { readRelease } from './read-releases.ts';
 
 const repo = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
-const out = `${repo}/docs/brand/templates/editie.js`;
+const out = `${repo}/docs/brand/templates/release.js`;
 const release = await readRelease(`${repo}/src/content`, CURRENT_RELEASE);
 
 const COORDS = {
@@ -22,7 +22,7 @@ const amsterdam = (opts) =>
 const coords = COORDS[release.city];
 if (!coords) {
   throw new Error(
-    `Geen coordinaten voor ${release.city}. Vul ze aan in COORDS in scripts/sync-editie.mjs; ` +
+    `Geen coordinaten voor ${release.city}. Vul ze aan in COORDS in scripts/sync-release.mjs; ` +
       'de omloopkaart tekent de knoop op echte geografie en kan er geen verzinnen.',
   );
 }
@@ -35,7 +35,7 @@ const sprekers = {
 
 const tz = amsterdam({ timeZoneName: 'short' }).split(' ').at(-1);
 
-const EDITIE = {
+const RELEASE = {
   nr: release.number,
   thema: release.theme.toLowerCase(),
   stad: release.city.toLowerCase(),
@@ -63,5 +63,5 @@ const EDITIE = {
   knotLon: coords.lon,
 };
 
-await writeFile(out, `window.EDITIE = ${JSON.stringify(EDITIE, null, 2)};\n`, 'utf8');
-console.log(`editie.js <- site.ts   ${EDITIE.nr} // ${EDITIE.datumNL} // ${EDITIE.stad}`);
+await writeFile(out, `window.RELEASE = ${JSON.stringify(RELEASE, null, 2)};\n`, 'utf8');
+console.log(`release.js <- site.ts   ${RELEASE.nr} // ${RELEASE.datumNL} // ${RELEASE.stad}`);

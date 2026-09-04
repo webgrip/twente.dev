@@ -377,7 +377,7 @@
     <div
       class="art nacht a31"
       data-lang="nl"
-      data-export="banner-EDITIENR-statusbord-nl-1500x500@2x"
+      data-export="banner-RELEASENR-statusbord-nl-1500x500@2x"
     >
       <div class="stage">
         <span class="edge"></span>
@@ -392,7 +392,7 @@
     <div
       class="art nacht a31"
       data-lang="en"
-      data-export="banner-EDITIENR-statusbord-en-1500x500@2x"
+      data-export="banner-RELEASENR-statusbord-en-1500x500@2x"
     >
       <div class="stage">
         <span class="edge"></span>
@@ -407,7 +407,7 @@
     <div
       class="art nacht a169"
       data-lang="nl"
-      data-export="banner-EDITIENR-statusbord-nl-1200x675@2x"
+      data-export="banner-RELEASENR-statusbord-nl-1200x675@2x"
     >
       <div class="stage" style="width: 1200px; height: 675px">
         <span class="edge"></span>
@@ -422,7 +422,7 @@
     <div
       class="art nacht a169"
       data-lang="en"
-      data-export="banner-EDITIENR-statusbord-en-1200x675@2x"
+      data-export="banner-RELEASENR-statusbord-en-1200x675@2x"
     >
       <div class="stage" style="width: 1200px; height: 675px">
         <span class="edge"></span>
@@ -475,7 +475,7 @@
     <div
       class="art nacht a41"
       data-lang="nl"
-      data-export="banner-EDITIENR-statusbord-nl-1584x396@2x"
+      data-export="banner-RELEASENR-statusbord-nl-1584x396@2x"
     >
       <div class="stage" style="width: 1584px; height: 396px">
         <span class="edge"></span>
@@ -489,7 +489,7 @@
     <div
       class="art nacht a41"
       data-lang="en"
-      data-export="banner-EDITIENR-statusbord-en-1584x396@2x"
+      data-export="banner-RELEASENR-statusbord-en-1584x396@2x"
     >
       <div class="stage" style="width: 1584px; height: 396px">
         <span class="edge"></span>
@@ -629,19 +629,19 @@
       </div>
     </div>
 
-    <script src="editie.js"></script>
+    <script src="release.js"></script>
     <script>
       const COPY = {
         nl: {
-          unit: 'editie',
-          datum: EDITIE.datumNL,
+          unit: 'release',
+          datum: RELEASE.datumNL,
           kosten: 'gratis',
           cta: 'aanmelden',
           eind: 'harde eindtijd 21:30',
         },
         en: {
           unit: 'edition',
-          datum: EDITIE.datumEN,
+          datum: RELEASE.datumEN,
           kosten: 'free',
           cta: 'register',
           eind: 'hard finish 21:30',
@@ -649,12 +649,12 @@
       };
       const statusLines = (lang) => {
         const c = COPY[lang] ?? COPY.nl;
-        return `$ systemctl status ${c.unit}@${EDITIE.nr}
-<b><i>●</i> twente.dev/${EDITIE.nr}: ${EDITIE.thema}</b>
-   Active: <b>scheduled</b> · ${c.datum}, ${EDITIE.tijd} ${EDITIE.tz} · ${EDITIE.venue}, ${EDITIE.stad}
-   Talks:  <b>${EDITIE.sprekers[lang]?.[0] ?? EDITIE.sprekers.nl[0]}</b>
-           <b>${EDITIE.sprekers[lang]?.[1] ?? EDITIE.sprekers.nl[1]}</b>
-   Seats:  ${EDITIE.seats} · ${c.kosten} · ${c.cta}: <i>twente.dev/${EDITIE.nr}</i>`;
+        return `$ systemctl status ${c.unit}@${RELEASE.nr}
+<b><i>●</i> twente.dev/${RELEASE.nr}: ${RELEASE.thema}</b>
+   Active: <b>scheduled</b> · ${c.datum}, ${RELEASE.tijd} ${RELEASE.tz} · ${RELEASE.venue}, ${RELEASE.stad}
+   Talks:  <b>${RELEASE.sprekers[lang]?.[0] ?? RELEASE.sprekers.nl[0]}</b>
+           <b>${RELEASE.sprekers[lang]?.[1] ?? RELEASE.sprekers.nl[1]}</b>
+   Seats:  ${RELEASE.seats} · ${c.kosten} · ${c.cta}: <i>twente.dev/${RELEASE.nr}</i>`;
       };
       const langOf = (el) => el.closest('[data-lang]')?.dataset.lang ?? 'nl';
       document.querySelectorAll('[data-statusbord]').forEach((el) => {
@@ -662,14 +662,14 @@
       });
       document.querySelectorAll('[data-announce-sub]').forEach((el) => {
         const c = COPY[langOf(el)] ?? COPY.nl;
-        el.textContent = `twente.dev/${EDITIE.nr} · ${c.datum} · ${EDITIE.stad} · ${c.eind}`;
+        el.textContent = `twente.dev/${RELEASE.nr} · ${c.datum} · ${RELEASE.stad} · ${c.eind}`;
       });
       document.querySelectorAll('[data-export]').forEach((el) => {
-        el.dataset.export = el.dataset.export.replace('EDITIENR', EDITIE.nr);
+        el.dataset.export = el.dataset.export.replace('RELEASENR', RELEASE.nr);
       });
-      const kortedatum = EDITIE.datumNL.split(' ').slice(1, 3).join(' ').toUpperCase();
+      const kortedatum = RELEASE.datumNL.split(' ').slice(1, 3).join(' ').toUpperCase();
       document.querySelectorAll('[data-ticker-live]').forEach((el) => {
-        el.textContent = `/${EDITIE.nr} · ${kortedatum} · ${EDITIE.stad.toUpperCase()} · REGISTRATIE OPEN`;
+        el.textContent = `/${RELEASE.nr} · ${kortedatum} · ${RELEASE.stad.toUpperCase()} · REGISTRATIE OPEN`;
       });
 
       const CENTER = { lat: 52.269, lon: 6.721 };
@@ -707,7 +707,7 @@
         ['HARDENBERG', 'ALMELO'],
         ['WINTERSWIJK', 'HAAKSBERGEN'],
       ];
-      const KNOT = { lat: EDITIE.knotLat, lon: EDITIE.knotLon };
+      const KNOT = { lat: RELEASE.knotLat, lon: RELEASE.knotLon };
       function drawMap(el) {
         const p = JSON.parse(el.dataset.map);
         const km = p.scale;
@@ -770,9 +770,9 @@
         const rk = 1.7 * km;
         s += `<circle cx="${kx.toFixed(1)}" cy="${ky.toFixed(1)}" r="${rk.toFixed(1)}" fill="${c.red}"/>`;
         s += `<text x="${(kx - rk - 6).toFixed(1)}" y="${(ky - 2.8 * km).toFixed(1)}" font-size="${Math.round(2.3 * km)}" font-weight="600"
-        letter-spacing="1.5" fill="${c.red}" text-anchor="end">${EDITIE.knotLabelNL}</text>`;
+        letter-spacing="1.5" fill="${c.red}" text-anchor="end">${RELEASE.knotLabelNL}</text>`;
         s += `<text x="${(kx - rk - 6).toFixed(1)}" y="${(ky + 0.7 * km).toFixed(1)}" font-size="${Math.round(2 * km)}" letter-spacing="1.5"
-        fill="${c.red}" text-anchor="end">/${EDITIE.nr} · ${EDITIE.datumNL.split(' ').slice(1, 3).join(' ').toUpperCase()}</text>`;
+        fill="${c.red}" text-anchor="end">/${RELEASE.nr} · ${RELEASE.datumNL.split(' ').slice(1, 3).join(' ').toUpperCase()}</text>`;
         s += `</svg>`;
         el.innerHTML = s;
       }

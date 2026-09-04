@@ -103,7 +103,7 @@ describe('mailForEvent', () => {
   });
 
   test('sends readers to the release page while registration is closed', () => {
-    assert.equal(mailForEvent(event, 'nl', null).callToAction.label, 'Bekijk de editie');
+    assert.equal(mailForEvent(event, 'nl', null).callToAction.label, 'Bekijk de release');
   });
 
   test('states free admission rather than a price of zero', () => {

@@ -5,7 +5,7 @@ export default defineConfig([
   ...webgrip,
   {
     files: ['scripts/export-banners.mjs'],
-    languageOptions: { globals: { document: 'readonly', EDITIE: 'readonly' } },
+    languageOptions: { globals: { document: 'readonly', RELEASE: 'readonly' } },
   },
   {
     files: ['docs/brand/templates/**/*.js'],

@@ -48,7 +48,7 @@ export const MAIL_COPY: Record<Locale, MailCopy> = {
     kickerPost: 'Nieuw op twente.dev',
     ctaRegister: 'Meld je aan',
     ctaReadPost: 'Lees het stuk',
-    ctaViewRelease: 'Bekijk de editie',
+    ctaViewRelease: 'Bekijk de release',
     factDate: 'Datum',
     factTime: 'Tijd',
     factAuthor: 'Door',

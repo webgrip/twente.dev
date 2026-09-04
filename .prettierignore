@@ -9,5 +9,5 @@ CHANGELOG.md
 # Edit the model and regenerate; never hand-format these.
 docs/domain/*.md
 
-# Generated from src/config/site.ts by scripts/sync-editie.mjs.
-docs/brand/templates/editie.js
+# Generated from src/config/site.ts by scripts/sync-release.mjs.
+docs/brand/templates/release.js

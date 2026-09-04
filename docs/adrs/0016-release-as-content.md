@@ -23,7 +23,7 @@ key is `release001`, and `src/pages/001.astro`, `src/pages/nl/001.astro` and
 `src/pages/en/001.astro` are three files that exist only because the number is 001.
 
 Counted out, one more Release costs a new route key, a new config constant, three new page
-files, an edit to `scripts/sync-editie.mjs`, an edit to `src/lib/jsonld.ts` where
+files, an edit to `scripts/sync-release.mjs`, an edit to `src/lib/jsonld.ts` where
 `canonicalRoute === 'release001'` is written out, and a second entry that has to agree with
 the first. At 085 that is 255 page files and 85 route keys, and a duplication guard that has
 to be re-pointed every month.
@@ -67,7 +67,7 @@ the URL is built as `routePath('release', locale, '001')` and `/nl/001` keeps re
 
 **`site.ts` keeps a pointer, not facts.** `RELEASE_001` and `RELEASE_001_SPEAKERS` are
 replaced by `CURRENT_RELEASE = '001'`. Everything that needs the current evening resolves it
-through the collection, including `scripts/sync-editie.mjs` for the banners and the mail
+through the collection, including `scripts/sync-release.mjs` for the banners and the mail
 generator for the speaker announcement.
 
 **The agreement test goes away rather than being re-pointed.** With one entry there is

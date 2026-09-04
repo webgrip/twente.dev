@@ -331,8 +331,8 @@
 
         <div class="card">
           <div class="edition" contenteditable="true">twente.dev/001</div>
-          <div class="date" contenteditable="true" data-editie-datum>07.10</div>
-          <div class="where" contenteditable="true" data-editie-waar>Rijssen · 18:00</div>
+          <div class="date" contenteditable="true" data-release-datum>07.10</div>
+          <div class="where" contenteditable="true" data-release-waar>Rijssen · 18:00</div>
         </div>
       </div>
 
@@ -370,8 +370,8 @@
 
         <div class="card">
           <div class="edition" contenteditable="true">twente.dev/001</div>
-          <div class="date" contenteditable="true" data-editie-datum>07.10</div>
-          <div class="where" contenteditable="true" data-editie-waar>Rijssen · 18:00</div>
+          <div class="date" contenteditable="true" data-release-datum>07.10</div>
+          <div class="where" contenteditable="true" data-release-waar>Rijssen · 18:00</div>
         </div>
       </div>
 
@@ -511,8 +511,8 @@
 
         <div class="card">
           <div class="edition" contenteditable="true">twente.dev/001</div>
-          <div class="date" contenteditable="true" data-editie-datum>07.10</div>
-          <div class="where" contenteditable="true" data-editie-waar>Rijssen · 18:00</div>
+          <div class="date" contenteditable="true" data-release-datum>07.10</div>
+          <div class="where" contenteditable="true" data-release-waar>Rijssen · 18:00</div>
         </div>
       </div>
 
@@ -550,27 +550,27 @@
 
         <div class="card">
           <div class="edition" contenteditable="true">twente.dev/001</div>
-          <div class="date" contenteditable="true" data-editie-datum>07.10</div>
-          <div class="where" contenteditable="true" data-editie-waar>Rijssen · 18:00</div>
+          <div class="date" contenteditable="true" data-release-datum>07.10</div>
+          <div class="where" contenteditable="true" data-release-waar>Rijssen · 18:00</div>
         </div>
       </div>
 
       <div class="foot" contenteditable="true" data-cover-foot></div>
     </div>
-    <script src="editie.js"></script>
+    <script src="release.js"></script>
     <script>
       const COVER = {
         nl: {
           brandSub: 'Onafhankelijke, practitioner-led techcommunity voor Twente.',
           brandFoot: 'twente.dev // we build it. we run it. we share it.',
           eventSub: 'Twee talks van een halfuur en een ruim netwerkuur.',
-          eventFoot: `twente.dev/${EDITIE.nr} // reconnect the region // gratis`,
+          eventFoot: `twente.dev/${RELEASE.nr} // reconnect the region // gratis`,
         },
         en: {
           brandSub: 'Independent, practitioner-led tech community for Twente.',
           brandFoot: 'twente.dev // we build it. we run it. we share it.',
           eventSub: 'Two half-hour talks and an unhurried network hour.',
-          eventFoot: `twente.dev/${EDITIE.nr} // reconnect the region // free`,
+          eventFoot: `twente.dev/${RELEASE.nr} // reconnect the region // free`,
         },
       };
       document.querySelectorAll('[data-cover-sub], [data-cover-foot]').forEach((el) => {
@@ -579,11 +579,11 @@
         const v = art?.dataset.variant === 'event' ? 'event' : 'brand';
         el.textContent = el.hasAttribute('data-cover-sub') ? c[`${v}Sub`] : c[`${v}Foot`];
       });
-      document.querySelectorAll('[data-editie-datum]').forEach((el) => {
-        el.textContent = EDITIE.datumCompact;
+      document.querySelectorAll('[data-release-datum]').forEach((el) => {
+        el.textContent = RELEASE.datumCompact;
       });
-      document.querySelectorAll('[data-editie-waar]').forEach((el) => {
-        el.textContent = `${EDITIE.stad.replace(/^./, (c) => c.toUpperCase())} · ${EDITIE.tijd}`;
+      document.querySelectorAll('[data-release-waar]').forEach((el) => {
+        el.textContent = `${RELEASE.stad.replace(/^./, (c) => c.toUpperCase())} · ${RELEASE.tijd}`;
       });
     </script>
   </body>

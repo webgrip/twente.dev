@@ -1,4 +1,4 @@
-window.EDITIE = {
+window.RELEASE = {
   "nr": "001",
   "thema": "reconnect",
   "stad": "rijssen",

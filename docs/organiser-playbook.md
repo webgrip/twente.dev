@@ -48,10 +48,10 @@ ze bepalen wie er die avond niet is.
 | T+10 werkdagen | Openbaar verslag, inclusief wat niet werkte (site-belofte, tracker-milestone)                                                                                                                               |               |
 
 Banners en announce-graphics horen bij dit ritme: werk bij T−8 (datum + stad
-vast) het `EDITIE`-blok in `docs/brand/templates/banners.html` bij en exporteer
+vast) het `RELEASE`-blok in `docs/brand/templates/banners.html` bij en exporteer
 de generieke set; het announce-statusbord met beide sprekers volgt bij T−4.
 Volledige procedure, inclusief het chassis-plus-wisselstuk-principe voor een
-unieke graphic per editie: [runbooks/editie-banners.md](runbooks/editie-banners.md).
+unieke graphic per editie: [runbooks/release-banners.md](runbooks/release-banners.md).
 
 ## Venue regelen
 

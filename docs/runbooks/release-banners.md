@@ -16,7 +16,7 @@ export is reproduceerbaar.
   zijn de onderdelenbak, en een nieuw idee is één extra `.art`-blok in het
   template.
 - **De vaste set vernieuwt zichzelf**: de omloopkaart (noaberschap-kaart) en het
-  statusbord lezen álles uit het `EDITIE`-blok bovenin het template — nummer,
+  statusbord lezen álles uit het `RELEASE`-blok bovenin het template — nummer,
   thema, stad, venue, datum, sprekers, plekken én de kaartcoördinaten van de
   editie-stad. De rode knoop verspringt dus vanzelf naar de nieuwe stad; de
   generieke banner is daarmee ook stille campagne voor de actuele editie.
@@ -33,22 +33,22 @@ export is reproduceerbaar.
 
 ## Wat upload je waar
 
-| Platform                       | Bestand                                        | Opmerking                                                                                                                                                                                                                     |
-| ------------------------------ | ---------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| X — header                     | `banner-omloop-nacht-nl-1500x500@2x.png`       | of `-en` / `-dag` naar smaak; één 3:1-bestand dient X, Bluesky én Mastodon                                                                                                                                                    |
-| Bluesky — banner               | zelfde 3:1-bestand                             | avatar overlapt linksonder — daarom is die hoek leeg                                                                                                                                                                          |
-| Mastodon — header              | zelfde 3:1-bestand                             |                                                                                                                                                                                                                               |
-| LinkedIn — persoonlijk profiel | `banner-omloop-{dag,nacht}-nl-1584x396@2x.png` | 4:1; compositie rechts omdat je profielfoto links staat                                                                                                                                                                       |
-| LinkedIn — bedrijfspagina      | `banner-vertrekbord[-nacht]-1128x191@2x.png`   | 5.9:1 vertrekbord-ticker; de rode regel (editie + registratie) komt uit het `EDITIE`-blok. Linksonder blijft leeg: het paginalogo overlapt daar de banner (x ≈ 60–290 van het 1128-ontwerp) — lockup staat daarom rechtsonder |
-| Meetup — groepsfoto            | `banner-omloop-dag-nl-1200x675@2x.png`         | de event-cover per editie is `banner-meetup-NNN[-nacht]-…` (licht en donker beschikbaar)                                                                                                                                      |
-| Discord — serverbanner         | `banner-omloop-nacht-nl-1200x675@2x.png`       | 16:9                                                                                                                                                                                                                          |
-| Facebook — paginacover         | `banner-omloop-dag-nl-820x462@2x.png`          | alles wezenlijks staat in het mobiel-veilige midden                                                                                                                                                                           |
-| YouTube — kanaalkunst          | — nog te bouwen                                | 2560×1440 met veilige strook; ontwerp wacht op keuze                                                                                                                                                                          |
-| Announce-post (alle kanalen)   | `banner-NNN-statusbord-…`                      | geen header maar een post-afbeelding: 16:9 voor feeds, 4:1 voor LinkedIn, 3:1 als tijdelijke header in campagnetijd                                                                                                           |
+| Platform                       | Bestand                                        | Opmerking                                                                                                                                                                                                                      |
+| ------------------------------ | ---------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| X — header                     | `banner-omloop-nacht-nl-1500x500@2x.png`       | of `-en` / `-dag` naar smaak; één 3:1-bestand dient X, Bluesky én Mastodon                                                                                                                                                     |
+| Bluesky — banner               | zelfde 3:1-bestand                             | avatar overlapt linksonder — daarom is die hoek leeg                                                                                                                                                                           |
+| Mastodon — header              | zelfde 3:1-bestand                             |                                                                                                                                                                                                                                |
+| LinkedIn — persoonlijk profiel | `banner-omloop-{dag,nacht}-nl-1584x396@2x.png` | 4:1; compositie rechts omdat je profielfoto links staat                                                                                                                                                                        |
+| LinkedIn — bedrijfspagina      | `banner-vertrekbord[-nacht]-1128x191@2x.png`   | 5.9:1 vertrekbord-ticker; de rode regel (editie + registratie) komt uit het `RELEASE`-blok. Linksonder blijft leeg: het paginalogo overlapt daar de banner (x ≈ 60–290 van het 1128-ontwerp) — lockup staat daarom rechtsonder |
+| Meetup — groepsfoto            | `banner-omloop-dag-nl-1200x675@2x.png`         | de event-cover per editie is `banner-meetup-NNN[-nacht]-…` (licht en donker beschikbaar)                                                                                                                                       |
+| Discord — serverbanner         | `banner-omloop-nacht-nl-1200x675@2x.png`       | 16:9                                                                                                                                                                                                                           |
+| Facebook — paginacover         | `banner-omloop-dag-nl-820x462@2x.png`          | alles wezenlijks staat in het mobiel-veilige midden                                                                                                                                                                            |
+| YouTube — kanaalkunst          | — nog te bouwen                                | 2560×1440 met veilige strook; ontwerp wacht op keuze                                                                                                                                                                           |
+| Announce-post (alle kanalen)   | `banner-NNN-statusbord-…`                      | geen header maar een post-afbeelding: 16:9 voor feeds, 4:1 voor LinkedIn, 3:1 als tijdelijke header in campagnetijd                                                                                                            |
 
 ## Nieuwe editie, stap voor stap
 
-1. Open `docs/brand/templates/banners.html` en werk het `EDITIE`-blok bij:
+1. Open `docs/brand/templates/banners.html` en werk het `RELEASE`-blok bij:
    nummer, thema, stad, venue, datum, tijd, plekken, sprekers en
    `knotLat`/`knotLon` van de editie-stad. Sprekers nog niet rond? Laat de
    placeholders staan en exporteer het statusbord pas bij T−4 — een announce

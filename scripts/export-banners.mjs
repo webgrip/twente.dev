@@ -18,7 +18,7 @@ for (const tpl of ['banners.html', 'cover-16x9.html']) {
   await page.goto(`file://${repo}/docs/brand/templates/${tpl}`, { waitUntil: 'networkidle' });
   await page.evaluate(() => document.fonts.ready);
   await page.waitForTimeout(300);
-  edition ??= await page.evaluate(() => (typeof EDITIE === 'undefined' ? null : EDITIE.nr));
+  edition ??= await page.evaluate(() => (typeof RELEASE === 'undefined' ? null : RELEASE.nr));
   const names = await page.$$eval('[data-export]', (els) => els.map((e) => e.dataset.export));
   for (const name of names) {
     const el = page.locator(`[data-export="${name}"]`);
@@ -32,5 +32,5 @@ for (const tpl of ['banners.html', 'cover-16x9.html']) {
 }
 await browser.close();
 console.log(
-  `${total} banners exported; editie-specifieke set in public/brand/social/meetup/${edition ?? '?'}/`,
+  `${total} banners exported; release-specifieke set in public/brand/social/meetup/${edition ?? '?'}/`,
 );

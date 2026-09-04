@@ -2,7 +2,7 @@
 title: Why twente.dev exists
 description: >-
   The Twente tech scene is bigger than it feels. The problem is not a lack of
-  activity — it is the lack of one place where you can see that activity.
+  activity. It is the lack of one place where you can see that activity.
 locale: en
 translationKey: why-twente-dev
 publishedAt: 2026-08-03
@@ -25,13 +25,13 @@ The problem is not that too little happens here. The problem is that it is scatt
 
 One place to see what is going on: upcoming meetups, and which companies here actually build
 software, and with what. Bilingual,
-because the Twente developer population is bilingual — a substantial share of the people
+because the Twente developer population is bilingual: a substantial share of the people
 working here arrived via the University of Twente and do not speak Dutch.
 
 ## What this is not
 
 Not a newsletter that tells you every week that nothing happened. Not a platform that sells
-your data — there is not a single cookie on this site, and there will not be.
+your data. There is not a single cookie on this site, and there will not be.
 
 ## How it works
 

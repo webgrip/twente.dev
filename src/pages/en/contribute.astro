@@ -19,7 +19,7 @@ const openCallMail = `mailto:${CONTACT_EMAIL}?subject=Open%20call%20${edition}`;
   <p>
     This community is made of whatever people put into it. Below are the four routes that exist
     today, and exactly what each one asks for. Not sure which is yours? Mail
-    <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a> — one sentence is plenty.
+    <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>. One sentence is plenty.
   </p>
 
   <Tabs
@@ -37,7 +37,7 @@ const openCallMail = `mailto:${CONTACT_EMAIL}?subject=Open%20call%20${edition}`;
       <p>
         The evening opens with two roughly half-hour talks: one concrete thing you built, fixed or
         broke, and what you took away from it. No deck full of logos, no product pitch, no "the
-        future of". Speaking experience is not required — a real story about a real system is the
+        future of". Speaking experience is not required. A real story about a real system is the
         only criterion, and we will help you shape it.
       </p>
       <ul>
@@ -59,7 +59,7 @@ const openCallMail = `mailto:${CONTACT_EMAIL}?subject=Open%20call%20${edition}`;
               <a href={openCallMail}>{CONTACT_EMAIL}</a>.
             </span>
             If there are more proposals than slots, the call moves to a public submission tool with
-            availability and review — it is ready, and it opens when it adds something.
+            availability and review. It is ready, and it opens when it adds something.
           </p>
         )
       }
@@ -69,7 +69,7 @@ const openCallMail = `mailto:${CONTACT_EMAIL}?subject=Open%20call%20${edition}`;
       <h2 data-tabs-heading>Offer a room</h2>
       <p>
         An edition needs space for forty people, with food and drinks. That is the most valuable
-        thing a company can contribute and the first thing we ask for — in-kind support always comes
+        thing a company can contribute and the first thing we ask for. In-kind support always comes
         before money here. What you get for it, and what you explicitly do not buy, is on
         <a href={routePath('companies', 'en')}>companies</a>.
       </p>
@@ -79,7 +79,7 @@ const openCallMail = `mailto:${CONTACT_EMAIL}?subject=Open%20call%20${edition}`;
         subject="Offering a room for a twente.dev edition"
         submitLabel="Send"
         fallbackLabel="Mail us"
-        note="Sending opens your own mail app with this message in it — nothing goes to an external service."
+        note="Sending opens your own mail app with this message in it. Nothing goes to an external service."
         fields={[
           { name: 'org', label: 'Organisation', required: true },
           { name: 'contact', label: 'Name and e-mail address', required: true },
@@ -87,7 +87,7 @@ const openCallMail = `mailto:${CONTACT_EMAIL}?subject=Open%20call%20${edition}`;
           { name: 'capacity', label: 'How many people fit, seated?', required: true },
           {
             name: 'offer',
-            label: 'What can you offer — room, food, both, something else?',
+            label: 'What can you offer: room, food, both, something else?',
             type: 'textarea',
             required: true,
           },
@@ -101,7 +101,7 @@ const openCallMail = `mailto:${CONTACT_EMAIL}?subject=Open%20call%20${edition}`;
       <p>
         The field report is one concrete lesson from a local system, written by someone who works on
         it. Four to eight hundred words is enough. You do not have to be a blogger, and it does not
-        have to be finished when you propose it — we edit alongside you, and your name goes on it.
+        have to be finished when you propose it. We edit alongside you, and your name goes on it.
         After that it lives in the <a href={routePath('blog', 'en')}>archive</a>, so it stays
         findable.
       </p>
@@ -111,7 +111,7 @@ const openCallMail = `mailto:${CONTACT_EMAIL}?subject=Open%20call%20${edition}`;
         subject="Proposing a field report"
         submitLabel="Send"
         fallbackLabel="Mail us"
-        note="Sending opens your own mail app with this message in it — nothing goes to an external service."
+        note="Sending opens your own mail app with this message in it. Nothing goes to an external service."
         fields={[
           { name: 'name', label: 'Name and e-mail address', required: true },
           { name: 'subject', label: 'What is it about?', required: true },
@@ -134,13 +134,13 @@ const openCallMail = `mailto:${CONTACT_EMAIL}?subject=Open%20call%20${edition}`;
       </p>
       <ul>
         <li>
-          <strong>An event</strong> — open to the public and relevant to developers.
+          <strong>An event</strong>: open to the public and relevant to developers.
           <a href={`${REPO_URL}/issues/new/choose`}>Open the form</a>, or add the file yourself. It
           appears in the calendar and the ICS feed straight away.
         </li>
         <li>
-          <strong>A community</strong> — Discord, Slack, user group or meetup. We do not list anyone without
-          asking, so preferably submit your own group;
+          <strong>A community</strong>: Discord, Slack, user group or meetup. We do not list anyone
+          without asking, so preferably submit your own group;
           <a href={routePath('communities', 'en')}>the directory</a> explains how that works.
         </li>
       </ul>
@@ -154,7 +154,7 @@ const openCallMail = `mailto:${CONTACT_EMAIL}?subject=Open%20call%20${edition}`;
   <h2>Stay in the loop</h2>
   <p>
     Contributing does not have to start today. One email when the {edition} programme is set, one when
-    registration opens, and the field report after that — so you can see the kind of story that lands
+    registration opens, and the field report after that. That way you can see the kind of story that lands
     here before you send one in yourself.
   </p>
   <NewsletterForm locale="en" id="contribute-updates" />
@@ -162,8 +162,8 @@ const openCallMail = `mailto:${CONTACT_EMAIL}?subject=Open%20call%20${edition}`;
   <h2>Supporting us</h2>
   <p>
     There is deliberately no donate button here. What we need is a room, food, people who turn up
-    and someone willing to tell a story — all of which can be offered above. If an organisation
-    wants to back an edition financially, that is a conversation rather than a rate card: mail
+    and someone willing to tell a story. All of that can be offered above. If an organisation wants
+    to back an edition financially, that is a conversation rather than a rate card: mail
     <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>. A payment route arrives only once there
     is something to fund that cannot be given in kind, and it arrives with a public account of it.
   </p>

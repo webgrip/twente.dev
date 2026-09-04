@@ -20,7 +20,7 @@ const [events, posts] = await Promise.all([getUpcomingEvents(), getPosts(locale)
 
 const otherEvents = events.filter((event) => event.data.canonicalRoute !== 'edition001');
 
-const edition = `${editionName(EDITION_001.number)} — ${EDITION_001.theme}`;
+const edition = `${editionName(EDITION_001.number)}: ${EDITION_001.theme}`;
 const motto = `twente.dev // ${t('site.tagline').toLowerCase()}`;
 
 const bands = [

@@ -72,7 +72,7 @@ interface Copy {
 
 const { locale } = Astro.props;
 
-const name = `${editionName(EDITION_001.number)} — ${EDITION_001.theme}`;
+const name = `${editionName(EDITION_001.number)}: ${EDITION_001.theme}`;
 const time = (d: Date) =>
   new Intl.DateTimeFormat('nl-NL', {
     timeZone: TIMEZONE,
@@ -105,7 +105,7 @@ const COPY: Record<Locale, Copy> = {
       { time: time(EDITION_001.start), item: 'Welcome' },
       {
         time: '19:00',
-        item: 'Talk 1 — something the speaker built, fixed or broke themselves',
+        item: 'Talk 1: something the speaker built, fixed or broke themselves',
       },
       { time: '19:30', item: 'Break' },
       { time: '19:45', item: 'Talk 2' },
@@ -114,7 +114,7 @@ const COPY: Record<Locale, Copy> = {
     ],
     whoTitle: 'Who the room is for',
     whoBody:
-      'People who build and apply technology across software, hardware, data, security, design, product, research and education — in and around Twente, at any career stage.',
+      'People who build and apply technology across software, hardware, data, security, design, product, research and education, in and around Twente, at any career stage.',
     whoWelcome: 'First-timers and solo attendees are explicitly welcome.',
     isTitle: 'This is',
     isList: [
@@ -147,17 +147,17 @@ const COPY: Record<Locale, Copy> = {
     registrationCta: 'Reserve a place',
     registrationCalendarHint: 'Subscribe to the calendar and the date is already in yours.',
     registrationConsentNote:
-      'Event registration alone never adds you to the newsletter — that is a separate, explicit opt-in.',
+      'Event registration alone never adds you to the newsletter. That is a separate, explicit opt-in.',
     openCallTitle: 'Contribute a story, demo or introduction',
     openCallBody:
-      'What should Twente know you are building — or learning the hard way? Send us one claim, one real example, decision or failure, what others can learn, and how you would involve the room. You do not need speaking experience; we help shape accepted contributions. We do not accept product pitches, paid speaking or confidential material.',
+      'What should Twente know you are building, or learning the hard way? Send us one claim, one real example, decision or failure, what others can learn, and how you would involve the room. You do not need speaking experience; we help shape accepted contributions. We do not accept product pitches, paid speaking or confidential material.',
     openCallCta: 'See all ways to contribute',
     practicalTitle: 'Practical',
     practical: [
       {
         term: 'Access',
         detail:
-          'Full access information — step-free route, seating, sound and a quiet space — is published on this page at least two weeks before the event.',
+          'Full access information (step-free route, seating, sound and a quiet space) is published on this page at least two weeks before the event.',
       },
       {
         term: 'Food',
@@ -172,13 +172,13 @@ const COPY: Record<Locale, Copy> = {
       {
         term: 'Cancellation',
         detail:
-          'Plans change — cancelling is one reply to your confirmation email, and your place goes to the next person on the waitlist.',
+          'Plans change. Cancelling is one reply to your confirmation email, and your place goes to the next person on the waitlist.',
       },
     ],
     safeguardsTitle: 'Safeguards',
     safeguards: [
       'Sponsors receive no attendee data.',
-      'No one can buy stage time — speakers are selected editorially.',
+      'No one can buy stage time. Speakers are selected editorially.',
       'The code of conduct applies, with a named contact at the event and a route that does not run through the venue.',
     ],
     conductCta: 'Read the code of conduct',
@@ -189,7 +189,7 @@ const COPY: Record<Locale, Copy> = {
     metaDescription:
       'Een practitioner-led avond voor iedereen die technologie bouwt in Twente. Woensdag 4 november 2026, 18:00–21:30, Rijssen. Gratis.',
     intro: [
-      'Twente bouwt technologie met wereldwijde impact, maar de mensen en praktijklessen erachter zijn nog te moeilijk te vinden — over bedrijven en disciplines heen.',
+      'Twente bouwt technologie met wereldwijde impact, maar de mensen en praktijklessen erachter zijn over bedrijven en disciplines heen nog te moeilijk te vinden.',
       `${name} is een practitioner-led avond voor iedereen die in en rondom Twente technologie bouwt: software, infrastructuur, embedded systems, maakindustrie, data, security, design, product, onderzoek en technisch onderwijs. Twee talks van ongeveer een halfuur, van mensen die het werk zelf deden, en daarna een ruim netwerkuur om elkaar echt te spreken.`,
     ],
     factDate: 'Datum',
@@ -208,7 +208,7 @@ const COPY: Record<Locale, Copy> = {
       { time: time(EDITION_001.start), item: 'Welkomstwoord' },
       {
         time: '19:00',
-        item: 'Talk 1 — iets dat de spreker zelf heeft gebouwd, gerepareerd of verprutst',
+        item: 'Talk 1: iets dat de spreker zelf heeft gebouwd, gerepareerd of verprutst',
       },
       { time: '19:30', item: 'Pauze' },
       { time: '19:45', item: 'Talk 2' },
@@ -217,7 +217,7 @@ const COPY: Record<Locale, Copy> = {
     ],
     whoTitle: 'Voor wie de avond is',
     whoBody:
-      'Mensen die technologie bouwen en toepassen: software, hardware, data, security, design, product, onderzoek en onderwijs — in en rond Twente, in elke fase van je loopbaan.',
+      'Mensen die technologie bouwen en toepassen: software, hardware, data, security, design, product, onderzoek en onderwijs, in en rond Twente, in elke fase van je loopbaan.',
     whoWelcome: 'Nieuwkomers en mensen die alleen komen zijn nadrukkelijk welkom.',
     isTitle: 'Dit is het wél',
     isList: [
@@ -250,17 +250,17 @@ const COPY: Record<Locale, Copy> = {
     registrationCta: 'Reserveer een plek',
     registrationCalendarHint: 'Abonneer op de agenda, dan staat de datum er alvast in.',
     registrationConsentNote:
-      'Aanmelden voor het event zet je nooit op de nieuwsbrief — dat is een aparte, expliciete opt-in.',
+      'Aanmelden voor het event zet je nooit op de nieuwsbrief. Dat is een aparte, expliciete opt-in.',
     openCallTitle: 'Draag een verhaal, demo of introductie bij',
     openCallBody:
-      'Wat moet Twente weten over wat jij bouwt — of op de harde manier leert? Stuur ons één claim, één echt voorbeeld, besluit of mislukking, wat anderen ervan kunnen leren, en hoe je de zaal erbij betrekt. Spreekervaring is niet nodig; geaccepteerde bijdragen vormen we samen. Productpitches, betaalde spreektijd en vertrouwelijk materiaal accepteren we niet.',
+      'Wat moet Twente weten over wat jij bouwt, of op de harde manier leert? Stuur ons één claim, één echt voorbeeld, besluit of mislukking, wat anderen ervan kunnen leren, en hoe je de zaal erbij betrekt. Spreekervaring is niet nodig; geaccepteerde bijdragen vormen we samen. Productpitches, betaalde spreektijd en vertrouwelijk materiaal accepteren we niet.',
     openCallCta: 'Bekijk alle manieren om bij te dragen',
     practicalTitle: 'Praktisch',
     practical: [
       {
         term: 'Toegankelijkheid',
         detail:
-          'Volledige toegankelijkheidsinformatie — drempelvrije route, zitplaatsen, geluid en een rustige ruimte — verschijnt uiterlijk twee weken voor het event op deze pagina.',
+          'Volledige toegankelijkheidsinformatie (drempelvrije route, zitplaatsen, geluid en een rustige ruimte) verschijnt uiterlijk twee weken voor het event op deze pagina.',
       },
       {
         term: 'Eten',
@@ -275,13 +275,13 @@ const COPY: Record<Locale, Copy> = {
       {
         term: 'Annuleren',
         detail:
-          'Plannen veranderen — afmelden is één antwoord op je bevestigingsmail, en je plek gaat naar de volgende op de wachtlijst.',
+          'Plannen veranderen. Afmelden is één antwoord op je bevestigingsmail, en je plek gaat naar de volgende op de wachtlijst.',
       },
     ],
     safeguardsTitle: 'Waarborgen',
     safeguards: [
       'Sponsors krijgen geen deelnemersdata.',
-      'Spreektijd is niet te koop — sprekers worden redactioneel geselecteerd.',
+      'Spreektijd is niet te koop. Sprekers worden redactioneel geselecteerd.',
       'De gedragscode geldt, met een benoemd aanspreekpunt op het event en een route die niet via de gastheer loopt.',
     ],
     conductCta: 'Lees de gedragscode',
@@ -361,7 +361,7 @@ const speakers = EDITION_001_SPEAKERS;
             </div>
             <div>
               <dt>{c.factVenue}</dt>
-              <dd>{EDITION_001.venue ?? `${EDITION_001.city} — ${t('edition.venueTba')}`}</dd>
+              <dd>{EDITION_001.venue ?? `${EDITION_001.city}, ${t('edition.venueTba')}`}</dd>
             </div>
             <div>
               <dt>{c.factCapacity}</dt>

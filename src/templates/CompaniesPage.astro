@@ -32,15 +32,17 @@ const hostLogo = RELEASE_001.venueLogo;
               {t('companies.hostKicker')} // {releaseName(RELEASE_001.number)}
             </p>
             {hostLogo ? (
-              <img
-                class="host-logo"
-                src={`/brand/hosts/${hostLogo}`}
-                alt={host}
-                width="200"
-                height="68"
-                loading="lazy"
-                decoding="async"
-              />
+              <span class="host-plate">
+                <img
+                  class="host-logo"
+                  src={`/brand/hosts/${hostLogo}`}
+                  alt={host}
+                  width="480"
+                  height="165"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </span>
             ) : (
               <p class="host-name">{host}</p>
             )}
@@ -82,13 +84,21 @@ const hostLogo = RELEASE_001.venueLogo;
     margin-block-end: var(--space-2);
   }
 
+  .host-plate {
+    display: inline-flex;
+    justify-self: start;
+    align-items: center;
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-md);
+    background: var(--warm-paper);
+    margin-block: var(--space-2) var(--space-3);
+  }
+
   .host-logo {
     width: auto;
-    max-width: 12rem;
-    height: 3rem;
+    max-width: 11rem;
+    height: 2.5rem;
     object-fit: contain;
-    object-position: left center;
-    margin-block: var(--space-1) var(--space-2);
   }
 
   .host-name {

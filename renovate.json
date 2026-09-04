@@ -1,6 +1,9 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["local>webgrip/renovate-config"],
+  "extends": [
+    "local>webgrip/renovate-config#v1.7.0",
+    "local>webgrip/renovate-config:safe-automerge#v1.7.0"
+  ],
   "packageRules": [
     {
       "description": "Astro majors move fast and can change routing/content APIs. Never automerge.",
@@ -27,6 +30,19 @@
       "description": "wrangler ships frequently; group it so deploys are not churned one PR at a time.",
       "matchPackageNames": ["wrangler"],
       "groupName": "cloudflare tooling"
+    },
+    {
+      "description": "devDependencies minor and patch carry no runtime risk and are covered by the full check suite; merge them once CI is green.",
+      "matchDepTypes": ["devDependencies"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "automerge": true,
+      "automergeType": "pr",
+      "addLabels": ["automerge"]
+    },
+    {
+      "description": "wrangler is the deploy path itself, so a bump that breaks deploys must never merge itself.",
+      "matchPackageNames": ["wrangler"],
+      "automerge": false
     }
   ]
 }

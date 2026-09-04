@@ -52,9 +52,5 @@ const EDITIE = {
   knotLon: coords.lon,
 };
 
-await writeFile(
-  out,
-  `window.EDITIE = ${JSON.stringify(EDITIE, null, 2)};\n`,
-  'utf8',
-);
+await writeFile(out, `window.EDITIE = ${JSON.stringify(EDITIE, null, 2)};\n`, 'utf8');
 console.log(`editie.js <- site.ts   ${EDITIE.nr} // ${EDITIE.datumNL} // ${EDITIE.stad}`);

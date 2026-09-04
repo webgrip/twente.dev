@@ -8,9 +8,7 @@ const repo = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const socialDir = `${repo}/public/brand/social`;
 
 const destinationFor = (name, edition) =>
-  edition && name.includes(`-${edition}-`)
-    ? `${socialDir}/meetup/${edition}`
-    : socialDir;
+  edition && name.includes(`-${edition}-`) ? `${socialDir}/meetup/${edition}` : socialDir;
 
 const browser = await chromium.launch({ headless: true });
 const page = await browser.newPage({ viewport: { width: 3100, height: 1400 } });
@@ -33,4 +31,6 @@ for (const tpl of ['banners.html', 'cover-16x9.html']) {
   }
 }
 await browser.close();
-console.log(`${total} banners exported; editie-specifieke set in public/brand/social/meetup/${edition ?? '?'}/`);
+console.log(
+  `${total} banners exported; editie-specifieke set in public/brand/social/meetup/${edition ?? '?'}/`,
+);

@@ -4,6 +4,11 @@ export const PRESS_EMAIL = 'press@twente.dev';
 
 export const REPO_URL = 'https://forgejo.webgrip.dev/webgrip/twente.dev';
 
+export const NEWSLETTER_SENDER = {
+  name: 'twente.dev',
+  email: 'post@send.twente.dev',
+} as const;
+
 export const REGISTRATION_URL: string | null = null;
 
 export const NEWSLETTER_FORM_ACTION: string | null =

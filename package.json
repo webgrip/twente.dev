@@ -32,6 +32,7 @@
     "banners": "node --experimental-strip-types scripts/sync-editie.mjs && node scripts/export-banners.mjs",
     "gen:ops": "node --experimental-strip-types scripts/gen-ops.ts",
     "mail": "node --experimental-strip-types scripts/build-mail.ts",
+    "mail:draft": "node --experimental-strip-types scripts/mail-draft.ts",
     "deploy": "wrangler deploy",
     "deploy:preview": "wrangler versions upload",
     "validate:a11y": "node --experimental-strip-types scripts/axe-scan.ts",

@@ -44,18 +44,48 @@ aanmelden op 14 september opent zonder dat er iets achter zit.
 
 ## Deze week: de Workspace-verhuizing
 
+Gekozen op 4 september: de volledige overstap naar secondary domain, licentie
+inbegrepen. Die lost twee dingen in één zitting op. `conduct@twente.dev` wordt
+een echte groep met meer dan één lid, en de envelope verschuift van `webgrip.nl`
+naar `twente.dev`, waarmee DMARC op twee benen komt te staan in plaats van op
+één.
+
 Volledige procedure met volgorde, verificatie en terugweg staat in
 [`runbooks/email-authentication.md`](../runbooks/email-authentication.md),
-sectie "Plan: van domain alias naar secondary domain". Doe hem in één zitting.
+sectie "Plan: van domain alias naar secondary domain".
 
-- [ ] Noteer vooraf het huidige DKIM-record en al je Cloudflare Email
-      Routing-regels voor twente.dev. Dat is je weg terug.
-- [ ] Loop de elf stappen af.
+**Wanneer.** Ruim voor 14 september, want dan opent aanmelden. Niet op
+vrijdagmiddag. Stap 6 mint een nieuwe DKIM-sleutel, dus tussen die stap en een
+geslaagde testmail staat DMARC even op nul benen. Dat is te overzien op een
+rustige dag en het is de reden om het niet uit te stellen tot de week dat er
+iets van afhangt.
+
+- [ ] Schrijf je Cloudflare Email Routing-regels voor twente.dev op: welk adres
+      naar welke bestemming. Die zijn niet via DNS te lezen, staan alleen in het
+      dashboard, en ze zijn de helft van je weg terug. De DNS-helft staat al
+      gemeten in het runbook onder "Vooraf, en sla dit ergens op".
+- [ ] Loop de acht stappen af in die volgorde. Stap 1 tot en met 6 raken je
+      inbox niet. Stap 7 zet de MX om en dat is het onomkeerbare moment.
+- [ ] Stap 4 kost geld: `ryan@twente.dev` als echt account is een licentie. Dat
+      is de stap die de envelope koopt. Sla je hem over, dan heb je de groepen
+      en blijft de envelope op `webgrip.nl` staan.
+- [ ] Stap 5 heeft een valkuil die geen foutmelding geeft: een nieuwe groep
+      weigert externe afzenders standaard, en `hello@` en `conduct@` moeten
+      juist van buiten kunnen ontvangen.
 - [ ] Klaar is pas klaar als een testmail vanaf `ryan@twente.dev` **beide**
       DMARC-benen laat slagen: `dkim=pass header.d=twente.dev` én
       `spf=pass smtp.mailfrom=twente.dev`.
 - [ ] En als een mail van buiten naar `conduct@twente.dev` bij **elk** lid
       aankomt. Dat adres staat op de gedragscodepagina.
+- [ ] Werk daarna het runbook bij: punt 3 afvinken, de tabel bovenin op de
+      nieuwe MX en de nieuwe DKIM-staart zetten, en punt 7 (MTA-STS) is dan niet
+      langer geblokkeerd.
+
+**Loopt het uit tot na 12 september**, zet dan eerst route A uit het runbook neer
+als tussenstap, zodat `conduct@` twee mensen bereikt voordat aanmelden opent: een
+groep op webgrip.nl waar de bestaande Cloudflare-regel naar wijst. Een paar
+minuten werk, in een paar minuten terug te draaien, en de verhuizing kan daarna
+alsnog.
 
 ## Deze week: gratis en zo gedaan
 

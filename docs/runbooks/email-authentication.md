@@ -63,14 +63,27 @@ header.d=twente.dev`, `dmarc=pass` and `compauth=pass reason=100`. mail-tester s
    template before it goes to a real list.
 2. ~~**Lock down ryangrippeling.nl.**~~ **Done, 2026-09-04.** `v=spf1 -all` and
    `_dmarc` `p=reject` are published; the domain has no MX and now cannot be spoofed.
-3. **Decide: domain alias or secondary domain for twente.dev.** No longer forced by DKIM
-   (item 1 proved alignment works under the alias). The remaining reason is namespace: a
-   domain alias mirrors usernames and has no namespace of its own, so `conduct@twente.dev`
-   cannot be a group with more than one member. Inbound works today through Cloudflare
-   Email Routing, so a single organiser is fine and nothing is broken. This becomes
-   blocking the moment a second code-of-conduct contact is appointed, which the organiser
-   playbook calls the first role to hand off. Cost of switching: remove the alias, re-add
-   as a secondary domain, regenerate DKIM (new key, new TXT), then re-run item 1.
+3. **Decide: domain alias or secondary domain for twente.dev.** **Decided 2026-09-04:
+   secondary domain, licence included — route C below.** Execution is pending; the checklist
+   is in [`plan/nu-te-doen.md`](../plan/nu-te-doen.md). The analysis that led there stands
+   below, because it is what makes the fallback usable if the sitting slips.
+   No longer forced by DKIM
+   (item 1 proved alignment works under the alias). **Corrected 2026-09-04: it is not forced
+   by the alias either.** This item used to say a domain alias has no namespace of its own,
+   so `conduct@twente.dev` could not be a group with more than one member. Google's own
+   documentation says the opposite: "Each mailing group also gets an email address at the
+   user alias domain." A Group at `conduct@webgrip.nl` therefore already yields
+   `conduct@twente.dev`, at no cost and with as many members as it needs.
+   **The real blocker is one hop earlier.** twente.dev's MX points at Cloudflare Email
+   Routing, so Google's mirror is never consulted for inbound mail to this domain;
+   Cloudflare decides, and a routing rule forwards to exactly one verified destination.
+   That reframes the decision: a second code-of-conduct contact needs either a fan-out
+   destination behind the Cloudflare rule, or MX at Google. It does not need a licence, and
+   it does not need the alias removed. See "Adding a second person to `conduct@`" below.
+   Cost of switching to a secondary domain anyway: remove the alias, re-add as a secondary
+   domain, regenerate DKIM (new key, new TXT), then re-run item 1. Groups on a secondary
+   domain are free; only a _user account_ there costs a licence, and that is what item 5 of
+   the migration plan buys.
 4. **Google Postmaster Tools** for both domains. Free, and the only place the real spam rate
    and authentication rate are visible rather than guessed at.
 5. **Registrar transfer**, Hostnet → Namecheap, for webgrip.nl and ryangrippeling.nl. Verify
@@ -115,6 +128,22 @@ domein ook koppelt.
 - **Noteer het huidige DKIM-record**: `google._domainkey.twente.dev`, de hele
   waarde. De selector blijft straks hetzelfde en alleen de waarde verandert, dus
   dit is je vergelijkingspunt en je weg terug.
+
+**Gemeten stand van 2026-09-04**, tegen 8.8.8.8, zodat het vergelijkingspunt al
+vastligt voordat je begint. De DKIM-waarde staat hier als lengte en staart, want
+dat is genoeg om te zien of je naar de oude of de nieuwe sleutel kijkt:
+
+```text
+google._domainkey.twente.dev   408 tekens, eindigt op  pxe6hNv5yIv9ewIDAQAB
+twente.dev  MX                 2 route2 · 33 route3 · 60 route1 .mx.cloudflare.net
+twente.dev  TXT                v=spf1 include:_spf.mx.cloudflare.net include:_spf.google.com ~all
+_dmarc.twente.dev  TXT         v=DMARC1; p=none; rua=…dmarc-reports.cloudflare.net,mailto:dmarc@twente.dev; fo=1; adkim=r; aspf=r
+```
+
+Wat hier **niet** in staat en wat je zelf moet opschrijven: de Cloudflare Email
+Routing-regels. Die zijn niet via DNS te lezen, dus ze staan alleen in het
+dashboard en ze zijn de helft van je weg terug.
+
 - **Schrijf elke Cloudflare Email Routing-regel voor twente.dev op**: welk adres
   naar welke bestemming. Je bouwt ze straks na als Groups en je hebt ze nodig als
   je terug moet.
@@ -178,6 +207,52 @@ weg terug de MX-records herstellen en Email Routing weer aanzetten met de regels
 die je vooraf hebt opgeschreven. De DKIM-sleutel is dan een nieuwe, en dat is
 geen probleem zolang de TXT klopt.
 
+## Adding a second person to `conduct@`
+
+The organiser playbook calls this the first role to hand off, and registration opens on
+14 September, so this is the near-term shape of decision 3 rather than a hypothetical.
+
+**The trap first.** The obvious move is to add a second Cloudflare Email Routing rule for
+`conduct@twente.dev` pointing at the second person. Cloudflare accepts it and the dashboard
+lists both. Only one of them delivers: "If you create more than one rule with the same email
+pattern, only the rule shown first in the dashboard list processes incoming emails." No
+bounce, no warning, and the person who is not first never learns they are missing reports. On
+a code-of-conduct address that is the worst failure available, because its symptom is silence
+and silence is also what a working, never-used reporting address looks like.
+
+Three routes that do work, cheapest first.
+
+### A — a Google Group at webgrip.nl behind the Cloudflare rule
+
+Create `conduct@webgrip.nl` as a Google Group with both contacts as members, then point the
+existing `conduct@twente.dev` routing rule at it. Free, no MX change, reversible in a minute.
+
+- The Group has to accept **external** senders before Cloudflare's verification mail can even
+  land, and until someone clicks that link the rule stays dead: "Until a destination address
+  is verified, any routing rule that points to it stays disabled." Same setting as `dmarc@`,
+  same trap.
+- Cloudflare rewrites the envelope (SRS) and adds an ARC seal when it forwards, so the extra
+  hop authenticates at Google rather than looking like a spoof.
+- What it costs: a twin address at webgrip.nl, and the archive of code-of-conduct reports
+  living in a Webgrip-branded group. No reporter ever sees that, and for a project whose
+  whole position is being a neutral operator rather than a Webgrip event it is still worth a
+  moment's thought.
+
+### B — MX to Google, keep the alias, let the mirror do it
+
+Move MX (Path A below), keep the domain alias, and `conduct@twente.dev` is mirrored from the
+`conduct@webgrip.nl` Group with no forwarding hop and no one-destination limit. Still leaves
+the twin, and it is a real cutover: not in the week registration opens.
+
+### C — the secondary domain (the plan above) — **chosen 2026-09-04**
+
+The only route where `conduct@twente.dev` is a Group in its own namespace with no twin at
+webgrip.nl. Groups on a secondary domain cost nothing; the licence in step 4 of that plan buys
+SPF alignment, not the group. If the group is what you need and the envelope is not, that plan
+works without step 4.
+
+---
+
 ## Gotchas that cost time, and what they actually mean
 
 The point of this section: none of these produce an error message. They all look like success
@@ -213,10 +288,14 @@ domain dropdown offers **only webgrip.nl**; the twente.dev addresses appear belo
 out and auto-generated.
 
 Consequence: **every twente.dev address you want must also exist at webgrip.nl.** To get
-`hello@twente.dev` you create `hello@webgrip.nl` and let the mirror produce it. For `hello@`
-that is harmless. For `conduct@` it is not — the playbook requires that route to be a group
-with more than one member, and under a domain alias it is by definition an alias on one
-person's account.
+`hello@twente.dev` you create `hello@webgrip.nl` and let the mirror produce it.
+
+**Corrected 2026-09-04.** This paragraph used to continue that `conduct@` is therefore an
+alias on one person's account and cannot be a group. That is wrong: the mirror covers groups
+too, in Google's words "Each mailing group also gets an email address at the user alias
+domain", so a Group at `conduct@webgrip.nl` yields a multi-member `conduct@twente.dev`. What
+the alias really costs is the twin, not the membership. The thing that actually stops mail
+reaching two people today is that MX sits at Cloudflare, which never asks Google.
 
 A **secondary domain** has its own namespace: `hello@`, `conduct@` and `press@` become Google
 Groups directly at twente.dev, free, with no webgrip.nl twins. That is the shape this project

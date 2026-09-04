@@ -20,6 +20,50 @@ live in [`../README.md`](../README.md).
 | `speaker-tile.html`           | speaker announcement, 1:1          | PNG at exactly 1080×1080 (see below), or PDF           |
 | `cover-16x9.html`             | Meetup group + event cover         | PNG at exactly 2400×1350 (see below), or PDF           |
 
+## Mails die uit de content komen
+
+Vier mailsoorten vul je niet meer met de hand. Je schrijft de post of het event in
+[`src/content/`](../../../src/content/), en `pnpm mail` maakt er per taal een zelfstandig
+HTML-bestand van dat je 1:1 in Brevo plakt onder "paste your code".
+
+```
+pnpm mail                                    # toont wat er te bouwen valt
+pnpm mail --all                              # alles, NL en EN
+pnpm mail post:open-call-001                 # een post, beide talen
+pnpm mail event:twente-dev-001-reconnect nl  # alleen het Nederlandse bestand
+```
+
+De uitvoer belandt in `build/mail/`, buiten git. Het onderwerp en de preheader komen op de
+terminal te staan, want die twee typ je in Brevo apart in.
+
+| Bron                                                               | Mail         | Kicker                    |
+| ------------------------------------------------------------------ | ------------ | ------------------------- |
+| `posts/**` met `pillar: field-reports`                             | field report | Field report              |
+| `posts/**` met `pillar: release-notes`                             | verslag      | Release notes             |
+| `posts/**` met `pillar: upstream`                                  | signalering  | Upstream                  |
+| `posts/**` zonder pillar                                           | nieuw stuk   | Nieuw op twente.dev       |
+| `events/*.yml`                                                     | aankondiging | Aankondiging              |
+| `RELEASE_001_SPEAKERS` in [`site.ts`](../../../src/config/site.ts) | spreker      | twente.dev/001 // Spreker |
+
+Datum, tijd, locatie, taal en toegang komen uit de entry, dus die feiten staan nooit twee keer
+in de wereld. Drie dingen bewaakt de generator zelf, en
+[`sources.test.ts`](../../../src/lib/mail/sources.test.ts) houdt ze vast:
+
+- **Elke URL loopt door `routePath()`.** De Engelse mail linkt naar
+  `/en/blog/why-twente-dev-exists`, niet naar het Nederlandse slug met een `/en/` ervoor.
+- **`{{ unsubscribe }}` blijft staan**, en de privacylink volgt de taal van de mail.
+- **Een `⟦…⟧` in de uitvoer laat het script falen.** Brevo herschrijft zo'n href tot een
+  trackinglink die 404't, wat op 4 september 2026 gebeurde met een campagne die uit
+  `email-announcement.html` was geplakt.
+
+De sprekersmail blijft leeg tot iemand de datum bevestigd heeft, want `RELEASE_001_SPEAKERS`
+is leeg. Dat is de regel uit [`docs/domain/model.yaml`](../../domain/model.yaml), niet een
+gat in de pijplijn.
+
+De handgemaakte templates hieronder blijven de ontwerpmasters, en ze blijven de enige route
+voor de mails die niet uit content komen: `email-doi.html`, `email-welcome.html` en
+`email-transactional.html`.
+
 ## Exporting a PNG (speaker tile, 16:9 covers)
 
 Social platforms want pixels, not a PDF. Fill the fields, then: **DevTools →

@@ -11,11 +11,11 @@ import {
 } from '../i18n/utils.ts';
 import { routePath } from '../i18n/routes.ts';
 import {
-  EDITION_001,
-  EDITION_001_SPEAKERS,
+  RELEASE_001,
+  RELEASE_001_SPEAKERS,
   REGISTRATION_OPENS,
   REGISTRATION_URL,
-  editionName,
+  releaseName,
 } from '../config/site.ts';
 import { eventSchema } from '../lib/jsonld.ts';
 import BaseLayout from '../layouts/BaseLayout.astro';
@@ -78,12 +78,12 @@ interface Copy {
 
 const { locale } = Astro.props;
 
-const name = `${editionName(EDITION_001.number)}: ${EDITION_001.theme}`;
+const name = `${releaseName(RELEASE_001.number)}: ${RELEASE_001.theme}`;
 const time = formatTime;
-const hours = formatTimeRange(EDITION_001.doors, EDITION_001.end);
+const hours = formatTimeRange(RELEASE_001.doors, RELEASE_001.end);
 const sentenceCase = (value: string) => value.charAt(0).toUpperCase() + value.slice(1);
 const whenWhere = (loc: Locale) =>
-  `${sentenceCase(formatWeekday(EDITION_001.doors, loc))} ${formatDate(EDITION_001.doors, loc)}, ${hours}, ${EDITION_001.city}`;
+  `${sentenceCase(formatWeekday(RELEASE_001.doors, loc))} ${formatDate(RELEASE_001.doors, loc)}, ${hours}, ${RELEASE_001.city}`;
 
 const COPY: Record<Locale, Copy> = {
   en: {
@@ -106,8 +106,8 @@ const COPY: Record<Locale, Copy> = {
     outcomes: ['One useful idea', 'One useful introduction', 'One reason to return'],
     expectTitle: 'The evening',
     runOfShow: [
-      { time: time(EDITION_001.doors), item: 'Doors, food and first introductions' },
-      { time: time(EDITION_001.start), item: 'Welcome' },
+      { time: time(RELEASE_001.doors), item: 'Doors, food and first introductions' },
+      { time: time(RELEASE_001.start), item: 'Welcome' },
       {
         time: '19:00',
         item: 'Talk 1: something the speaker built, fixed or broke themselves',
@@ -115,7 +115,7 @@ const COPY: Record<Locale, Copy> = {
       { time: '19:30', item: 'Break' },
       { time: '19:45', item: 'Talk 2' },
       { time: '20:15', item: 'Networking' },
-      { time: time(EDITION_001.end), item: 'Hard finish' },
+      { time: time(RELEASE_001.end), item: 'Hard finish' },
     ],
     whoTitle: 'Who the room is for',
     whoBody:
@@ -214,8 +214,8 @@ const COPY: Record<Locale, Copy> = {
     outcomes: ['Eén nuttig idee', 'Eén nuttige kennismaking', 'Eén reden om terug te komen'],
     expectTitle: 'De avond',
     runOfShow: [
-      { time: time(EDITION_001.doors), item: 'Inloop, eten en eerste kennismakingen' },
-      { time: time(EDITION_001.start), item: 'Welkomstwoord' },
+      { time: time(RELEASE_001.doors), item: 'Inloop, eten en eerste kennismakingen' },
+      { time: time(RELEASE_001.start), item: 'Welkomstwoord' },
       {
         time: '19:00',
         item: 'Talk 1: iets dat de spreker zelf heeft gebouwd, gerepareerd of verprutst',
@@ -223,7 +223,7 @@ const COPY: Record<Locale, Copy> = {
       { time: '19:30', item: 'Pauze' },
       { time: '19:45', item: 'Talk 2' },
       { time: '20:15', item: 'Networking' },
-      { time: time(EDITION_001.end), item: 'Strakke eindtijd' },
+      { time: time(RELEASE_001.end), item: 'Strakke eindtijd' },
     ],
     whoTitle: 'Voor wie de avond is',
     whoBody:
@@ -322,12 +322,12 @@ const num = (id: (typeof sections)[number]['id']) =>
   String(sections.findIndex((s) => s.id === id) + 1).padStart(2, '0');
 const opensIso = REGISTRATION_OPENS.toISOString();
 const opensOn = formatDate(REGISTRATION_OPENS, locale);
-const speakers = EDITION_001_SPEAKERS;
+const speakers = RELEASE_001_SPEAKERS;
 ---
 
 <BaseLayout
   locale={locale}
-  routeKey="edition001"
+  routeKey="release001"
   title={c.metaTitle}
   description={c.metaDescription}
   jsonLd={jsonLd}
@@ -342,15 +342,15 @@ const speakers = EDITION_001_SPEAKERS;
           </a>
         </nav>
         <p class="edition-lockup label-mono" aria-hidden="true">
-          <span class="lockup-name">{editionName(EDITION_001.number)}</span>
+          <span class="lockup-name">{releaseName(RELEASE_001.number)}</span>
           <span class="lockup-date">
-            {String(EDITION_001.doors.getDate()).padStart(2, '0')}.{
-              String(EDITION_001.doors.getMonth() + 1).padStart(2, '0')
+            {String(RELEASE_001.doors.getDate()).padStart(2, '0')}.{
+              String(RELEASE_001.doors.getMonth() + 1).padStart(2, '0')
             }
           </span>
-          <span class="lockup-place">{EDITION_001.city} · {time(EDITION_001.doors)}</span>
+          <span class="lockup-place">{RELEASE_001.city} · {time(RELEASE_001.doors)}</span>
         </p>
-        <h1 class="text-display">{EDITION_001.theme}</h1>
+        <h1 class="text-display">{RELEASE_001.theme}</h1>
         {c.intro.map((paragraph) => <p class="edition-intro">{paragraph}</p>)}
 
         <ul class="outcomes" role="list">
@@ -365,8 +365,8 @@ const speakers = EDITION_001_SPEAKERS;
             <div>
               <dt>{c.factDate}</dt>
               <dd>
-                <time datetime={EDITION_001.doors.toISOString()}>
-                  {formatDate(EDITION_001.doors, locale)}
+                <time datetime={RELEASE_001.doors.toISOString()}>
+                  {formatDate(RELEASE_001.doors, locale)}
                 </time>
               </dd>
             </div>
@@ -376,19 +376,19 @@ const speakers = EDITION_001_SPEAKERS;
             </div>
             <div>
               <dt>{c.factVenue}</dt>
-              <dd>{EDITION_001.venue ?? `${EDITION_001.city}, ${t('edition.venueTba')}`}</dd>
+              <dd>{RELEASE_001.venue ?? `${RELEASE_001.city}, ${t('release.venueTba')}`}</dd>
             </div>
             <div>
               <dt>{c.factCapacity}</dt>
-              <dd>{EDITION_001.capacity}</dd>
+              <dd>{RELEASE_001.capacity}</dd>
             </div>
             <div>
               <dt>{c.factCost}</dt>
-              <dd>{t('edition.free')}</dd>
+              <dd>{t('release.free')}</dd>
             </div>
             <div>
               <dt>{c.factLanguage}</dt>
-              <dd class="fact-long">{t('edition.language')}</dd>
+              <dd class="fact-long">{t('release.language')}</dd>
             </div>
           </dl>
           {

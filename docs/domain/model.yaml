@@ -18,46 +18,46 @@ contexts:
       is er geen zaal en geen datum.
 
 terms:
-  - name: Edition
+  - name: Release
     context: Editie
     definition: >-
-      Eén genummerde avond, geschreven als twente.dev/001. Onderscheidt zich van
-      een gewone meetup doordat het nummer permanent is en de avond een Archief
-      achterlaat. Het nummer hoort bij de avond die gehouden wordt: schuift een
-      Edition naar een andere maand, dan reist het nummer mee en blijft de reeks
-      aaneengesloten.
-    synonyms: [editie]
-    avoid: [meetup, event night, flagship]
+      Eén genummerde avond, geschreven als twente.dev/001, elke eerste woensdag
+      van de maand. Onderscheidt zich van een gewone meetup doordat het nummer
+      permanent is en de avond een Archief achterlaat. Het nummer hoort bij de
+      avond die gehouden wordt: schuift een Release naar een andere maand, dan
+      reist het nummer mee en blijft de reeks aaneengesloten.
+    synonyms: [release]
+    avoid: [meetup, event night, flagship, editie, edition]
     examples: ["twente.dev/001: Reconnect", "twente.dev/002"]
     see_also: [Talk, Registration, Host, Archief]
 
   - name: Talk
     context: Editie
     definition: >-
-      Een gesproken bijdrage van ongeveer een halfuur op een Edition, met één
+      Een gesproken bijdrage van ongeveer een halfuur op een Release, met één
       claim, één echt voorbeeld en één vraag aan de zaal. Gegeven door iemand die
       het werk zelf deed, niet door een vertegenwoordiger ervan. Bestaat pas
       zodra een Speaker de datum bevestigd heeft; daarvoor is er een leeg Slot.
-      Twee per Edition, met een pauze ertussen.
+      Twee per Release, met een pauze ertussen.
     synonyms: [praatje]
     avoid: [field report, veldverslag, keynote, presentatie, sessie]
-    see_also: [Speaker, Open Call, Edition]
+    see_also: [Speaker, Open Call, Release]
 
   - name: Slot
     context: Editie
     definition: >-
-      Een van de twee plaatsen in het programma van een Edition waar een Talk in
+      Een van de twee plaatsen in het programma van een Release waar een Talk in
       past. Een Slot is leeg tot er een bevestigde Speaker aan hangt; pas dan
       bestaat er een Talk. Onderscheidt zich van een stoel in de zaal, die op de
       site een plek heet.
     synonyms: [talkplek]
     examples: ["Talkplek 1, open", "Talkplek 2, gevuld door een bevestigde Speaker"]
-    see_also: [Talk, Speaker, Edition]
+    see_also: [Talk, Speaker, Release]
 
   - name: Speaker
     context: Editie
     definition: >-
-      Iemand die een Talk geeft op een Edition. Onderscheidt zich van een
+      Iemand die een Talk geeft op een Release. Onderscheidt zich van een
       geïnterviewde doordat de bijdrage gesproken is en aan één avond hangt.
     synonyms: [spreker]
     see_also: [Talk, Open Call]
@@ -65,33 +65,33 @@ terms:
   - name: Registration
     context: Editie
     definition: >-
-      De RSVP van één persoon voor één Edition, afgehandeld op meetup.com. De
+      De RSVP van één persoon voor één Release, afgehandeld op meetup.com. De
       site blijft het verslag van de avond; Meetup draagt alleen de aanmelding.
     synonyms: [aanmelding, RSVP]
     avoid: [ticket, kaartje]
-    see_also: [Edition]
+    see_also: [Release]
 
   - name: Host
     context: Editie
     definition: >-
-      De organisatie die de zaal levert voor een Edition. Onderscheidt zich van
+      De organisatie die de zaal levert voor een Release. Onderscheidt zich van
       een Partner doordat de bijdrage de ruimte zelf is, en van een organisator
       doordat een Host de avond niet vormgeeft.
     synonyms: [gastheer]
     avoid: [eigenaar, organisator]
     examples: [Code14]
-    see_also: [Partner, Edition]
+    see_also: [Partner, Release]
 
   - name: Venue
     context: Editie
     definition: >-
-      De fysieke plek waar een Edition gehouden wordt, met naam, adres en stad.
+      De fysieke plek waar een Release gehouden wordt, met naam, adres en stad.
       Onderscheidt zich van de Host doordat een Venue een ruimte is en een Host
       een organisatie: dezelfde partij kan allebei zijn, maar een gehuurde zaal
       heeft wel een Venue en geen Host.
     synonyms: [zaal, locatie]
     examples: ["Code14, Hogepad 81, Rijssen"]
-    see_also: [Edition, Host]
+    see_also: [Release, Host]
 
   - name: Partner
     definition: >-
@@ -125,7 +125,7 @@ terms:
       opgeschreven door twente.dev: wij stellen de vragen, noteren de antwoorden
       en maken er een verslag van. Gepubliceerd op de site en meegestuurd met de
       nieuwsbrief. Onderscheidt zich van een Talk doordat het geschreven is en
-      niet aan een Edition hangt, en van een Editieverslag doordat het over het
+      niet aan een Release hangt, en van een Release notes doordat het over het
       werk van één persoon gaat en niet over een avond.
     avoid: [field note, veldnotitie, portret]
     examples:
@@ -147,28 +147,31 @@ terms:
     context: Publicatie
     definition: >-
       Een gepubliceerde oproep om iets bij te dragen, meestal een Talk voor de
-      eerstvolgende Edition. Staat open zolang de plekken niet gevuld zijn.
+      eerstvolgende Release. Staat open zolang de plekken niet gevuld zijn.
     synonyms: [oproep]
     see_also: [Talk, Speaker]
 
-  - name: Editieverslag
+  - name: Release notes
     context: Publicatie
     definition: >-
-      Het gepubliceerde stuk over een Edition die geweest is, met de slides, de
+      Het gepubliceerde stuk over een Release die geweest is, met de slides, de
       foto's en wat er wel en niet werkte. Verschijnt binnen tien werkdagen en
       maakt van een avond een Archief. Onderscheidt zich van een Field Report
       doordat het over de avond zelf gaat en niet over het werk van één persoon,
       en doordat er geen geïnterviewde aan te pas komt.
-    synonyms: [edition report]
-    avoid: [meetup report, naverslag]
-    see_also: [Edition, Archief, Pillar]
+    synonyms: [releasenotes]
+    avoid: [meetup report, editieverslag, naverslag]
+    see_also: [Release, Archief, Pillar]
 
-  - name: Week in Twente Tech
+  - name: Upstream
     context: Publicatie
     definition: >-
-      Een periodiek overzicht van wat er in de regio speelt, samengesteld uit
-      de agenda en de Communities. Onderscheidt zich van de andere Pillars
-      doordat het niets nieuws beweert, alleen verzamelt.
+      Het overzicht van wat er buiten twente.dev in de regio speelt,
+      samengesteld uit de agenda en de Communities. Onderscheidt zich van de
+      andere Pillars doordat het niets nieuws beweert, alleen verzamelt, en de
+      naam noemt geen frequentie omdat er geen is toegezegd. Heet Upstream omdat
+      twente.dev van die groepen aftakt en niet andersom.
+    avoid: [week in twente tech]
     see_also: [Pillar, Community]
 
   - name: Opkomst
@@ -180,7 +183,7 @@ terms:
       wordt gezet.
     synonyms: [attendance]
     avoid: [aanmeldingen, RSVPs]
-    see_also: [Registration, Edition, KPI]
+    see_also: [Registration, Release, KPI]
 
   - name: Wachtlijst
     context: Editie
@@ -207,34 +210,34 @@ terms:
       ligt. De grens is opzoekbaar en niet op gevoel, zodat iemand anders hem ook
       kan trekken. Zwolle valt erbuiten en blijft wel op de collision-check
       staan, want het publiek overlapt.
-    see_also: [Community, Edition]
+    see_also: [Community, Release]
 
   - name: Pillar
     context: Publicatie
     definition: >-
       De redactionele soort van een gepubliceerd stuk, en het label dat een lezer
-      op de kaart ziet. Er zijn er drie: field-reports, edition-reports en
-      week-in-twente-tech. Een stuk heeft er hoogstens één; een algemeen artikel
+      op de kaart ziet. Er zijn er drie: field-reports, release-notes en
+      upstream. Een stuk heeft er hoogstens één; een algemeen artikel
       heeft er geen, en een Open Call is er geen van, want dat is een oproep en
       geen soort.
     avoid: [categorie, tag]
-    see_also: [Field Report, Open Call, Week in Twente Tech]
+    see_also: [Field Report, Open Call, Upstream]
 
   - name: Archief
     definition: >-
-      Wat er van een gehouden Edition blijft staan: het openbare verslag, de
+      Wat er van een gehouden Release blijft staan: het openbare verslag, de
       slides en waar die er is de opname. Onderscheidt zich van de agenda
       doordat het achteruit kijkt en niet vooruit, en het is de helft van de
       belofte "We share it".
     synonyms: [archive]
-    see_also: [Edition]
+    see_also: [Release]
 
   - name: Newsletter
     context: Publicatie
     definition: >-
       De opt-in maillijst waarop lezers zich abonneren, met dubbele opt-in via
       Brevo. Verstuurt de Publicatie-stukken en de aankondigingen rond een
-      Edition. Geen wekelijkse cadans; er gaat een mail uit als er iets te
+      Release. Geen wekelijkse cadans; er gaat een mail uit als er iets te
       melden is.
     synonyms: [nieuwsbrief]
     avoid: [de field note, de field report]
@@ -244,15 +247,15 @@ rules:
   - id: R1
     statement: twente.dev wordt altijd met kleine letters geschreven, ook aan het begin van een zin.
     rationale: Het is een domeinnaam en de merkregel; een hoofdletter maakt er een bedrijfsnaam van.
-    applies_to: [Edition]
+    applies_to: [Release]
   - id: R2
     statement: >-
-      De feiten van de huidige Edition (datum, tijden, stad, venue, capaciteit,
+      De feiten van de huidige Release (datum, tijden, stad, venue, capaciteit,
       kosten) staan uitsluitend in src/config/site.ts. Geen enkele pagina
       herhaalt ze als letterlijke tekst.
     rationale: >-
       Herhaalde feiten lopen uiteen, en mensen boeken reizen op deze velden.
-    applies_to: [Edition]
+    applies_to: [Release]
   - id: R3
     statement: Spreektijd is niet te koop. Een Speaker wordt redactioneel geselecteerd.
     rationale: Het is een gepubliceerde waarborg en het onderscheidt de avond van een leverancierspodium.
@@ -271,14 +274,14 @@ rules:
     applies_to: [Speaker]
   - id: R6
     statement: >-
-      Zijn op T−4 weken niet beide Slots gevuld, dan schuift de Edition op naar
+      Zijn op T−4 weken niet beide Slots gevuld, dan schuift de Release op naar
       de volgende maand en reist het nummer mee. Een avond met een TBA-programma
       gaat niet door.
     rationale: >-
       Een leeg programma dat toch wordt aangekondigd kost meer vertrouwen dan een
       datum die opschuift met de reden erbij. Opschuiven kan omdat het ritme een
       belofte over de eerste woensdag is en niet over de nummerreeks.
-    applies_to: [Edition, Speaker]
+    applies_to: [Release, Speaker]
   - id: R7
     statement: >-
       Content die aan een echte regionale organisatie wordt toegeschreven, komt
@@ -289,7 +292,7 @@ rules:
     statement: >-
       De nieuwsbrief is één lijst met één afmeldknop. Wie zijn adres achterlaat
       krijgt de Field Reports, de Open Calls en de aankondigingen rond een
-      Edition, en de opt-intekst noemt ze alle drie.
+      Release, en de opt-intekst noemt ze alle drie.
     rationale: >-
       Aparte lijsten per soort zijn administratie zonder opbrengst zolang er één
       afzender en een handvol verzendingen per kwartaal zijn. Wat wél moet: niet
@@ -310,7 +313,7 @@ rules:
     statement: >-
       Boven de capaciteit accepteren mag, met een overboekfactor, en wie daarboven
       komt staat op de Wachtlijst. De factor komt uit de Opkomst van de vorige
-      Edition; zolang die er niet is, is het een opgeschreven schatting die na de
+      Release; zolang die er niet is, is het een opgeschreven schatting die na de
       eerste meting vervalt.
     rationale: >-
       Een gratis avond heeft no-shows, dus precies op de capaciteit accepteren
@@ -320,22 +323,22 @@ rules:
 
   - id: R10
     statement: >-
-      Een Edition valt op de eerste woensdag van de maand. Verplaatsen mag, mits
+      Een Release valt op de eerste woensdag van de maand. Verplaatsen mag, mits
       de reden erbij wordt gezegd, en de volgende datum staat op de site voordat
-      de vorige Edition voorbij is.
+      de vorige Release voorbij is.
     rationale: >-
       Een datum die iedereen zelf kan uitrekenen breekt niet, en een pauze zonder
       aangekondigde terugkeer is hoe communities doodgaan.
-    applies_to: [Edition]
+    applies_to: [Release]
   - id: R11
     statement: >-
-      twente.dev draait geen Edition op de avond van een Community uit de
+      twente.dev draait geen Release op de avond van een Community uit de
       directory, en benadert hun bestaande sponsors niet. Slaat niet op de eigen
       Kanalen, want die zijn van twente.dev zelf.
     rationale: >-
       Het staat zo in het partnercompact. Een directory die je concurrent blijkt
       te zijn, is een directory waar niemand meer in wil staan.
-    applies_to: [Community, Edition]
+    applies_to: [Community, Release]
   - id: R9
     statement: >-
       Een Host wordt publiek genoemd met een eindig aantal edities, en dat aantal
@@ -351,7 +354,7 @@ rules:
     applies_to: [Host]
 
 entities:
-  - name: Edition
+  - name: Release
     context: Editie
     description: Eén genummerde avond, van datumbesluit tot gepubliceerd verslag.
     attributes:
@@ -373,7 +376,7 @@ entities:
         required: true
       - name: venue
         type: Venue
-        description: De zaal van deze avond. Kan per Edition wisselen.
+        description: De zaal van deze avond. Kan per Release wisselen.
         required: true
       - name: slots
         type: "Slot[]"
@@ -397,11 +400,11 @@ entities:
         trigger: De avond zelf
       - from: Gehouden
         to: Gearchiveerd
-        trigger: Editieverslag gepubliceerd, binnen tien werkdagen
+        trigger: Release notes gepubliceerd, binnen tien werkdagen
     relationships:
       - to: Talk
         kind: has_many
-        description: Twee bij een volwaardige Edition, nul bij een lichte avond.
+        description: Twee bij een volwaardige Release, nul bij een lichte avond.
       - to: Host
         kind: references
         description: De organisatie die de zaal levert.
@@ -426,7 +429,7 @@ entities:
       - to: Speaker
         kind: belongs_to
         description: Precies één Speaker per Talk.
-      - to: Edition
+      - to: Release
         kind: belongs_to
 
   - name: Host
@@ -442,16 +445,16 @@ entities:
           Het aantal edities dat publiek is toegezegd. Eindig, en hoogstens wat
           de host werkelijk heeft toegezegd.
     relationships:
-      - to: Edition
+      - to: Release
         kind: has_many
-        description: Een Host kan meerdere Editions achter elkaar leveren.
+        description: Een Host kan meerdere Releases achter elkaar leveren.
       - to: Venue
         kind: has_one
         description: De ruimte die de Host beschikbaar stelt.
 
   - name: Venue
     context: Editie
-    description: De ruimte waar een Edition gehouden wordt.
+    description: De ruimte waar een Release gehouden wordt.
     attributes:
       - name: name
         type: string
@@ -466,13 +469,13 @@ entities:
         description: Een van de gemeenten uit Twente.
         required: true
     relationships:
-      - to: Edition
+      - to: Release
         kind: has_many
-        description: Een Venue kan meerdere Editions herbergen.
+        description: Een Venue kan meerdere Releases herbergen.
 
   - name: Slot
     context: Editie
-    description: Een van de twee programmaplaatsen van een Edition.
+    description: Een van de twee programmaplaatsen van een Release.
     attributes:
       - name: position
         type: int
@@ -504,20 +507,20 @@ entities:
         kind: has_one
 
 events:
-  - name: EditionAnnounced
-    entity: Edition
+  - name: ReleaseAnnounced
+    entity: Release
     description: Datum, stad en venue worden publiek.
     triggers: De Open Call kan de deur uit en de persoonlijke sprekervragen worden verstuurd.
   - name: RegistrationOpened
-    entity: Edition
+    entity: Release
     description: Het aanmeldkanaal gaat open.
     triggers: Het aanmeldgetal wordt het bewijsmateriaal in spreker- en partnervragen.
   - name: SpeakerConfirmed
     entity: Speaker
     description: Een Speaker bevestigt de datum.
     triggers: De naam mag op de site (R5) en het is een eigen aankondigingsmoment.
-  - name: EditionHeld
-    entity: Edition
+  - name: ReleaseHeld
+    entity: Release
     description: De avond heeft plaatsgevonden.
     triggers: Bedankmail naar Speakers binnen drie dagen, verslag binnen tien werkdagen.
 
@@ -528,14 +531,14 @@ dialogues:
         text: Kan iemand een **Field Report** komen geven op /001?
       - speaker: Redactie
         text: >-
-          Nee. Op een **Edition** geef je een **Talk**, ongeveer een halfuur gesproken.
+          Nee. Op een **Release** geef je een **Talk**, ongeveer een halfuur gesproken.
           Een **Field Report** is geschreven en staat op de site.
       - speaker: Ryan
         text: En als iemand zijn Talk daarna opschrijft?
       - speaker: Redactie
         text: >-
           Dan is dat een tweede ding, geen omzetting. De **Talk** blijft in het
-          archief van die **Edition** staan, en het opgeschreven stuk is een
+          archief van die **Release** staan, en het opgeschreven stuk is een
           **Field Report** van de soort "eigen les".
       - speaker: Ryan
         text: En als ik hém erover interview in plaats van dat hij het schrijft?

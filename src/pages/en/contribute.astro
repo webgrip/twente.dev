@@ -4,10 +4,10 @@ import ContactForm from '../../components/ContactForm.astro';
 import NewsletterForm from '../../components/NewsletterForm.astro';
 import Tabs from '../../components/Tabs.astro';
 import { routePath } from '../../i18n/routes.ts';
-import { CONTACT_EMAIL, PRETALX_CFP_URL, REPO_URL, editionName } from '../../config/site.ts';
+import { CONTACT_EMAIL, PRETALX_CFP_URL, REPO_URL, releaseName } from '../../config/site.ts';
 
-const edition = editionName('001');
-const openCallMail = `mailto:${CONTACT_EMAIL}?subject=Open%20call%20${edition}`;
+const release = releaseName('001');
+const openCallMail = `mailto:${CONTACT_EMAIL}?subject=Open%20call%20${release}`;
 ---
 
 <ProsePage
@@ -33,7 +33,7 @@ const openCallMail = `mailto:${CONTACT_EMAIL}?subject=Open%20call%20${edition}`;
     ]}
   >
     <div id="speak" data-tabs-panel>
-      <h2 data-tabs-heading>Tell people something at {edition}</h2>
+      <h2 data-tabs-heading>Tell people something at {release}</h2>
       <p>
         The evening opens with two roughly half-hour talks: one concrete thing you built, fixed or
         broke, and what you took away from it. No deck full of logos, no product pitch, no "the
@@ -68,7 +68,7 @@ const openCallMail = `mailto:${CONTACT_EMAIL}?subject=Open%20call%20${edition}`;
     <div id="venue" data-tabs-panel>
       <h2 data-tabs-heading>Offer a room</h2>
       <p>
-        An edition needs space for forty people, with food and drinks. That is the most valuable
+        A release needs space for forty people, with food and drinks. That is the most valuable
         thing a company can contribute and the first thing we ask for. In-kind support always comes
         before money here. What you get for it, and what you explicitly do not buy, is on
         <a href={routePath('companies', 'en')}>companies</a>.
@@ -76,7 +76,7 @@ const openCallMail = `mailto:${CONTACT_EMAIL}?subject=Open%20call%20${edition}`;
       <ContactForm
         id="host"
         to={CONTACT_EMAIL}
-        subject="Offering a room for a twente.dev edition"
+        subject="Offering a room for a twente.dev release"
         submitLabel="Send"
         fallbackLabel="Mail us"
         note="Sending opens your own mail app with this message in it. Nothing goes to an external service."
@@ -152,7 +152,7 @@ const openCallMail = `mailto:${CONTACT_EMAIL}?subject=Open%20call%20${edition}`;
 
   <h2>Stay in the loop</h2>
   <p>
-    Contributing does not have to start today. One email when the {edition} programme is set, one when
+    Contributing does not have to start today. One email when the {release} programme is set, one when
     registration opens, and the field report after that. That way you can see the kind of story that lands
     here before you send one in yourself.
   </p>
@@ -162,7 +162,7 @@ const openCallMail = `mailto:${CONTACT_EMAIL}?subject=Open%20call%20${edition}`;
   <p>
     There is deliberately no donate button here. What we need is a room, food, people who turn up
     and someone willing to tell a story. All of that can be offered above. If an organisation wants
-    to back an edition financially, that is a conversation rather than a rate card: mail
+    to back a release financially, that is a conversation rather than a rate card: mail
     <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>. A payment route arrives only once there
     is something to fund that cannot be given in kind, and it arrives with a public account of it.
   </p>

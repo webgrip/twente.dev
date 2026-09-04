@@ -1,7 +1,7 @@
 ---
 title: 'Open call: tell Twente what you are building at twente.dev/001'
 description: >-
-  Two half-hour talks open the first edition on 4 November.
+  Two half-hour talks open the first release on 4 November.
   One of them could be yours. No speaking experience required.
 locale: en
 translationKey: open-call-001
@@ -47,7 +47,7 @@ education: every discipline is welcome, and cross-overs are the point of the eve
 You do not need speaking experience. Accepted contributions are shaped together: an editorial
 call, a slide template, a technical rehearsal, a visible time cue on the night, and travel costs
 agreed in advance. The room is deliberately small; the current capacity is on the
-[edition page](/en/001). The format is designed to be kind to first-time speakers.
+[release page](/en/001). The format is designed to be kind to first-time speakers.
 
 ## What we do not accept
 

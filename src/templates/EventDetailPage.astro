@@ -92,7 +92,7 @@ const jsonLd = [
       <p>{event.data.description[locale]}</p>
 
       <h2>
-        {event.data.venue.online ? 'Online' : (event.data.venue.name ?? t('edition.venueTba'))}
+        {event.data.venue.online ? 'Online' : (event.data.venue.name ?? t('release.venueTba'))}
       </h2>
       {
         !event.data.venue.online && (

@@ -58,7 +58,7 @@ const posts = defineCollection({
         url: z.url().optional(),
       }),
       tags: z.array(z.string().min(1)).default([]),
-      pillar: z.enum(['field-reports', 'edition-reports', 'week-in-twente-tech']).optional(),
+      pillar: z.enum(['field-reports', 'release-notes', 'upstream']).optional(),
       cover: image().optional(),
       coverAlt: z.string().optional(),
       draft: z.boolean().default(false),

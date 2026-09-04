@@ -5,13 +5,13 @@ import { UI } from '../i18n/ui.ts';
 import {
   CONDUCT_EMAIL,
   CONTACT_EMAIL,
-  EDITION_001,
-  EDITION_001_SPEAKERS,
+  RELEASE_001,
+  RELEASE_001_SPEAKERS,
   PRESS_EMAIL,
   PRETALX_CFP_URL,
   REGISTRATION_URL,
   REPO_URL,
-  editionName,
+  releaseName,
 } from '../config/site.ts';
 
 export const prerender = true;
@@ -31,15 +31,15 @@ function hm(date: Date): string {
   }).format(date);
 }
 
-const e = EDITION_001;
-const editionLines = [
+const e = RELEASE_001;
+const releaseLines = [
   `- Datum: ${ymd(e.doors, 'nl-NL')}. Deuren en eten ${hm(e.doors)}, programma ${hm(e.start)}, einde ${hm(e.end)}`,
   `- Locatie: ${[e.venue, e.city].filter(Boolean).join(', ')}`,
   `- Capaciteit: ${e.capacity} plekken · ${e.costEur === 0 ? 'gratis' : `€${e.costEur}`}`,
   REGISTRATION_URL && `- Aanmelden: ${REGISTRATION_URL}`,
   PRETALX_CFP_URL && `- Call for talks: ${PRETALX_CFP_URL}`,
-  EDITION_001_SPEAKERS.length > 0 &&
-    `- Programma: ${EDITION_001_SPEAKERS.map((s) => s.name).join(', ')}`,
+  RELEASE_001_SPEAKERS.length > 0 &&
+    `- Programma: ${RELEASE_001_SPEAKERS.map((s) => s.name).join(', ')}`,
 ].filter(Boolean);
 
 const body = `# twente.dev
@@ -48,8 +48,8 @@ const body = `# twente.dev
 
 ${UI.nl['site.description']}
 
-## ${editionName(e.number)}: ${e.theme}
-${editionLines.join('\n')}
+## ${releaseName(e.number)}: ${e.theme}
+${releaseLines.join('\n')}
 
 ## Feeds en bronnen
 - Website: ${SITE_URL}/nl

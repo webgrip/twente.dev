@@ -8,7 +8,7 @@ before a human reviews it.
 
 The fixtures are gone (deleted 2026-08-12): three fictional companies and two fictional events
 that existed to exercise the schemas and give the layouts something to render. What remains is
-real — the /001 edition entry, the 12 verified communities, and the posts.
+real — the /001 release entry, the 12 verified communities, and the posts.
 
 **CI will not let them come back.** The content-validation job runs with
 `REQUIRE_REAL_CONTENT=1`, which turns the fixture check in `scripts/validate-content.ts` from a

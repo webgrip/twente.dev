@@ -2,25 +2,25 @@
 import CompaniesPage from '../../../templates/CompaniesPage.astro';
 import { routePath } from '../../../i18n/routes.ts';
 import { formatDate } from '../../../i18n/utils.ts';
-import { CONTACT_EMAIL, EDITION_001, editionName } from '../../../config/site.ts';
+import { CONTACT_EMAIL, RELEASE_001, releaseName } from '../../../config/site.ts';
 ---
 
 <CompaniesPage
   locale="nl"
   title="Bedrijven"
-  description="Je mensen laten gaan, of een zaal aanbieden voor een latere editie."
+  description="Je mensen laten gaan, of een zaal aanbieden voor een latere release."
 >
   <p>
-    <a href={routePath('edition001', 'nl')}>{editionName(EDITION_001.number)}</a> is op {
-      formatDate(EDITION_001.doors, 'nl')
-    } bij {EDITION_001.venueName} in {EDITION_001.city}, dus de zaal is rond. Het meeste waar we
+    <a href={routePath('release001', 'nl')}>{releaseName(RELEASE_001.number)}</a> is op {
+      formatDate(RELEASE_001.doors, 'nl')
+    } bij {RELEASE_001.venueName} in {RELEASE_001.city}, dus de zaal is rond. Het meeste waar we
     bedrijven voor nodig hebben kost ook geen zaal: laat je mensen die avond gaan en reken het als
     werktijd. Voor de meeste bedrijven is dat de echte stap.
   </p>
   <p>
-    Edities rouleren elke maand door de regio, dus voor later zoeken we steeds een nieuwe host: een
+    Releases rouleren elke maand door de regio, dus voor later zoeken we steeds een nieuwe host: een
     ruimte waar
-    {EDITION_001.capacity} man in past, met eten en drinken erbij. Je naam staat dan op de editiepagina
+    {RELEASE_001.capacity} man in past, met eten en drinken erbij. Je naam staat dan op de editiepagina
     en in de zaal, en daar houdt het op. Een spreekplek zit er niet bij, ook niet voor de host, want dat
     loopt via de <a href={routePath('contribute', 'nl')}>open call</a>. De deelnemerslijst gaat naar
     niemand, en de rest van de afspraken staat op

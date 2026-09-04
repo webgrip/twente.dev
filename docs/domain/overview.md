@@ -13,19 +13,19 @@ De onafhankelijke, practitioner-led techcommunity van Twente. Een gezamenlijke a
 
 ```mermaid
 erDiagram
-    Edition {}
+    Release {}
     Talk {}
     Host {}
     Venue {}
     Slot {}
     Speaker {}
-    Edition ||--o{ Talk : has_many
-    Edition }o..o{ Host : references
+    Release ||--o{ Talk : has_many
+    Release }o..o{ Host : references
     Talk }o--|| Speaker : belongs_to
-    Talk }o--|| Edition : belongs_to
-    Host ||--o{ Edition : has_many
+    Talk }o--|| Release : belongs_to
+    Host ||--o{ Release : has_many
     Host ||--|| Venue : has_one
-    Venue ||--o{ Edition : has_many
+    Venue ||--o{ Release : has_many
     Slot ||--|| Talk : has_one
     Speaker ||--|| Talk : has_one
 ```

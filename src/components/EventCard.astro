@@ -18,13 +18,13 @@ const href = event.data.canonicalRoute
   ? routePath(event.data.canonicalRoute, locale)
   : routePath('events', locale, event.id);
 
-const isOwnEdition = event.data.attribution === 'own';
+const isOwnRelease = event.data.attribution === 'own';
 ---
 
 <article
   class:list={[
     'event-card',
-    isOwnEdition && 'is-own-edition',
+    isOwnRelease && 'is-own-edition',
     event.data.cancelled && 'is-cancelled',
   ]}
 >
@@ -44,7 +44,7 @@ const isOwnEdition = event.data.attribution === 'own';
         ? 'Online'
         : event.data.venue.name
           ? `${event.data.venue.name}, ${event.data.venue.city}`
-          : `${t('edition.venueTba')}, ${event.data.venue.city}`
+          : `${t('release.venueTba')}, ${event.data.venue.city}`
     }
   </p>
 
@@ -129,17 +129,17 @@ const isOwnEdition = event.data.attribution === 'own';
     font-variant-numeric: tabular-nums;
   }
 
-  .is-own-edition {
+  .is-own-release {
     border-inline-start-color: var(--accent);
     background: var(--bg-subtle);
   }
 
-  .is-own-edition .event-date {
+  .is-own-release .event-date {
     color: var(--accent-strong);
     font-weight: 700;
   }
 
-  .is-own-edition .event-title {
+  .is-own-release .event-title {
     font-size: var(--text-xl);
   }
 

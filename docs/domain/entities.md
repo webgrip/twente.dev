@@ -2,7 +2,7 @@
 
 *Generated from `model.yaml` — do not edit by hand.*
 
-## Edition
+## Release
 *Context: Editie*
 
 Eén genummerde avond, van datumbesluit tot gepubliceerd verslag.
@@ -13,11 +13,11 @@ Eén genummerde avond, van datumbesluit tot gepubliceerd verslag.
 | `theme` | `string` | yes | Eén woord dat de avond typeert, bijvoorbeeld Reconnect. |
 | `date` | `datetime` | yes | Doorgaans de eerste woensdag van de maand. Let op de winter/zomertijdovergang. |
 | `capacity` | `int` | yes | Wat de zaal echt kan, niet wat we hopen. |
-| `venue` | `Venue` | yes | De zaal van deze avond. Kan per Edition wisselen. |
+| `venue` | `Venue` | yes | De zaal van deze avond. Kan per Release wisselen. |
 | `slots` | `Slot[]` | yes | Er zijn er altijd twee. Gevuld of leeg, nooit meer of minder. |
 
 **Relationships**
-- has_many **Talk** — Twee bij een volwaardige Edition, nul bij een lichte avond.
+- has_many **Talk** — Twee bij een volwaardige Release, nul bij een lichte avond.
 - references **Host** — De organisatie die de zaal levert.
 
 **Lifecycle**
@@ -29,7 +29,7 @@ stateDiagram-v2
     Aangekondigd --> Aanmelden_open : Registration-kanaal live gezet
     Aanmelden_open --> Programma_rond : Twee Speakers bevestigd (R6)
     Programma_rond --> Gehouden : De avond zelf
-    Gehouden --> Gearchiveerd : Editieverslag gepubliceerd, binnen tien werkdagen
+    Gehouden --> Gearchiveerd : Release notes gepubliceerd, binnen tien werkdagen
 ```
 
 ## Talk
@@ -45,7 +45,7 @@ Ongeveer een halfuur gesproken, één claim, één voorbeeld, één vraag.
 
 **Relationships**
 - belongs_to **Speaker** — Precies één Speaker per Talk.
-- belongs_to **Edition**
+- belongs_to **Release**
 
 ## Host
 *Context: Editie*
@@ -58,13 +58,13 @@ De organisatie die de zaal levert, onder de waarborgen van R4.
 | `editionsCommitted` | `int` |  | Het aantal edities dat publiek is toegezegd. Eindig, en hoogstens wat de host werkelijk heeft toegezegd. |
 
 **Relationships**
-- has_many **Edition** — Een Host kan meerdere Editions achter elkaar leveren.
+- has_many **Release** — Een Host kan meerdere Releases achter elkaar leveren.
 - has_one **Venue** — De ruimte die de Host beschikbaar stelt.
 
 ## Venue
 *Context: Editie*
 
-De ruimte waar een Edition gehouden wordt.
+De ruimte waar een Release gehouden wordt.
 
 | Attribute | Type | Required | Description |
 |---|---|---|---|
@@ -73,12 +73,12 @@ De ruimte waar een Edition gehouden wordt.
 | `city` | `string` | yes | Een van de gemeenten uit Twente. |
 
 **Relationships**
-- has_many **Edition** — Een Venue kan meerdere Editions herbergen.
+- has_many **Release** — Een Venue kan meerdere Releases herbergen.
 
 ## Slot
 *Context: Editie*
 
-Een van de twee programmaplaatsen van een Edition.
+Een van de twee programmaplaatsen van een Release.
 
 | Attribute | Type | Required | Description |
 |---|---|---|---|

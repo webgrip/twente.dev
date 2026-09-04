@@ -2,18 +2,18 @@
 
 *Generated from `model.yaml` — do not edit by hand.*
 
-## EditionAnnounced
+## ReleaseAnnounced
 
 Datum, stad en venue worden publiek.
 
-**Concerns:** Edition  
+**Concerns:** Release  
 **Triggers:** De Open Call kan de deur uit en de persoonlijke sprekervragen worden verstuurd.  
 
 ## RegistrationOpened
 
 Het aanmeldkanaal gaat open.
 
-**Concerns:** Edition  
+**Concerns:** Release  
 **Triggers:** Het aanmeldgetal wordt het bewijsmateriaal in spreker- en partnervragen.  
 
 ## SpeakerConfirmed
@@ -23,9 +23,9 @@ Een Speaker bevestigt de datum.
 **Concerns:** Speaker  
 **Triggers:** De naam mag op de site (R5) en het is een eigen aankondigingsmoment.  
 
-## EditionHeld
+## ReleaseHeld
 
 De avond heeft plaatsgevonden.
 
-**Concerns:** Edition  
+**Concerns:** Release  
 **Triggers:** Bedankmail naar Speakers binnen drie dagen, verslag binnen tien werkdagen.  

@@ -22,39 +22,11 @@ Content die aan een echte regionale organisatie wordt toegeschreven, komt uit de
 
 ### R11
 
-twente.dev draait geen Edition op de avond van een Community uit de directory, en benadert hun bestaande sponsors niet. Slaat niet op de eigen Kanalen, want die zijn van twente.dev zelf.
+twente.dev draait geen Release op de avond van een Community uit de directory, en benadert hun bestaande sponsors niet. Slaat niet op de eigen Kanalen, want die zijn van twente.dev zelf.
 
 **Why:** Het staat zo in het partnercompact. Een directory die je concurrent blijkt te zijn, is een directory waar niemand meer in wil staan.
 
-**Also applies to:** Edition
-
-## Edition
-
-### R1
-
-twente.dev wordt altijd met kleine letters geschreven, ook aan het begin van een zin.
-
-**Why:** Het is een domeinnaam en de merkregel; een hoofdletter maakt er een bedrijfsnaam van.
-
-### R2
-
-De feiten van de huidige Edition (datum, tijden, stad, venue, capaciteit, kosten) staan uitsluitend in src/config/site.ts. Geen enkele pagina herhaalt ze als letterlijke tekst.
-
-**Why:** Herhaalde feiten lopen uiteen, en mensen boeken reizen op deze velden.
-
-### R6
-
-Zijn op T−4 weken niet beide Slots gevuld, dan schuift de Edition op naar de volgende maand en reist het nummer mee. Een avond met een TBA-programma gaat niet door.
-
-**Why:** Een leeg programma dat toch wordt aangekondigd kost meer vertrouwen dan een datum die opschuift met de reden erbij. Opschuiven kan omdat het ritme een belofte over de eerste woensdag is en niet over de nummerreeks.
-
-**Also applies to:** Speaker
-
-### R10
-
-Een Edition valt op de eerste woensdag van de maand. Verplaatsen mag, mits de reden erbij wordt gezegd, en de volgende datum staat op de site voordat de vorige Edition voorbij is.
-
-**Why:** Een datum die iedereen zelf kan uitrekenen breekt niet, en een pauze zonder aangekondigde terugkeer is hoe communities doodgaan.
+**Also applies to:** Release
 
 ## Host
 
@@ -74,7 +46,7 @@ Een Host wordt publiek genoemd met een eindig aantal edities, en dat aantal is h
 
 ### R8
 
-De nieuwsbrief is één lijst met één afmeldknop. Wie zijn adres achterlaat krijgt de Field Reports, de Open Calls en de aankondigingen rond een Edition, en de opt-intekst noemt ze alle drie.
+De nieuwsbrief is één lijst met één afmeldknop. Wie zijn adres achterlaat krijgt de Field Reports, de Open Calls en de aankondigingen rond een Release, en de opt-intekst noemt ze alle drie.
 
 **Why:** Aparte lijsten per soort zijn administratie zonder opbrengst zolang er één afzender en een handvol verzendingen per kwartaal zijn. Wat wél moet: niet meer beloven dan je stuurt, en niet minder. Een lijst die naar één soort post is vernoemd, belooft minder dan hij levert.
 
@@ -84,11 +56,39 @@ De nieuwsbrief is één lijst met één afmeldknop. Wie zijn adres achterlaat kr
 
 ### R13
 
-Boven de capaciteit accepteren mag, met een overboekfactor, en wie daarboven komt staat op de Wachtlijst. De factor komt uit de Opkomst van de vorige Edition; zolang die er niet is, is het een opgeschreven schatting die na de eerste meting vervalt.
+Boven de capaciteit accepteren mag, met een overboekfactor, en wie daarboven komt staat op de Wachtlijst. De factor komt uit de Opkomst van de vorige Release; zolang die er niet is, is het een opgeschreven schatting die na de eerste meting vervalt.
 
 **Why:** Een gratis avond heeft no-shows, dus precies op de capaciteit accepteren levert lege stoelen op die iemand had willen hebben. De factor hangt aan een meting zodat hij zichzelf corrigeert in plaats van een gevoel te blijven.
 
 **Also applies to:** Opkomst, Wachtlijst
+
+## Release
+
+### R1
+
+twente.dev wordt altijd met kleine letters geschreven, ook aan het begin van een zin.
+
+**Why:** Het is een domeinnaam en de merkregel; een hoofdletter maakt er een bedrijfsnaam van.
+
+### R2
+
+De feiten van de huidige Release (datum, tijden, stad, venue, capaciteit, kosten) staan uitsluitend in src/config/site.ts. Geen enkele pagina herhaalt ze als letterlijke tekst.
+
+**Why:** Herhaalde feiten lopen uiteen, en mensen boeken reizen op deze velden.
+
+### R6
+
+Zijn op T−4 weken niet beide Slots gevuld, dan schuift de Release op naar de volgende maand en reist het nummer mee. Een avond met een TBA-programma gaat niet door.
+
+**Why:** Een leeg programma dat toch wordt aangekondigd kost meer vertrouwen dan een datum die opschuift met de reden erbij. Opschuiven kan omdat het ritme een belofte over de eerste woensdag is en niet over de nummerreeks.
+
+**Also applies to:** Speaker
+
+### R10
+
+Een Release valt op de eerste woensdag van de maand. Verplaatsen mag, mits de reden erbij wordt gezegd, en de volgende datum staat op de site voordat de vorige Release voorbij is.
+
+**Why:** Een datum die iedereen zelf kan uitrekenen breekt niet, en een pauze zonder aangekondigde terugkeer is hoe communities doodgaan.
 
 ## Speaker
 

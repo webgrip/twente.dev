@@ -3,7 +3,7 @@ import type { Locale } from './config.ts';
 
 export const ROUTES = {
   home: { nl: '', en: '' },
-  edition001: { nl: '001', en: '001' },
+  release001: { nl: '001', en: '001' },
   events: { nl: 'events', en: 'events' },
   companies: { nl: 'bedrijven', en: 'companies' },
   communities: { nl: 'communities', en: 'communities' },

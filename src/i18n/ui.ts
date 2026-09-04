@@ -46,16 +46,16 @@ export const nl = {
     'Bestaande meetups houden hun eigen identiteit, hun eigen lijst en hun eigen podium. twente.dev maakt ze beter vindbaar en verwijst altijd door naar de bron.',
   'home.newsletter.title': 'De nieuwsbrief',
   'home.newsletter.body':
-    'We zijn net begonnen. twente.dev zoekt developers en gelijkgestemde professionals uit Twente die dit mee willen opbouwen. Eén lijst met één afmeldknop: de field reports, de open calls en de aankondigingen rond een editie. Zo weet je het zodra aanmelden opent.',
+    'We zijn net begonnen. twente.dev zoekt developers en gelijkgestemde professionals uit Twente die dit mee willen opbouwen. Eén lijst met één afmeldknop: de field reports, de open calls en de aankondigingen rond een release. Zo weet je het zodra aanmelden opent.',
   'home.newsletter.write': 'Schrijf er zelf een',
   'home.agenda.empty': 'Verder staat er nog niets in de gedeelde agenda.',
   'home.posts.all': 'Alle artikelen',
 
-  'edition.venueTba': 'Locatie volgt',
-  'edition.language': 'Nederlands; Engels zodra er internationale deelnemers zijn',
-  'edition.registrationOpens': 'Aanmelden opent',
-  'edition.details': 'Alles over twente.dev/001',
-  'edition.free': 'Gratis',
+  'release.venueTba': 'Locatie volgt',
+  'release.language': 'Nederlands; Engels zodra er internationale deelnemers zijn',
+  'release.registrationOpens': 'Aanmelden opent',
+  'release.details': 'Alles over twente.dev/001',
+  'release.free': 'Gratis',
 
   'newsletter.subscribe': 'Aanmelden',
   'newsletter.mailFallback': 'Mail ons om aan te haken',
@@ -91,7 +91,7 @@ export const nl = {
   'events.listedBy': 'Vermeld door twente.dev',
   'events.moreTitle': 'Meer volgt',
   'events.moreBody':
-    'De agenda groeit met wat er wordt aangemeld. Ken je een tech-event in Twente, of heb je een zaal voor een volgende editie? Beide routes staan open.',
+    'De agenda groeit met wat er wordt aangemeld. Ken je een tech-event in Twente, of heb je een zaal voor een volgende release? Beide routes staan open.',
   'events.offerVenue': 'Bied een zaal aan',
   'events.inCollaboration': 'In samenwerking met twente.dev',
 
@@ -127,8 +127,8 @@ export const nl = {
   'blog.onlyInOtherLocale': 'Dit artikel is alleen in het Engels beschikbaar.',
 
   'pillar.field-reports': 'Field report',
-  'pillar.edition-reports': 'Editieverslag',
-  'pillar.week-in-twente-tech': 'Week in Twente Tech',
+  'pillar.release-notes': 'Release notes',
+  'pillar.upstream': 'Upstream',
 
   'search.label': 'Zoeken',
   'search.placeholder': 'Zoek op de site…',
@@ -208,16 +208,16 @@ export const en: Record<UIKey, string> = {
     'Existing meetups keep their own identity, their own list and their own stage. twente.dev makes them easier to find and always links to the source.',
   'home.newsletter.title': 'The newsletter',
   'home.newsletter.body':
-    'We are just getting started. twente.dev is looking for developers and like-minded professionals from Twente who want to help build this. One list with one unsubscribe button: the field reports, the open calls and the announcements around an edition. That way you know as soon as registration opens.',
+    'We are just getting started. twente.dev is looking for developers and like-minded professionals from Twente who want to help build this. One list with one unsubscribe button: the field reports, the open calls and the announcements around a release. That way you know as soon as registration opens.',
   'home.newsletter.write': 'Write one yourself',
   'home.agenda.empty': 'Nothing else is in the shared calendar yet.',
   'home.posts.all': 'All articles',
 
-  'edition.venueTba': 'Venue to be announced',
-  'edition.language': 'Dutch by default; English whenever internationals join',
-  'edition.registrationOpens': 'Registration opens',
-  'edition.details': 'Everything about twente.dev/001',
-  'edition.free': 'Free',
+  'release.venueTba': 'Venue to be announced',
+  'release.language': 'Dutch by default; English whenever internationals join',
+  'release.registrationOpens': 'Registration opens',
+  'release.details': 'Everything about twente.dev/001',
+  'release.free': 'Free',
 
   'newsletter.subscribe': 'Subscribe',
   'newsletter.mailFallback': 'Email us to be added',
@@ -253,7 +253,7 @@ export const en: Record<UIKey, string> = {
   'events.listedBy': 'Listed by twente.dev',
   'events.moreTitle': 'More to come',
   'events.moreBody':
-    'The calendar grows with what gets submitted. Know a tech event in Twente, or have a room for a later edition? Both routes are open.',
+    'The calendar grows with what gets submitted. Know a tech event in Twente, or have a room for a later release? Both routes are open.',
   'events.offerVenue': 'Offer a venue',
   'events.inCollaboration': 'In collaboration with twente.dev',
 
@@ -289,8 +289,8 @@ export const en: Record<UIKey, string> = {
   'blog.onlyInOtherLocale': 'This article is only available in Dutch.',
 
   'pillar.field-reports': 'Field report',
-  'pillar.edition-reports': 'Edition report',
-  'pillar.week-in-twente-tech': 'Week in Twente Tech',
+  'pillar.release-notes': 'Release notes',
+  'pillar.upstream': 'Upstream',
 
   'search.label': 'Search',
   'search.placeholder': 'Search the site…',

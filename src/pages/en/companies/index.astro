@@ -2,24 +2,24 @@
 import CompaniesPage from '../../../templates/CompaniesPage.astro';
 import { routePath } from '../../../i18n/routes.ts';
 import { formatDate } from '../../../i18n/utils.ts';
-import { CONTACT_EMAIL, EDITION_001, editionName } from '../../../config/site.ts';
+import { CONTACT_EMAIL, RELEASE_001, releaseName } from '../../../config/site.ts';
 ---
 
 <CompaniesPage
   locale="en"
   title="Companies"
-  description="Letting your people go, or offering a room for a later edition."
+  description="Letting your people go, or offering a room for a later release."
 >
   <p>
-    <a href={routePath('edition001', 'en')}>{editionName(EDITION_001.number)}</a> is on {
-      formatDate(EDITION_001.doors, 'en')
-    } at {EDITION_001.venueName} in {EDITION_001.city}, so the room is sorted. Most of what we need
+    <a href={routePath('release001', 'en')}>{releaseName(RELEASE_001.number)}</a> is on {
+      formatDate(RELEASE_001.doors, 'en')
+    } at {RELEASE_001.venueName} in {RELEASE_001.city}, so the room is sorted. Most of what we need
     from companies does not involve a room either: let your people go that evening and count it as
     work time. For most companies that is the real step.
   </p>
   <p>
-    Editions rotate across the region every month, so for later ones we are always looking for a new
-    room that fits {EDITION_001.capacity} people, with food and drinks. Your name goes on the edition
+    Releases rotate across the region every month, so for later ones we are always looking for a new
+    room that fits {RELEASE_001.capacity} people, with food and drinks. Your name goes on the edition
     page and up in the room, and that is where it stops. A speaking slot is not part of it, not even for
     the host, because that runs through the
     <a href={routePath('contribute', 'en')}>open call</a>. The attendee list goes to nobody, and the

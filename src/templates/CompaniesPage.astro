@@ -2,7 +2,7 @@
 import type { Locale } from '../i18n/config.ts';
 import { formatDate, useTranslations } from '../i18n/utils.ts';
 import { routePath } from '../i18n/routes.ts';
-import { EDITION_001, editionName } from '../config/site.ts';
+import { RELEASE_001, releaseName } from '../config/site.ts';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHeader from '../components/PageHeader.astro';
 
@@ -14,8 +14,8 @@ interface Props {
 
 const { locale, title, description } = Astro.props;
 const t = useTranslations(locale);
-const host = EDITION_001.venueName;
-const hostLogo = EDITION_001.venueLogo;
+const host = RELEASE_001.venueName;
+const hostLogo = RELEASE_001.venueLogo;
 ---
 
 <BaseLayout locale={locale} routeKey="companies" title={title} description={description}>
@@ -29,7 +29,7 @@ const hostLogo = EDITION_001.venueLogo;
         host && (
           <div class="host-card">
             <p class="label-mono host-kicker">
-              {t('companies.hostKicker')} // {editionName(EDITION_001.number)}
+              {t('companies.hostKicker')} // {releaseName(RELEASE_001.number)}
             </p>
             {hostLogo ? (
               <img
@@ -45,15 +45,15 @@ const hostLogo = EDITION_001.venueLogo;
               <p class="host-name">{host}</p>
             )}
             <p class="host-where">
-              {EDITION_001.venueAddress} · {EDITION_001.city}
+              {RELEASE_001.venueAddress} · {RELEASE_001.city}
             </p>
             <p class="host-when">
-              <time datetime={EDITION_001.doors.toISOString()}>
-                {formatDate(EDITION_001.doors, locale)}
+              <time datetime={RELEASE_001.doors.toISOString()}>
+                {formatDate(RELEASE_001.doors, locale)}
               </time>
             </p>
             <p class="host-link">
-              <a href={routePath('edition001', locale)}>{t('edition.details')} →</a>
+              <a href={routePath('release001', locale)}>{t('release.details')} →</a>
             </p>
           </div>
         )

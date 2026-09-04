@@ -1,7 +1,7 @@
 ---
 title: 'Open call: vertel Twente wat jij bouwt op twente.dev/001'
 description: >-
-  Twee talks van ongeveer een halfuur openen de eerste editie op
+  Twee talks van ongeveer een halfuur openen de eerste release op
   4 november. Eén daarvan kan van jou zijn. Spreekervaring is niet nodig.
 locale: nl
 translationKey: open-call-001
@@ -47,7 +47,7 @@ onderwijs: elke discipline is welkom, en juist de kruisbestuiving is het punt va
 Spreekervaring is niet nodig. Geaccepteerde bijdragen vormen we samen: een redactioneel gesprek,
 een slidetemplate, een technische repetitie, een zichtbaar tijdsignaal op de avond zelf, en
 reiskosten die we vooraf afspreken. De zaal is bewust klein; de actuele capaciteit staat op de
-[editiepagina](/nl/001). Het format is ontworpen om vriendelijk te zijn voor sprekers die dit
+[releasepagina](/nl/001). Het format is ontworpen om vriendelijk te zijn voor sprekers die dit
 voor het eerst doen.
 
 ## Wat we niet accepteren

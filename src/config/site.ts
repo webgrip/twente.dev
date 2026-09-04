@@ -22,7 +22,7 @@ export const REGISTRATION_OPENS = new Date('2026-09-14T09:00:00+02:00');
 const VENUE_NAME = 'Code14';
 const VENUE_ADDRESS = 'Hogepad 81';
 
-export const EDITION_001 = {
+export const RELEASE_001 = {
   number: '001',
   theme: 'Reconnect',
   doors: new Date('2026-11-04T18:00:00+01:00'),
@@ -43,9 +43,9 @@ export interface Speaker {
   talk?: { nl: string; en: string };
 }
 
-export const EDITION_001_SPEAKERS: readonly Speaker[] = [];
+export const RELEASE_001_SPEAKERS: readonly Speaker[] = [];
 
-export function editionName(number: string): string {
+export function releaseName(number: string): string {
   return `twente.dev/${number}`;
 }
 

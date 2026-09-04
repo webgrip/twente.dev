@@ -13,6 +13,7 @@
     "node": "^22.14.0 || >=24.10.0"
   },
   "packageManager": "pnpm@11.8.0",
+  "prettier": "@webgrip/prettier-config",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build && pnpm run index:search && pnpm run validate:csp && pnpm run validate:commitments",
@@ -26,7 +27,7 @@
     "format:check": "prettier --check .",
     "test": "node --test --experimental-strip-types \"src/lib/**/*.test.ts\"",
     "validate:content": "node --experimental-strip-types scripts/validate-content.ts",
-    "validate:csp": "node --experimental-strip-types scripts/validate-csp.ts",
+    "validate:csp": "webgrip-validate-csp",
     "validate:mail-auth": "node --experimental-strip-types scripts/validate-mail-auth.ts",
     "validate:mail": "node --experimental-strip-types scripts/build-mail.ts --check",
     "banners": "node --experimental-strip-types scripts/sync-editie.mjs && node scripts/export-banners.mjs",
@@ -51,6 +52,10 @@
     "@astrojs/check": "0.9.10",
     "@axe-core/playwright": "^4.10.2",
     "@eslint/js": "10.0.1",
+    "@webgrip/astro-site-toolkit": "0.2.1",
+    "@webgrip/eslint-config-astro": "0.2.0",
+    "@webgrip/prettier-config": "0.2.0",
+    "@webgrip/tsconfig": "0.2.0",
     "eslint": "10.8.0",
     "eslint-plugin-astro": "3.1.0",
     "pagefind": "1.5.2",

@@ -2,7 +2,10 @@ name = "twente-dev"
 compatibility_date = "2026-08-01"
 workers_dev = false
 
-routes = [{ pattern = "twente.dev/*", zone_name = "twente.dev" }]
+routes = [
+  { pattern = "twente.dev/*", zone_name = "twente.dev" },
+  { pattern = "mta-sts.twente.dev/*", zone_name = "twente.dev" },
+]
 
 [assets]
 directory = "./dist"

@@ -78,7 +78,6 @@ const navItems: { key: RouteKey; label: string }[] = [
 
   .site-header[data-scrolled] {
     --header-height: var(--header-height-compact);
-    --brand-size: var(--text-sm);
   }
 
   .header-inner {
@@ -99,8 +98,7 @@ const navItems: { key: RouteKey; label: string }[] = [
     font-weight: 700;
     letter-spacing: var(--tracking-tight);
     margin-inline-end: auto;
-    font-size: var(--brand-size, var(--text-base));
-    transition: font-size var(--duration-base) var(--ease-out);
+    font-size: var(--text-base);
   }
 
   .brand-mark {

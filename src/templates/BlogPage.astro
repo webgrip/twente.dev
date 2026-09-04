@@ -23,7 +23,7 @@ const posts = await getPosts(locale);
   title={t('blog.title')}
   description={t('blog.description')}
 >
-  <div class="container">
+  <div class="container container--reading">
     <PageHeader
       title={t('blog.title')}
       description={t('blog.description')}
@@ -45,7 +45,7 @@ const posts = await getPosts(locale);
 
 <style>
   .post-list {
-    max-width: var(--width-prose);
+    max-width: none;
   }
 
   .empty {

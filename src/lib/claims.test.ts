@@ -19,7 +19,7 @@ const FORBIDDEN: Rule[] = [
     name: 'em dash in copy',
     pattern: /—/,
     rationale: 'house style 2026-09-02: geen em dashes in site copy — rewrite the sentence',
-    active: false,
+    active: true,
   },
   {
     name: 'single slash as separator',
@@ -31,7 +31,7 @@ const FORBIDDEN: Rule[] = [
     name: 'niet-X-maar-Y template',
     pattern: /\bniet\s+[^.;:\n]{1,45}?\bmaar\b/i,
     rationale: 'house style 2026-09-02: the contrastive niet-X-maar-Y frame is banned in copy',
-    active: false,
+    active: true,
   },
   {
     name: 'wrong venue city',

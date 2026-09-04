@@ -1,4 +1,4 @@
-# Meetup-beschrijving — twente.dev/001
+# Meetup-beschrijving voor twente.dev/001
 
 Kopieer de blokken hieronder naar meetup.com. Feiten komen uit
 `src/config/site.ts` en het programma uit `EditionPage`; verandert daar iets,
@@ -19,7 +19,7 @@ parkeerinformatie te staan.
 **Titel**
 
 ```
-twente.dev/001 — Reconnect
+twente.dev/001: Reconnect
 ```
 
 **Beschrijving**
@@ -80,7 +80,7 @@ We maken foto's en video-opnames van de avond, voor het archief en om te laten z
 **Titel**
 
 ```
-twente.dev/001 — Reconnect
+twente.dev/001: Reconnect
 ```
 
 **Beschrijving**

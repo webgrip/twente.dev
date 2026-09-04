@@ -42,8 +42,8 @@ importers:
         specifier: ^4.10.2
         version: 4.13.0(playwright-core@1.62.1)
       '@webgrip/astro-site-toolkit':
-        specifier: 0.2.0
-        version: 0.2.0(@axe-core/playwright@4.13.0(playwright-core@1.62.1))(playwright-core@1.62.1)
+        specifier: 0.2.1
+        version: 0.2.1(@axe-core/playwright@4.13.0(playwright-core@1.62.1))(playwright-core@1.62.1)
       '@webgrip/eslint-config-astro':
         specifier: 0.2.0
         version: 0.2.0(@emnapi/core@2.0.0-alpha.3)(@emnapi/runtime@2.0.0-alpha.3)(@typescript-eslint/parser@8.66.0(eslint@10.8.0)(typescript@5.9.3))(eslint@10.8.0)(typescript@5.9.3)
@@ -1234,8 +1234,8 @@ packages:
   '@vscode/l10n@0.0.18':
     resolution: {integrity: sha512-KYSIHVmslkaCDyw013pphY+d7x1qV8IZupYfeIfzNA+nsaWHbn5uPuQRvdRFsa9zFzGeudPuoGoZ1Op4jrJXIQ==}
 
-  '@webgrip/astro-site-toolkit@0.2.0':
-    resolution: {integrity: sha512-+kt1ZXnSne/aBehdptqV32oe5SknSQQktDpMg+g2uSJxeTrMp7KRa3h2DAUnBMahUyY4GWhPVsC/gLv/va3XBA==}
+  '@webgrip/astro-site-toolkit@0.2.1':
+    resolution: {integrity: sha512-R9J9e7r4ZNRVctT61CFxSKJHMKwrMqCBTXXwfE9hdYZYixkae+ULZWtcejaOz06RtL/QfgWSOFFxYts1zUHKdA==}
     engines: {node: ^22.14.0 || >=24.10.0}
     hasBin: true
     peerDependencies:
@@ -3608,7 +3608,7 @@ snapshots:
 
   '@vscode/l10n@0.0.18': {}
 
-  '@webgrip/astro-site-toolkit@0.2.0(@axe-core/playwright@4.13.0(playwright-core@1.62.1))(playwright-core@1.62.1)':
+  '@webgrip/astro-site-toolkit@0.2.1(@axe-core/playwright@4.13.0(playwright-core@1.62.1))(playwright-core@1.62.1)':
     optionalDependencies:
       '@axe-core/playwright': 4.13.0(playwright-core@1.62.1)
       playwright-core: 1.62.1

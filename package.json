@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "description": "twente.dev \u2014 the homepage for software developers in Twente. Bilingual (NL/EN) static community hub and blog.",
+  "description": "twente.dev — the homepage for software developers in Twente. Bilingual (NL/EN) static community hub and blog.",
   "repository": {
     "type": "git",
     "url": "https://forgejo.webgrip.dev/webgrip/twente.dev.git"
@@ -45,7 +45,7 @@
   "devDependencies": {
     "@astrojs/check": "0.9.10",
     "@axe-core/playwright": "^4.10.2",
-    "@webgrip/astro-site-toolkit": "0.2.0",
+    "@webgrip/astro-site-toolkit": "0.2.1",
     "@webgrip/eslint-config-astro": "0.2.0",
     "@webgrip/prettier-config": "0.2.0",
     "@webgrip/tsconfig": "0.2.0",

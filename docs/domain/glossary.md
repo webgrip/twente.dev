@@ -18,7 +18,7 @@ Een bestaande groep in de regio die van iemand anders is en met toestemming in d
 ## Editieverslag
 *Context: Publicatie*
 
-Het gepubliceerde stuk over een Edition die geweest is, met de slides, de foto's en wat er wel en niet werkte. Verschijnt binnen tien werkdagen en maakt van een avond een Archief. Onderscheidt zich van een Field Report doordat het over de avond zelf gaat en niet over het werk van één persoon.
+Het gepubliceerde stuk over een Edition die geweest is, met de slides, de foto's en wat er wel en niet werkte. Verschijnt binnen tien werkdagen en maakt van een avond een Archief. Onderscheidt zich van een Field Report doordat het over de avond zelf gaat en niet over het werk van één persoon, en doordat er geen geïnterviewde aan te pas komt.
 
 **Also known as:** edition report  
 **Do not use:** meetup report, naverslag  
@@ -37,7 +37,7 @@ Eén genummerde avond, geschreven als twente.dev/001. Onderscheidt zich van een 
 ## Field Report
 *Context: Publicatie*
 
-Een geschreven stuk uit de praktijk in de regio, gepubliceerd op de site en meegestuurd met de nieuwsbrief. Het is één van twee dingen: een interview met iemand die hier bouwt, of één concrete les die degene die hem leerde zelf opschrijft. Ook de lessen van de organisator zelf vallen eronder. Onderscheidt zich van een Talk doordat het geschreven is en niet aan een Edition hangt.
+Een interview met iemand die in de regio iets bouwt, afgenomen en opgeschreven door twente.dev: wij stellen de vragen, noteren de antwoorden en maken er een verslag van. Gepubliceerd op de site en meegestuurd met de nieuwsbrief. Onderscheidt zich van een Talk doordat het geschreven is en niet aan een Edition hangt, en van een Editieverslag doordat het over het werk van één persoon gaat en niet over een avond.
 
 **Do not use:** field note, veldnotitie, portret  
 **Examples:** Een interview met een embedded engineer bij Thales over wat er misging; Ryan over wat het kostte om /001 vier weken op te schuiven  

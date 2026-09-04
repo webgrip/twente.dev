@@ -7,6 +7,7 @@ import { routePath } from '../../i18n/routes.ts';
 import { CONTACT_EMAIL, PRETALX_CFP_URL, REPO_URL, editionName } from '../../config/site.ts';
 
 const edition = editionName('001');
+const openCallMail = `mailto:${CONTACT_EMAIL}?subject=Open%20call%20${edition}`;
 ---
 
 <ProsePage
@@ -54,9 +55,11 @@ const edition = editionName('001');
         ) : (
           <p>
             The open call currently runs by e-mail: send three sentences on what it is about to{' '}
-            <a href={`mailto:${CONTACT_EMAIL}?subject=Open%20call%20${edition}`}>{CONTACT_EMAIL}</a>
-            . If there are more proposals than slots, the call moves to a public submission tool
-            with availability and review — it is ready, and it opens when it adds something.
+            <span>
+              <a href={openCallMail}>{CONTACT_EMAIL}</a>.
+            </span>
+            If there are more proposals than slots, the call moves to a public submission tool with
+            availability and review — it is ready, and it opens when it adds something.
           </p>
         )
       }

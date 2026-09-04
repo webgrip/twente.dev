@@ -7,6 +7,7 @@ import { routePath } from '../../i18n/routes.ts';
 import { CONTACT_EMAIL, PRETALX_CFP_URL, REPO_URL, editionName } from '../../config/site.ts';
 
 const edition = editionName('001');
+const openCallMail = `mailto:${CONTACT_EMAIL}?subject=Open%20call%20${edition}`;
 ---
 
 <ProsePage
@@ -56,8 +57,10 @@ const edition = editionName('001');
         ) : (
           <p>
             De open call loopt op dit moment per mail: stuur in drie zinnen waar het over gaat naar{' '}
-            <a href={`mailto:${CONTACT_EMAIL}?subject=Open%20call%20${edition}`}>{CONTACT_EMAIL}</a>
-            . Zijn er meer voorstellen dan plekken, dan verhuist de call naar een openbaar
+            <span>
+              <a href={openCallMail}>{CONTACT_EMAIL}</a>.
+            </span>
+            Zijn er meer voorstellen dan plekken, dan verhuist de call naar een openbaar
             indienformulier met beschikbaarheid en review — dat staat klaar en gaat pas open als het
             iets toevoegt.
           </p>

@@ -6,15 +6,15 @@ agent). Originally filed as the blocker on all outreach — VIK-798.
 > **Verified state, 2026-09-04** (measured with `dig` against 8.8.8.8, not asserted). Both
 > zones are on the same Cloudflare account (`lynn`/`nadia.ns.cloudflare.com`).
 >
-> |         | twente.dev                          | webgrip.nl               | ryangrippeling.nl |
-> | ------- | ----------------------------------- | ------------------------ | ----------------- |
-> | MX      | Google Workspace, `smtp.google.com` | Google Workspace         | **none**          |
-> | SPF     | ✅ Google include                   | ✅ Google include        | ✅ `-all`, no MX  |
-> | DKIM    | ✅ 408 chars, `google` selector     | ✅ 408 chars             | ❌ absent         |
-> | DMARC   | ✅ `p=none`, two `rua`, `fo=1`      | ✅ `p=none`, two `rua`   | ✅ `p=reject`     |
-> | DNSSEC  | ❌ deliberately deferred            | ❌ deliberately deferred | ❌                |
-> | MTA-STS | 🔶 policy served, TXT pending       | ❌ not yet               | ❌ n/a            |
-> | CAA     | ❌ none, any CA may issue           | ❌ none                  | ❌ none           |
+> |         | twente.dev                          | webgrip.nl               |
+> | ------- | ----------------------------------- | ------------------------ |
+> | MX      | Google Workspace, `smtp.google.com` | Google Workspace         |
+> | SPF     | ✅ Google include                   | ✅ Google include        |
+> | DKIM    | ✅ 408 chars, `google` selector     | ✅ 408 chars             |
+> | DMARC   | ✅ `p=none`, two `rua`, `fo=1`      | ✅ `p=none`, two `rua`   |
+> | DNSSEC  | ❌ deliberately deferred            | ❌ deliberately deferred |
+> | MTA-STS | 🔶 policy served, TXT pending       | ❌ not yet               |
+> | CAA     | ❌ none, any CA may issue           | ❌ none                  |
 >
 > **twente.dev moved from domain alias to secondary domain on 2026-09-04**, MX included. The
 > DKIM key was reminted that day and ends `OG82QF3EobbNIQIDAQAB`; the pre-migration key ended
@@ -67,7 +67,7 @@ the domain known before it will mint a DKIM key.
 
 ## Still open
 
-Ordered by what unblocks what. Items 1 and 2 are quick; 3 gates 6.
+Ordered by what unblocks what. Item 1 is quick; 4 gates 5.
 
 1. ~~**Verify outbound DKIM alignment.**~~ **Done, 2026-09-04.** Outbound from
    `hello@twente.dev` lands at outlook.com with `dkim=pass (signature was verified)
@@ -77,16 +77,14 @@ header.d=twente.dev`, `dmarc=pass` and `compauth=pass reason=100`. mail-tester s
    **But note which leg carries it.** SPF passes on the envelope
    (`smtp.mailfrom=webgrip.nl`) while the header From is `twente.dev`, so SPF is _not_
    aligned and DMARC is passing on DKIM alone. That is valid, and it is one leg. If DKIM
-   signing ever breaks (key rotation, or the alias-to-secondary-domain switch in item 3),
+   signing ever breaks (key rotation, or the alias-to-secondary-domain switch in item 2),
    DMARC fails the same day rather than degrading. Re-run this test after any change to
    the Workspace domain setup.
    The 8.8 rather than 10 is content, not authentication: `HTML_IMAGE_ONLY_16` costs
    1.048 for too little text against the images, and `HEADER_FROM_DIFFERENT_DOMAINS`
    costs 0.25 for the envelope/From split above. Worth fixing in the announcement
    template before it goes to a real list.
-2. ~~**Lock down ryangrippeling.nl.**~~ **Done, 2026-09-04.** `v=spf1 -all` and
-   `_dmarc` `p=reject` are published; the domain has no MX and now cannot be spoofed.
-3. ~~**Decide: domain alias or secondary domain for twente.dev.**~~ **Done, 2026-09-04.**
+2. ~~**Decide: domain alias or secondary domain for twente.dev.**~~ **Done, 2026-09-04.**
    Secondary domain, licence included, executed the same evening; see the state table above.
    The analysis that led there stands below, because routes A and B remain the fallbacks if
    this ever has to be unwound.
@@ -107,32 +105,31 @@ header.d=twente.dev`, `dmarc=pass` and `compauth=pass reason=100`. mail-tester s
    domain, regenerate DKIM (new key, new TXT), then re-run item 1. Groups on a secondary
    domain are free; only a _user account_ there costs a licence, and that is what item 5 of
    the migration plan buys.
-4. **Google Postmaster Tools** for both domains. Free, and the only place the real spam rate
+3. **Google Postmaster Tools** for both domains. Free, and the only place the real spam rate
    and authentication rate are visible rather than guessed at.
-5. ~~**Registrar transfer**, Hostnet → Namecheap, for webgrip.nl and ryangrippeling.nl.~~
+4. ~~**Registrar transfer**, Hostnet → Namecheap, for webgrip.nl.~~
    **Done, verified 2026-09-04** with `whois`: both `.nl` domains answer `Registrar: NAMECHEAP,
 INC.` The ccTLD worry was unfounded. Cloudflare Registrar was never an option here; it does
    not carry `.nl`.
-6. **DNSSEC** on all zones. **Unblocked by item 5, and webgrip.nl is already halfway there in a
+5. **DNSSEC** on all zones. **Unblocked by item 4, and webgrip.nl is already halfway there in a
    way worth naming.** Measured 2026-09-04: `webgrip.nl` publishes a `DNSKEY` (algorithm 13) and
    **no `DS` at the parent**, so Cloudflare signs the zone while no resolver validates it. That
    is the harmless half of the pair. The dangerous half is the reverse, a `DS` with no matching
    key, which resolves as SERVFAIL and is invisible from a browser on a cached resolver.
    Finishing it is one action per zone: take the DS values Cloudflare generates and enter them at
    Namecheap under Domain List → Manage → Advanced DNS → DNSSEC, as KeyTag, Algorithm, DigestType
-   and Digest. `twente.dev` and `ryangrippeling.nl` have neither half yet, so those start in the
-   Cloudflare dashboard.
-7. **MTA-STS + TLS-RPT** on twente.dev. **Unblocked and half-shipped, 2026-09-04.** Decision 3
+   and Digest. `twente.dev` has neither half yet, so it starts in the Cloudflare dashboard.
+6. **MTA-STS + TLS-RPT** on twente.dev. **Unblocked and half-shipped, 2026-09-04.** Decision 2
    is taken, so the `mx:` list is knowable: the policy at `public/.well-known/mta-sts.txt` is
    served from the Worker on `mta-sts.twente.dev` in `mode: testing`, listing `smtp.google.com`
    plus the classic `aspmx` names so a revert does not invalidate it. What remains is Ryan's
    half: the `tlsrpt@` group, the `_mta-sts` and `_smtp._tls` TXT records, and after two clean
    weeks `mode: enforce` with a bumped `id`. Publish the policy before the TXT record, never the
    other way round.
-8. **Subdomain lockdown** — `v=spf1 -all` plus `_dmarc` `p=reject` on anything that never
+7. **Subdomain lockdown** — `v=spf1 -all` plus `_dmarc` `p=reject` on anything that never
    sends, and `sp=reject` on the apex once the apex is at quarantine. Cloudflare's DMARC
    Management does not cover subdomains; these are manual.
-9. **Tighten DMARC**, after two to four weeks of clean reports. See the ladder below.
+8. **Tighten DMARC**, after two to four weeks of clean reports. See the ladder below.
 
 ---
 
@@ -243,7 +240,7 @@ geen probleem zolang de TXT klopt.
 ## Adding a second person to `conduct@`
 
 The organiser playbook calls this the first role to hand off, and registration opens on
-14 September, so this is the near-term shape of decision 3 rather than a hypothetical.
+14 September, so this is the near-term shape of decision 2 rather than a hypothetical.
 
 **The trap first.** The obvious move is to add a second Cloudflare Email Routing rule for
 `conduct@twente.dev` pointing at the second person. Cloudflare accepts it and the dashboard

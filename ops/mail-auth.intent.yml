@@ -39,10 +39,3 @@ domains:
         keyCharacters: 408
     dmarcPolicy: p=none
     dmarcReportsTo: [dmarc@webgrip.nl]
-
-  ryangrippeling.nl:
-    mx: []
-    spf: v=spf1 -all
-    dkim: []
-    dmarcPolicy: p=reject
-    dmarcReportsTo: []

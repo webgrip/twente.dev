@@ -22,16 +22,26 @@ contract, and the handful of repo rules that look like style choices but are loa
   - `do-next` (≤10) · `ready` / `needs-refinement` / `review` / `agent-ready` · `agent/<name>`
   - If no existing `theme/*` fits, that is a taxonomy decision for a human — raise it; do not
     create a label to unblock a write.
-- **Stages** are DERIVED from labels + done, never stored: Backlog (`needs-refinement`) → To Do
-  (`ready`) → Doing (`agent/<name>`) → Reviewing (`review`) → Done (completed). **DoD**: an
-  evidence comment proving (1) _deployed_ — verified against real state, not a proxy — and
-  (2) _monitored_ — names the signal that would catch regression, or why none applies.
+- **Stages live in the Kanban buckets of view 145** (ratified 2026-09-04, replacing the earlier
+  label-derived rule): Backlog · To refine · To estimate · To do · Doing · Blocked · In review ·
+  Done. The bucket is the status; `ready` / `review` / `needs-refinement` / `agent/<name>` survive
+  as taxonomy but no longer define the stage. **DoD**: an evidence comment proving (1) _deployed_ —
+  verified against real state, not a proxy — and (2) _monitored_ — names the signal that would
+  catch regression, or why none applies.
 - **Pick-up order**: the project description carries a `Pick-up queue` — ordered
   `VIK-<id> — title`, top picked up first. The MCP has no position API, so raw drag-order is not
   the queue.
 - Top-up ground truth: `git log --oneline <last-sweep>..HEAD` · `just check` ·
   `pnpm validate:content` · `curl` against the live site · audit dimensions: launch-tracker dates ·
   CI/DX · content honesty · a11y/SEO
+- **Buckets and Gantt dates need the REST API — the MCP cannot reach them.** `task_update` exposes
+  no `startDate`/`endDate` and nothing assigns a bucket, so use
+  `https://vikunja.webgrip.dev/api/v1` with the same `$VIKUNJA_API_TOKEN`: `POST /tasks/<id>` for
+  dates, `POST /projects/50/views/145/buckets/<bucketId>/tasks` with `{"task_id": n}` to move one.
+  **A partial `POST /tasks/<id>` silently blanks every field you omit** — description, due date and
+  priority all went empty once. Always GET the task, patch the fields you want, POST the whole
+  object back.
+- Web base for cross-references: `https://vikunja.webgrip.dev/tasks/<id>`
 - Instance ops (token rotation, 401s, bridge 503s):
   [`homelab-cluster` runbooks/mcp-vikunja.md](https://forgejo.webgrip.dev/webgrip/homelab-cluster)
 

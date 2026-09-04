@@ -38,16 +38,29 @@ const bands = [
 >
   <div class="hero grid-band">
     <div class="container">
-      <p class="label-mono hero-motto" lang="en">{motto}</p>
-      <h1 class="text-display">{t('home.hero.title')}</h1>
-      <p class="hero-subtitle">{t('home.hero.subtitle')}</p>
-      <div class="hero-actions">
-        <a class="button button--primary" href={routePath('edition001', locale)}>
-          {REGISTRATION_URL ? t('home.hero.ctaReserve') : t('edition.details')}
-        </a>
-        <a class="button" href={routePath('contribute', locale)}>
-          {t('home.hero.ctaContribute')}
-        </a>
+      <div class="hero-grid">
+        <div class="hero-lede">
+          <p class="label-mono hero-motto" lang="en">{motto}</p>
+          <h1 class="text-display">{t('home.hero.title')}</h1>
+          <p class="hero-subtitle">{t('home.hero.subtitle')}</p>
+          <div class="hero-actions">
+            <a class="button button--primary" href={routePath('edition001', locale)}>
+              {REGISTRATION_URL ? t('home.hero.ctaReserve') : t('edition.details')}
+            </a>
+            <a class="button" href={routePath('contribute', locale)}>
+              {t('home.hero.ctaContribute')}
+            </a>
+          </div>
+        </div>
+
+        <aside class="newsletter" aria-labelledby="newsletter-title">
+          <h2 id="newsletter-title">{t('home.newsletter.title')}</h2>
+          <p>{t('home.newsletter.body')}</p>
+          <NewsletterForm locale={locale} id="home" submit="outline" />
+          <a class="newsletter-write" href={routePath('contribute', locale)}>
+            {t('home.newsletter.write')} →
+          </a>
+        </aside>
       </div>
 
       <ol class="hero-index" role="list">
@@ -179,19 +192,6 @@ const bands = [
         <p class="band-link">
           <a href={routePath('blog', locale)}>{t('home.posts.all')} →</a>
         </p>
-
-        <div class="newsletter">
-          <div>
-            <h3>{t('home.newsletter.title')}</h3>
-            <p>{t('home.newsletter.body')}</p>
-          </div>
-          <div class="newsletter-actions">
-            <NewsletterForm locale={locale} id="home" />
-            <a class="newsletter-write" href={routePath('contribute', locale)}>
-              {t('home.newsletter.write')} →
-            </a>
-          </div>
-        </div>
       </div>
     </section>
   </div>
@@ -282,7 +282,7 @@ const bands = [
   }
 
   @media (min-width: 48rem) {
-    .hero-actions {
+    .hero-grid {
       margin-block-end: var(--space-7);
     }
 
@@ -464,29 +464,38 @@ const bands = [
     max-width: var(--width-prose);
   }
 
+  .hero-grid {
+    display: grid;
+    gap: var(--space-6);
+  }
+
+  @media (min-width: 64rem) {
+    .hero-grid {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 23rem);
+      gap: var(--space-8);
+      align-items: start;
+    }
+  }
+
   .newsletter {
     display: grid;
     gap: var(--space-4);
-    margin-block-start: var(--space-6);
+    justify-items: start;
     padding: var(--space-5);
     border: var(--border-width) solid var(--border-strong);
     border-radius: var(--radius-lg);
     background: var(--bg-subtle);
   }
 
+  .newsletter h2 {
+    font-size: var(--text-xl);
+  }
+
   .newsletter p {
     color: var(--fg-muted);
-    margin-block-start: var(--space-3);
-    max-width: 60ch;
   }
 
-  .newsletter-actions {
-    display: grid;
-    gap: var(--space-3);
-    justify-items: start;
-  }
-
-  .newsletter-actions :global(.subscribe) {
+  .newsletter :global(.subscribe) {
     width: 100%;
   }
 

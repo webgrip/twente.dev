@@ -7,9 +7,10 @@ import { CONTACT_EMAIL, NEWSLETTER_FORM_ACTION, NEWSLETTER_FORM_FIELDS } from '.
 interface Props {
   locale: Locale;
   id: string;
+  submit?: 'primary' | 'outline';
 }
 
-const { locale, id } = Astro.props;
+const { locale, id, submit = 'primary' } = Astro.props;
 const t = useTranslations(locale);
 const subject = locale === 'nl' ? 'Nieuwsbrief' : 'Newsletter';
 ---
@@ -56,7 +57,7 @@ const subject = locale === 'nl' ? 'Nieuwsbrief' : 'Newsletter';
               placeholder="jij@voorbeeld.nl"
             />
           </p>
-          <button class="button button--primary" type="submit">
+          <button class:list={['button', submit === 'primary' && 'button--primary']} type="submit">
             {t('newsletter.subscribe')}
           </button>
         </form>

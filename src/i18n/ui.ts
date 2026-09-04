@@ -46,7 +46,7 @@ export const nl = {
     'Bestaande meetups houden hun eigen identiteit, hun eigen lijst en hun eigen podium. twente.dev maakt ze beter vindbaar en verwijst altijd door naar de bron.',
   'home.newsletter.title': 'De nieuwsbrief',
   'home.newsletter.body':
-    'Eén lijst, één afmeldknop. Je krijgt de field reports: een interview met iemand die hier bouwt, of één concrete les die iemand zelf opschrijft. Plus de open calls en wat er aankomt rond een editie. Je hoort van ons als er iets te melden is, niet omdat het dinsdag is. Reply-vriendelijk, opt-in, geen tracking.',
+    'We zijn net begonnen. twente.dev zoekt developers en gelijkgestemde professionals uit Twente die dit mee willen opbouwen. Laat je mailadres achter, dan hoor je het zodra aanmelden opent en zodra er iets nieuws is.',
   'home.newsletter.write': 'Schrijf er zelf een',
   'home.agenda.empty': 'Verder staat er nog niets in de gedeelde agenda.',
   'home.posts.all': 'Alle artikelen',
@@ -204,7 +204,7 @@ export const en: Record<UIKey, string> = {
     'Existing meetups keep their own identity, their own list and their own stage. twente.dev makes them easier to find and always links to the source.',
   'home.newsletter.title': 'The newsletter',
   'home.newsletter.body':
-    'One list, one unsubscribe. You get the field reports: an interview with someone who builds here, or one concrete lesson someone writes up themselves. Plus the open calls and what is coming up around an edition. You hear from us when there is something worth saying, not because it is Tuesday. Reply-friendly, opt-in, no tracking.',
+    'We are just getting started. twente.dev is looking for developers and like-minded professionals from Twente who want to help build this. Leave your email address and you will hear when registration opens and whenever there is news.',
   'home.newsletter.write': 'Write one yourself',
   'home.agenda.empty': 'Nothing else is in the shared calendar yet.',
   'home.posts.all': 'All articles',

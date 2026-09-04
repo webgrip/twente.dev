@@ -66,7 +66,7 @@ export const nl = {
     'Je krijgt eerst een bevestigingsmail; pas als je daarop klikt sta je op de lijst. Afmelden kan onderaan elke mail. We delen je adres met niemand en meten niet of je de mail opent.',
   'newsletter.sending': 'Versturen…',
   'newsletter.success':
-    'Gelukt. Er staat nu een mail voor je klaar met een bevestigingsknop erin. Pas na die klik sta je op de lijst. Niets gezien? Kijk even in je spam.',
+    '🎉 Gelukt, noaber. Er staat een mail voor je klaar met een bevestigingsknop erin. Pas na die klik sta je op de lijst. Niets gezien? Kijk even in je spam. 📬',
   'newsletter.error': 'Er ging iets mis bij het versturen. Probeer het zo nog eens, of mail',
   'newsletter.privacyLink': 'Wat we bewaren',
 
@@ -218,7 +218,7 @@ export const en: Record<UIKey, string> = {
     'You get a confirmation email first; you are on the list only once you click it. Every email carries an unsubscribe link. We share your address with no one and do not measure whether you open anything.',
   'newsletter.sending': 'Sending…',
   'newsletter.success':
-    'Done. There is an email waiting for you with a confirmation button in it. You are on the list only after that click. Nothing there? Have a look in your spam folder.',
+    '🎉 Almost there, noaber. There is an email waiting for you with a confirmation button in it. You are on the list only after that click. Nothing there? Have a look in your spam folder. 📬',
   'newsletter.error': 'Something went wrong while sending. Try again in a moment, or email',
   'newsletter.privacyLink': 'What we keep',
 

@@ -217,6 +217,7 @@ jobs:
         /en/rss.xml
         /sitemap-index.xml
         /robots.txt
+        /llms.txt
         /.well-known/security.txt
       not-found-path: /nl/this-page-does-not-exist
     secrets:

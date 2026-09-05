@@ -18,19 +18,21 @@ cleanup() {
 }
 trap cleanup EXIT
 
+fetch() { curl -s --retry 3 --retry-all-errors --retry-delay 1 "$@"; }
+
 pass() { printf '  \033[32mok\033[0m   %s\n' "$1"; }
 fail() { printf '  \033[31mFAIL\033[0m %s\n' "$1"; FAILURES=$((FAILURES + 1)); }
 
 status() {
   local got
-  got="$(curl -s -o /dev/null -w '%{http_code}' "${BASE}$1")"
+  got="$(fetch -o /dev/null -w '%{http_code}' "${BASE}$1")"
   [ "$got" = "$2" ] && pass "$1 -> $2" || fail "$1 -> expected $2, got $got"
 }
 
 redirects() {
   local code loc
-  code="$(curl -s -o /dev/null -w '%{http_code}' "${BASE}$1")"
-  loc="$(curl -s -o /dev/null -D - "${BASE}$1" | tr -d '\r' | awk -F': ' 'tolower($1)=="location"{print $2}')"
+  code="$(fetch -o /dev/null -w '%{http_code}' "${BASE}$1")"
+  loc="$(fetch -o /dev/null -D - "${BASE}$1" | tr -d '\r' | awk -F': ' 'tolower($1)=="location"{print $2}')"
   if [ "$code" = "$2" ] && [ "$loc" = "$3" ]; then
     pass "$1 -> $2 $3"
   else
@@ -40,7 +42,7 @@ redirects() {
 
 content_type() {
   local got
-  got="$(curl -s -o /dev/null -w '%{content_type}' "${BASE}$1")"
+  got="$(fetch -o /dev/null -w '%{content_type}' "${BASE}$1")"
   case "$got" in
     *"$2"*) pass "$1 [type: $got]" ;;
     *) fail "$1 [type] expected '*$2*', got '${got:-<absent>}'" ;;
@@ -49,7 +51,7 @@ content_type() {
 
 header() {
   local got
-  got="$(curl -s -o /dev/null -D - "${BASE}$1" | tr -d '\r' | awk -F': ' -v h="$(echo "$2" | tr '[:upper:]' '[:lower:]')" 'tolower($1)==h{print $2}')"
+  got="$(fetch -o /dev/null -D - "${BASE}$1" | tr -d '\r' | awk -F': ' -v h="$(echo "$2" | tr '[:upper:]' '[:lower:]')" 'tolower($1)==h{print $2}')"
   case "$got" in
     *"$3"*) pass "$1 [$2: $3]" ;;
     *) fail "$1 [$2] expected '*$3*', got '${got:-<absent>}'" ;;
@@ -58,7 +60,7 @@ header() {
 
 body_contains() {
   local body
-  body="$(curl -s "${BASE}$1")"
+  body="$(fetch "${BASE}$1")"
   if printf '%s' "$body" | grep -qF -- "$2"; then
     pass "$1 body contains '$2'"
   else
@@ -133,7 +135,7 @@ echo
 echo "CSP is emitted by Astro with per-page hashes, not unsafe-inline"
 body_contains /nl "http-equiv=\"content-security-policy\""
 
-HOME_HTML="$(curl -s "${BASE}/nl")"
+HOME_HTML="$(fetch "${BASE}/nl")"
 CSP_META="$(printf '%s' "$HOME_HTML" | grep -o 'content-security-policy[^>]*' || true)"
 if printf '%s' "$CSP_META" | grep -q "unsafe-inline"; then
   fail "/nl CSP contains unsafe-inline"

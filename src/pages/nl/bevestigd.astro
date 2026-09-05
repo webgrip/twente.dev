@@ -9,16 +9,46 @@ import { routePath } from '../../i18n/routes.ts';
   routeKey="confirmed"
   noindex
   title="Je staat erop"
-  description="Je aanmelding is bevestigd. Je hoort van ons als er iets te melden is."
+  description="Je aanmelding is bevestigd. Hier staat wat je krijgt en hoe vaak."
 >
   <p>
     <strong>Dat was het.</strong> Je adres staat op de lijst en je hoeft verder niets te doen.
   </p>
 
+  <h2>Wat er in je inbox komt</h2>
+
   <p>
-    Wat je krijgt: een interview met iemand die hier bouwt, opgeschreven als field report. Daarbij
-    wat eraan komt in de regio en één open call. Je hoort van ons als er iets te melden is, niet
-    omdat het dinsdag is.
+    Drie soorten stukken, en verder niets. Ze staan allemaal ook gewoon op de site; de nieuwsbrief
+    is de kortste weg ernaartoe.
+  </p>
+
+  <p>
+    Een <strong>field report</strong> is een interview met iemand die hier iets bouwt. Wij stellen de
+    vragen en schrijven het op. Vaak onder de kop <em>People Who Build</em>, zodat je aan de titel
+    al ziet dat er iemand anders aan het woord is.
+  </p>
+
+  <p>
+    <strong>Release notes</strong> verschijnen binnen tien werkdagen na een avond: de slides, de foto's,
+    en wat er wel en niet werkte. Ook dat laatste. Daarmee wordt een avond als twente.dev/001 een archief
+    dat over een jaar nog iets waard is.
+  </p>
+
+  <p>
+    <strong>Upstream</strong> verzamelt wat er in de regio speelt buiten ons om. Andere groepen, andere
+    avonden, andere zalen. Het beweert niets nieuws en het verzint geen ritme.
+  </p>
+
+  <p>
+    Daarnaast hoor je het als er nog een talkplek vrij is voor de eerstvolgende avond, en wanneer
+    aanmelden opengaat.
+  </p>
+
+  <h2>Hoe vaak</h2>
+
+  <p>
+    Er is geen vaste cadans. Een mail gaat uit als er iets te melden is. Blijft het een maand stil,
+    dan is er die maand niets gebeurd dat je had moeten weten.
   </p>
 
   <p>
@@ -27,11 +57,14 @@ import { routePath } from '../../i18n/routes.ts';
   </p>
 
   <h2>Ondertussen</h2>
+
   <p>
-    De <a href={routePath('events', 'nl')}>agenda</a> staat open voor iedereen en je kunt erop abonneren
-    met je eigen kalender. Op <a href={routePath('contribute', 'nl')}>bijdragen</a> staat waar we nu hulp
-    bij kunnen gebruiken: een verhaal, een zaal, of een event dat je kent en dat hier nog niet in staat.
+    Op <a href={routePath('blog', 'nl')}>het archief</a> staat wat er al verschenen is. De
+    <a href={routePath('events', 'nl')}>agenda</a> is open voor iedereen en je kunt hem in je eigen kalender
+    zetten. Op <a href={routePath('contribute', 'nl')}>bijdragen</a> staat waar we nu hulp bij kunnen
+    gebruiken: een verhaal, een zaal, of een avond die je kent en die hier nog niet in staat.
   </p>
+
   <p>
     Klopt er iets niet aan je aanmelding? Mail <a href={`mailto:${CONTACT_EMAIL}`}
       >{CONTACT_EMAIL}</a

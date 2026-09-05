@@ -38,29 +38,3 @@ domains:
         dmarc@twente.dev,
         rua@dmarc.brevo.com,
       ]
-
-  webgrip.nl:
-    mx:
-      [
-        aspmx.l.google.com,
-        alt1.aspmx.l.google.com,
-        alt2.aspmx.l.google.com,
-        alt3.aspmx.l.google.com,
-        alt4.aspmx.l.google.com,
-      ]
-    spf: v=spf1 include:_spf.google.com ~all
-    dkim:
-      - selector: google
-        keyCharacters: 408
-    dmarcPolicy: p=none
-    dmarcReportsTo:
-      [f30e87cf7d0241958cbca88c6ffdc784@dmarc-reports.cloudflare.net, dmarc@webgrip.nl]
-    caa:
-      published: false
-      issuers:
-        - letsencrypt.org
-        - "pki.goog; cansignhttpexchanges=yes"
-        - ssl.com
-        - sectigo.com
-    dnssec:
-      dsPublished: false

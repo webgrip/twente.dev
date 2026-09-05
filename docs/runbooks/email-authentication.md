@@ -537,9 +537,11 @@ Free, and almost nobody at this scale does it:
   and `tlsrpt@` must be a deliverable address or the reports bounce like any other mail.
 - **DNSSEC**, one click per zone at Cloudflare — after the registrar transfer.
 - **Google Postmaster Tools**, both domains.
-- ~~**Drift monitoring.**~~ **Built, 2026-09-05.** `scripts/validate-mail-auth.ts` reads
-  `ops/mail-auth.intent.yml`, which declares per domain what should be published, and
-  `.forgejo/workflows/mail-auth-drift.yml` runs it nightly. It covers MX, SPF, DKIM key length,
+- ~~**Drift monitoring.**~~ **Built, 2026-09-05.** `webgrip-validate-mail-auth` from
+  `@webgrip/astro-site-toolkit` reads `ops/mail-auth.intent.yml`, which declares per domain what
+  should be published, and `.forgejo/workflows/mail-auth-drift.yml` runs it nightly. The engine
+  is shared; the intent is this site's, and webgrip.nl carries its own in its own repo. It covers
+  MX, SPF, DKIM key length,
   DMARC policy and report addresses, MTA-STS, CAA and DNSSEC. Two things it does that a generic
   checker cannot: it knows `send.twente.dev` should have **no** SPF record, which ADR 0011
   decided and which any validator would call healthy; and it fails when a record is published

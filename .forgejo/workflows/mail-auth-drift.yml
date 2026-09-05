@@ -10,14 +10,10 @@ permissions:
 
 jobs:
   drift:
-    name: "Check SPF, DKIM, DMARC and MTA-STS against declared intent"
-    runs-on: docker
-    steps:
-      - uses: actions/checkout@v5
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "24"
-
-      - name: Check for drift
-        run: node --experimental-strip-types scripts/validate-mail-auth.ts
+    name: "Mail Auth Drift"
+    uses: webgrip/workflows/.forgejo/workflows/node-application-tests.yml@92365b422cccc1aac723c8edd57e514daac85db3
+    with:
+      node-version: "24"
+      package-manager: pnpm
+      test-command: pnpm validate:mail-auth
+      job-name: Mail Auth Drift

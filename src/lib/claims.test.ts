@@ -1,6 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
+import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { parse } from 'yaml';
 
@@ -163,32 +164,12 @@ interface RetiredWord {
   use: string;
 }
 
-const RETIRED_ROOTS = ['src', 'docs', '.forgejo', 'scripts'];
-const RETIRED_FILES = [
-  'README.md',
-  'AGENTS.md',
-  'mkdocs.yml',
-  'catalog-info.yml',
-  'package.json',
-  'docs/index.md',
-  'docs/kpis.md',
-  'docs/organiser-playbook.md',
-  'docs/partner-compact.md',
-  'docs/deliberate-non-actions.md',
-];
+function trackedFiles(): string[] {
+  return execFileSync('git', ['ls-files', '-z'], { encoding: 'utf8' }).split('\0').filter(Boolean);
+}
 const RETIRED_EXTENSIONS = new Set([...EXTENSIONS, '.ts', '.mjs', '.js', '.json']);
 
-const RETIRED_EXEMPT = 'docs/domain';
-
-function retiredTargets(dir: string): string[] {
-  return readdirSync(dir).flatMap((entry) => {
-    const path = join(dir, entry);
-    if (entry === 'node_modules' || entry === 'dist') return [];
-    if (path === RETIRED_EXEMPT) return [];
-    if (statSync(path).isDirectory()) return retiredTargets(path);
-    return RETIRED_EXTENSIONS.has(path.slice(path.lastIndexOf('.'))) ? [path] : [];
-  });
-}
+const RETIRED_EXEMPT = ['docs/domain'];
 
 test('no retired vocabulary outside the decision record', () => {
   const model = parse(readFileSync('docs/domain/model.yaml', 'utf8')) as {
@@ -197,10 +178,11 @@ test('no retired vocabulary outside the decision record', () => {
   const retired = model.retired ?? [];
   assert.ok(retired.length > 0, 'docs/domain/model.yaml declares no retired vocabulary');
 
-  const targets = [
-    ...RETIRED_ROOTS.filter((d) => existsSync(d)).flatMap(retiredTargets),
-    ...RETIRED_FILES.filter((f) => existsSync(f)),
-  ];
+  const targets = trackedFiles().filter(
+    (path) =>
+      RETIRED_EXTENSIONS.has(path.slice(path.lastIndexOf('.'))) &&
+      !RETIRED_EXEMPT.some((e) => path === e || path.startsWith(`${e}/`)),
+  );
   const violations: string[] = [];
 
   for (const { word, use } of retired) {

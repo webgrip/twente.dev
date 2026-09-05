@@ -33,11 +33,11 @@ released as the next minor.
 
 ### webgrip/cloudflare
 
-- `staging.twente.dev` proxied DNS record, declared in `twente_dev_dns_web.tf` as `28dbc38`
-  (2026-09-05) and since carried by DNSControl in `dns/dnsconfig.js` (ADR 0018 v1.1.0). Not resolving as of 2026-09-05 evening (`dig +short staging.twente.dev` is empty),
-  so every rc's staging edge probe fails with `000` until DNSControl pushes the zone; the
-  promotion PR body shows that answer.
-- Access resources on branch `feat/staging-access` (`6216e85`): open the PR once the token and the
+- `staging.twente.dev` proxied A record, carried by DNSControl in `dns/dnsconfig.js` (ADR 0018
+  v1.1.0). Pushed 2026-09-05 13:30 after the install-tools fix `05e5b2d` and `DNS_PUSH=on`; the
+  rc.2 worker answers 200 on `/nl` and `/en` and 404 on a missing page, and the search page ships
+  the Pagefind Component UI.
+- Access resources on branch `feat/staging-access` (`b4311de`, rebased on the DNSControl main): open the PR once the token and the
   two repo secrets exist. Until Access is applied the anonymous edge answers 200, so
   `on_release_published.yml` probes staging for 200; flip `edge-probe-expect` to `302` in the same
   change that merges the Access PR.

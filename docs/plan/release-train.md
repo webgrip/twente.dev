@@ -33,8 +33,11 @@ released as the next minor.
 
 ### webgrip/cloudflare
 
-- `staging.twente.dev` proxied DNS record (same placeholder origin as the apex; the Worker route
-  answers). Lands on `main`, within the current token scopes.
+- `staging.twente.dev` proxied DNS record, landed on `main` as `28dbc38` (2026-09-05).
+- Access resources on branch `feat/staging-access` (`6216e85`): open the PR once the token and the
+  two repo secrets exist. Until Access is applied the anonymous edge answers 200, so
+  `on_release_published.yml` probes staging for 200; flip `edge-probe-expect` to `302` in the same
+  change that merges the Access PR.
 - Cloudflare Access: OIDC identity provider pointing at Authentik, a self-hosted application on
   `staging.twente.dev`, an allow policy for the Authentik login. Lands as a PR that can only apply
   once the tofu token carries `Access: Apps and Policies: Edit` and
@@ -43,15 +46,17 @@ released as the next minor.
 
 ### webgrip/homelab-cluster
 
-- Authentik blueprint `39-oidc-cloudflare-access.yaml`: confidential OIDC provider `cloudflare-access`,
-  redirect URI `https://<team>.cloudflareaccess.com/cdn-cgi/access/callback`, client secret from a
-  generated Secret, mirrored to OpenBao `cloudflare/access-oidc`.
-- `forgejo-actions-secrets` publishes that secret to the `cloudflare` repo as
-  `AUTHENTIK_ACCESS_CLIENT_SECRET`.
+- Authentik blueprint `39-oidc-cloudflare-access.yaml` and the client-secret chain to OpenBao
+  `cloudflare/access-oidc` and the `cloudflare` repo secret `AUTHENTIK_ACCESS_CLIENT_SECRET`:
+  landed as `7108b3e2` (2026-09-05). The redirect URI assumes the Zero Trust team `webgrip`.
+- **Blocker:** Authentik is routed on `envoy-internal` only. Cloudflare Access fetches the token and
+  JWKS endpoints from its edge, so Authentik needs a public hostname (an `envoy-external` route or
+  the tunnel) before this login can work; `AUTHENTIK_URL` on the cloudflare repo is that origin.
+  One-time PIN is the fallback identity provider if exposing Authentik is not wanted.
 - Branch protection through `scripts/forgejo-sync.sh --repo twente.dev --only protect --apply`
   with `PUSH_WHITELIST=webgrip-ci,ryangr0`, run by the owner (needs a repo-admin token).
 
-### webgrip/twente.dev
+### webgrip/twente.dev — landed 2026-09-05 as `cd20c36`, branch `development` created
 
 1. `wrangler.toml`: `[env.staging]`, worker `twente-dev-staging`, route `staging.twente.dev/*`.
 2. `.releaserc.cjs` with `makeConfig({ extraReleaseRules: [{ type: 'content', release: 'patch' }] })`,
@@ -79,12 +84,14 @@ released as the next minor.
 
 ## Human steps
 
-| Step                                                                      | Why a human                                  |
-| ------------------------------------------------------------------------- | -------------------------------------------- |
-| Extend the `forgejo-ci-tofu` token with the two Access permission groups  | Cloudflare token policies are dashboard-only |
-| Confirm the Zero Trust team name used in the Authentik redirect URI       | not readable without an Access-scoped token  |
-| Run the `forgejo-sync.sh … --only protect --apply` command for twente.dev | needs a Forgejo admin token                  |
-| Merge the cloudflare Access PR once the plan is clean                     | first apply of a new resource family         |
+| Step                                                                               | Why a human                                       |
+| ---------------------------------------------------------------------------------- | ------------------------------------------------- |
+| Extend the `forgejo-ci-tofu` token with the two Access permission groups           | Cloudflare token policies are dashboard-only      |
+| Confirm the Zero Trust team name used in the Authentik redirect URI                | not readable without an Access-scoped token       |
+| Decide how Authentik becomes reachable from the internet, then set `AUTHENTIK_URL` | exposing the identity provider is a security call |
+| Open the PR for `feat/staging-access` in the cloudflare repo                       | sessions hold no token that may open PRs          |
+| Run the `forgejo-sync.sh … --only protect --apply` command for twente.dev          | needs a Forgejo admin token                       |
+| Merge the cloudflare Access PR once the plan is clean                              | first apply of a new resource family              |
 
 ## Deferred
 

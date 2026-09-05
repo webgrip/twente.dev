@@ -33,7 +33,7 @@ twente.dev/001: Reconnect
 **Beschrijving**
 
 ```
-🔧 Eén avond, geen verkooppraatje.
+🔧 Twee talks, wat te eten, en daarna tijd om bij te praten.
 
 Twente heeft veel goede mensen die technologie bouwen, en weinig plekken waar ze elkaar tegenkomen buiten hun eigen kantoor. Er zijn meetups, en er zitten goede bij, maar ze zijn versnipperd, vaak gebonden aan één stack of één werkgever, en je moet ze net kennen om ze te vinden.
 
@@ -92,7 +92,7 @@ twente.dev/001: Reconnect
 **Beschrijving**
 
 ```
-🔧 One evening, no sales pitch.
+🔧 Two talks, something to eat, and time to catch up afterwards.
 
 Twente has plenty of good people building technology, and few places where they meet outside their own office. There are meetups, and some are good, but they are scattered, often tied to one stack or one employer, and you have to know about them to find them.
 

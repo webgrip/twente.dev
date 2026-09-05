@@ -169,7 +169,7 @@ function trackedFiles(): string[] {
 }
 const RETIRED_EXTENSIONS = new Set([...EXTENSIONS, '.ts', '.mjs', '.js', '.json']);
 
-const RETIRED_EXEMPT = ['docs/domain'];
+const RETIRED_EXEMPT = ['docs/domain', 'CHANGELOG.md'];
 
 test('no retired vocabulary outside the decision record', () => {
   const model = parse(readFileSync('docs/domain/model.yaml', 'utf8')) as {

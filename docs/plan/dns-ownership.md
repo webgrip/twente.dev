@@ -15,9 +15,7 @@ _Started 2026-09-05. Decision: [ADR 0018 v1.2.0](../adrs/0018-account-and-zone-r
 ## Rollout
 
 1. `webgrip/workflows` `dnscontrol.yml` landed as `2a5d82e` (2026-09-05).
-2. This repository: zone file, creds and callers (this change, on `development`). The ADR 0018
-   v1.2.0 amendment follows as soon as `main` (which carries v1.1.0) is merged back into
-   `development`; a peer session holds uncommitted edits on the files that merge would touch.
+2. This repository: zone file, creds, callers and the ADR 0018 v1.2.0 amendment (on `development`).
 3. Homelab publishes `CLOUDFLARE_DNS_TOKEN` to this repository from OpenBao `cloudflare/dns`.
 4. First preview must read `0 corrections` for `twente.dev`; then `DNS_PUSH=on`.
 5. `webgrip/cloudflare` drops the `twente.dev` block from its `dns/dnsconfig.js`. Both configs

@@ -1,0 +1,19 @@
+name: "[Scheduled] DNS Drift"
+
+on:
+  schedule:
+    - cron: "45 5 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  dns-drift:
+    name: "DNS Drift"
+    uses: webgrip/workflows/.forgejo/workflows/dnscontrol.yml@2a5d82e28fbc4226ff620c0d52a774e292e4ba29
+    with:
+      mode: drift
+    secrets:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_DNS_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

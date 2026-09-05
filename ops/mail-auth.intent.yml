@@ -16,14 +16,14 @@ domains:
     dmarcReportsTo:
       [0525d8c91ea04d888744ae8a292691cc@dmarc-reports.cloudflare.net, dmarc@twente.dev]
     caa:
-      published: false
+      published: true
       issuers:
         - letsencrypt.org
         - "pki.goog; cansignhttpexchanges=yes"
         - ssl.com
         - sectigo.com
     dnssec:
-      dsPublished: false
+      dsPublished: true
 
   send.twente.dev:
     mx: []

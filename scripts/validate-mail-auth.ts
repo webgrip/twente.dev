@@ -20,7 +20,9 @@ interface DomainIntent {
   dnssec?: { dsPublished: boolean };
 }
 
-const DNS_RECORD_TYPES = { DS: 43, DNSKEY: 48 } as const;
+const DNS_RECORD_TYPES = { DS: 43, DNSKEY: 48, CAA: 257 } as const;
+const DOH_ENDPOINT = 'https://cloudflare-dns.com/dns-query';
+const EMPTY_ANSWER_ATTEMPTS = 3;
 
 interface MailAuthIntent {
   resolver: string;
@@ -52,36 +54,45 @@ async function mxHosts(name: string): Promise<string[]> {
   }
 }
 
-async function caaEntries(name: string): Promise<{ issue: string[]; issuewild: string[] }> {
-  try {
-    const records = await resolver.resolveCaa(name);
-    return {
-      issue: records.flatMap((r) => (r.issue ? [r.issue] : [])),
-      issuewild: records.flatMap((r) => (r.issuewild ? [r.issuewild] : [])),
-    };
-  } catch {
-    return { issue: [], issuewild: [] };
-  }
-}
-
 async function overHttps(
   name: string,
   type: keyof typeof DNS_RECORD_TYPES,
-): Promise<{ present: boolean; validated: boolean } | null> {
+): Promise<{ present: boolean; validated: boolean; data: string[] } | null> {
   try {
-    const response = await fetch(
-      `https://dns.google/resolve?name=${encodeURIComponent(name)}&type=${type}`,
-      { headers: { accept: 'application/dns-json' } },
-    );
+    const response = await fetch(`${DOH_ENDPOINT}?name=${encodeURIComponent(name)}&type=${type}`, {
+      headers: { accept: 'application/dns-json' },
+    });
     const body = (await response.json()) as {
       AD?: boolean;
       Answer?: Array<{ type: number; data: string }>;
     };
     const answers = (body.Answer ?? []).filter((a) => a.type === DNS_RECORD_TYPES[type]);
-    return { present: answers.length > 0, validated: body.AD === true };
+    return {
+      present: answers.length > 0,
+      validated: body.AD === true,
+      data: answers.map((a) => a.data),
+    };
   } catch {
     return null;
   }
+}
+
+async function caaEntries(name: string): Promise<{ issue: string[]; issuewild: string[] } | null> {
+  for (let attempt = 0; attempt < EMPTY_ANSWER_ATTEMPTS; attempt++) {
+    const answer = await overHttps(name, 'CAA');
+    if (answer === null) return null;
+    const parsed = answer.data.flatMap((row) => {
+      const match = row.match(/^\s*\d+\s+(\w+)\s+"(.*)"\s*$/);
+      return match ? [{ tag: match[1] ?? '', value: match[2] ?? '' }] : [];
+    });
+    if (parsed.length > 0 || attempt === EMPTY_ANSWER_ATTEMPTS - 1) {
+      return {
+        issue: parsed.filter((r) => r.tag === 'issue').map((r) => r.value),
+        issuewild: parsed.filter((r) => r.tag === 'issuewild').map((r) => r.value),
+      };
+    }
+  }
+  return null;
 }
 
 function sameSet(actual: string[], expected: string[]): boolean {
@@ -144,17 +155,30 @@ for (const [domain, want] of Object.entries(intent.domains)) {
 
 for (const [domain, want] of Object.entries(intent.domains)) {
   if (want.caa !== undefined) {
-    const { issue, issuewild } = await caaEntries(domain);
-    if (want.caa.published) {
-      if (!sameSet(issue, want.caa.issuers)) {
-        failures.push(
-          `${domain}: CAA issue is [${issue.join(', ') || 'none'}], intent is [${want.caa.issuers.join(', ')}]`,
-        );
-      }
-      if (!sameSet(issuewild, want.caa.issuers)) {
-        failures.push(
-          `${domain}: CAA issuewild is [${issuewild.join(', ') || 'none'}], intent is [${want.caa.issuers.join(', ')}]`,
-        );
+    const caa = want.caa;
+    const entries = await caaEntries(domain);
+    if (entries === null) {
+      failures.push(`${domain}: the CAA lookup failed, which is not the same as having no CAA`);
+      continue;
+    }
+    const { issue, issuewild } = entries;
+    if (caa.published) {
+      for (const [tag, published] of [
+        ['issue', issue],
+        ['issuewild', issuewild],
+      ] as const) {
+        const missing = caa.issuers.filter((i) => !published.includes(i));
+        if (missing.length > 0) {
+          failures.push(
+            `${domain}: CAA ${tag} does not allow [${missing.join(', ')}], so those certificates cannot be issued`,
+          );
+        }
+        const extra = published.filter((i) => !caa.issuers.includes(i));
+        if (extra.length > 0) {
+          declaredPending.push(
+            `${domain}: CAA ${tag} also allows [${extra.join(', ')}], which Cloudflare adds from its own SSL/TLS configuration`,
+          );
+        }
       }
     } else if (issue.length > 0 || issuewild.length > 0) {
       failures.push(

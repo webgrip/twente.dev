@@ -15,10 +15,23 @@ export interface ReleaseBlock {
   speakers: ReleaseSpeaker[];
 }
 
+export interface GeoPoint {
+  lat: number;
+  lon: number;
+}
+
 export interface ReleaseEntryData {
   start: Date;
   end?: Date;
-  venue: { name?: string; address?: string; city: string; online: boolean };
+  venue: {
+    name?: string;
+    address?: string;
+    city: string;
+    online: boolean;
+    geo?: GeoPoint;
+    map?: string;
+    directions?: Record<Locale, string>;
+  };
   costEur: number;
   release?: ReleaseBlock;
 }
@@ -33,6 +46,10 @@ export interface ResolvedRelease {
   venueName: string | null;
   venueLogo: string | null;
   venueAddress: string | null;
+  venuePostalAddress: string | null;
+  venueGeo: GeoPoint | null;
+  venueMap: string | null;
+  venueDirections: Record<Locale, string> | null;
   venue: string | null;
   capacity: number;
   costEur: number;
@@ -68,6 +85,10 @@ export function resolveRelease(data: ReleaseEntryData): ResolvedRelease {
     venueName,
     venueLogo: block.venueLogo ?? null,
     venueAddress,
+    venuePostalAddress: data.venue.address ?? null,
+    venueGeo: data.venue.geo ?? null,
+    venueMap: data.venue.map ?? null,
+    venueDirections: data.venue.directions ?? null,
     venue: venueName && venueAddress ? `${venueName}, ${venueAddress}` : venueName,
     capacity: block.capacity,
     costEur: data.costEur,

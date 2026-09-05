@@ -6,6 +6,7 @@ import { getCurrentRelease } from '../lib/content.ts';
 import {
   CONDUCT_EMAIL,
   CONTACT_EMAIL,
+  MEETUP_GROUP_URL,
   PRESS_EMAIL,
   PRETALX_CFP_URL,
   REGISTRATION_URL,
@@ -36,6 +37,7 @@ const releaseLines = [
   `- Locatie: ${[e.venue, e.city].filter(Boolean).join(', ')}`,
   `- Capaciteit: ${e.capacity} plekken · ${e.costEur === 0 ? 'gratis' : `€${e.costEur}`}`,
   REGISTRATION_URL && `- Aanmelden: ${REGISTRATION_URL}`,
+  MEETUP_GROUP_URL && `- Meetup: ${MEETUP_GROUP_URL}`,
   PRETALX_CFP_URL && `- Call for talks: ${PRETALX_CFP_URL}`,
   e.speakers.length > 0 && `- Programma: ${e.speakers.map((s) => s.name).join(', ')}`,
 ].filter(Boolean);

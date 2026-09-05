@@ -77,7 +77,10 @@ Waar je op let voordat je een zaal toezegt — geleerd van de /001-onderhandelin
 4. **Toegankelijkheid**: drempelvrije route van straat tot zaal, toilet, en de stille
    ruimte. Dit staat als belofte op de site — check het fysiek, niet telefonisch.
 5. **Bereikbaarheid**: OV-route en late terugreis (sectie hieronder), fietsenstalling,
-   parkeren. Publiceer het op de releasepagina.
+   parkeren. Publiceer het op de releasepagina. Het kaartje daar komt uit
+   `pnpm map:venue -- --slug <slug> --lat <lat> --lon <lon> --label <naam>` (OpenStreetMap-data,
+   schrijft `src/assets/maps/<slug>.svg`); zet `venue.geo`, `venue.map` en `venue.directions`
+   in het events-bestand, dan rendert de releasepagina kaart, adres en routelinks.
 6. **Huisregels host**: maximaal 2 minuten welkomstwoord, geen recruiting door de host op
    de avond, geen toegang tot de deelnemerslijst, logo-credit "mede mogelijk gemaakt
    door" — nooit co-branding. Dit zijn de gepubliceerde waarborgen; een venue die dit niet

@@ -2,7 +2,7 @@ import { SITE_URL, TIMEZONE } from '../i18n/config.ts';
 import type { Locale } from '../i18n/config.ts';
 import { absoluteUrl } from '../i18n/utils.ts';
 import { routePath } from '../i18n/routes.ts';
-import { REGISTRATION_OPENS, REGISTRATION_URL } from '../config/site.ts';
+import { MEETUP_GROUP_URL, REGISTRATION_OPENS, REGISTRATION_URL } from '../config/site.ts';
 import { eventPath, postSlug } from './content.ts';
 import type { CompanyEntry, EventEntry, PostEntry } from './content.ts';
 
@@ -72,7 +72,7 @@ export function eventSchema(event: EventEntry, locale: Locale): JsonLd {
       isOwnRelease && !REGISTRATION_URL
         ? 'https://schema.org/PreOrder'
         : 'https://schema.org/InStock',
-    url: event.data.url,
+    url: isOwnRelease ? (REGISTRATION_URL ?? MEETUP_GROUP_URL ?? event.data.url) : event.data.url,
     ...(isOwnRelease ? { validFrom: toAmsterdamIso(REGISTRATION_OPENS) } : {}),
   };
 
@@ -103,6 +103,15 @@ export function eventSchema(event: EventEntry, locale: Locale): JsonLd {
             addressRegion: 'Overijssel',
             addressCountry: 'NL',
           },
+          ...(event.data.venue.geo
+            ? {
+                geo: {
+                  '@type': 'GeoCoordinates',
+                  latitude: event.data.venue.geo.lat,
+                  longitude: event.data.venue.geo.lon,
+                },
+              }
+            : {}),
         },
     organizer: {
       '@type': 'Organization',

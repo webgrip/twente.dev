@@ -105,6 +105,8 @@ paid for.
 
 - `REGISTRATION_URL` in `src/config/site.ts` points at the Meetup event, so `/nl/001` renders the
   register button instead of the "registration opens 2 September" state.
+- `MEETUP_GROUP_URL` in `src/config/site.ts` carries the group URL, so `/nl/001` links to Meetup
+  before the event exists; the button switches to the event once `REGISTRATION_URL` is set.
 - The Meetup event description links to `twente.dev/nl/001`, and `/nl/events` plus the ICS feed
   still carry the release — the site remains the record, not the mirror.
 - Both privacy pages name Meetup as a processor for event registration, and
@@ -121,5 +123,7 @@ paid for.
 - 2026-09-04 — registration opens **14 September 2026**, four weeks before the old date and
   seven before the new one. The open call and the newsletter run ahead of it deliberately, so
   the release has an audience before it has a ticket.
+- 2026-09-05 — the release page links the Meetup group (`MEETUP_GROUP_URL`,
+  `meetup.com/twente-dev`) ahead of registration opening, next to a venue map with directions.
 - Superseded by nothing yet. The question returns after /002, when there is attendance data to
   argue from and the venue rotation makes the group's location worth revisiting.

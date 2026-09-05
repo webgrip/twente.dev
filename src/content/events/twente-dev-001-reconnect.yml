@@ -22,6 +22,17 @@ venue:
   address: Hogepad 81, 7462 TB
   city: Rijssen
   online: false
+  geo:
+    lat: 52.3061643
+    lon: 6.519017
+  map: code14-rijssen
+  directions:
+    nl: >-
+      Ongeveer tien minuten lopen vanaf station Rijssen; het pand ligt er vrijwel pal ten
+      zuiden van. Kom je met de auto, dan is er gratis parkeren bij de ingang.
+    en: >-
+      About a ten-minute walk from Rijssen station, almost directly south of it. Coming by
+      car, there is free parking by the entrance.
 organiser:
   name: twente.dev
   url: https://twente.dev

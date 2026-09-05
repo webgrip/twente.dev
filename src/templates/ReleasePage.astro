@@ -8,13 +8,18 @@ import {
   useTranslations,
 } from '../i18n/utils.ts';
 import { routePath } from '../i18n/routes.ts';
-import { REGISTRATION_OPENS, REGISTRATION_URL, releaseName } from '../config/site.ts';
+import {
+  MEETUP_GROUP_URL,
+  REGISTRATION_OPENS,
+  REGISTRATION_URL,
+  releaseName,
+} from '../config/site.ts';
 import type { EventEntry } from '../lib/content.ts';
 import { resolveRelease } from '../lib/release.ts';
 import { eventSchema } from '../lib/jsonld.ts';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import NewsletterForm from '../components/NewsletterForm.astro';
-import Tabs from '../components/Tabs.astro';
+import VenueMap from '../components/VenueMap.astro';
 
 interface Props {
   locale: Locale;
@@ -24,7 +29,7 @@ interface Props {
 interface Copy {
   metaTitle: string;
   metaDescription: string;
-  intro: string[];
+  intro: string;
   factDate: string;
   factTime: string;
   factVenue: string;
@@ -36,37 +41,29 @@ interface Copy {
   slotOpen: string;
   slotLabel: string;
   outcomes: [string, string, string];
-  expectTitle: string;
+  eveningTitle: string;
   runOfShow: { time: string; item: string }[];
-  whoTitle: string;
   whoBody: string;
   whoWelcome: string;
-  isTitle: string;
-  isList: string[];
-  isNotTitle: string;
-  isNotList: string[];
   speakersTitle: string;
   speakersTba: string;
   speakersTbaBody: string;
-  speakersTbaCta: string;
-  actionsTitle: string;
-  tabReserve: string;
-  tabUpdates: string;
-  tabContribute: string;
+  speakersCta: string;
+  speakersMailCta: string;
+  locationTitle: string;
+  registrationTitle: string;
+  registrationOpenBody: string;
+  registrationOpens: string;
+  registrationOpensSuffix: string;
+  registrationJoinGroup: string;
+  registrationCta: string;
+  meetupGroupCta: string;
+  registrationCalendarHint: string;
   updatesTitle: string;
   updatesBody: string;
-  registrationTitle: string;
-  registrationOpens: string;
-  registrationCta: string;
-  registrationCalendarHint: string;
-  registrationConsentNote: string;
-  openCallTitle: string;
-  openCallBody: string;
-  openCallCta: string;
+  consentNote: string;
   practicalTitle: string;
   practical: { term: string; detail: string }[];
-  safeguardsTitle: string;
-  safeguards: string[];
   conductCta: string;
   partnersCta: string;
 }
@@ -77,18 +74,18 @@ const release = resolveRelease(entry.data);
 const name = `${releaseName(release.number)}: ${release.theme}`;
 const time = formatTime;
 const hours = formatTimeRange(release.doors, release.end);
+const speakers = release.speakers;
 const sentenceCase = (value: string) => value.charAt(0).toUpperCase() + value.slice(1);
 const whenWhere = (loc: Locale) =>
   `${sentenceCase(formatWeekday(release.doors, loc))} ${formatDate(release.doors, loc)}, ${hours}, ${release.city}`;
+const talkRow = (position: number, tba: string) =>
+  `Talk ${position} // ${speakers[position - 1]?.name ?? tba}`;
 
 const COPY: Record<Locale, Copy> = {
   en: {
     metaTitle: name,
-    metaDescription: `A practitioner-led evening for people who build technology in Twente. ${whenWhere('en')}. Free.`,
-    intro: [
-      'Twente builds technology with global reach, but the people and practical lessons behind it are still too hard to discover across companies and disciplines.',
-      `${name} is a practitioner-led evening for everyone building technology in and around Twente: software, infrastructure, embedded systems, manufacturing, data, security, design, product, research and technical education. Two roughly half-hour talks by people who did the work themselves, and then an unhurried network hour to actually meet each other.`,
-    ],
+    metaDescription: `One evening for everyone who builds technology in Twente. ${whenWhere('en')}. Free.`,
+    intro: `${name} is an evening for everyone building technology in and around Twente, whatever they build it with: software, infrastructure, embedded, manufacturing, data, security, design, product, research and education. Two half-hour talks about something the speaker built, fixed or broke themselves, then a good hour to actually meet each other. Free, food included.`,
     factDate: 'Date',
     factTime: 'Time',
     factVenue: 'Venue',
@@ -100,103 +97,70 @@ const COPY: Record<Locale, Copy> = {
     slotOpen: 'Open',
     slotLabel: 'Slot',
     outcomes: ['One useful idea', 'One useful introduction', 'One reason to return'],
-    expectTitle: 'The evening',
+    eveningTitle: 'The evening',
     runOfShow: [
       { time: time(release.doors), item: 'Doors, food and first introductions' },
       { time: time(release.start), item: 'Welcome' },
-      {
-        time: '19:00',
-        item: 'Talk 1: something the speaker built, fixed or broke themselves',
-      },
+      { time: '19:00', item: talkRow(1, 'speaker to follow') },
       { time: '19:30', item: 'Break' },
-      { time: '19:45', item: 'Talk 2' },
-      { time: '20:15', item: 'Networking' },
+      { time: '19:45', item: talkRow(2, 'speaker to follow') },
+      { time: '20:15', item: 'Networking hour' },
       { time: time(release.end), item: 'Hard finish' },
     ],
-    whoTitle: 'Who the room is for',
     whoBody:
-      'People who build and apply technology across software, hardware, data, security, design, product, research and education, in and around Twente, at any career stage.',
-    whoWelcome: 'First-timers and solo attendees are explicitly welcome.',
-    isTitle: 'This is',
-    isList: [
-      'An independent community evening',
-      'Practitioner talks',
-      'Useful cross-disciplinary introductions',
-      'Open contribution routes',
-    ],
-    isNotTitle: 'This is not',
-    isNotList: [
-      'A recruitment fair',
-      'A vendor stage',
-      'A replacement for existing meetups',
-      'A closed executive network',
-    ],
-    speakersTitle: 'Who is speaking',
-    speakersTba: 'Speakers to be announced',
+      'For everyone who builds or applies technology, at any stage of their career, in and around Twente.',
+    whoWelcome: 'First-timers and people coming alone are explicitly welcome.',
+    speakersTitle: 'Speakers',
+    speakersTba: 'Speakers to follow',
     speakersTbaBody:
-      'Both talk slots are still open. The call is running, speakers are picked editorially and no one can buy stage time, so names go up once they are confirmed and not a day earlier. What is already fixed: roughly half an hour each, about something the speaker built, fixed or broke themselves.',
-    speakersTbaCta: 'Get an email when the programme is set',
-    actionsTitle: 'Take part',
-    tabReserve: 'Reserve',
-    tabUpdates: 'Updates',
-    tabContribute: 'Contribute',
-    updatesTitle: 'Stay in the loop',
-    updatesBody:
-      'One email when the programme is announced, one when registration opens, and the field reports after that: interviews with people who build here. No weekly bulletin about nothing having happened.',
-    registrationTitle: 'Reserve a place',
+      'Both talk slots are open. The call is running, speakers are picked editorially and stage time is not for sale, so names go up once they are confirmed. What is already fixed: half an hour per talk, about something you built, fixed or broke yourself. No speaking experience needed, we shape the talk together.',
+    speakersCta: 'Propose a talk',
+    speakersMailCta: 'Email me when the programme is set',
+    locationTitle: 'Venue',
+    registrationTitle: 'Register',
+    registrationOpenBody:
+      'Registration runs on Meetup. One click and your place is set. Cannot make it after all? Set your RSVP to no there and your place goes to the waitlist.',
     registrationOpens: 'Registration opens',
-    registrationCta: 'Reserve a place',
+    registrationOpensSuffix: 'on Meetup.',
+    registrationJoinGroup: 'Join the group now and you will see it the moment it opens.',
+    registrationCta: 'Reserve a place on Meetup',
+    meetupGroupCta: 'twente.dev on Meetup',
     registrationCalendarHint: 'Subscribe to the calendar and the date is already in yours.',
-    registrationConsentNote:
-      'Event registration alone never adds you to the newsletter. That is a separate, explicit opt-in.',
-    openCallTitle: 'Contribute a story, demo or introduction',
-    openCallBody:
-      'What should Twente know you are building, or learning the hard way? Send us one claim, one real example, decision or failure, what others can learn, and how you would involve the room. You do not need speaking experience; we help shape accepted contributions. We do not accept product pitches, paid speaking or confidential material.',
-    openCallCta: 'See all ways to contribute',
+    updatesTitle: 'Rather get an email?',
+    updatesBody:
+      'One message when the programme is set and one when registration opens. Nothing else.',
+    consentNote:
+      'Registering on Meetup never adds you to the newsletter. That is a separate, explicit opt-in.',
     practicalTitle: 'Practical',
     practical: [
       {
-        term: 'Access',
-        detail:
-          'Full access information (step-free route, seating, sound and a quiet space) is published on this page at least two weeks before the event.',
-      },
-      {
         term: 'Food',
         detail:
-          'Food and non-alcoholic drinks are included and free. Dietary needs are asked at registration.',
+          'Food and non-alcoholic drinks are included. Dietary needs are asked when you register.',
       },
       {
-        term: 'Photography',
+        term: 'Access',
         detail:
-          'We take photos and record video for the archive. That runs on consent: tell us when you RSVP or at check-in and we will work around you. If you end up in something anyway, one message is enough to have it removed.',
+          'Step-free route, seating, sound and a quiet space: the details are on this page at least two weeks before the evening.',
       },
       {
-        term: 'Recordings',
+        term: 'Photos and video',
         detail:
-          'Where we can, we record a talk for the archive. The speaker can have that recording taken down later; the text page for the talk stays up.',
+          'We take photos and video for the archive. Rather not be in shot? Say so when you register or at check-in. If you end up in something anyway, one message is enough to have it removed.',
       },
       {
-        term: 'Cancellation',
+        term: 'Ground rules',
         detail:
-          'Plans change. Cancelling is one reply to your confirmation email, and your place goes to the next person on the waitlist.',
+          'The code of conduct applies, with a named contact on the night and a route that does not run through the host. Sponsors get no attendee data, stage time is not for sale, and this is no job fair: attendees are not leads.',
       },
-    ],
-    safeguardsTitle: 'Safeguards',
-    safeguards: [
-      'Sponsors receive no attendee data.',
-      'No one can buy stage time. Speakers are selected editorially.',
-      'The code of conduct applies, with a named contact at the event and a route that does not run through the venue.',
     ],
     conductCta: 'Read the code of conduct',
-    partnersCta: 'Partner with twente.dev',
+    partnersCta: 'The terms with partners',
   },
   nl: {
     metaTitle: name,
-    metaDescription: `Een practitioner-led avond voor iedereen die technologie bouwt in Twente. ${whenWhere('nl')}. Gratis.`,
-    intro: [
-      'Twente bouwt technologie met wereldwijde impact, maar de mensen en praktijklessen erachter zijn over bedrijven en disciplines heen nog te moeilijk te vinden.',
-      `${name} is een practitioner-led avond voor iedereen die in en rondom Twente technologie bouwt: software, infrastructuur, embedded systems, maakindustrie, data, security, design, product, onderzoek en technisch onderwijs. Twee talks van ongeveer een halfuur, van mensen die het werk zelf deden, en daarna een ruim netwerkuur om elkaar echt te spreken.`,
-    ],
+    metaDescription: `Eén avond voor iedereen die in Twente technologie bouwt. ${whenWhere('nl')}. Gratis.`,
+    intro: `${name} is een avond voor iedereen die in en rondom Twente technologie bouwt, met welke techniek dan ook: software, infrastructuur, embedded, maakindustrie, data, security, design, product, onderzoek en onderwijs. Twee talks van een halfuur over iets dat de spreker zelf heeft gebouwd, gerepareerd of verprutst, en daarna een ruim uur om elkaar echt te spreken. Gratis, eten inbegrepen.`,
     factDate: 'Datum',
     factTime: 'Tijd',
     factVenue: 'Locatie',
@@ -208,95 +172,65 @@ const COPY: Record<Locale, Copy> = {
     slotOpen: 'Open',
     slotLabel: 'Talkplek',
     outcomes: ['Eén nuttig idee', 'Eén nuttige kennismaking', 'Eén reden om terug te komen'],
-    expectTitle: 'De avond',
+    eveningTitle: 'De avond',
     runOfShow: [
       { time: time(release.doors), item: 'Inloop, eten en eerste kennismakingen' },
       { time: time(release.start), item: 'Welkomstwoord' },
-      {
-        time: '19:00',
-        item: 'Talk 1: iets dat de spreker zelf heeft gebouwd, gerepareerd of verprutst',
-      },
+      { time: '19:00', item: talkRow(1, 'spreker volgt') },
       { time: '19:30', item: 'Pauze' },
-      { time: '19:45', item: 'Talk 2' },
-      { time: '20:15', item: 'Networking' },
+      { time: '19:45', item: talkRow(2, 'spreker volgt') },
+      { time: '20:15', item: 'Netwerkuur' },
       { time: time(release.end), item: 'Strakke eindtijd' },
     ],
-    whoTitle: 'Voor wie de avond is',
     whoBody:
-      'Mensen die technologie bouwen en toepassen: software, hardware, data, security, design, product, onderzoek en onderwijs, in en rond Twente, in elke fase van je loopbaan.',
+      'Voor iedereen die technologie bouwt of toepast, in elke fase van je loopbaan, in en rond Twente.',
     whoWelcome: 'Nieuwkomers en mensen die alleen komen zijn nadrukkelijk welkom.',
-    isTitle: 'Dit is het wél',
-    isList: [
-      'Een onafhankelijke community-avond',
-      'Talks van makers zelf',
-      'Nuttige kennismakingen over disciplines heen',
-      'Open routes om bij te dragen',
-    ],
-    isNotTitle: 'Dit is het níet',
-    isNotList: [
-      'Een banenmarkt',
-      'Een leverancierspodium',
-      'Een vervanging van bestaande meetups',
-      'Een besloten netwerk voor managers',
-    ],
-    speakersTitle: 'Wie er spreken',
-    speakersTba: 'Sprekers worden nog aangekondigd',
+    speakersTitle: 'Sprekers',
+    speakersTba: 'Sprekers volgen',
     speakersTbaBody:
-      'Beide talkplekken staan nog open. De open call loopt, sprekers kiezen we redactioneel en spreektijd is niet te koop, dus de namen komen erbij zodra ze bevestigd zijn en geen dag eerder. Wat wel al vaststaat: ongeveer een halfuur per verhaal, over iets wat de spreker zelf heeft gebouwd, gerepareerd of verprutst.',
-    speakersTbaCta: 'Laat je mailen zodra het programma rond is',
-    actionsTitle: 'Meedoen',
-    tabReserve: 'Reserveren',
-    tabUpdates: 'Updates',
-    tabContribute: 'Bijdragen',
-    updatesTitle: 'Blijf op de hoogte',
-    updatesBody:
-      'Eén mail zodra het programma bekend is, één zodra aanmelden opent, en daarna de field reports: interviews met mensen die hier bouwen. Geen wekelijks bulletin over wat er niet gebeurd is.',
-    registrationTitle: 'Reserveer een plek',
+      'Beide talkplekken staan open. De open call loopt, sprekers kiezen we redactioneel en spreektijd is niet te koop, dus namen komen erbij zodra ze bevestigd zijn. Wat al vaststaat: een halfuur per talk, over iets dat je zelf hebt gebouwd, gerepareerd of verprutst. Spreekervaring is niet nodig, we werken het verhaal samen uit.',
+    speakersCta: 'Meld een verhaal aan',
+    speakersMailCta: 'Mail me als het programma rond is',
+    locationTitle: 'Locatie',
+    registrationTitle: 'Aanmelden',
+    registrationOpenBody:
+      'Aanmelden loopt via Meetup. Eén klik, en je plek staat vast. Kun je toch niet, zet je RSVP daar op nee, dan gaat je plek naar de wachtlijst.',
     registrationOpens: 'Aanmelden opent',
-    registrationCta: 'Reserveer een plek',
+    registrationOpensSuffix: 'op Meetup.',
+    registrationJoinGroup: 'Word alvast lid van de groep, dan zie je het zodra het opengaat.',
+    registrationCta: 'Reserveer een plek op Meetup',
+    meetupGroupCta: 'twente.dev op Meetup',
     registrationCalendarHint: 'Abonneer op de agenda, dan staat de datum er alvast in.',
-    registrationConsentNote:
-      'Aanmelden voor het event zet je nooit op de nieuwsbrief. Dat is een aparte, expliciete opt-in.',
-    openCallTitle: 'Draag een verhaal, demo of introductie bij',
-    openCallBody:
-      'Wat moet Twente weten over wat jij bouwt, of op de harde manier leert? Stuur ons één claim, één echt voorbeeld, besluit of mislukking, wat anderen ervan kunnen leren, en hoe je de zaal erbij betrekt. Spreekervaring is niet nodig; geaccepteerde bijdragen vormen we samen. Productpitches, betaalde spreektijd en vertrouwelijk materiaal accepteren we niet.',
-    openCallCta: 'Bekijk alle manieren om bij te dragen',
+    updatesTitle: 'Liever een mail?',
+    updatesBody:
+      'Eén bericht zodra het programma rond is en één zodra aanmelden opent. Verder niets.',
+    consentNote:
+      'Aanmelden op Meetup zet je nooit op de nieuwsbrief. Dat is een aparte, expliciete opt-in.',
     practicalTitle: 'Praktisch',
     practical: [
       {
-        term: 'Toegankelijkheid',
-        detail:
-          'Volledige toegankelijkheidsinformatie (drempelvrije route, zitplaatsen, geluid en een rustige ruimte) verschijnt uiterlijk twee weken voor het event op deze pagina.',
-      },
-      {
         term: 'Eten',
         detail:
-          'Eten en non-alcoholische drankjes zijn inbegrepen en gratis. Dieetwensen vragen we bij aanmelding.',
+          'Eten en non-alcoholische drankjes zijn inbegrepen. Dieetwensen geef je door bij je aanmelding.',
       },
       {
-        term: 'Fotografie',
+        term: 'Toegankelijkheid',
         detail:
-          'We maken foto’s en video-opnames voor het archief. Dat gaat op toestemming: geef het aan bij je aanmelding of bij de check-in, dan houden we daar rekening mee. Sta je er achteraf toch op, dan is één bericht genoeg om het te laten verwijderen.',
+          'Drempelvrije route, zitplaatsen, geluid en een rustige ruimte: de details staan uiterlijk twee weken voor de avond op deze pagina.',
       },
       {
-        term: 'Opnames',
+        term: 'Foto en video',
         detail:
-          'Van een talk maken we waar het kan een opname voor het archief. De spreker kan die later laten verwijderen; de tekstpagina van de talk blijft staan.',
+          'We maken foto’s en video voor het archief. Liever niet in beeld? Zeg het bij je aanmelding of bij de check-in. Sta je er achteraf toch op, dan is één bericht genoeg om het te laten verwijderen.',
       },
       {
-        term: 'Annuleren',
+        term: 'Afspraken',
         detail:
-          'Plannen veranderen. Afmelden is één antwoord op je bevestigingsmail, en je plek gaat naar de volgende op de wachtlijst.',
+          'De gedragscode geldt, met een benoemd aanspreekpunt op de avond en een route die niet via de gastheer loopt. Sponsors krijgen geen deelnemersdata, spreektijd is niet te koop, en dit is geen banenmarkt: deelnemers zijn geen leads.',
       },
-    ],
-    safeguardsTitle: 'Waarborgen',
-    safeguards: [
-      'Sponsors krijgen geen deelnemersdata.',
-      'Spreektijd is niet te koop. Sprekers worden redactioneel geselecteerd.',
-      'De gedragscode geldt, met een benoemd aanspreekpunt op het event en een route die niet via de gastheer loopt.',
     ],
     conductCta: 'Lees de gedragscode',
-    partnersCta: 'Word partner van twente.dev',
+    partnersCta: 'De afspraken met partners',
   },
 };
 
@@ -305,19 +239,18 @@ const t = useTranslations(locale);
 const jsonLd = [eventSchema(entry, locale)];
 
 const registrationOpen = REGISTRATION_URL !== null;
+const primaryHref = REGISTRATION_URL ?? MEETUP_GROUP_URL;
 const sections = [
-  { id: 'avond', label: c.expectTitle },
+  { id: 'avond', label: c.eveningTitle },
   { id: 'sprekers', label: c.speakersTitle },
-  { id: 'voor-wie', label: c.whoTitle },
+  { id: 'locatie', label: c.locationTitle },
+  { id: 'aanmelden', label: c.registrationTitle },
   { id: 'praktisch', label: c.practicalTitle },
-  { id: 'meedoen', label: c.actionsTitle },
-  { id: 'waarborgen', label: c.safeguardsTitle },
 ] as const;
 const num = (id: (typeof sections)[number]['id']) =>
   String(sections.findIndex((s) => s.id === id) + 1).padStart(2, '0');
 const opensIso = REGISTRATION_OPENS.toISOString();
 const opensOn = formatDate(REGISTRATION_OPENS, locale);
-const speakers = release.speakers;
 ---
 
 <BaseLayout
@@ -347,7 +280,7 @@ const speakers = release.speakers;
           <span class="lockup-place">{release.city} · {time(release.doors)}</span>
         </p>
         <h1 class="text-display">{release.theme}</h1>
-        {c.intro.map((paragraph) => <p class="release-intro">{paragraph}</p>)}
+        <p class="release-intro">{c.intro}</p>
 
         <ul class="outcomes" role="list">
           {c.outcomes.map((outcome) => <li>{outcome}</li>)}
@@ -356,45 +289,59 @@ const speakers = release.speakers;
 
       <aside class="release-aside" aria-labelledby="release-facts">
         <div class="release-aside-inner">
-          <h2 class="visually-hidden" id="release-facts">{c.factsTitle}</h2>
-          <dl class="facts">
-            <div>
-              <dt>{c.factDate}</dt>
-              <dd>
-                <time datetime={release.doors.toISOString()}>
-                  {formatDate(release.doors, locale)}
-                </time>
-              </dd>
-            </div>
-            <div>
-              <dt>{c.factTime}</dt>
-              <dd>{hours}</dd>
-            </div>
-            <div>
-              <dt>{c.factVenue}</dt>
-              <dd>{release.venue ?? `${release.city}, ${t('release.venueTba')}`}</dd>
-            </div>
-            <div>
-              <dt>{c.factCapacity}</dt>
-              <dd>{release.capacity}</dd>
-            </div>
-            <div>
-              <dt>{c.factCost}</dt>
-              <dd>{t('release.free')}</dd>
-            </div>
-            <div>
-              <dt>{c.factLanguage}</dt>
-              <dd class="fact-long">{t('release.language')}</dd>
-            </div>
-          </dl>
-          {
-            registrationOpen && (
-              <a class="button button--primary aside-cta" href={REGISTRATION_URL}>
-                {c.registrationCta}
-              </a>
-            )
-          }
-          <nav class="aside-index" aria-label={c.onThisPage}>
+          <div class="aside-card">
+            <h2 class="visually-hidden" id="release-facts">{c.factsTitle}</h2>
+            <dl class="facts">
+              <div>
+                <dt>{c.factDate}</dt>
+                <dd>
+                  <time datetime={release.doors.toISOString()}>
+                    {formatDate(release.doors, locale)}
+                  </time>
+                </dd>
+              </div>
+              <div>
+                <dt>{c.factTime}</dt>
+                <dd>{hours}</dd>
+              </div>
+              <div>
+                <dt>{c.factVenue}</dt>
+                <dd>
+                  <a href="#locatie"
+                    >{release.venue ?? `${release.city}, ${t('release.venueTba')}`}</a
+                  >
+                </dd>
+              </div>
+              <div>
+                <dt>{c.factCapacity}</dt>
+                <dd>{release.capacity}</dd>
+              </div>
+              <div>
+                <dt>{c.factCost}</dt>
+                <dd>{t('release.free')}</dd>
+              </div>
+              <div>
+                <dt>{c.factLanguage}</dt>
+                <dd class="fact-long">{t('release.language')}</dd>
+              </div>
+            </dl>
+            {
+              primaryHref && (
+                <a class="button button--primary aside-cta" href={primaryHref} rel="noopener">
+                  {registrationOpen ? c.registrationCta : c.meetupGroupCta}
+                </a>
+              )
+            }
+            {
+              !registrationOpen && (
+                <p class="aside-note">
+                  {c.registrationOpens} <time datetime={opensIso}>{opensOn}</time>
+                </p>
+              )
+            }
+          </div>
+          <nav class="aside-index aside-card" aria-labelledby="aside-index-title">
+            <p class="label-mono aside-index-title" id="aside-index-title">{c.onThisPage}</p>
             <ol role="list">
               {
                 sections.map((section, index) => (
@@ -416,7 +363,7 @@ const speakers = release.speakers;
       <div class="release-main">
         <section class="release-section reveal" id="avond">
           <p class="label-mono section-index">{num('avond')}</p>
-          <h2>{c.expectTitle}</h2>
+          <h2>{c.eveningTitle}</h2>
           <ol class="run-of-show" role="list">
             {
               c.runOfShow.map(({ time: at, item }) => (
@@ -427,6 +374,10 @@ const speakers = release.speakers;
               ))
             }
           </ol>
+          <p class="who">
+            {c.whoBody}
+            <strong>{c.whoWelcome}</strong>
+          </p>
         </section>
 
         <section class="release-section reveal" id="sprekers">
@@ -447,9 +398,12 @@ const speakers = release.speakers;
                 </ul>
                 <p class="speakers-badge label-mono">{c.speakersTba}</p>
                 <p>{c.speakersTbaBody}</p>
-                <p>
-                  <a class="button" href="#updates">
-                    {c.speakersTbaCta}
+                <p class="cta-row">
+                  <a class="button button--primary" href={routePath('contribute', locale)}>
+                    {c.speakersCta}
+                  </a>
+                  <a class="button" href="#aanmelden">
+                    {c.speakersMailCta}
                   </a>
                 </p>
               </div>
@@ -469,21 +423,53 @@ const speakers = release.speakers;
           }
         </section>
 
-        <section class="release-section reveal" id="voor-wie">
-          <p class="label-mono section-index">{num('voor-wie')}</p>
-          <h2>{c.whoTitle}</h2>
-          <p>{c.whoBody}</p>
-          <p><strong>{c.whoWelcome}</strong></p>
+        <section class="release-section reveal" id="locatie">
+          <p class="label-mono section-index">{num('locatie')}</p>
+          <h2>{c.locationTitle}</h2>
+          <VenueMap locale={locale} release={release} />
+        </section>
 
-          <div class="is-isnot">
-            <div class="is-panel is-panel--yes">
-              <h3 class="label-mono">{c.isTitle}</h3>
-              <ul role="list">{c.isList.map((item) => <li>{item}</li>)}</ul>
-            </div>
-            <div class="is-panel is-panel--no">
-              <h3 class="label-mono">{c.isNotTitle}</h3>
-              <ul role="list">{c.isNotList.map((item) => <li>{item}</li>)}</ul>
-            </div>
+        <section class="release-section reveal" id="aanmelden">
+          <p class="label-mono section-index">{num('aanmelden')}</p>
+          <h2>{c.registrationTitle}</h2>
+          {
+            registrationOpen ? (
+              <>
+                <p>{c.registrationOpenBody}</p>
+                <p class="cta-row">
+                  <a class="button button--primary" href={REGISTRATION_URL} rel="noopener">
+                    {c.registrationCta}
+                  </a>
+                </p>
+              </>
+            ) : (
+              <>
+                <p class="registration-opens">
+                  {c.registrationOpens}{' '}
+                  <strong>
+                    <time datetime={opensIso}>{opensOn}</time>
+                  </strong>{' '}
+                  {c.registrationOpensSuffix}
+                  {MEETUP_GROUP_URL && ` ${c.registrationJoinGroup}`}
+                </p>
+                {MEETUP_GROUP_URL && (
+                  <p class="cta-row">
+                    <a class="button button--primary" href={MEETUP_GROUP_URL} rel="noopener">
+                      {c.meetupGroupCta}
+                    </a>
+                  </p>
+                )}
+                <p>
+                  <a href={routePath('events', locale)}>{c.registrationCalendarHint}</a>
+                </p>
+              </>
+            )
+          }
+          <div class="updates">
+            <h3>{c.updatesTitle}</h3>
+            <p>{c.updatesBody}</p>
+            <NewsletterForm locale={locale} id="release-updates" />
+            <p class="consent-note">{c.consentNote}</p>
           </div>
         </section>
 
@@ -500,66 +486,6 @@ const speakers = release.speakers;
               ))
             }
           </dl>
-        </section>
-
-        <section class="release-section reveal" id="meedoen">
-          <p class="label-mono section-index">{num('meedoen')}</p>
-          <h2>{c.actionsTitle}</h2>
-          <Tabs
-            id="take-part"
-            label={c.actionsTitle}
-            tabs={[
-              { id: 'reserve', label: c.tabReserve },
-              { id: 'updates', label: c.tabUpdates },
-              { id: 'contribute', label: c.tabContribute },
-            ]}
-          >
-            <div id="reserve" data-tabs-panel>
-              <h3 data-tabs-heading>{c.registrationTitle}</h3>
-              {
-                registrationOpen ? (
-                  <p>
-                    <a class="button button--primary" href={REGISTRATION_URL}>
-                      {c.registrationCta}
-                    </a>
-                  </p>
-                ) : (
-                  <p class="registration-opens">
-                    {c.registrationOpens}{' '}
-                    <strong>
-                      <time datetime={opensIso}>{opensOn}.</time>
-                    </strong>
-                    <a href={routePath('events', locale)}>{c.registrationCalendarHint}</a>
-                  </p>
-                )
-              }
-              <p class="consent-note">{c.registrationConsentNote}</p>
-            </div>
-
-            <div id="updates" data-tabs-panel>
-              <h3 data-tabs-heading>{c.updatesTitle}</h3>
-              <p>{c.updatesBody}</p>
-              <NewsletterForm locale={locale} id="release-updates" />
-            </div>
-
-            <div id="contribute" data-tabs-panel>
-              <h3 data-tabs-heading>{c.openCallTitle}</h3>
-              <p>{c.openCallBody}</p>
-              <p>
-                <a class="button" href={routePath('contribute', locale)}>
-                  {c.openCallCta}
-                </a>
-              </p>
-            </div>
-          </Tabs>
-        </section>
-
-        <section class="release-section reveal" id="waarborgen">
-          <p class="label-mono section-index">{num('waarborgen')}</p>
-          <h2>{c.safeguardsTitle}</h2>
-          <ul class="safeguards">
-            {c.safeguards.map((item) => <li>{item}</li>)}
-          </ul>
           <p class="safeguard-links">
             <a href={routePath('conduct', locale)}>{c.conductCta}</a>
             <a href={routePath('partners', locale)}>{c.partnersCta}</a>
@@ -656,7 +582,6 @@ const speakers = release.speakers;
 
   .release-intro {
     color: var(--fg-muted);
-    margin-block-end: var(--space-3);
     max-width: var(--width-prose);
   }
 
@@ -678,12 +603,20 @@ const speakers = release.speakers;
     background: var(--bg-subtle);
   }
 
-  .facts {
+  .release-aside-inner {
     display: grid;
-    margin: 0;
+    gap: var(--space-4);
+  }
+
+  .aside-card {
     border: var(--border-width) solid var(--border);
     border-radius: var(--radius-lg);
     background: var(--bg-raised);
+  }
+
+  .facts {
+    display: grid;
+    margin: 0;
   }
 
   .facts > div {
@@ -710,6 +643,15 @@ const speakers = release.speakers;
     font-variant-numeric: tabular-nums;
   }
 
+  .facts dd a {
+    color: inherit;
+    text-decoration-color: var(--border-strong);
+  }
+
+  .facts dd a:hover {
+    color: var(--accent-strong);
+  }
+
   .facts .fact-long {
     font-weight: 400;
     color: var(--fg-muted);
@@ -731,19 +673,39 @@ const speakers = release.speakers;
   }
 
   .aside-cta {
-    width: 100%;
-    margin-block-start: var(--space-4);
+    width: calc(100% - 2 * var(--space-4));
+    margin: var(--space-4) var(--space-4) 0;
+  }
+
+  .aside-card > .aside-cta:last-child {
+    margin-block-end: var(--space-4);
+  }
+
+  .aside-note {
+    padding: var(--space-3) var(--space-4) var(--space-4);
+    color: var(--fg-subtle);
+    font-size: var(--text-sm);
+    text-align: center;
+  }
+
+  .aside-note time {
+    color: var(--fg);
+    font-weight: var(--weight-semibold);
   }
 
   .aside-index {
-    margin-block-start: var(--space-6);
+    padding: var(--space-3) var(--space-4) var(--space-2);
+  }
+
+  .aside-index-title {
+    color: var(--fg-subtle);
+    padding-block-end: var(--space-2);
   }
 
   .aside-index ol {
     list-style: none;
     margin: 0;
     padding: 0;
-    border-block-start: var(--border-width) solid var(--border);
   }
 
   .aside-index a {
@@ -751,7 +713,7 @@ const speakers = release.speakers;
     gap: var(--space-3);
     align-items: baseline;
     padding-block: var(--space-2);
-    border-block-end: var(--border-width) solid var(--border);
+    border-block-start: var(--border-width) solid var(--border);
     color: var(--fg-muted);
     text-decoration: none;
     font-size: var(--text-sm);
@@ -788,6 +750,12 @@ const speakers = release.speakers;
 
   .release-section > p + p {
     margin-block-start: var(--space-3);
+  }
+
+  .cta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
   }
 
   .run-of-show {
@@ -845,6 +813,15 @@ const speakers = release.speakers;
     color: var(--fg-muted);
   }
 
+  .who {
+    margin-block-start: var(--space-5);
+    color: var(--fg-muted);
+  }
+
+  .who strong {
+    color: var(--fg);
+  }
+
   .slots {
     display: grid;
     gap: var(--space-2);
@@ -870,57 +847,6 @@ const speakers = release.speakers;
 
   .slot-state {
     color: var(--accent-strong);
-  }
-
-  .is-isnot {
-    display: grid;
-    gap: var(--space-4);
-    grid-template-columns: 1fr;
-    margin-block-start: var(--space-5);
-  }
-
-  @media (min-width: 40rem) {
-    .is-isnot {
-      grid-template-columns: 1fr 1fr;
-    }
-  }
-
-  .is-panel {
-    padding: var(--space-4) var(--space-5);
-    border: var(--border-width) solid var(--border);
-    border-radius: var(--radius-md);
-    background: var(--bg-subtle);
-  }
-
-  .is-panel--yes {
-    border-inline-start: 3px solid var(--border-strong);
-  }
-
-  .is-panel--no {
-    border-inline-start: 3px solid var(--border);
-    background: transparent;
-  }
-
-  .is-panel h3 {
-    color: var(--fg-subtle);
-    font-size: var(--text-xs);
-    margin-block-end: var(--space-3);
-  }
-
-  .is-panel ul {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    display: grid;
-    gap: var(--space-2);
-  }
-
-  .is-panel li {
-    font-size: var(--text-sm);
-  }
-
-  .is-panel--no li {
-    color: var(--fg-muted);
   }
 
   .practical {
@@ -981,16 +907,24 @@ const speakers = release.speakers;
     margin-block: var(--space-1) 0;
   }
 
+  .updates {
+    margin-block-start: var(--space-6);
+    padding-block-start: var(--space-5);
+    border-block-start: var(--border-width) solid var(--border);
+  }
+
+  .updates h3 {
+    font-size: var(--text-lg);
+    margin-block-end: var(--space-2);
+  }
+
+  .updates > p + :global(*) {
+    margin-block-start: var(--space-4);
+  }
+
   .consent-note {
     color: var(--fg-subtle);
     font-size: var(--text-sm);
-  }
-
-  .safeguards {
-    display: grid;
-    gap: var(--space-2);
-    margin: 0;
-    padding-inline-start: var(--space-5);
   }
 
   .safeguard-links {

@@ -75,6 +75,12 @@ const events = defineCollection({
         city: z.enum(TWENTE_CITIES).or(z.string().min(1)),
         address: z.string().optional(),
         online: z.boolean().default(false),
+        geo: z.object({ lat: z.number(), lon: z.number() }).optional(),
+        map: z
+          .string()
+          .regex(/^[a-z0-9-]+$/)
+          .optional(),
+        directions: i18nString.optional(),
       }),
       organiser: z.object({
         name: z.string().min(1),

@@ -11,6 +11,8 @@ export const NEWSLETTER_SENDER = {
 
 export const REGISTRATION_URL: string | null = null;
 
+export const MEETUP_GROUP_URL: string | null = 'https://www.meetup.com/twente-dev/';
+
 export const NEWSLETTER_FORM_ACTION: string | null =
   'https://899818df.sibforms.com/serve/MUIFAMxMHBIlTMswbpylu2AIgloiyvkCUzu6McDz6p44KoZ8RYsFLKa-wfDpX4xkcyO-9qzDEpB3AvTFSLeMz8LbHJmz0CEADPRZlpO1oMSmo57-QsqjD6h19vKgv9uHleXdtJnnR4tMJYE51Ayrd9jKgOyb2TIbUipan1VGSdoQIDaT2GUMR8e6ATRwbfDuVwMJHOv5nNMAFsxGSQ==';
 

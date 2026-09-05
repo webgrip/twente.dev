@@ -116,7 +116,7 @@ jobs:
     name: "Accessibility (axe-core)"
     needs:
       - build
-    uses: webgrip/workflows/.forgejo/workflows/axe-scan.yml@cfca5d381db0ae44912faf34e105721eede2ee3e
+    uses: webgrip/workflows/.forgejo/workflows/axe-scan.yml@a3e0e8dff4199f592b7596e411f564bcaab67665
 
   deploy-preview:
     name: "Deploy Preview"

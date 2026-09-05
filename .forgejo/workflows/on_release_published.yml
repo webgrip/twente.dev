@@ -1,0 +1,58 @@
+name: "[Workflow] On Release Published"
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-deploy
+  cancel-in-progress: false
+
+env:
+  ASTRO_TELEMETRY_DISABLED: "1"
+
+jobs:
+  deploy-staging:
+    name: "Deploy Staging"
+    uses: webgrip/workflows/.forgejo/workflows/cloudflare-deploy.yml@2df9161cf4c7d6425e0051583f5d85dbdebcce48
+    with:
+      environment: production
+      release-channel: prerelease
+      wrangler-env: staging
+      apex-url: "https://staging.twente.dev"
+      edge-probe-path: /nl
+      edge-probe-expect: "200"
+      check-redirects: false
+    secrets:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+  deploy-production:
+    name: "Deploy Production"
+    uses: webgrip/workflows/.forgejo/workflows/cloudflare-deploy.yml@2df9161cf4c7d6425e0051583f5d85dbdebcce48
+    with:
+      environment: production
+      release-channel: stable
+      apex-url: "https://twente.dev"
+      edge-probe-path: /nl
+      smoke-paths: |
+        /nl
+        /en
+        /nl/001
+        /en/001
+        /nl/bedrijven
+        /en/companies
+        /events.ics
+        /nl/rss.xml
+        /en/rss.xml
+        /sitemap-index.xml
+        /robots.txt
+        /llms.txt
+        /.well-known/security.txt
+      not-found-path: /nl/this-page-does-not-exist
+    secrets:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

@@ -12,13 +12,9 @@ interface Props {
 const { locale } = Astro.props;
 const t = useTranslations(locale);
 
-const pagefindConfig = {
-  element: '#pagefind-search',
-  showSubResults: true,
-  translations: {
-    placeholder: t('search.placeholder'),
-    zero_results: t('search.noResults'),
-  },
+const searchTranslations = {
+  placeholder: t('search.placeholder'),
+  zero_results: t('search.noResults'),
 };
 
 const otherSearch = otherLocales(locale).map((target) => ({
@@ -37,36 +33,36 @@ const otherSearch = otherLocales(locale).map((target) => ({
   <div class="container">
     <PageHeader title={t('search.label')} description={t('search.description')} />
 
-    <link rel="stylesheet" href="/pagefind/pagefind-ui.css" />
+    <link rel="stylesheet" href="/pagefind/pagefind-component-ui.css" />
+    <script is:inline type="module" src="/pagefind/pagefind-component-ui.js"></script>
     <div
       id="pagefind-search"
-      data-search-config={JSON.stringify(pagefindConfig)}
-      data-search-label={t('search.label')}
+      lang={locale}
+      data-search-translations={JSON.stringify(searchTranslations)}
     >
-      <p class="search-fallback">{t('search.unavailable')}</p>
+      <pagefind-input placeholder={t('search.placeholder')}></pagefind-input>
+      <pagefind-summary></pagefind-summary>
+      <pagefind-results show-sub-results></pagefind-results>
+      <noscript><p class="search-fallback">{t('search.unavailable')}</p></noscript>
     </div>
 
     <p class="other-locale">
       {otherSearch.map((target) => <a href={target.href}>{t('search.otherLocale')} →</a>)}
     </p>
 
-    <script is:inline defer src="/pagefind/pagefind-ui.js"></script>
     <script>
-      document.addEventListener('DOMContentLoaded', () => {
-        const { PagefindUI } = window as unknown as {
-          PagefindUI?: new (config: unknown) => unknown;
-        };
-        const mount = document.querySelector<HTMLElement>('#pagefind-search');
-        if (!mount || !PagefindUI) return;
-        document.querySelector('.search-fallback')?.remove();
-        new PagefindUI(JSON.parse(mount.dataset.searchConfig ?? '{}'));
+      type PagefindInstance = { setTranslations: (translations: Record<string, string>) => void };
+      type PagefindComponents = {
+        getInstanceManager: () => { getInstance: (name: string) => PagefindInstance | undefined };
+      };
 
-        const input = mount.querySelector<HTMLInputElement>('input[type="text"]');
-        if (input) {
-          input.setAttribute('aria-label', mount.dataset.searchLabel ?? 'Search');
-          input.removeAttribute('title');
-        }
-      });
+      const mount = document.querySelector<HTMLElement>('#pagefind-search');
+      const components = (window as unknown as { PagefindComponents?: PagefindComponents })
+        .PagefindComponents;
+      const instance = components?.getInstanceManager().getInstance('default');
+      if (mount && instance) {
+        instance.setTranslations(JSON.parse(mount.dataset.searchTranslations ?? '{}'));
+      }
     </script>
   </div>
 </BaseLayout>
@@ -82,14 +78,16 @@ const otherSearch = otherLocales(locale).map((target) => ({
   }
 
   #pagefind-search {
-    --pagefind-ui-primary: var(--accent-strong);
-    --pagefind-ui-text: var(--fg);
-    --pagefind-ui-background: var(--bg-raised);
-    --pagefind-ui-border: var(--border);
-    --pagefind-ui-tag: var(--bg-subtle);
-    --pagefind-ui-border-width: var(--border-width);
-    --pagefind-ui-border-radius: var(--radius-md);
-    --pagefind-ui-font: var(--font-sans);
+    --pf-text: var(--fg);
+    --pf-background: var(--bg-raised);
+    --pf-border: var(--border);
+    --pf-border-radius: var(--radius-md);
+    --pf-input-height: 2.75rem;
+    --pf-input-font-size: var(--text-base);
+    --pf-result-title-font-size: var(--text-base);
+    --pf-result-excerpt-font-size: var(--text-sm);
+    display: grid;
+    gap: var(--space-3);
     max-width: var(--width-prose);
     min-height: 24rem;
   }

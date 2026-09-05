@@ -82,6 +82,12 @@ Run metadata (which job failed) is public; log bodies need the token.
 
 ## Repo rules that are load-bearing
 
+- **Work lands on `development`, deploys follow releases** ([ADR 0019](docs/adrs/0019-release-driven-deploys.md)).
+  Commit to `development`; semantic-release cuts `vX.Y.Z-rc.N` there and every rc deploys
+  `staging.twente.dev`. `main` receives the promotion PR (never squashed) and cuts `vX.Y.Z`, which
+  deploys production. Only `webgrip-ci` and the owner may push `main` directly, and a direct push
+  there is a hotfix, not a workflow. A `docs:` or `chore:` commit releases nothing; a copy or content
+  change that must ship uses the `content` type (patch) or `feat`/`fix`.
 - **DNS for twente.dev lives in [`webgrip/cloudflare`](https://forgejo.webgrip.dev/webgrip/cloudflare)**
   (OpenTofu, [ADR 0018](docs/adrs/0018-account-and-zone-resources-in-opentofu.md)). Never edit a
   record in the Cloudflare dashboard: the nightly drift plan fails and the next apply reverts it.
@@ -135,4 +141,6 @@ static-site lanes in `webgrip/workflows` (v2.1.0), and the toolchain rides on `@
 `@webgrip/prettier-config`, `@webgrip/eslint-config-astro` and `@webgrip/astro-site-toolkit`
 (VIK-813). The seam is documented in each package: spread the shared array and append what is
 repo-specific, never fork the base. Several sessions share this working tree: commit by
-pathspec, and a local commit can be pushed by a peer at any time.
+pathspec, and a local commit can be pushed by a peer at any time. Since 2026-09-05 the tree lives
+on `development`; the release train and its human steps are tracked in
+[`docs/plan/release-train.md`](docs/plan/release-train.md).

@@ -11,4 +11,12 @@ export default defineConfig([
     files: ['docs/brand/templates/**/*.js'],
     languageOptions: { globals: { window: 'readonly' } },
   },
+  {
+    files: ['.releaserc.cjs'],
+    languageOptions: {
+      sourceType: 'commonjs',
+      globals: { require: 'readonly', module: 'writable' },
+    },
+    rules: { '@typescript-eslint/no-require-imports': 'off' },
+  },
 ]);

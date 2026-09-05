@@ -4,6 +4,7 @@
     "local>webgrip/renovate-config#v1.7.0",
     "local>webgrip/renovate-config:safe-automerge#v1.7.0"
   ],
+  "baseBranches": ["development"],
   "packageRules": [
     {
       "description": "actions/checkout stays on v5: v6 and later are broken on non-GitHub runners, so a major bump is never a valid PR here.",

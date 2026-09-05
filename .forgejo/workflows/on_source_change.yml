@@ -2,13 +2,16 @@ name: "[Workflow] On Source Change"
 
 concurrency:
   group: push-${{ github.ref_name }}
-  cancel-in-progress: ${{ github.ref_name != 'main' }}
+  cancel-in-progress: ${{ github.ref_name != 'main' && github.ref_name != 'development' }}
 
 on:
   workflow_dispatch:
   push:
     branches:
       - "**"
+  pull_request:
+    branches:
+      - main
 
 permissions:
   contents: read
@@ -125,38 +128,22 @@ jobs:
     uses: webgrip/workflows/.forgejo/workflows/cloudflare-deploy.yml@cfca5d381db0ae44912faf34e105721eede2ee3e
     with:
       environment: preview
+      production-refs: refs/heads/main refs/heads/development
       apex-url: "https://twente.dev"
       edge-probe-path: /nl
     secrets:
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
       CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
 
-  deploy-production:
-    name: "Deploy Production"
+  release:
+    name: "Release"
     needs:
       - build
+      - container-parity
       - lighthouse
       - accessibility
-    uses: webgrip/workflows/.forgejo/workflows/cloudflare-deploy.yml@cfca5d381db0ae44912faf34e105721eede2ee3e
+    uses: webgrip/workflows/.forgejo/workflows/semantic-release.yml@2df9161cf4c7d6425e0051583f5d85dbdebcce48
     with:
-      environment: production
-      apex-url: "https://twente.dev"
-      edge-probe-path: /nl
-      smoke-paths: |
-        /nl
-        /en
-        /nl/001
-        /en/001
-        /nl/bedrijven
-        /en/companies
-        /events.ics
-        /nl/rss.xml
-        /en/rss.xml
-        /sitemap-index.xml
-        /robots.txt
-        /llms.txt
-        /.well-known/security.txt
-      not-found-path: /nl/this-page-does-not-exist
+      only-refs: refs/heads/main refs/heads/development
     secrets:
-      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      CI_TOKEN: ${{ secrets.WEBGRIP_CI_TOKEN }}

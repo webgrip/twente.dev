@@ -15,3 +15,17 @@ not_found_handling = "404-page"
 [observability]
 enabled = true
 
+
+[env.staging]
+name = "twente-dev-staging"
+routes = [
+  { pattern = "staging.twente.dev/*", zone_name = "twente.dev" },
+]
+
+[env.staging.assets]
+directory = "./dist"
+html_handling = "auto-trailing-slash"
+not_found_handling = "404-page"
+
+[env.staging.observability]
+enabled = true

@@ -11,23 +11,24 @@ const release = await getCurrentRelease();
 <CompaniesPage
   locale="nl"
   title="Bedrijven"
-  description="Je mensen laten gaan, of een zaal aanbieden voor een latere release."
+  description="Een zaal voor een latere release, of je team op de avond wijzen. Wat een bedrijf kan bijdragen, en wat het daarmee niet koopt."
 >
   <p>
     <a href={routePath('release', 'nl', release.number)}>{releaseName(release.number)}</a> is op {
       formatDate(release.doors, 'nl')
-    } bij {release.venueName} in {release.city}, dus de zaal is rond. Het meeste waar we bedrijven
-    voor nodig hebben kost ook geen zaal: laat je mensen die avond gaan en reken het als werktijd.
-    Voor de meeste bedrijven is dat de echte stap.
+    } bij {release.venueName} in {release.city}. Die zaal is rond. Voor de releases daarna zoeken we
+    steeds een nieuwe gastheer: een ruimte waar {release.capacity} mensen in passen, met eten en drinken
+    erbij. Je naam staat dan op de releasepagina en in de zaal, en daar houdt het op. Een spreekplek zit
+    er niet bij, ook niet voor de gastheer, want wie er op het podium staat bepaalt de <a
+      href={routePath('contribute', 'nl')}>open call</a
+    >. De deelnemerslijst gaat naar niemand. De rest van de afspraken staat op <a
+      href={routePath('partners', 'nl')}>partners</a
+    >.
   </p>
   <p>
-    Releases rouleren elke maand door de regio, dus voor later zoeken we steeds een nieuwe host: een
-    ruimte waar
-    {release.capacity} man in past, met eten en drinken erbij. Je naam staat dan op de releasepagina en
-    in de zaal, en daar houdt het op. Een spreekplek zit er niet bij, ook niet voor de host, want dat
-    loopt via de <a href={routePath('contribute', 'nl')}>open call</a>. De deelnemerslijst gaat naar
-    niemand, en de rest van de afspraken staat op
-    <a href={routePath('partners', 'nl')}>partners</a>.
+    Geen zaal, wel mensen? Wijs je team op de avond. De talks gaan over echte systemen, en de mensen
+    die ze bouwden staan in de pauze gewoon naast je. Voor de meeste bedrijven is dat de nuttigste
+    bijdrage, en hij kost niets.
   </p>
   <p>
     Mail <a href={`mailto:${CONTACT_EMAIL}?subject=Bedrijf%20wil%20bijdragen`}>{CONTACT_EMAIL}</a>,

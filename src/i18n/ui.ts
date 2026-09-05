@@ -35,19 +35,19 @@ export const nl = {
     'Elke maand één avond die niet om één taal, framework of branche draait. Dat is precies wat er nog niet was.',
   'home.does.archive.title': 'Het archief',
   'home.does.archive.body':
-    'Field reports uit de praktijk, geschreven door en met mensen die hier werken. Wat verteld is blijft staan en blijft vindbaar.',
+    'Field reports: gesprekken met mensen die hier bouwen, opgeschreven zodat ze vindbaar blijven. Wat verteld is blijft staan.',
   'home.next.kicker': 'Binnenkort',
   'home.next.cta': 'Alles over de avond',
   'home.what.title': 'Wat is twente.dev?',
   'home.what.body':
-    'twente.dev is een onafhankelijke, practitioner-led techcommunity voor Twente. We maken lokale mensen, events en praktijkkennis beter vindbaar, en brengen elke maand disciplines en organisaties doelgericht bij elkaar.',
+    'twente.dev is een onafhankelijke, practitioner-led techcommunity voor Twente. We maken lokale mensen, events en praktijkkennis beter vindbaar, en brengen elke maand mensen uit verschillende disciplines en organisaties bij elkaar.',
   'home.community.title': 'Bestaande communities houden het podium',
   'home.community.body':
     'Bestaande meetups houden hun eigen identiteit, hun eigen lijst en hun eigen podium. twente.dev maakt ze beter vindbaar en verwijst altijd door naar de bron.',
   'home.newsletter.title': 'De nieuwsbrief',
   'home.newsletter.body':
-    'We zijn net begonnen. twente.dev zoekt developers en gelijkgestemde professionals uit Twente die dit mee willen opbouwen. Eén lijst met één afmeldknop: de field reports, de open calls en de aankondigingen rond een release. Zo weet je het zodra aanmelden opent.',
-  'home.newsletter.write': 'Schrijf er zelf een',
+    'We zijn net begonnen en zoeken mensen uit Twente die dit mee willen opbouwen. Eén lijst, één afmeldknop: de field reports, de open calls en het nieuws rond een release. Zo weet je het zodra aanmelden opent.',
+  'home.newsletter.write': 'Zelf iets te vertellen?',
   'home.agenda.empty': 'Verder staat er nog niets in de gedeelde agenda.',
   'home.posts.all': 'Alle artikelen',
 
@@ -56,6 +56,11 @@ export const nl = {
   'release.registrationOpens': 'Aanmelden opent',
   'release.details': 'Alles over twente.dev/001',
   'release.free': 'Gratis',
+
+  'venue.directions': 'Route in Google Maps',
+  'venue.openstreetmap': 'Bekijk op OpenStreetMap',
+  'venue.mapCredit': 'Kaartdata © OpenStreetMap-bijdragers',
+  'venue.mapAlt': 'Kaart van de omgeving van de locatie',
 
   'newsletter.subscribe': 'Aanmelden',
   'newsletter.mailFallback': 'Mail ons om aan te haken',
@@ -73,7 +78,7 @@ export const nl = {
 
   'events.title': 'Events',
   'events.description':
-    'Meetups, conferenties en workshops voor techmakers in Twente. Abonneer je op de agenda en mis niets.',
+    'Meetups, conferenties en workshops voor techmakers in Twente. Abonneer je één keer, dan komen nieuwe events vanzelf in je kalender.',
   'events.upcoming': 'Aankomend',
   'events.past': 'Geweest',
   'events.empty': 'Nog geen events gepland.',
@@ -108,7 +113,8 @@ export const nl = {
     'We kennen de groepen in de regio wel, maar we vermelden niemand zonder het te vragen. Zodra een community ja zegt, staat die hier.',
   'communities.consentNote': 'Vermeld met toestemming. Eén bericht en we halen je er weer af.',
   'communities.suggest': 'Run je een community in Twente?',
-  'communities.awaiting': 'groepen in de regio staan onderzocht klaar en wachten op hun ja.',
+  'communities.awaiting':
+    'groepen uit de regio hebben we al in beeld. Ze verschijnen zodra ze ja zeggen.',
   'communities.terms': "Onze afspraken met community's",
   'communities.ownChannels': 'Onze eigen kanalen',
   'communities.ownChannelsBody':
@@ -197,7 +203,7 @@ export const en: Record<UIKey, string> = {
     'Every month, one evening that does not revolve around a single language, framework or industry. That is the part that did not exist yet.',
   'home.does.archive.title': 'The archive',
   'home.does.archive.body':
-    'Field reports from practice, written by and with people who work here. What gets told stays up, and stays findable.',
+    'Field reports: conversations with people who build here, written up so they stay findable. What gets told stays up.',
   'home.next.kicker': 'Next up',
   'home.next.cta': 'All about the evening',
   'home.what.title': 'What is twente.dev?',
@@ -208,8 +214,8 @@ export const en: Record<UIKey, string> = {
     'Existing meetups keep their own identity, their own list and their own stage. twente.dev makes them easier to find and always links to the source.',
   'home.newsletter.title': 'The newsletter',
   'home.newsletter.body':
-    'We are just getting started. twente.dev is looking for developers and like-minded professionals from Twente who want to help build this. One list with one unsubscribe button: the field reports, the open calls and the announcements around a release. That way you know as soon as registration opens.',
-  'home.newsletter.write': 'Write one yourself',
+    'We are just getting started and looking for people from Twente who want to help build this. One list, one unsubscribe button: the field reports, the open calls and the news around a release. That way you know as soon as registration opens.',
+  'home.newsletter.write': 'Have a story yourself?',
   'home.agenda.empty': 'Nothing else is in the shared calendar yet.',
   'home.posts.all': 'All articles',
 
@@ -218,6 +224,11 @@ export const en: Record<UIKey, string> = {
   'release.registrationOpens': 'Registration opens',
   'release.details': 'Everything about twente.dev/001',
   'release.free': 'Free',
+
+  'venue.directions': 'Directions in Google Maps',
+  'venue.openstreetmap': 'View on OpenStreetMap',
+  'venue.mapCredit': 'Map data © OpenStreetMap contributors',
+  'venue.mapAlt': 'Map of the area around the venue',
 
   'newsletter.subscribe': 'Subscribe',
   'newsletter.mailFallback': 'Email us to be added',
@@ -235,7 +246,7 @@ export const en: Record<UIKey, string> = {
 
   'events.title': 'Events',
   'events.description':
-    'Meetups, conferences and workshops for people who build technology in Twente. Subscribe to the calendar and never miss one.',
+    'Meetups, conferences and workshops for people who build technology in Twente. Subscribe once and new events land in your calendar by themselves.',
   'events.upcoming': 'Upcoming',
   'events.past': 'Past',
   'events.empty': 'No events scheduled yet.',
@@ -270,7 +281,8 @@ export const en: Record<UIKey, string> = {
     'We know the groups in the region, but we do not list anyone without asking. The moment a community says yes, it appears here.',
   'communities.consentNote': 'Listed with consent. One message and we take you off again.',
   'communities.suggest': 'Do you run a community in Twente?',
-  'communities.awaiting': 'groups in the region are researched and waiting on their yes.',
+  'communities.awaiting':
+    'groups from the region are already on our radar. They appear the moment they say yes.',
   'communities.terms': 'Our terms with communities',
   'communities.ownChannels': 'Our own channels',
   'communities.ownChannelsBody':

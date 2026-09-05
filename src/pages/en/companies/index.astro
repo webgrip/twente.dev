@@ -11,22 +11,24 @@ const release = await getCurrentRelease();
 <CompaniesPage
   locale="en"
   title="Companies"
-  description="Letting your people go, or offering a room for a later release."
+  description="A room for a later release, or pointing your team at the evening. What a company can contribute, and what that does not buy."
 >
   <p>
     <a href={routePath('release', 'en', release.number)}>{releaseName(release.number)}</a> is on {
       formatDate(release.doors, 'en')
-    } at {release.venueName} in {release.city}, so the room is sorted. Most of what we need from
-    companies does not involve a room either: let your people go that evening and count it as work
-    time. For most companies that is the real step.
+    } at {release.venueName} in {release.city}. That room is sorted. For the releases after it we
+    are always looking for the next host: a room that seats {release.capacity} people, with food and drinks.
+    Your name goes on the release page and up in the room, and that is where it stops. A speaking slot
+    is not part of it, not even for the host, because who gets on stage is decided by the <a
+      href={routePath('contribute', 'en')}>open call</a
+    >. The attendee list goes to nobody. The rest of the terms are on <a
+      href={routePath('partners', 'en')}>partners</a
+    >.
   </p>
   <p>
-    Releases rotate across the region every month, so for later ones we are always looking for a new
-    room that fits {release.capacity} people, with food and drinks. Your name goes on the release page
-    and up in the room, and that is where it stops. A speaking slot is not part of it, not even for the
-    host, because that runs through the
-    <a href={routePath('contribute', 'en')}>open call</a>. The attendee list goes to nobody, and the
-    rest of the arrangements are on <a href={routePath('partners', 'en')}>partners</a>.
+    No room, but people? Point your team at the evening. The talks are about real systems, and the
+    people who built them are standing right next to you in the break. For most companies that is
+    the most useful contribution there is, and it costs nothing.
   </p>
   <p>
     Mail <a href={`mailto:${CONTACT_EMAIL}?subject=Company%20contribution`}>{CONTACT_EMAIL}</a>, one

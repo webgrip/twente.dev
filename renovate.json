@@ -6,6 +6,12 @@
   ],
   "packageRules": [
     {
+      "description": "actions/checkout stays on v5: v6 and later are broken on non-GitHub runners, so a major bump is never a valid PR here.",
+      "matchPackageNames": ["actions/checkout"],
+      "matchUpdateTypes": ["major"],
+      "enabled": false
+    },
+    {
       "description": "Astro majors move fast and can change routing/content APIs. Never automerge.",
       "matchPackageNames": ["astro", "@astrojs/**"],
       "matchUpdateTypes": ["major"],

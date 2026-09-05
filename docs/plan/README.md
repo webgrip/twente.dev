@@ -6,6 +6,7 @@ for what; the chain itself is the record and does not get rewritten.
 | Document                                         | Status                                                        | Authoritative for                                 |
 | ------------------------------------------------ | ------------------------------------------------------------- | ------------------------------------------------- |
 | [`playbook-alignment.md`](playbook-alignment.md) | **live tracker**                                              | current launch state, open gaps, verified facts   |
+| [`release-train.md`](release-train.md)           | **live tracker**                                              | the release-driven deploy rollout, human steps    |
 | [`10x-plan.md`](10x-plan.md)                     | partially superseded (ADR-0008, ADR-0009, playbook-alignment) | original levers and rationale; historical context |
 | `code14-call-briefing.md` (local only)           | point-in-time briefing                                        | the Code14 venue conversation, as prepared        |
 

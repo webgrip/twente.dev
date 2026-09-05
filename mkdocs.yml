@@ -54,6 +54,7 @@ nav:
       - adrs/0015-naming-lives-in-the-domain-model.md
       - adrs/0016-release-as-content.md
       - adrs/0017-mail-reaches-brevo-as-a-draft.md
+      - adrs/0018-account-and-zone-resources-in-opentofu.md
       - adrs/0000-template.md
   - Community agreements:
       - partner-compact.md

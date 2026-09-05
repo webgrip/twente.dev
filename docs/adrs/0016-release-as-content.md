@@ -10,7 +10,7 @@
 
 ## Context and Problem Statement
 
-[ADR 0014](0014-monthly-releases-and-the-language-that-follows.md) fixed the cadence at one
+[ADR 0014](0014-monthly-releases.md) fixed the cadence at one
 evening on the first Wednesday of every month. That is twelve Releases a year, and
 `twente.dev/085` is a date, not a hypothetical.
 
@@ -40,7 +40,7 @@ one Release.
 - Contributions already arrive as versioned data ([ADR 0005](0005-contributions-as-data.md)),
   and a Release is the most editorial thing on the site.
 - The public URLs `/nl/001` and `/en/001` were ratified in
-  [ADR 0015](0015-release-vocabulary.md) and must survive unchanged.
+  [ADR 0015](0015-naming-lives-in-the-domain-model.md) and must survive unchanged.
 
 ## Considered Options
 
@@ -114,7 +114,7 @@ sourced from the resolved current Release instead of from a constant.
 
 ## More Information
 
-- 2026-09-04 — monthly cadence fixed in [ADR 0014](0014-monthly-releases-and-the-language-that-follows.md),
+- 2026-09-04 — monthly cadence fixed in [ADR 0014](0014-monthly-releases.md),
   which is what makes the per-Release cost compound.
 - 2026-09-04 — the vocabulary rename in `98c56ed` moved the release constant and the route
   key onto the current nouns without changing the shape this ADR is about.

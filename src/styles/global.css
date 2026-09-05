@@ -153,10 +153,6 @@ hr {
   padding-inline: var(--space-4);
 }
 
-.container--reading {
-  max-width: var(--width-reading);
-}
-
 @media (min-width: 48rem) {
   .container {
     padding-inline: var(--space-6);

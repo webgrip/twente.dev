@@ -1,4 +1,4 @@
-import { NEWSLETTER_SENDER } from '../src/config/site.ts';
+import { NEWSLETTER_LIST_ID, NEWSLETTER_SENDER } from '../src/config/site.ts';
 import { isLocale } from '../src/i18n/config.ts';
 import { checkMail } from '../src/lib/mail/check.ts';
 import type { MailDocument } from '../src/lib/mail/document.ts';
@@ -50,18 +50,20 @@ async function brevo(path: string, init: RequestInit = {}): Promise<unknown> {
 }
 
 async function listId(): Promise<number> {
-  const configured = process.env.BREVO_LIST_ID;
-  if (configured && Number.isInteger(Number(configured))) return Number(configured);
+  if (NEWSLETTER_LIST_ID !== null) return NEWSLETTER_LIST_ID;
 
   const lists = (await brevo('/contacts/lists?limit=50')) as {
     lists?: Array<{ id: number; name: string; totalSubscribers: number }>;
   };
 
-  console.error('BREVO_LIST_ID staat niet in de omgeving. Beschikbare lijsten:\n');
+  console.error('NEWSLETTER_LIST_ID is null in src/config/site.ts. Beschikbare lijsten:\n');
   for (const list of lists.lists ?? []) {
     console.error(`  ${String(list.id).padEnd(6)} ${list.name} (${list.totalSubscribers})`);
   }
-  return die('\nExporteer BREVO_LIST_ID met het id van de lijst die deze mail moet krijgen.');
+  return die(
+    '\nZet het id van de lijst die deze mail moet krijgen in NEWSLETTER_LIST_ID. Het is geen ' +
+      'secret: het identificeert een lijst en geeft er geen toegang toe.',
+  );
 }
 
 async function findCampaign(name: string): Promise<BrevoCampaign | undefined> {

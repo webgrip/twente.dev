@@ -58,6 +58,11 @@ nav:
   - Community agreements:
       - partner-compact.md
       - legitimate-interest-assessment.md
+  - Runbooks:
+      - runbooks/mail-drafts.md
+      - runbooks/email-authentication.md
+      - runbooks/release-banners.md
+      - runbooks/rollback.md
   - Brand:
       - brand/README.md
       - brand/social-profile-copy.md

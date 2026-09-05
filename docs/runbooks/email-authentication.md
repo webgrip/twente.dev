@@ -1,7 +1,8 @@
 # Runbook — mail authentication for twente.dev and webgrip.nl
 
-**Owner: Ryan** (needs Cloudflare DNS and Google Workspace admin; neither is available to an
-agent). Originally filed as the blocker on all outreach — VIK-798.
+**Owner: Ryan** (Google Workspace admin stays Ryan's; the DNS half is a commit in
+[`webgrip/cloudflare`](https://forgejo.webgrip.dev/webgrip/cloudflare) since 2026-09-05,
+[ADR 0018](../adrs/0018-account-and-zone-resources-in-opentofu.md)). Originally filed as the blocker on all outreach — VIK-798.
 
 > **Verified state, 2026-09-04** (measured with `dig` against 8.8.8.8, not asserted). Both
 > zones are on the same Cloudflare account (`lynn`/`nadia.ns.cloudflare.com`).

@@ -1,0 +1,38 @@
+name: "[Manual] Mail Draft"
+
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: "Doel uit pnpm mail, bijvoorbeeld post:open-call-001"
+        required: true
+        type: string
+      locale:
+        description: "nl of en; leeg is beide talen"
+        required: false
+        type: string
+        default: ""
+
+permissions:
+  contents: read
+
+jobs:
+  draft:
+    name: "Draft in Brevo"
+    runs-on: docker
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
+      - name: Install dependencies
+        run: corepack enable && pnpm install --frozen-lockfile
+
+      - name: Create or update the draft
+        env:
+          BREVO_API_KEY: ${{ secrets.BREVO_API_KEY }}
+          MAIL_TARGET: ${{ inputs.target }}
+          MAIL_LOCALE: ${{ inputs.locale }}
+        run: pnpm mail:draft "$MAIL_TARGET" $MAIL_LOCALE

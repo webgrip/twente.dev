@@ -116,3 +116,11 @@ Site` needs it, so a broken mail stops the lane before a deploy.
   decision holds, this record only settles how content reaches it.
 - Supported by [ADR 0016](0016-release-as-content.md), which is what lets the generator
   announce any Release rather than only the current one.
+- 2026-09-05 — the half of this record that kept `BREVO_API_KEY` out of CI is superseded by
+  [homelab-cluster ADR-0055](https://forgejo.webgrip.dev/webgrip/homelab-cluster/src/branch/main/docs/techdocs/docs/adr/adr-0055-one-secrets-model-six-levels.md).
+  Its premise, that a CI secret is a static value readable by every job, does not hold for this
+  estate: the key is an OpenBao original at `secret/brevo/twente-dev`, delivered hourly to this
+  repository alone by the `forgejo-actions-secrets` bridge and verified against Brevo on every
+  tick. The draft-not-send decision, the `validate:mail` gate and the confirmation that no
+  script calls the send path all stand. The `[Manual] Mail Draft` workflow runs `mail:draft`
+  on demand from the repository's Actions tab.

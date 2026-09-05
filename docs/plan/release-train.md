@@ -17,7 +17,7 @@ fixes the model. A deploy is the consequence of a release, not of a push.
 | Daily work lands         | `main`                                        | `development`                                                                            |
 | Production deploy        | every green push to `main`, plus nightly HEAD | a stable release `vX.Y.Z`, cut on `main` by semantic-release; nightly redeploys that tag |
 | Staging                  | none (branch previews on workers.dev)         | `staging.twente.dev`, behind Cloudflare Access (Authentik), deployed by every `-rc.N`    |
-| Promotion                | none                                          | PR `development → main`, opened and kept open automatically, merged never squashed       |
+| Promotion                | none                                          | PR `development → main`, opened when an rc is published, merged never squashed           |
 | Who pushes `main`        | anyone with write                             | `webgrip-ci` (release commit-back) and `ryangr0` (hotfix escape hatch)                   |
 | Who pushes `development` | n/a                                           | `webgrip-ci`, `ryangr0`; agent sessions included, they run as the owner                  |
 | Renovate base            | `main`                                        | `development`                                                                            |
@@ -33,7 +33,10 @@ released as the next minor.
 
 ### webgrip/cloudflare
 
-- `staging.twente.dev` proxied DNS record, landed on `main` as `28dbc38` (2026-09-05).
+- `staging.twente.dev` proxied DNS record, declared in `twente_dev_dns_web.tf` as `28dbc38`
+  (2026-09-05) and since carried by DNSControl in `dns/dnsconfig.js` (ADR 0018 v1.1.0). Not resolving as of 2026-09-05 evening (`dig +short staging.twente.dev` is empty),
+  so every rc's staging edge probe fails with `000` until DNSControl pushes the zone; the
+  promotion PR body shows that answer.
 - Access resources on branch `feat/staging-access` (`6216e85`): open the PR once the token and the
   two repo secrets exist. Until Access is applied the anonymous edge answers 200, so
   `on_release_published.yml` probes staging for 200; flip `edge-probe-expect` to `302` in the same
@@ -63,10 +66,13 @@ released as the next minor.
    tag-only; the 2025 `.releaserc.json` goes.
 3. `on_source_change.yml`: verification on push and pull request, preview upload for feature
    branches, a release job on `main` and `development` only, no production deploy.
-4. `on_release_published.yml`: `release: [published]` plus `workflow_dispatch(tag)`; rc tags deploy
+4. `on_release_published.yml`: `release: [published]`; rc tags deploy
    staging, stable tags deploy production, each with its edge verification.
 5. `nightly-rebuild.yml` checks out the latest stable tag, not `main`.
-6. `open_promotion_pr.yml`: on push to `development`, open or keep the promotion PR to `main`.
+6. `on_release_published.yml`, job `open-promotion-pr`: when an rc is published, open or keep the
+   promotion PR to `main`, with the staging deploy result and the live answer of
+   `staging.twente.dev/nl` written into the PR body; an open PR that is not mergeable fails the
+   job. A push that cuts no rc opens nothing.
 7. `renovate.json`: `baseBranches: ["development"]`.
 8. `CLAUDE.md`: sessions commit to `development`; `main` is promotion plus owner hotfixes.
 9. Branch `development` created from `main`.

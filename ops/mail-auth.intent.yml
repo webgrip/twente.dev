@@ -13,7 +13,8 @@ domains:
       - selector: google
         keyCharacters: 408
     dmarcPolicy: p=none
-    dmarcReportsTo: [dmarc@twente.dev]
+    dmarcReportsTo:
+      [0525d8c91ea04d888744ae8a292691cc@dmarc-reports.cloudflare.net, dmarc@twente.dev]
 
   send.twente.dev:
     mx: []
@@ -22,7 +23,12 @@ domains:
       - selector: brevo1
       - selector: brevo2
     dmarcPolicy: p=none
-    dmarcReportsTo: [dmarc@twente.dev, rua@dmarc.brevo.com]
+    dmarcReportsTo:
+      [
+        0525d8c91ea04d888744ae8a292691cc@dmarc-reports.cloudflare.net,
+        dmarc@twente.dev,
+        rua@dmarc.brevo.com,
+      ]
 
   webgrip.nl:
     mx:
@@ -38,4 +44,5 @@ domains:
       - selector: google
         keyCharacters: 408
     dmarcPolicy: p=none
-    dmarcReportsTo: [dmarc@webgrip.nl]
+    dmarcReportsTo:
+      [f30e87cf7d0241958cbca88c6ffdc784@dmarc-reports.cloudflare.net, dmarc@webgrip.nl]

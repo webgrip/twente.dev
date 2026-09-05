@@ -13,7 +13,7 @@ agent). Originally filed as the blocker on all outreach — VIK-798.
 > | DKIM    | ✅ 408 chars, `google` selector     | ✅ 408 chars             |
 > | DMARC   | ✅ `p=none`, two `rua`, `fo=1`      | ✅ `p=none`, two `rua`   |
 > | DNSSEC  | ❌ deliberately deferred            | ❌ deliberately deferred |
-> | MTA-STS | 🔶 policy served, TXT pending       | ❌ not yet               |
+> | MTA-STS | ✅ `mode: testing`, both TXT live   | ❌ not yet               |
 > | CAA     | ❌ none, any CA may issue           | ❌ none                  |
 >
 > **twente.dev moved from domain alias to secondary domain on 2026-09-04**, MX included. The
@@ -119,13 +119,14 @@ INC.` The ccTLD worry was unfounded. Cloudflare Registrar was never an option he
    Finishing it is one action per zone: take the DS values Cloudflare generates and enter them at
    Namecheap under Domain List → Manage → Advanced DNS → DNSSEC, as KeyTag, Algorithm, DigestType
    and Digest. `twente.dev` has neither half yet, so it starts in the Cloudflare dashboard.
-6. **MTA-STS + TLS-RPT** on twente.dev. **Unblocked and half-shipped, 2026-09-04.** Decision 2
-   is taken, so the `mx:` list is knowable: the policy at `public/.well-known/mta-sts.txt` is
-   served from the Worker on `mta-sts.twente.dev` in `mode: testing`, listing `smtp.google.com`
-   plus the classic `aspmx` names so a revert does not invalidate it. What remains is Ryan's
-   half: the `tlsrpt@` group, the `_mta-sts` and `_smtp._tls` TXT records, and after two clean
-   weeks `mode: enforce` with a bumped `id`. Publish the policy before the TXT record, never the
-   other way round.
+6. ~~**MTA-STS + TLS-RPT** on twente.dev.~~ **Live in `mode: testing`, 2026-09-05.** The policy
+   at `public/.well-known/mta-sts.txt` is served from the Worker on `mta-sts.twente.dev`,
+   listing `smtp.google.com` plus the classic `aspmx` names so a revert does not invalidate it.
+   `_mta-sts` carries `id=20260905` and `_smtp._tls` reports to the `tlsrpt@` group. The policy
+   went up before the TXT record, which is the only safe order.
+   What remains is one step, and it has a date: after two clean weeks of TLS-RPT, move the file
+   to `mode: enforce` with `max_age: 604800` **and bump the `id`**, because receivers cache on
+   that id and a policy change without one is ignored.
 7. **Subdomain lockdown** — `v=spf1 -all` plus `_dmarc` `p=reject` on anything that never
    sends, and `sp=reject` on the apex once the apex is at quarantine. Cloudflare's DMARC
    Management does not cover subdomains; these are manual.
@@ -535,10 +536,14 @@ Free, and almost nobody at this scale does it:
   and `tlsrpt@` must be a deliverable address or the reports bounce like any other mail.
 - **DNSSEC**, one click per zone at Cloudflare — after the registrar transfer.
 - **Google Postmaster Tools**, both domains.
-- **Drift monitoring.** All of this is DNS, and DNS rots quietly. The repo pattern already
-  exists for exactly this shape: `scripts/validate-csp.ts` guards a claim that only fails at
-  the user. A `validate-mail-auth` script plus a scheduled Forgejo workflow would check SPF,
-  DKIM, DMARC, DNSSEC and the MTA-STS policy on every domain and fail on drift.
+- ~~**Drift monitoring.**~~ **Built, 2026-09-05.** `scripts/validate-mail-auth.ts` reads
+  `ops/mail-auth.intent.yml`, which declares per domain what should be published, and
+  `.forgejo/workflows/mail-auth-drift.yml` runs it nightly. It covers MX, SPF, DKIM key length,
+  DMARC policy and report addresses, MTA-STS, CAA and DNSSEC. Two things it does that a generic
+  checker cannot: it knows `send.twente.dev` should have **no** SPF record, which ADR 0011
+  decided and which any validator would call healthy; and it fails when a record is published
+  while the intent file still says it is not, so the declared state cannot quietly fall behind
+  the world.
 
 ---
 

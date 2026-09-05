@@ -42,74 +42,49 @@ aanmelden op 14 september opent zonder dat er iets achter zit.
       terugtrekking; het houdt de rotatiebelofte op de perspagina overeind en
       geeft jullie allebei ruimte.
 
-## Deze week: de Workspace-verhuizing
+## Mail: de verhuizing is klaar, dit ligt er nog
 
-Gekozen op 4 september: de volledige overstap naar secondary domain, licentie
-inbegrepen. Die lost twee dingen in één zitting op. `conduct@twente.dev` wordt
-een echte groep met meer dan één lid, en de envelope verschuift van `webgrip.nl`
-naar `twente.dev`, waarmee DMARC op twee benen komt te staan in plaats van op
-één.
+De overstap naar secondary domain is op 4 september uitgevoerd, alle acht stappen.
+`conduct@`, `hello@`, `press@` en `dmarc@` zijn Google Groups op twente.dev, en
+externe post komt bij elk lid aan. Verzenden gaat vanaf `ryan@twente.dev` met
+`hello@twente.dev` als afzender; dat is de enige opstelling waarin SPF en DKIM
+allebei uitlijnen. MTA-STS staat live op `mode: testing`, met beide TXT-records
+gepubliceerd. De gemeten stand staat bovenin
+[`runbooks/email-authentication.md`](../runbooks/email-authentication.md).
 
-Volledige procedure met volgorde, verificatie en terugweg staat in
-[`runbooks/email-authentication.md`](../runbooks/email-authentication.md),
-sectie "Plan: van domain alias naar secondary domain".
+Wat er nog ligt, in volgorde van moeite:
 
-**Wanneer.** Ruim voor 14 september, want dan opent aanmelden. Niet op
-vrijdagmiddag. Stap 6 mint een nieuwe DKIM-sleutel, dus tussen die stap en een
-geslaagde testmail staat DMARC even op nul benen. Dat is te overzien op een
-rustige dag en het is de reden om het niet uit te stellen tot de week dat er
-iets van afhangt.
-
-- [x] Cloudflare Email Routing-regels opgeschreven, 4 september. Het zijn er
-      geen. Er is precies één regel, een catch-all naar
-      `ryan+twentedev@webgrip.nl`, en die is de enige reden dat `hello@`,
-      `conduct@`, `press@` en `dmarc@` ergens aankomen. Je weg terug is dus die
-      ene regel plus de DNS-stand in het runbook onder "Vooraf".
-- [ ] **Welke adressen zijn echt in gebruik?** Activity Log op `Last 30 days`,
-      unieke waarden in de kolom `Recipient`. Dit is de lijst die stap 5 moet
-      dekken. De catch-all verbergt vandaag wat je gebruikt, en na stap 7
-      bestaat alleen nog wat je expliciet hebt aangemaakt.
-- [ ] **Waarom falen de DMARC-rapporten?** Activity Log, een rij met
-      `Delivery failed` openklikken en de reden lezen. 27 van de 42 berichten
-      van de afgelopen week zijn mislukt en het zijn allemaal Google-rapporten
-      aan `dmarc@`. Waarschijnlijk lost de verhuizing dit op, omdat Google dan
-      direct aflevert zonder doorstuurhop, en dat wil je weten voordat je erop
-      rekent.
-- [ ] Loop de acht stappen af in die volgorde. Stap 1 tot en met 6 raken je
-      inbox niet. Stap 7 zet de MX om en dat is het onomkeerbare moment. Er is
-      geen knop die een alias omzet naar een secondary domain; Workspace biedt
-      alleen `Remove`, dus stap 1 en 2 zijn echt twee stappen.
-- [ ] Stap 4 kost geld: `ryan@twente.dev` als echt account is een licentie. Dat
-      is de stap die de envelope koopt. Sla je hem over, dan heb je de groepen
-      en blijft de envelope op `webgrip.nl` staan.
-- [ ] Stap 5 heeft een valkuil die geen foutmelding geeft: een nieuwe groep
-      weigert externe afzenders standaard, en `hello@` en `conduct@` moeten
-      juist van buiten kunnen ontvangen.
-- [ ] Klaar is pas klaar als een testmail vanaf `ryan@twente.dev` **beide**
-      DMARC-benen laat slagen: `dkim=pass header.d=twente.dev` én
-      `spf=pass smtp.mailfrom=twente.dev`.
-- [ ] En als een mail van buiten naar `conduct@twente.dev` bij **elk** lid
-      aankomt. Dat adres staat op de gedragscodepagina.
-- [ ] Bij stap 7 een besluit: Google heeft geen catch-all zoals Cloudflare, wel
-      _Default routing_. Zet die op `ryan@twente.dev`, dan loopt een adres dat we
-      vergeten stil door in plaats van hard te bouncen.
-- [ ] Werk daarna het runbook bij: punt 3 afvinken, de tabel bovenin op de
-      nieuwe MX en de nieuwe DKIM-staart zetten, en punt 7 (MTA-STS) is dan niet
-      langer geblokkeerd.
-
-**Loopt het uit tot na 12 september**, zet dan eerst route A uit het runbook neer
-als tussenstap, zodat `conduct@` twee mensen bereikt voordat aanmelden opent: een
-groep op webgrip.nl waar de bestaande Cloudflare-regel naar wijst. Een paar
-minuten werk, in een paar minuten terug te draaien, en de verhuizing kan daarna
-alsnog.
-
-## Deze week: gratis en zo gedaan
-
+- [ ] **CAA-records** op `twente.dev` en `webgrip.nl`, negen per zone. Nu mag elke
+      CA ter wereld een certificaat voor je domeinen uitgeven. De vier CA's van
+      Cloudflare moeten er alle vier in, want ze rouleren.
+- [ ] **DNSSEC afmaken.** `webgrip.nl` tekent al maar heeft geen DS bij Namecheap,
+      dus niemand valideert het. Vier velden overtypen uit Cloudflare.
+      `twente.dev` moet eerst aan in Cloudflare.
 - [ ] **Google Postmaster Tools** voor twente.dev en webgrip.nl, op
       [postmaster.google.com](https://postmaster.google.com). Per domein een
       TXT-record in Cloudflare op de apex, dan Verify. De grafieken blijven leeg
-      tot je een paar honderd berichten naar Gmail-adressen hebt gestuurd, en
-      dat is precies de reden om het nu aan te zetten en niet straks.
+      tot je een paar honderd berichten naar Gmail-adressen hebt gestuurd, en dat
+      is precies de reden om het nu aan te zetten en niet straks.
+- [ ] **De drie Brevo-instellingen** uit ADR 0011 die niets in deze repo kan
+      afdwingen: Reply-To op `hello@`, open tracking uit, double opt-in aan.
+- [ ] **Renovate aanzetten voor deze repo** in `webgrip/homelab-cluster`. De
+      config staat klaar en gepind, maar de runner kent twente.dev niet, dus er
+      gebeurt niets.
+- [ ] **De catch-all testen.** `bestaatniet@twente.dev` kwam niet aan toen we het
+      probeerden. Email Log Search zegt wat ermee gebeurde.
+
+Dit wordt bewaakt: `pnpm validate:mail-auth` controleert de gemeten stand tegen
+`ops/mail-auth.intent.yml`, en een nachtelijke workflow faalt bij afwijking. Wat
+hierboven nog open staat, meldt hij als openstaande stap in plaats van als fout.
+
+Op de kalender, niet nu:
+
+- ~18 september DMARC naar `p=quarantine; pct=25`, ~1 oktober naar `pct=100`, en
+  `p=reject; sp=reject` pas ná 4 november. Verscherpen rond een datum die telt is
+  precies wat het runbook afraadt.
+- Twee schone weken TLS-RPT, dan MTA-STS van `testing` naar `enforce` met een
+  opgehoogd `id`.
+- SPF van `~all` naar `-all` als allerlaatste.
 
 ## Wanneer het zover is
 

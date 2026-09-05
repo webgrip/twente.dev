@@ -22,7 +22,6 @@ const navItems: { key: RouteKey; label: string }[] = [
   { key: 'blog', label: t('nav.blog') },
   { key: 'communities', label: t('nav.communities') },
   { key: 'contribute', label: t('nav.contribute') },
-  { key: 'search', label: t('search.label') },
 ];
 ---
 
@@ -61,6 +60,19 @@ const navItems: { key: RouteKey; label: string }[] = [
     </nav>
 
     <div class="header-actions">
+      <a
+        class="search-link"
+        href={routePath('search', locale)}
+        aria-label={t('search.label')}
+        aria-current={current === 'search' ? 'page' : undefined}
+      >
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
+          <circle cx="10.5" cy="10.5" r="6.25" fill="none" stroke="currentColor" stroke-width="1.8"
+          ></circle>
+          <path d="M15.3 15.3L21 21" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+          ></path>
+        </svg>
+      </a>
       <ThemeToggle locale={locale} />
       <LocaleSwitcher locale={locale} routeKey={current} slug={slug} />
     </div>
@@ -122,10 +134,10 @@ const navItems: { key: RouteKey; label: string }[] = [
     list-style: none;
     padding: 0;
     margin: 0;
-    flex-wrap: wrap;
   }
 
   .site-nav a {
+    display: inline-block;
     color: var(--fg-muted);
     text-decoration: none;
     font-family: var(--font-mono);
@@ -133,6 +145,7 @@ const navItems: { key: RouteKey; label: string }[] = [
     font-weight: 400;
     text-transform: uppercase;
     letter-spacing: var(--tracking-label);
+    white-space: nowrap;
     padding-block: var(--space-2);
     border-block-end: 2px solid transparent;
   }
@@ -152,6 +165,28 @@ const navItems: { key: RouteKey; label: string }[] = [
     gap: var(--space-2);
   }
 
+  .search-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.25rem;
+    min-height: 2.25rem;
+    color: var(--fg-muted);
+    border: var(--border-width) solid var(--border);
+    border-radius: var(--radius-md);
+  }
+
+  .search-link:hover {
+    color: var(--fg);
+    border-color: var(--border-strong);
+    background: var(--bg-subtle);
+  }
+
+  .search-link[aria-current='page'] {
+    color: var(--fg);
+    border-color: var(--accent);
+  }
+
   @media (max-width: 47.99rem) {
     .header-inner {
       min-height: 0;
@@ -161,10 +196,21 @@ const navItems: { key: RouteKey; label: string }[] = [
     .site-nav {
       order: 3;
       width: 100%;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .site-nav::-webkit-scrollbar {
+      display: none;
     }
 
     .site-nav ul {
       gap: var(--space-3);
+    }
+
+    .site-nav a {
+      font-size: 0.6875rem;
+      letter-spacing: 0.04em;
     }
   }
 </style>

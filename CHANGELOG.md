@@ -33,6 +33,7 @@
 * **claims:** de gegenereerde changelog valt buiten de woordenlijst ([8a0f9db](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/8a0f9dbf1444aae5566cac2dd641f53a4cab419e))
 
 ## [0.1.0-rc.1](https://forgejo.webgrip.dev/webgrip/twente.dev/compare/v0.0.0...v0.1.0-rc.1) (2026-09-05)
+## [0.1.0](https://forgejo.webgrip.dev/webgrip/twente.dev/compare/v0.0.0...v0.1.0) (2026-09-05)
 
 ### Dependencies
 

@@ -90,7 +90,7 @@ Run metadata and, because the repo is public, the log bodies too are readable wi
   there is a hotfix, not a workflow. A `docs:` or `chore:` commit releases nothing; a copy or content
   change that must ship uses the `content` type (patch) or `feat`/`fix`.
 - **DNS for twente.dev lives in [`webgrip/cloudflare`](https://forgejo.webgrip.dev/webgrip/cloudflare)**
-  (OpenTofu, [ADR 0018](docs/adrs/0018-account-and-zone-resources-in-opentofu.md)). Never edit a
+  (DNSControl, [ADR 0018](docs/adrs/0018-account-and-zone-resources-in-opentofu.md)). Never edit a
   record in the Cloudflare dashboard: the nightly drift plan fails and the next apply reverts it.
   Worker routes stay in [`wrangler.toml`](wrangler.toml); the records that make them resolve are
   in that repo.

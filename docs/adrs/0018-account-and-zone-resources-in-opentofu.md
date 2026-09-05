@@ -1,10 +1,10 @@
-# ADR 0018 – Account and zone resources live in OpenTofu, application resources in wrangler
+# ADR 0018 – Account and zone resources live in code, application resources in wrangler
 
 - **Status**: Accepted
 - **Deciders**: Ryan Grippeling
 - **Date**: 2026-09-05
 - **Tags**: Infrastructure::DNS, Infrastructure::IaC, Security, Operations
-- **Version**: 1.0.0
+- **Version**: 1.1.0
 
 ---
 
@@ -57,23 +57,28 @@ half.
 7. **Atlantis** on Forgejo
 8. **external-dns `DNSEndpoint` objects** for every record
 9. **Keep the dashboard**
+10. **DNSControl or octoDNS** for the records, a general IaC tool only for what they cannot
+    express
 
 ## Decision Outcome
 
 ### Chosen Option
 
-**OpenTofu, in a new repository `webgrip/cloudflare`, applied from Forgejo Actions.** The
-boundary is the decision: **account and zone resources live there; application resources stay in
-wrangler.** Concretely, the repository owns DNS records, zone settings, DNSSEC, rulesets and R2
-buckets. It never owns a Worker, a route, a binding or a `custom_domain`; those remain in each
+**One repository, `webgrip/cloudflare`, applied from Forgejo Actions, with two tools behind one
+boundary: account and zone resources live there; application resources stay in wrangler.**
+DNS records and redirect rules are DNSControl (`dns/dnsconfig.js`, one line per record, no state:
+it diffs the file against the live zone). Everything DNSControl cannot express is OpenTofu:
+the R2 bucket now, DNSSEC toggles, zone settings and Zero Trust Access as they arrive. The
+repository never owns a Worker, a route, a binding or a `custom_domain`; those remain in each
 site's `wrangler.toml`, where `wrangler deploy` asserts them on every deploy. Two writers on one
 object would fight forever, so the split follows who already writes.
 
 The same rule keeps this repository away from records other writers own: external-dns in
 homelab-cluster owns `www.webgrip.nl` and everything it publishes on `webgrip.dev`; the
 `webgrip.nl` apex record is a legacy hand-made record it deliberately refuses to adopt and stays
-listed as unmanaged; `counterscale.webgrip.dev` is wrangler's `custom_domain`. OpenTofu has no
-sync semantics, so records it does not declare are invisible to it. The one trap is declaring a
+listed as unmanaged; `counterscale.webgrip.dev` is wrangler's `custom_domain`. DNSControl's `IGNORE()`
+exists for exactly this sharing: the ignored names are neither modified nor deleted, and a config
+that both ignores and declares a name is rejected. The one trap is declaring a
 name someone else declares, which produces a duplicate record, and duplicates of MX, SPF or DMARC
 break mail.
 
@@ -115,6 +120,11 @@ MTA-STS and TLS-RPT records, CAA and the `webgrip.dev` zone follow after 16 Sept
   loop. This estate is trunk-based on `main` with no pull requests.
 - **external-dns for everything.** It already owns what it owns, and it cannot express zone
   settings, DNSSEC, rulesets or R2 buckets.
+- **DNSControl or octoDNS alone.** Chosen for the records, where their stateless diff and their
+  coexistence primitives beat a general tool; rejected as the only tool, because R2 buckets,
+  zone settings and Access policies are outside their model. octoDNS lost to DNSControl on
+  coexistence: its Cloudflare filters lean on record tags, a paid feature, where DNSControl's
+  `IGNORE()` needs nothing.
 - **Keep the dashboard.** The status quo, whose cost is the runbook line "not available to an
   agent" and three zones nobody can rebuild.
 
@@ -161,6 +171,13 @@ MTA-STS and TLS-RPT records, CAA and the `webgrip.dev` zone follow after 16 Sept
 - 2026-09-05: decision recorded. Phase A (secret chain, skeleton, zero-diff import, nightly
   drift) lands before 14 September and changes no DNS answer; phases B and C wait until
   16 September. Tracking: [VIK-843](https://vikunja.webgrip.dev/tasks/843).
+- 2026-09-05, version 1.1.0: the same day, after the OpenTofu import had landed with a zero-diff
+  plan, the record layer moved to DNSControl. The trigger was the shape of the result: sixteen
+  HCL files in the root and twelve lines per record for what is data, plus a state bucket, a
+  passphrase and a lockfile that existed only to make a general tool safe for DNS. The first
+  research pass had compared IaC frameworks and skipped the DNS-specific tools; that gap is
+  recorded here so it is not repeated. OpenTofu keeps the account objects. The boundary, the
+  repository, the token and the secret chain did not move.
 - The repository: [`webgrip/cloudflare`](https://forgejo.webgrip.dev/webgrip/cloudflare), with
   the ownership table in its README and the procedure in `docs/bootstrap.md`.
 - Refines [ADR 0002](0002-cloudflare-workers-static-assets.md) and

@@ -15,10 +15,31 @@ env:
   ASTRO_TELEMETRY_DISABLED: "1"
 
 jobs:
+  release-channel:
+    name: "Release Channel"
+    runs-on: docker
+    outputs:
+      channel: ${{ steps.parse.outputs.channel }}
+    steps:
+      - id: parse
+        run: |
+          set -euo pipefail
+          tag='${{ github.event.release.tag_name }}'
+          case "${tag}" in
+            v*-*) channel=prerelease ;;
+            v*) channel=stable ;;
+            *) echo "unexpected release tag: ${tag}" >&2; exit 1 ;;
+          esac
+          echo "${tag} -> ${channel}"
+          echo "channel=${channel}" >> "$GITHUB_OUTPUT"
+
   deploy-staging:
     name: "Deploy Staging"
-    uses: webgrip/workflows/.forgejo/workflows/cloudflare-deploy.yml@2df9161cf4c7d6425e0051583f5d85dbdebcce48
+    needs:
+      - release-channel
+    uses: webgrip/workflows/.forgejo/workflows/cloudflare-deploy.yml@9d3da2af26bda748e13a85ab53fcc3c3ade4744d
     with:
+      enabled: ${{ needs.release-channel.outputs.channel == 'prerelease' }}
       environment: production
       release-channel: prerelease
       wrangler-env: staging
@@ -32,8 +53,11 @@ jobs:
 
   deploy-production:
     name: "Deploy Production"
-    uses: webgrip/workflows/.forgejo/workflows/cloudflare-deploy.yml@2df9161cf4c7d6425e0051583f5d85dbdebcce48
+    needs:
+      - release-channel
+    uses: webgrip/workflows/.forgejo/workflows/cloudflare-deploy.yml@9d3da2af26bda748e13a85ab53fcc3c3ade4744d
     with:
+      enabled: ${{ needs.release-channel.outputs.channel == 'stable' }}
       environment: production
       release-channel: stable
       apex-url: "https://twente.dev"

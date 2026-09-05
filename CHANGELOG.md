@@ -1,3 +1,15 @@
+## [0.1.0-rc.3](https://forgejo.webgrip.dev/webgrip/twente.dev/compare/v0.1.0-rc.2...v0.1.0-rc.3) (2026-09-05)
+
+### Added
+
+* **mail:** NEWSLETTER_LIST_ID is lijst 3, de dubbele-opt-in-lijst in Brevo ([ecd84de](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/ecd84defbd7ece66c20ae5022ed36dfcd1b856f8))
+
+### Docs
+
+* **agents:** joblogs zijn zonder token leesbaar, en de commentaarregel linkt naar zijn nieuwe thuis ([0069697](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/0069697b771f130b22c3f5214bcb8507a75f6012))
+* **brand:** de meetup-tekst voor /001 en de social-copy volgen weer de site ([d47f874](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/d47f874366f9a97d80dffa75c7efe9018e76dec8)), references [#updates-anker](https://forgejo.webgrip.dev/webgrip/twente.dev/issues/updates-anker)
+* cadans, field report en weekdagen gelijkgetrokken buiten de merkdocs ([e1a93f6](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/e1a93f6d6e5d7523a352e18e20aae4eb3d7cb523))
+
 ## [0.1.0-rc.2](https://forgejo.webgrip.dev/webgrip/twente.dev/compare/v0.1.0-rc.1...v0.1.0-rc.2) (2026-09-05)
 
 ### Added

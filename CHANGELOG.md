@@ -1,3 +1,25 @@
+## [0.1.0-rc.2](https://forgejo.webgrip.dev/webgrip/twente.dev/compare/v0.1.0-rc.1...v0.1.0-rc.2) (2026-09-05)
+
+### Added
+
+* **newsletter:** de bevestigingspagina is een aankomst en geen bijsluiter ([f3daac1](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/f3daac1d648a8dd43893be6cb18c9f79b748db8e))
+
+### Fixed
+
+* **release:** het kanaal van een release wordt op de runner bepaald en via needs doorgegeven ([260ea6f](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/260ea6fafc9b47fa0914c440e701959c9595b676))
+
+### Changed
+
+* **claims:** de motor komt uit de toolkit, de regels blijven hier ([49671e0](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/49671e068eeb6251975edc0649a4a22f4982cc6c))
+
+### Docs
+
+* **release:** Meetup-groep en parkeren bevestigd, de groep staat bij onze kanalen ([b301e21](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/b301e213f0addc28d8762dc6f5f539f420575ccd))
+
+### Tests
+
+* **claims:** de gegenereerde changelog valt buiten de woordenlijst ([8a0f9db](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/8a0f9dbf1444aae5566cac2dd641f53a4cab419e))
+
 ## [0.1.0-rc.1](https://forgejo.webgrip.dev/webgrip/twente.dev/compare/v0.0.0...v0.1.0-rc.1) (2026-09-05)
 
 ### Dependencies

@@ -3,7 +3,7 @@ resolver: 8.8.8.8
 mtaSts:
   policyInRepo: public/.well-known/mta-sts.txt
   policyUrl: https://mta-sts.twente.dev/.well-known/mta-sts.txt
-  dnsRecordsPublished: false
+  dnsRecordsPublished: true
 
 domains:
   twente.dev:
@@ -15,6 +15,15 @@ domains:
     dmarcPolicy: p=none
     dmarcReportsTo:
       [0525d8c91ea04d888744ae8a292691cc@dmarc-reports.cloudflare.net, dmarc@twente.dev]
+    caa:
+      published: false
+      issuers:
+        - letsencrypt.org
+        - "pki.goog; cansignhttpexchanges=yes"
+        - ssl.com
+        - sectigo.com
+    dnssec:
+      dsPublished: false
 
   send.twente.dev:
     mx: []
@@ -46,3 +55,12 @@ domains:
     dmarcPolicy: p=none
     dmarcReportsTo:
       [f30e87cf7d0241958cbca88c6ffdc784@dmarc-reports.cloudflare.net, dmarc@webgrip.nl]
+    caa:
+      published: false
+      issuers:
+        - letsencrypt.org
+        - "pki.goog; cansignhttpexchanges=yes"
+        - ssl.com
+        - sectigo.com
+    dnssec:
+      dsPublished: false

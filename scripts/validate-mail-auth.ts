@@ -16,7 +16,11 @@ interface DomainIntent {
   dkim: DkimIntent[];
   dmarcPolicy: string;
   dmarcReportsTo: string[];
+  caa?: { published: boolean; issuers: string[] };
+  dnssec?: { dsPublished: boolean };
 }
+
+const DNS_RECORD_TYPES = { DS: 43, DNSKEY: 48 } as const;
 
 interface MailAuthIntent {
   resolver: string;
@@ -45,6 +49,38 @@ async function mxHosts(name: string): Promise<string[]> {
     return (await resolver.resolveMx(name)).map((r) => r.exchange.replace(/\.$/, '').toLowerCase());
   } catch {
     return [];
+  }
+}
+
+async function caaEntries(name: string): Promise<{ issue: string[]; issuewild: string[] }> {
+  try {
+    const records = await resolver.resolveCaa(name);
+    return {
+      issue: records.flatMap((r) => (r.issue ? [r.issue] : [])),
+      issuewild: records.flatMap((r) => (r.issuewild ? [r.issuewild] : [])),
+    };
+  } catch {
+    return { issue: [], issuewild: [] };
+  }
+}
+
+async function overHttps(
+  name: string,
+  type: keyof typeof DNS_RECORD_TYPES,
+): Promise<{ present: boolean; validated: boolean } | null> {
+  try {
+    const response = await fetch(
+      `https://dns.google/resolve?name=${encodeURIComponent(name)}&type=${type}`,
+      { headers: { accept: 'application/dns-json' } },
+    );
+    const body = (await response.json()) as {
+      AD?: boolean;
+      Answer?: Array<{ type: number; data: string }>;
+    };
+    const answers = (body.Answer ?? []).filter((a) => a.type === DNS_RECORD_TYPES[type]);
+    return { present: answers.length > 0, validated: body.AD === true };
+  } catch {
+    return null;
   }
 }
 
@@ -102,6 +138,60 @@ for (const [domain, want] of Object.entries(intent.domains)) {
       if (!dmarcRecord.includes(address)) {
         failures.push(`${domain}: DMARC no longer reports to ${address}`);
       }
+    }
+  }
+}
+
+for (const [domain, want] of Object.entries(intent.domains)) {
+  if (want.caa !== undefined) {
+    const { issue, issuewild } = await caaEntries(domain);
+    if (want.caa.published) {
+      if (!sameSet(issue, want.caa.issuers)) {
+        failures.push(
+          `${domain}: CAA issue is [${issue.join(', ') || 'none'}], intent is [${want.caa.issuers.join(', ')}]`,
+        );
+      }
+      if (!sameSet(issuewild, want.caa.issuers)) {
+        failures.push(
+          `${domain}: CAA issuewild is [${issuewild.join(', ') || 'none'}], intent is [${want.caa.issuers.join(', ')}]`,
+        );
+      }
+    } else if (issue.length > 0 || issuewild.length > 0) {
+      failures.push(
+        `${domain}: CAA records are published while ${INTENT_FILE} still says caa.published: false`,
+      );
+    } else {
+      declaredPending.push(`${domain}: no CAA records, so any certificate authority may issue`);
+    }
+  }
+
+  if (want.dnssec !== undefined) {
+    const ds = await overHttps(domain, 'DS');
+    const key = await overHttps(domain, 'DNSKEY');
+    if (ds === null || key === null) {
+      failures.push(`${domain}: the DS or DNSKEY lookup over DNS-over-HTTPS failed`);
+    } else if (ds.present && !key.present) {
+      failures.push(
+        `${domain}: a DS record exists with no DNSKEY behind it, which resolves as SERVFAIL and is invisible from a warm resolver`,
+      );
+    } else if (want.dnssec.dsPublished) {
+      if (!ds.present) {
+        failures.push(
+          `${domain}: no DS record at the parent, so nothing validates the signed zone`,
+        );
+      } else if (!ds.validated) {
+        failures.push(`${domain}: a DS record exists but the answer is not authenticated`);
+      }
+    } else if (ds.present) {
+      failures.push(
+        `${domain}: a DS record is published while ${INTENT_FILE} still says dnssec.dsPublished: false`,
+      );
+    } else if (key.present) {
+      declaredPending.push(
+        `${domain}: the zone is signed but the DS record is missing at the registrar, so no resolver validates it`,
+      );
+    } else {
+      declaredPending.push(`${domain}: DNSSEC is not enabled`);
     }
   }
 }

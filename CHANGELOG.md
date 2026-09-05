@@ -1,3 +1,13 @@
+## [0.2.0-rc.2](https://forgejo.webgrip.dev/webgrip/twente.dev/compare/v0.2.0-rc.1...v0.2.0-rc.2) (2026-09-05)
+
+### Added
+
+* **dns:** de zone twente.dev woont in deze repo, via de gedeelde DNSControl-lane ([bd833d9](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/bd833d97de10559afea2bdc51f107008bebcd4c7))
+
+### Docs
+
+* **adr:** 0018 v1.2.0, de zone-records wonen per site-repo, de accountobjecten blijven gedeeld ([7eb1722](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/7eb17220aec36fcb0fff50e318e46485ebf0926d))
+
 ## [0.2.0-rc.1](https://forgejo.webgrip.dev/webgrip/twente.dev/compare/v0.1.0...v0.2.0-rc.1) (2026-09-05)
 
 ### Added

@@ -16,8 +16,8 @@ Open een issue met een van de formulieren:
 - **Event aanmelden** — openbaar toegankelijk en relevant voor developers · _verschijnt direct op de site_
 - **Bedrijf toevoegen** — één vermelding per bedrijf · **wordt bewaard, nog niet gepubliceerd**
 
-Wil je een verhaal, een field note of een zaal aanbieden? Dat loopt niet via een issue maar via de
-formulieren op [bijdragen](https://twente.dev/nl/bijdragen).
+Wil je een verhaal, een field report of een zaal aanbieden? Dat loopt via de formulieren op
+[bijdragen](https://twente.dev/nl/bijdragen), en niet via een issue.
 
 Een maintainer zet het om in een pull request. Lees eerst de
 [richtlijnen](https://twente.dev/nl/richtlijnen).
@@ -73,8 +73,8 @@ Open an issue using one of the forms:
 - **Submit an event** — open to the public and relevant to developers · _appears on the site straight away_
 - **Add a company** — one entry per company · **queued, not yet published**
 
-Want to offer a talk, a field note or a room? That does not go through an issue — use the forms on
-[contribute](https://twente.dev/en/contribute).
+Want to offer a talk, a field report or a room? That goes through the forms on
+[contribute](https://twente.dev/en/contribute), and not through an issue.
 
 A maintainer converts it into a pull request. Read the
 [guidelines](https://twente.dev/en/guidelines) first.

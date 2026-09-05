@@ -92,12 +92,12 @@ Op de kalender, niet nu:
       4 november. De vorige is van 30 augustus en lokale groepen publiceren maar
       twee tot acht weken vooruit.
 - [ ] **14 september**: aanmelden opent. Dit staat al zo op de site.
-- [ ] **T−6, dinsdag 23 september**: open call live en de persoonlijke
+- [ ] **T−6, woensdag 23 september**: open call live en de persoonlijke
       sprekervragen de deur uit. Sprekers komen uit de asks, niet uit de call.
-- [ ] **T−4, dinsdag 7 oktober**: beide sprekers bevestigd, anders schuift de
+- [ ] **T−4, woensdag 7 oktober**: beide sprekers bevestigd, anders schuift de
       release een maand op. Dit is de regel die /001 al een keer heeft verzet; hem
       negeren kost meer dan hem volgen.
-- [ ] **T−2, dinsdag 21 oktober**: OV-tijden opnieuw verifiëren voordat ze op de
+- [ ] **T−2, woensdag 21 oktober**: OV-tijden opnieuw verifiëren voordat ze op de
       releasepagina komen. De cijfers in het playbook zijn gecontroleerd tegen
       7 oktober en die avond bestaat niet meer.
 

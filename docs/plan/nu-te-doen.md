@@ -33,8 +33,6 @@ aanmelden op 14 september opent zonder dat er iets achter zit.
 - [ ] **Code14 krijgt geen organiser-rol** op de groep.
 - [ ] **Stuur mij de event-URL.** Dan zet ik `REGISTRATION_URL` en klopt de site
       weer intern.
-- [ ] **Klopt `meetup.com/twente-dev`?** De releasepagina linkt sinds 5 september naar die
-      groeps-URL (`MEETUP_GROUP_URL` in `src/config/site.ts`). Heet de groep anders, pas hem aan.
 
 ## Vandaag: Code14 bevestigen
 

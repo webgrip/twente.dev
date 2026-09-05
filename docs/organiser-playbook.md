@@ -238,9 +238,8 @@ exact 21:30**, precies de eindtijd.
   - **Zwolle** via Wierden (krappe maar geverifieerde 4-min-overstap op Blauwnet RS23):
     21:56 → 22:39; laatste praktische 23:56 → 00:39.
 - **Fiets/auto**: gratis P+R en fietsenstalling + OV-fiets op het station;
-  parkeerterrein Hogepad ligt op dezelfde straat (capaciteit onverifieerd — vraag Code14
-  naar eigen bezoekersplekken); parkeren rond Hogepad lijkt gratis maar is niet hard
-  bevestigd.
+  gratis parkeren bij de ingang van Code14 (bevestigd door Ryan, 2026-09-05; staat zo in
+  `venue.directions` van het events-bestand en op de releasepagina).
 - **Toegankelijkheid**: station heeft lift, geleidelijnen en NS Reisassistentie
   (Wikipedia-geverifieerd; de NS-stationspagina zelf was niet machinaal leesbaar). De
   loper van 780 m is nog niet fysiek geschouwd op stoepranden — doe dat vóór de

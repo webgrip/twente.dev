@@ -263,3 +263,24 @@
       The open twente.dev chat: say who you are and what you build, ask for
       help, offer help, post what you learned. No recruiters, no product
       pitches, no job ads.
+
+- id: twente-dev-meetup
+  name: twente.dev op Meetup
+  url: https://www.meetup.com/twente-dev/
+  platform: meetup
+  language: both
+  ours: true
+  focus:
+    - general
+    - twente
+  consent:
+    granted: true
+    evidence: our own channel
+    at: 2026-09-05
+  description:
+    nl: >-
+      De Meetup-groep van twente.dev. Hier loopt de aanmelding voor elke
+      release; de site blijft het verslag van de avond.
+    en: >-
+      The twente.dev group on Meetup. Registration for every release runs
+      here; the site stays the record of the evening.

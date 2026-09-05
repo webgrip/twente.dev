@@ -6,7 +6,7 @@ metadata:
   title: twente.dev
   description: |
     Independent, practitioner-led technology community site for Twente —
-    bilingual Astro static site on Cloudflare Workers, built around numbered
+    bilingual Astro static site on Cloudflare Workers, built around
     numbered releases.
   labels:
     tier: "3"

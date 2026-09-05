@@ -78,7 +78,8 @@ Three things that make it fail silently: `attempt` is **1-based** (omitting it g
 `task with job_id … and attempt 0: resource does not exist`), `jobIdx` is the job's **0-based
 position in the run** (not the id from the tasks API — POST with no `logCursors` to enumerate
 titles), and the output lands in `logs.stepsLog[].lines[].message`, not `streamingLogs`.
-Run metadata (which job failed) is public; log bodies need the token.
+Run metadata and, because the repo is public, the log bodies too are readable without a token
+(verified 2026-09-05 on run 263); the token is only needed for private repos.
 
 ## Repo rules that are load-bearing
 
@@ -102,7 +103,7 @@ Run metadata (which job failed) is public; log bodies need the token.
   identifier, rustdoc `///` and `//!`, and PHPDoc blocks carrying type tags. Anything that outlives
   a single expression belongs in `docs/` or an ADR, where it gets reviewed, linked and kept
   current. The estate decision is
-  [ADR 0006](https://forgejo.webgrip.dev/webgrip/workflows/src/branch/main/docs/adrs/0006-no-comments-in-code.md).
+  [ai-skills ADR 0001](https://forgejo.webgrip.dev/webgrip/ai-skills/src/branch/main/org/adrs/adr-0001-no-comments-in-code.md).
 - **Never build a URL by swapping a locale prefix.** Route _segments_ are localized
   (`/nl/bedrijven` ↔ `/en/companies`), so `/en/bedrijven` does not exist. Always go through
   `routePath()` / `alternatesFor()` in [`src/i18n/routes.ts`](src/i18n/routes.ts).

@@ -10,7 +10,7 @@
 
 ## Context and Problem Statement
 
-[ADR 0014](0014-monthly-editions-and-the-language-that-follows.md) fixed the cadence at one
+[ADR 0014](0014-monthly-releases-and-the-language-that-follows.md) fixed the cadence at one
 evening on the first Wednesday of every month. That is twelve Releases a year, and
 `twente.dev/085` is a date, not a hypothetical.
 
@@ -114,10 +114,10 @@ sourced from the resolved current Release instead of from a constant.
 
 ## More Information
 
-- 2026-09-04 — monthly cadence fixed in [ADR 0014](0014-monthly-editions-and-the-language-that-follows.md),
+- 2026-09-04 — monthly cadence fixed in [ADR 0014](0014-monthly-releases-and-the-language-that-follows.md),
   which is what makes the per-Release cost compound.
-- 2026-09-04 — the vocabulary rename in `98c56ed` moved `EDITION_001` to `RELEASE_001` and
-  `edition001` to `release001` without changing the shape this ADR is about.
+- 2026-09-04 — the vocabulary rename in `98c56ed` moved the release constant and the route
+  key onto the current nouns without changing the shape this ADR is about.
 - 2026-09-04 — the mail generator landed in `ae9f199` and inherited the single-Release
   limitation through `RELEASE_001_SPEAKERS`.
 - 2026-09-04 — landed. Two things were removed that the record did not anticipate. The

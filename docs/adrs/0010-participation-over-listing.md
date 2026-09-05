@@ -25,7 +25,7 @@ problems that are not about launch scope:
    bedrijvengids" while ADR 0009 had already deferred that directory indefinitely, and ADR 0009's
    own consequences section flagged the matching loose end: the `submit-company` issue form
    "still invites contributions into a placeholder".
-3. **No route for the thing the edition actually needs.** /001 needs two speakers and a room. The
+3. **No route for the thing the release actually needs.** /001 needs two speakers and a room. The
    site asked for neither: the open call existed as a blog post, and the contribute page was two
    paragraphs pointing at a mailbox.
 
@@ -70,7 +70,7 @@ Concretely, as shipped:
   stay in the file, unpublished, which makes the research safe to do and safe to review. The
   directory ships with search and a topic filter, and an empty state that names the number of groups
   waiting on their answer rather than pretending none exist.
-- **`/bedrijven` and `/companies` become participation pages**, ordered by what an edition actually
+- **`/bedrijven` and `/companies` become participation pages**, ordered by what an release actually
   needs: host a room, send your people on work time, put someone through the open call, bring a
   demo, give something in kind. They carry an explicit list of what sponsorship does _not_ buy
   (attendee data, speaking time, editorial influence, exclusivity) and state plainly that there is
@@ -80,13 +80,13 @@ Concretely, as shipped:
   to 25% off for volunteer-run non-profit events. It is not opened yet because two slots do not need
   a review workflow.
 - **No payment route before /001.** In-kind first, a conversation for anything else, and a public
-  financial summary after the edition.
+  financial summary after the release.
 - **Contribution forms compose an e-mail in the visitor's own client.** The CSP sets
   `form-action 'self'`, so a `<form action="mailto:…">` is blocked; the server therefore renders the
   questions as a checklist next to a prefilled `mailto:` link and the script swaps in the real form,
   so no control on the page ever silently drops what someone typed.
 - **The homepage states what twente.dev does** — the shared calendar, the evening with no field, the
-  archive — instead of promising outcomes, and the flagship appears once rather than twice.
+  archive — instead of promising outcomes, and the release appears once rather than twice.
 
 ### Rejected options and why
 
@@ -99,7 +99,7 @@ Concretely, as shipped:
 - **A Worker endpoint writing Forgejo issues.** Architecturally attractive — it keeps contributions
   as data (ADR 0005) and needs no e-mail, which matters while VIK-798 blocks outbound mail. Rejected
   for now on driver 3: a bot token in SOPS, spam handling, and a POST route on a site that is
-  otherwise wholly static, to serve a handful of submissions per edition. Revisit when the volume
+  otherwise wholly static, to serve a handful of submissions per release. Revisit when the volume
   makes a mailbox the bottleneck.
 - **A hosted form service.** Fastest to build, and it puts a processor between a contributor and us
   for exactly the conversations where that is least welcome: privacy page, LIA and CSP all change.

@@ -95,4 +95,4 @@ separate decision once there is event data to argue from — tracked on the boar
 - 2026-08-12 — `ea4a550` deletes the job board and reduces the directory pages to placeholders,
   going beyond that decision
 - 2026-08-13 — this record supersedes the jobs/companies disposition in ADR 0008; the rest of
-  ADR 0008 (playbook-first product, brand, trust pages, flagship routing) stands
+  ADR 0008 (playbook-first product, brand, trust pages, release routing) stands

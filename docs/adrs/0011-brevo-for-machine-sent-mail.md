@@ -57,7 +57,7 @@ Mailman announce-only list · no list at all (RSS and ICS only).
 human keeps going out from the apex through Google Workspace.**
 
 - **One platform for machine mail.** The newsletter first; confirmations and reminders around an
-  edition as they come online. Splitting them across two providers would double the processors on
+  release as they come online. Splitting them across two providers would double the processors on
   the privacy page and halve the reputation signal on both.
 - **One sending subdomain, purpose-neutral in its name.** `send.` rather than `news.`, because the
   same identity signs a registration confirmation, where "news" would be untrue. It carries its own
@@ -152,7 +152,7 @@ human keeps going out from the apex through Google Workspace.**
   failure this ADR exists to prevent, and it looks like success.
 - `NEWSLETTER_FORM_ACTION` being non-`null` puts its origin into `form-action`; `pnpm validate:csp`
   passes and the rendered `<meta http-equiv="content-security-policy">` names the Brevo origin.
-- Brevo's campaign settings show anonymised tracking active, and a received edition contains no
+- Brevo's campaign settings show anonymised tracking active, and a received release contains no
   tracking pixel.
 
 ## More Information

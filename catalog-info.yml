@@ -7,7 +7,7 @@ metadata:
   description: |
     Independent, practitioner-led technology community site for Twente —
     bilingual Astro static site on Cloudflare Workers, built around numbered
-    flagship events.
+    numbered releases.
   labels:
     tier: "3"
   links:

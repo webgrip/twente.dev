@@ -25,7 +25,7 @@ Een interview met iemand die in de regio iets bouwt, afgenomen en opgeschreven d
 **See also:** [People Who Build](#people-who-build), [Newsletter](#newsletter), [Talk](#talk)  
 
 ## Host
-*Context: Editie*
+*Context: Release-context*
 
 De organisatie die de zaal levert voor een Release. Onderscheidt zich van een Partner doordat de bijdrage de ruimte zelf is, en van een organisator doordat een Host de avond niet vormgeeft.
 
@@ -66,7 +66,7 @@ Een gepubliceerde oproep om iets bij te dragen, meestal een Talk voor de eerstvo
 **See also:** [Talk](#talk), [Speaker](#speaker)  
 
 ## Opkomst
-*Context: Editie*
+*Context: Release-context*
 
 Het aantal mensen dat op de avond zelf in de zaal stond. Onderscheidt zich van Registration doordat een RSVP een voornemen is en Opkomst een telling; het verschil tussen die twee is de no-showmarge waarop de overboekfactor wordt gezet.
 
@@ -97,7 +97,7 @@ De redactionele soort van een gepubliceerd stuk, en het label dat een lezer op d
 **See also:** [Field Report](#field-report), [Open Call](#open-call), [Upstream](#upstream)  
 
 ## Registration
-*Context: Editie*
+*Context: Release-context*
 
 De RSVP van één persoon voor één Release, afgehandeld op meetup.com. De site blijft het verslag van de avond; Meetup draagt alleen de aanmelding.
 
@@ -106,7 +106,7 @@ De RSVP van één persoon voor één Release, afgehandeld op meetup.com. De site
 **See also:** [Release](#release)  
 
 ## Release
-*Context: Editie*
+*Context: Release-context*
 
 Eén genummerde avond, geschreven als twente.dev/001, elke eerste woensdag van de maand. Onderscheidt zich van een gewone meetup doordat het nummer permanent is en de avond een Archief achterlaat. Het nummer hoort bij de avond die gehouden wordt: schuift een Release naar een andere maand, dan reist het nummer mee en blijft de reeks aaneengesloten.
 
@@ -125,7 +125,7 @@ Het gepubliceerde stuk over een Release die geweest is, met de slides, de foto's
 **See also:** [Release](#release), [Archief](#archief), [Pillar](#pillar)  
 
 ## Slot
-*Context: Editie*
+*Context: Release-context*
 
 Een van de twee plaatsen in het programma van een Release waar een Talk in past. Een Slot is leeg tot er een bevestigde Speaker aan hangt; pas dan bestaat er een Talk. Onderscheidt zich van een stoel in de zaal, die op de site een plek heet.
 
@@ -134,7 +134,7 @@ Een van de twee plaatsen in het programma van een Release waar een Talk in past.
 **See also:** [Talk](#talk), [Speaker](#speaker), [Release](#release)  
 
 ## Speaker
-*Context: Editie*
+*Context: Release-context*
 
 Iemand die een Talk geeft op een Release. Onderscheidt zich van een geïnterviewde doordat de bijdrage gesproken is en aan één avond hangt.
 
@@ -142,7 +142,7 @@ Iemand die een Talk geeft op een Release. Onderscheidt zich van een geïnterview
 **See also:** [Talk](#talk), [Open Call](#open-call)  
 
 ## Talk
-*Context: Editie*
+*Context: Release-context*
 
 Een gesproken bijdrage van ongeveer een halfuur op een Release, met één claim, één echt voorbeeld en één vraag aan de zaal. Gegeven door iemand die het werk zelf deed, niet door een vertegenwoordiger ervan. Bestaat pas zodra een Speaker de datum bevestigd heeft; daarvoor is er een leeg Slot. Twee per Release, met een pauze ertussen.
 
@@ -165,7 +165,7 @@ Het overzicht van wat er buiten twente.dev in de regio speelt, samengesteld uit 
 **See also:** [Pillar](#pillar), [Community](#community)  
 
 ## Venue
-*Context: Editie*
+*Context: Release-context*
 
 De fysieke plek waar een Release gehouden wordt, met naam, adres en stad. Onderscheidt zich van de Host doordat een Venue een ruimte is en een Host een organisatie: dezelfde partij kan allebei zijn, maar een gehuurde zaal heeft wel een Venue en geen Host.
 
@@ -174,7 +174,7 @@ De fysieke plek waar een Release gehouden wordt, met naam, adres en stad. Onders
 **See also:** [Release](#release), [Host](#host)  
 
 ## Wachtlijst
-*Context: Editie*
+*Context: Release-context*
 
 De geordende rij mensen die zich aanmeldden nadat het aantal geaccepteerde Registrations vol was. Schuift door zodra iemand afmeldt. Onderscheidt zich van de capaciteit doordat de Wachtlijst mensen telt en de capaciteit stoelen.
 

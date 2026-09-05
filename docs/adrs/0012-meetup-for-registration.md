@@ -17,13 +17,13 @@ plus a hand-kept list and waitlist. `REGISTRATION_URL` was designed to hold that
 against it.
 
 That reasoning was sound and answered the wrong question. Registration mechanics are not the
-scarce input before a first edition; **an audience is**. A mailto handles forty people perfectly
-and introduces the edition to nobody. The region's developers already gather on meetup.com —
+scarce input before a first release; **an audience is**. A mailto handles forty people perfectly
+and introduces the release to nobody. The region's developers already gather on meetup.com —
 [the organiser playbook](../organiser-playbook.md) lists Agile Meetup Twente, Flutter
 Twente/Baseflow and DevSessions Zwolle there — and those are precisely the people who will never
 find twente.dev on their own before 7 October.
 
-The venue is also not neutral here: /001 is hosted by Code14, and the edition is advertised as an
+The venue is also not neutral here: /001 is hosted by Code14, and the release is advertised as an
 independent community evening. Whatever carries the registration has to leave that framing intact.
 
 ## Decision Drivers
@@ -32,7 +32,7 @@ independent community evening. Whatever carries the registration has to leave th
 | --- | --------------------------------------------------------------------------------------------- |
 | 1   | Reach is the scarce input before /001; registration mechanics are not                         |
 | 2   | Nothing that has to be _operated_ — one person, no backend, no new secret                     |
-| 3   | twente.dev stays the canonical record of the edition (ADR 0008), whatever handles the RSVP    |
+| 3   | twente.dev stays the canonical record of the release (ADR 0008), whatever handles the RSVP    |
 | 4   | The published safeguards hold: no attendee data to sponsors, no paid speaking, no exclusivity |
 | 5   | Cost must be bounded and stoppable, because there is no entity and no bookkeeping             |
 
@@ -47,11 +47,11 @@ mailto plus a hand-kept list (the standing decision) · Meetup · Luma · pretix
 **Meetup carries registration for /001 and /002. twente.dev stays the record.**
 
 - **The group is located in Enschede**, not in the host's town. Meetup's location determines the
-  discovery radius, and the community is regional while the room changes every edition.
+  discovery radius, and the community is regional while the room changes every release.
 - **Six months up front** (~$99.99) rather than monthly (~$29.99). Cheaper, and the commitment
-  already spans both editions Code14 has offered to host.
+  already spans both releases Code14 has offered to host.
 - **The Meetup event links to `twente.dev/nl/001`**, which stays the page that describes the
-  edition. The ICS feed remains the subscribable record, so nothing about the archive moves.
+  release. The ICS feed remains the subscribable record, so nothing about the archive moves.
 - **Dietary and access needs are collected as RSVP questions**, which is where they were going to
   be asked anyway — the mailto route asked the same three things by hand.
 - **The waitlist is on, and registrations are accepted above seated capacity.** Free evenings
@@ -65,7 +65,7 @@ paid for.
 ### Rejected options and why
 
 - **mailto plus a hand-kept list.** Works at this size and costs nothing, which is why it was
-  chosen on 2026-08-30. It fails driver 1 completely: it cannot introduce the edition to a single
+  chosen on 2026-08-30. It fails driver 1 completely: it cannot introduce the release to a single
   person who does not already know the site exists.
 - **Luma.** The better product, and free. Rejected because its audience is a startup-event scene
   that barely exists in Twente — it would mean paying nothing for software we do not need while
@@ -78,7 +78,7 @@ paid for.
 
 **Good**
 
-- The edition becomes visible to people who attend developer events in Twente and have never heard
+- The release becomes visible to people who attend developer events in Twente and have never heard
   of twente.dev. That is the only channel available before /001 that does not depend on outreach
   landing first.
 - Waitlist, reminders and check-in are handled, which removes the hand-kept list and the follow-up
@@ -98,7 +98,7 @@ paid for.
   platform, but the two will be read side by side. It needs one sentence that names the difference.
 - A recurring cost on a project that had none. Bounded by being prepaid per six months, and
   stoppable.
-- RSVP is not attendance. Overbooking becomes a judgement call every edition, and getting it wrong
+- RSVP is not attendance. Overbooking becomes a judgement call every release, and getting it wrong
   is visible in the room either way.
 
 ## Confirmation
@@ -106,7 +106,7 @@ paid for.
 - `REGISTRATION_URL` in `src/config/site.ts` points at the Meetup event, so `/nl/001` renders the
   register button instead of the "registration opens 2 September" state.
 - The Meetup event description links to `twente.dev/nl/001`, and `/nl/events` plus the ICS feed
-  still carry the edition — the site remains the record, not the mirror.
+  still carry the release — the site remains the record, not the mirror.
 - Both privacy pages name Meetup as a processor for event registration, and
   `grep -rn "geen ticketingplatform\|no ticketing platform" src/pages/` returns nothing.
 - Code14 holds no organiser role on the Meetup group.
@@ -120,6 +120,6 @@ paid for.
   stoppable" consequence now has a twelve-month floor rather than six.
 - 2026-09-04 — registration opens **14 September 2026**, four weeks before the old date and
   seven before the new one. The open call and the newsletter run ahead of it deliberately, so
-  the edition has an audience before it has a ticket.
+  the release has an audience before it has a ticket.
 - Superseded by nothing yet. The question returns after /002, when there is attendance data to
   argue from and the venue rotation makes the group's location worth revisiting.

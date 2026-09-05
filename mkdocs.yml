@@ -50,8 +50,8 @@ nav:
       - adrs/0011-brevo-for-machine-sent-mail.md
       - adrs/0012-meetup-for-registration.md
       - adrs/0013-counterscale-for-campaign-attribution.md
-      - adrs/0014-monthly-editions-and-the-language-that-follows.md
-      - adrs/0015-release-vocabulary.md
+      - adrs/0014-monthly-releases.md
+      - adrs/0015-naming-lives-in-the-domain-model.md
       - adrs/0016-release-as-content.md
       - adrs/0017-mail-reaches-brevo-as-a-draft.md
       - adrs/0000-template.md

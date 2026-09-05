@@ -38,9 +38,9 @@ Een Host krijgt logo, bedanking en hooguit twee minuten. Nooit een Talk-slot, de
 
 ### R9
 
-Een Host wordt publiek genoemd met een eindig aantal edities, en dat aantal is hoogstens wat er is toegezegd. Achter de schermen ligt voor dezelfde periode een uitwijklocatie klaar.
+Een Host wordt publiek genoemd met een eindig aantal releases, en dat aantal is hoogstens wat er is toegezegd. Achter de schermen ligt voor dezelfde periode een uitwijklocatie klaar.
 
-**Why:** Andere bedrijven moeten kunnen zien wanneer de zaal weer vrijkomt, anders is de open uitnodiging aan de regio een dode letter, en de site belooft dat edities door de regio rouleren. Minder toezeggen dan je hebt, geeft ook ruimte om te verhuizen zonder iets terug te nemen. De uitwijklocatie bestaat omdat een host die halverwege afhaakt anders het ritme breekt, en het ritme is de hele belofte.
+**Why:** Andere bedrijven moeten kunnen zien wanneer de zaal weer vrijkomt, anders is de open uitnodiging aan de regio een dode letter, en de site belooft dat releases door de regio rouleren. Minder toezeggen dan je hebt, geeft ook ruimte om te verhuizen zonder iets terug te nemen. De uitwijklocatie bestaat omdat een host die halverwege afhaakt anders het ritme breekt, en het ritme is de hele belofte.
 
 ## Newsletter
 
@@ -83,6 +83,20 @@ Zijn op T−4 weken niet beide Slots gevuld, dan schuift de Release op naar de v
 **Why:** Een leeg programma dat toch wordt aangekondigd kost meer vertrouwen dan een datum die opschuift met de reden erbij. Opschuiven kan omdat het ritme een belofte over de eerste woensdag is en niet over de nummerreeks.
 
 **Also applies to:** Speaker
+
+### R14
+
+De avond heet een Release, het stuk dat erna verschijnt heet Release notes, en het overzicht van wat er buiten twente.dev speelt heet Upstream. De woorden in `retired` worden nergens meer gebruikt, ook niet in besluitregisters of werknotities.
+
+**Why:** Het publiek bouwt technologie, dus het register waarin het al denkt is gratis leesbaarheid: een genummerde release met release notes vraagt geen uitleg. Elk publiek zelfstandig naamwoord kost bovendien twee keer op een tweetalige site, dus een woord dat in het Nederlands en het Engels hetzelfde is, is meer waard dan een woord dat alleen accuraat is. De prijs staat erbij: release klinkt naar software terwijl er ook maakindustrie, design en onderzoek in de zaal zit, en die afweging is gemaakt.
+
+**Also applies to:** Release notes, Upstream
+
+### R15
+
+Een naam die vervalt gaat op `retired` met het woord dat ervoor in de plaats komt, en pas daarna wordt de repo opgeruimd. Niet andersom.
+
+**Why:** Twee hernoemingen op rij bleven half liggen omdat het opruimen op geheugen dreef. De lijst is machineleesbaar en `claims.test.ts` faalt op elk voorkomen, dus de lijst met vindplaatsen ís de opruimlijst. De enige plek waar een vervallen woord nog staat, is de regel die hem verbiedt.
 
 ### R10
 

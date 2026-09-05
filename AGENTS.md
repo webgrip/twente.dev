@@ -116,7 +116,7 @@ Run metadata (which job failed) is public; log bodies need the token.
 - **The CI runner's docker is a sibling, not a child.** Published ports and bind mounts resolve in
   the host namespace where the checkout does not exist; share a network namespace or `docker cp`
   (see `efa10df`).
-- Facts about the flagship edition live only in [`src/config/site.ts`](src/config/site.ts). A
+- Facts about the current release live only in [`src/config/site.ts`](src/config/site.ts). A
   `null` there is deliberate — components render an honest pre-launch state instead of a dead link.
 - Secrets go through SOPS or the Forgejo secret store, never into a workflow, config file or
   committed `.env` (`guard-secrets` skill).
@@ -126,6 +126,8 @@ Run metadata (which job failed) is public; log bodies need the token.
 _2026-09-04._ Launch tracking lives in
 [`docs/plan/playbook-alignment.md`](docs/plan/playbook-alignment.md); which plan doc is
 authoritative for what: [`docs/plan/README.md`](docs/plan/README.md). CI runs through the shared
-static-site lanes in `webgrip/workflows` (v2.1.0); the copied toolchain configs are being replaced
-by the `@webgrip/*` packages (VIK-813). Several sessions share this working tree: commit by
+static-site lanes in `webgrip/workflows` (v2.1.0), and the toolchain rides on `@webgrip/tsconfig`,
+`@webgrip/prettier-config`, `@webgrip/eslint-config-astro` and `@webgrip/astro-site-toolkit`
+(VIK-813). The seam is documented in each package: spread the shared array and append what is
+repo-specific, never fork the base. Several sessions share this working tree: commit by
 pathspec, and a local commit can be pushed by a peer at any time.

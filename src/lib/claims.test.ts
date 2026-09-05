@@ -163,9 +163,13 @@ interface RetiredWord {
   use: string;
 }
 
-const RETIRED_ROOTS = ['src', 'docs/brand', 'docs/runbooks', '.forgejo', 'scripts'];
+const RETIRED_ROOTS = ['src', 'docs', '.forgejo', 'scripts'];
 const RETIRED_FILES = [
   'README.md',
+  'AGENTS.md',
+  'mkdocs.yml',
+  'catalog-info.yml',
+  'package.json',
   'docs/index.md',
   'docs/kpis.md',
   'docs/organiser-playbook.md',
@@ -174,10 +178,13 @@ const RETIRED_FILES = [
 ];
 const RETIRED_EXTENSIONS = new Set([...EXTENSIONS, '.ts', '.mjs', '.js', '.json']);
 
+const RETIRED_EXEMPT = 'docs/domain';
+
 function retiredTargets(dir: string): string[] {
   return readdirSync(dir).flatMap((entry) => {
     const path = join(dir, entry);
     if (entry === 'node_modules' || entry === 'dist') return [];
+    if (path === RETIRED_EXEMPT) return [];
     if (statSync(path).isDirectory()) return retiredTargets(path);
     return RETIRED_EXTENSIONS.has(path.slice(path.lastIndexOf('.'))) ? [path] : [];
   });

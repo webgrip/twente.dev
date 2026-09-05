@@ -3,7 +3,7 @@
 *Generated from `model.yaml` — do not edit by hand.*
 
 ## Release
-*Context: Editie*
+*Context: Release-context*
 
 Eén genummerde avond, van datumbesluit tot gepubliceerd verslag.
 
@@ -33,7 +33,7 @@ stateDiagram-v2
 ```
 
 ## Talk
-*Context: Editie*
+*Context: Release-context*
 
 Ongeveer een halfuur gesproken, één claim, één voorbeeld, één vraag.
 
@@ -48,35 +48,35 @@ Ongeveer een halfuur gesproken, één claim, één voorbeeld, één vraag.
 - belongs_to **Release**
 
 ## Host
-*Context: Editie*
+*Context: Release-context*
 
 De organisatie die de zaal levert, onder de waarborgen van R4.
 
 | Attribute | Type | Required | Description |
 |---|---|---|---|
 | `organisation` | `string` | yes |  |
-| `editionsCommitted` | `int` |  | Het aantal edities dat publiek is toegezegd. Eindig, en hoogstens wat de host werkelijk heeft toegezegd. |
+| `releasesCommitted` | `int` |  | Het aantal releases dat publiek is toegezegd. Eindig, en hoogstens wat de host werkelijk heeft toegezegd. |
 
 **Relationships**
 - has_many **Release** — Een Host kan meerdere Releases achter elkaar leveren.
 - has_one **Venue** — De ruimte die de Host beschikbaar stelt.
 
 ## Venue
-*Context: Editie*
+*Context: Release-context*
 
 De ruimte waar een Release gehouden wordt.
 
 | Attribute | Type | Required | Description |
 |---|---|---|---|
 | `name` | `string` | yes | Hoe de plek heet in de zaal en op de kaart. |
-| `address` | `string` | yes | Staat op de editiepagina, want mensen boeken er reizen op. |
+| `address` | `string` | yes | Staat op de releasepagina, want mensen boeken er reizen op. |
 | `city` | `string` | yes | Een van de gemeenten uit Twente. |
 
 **Relationships**
 - has_many **Release** — Een Venue kan meerdere Releases herbergen.
 
 ## Slot
-*Context: Editie*
+*Context: Release-context*
 
 Een van de twee programmaplaatsen van een Release.
 
@@ -89,7 +89,7 @@ Een van de twee programmaplaatsen van een Release.
 - has_one **Talk** — Een gevuld Slot draagt precies een Talk.
 
 ## Speaker
-*Context: Editie*
+*Context: Release-context*
 
 Degene die een Talk geeft.
 

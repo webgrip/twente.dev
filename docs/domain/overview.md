@@ -6,7 +6,7 @@ De onafhankelijke, practitioner-led techcommunity van Twente. Een gezamenlijke a
 
 ## Bounded contexts
 
-- **Editie** — De avond zelf en alles wat eromheen geregeld moet worden: datum, zaal, programma, aanmelden. Hier is "praten" een Talk en is een Editie een gebeurtenis met een datum.
+- **Release-context** — De avond zelf en alles wat eromheen geregeld moet worden: datum, zaal, programma, aanmelden. Hier is "praten" een Talk en is een Release een gebeurtenis met een datum.
 - **Publicatie** — Wat er geschreven en verstuurd wordt: artikelen op de site en de mail die erover gaat. Hier heeft een stuk een Pillar in plaats van een spreker, en is er geen zaal en geen datum.
 
 ## Entity relationships

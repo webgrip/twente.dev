@@ -9,7 +9,7 @@
 ## The product, per the playbook
 
 An independent, practitioner-led community platform: **shared calendar + directory + archive/
-editorial + newsletter + numbered editions**. The site's four jobs: understand the
+editorial + newsletter + numbered releases**. The site's four jobs: understand the
 proposition, attend the next event, discover regional activity, contribute — with RSVP or
 contribute reachable in two clicks. Explicitly deferred: accounts, profiles, chat, merchandise,
 "elaborate web features". The job board of the original plan is **off-playbook and now deleted
@@ -46,7 +46,7 @@ mean, so this table now tracks _live_, not _built_.
   English" until 2026-09-04, both of which `site.ts` and the events entry had already settled
   otherwise.)
   (Was 100 until 2026-08-30 — the pre-venue number. Code14's room seats 30–40; 35 agreed. The
-  press pages now interpolate `EDITION_001.capacity` instead of repeating it, so this class of
+  press pages now interpolate the release's capacity instead of repeating it, so this class of
   drift cannot recur.)
 - Tagline: **"We build it. We run it. We share it."** — always paired with a literal explanation.
   (Replaced the pack's "Build here. Share here." on 2026-08-11; ADR 0008 revision log records it.)
@@ -67,9 +67,10 @@ mean, so this table now tracks _live_, not _built_.
    remains is two provider settings nothing in this repo can check — open tracking off, and
    Reply-To on `hello@twente.dev`, because `send.` has no MX and the homepage promises a reply
    reaches a human.
-4. **Venue** — on contract, set `EDITION_001.venue` and add the address to the events entry.
+4. **Venue** — on contract, set the venue and address on the release entry under
+   `src/content/events/`.
 5. **Sponsor pricing** — the playbook (€7,500 / €2,500 / €1,000) and the slide deck (€5,000 /
-   €2,500 / €750) disagree; the partners page therefore names no amounts ("agreed per edition").
+   €2,500 / €750) disagree; the partners page therefore names no amounts ("agreed per release").
    Resolve in the partner brief, not on the site, until validated by discovery calls.
 6. **Two trained code-of-conduct contacts** — required before registration opens (tracker TD-023,
    TD-074).

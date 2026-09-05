@@ -12,7 +12,7 @@ Dit blokkeert het meeste. Zolang er geen event is, staat de site te beloven dat
 aanmelden op 14 september opent zonder dat er iets achter zit.
 
 - [ ] **Groep aanmaken op locatie Enschede**, niet Rijssen. Meetup bepaalt de
-      vindradius met die locatie, en de zaal wisselt per editie terwijl de
+      vindradius met die locatie, en de zaal wisselt per release terwijl de
       community regionaal is.
 - [ ] **Event aanmaken**: woensdag 4 november 2026, 18:00 tot 21:30, Code14,
       Hogepad 81, 7462 TB Rijssen. Gratis.
@@ -38,7 +38,7 @@ aanmelden op 14 september opent zonder dat er iets achter zit.
 
 - [ ] Bevestig dat 2 december voor /002 staat. Die datum wordt op /001
       aangekondigd, dus hij moet vast liggen voordat /001 draait.
-- [ ] Zeg erbij dat we publiek drie edities noemen en niet twaalf. Dat is geen
+- [ ] Zeg erbij dat we publiek drie releases noemen en niet twaalf. Dat is geen
       terugtrekking; het houdt de rotatiebelofte op de perspagina overeind en
       geeft jullie allebei ruimte.
 
@@ -120,15 +120,15 @@ alsnog.
 - [ ] **T−6, dinsdag 23 september**: open call live en de persoonlijke
       sprekervragen de deur uit. Sprekers komen uit de asks, niet uit de call.
 - [ ] **T−4, dinsdag 7 oktober**: beide sprekers bevestigd, anders schuift de
-      editie een maand op. Dit is de regel die /001 al een keer heeft verzet; hem
+      release een maand op. Dit is de regel die /001 al een keer heeft verzet; hem
       negeren kost meer dan hem volgen.
 - [ ] **T−2, dinsdag 21 oktober**: OV-tijden opnieuw verifiëren voordat ze op de
-      editiepagina komen. De cijfers in het playbook zijn gecontroleerd tegen
+      releasepagina komen. De cijfers in het playbook zijn gecontroleerd tegen
       7 oktober en die avond bestaat niet meer.
 
 ## Twee dingen die je moet beslissen
 
-- [ ] **De rotatiebelofte.** De perspagina zegt dat edities door de regio
+- [ ] **De rotatiebelofte.** De perspagina zegt dat releases door de regio
       rouleren. Met Code14 als host voor de eerste drie klopt dat nog; noem je er
       publiek meer, dan moet die zin mee veranderen.
 - [ ] **Wanneer heet dit community-supported?** Nu betaalt Webgrip en wordt een

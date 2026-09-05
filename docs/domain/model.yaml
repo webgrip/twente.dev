@@ -6,10 +6,10 @@ description: >-
 version: "1.0.0"
 
 contexts:
-  - name: Editie
+  - name: Release-context
     description: >-
       De avond zelf en alles wat eromheen geregeld moet worden: datum, zaal,
-      programma, aanmelden. Hier is "praten" een Talk en is een Editie een
+      programma, aanmelden. Hier is "praten" een Talk en is een Release een
       gebeurtenis met een datum.
   - name: Publicatie
     description: >-
@@ -20,24 +20,43 @@ contexts:
 retired:
   - word: editie
     use: Release
+    because: >-
+      Vertaalnaad. Het Nederlandse en het Engelse woord zijn twee labels voor één
+      begrip op een site waar elke i18n-sleutel twee keer bestaat; Release is in
+      beide talen hetzelfde woord.
   - word: edition
     use: Release
+    because: >-
+      Zei alleen dat er een volgende komt, en dat zegt het nummer in
+      twente.dev/001 al.
   - word: flagship
     use: Release
+    because: >-
+      Belooft een rangorde die er niet is. Er is één soort avond, twaalf keer
+      per jaar.
   - word: editieverslag
     use: Release notes
+    because: Legt zichzelf uit en doet verder niets.
   - word: naverslag
     use: Release notes
+    because: Legt zichzelf uit en doet verder niets.
   - word: meetup report
     use: Release notes
+    because: >-
+      Draagt meetup, dat op de avoid-lijst van Release staat, dus het label zou
+      zijn eigen woordenlijst overtreden.
   - word: week in twente tech
     use: Upstream
+    because: >-
+      De naam belooft een wekelijkse cadans die niet is toegezegd, op een site
+      waarvan de nieuwsbrief juist geen vaste cadans belooft.
   - word: event night
     use: Release
+    because: Generiek, en het laat het nummer en het archief weg.
 
 terms:
   - name: Release
-    context: Editie
+    context: Release-context
     definition: >-
       Eén genummerde avond, geschreven als twente.dev/001, elke eerste woensdag
       van de maand. Onderscheidt zich van een gewone meetup doordat het nummer
@@ -50,7 +69,7 @@ terms:
     see_also: [Talk, Registration, Host, Archief]
 
   - name: Talk
-    context: Editie
+    context: Release-context
     definition: >-
       Een gesproken bijdrage van ongeveer een halfuur op een Release, met één
       claim, één echt voorbeeld en één vraag aan de zaal. Gegeven door iemand die
@@ -62,7 +81,7 @@ terms:
     see_also: [Speaker, Open Call, Release]
 
   - name: Slot
-    context: Editie
+    context: Release-context
     definition: >-
       Een van de twee plaatsen in het programma van een Release waar een Talk in
       past. Een Slot is leeg tot er een bevestigde Speaker aan hangt; pas dan
@@ -73,7 +92,7 @@ terms:
     see_also: [Talk, Speaker, Release]
 
   - name: Speaker
-    context: Editie
+    context: Release-context
     definition: >-
       Iemand die een Talk geeft op een Release. Onderscheidt zich van een
       geïnterviewde doordat de bijdrage gesproken is en aan één avond hangt.
@@ -81,7 +100,7 @@ terms:
     see_also: [Talk, Open Call]
 
   - name: Registration
-    context: Editie
+    context: Release-context
     definition: >-
       De RSVP van één persoon voor één Release, afgehandeld op meetup.com. De
       site blijft het verslag van de avond; Meetup draagt alleen de aanmelding.
@@ -90,7 +109,7 @@ terms:
     see_also: [Release]
 
   - name: Host
-    context: Editie
+    context: Release-context
     definition: >-
       De organisatie die de zaal levert voor een Release. Onderscheidt zich van
       een Partner doordat de bijdrage de ruimte zelf is, en van een organisator
@@ -101,7 +120,7 @@ terms:
     see_also: [Partner, Release]
 
   - name: Venue
-    context: Editie
+    context: Release-context
     definition: >-
       De fysieke plek waar een Release gehouden wordt, met naam, adres en stad.
       Onderscheidt zich van de Host doordat een Venue een ruimte is en een Host
@@ -193,7 +212,7 @@ terms:
     see_also: [Pillar, Community]
 
   - name: Opkomst
-    context: Editie
+    context: Release-context
     definition: >-
       Het aantal mensen dat op de avond zelf in de zaal stond. Onderscheidt zich
       van Registration doordat een RSVP een voornemen is en Opkomst een telling;
@@ -204,7 +223,7 @@ terms:
     see_also: [Registration, Release, KPI]
 
   - name: Wachtlijst
-    context: Editie
+    context: Release-context
     definition: >-
       De geordende rij mensen die zich aanmeldden nadat het aantal geaccepteerde
       Registrations vol was. Schuift door zodra iemand afmeldt. Onderscheidt zich
@@ -327,6 +346,33 @@ rules:
       omstandigheden veranderen: van werkgever wisselen is genoeg reden. Zo blijft
       het archief compleet zonder dat iemand aan een opname vastzit.
     applies_to: [Archief, Speaker, Talk]
+  - id: R14
+    statement: >-
+      De avond heet een Release, het stuk dat erna verschijnt heet Release notes,
+      en het overzicht van wat er buiten twente.dev speelt heet Upstream. De
+      woorden in `retired` worden nergens meer gebruikt, ook niet in
+      besluitregisters of werknotities.
+    rationale: >-
+      Het publiek bouwt technologie, dus het register waarin het al denkt is
+      gratis leesbaarheid: een genummerde release met release notes vraagt geen
+      uitleg. Elk publiek zelfstandig naamwoord kost bovendien twee keer op een
+      tweetalige site, dus een woord dat in het Nederlands en het Engels
+      hetzelfde is, is meer waard dan een woord dat alleen accuraat is. De prijs
+      staat erbij: release klinkt naar software terwijl er ook maakindustrie,
+      design en onderzoek in de zaal zit, en die afweging is gemaakt.
+    applies_to: [Release, Release notes, Upstream]
+
+  - id: R15
+    statement: >-
+      Een naam die vervalt gaat op `retired` met het woord dat ervoor in de
+      plaats komt, en pas daarna wordt de repo opgeruimd. Niet andersom.
+    rationale: >-
+      Twee hernoemingen op rij bleven half liggen omdat het opruimen op geheugen
+      dreef. De lijst is machineleesbaar en `claims.test.ts` faalt op elk
+      voorkomen, dus de lijst met vindplaatsen ís de opruimlijst. De enige plek
+      waar een vervallen woord nog staat, is de regel die hem verbiedt.
+    applies_to: [Release]
+
   - id: R13
     statement: >-
       Boven de capaciteit accepteren mag, met een overboekfactor, en wie daarboven
@@ -359,13 +405,13 @@ rules:
     applies_to: [Community, Release]
   - id: R9
     statement: >-
-      Een Host wordt publiek genoemd met een eindig aantal edities, en dat aantal
+      Een Host wordt publiek genoemd met een eindig aantal releases, en dat aantal
       is hoogstens wat er is toegezegd. Achter de schermen ligt voor dezelfde
       periode een uitwijklocatie klaar.
     rationale: >-
       Andere bedrijven moeten kunnen zien wanneer de zaal weer vrijkomt, anders
       is de open uitnodiging aan de regio een dode letter, en de site belooft dat
-      edities door de regio rouleren. Minder toezeggen dan je hebt, geeft ook
+      releases door de regio rouleren. Minder toezeggen dan je hebt, geeft ook
       ruimte om te verhuizen zonder iets terug te nemen. De uitwijklocatie
       bestaat omdat een host die halverwege afhaakt anders het ritme breekt, en
       het ritme is de hele belofte.
@@ -373,7 +419,7 @@ rules:
 
 entities:
   - name: Release
-    context: Editie
+    context: Release-context
     description: Eén genummerde avond, van datumbesluit tot gepubliceerd verslag.
     attributes:
       - name: number
@@ -428,7 +474,7 @@ entities:
         description: De organisatie die de zaal levert.
 
   - name: Talk
-    context: Editie
+    context: Release-context
     description: Ongeveer een halfuur gesproken, één claim, één voorbeeld, één vraag.
     attributes:
       - name: claim
@@ -451,16 +497,16 @@ entities:
         kind: belongs_to
 
   - name: Host
-    context: Editie
+    context: Release-context
     description: De organisatie die de zaal levert, onder de waarborgen van R4.
     attributes:
       - name: organisation
         type: string
         required: true
-      - name: editionsCommitted
+      - name: releasesCommitted
         type: int
         description: >-
-          Het aantal edities dat publiek is toegezegd. Eindig, en hoogstens wat
+          Het aantal releases dat publiek is toegezegd. Eindig, en hoogstens wat
           de host werkelijk heeft toegezegd.
     relationships:
       - to: Release
@@ -471,7 +517,7 @@ entities:
         description: De ruimte die de Host beschikbaar stelt.
 
   - name: Venue
-    context: Editie
+    context: Release-context
     description: De ruimte waar een Release gehouden wordt.
     attributes:
       - name: name
@@ -480,7 +526,7 @@ entities:
         required: true
       - name: address
         type: string
-        description: Staat op de editiepagina, want mensen boeken er reizen op.
+        description: Staat op de releasepagina, want mensen boeken er reizen op.
         required: true
       - name: city
         type: string
@@ -492,7 +538,7 @@ entities:
         description: Een Venue kan meerdere Releases herbergen.
 
   - name: Slot
-    context: Editie
+    context: Release-context
     description: Een van de twee programmaplaatsen van een Release.
     attributes:
       - name: position
@@ -508,7 +554,7 @@ entities:
         description: Een gevuld Slot draagt precies een Talk.
 
   - name: Speaker
-    context: Editie
+    context: Release-context
     description: Degene die een Talk geeft.
     attributes:
       - name: name

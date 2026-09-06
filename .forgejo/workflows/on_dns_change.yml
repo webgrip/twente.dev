@@ -8,13 +8,8 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - "**"
-    paths:
-      - "ops/dns/**"
-      - ".forgejo/workflows/on_dns_change.yml"
-  pull_request:
-    branches:
       - main
+      - development
     paths:
       - "ops/dns/**"
       - ".forgejo/workflows/on_dns_change.yml"

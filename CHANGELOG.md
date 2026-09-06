@@ -1,3 +1,14 @@
+## [0.2.0-rc.3](https://forgejo.webgrip.dev/webgrip/twente.dev/compare/v0.2.0-rc.2...v0.2.0-rc.3) (2026-09-06)
+
+### Fixed
+
+* **dns:** de DNSControl-lane op de fix voor de preview-stap (workflows d6d1ac4) ([faec1b9](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/faec1b973995629f6d5874e33f54cbe825f9c50f))
+* **lint:** eslint kent de DNSControl-globals, zodat ops/dns de hele lane niet meer breekt ([bcd648b](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/bcd648b7f3c1585ab0a9107983aeba532c67b348))
+
+### Changed
+
+* **mail:** de pipeline draait op de toolkit, het thema en de bronnen blijven hier ([4dab2b0](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/4dab2b087472f538420e467cde978932253be280))
+
 ## [0.2.0-rc.2](https://forgejo.webgrip.dev/webgrip/twente.dev/compare/v0.2.0-rc.1...v0.2.0-rc.2) (2026-09-05)
 
 ### Added

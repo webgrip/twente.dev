@@ -112,6 +112,10 @@ Site` needs it, so a broken mail stops the lane before a deploy.
 - 2026-09-04 — `pnpm validate:mail` and the `Mail Validation` job landed; the live-link half of
   the check was dropped as flaky, since the destinations are already covered by the production
   smoke paths.
+- 2026-09-05 — the renderer, the checks and both CLIs moved to
+  `@webgrip/astro-site-toolkit/mail`, so webgrip.nl can mail its blog in its own house style.
+  What stays here is the twente.dev theme, the copy per locale and the content sources; the
+  draft-not-send decision moved with the code and is stated in the package README.
 - Refines [ADR 0011](0011-brevo-for-machine-sent-mail.md), which stays Accepted: the platform
   decision holds, this record only settles how content reaches it.
 - Supported by [ADR 0016](0016-release-as-content.md), which is what lets the generator

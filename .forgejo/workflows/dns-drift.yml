@@ -11,7 +11,7 @@ permissions:
 jobs:
   dns-drift:
     name: "DNS Drift"
-    uses: webgrip/workflows/.forgejo/workflows/dnscontrol.yml@2a5d82e28fbc4226ff620c0d52a774e292e4ba29
+    uses: webgrip/workflows/.forgejo/workflows/dnscontrol.yml@d6d1ac4e9d2920951779fb9bbcdcde25d64ab25f
     with:
       mode: drift
     secrets:

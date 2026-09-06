@@ -1,3 +1,10 @@
+## [0.2.0-rc.4](https://forgejo.webgrip.dev/webgrip/twente.dev/compare/v0.2.0-rc.3...v0.2.0-rc.4) (2026-09-06)
+
+### Fixed
+
+* **ci:** de DNS-lane draait alleen nog op main en development, zonder PR-trigger ([09ce74f](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/09ce74fa78c2939b51845db0a4193bd81433a547))
+* **dns:** de zone declareert nu ook wat Cloudflare zelf toevoegt ([047a121](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/047a121a4f248ba2a71da735cc366aecb7dd3f55))
+
 ## [0.2.0-rc.3](https://forgejo.webgrip.dev/webgrip/twente.dev/compare/v0.2.0-rc.2...v0.2.0-rc.3) (2026-09-06)
 
 ### Fixed

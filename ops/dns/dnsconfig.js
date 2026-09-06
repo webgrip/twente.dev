@@ -33,10 +33,6 @@ D(
   CAA('@', 'issuewild', 'pki.goog; cansignhttpexchanges=yes'),
   CAA('@', 'issuewild', 'sectigo.com'),
   CAA('@', 'issuewild', 'ssl.com'),
-  CAA('@', 'issue', 'comodoca.com'),
-  CAA('@', 'issue', 'digicert.com; cansignhttpexchanges=yes'),
-  CAA('@', 'issuewild', 'comodoca.com'),
-  CAA('@', 'issuewild', 'digicert.com; cansignhttpexchanges=yes'),
 
   TXT('send', 'brevo-code:33f298f8293becb0e33f3a8949d69265'),
   TXT(
@@ -49,7 +45,6 @@ D(
   CNAME('img.mail.send', 'mail-send-twente-dev.img.brand.brevosend.com.'),
   CNAME('r.mail.send', 'mail-send-twente-dev.r.brand.brevosend.com.'),
 
-  TXT('@', 'google-site-verification=G3_ZFYbrFII1ROtdPsh0jGMvRrL2PjEzcTyl5-xbud8'),
+  TXT('@', 'google-site-verification=G3_ZFYbrFII1ROtdPsh0jGMvRrL2PjEzcTyl5-xbud8', TTL(3600)),
   TXT('_atproto', 'did=did:plc:kva6d5jsysq6rwc4tdfsn47e'),
-  TXT('_domainconnect', 'api.cloudflare.com/client/v4/dns/domainconnect', TTL(3600)),
 );

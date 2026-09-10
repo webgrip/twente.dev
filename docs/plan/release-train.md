@@ -64,8 +64,10 @@ released as the next minor.
 1. `wrangler.toml`: `[env.staging]`, worker `twente-dev-staging`, route `staging.twente.dev/*`.
 2. `.releaserc.cjs` with `makeConfig({ extraReleaseRules: [{ type: 'content', release: 'patch' }] })`,
    tag-only; the 2025 `.releaserc.json` goes.
-3. `on_source_change.yml`: verification on push and pull request, preview upload for feature
-   branches, a release job on `main` and `development` only, no production deploy.
+3. `on_source_change.yml`: verification on push, preview upload for feature branches, a
+   release job on `main` and `development` only, no production deploy. The `pull_request`
+   trigger went with [ADR 0020](../adrs/0020-ci-critical-path.md): it ran every
+   `development` push a second time while the promotion PR is open.
 4. `on_release_published.yml`: `release: [published]`; rc tags deploy
    staging, stable tags deploy production, each with its edge verification.
 5. `nightly-rebuild.yml` checks out the latest stable tag, not `main`.

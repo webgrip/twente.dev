@@ -26,11 +26,17 @@ hieronder verving hem en houdt de opbouw van die tekst aan.
 
 **Titel**
 
+<!-- BEGIN generated: titel-nl -->
+
 ```
 twente.dev/001: Reconnect
 ```
 
+<!-- END generated: titel-nl -->
+
 **Beschrijving**
+
+<!-- BEGIN generated: beschrijving-nl -->
 
 ```
 🔧 Twee talks, wat te eten, en daarna tijd om bij te praten.
@@ -54,8 +60,7 @@ Namen komen erbij zodra ze bevestigd zijn. Wil je het horen op het moment dat he
 🗓️ Woensdag 4 november 2026
 🕕 18:00 deuren open & eten // 18:45 programma // 21:30 klaar, op tijd thuis
 📌 Code14, Hogepad 81, 7462 TB Rijssen
-🚗 Gratis parkeren bij de ingang
-🚶 Ongeveer 10 minuten lopen vanaf station Rijssen
+🚶 Ongeveer tien minuten lopen vanaf station Rijssen; het pand ligt er vrijwel pal ten zuiden van. Kom je met de auto, dan is er gratis parkeren bij de ingang.
 🎟️ Gratis, plek voor ongeveer 40 mensen
 🍕 Eten en drinken zijn inbegrepen
 🗣️ Voertaal Nederlands, en Engels zodra er internationals in de zaal zitten
@@ -79,17 +84,25 @@ Deze release // https://twente.dev/nl/001
 Gedragscode // https://twente.dev/nl/gedragscode
 ```
 
+<!-- END generated: beschrijving-nl -->
+
 ---
 
 ## English
 
 **Titel**
 
+<!-- BEGIN generated: titel-en -->
+
 ```
 twente.dev/001: Reconnect
 ```
 
+<!-- END generated: titel-en -->
+
 **Beschrijving**
+
+<!-- BEGIN generated: beschrijving-en -->
 
 ```
 🔧 Two talks, something to eat, and time to catch up afterwards.
@@ -113,8 +126,7 @@ Names go up as soon as they are confirmed. Want to hear it the moment it happens
 🗓️ Wednesday 4 November 2026
 🕕 18:00 doors and food // 18:45 programme // 21:30 hard finish, home on time
 📌 Code14, Hogepad 81, 7462 TB Rijssen
-🚗 Free parking right by the entrance
-🚶 About a 10-minute walk from Rijssen station
+🚶 About a ten-minute walk from Rijssen station, almost directly south of it. Coming by car, there is free parking by the entrance.
 🎟️ Free, room for about 40 people
 🍕 Food and drinks included
 🗣️ Dutch by default, English whenever internationals are in the room
@@ -137,6 +149,8 @@ Site and calendar // https://twente.dev
 This release // https://twente.dev/en/001
 Code of conduct // https://twente.dev/en/code-of-conduct
 ```
+
+<!-- END generated: beschrijving-en -->
 
 ---
 

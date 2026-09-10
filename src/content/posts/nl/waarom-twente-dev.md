@@ -21,17 +21,13 @@ doet dat jij interessant vindt, maar je komt er nooit achter.
 
 Het probleem is niet dat er te weinig gebeurt. Het probleem is dat het versnipperd is.
 
-## Wat dit wel is
+Deze site is één plek waar je ziet wat er speelt. Aankomende meetups, en welke bedrijven
+hier eigenlijk software bouwen en waarmee. Tweetalig, want dat is de Twentse
+developer-populatie ook: een flink deel van de mensen die hier werken kwam via de
+Universiteit Twente en spreekt geen Nederlands.
 
-Eén plek waar je ziet wat er speelt: aankomende meetups, en welke bedrijven hier eigenlijk
-software bouwen en waarmee. Tweetalig, omdat
-de Twentse developer-populatie dat ook is: een flink deel van de mensen die hier werken
-kwam via de Universiteit Twente en spreekt geen Nederlands.
-
-## Wat dit niet is
-
-Geen nieuwsbrief die je elke week vertelt dat er niets gebeurd is. Geen platform dat je data
-verkoopt. Er staat geen enkele cookie op deze site en dat blijft zo.
+Er komt geen nieuwsbrief die je elke week vertelt dat er niets gebeurd is, en je data wordt
+niet verkocht. Er staat geen enkele cookie op deze site en dat blijft zo.
 
 ## Hoe het werkt
 

@@ -256,13 +256,13 @@
     at: 2026-08-31
   description:
     nl: >-
-      De open chat van twente.dev: zeg wie je bent en wat je bouwt, vraag om
-      hulp, bied hulp aan, deel wat je leerde. Geen recruiters, geen
-      productpitches, geen vacatures.
+      De open chat van twente.dev. Zeg wie je bent en wat je bouwt, vraag om
+      hulp, bied hulp aan, deel wat je leerde. Het is geen plek voor
+      recruiters, productpitches of vacatures.
     en: >-
-      The open twente.dev chat: say who you are and what you build, ask for
-      help, offer help, post what you learned. No recruiters, no product
-      pitches, no job ads.
+      The open twente.dev chat. Say who you are and what you build, ask for
+      help, offer help, post what you learned. It is not a place for
+      recruiters, product pitches or job ads.
 
 - id: twente-dev-meetup
   name: twente.dev op Meetup

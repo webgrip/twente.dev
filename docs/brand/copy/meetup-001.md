@@ -45,7 +45,7 @@ Twente heeft veel goede mensen die technologie bouwen, en weinig plekken waar ze
 
 twente.dev is de poging daar één plek van te maken: een gedeelde agenda die bijgehouden wordt van alles wat er in de regio gebeurt, field reports van mensen die het werk zelf deden, en elke eerste woensdag van de maand een avond zoals deze. We build it. We run it. We share it.
 
-De eerste is twente.dev/001: Reconnect, op woensdag 4 november.
+De eerstvolgende is twente.dev/001: Reconnect, op woensdag 4 november.
 
 🎤 Sprekers // allebei nog TBA
 
@@ -111,7 +111,7 @@ Twente has plenty of good people building technology, and few places where they 
 
 twente.dev is the attempt to make that one place: a shared calendar, kept up to date, of everything happening in the region, field reports by people who did the work themselves, and an evening like this one every first Wednesday of the month. We build it. We run it. We share it.
 
-The first one is twente.dev/001: Reconnect, on Wednesday 4 November.
+The next one is twente.dev/001: Reconnect, on Wednesday 4 November.
 
 🎤 Speakers // both still TBA
 

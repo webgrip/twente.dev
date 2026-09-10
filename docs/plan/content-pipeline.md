@@ -113,8 +113,26 @@ parkeren`, `🚶 Ongeveer 10 minuten lopen`) zijn één `🚶`-regel geworden me
 - `social-profile-copy.md` staat nog niet als bron in het manifest. De claimtabel daarin
   is met de hand overgezet naar `verboden_claims`; die twee kunnen uit elkaar lopen tot de
   tabel zelf data wordt.
-- Er is nog geen template voor /002. `pnpm copy` gaat uit van `CURRENT_RELEASE`, dus een
-  nieuwe release heeft een nieuw `.tmpl`-paar nodig.
+
+## Een nieuwe release
+
+Er is niets te doen. Zet de events-entry in `src/content/events/` en draai `pnpm copy`.
+
+- Het proza staat in `meetup.nl.tmpl` en `meetup.en.tmpl` en is release-onafhankelijk. Wil
+  je voor één release andere tekst, zet dan `meetup-<nr>.<taal>.tmpl` ernaast; die wint.
+- Ontbreekt `meetup-<nr>.md`, dan schrijft de generator een steiger met de markers erin.
+  De kop erboven is van jou: schrijf daar wat je bewust weglaat en waarom de volgorde is
+  zoals hij is.
+- `posts-<nr>.md` wordt volledig gegenereerd.
+- De generator loopt over **alle** releases, niet alleen `CURRENT_RELEASE`, en de
+  validator meet elk bestand tegen de release in zijn eigen bestandsnaam. Een oude
+  meetup-tekst blijft dus geldig met zijn eigen datum in plaats van te vallen op de datum
+  van de nieuwe release.
+
+Dat laatste was een echte val. Voordat dit erin zat, brak `pnpm build` op het moment dat
+`CURRENT_RELEASE` naar 002 ging: `pnpm copy` liep stuk op een ontbrekende `meetup-002.md`,
+en de datumpoort verwierp elke datum in de 001-bestanden. Beide zijn nagespeeld met een
+echte 002-entry en daarna gerepareerd.
 
 ## Wat bewust niet geautomatiseerd is
 

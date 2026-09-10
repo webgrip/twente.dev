@@ -30,7 +30,7 @@ export interface VerbodenClaim {
 }
 
 export interface Bron {
-  pad: string;
+  patroon: string;
   kanaal?: string;
 }
 

@@ -1,6 +1,5 @@
 import { readFile, writeFile } from 'node:fs/promises';
 
-import { CURRENT_RELEASE } from '../src/config/site.ts';
 import type { Locale } from '../src/i18n/config.ts';
 import type { ResolvedRelease } from '../src/lib/release.ts';
 import {
@@ -12,7 +11,7 @@ import {
   type CopyConfig,
   type Feiten,
 } from './copy-config.ts';
-import { readRelease } from './read-releases.ts';
+import { readReleases } from './read-releases.ts';
 
 const CHECK = process.argv.includes('--check');
 const COPY_DIR = 'docs/brand/copy';
@@ -42,12 +41,50 @@ async function feitenMetPraktisch(
   return { ...feiten, praktisch: regels.join('\n') };
 }
 
+function steiger(release: ResolvedRelease): string {
+  const secties = (['nl', 'en'] as Locale[]).map((locale) => {
+    const kop = locale === 'nl' ? 'Nederlands' : 'English';
+    return [
+      `## ${kop}`,
+      '',
+      '**Titel**',
+      '',
+      `<!-- BEGIN generated: titel-${locale} -->`,
+      `<!-- END generated: titel-${locale} -->`,
+      '',
+      '**Beschrijving**',
+      '',
+      `<!-- BEGIN generated: beschrijving-${locale} -->`,
+      `<!-- END generated: beschrijving-${locale} -->`,
+    ].join('\n');
+  });
+  return [
+    `# Meetup-beschrijving voor twente.dev/${release.number}`,
+    '',
+    'Kopieer de blokken hieronder naar meetup.com. De feiten komen uit',
+    '`src/content/events/` en worden door `pnpm copy` ingevuld; het proza staat in',
+    '`meetup.<taal>.tmpl`. Schrijf boven deze regel wat er bewust weggelaten is en',
+    'waarom de volgorde is zoals hij is.',
+    '',
+    '---',
+    '',
+    secties.join('\n\n---\n\n'),
+    '',
+  ].join('\n');
+}
+
+async function templateVoor(nummer: string, locale: Locale): Promise<string> {
+  const eigen = `${COPY_DIR}/meetup-${nummer}.${locale}.tmpl`;
+  const gedeeld = `${COPY_DIR}/meetup.${locale}.tmpl`;
+  return (await readFile(eigen, 'utf8').catch(() => null)) ?? (await readFile(gedeeld, 'utf8'));
+}
+
 async function meetupDoc(config: CopyConfig, release: ResolvedRelease): Promise<[string, string]> {
   const pad = `${COPY_DIR}/meetup-${release.number}.md`;
-  let doc = await readFile(pad, 'utf8');
+  let doc = (await readFile(pad, 'utf8').catch(() => null)) ?? steiger(release);
   for (const locale of ['nl', 'en'] as Locale[]) {
     const feiten = await feitenMetPraktisch(config, release, locale);
-    const template = await readFile(`${COPY_DIR}/meetup-${release.number}.${locale}.tmpl`, 'utf8');
+    const template = await templateVoor(release.number, locale);
     doc = splice(doc, `titel-${locale}`, fence(feiten.titel as string), pad);
     doc = splice(doc, `beschrijving-${locale}`, fence(vul(template.trimEnd(), feiten)), pad);
   }
@@ -115,12 +152,14 @@ async function emit(pad: string, inhoud: string, drift: string[]): Promise<void>
 }
 
 const config = await readCopyConfig();
-const release = await readRelease('src/content', CURRENT_RELEASE);
+const releases = await readReleases('src/content');
 const drift: string[] = [];
 
-for (const maker of [meetupDoc, postsDoc]) {
-  const [pad, inhoud] = await maker(config, release);
-  await emit(pad, inhoud, drift);
+for (const release of releases) {
+  for (const maker of [meetupDoc, postsDoc]) {
+    const [pad, inhoud] = await maker(config, release);
+    await emit(pad, inhoud, drift);
+  }
 }
 
 if (drift.length > 0) {

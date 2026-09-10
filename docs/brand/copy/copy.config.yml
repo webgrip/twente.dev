@@ -133,6 +133,6 @@ toegestane_tells:
       "wat dit niet is" is een bewust standpunt en geen opsomdrang.
 
 bronnen:
-  - pad: docs/brand/copy/meetup-001.md
+  - patroon: meetup
     kanaal: meetup
-  - pad: docs/brand/copy/posts-001.md
+  - patroon: posts

@@ -1,15 +1,15 @@
 import { execFileSync } from 'node:child_process';
 import { existsSync } from 'node:fs';
-import { readFile, writeFile } from 'node:fs/promises';
+import { readdir, readFile, writeFile } from 'node:fs/promises';
 import { homedir, tmpdir } from 'node:os';
 import { join } from 'node:path';
 
-import { CURRENT_RELEASE } from '../src/config/site.ts';
 import type { Locale } from '../src/i18n/config.ts';
 import { kanaalVan, readCopyConfig, type CopyConfig } from './copy-config.ts';
-import { readRelease } from './read-releases.ts';
+import { readReleases } from './read-releases.ts';
 
 const LINKS = process.argv.includes('--links');
+const COPY_DIR = 'docs/brand/copy';
 
 const MAANDEN: Record<Locale, string[]> = {
   nl: [
@@ -145,18 +145,26 @@ async function tellsIn(
 }
 
 const config: CopyConfig = await readCopyConfig();
-const release = await readRelease('src/content', CURRENT_RELEASE);
+const releases = await readReleases('src/content');
 const fouten: string[] = [];
 const scanPad = scanner();
 
-for (const bron of config.bronnen) {
-  let doc: string;
-  try {
-    doc = await readFile(bron.pad, 'utf8');
-  } catch {
-    fouten.push(`${bron.pad}: staat in copy.config.yml maar bestaat niet`);
+const bestanden = (await readdir(COPY_DIR)).filter((naam) => naam.endsWith('.md')).sort();
+const bronnen = config.bronnen.flatMap((bron) =>
+  bestanden
+    .filter((naam) => naam.startsWith(`${bron.patroon}-`))
+    .map((naam) => ({ pad: `${COPY_DIR}/${naam}`, kanaal: bron.kanaal })),
+);
+if (bronnen.length === 0) fouten.push(`geen plakbestanden gevonden in ${COPY_DIR}`);
+
+for (const bron of bronnen) {
+  const nummer = bron.pad.match(/-(\d{3})\.md$/)?.[1];
+  const release = releases.find((r) => r.number === nummer);
+  if (!release) {
+    fouten.push(`${bron.pad}: geen events-entry voor release ${nummer ?? '(onbekend)'}`);
     continue;
   }
+  const doc = await readFile(bron.pad, 'utf8');
   const blokken = lees(bron.pad, doc, bron.kanaal);
   if (blokken.length === 0) fouten.push(`${bron.pad}: geen plakblokken gevonden`);
 
@@ -209,7 +217,7 @@ for (const bron of config.bronnen) {
   }
 }
 
-const blokkenTotaal = config.bronnen.length;
+const blokkenTotaal = bronnen.length;
 if (!scanPad) {
   console.log('validate-copy: scan.py niet gevonden, AI-tellpoort overgeslagen');
 }

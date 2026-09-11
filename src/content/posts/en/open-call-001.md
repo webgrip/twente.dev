@@ -6,7 +6,7 @@ description: >-
 locale: en
 translationKey: open-call-001
 publishedAt: 2026-08-11
-updatedAt: 2026-09-04
+updatedAt: 2026-09-11
 author:
   name: Ryan Grippeling
   url: https://webgrip.nl
@@ -15,6 +15,10 @@ tags:
   - twente-dev-001
 draft: false
 ---
+
+> **Updated 11 September 2026**: the fixed talk format is gone. You do not have to supply
+> a claim, an example and a question, and we will not go through your talk with you
+> beforehand. Three sentences on what it is about is enough.
 
 > **Updated 4 September 2026**: the evening moved from Wednesday 7 October to Wednesday
 > 4 November 2026, to leave time to get the programme right. The open call stays open
@@ -25,30 +29,28 @@ draft: false
 What should Twente know you are building, or learning the hard way?
 
 On Wednesday 4 November, [twente.dev/001: Reconnect](/en/001) opens with two half-hour
-talks by people who did the work. A talk is one claim, one real example and one question
-for the room. Keynotes and product demos are not on the programme.
+talks by people who did the work. Keynotes and product demos are not on the programme.
 
 ## What we are looking for
 
-Send us four things, each a sentence or two:
+Something you built, fixed or broke yourself, and what you took away from it. A migration
+that went sideways, a system that had to stay up, a decision you would make differently
+now. The more specific the better: "our retries made the outage worse" makes for a better
+evening than "lessons about resilience".
 
-1. One claim. A precise statement, not a topic label. "Our retries made the outage worse"
-   beats "Lessons about resilience".
-2. One real example. The decision, failure, demonstration or before/after result that
-   makes the claim testable.
-3. What changed. The practice you kept.
-4. One question for the room. The unresolved part others can help with.
+Send three sentences on what it is about. You do not need anything worked out beyond that
+yet.
 
 Every discipline is welcome: software, hardware, embedded, manufacturing, data, security,
 design, product, research, education. The cross-overs are the point of the evening.
 
-## What you get
+## How it works on the night
 
-You do not need speaking experience. Accepted contributions are shaped together: an
-editorial call, a slide template, a technical rehearsal, a visible time cue on the night
-and travel costs agreed in advance. The room is deliberately small; the current capacity
-is on the [release page](/en/001). The format is built for people doing this for the first
-time.
+You do not need speaking experience, and we will not go through your talk with you
+beforehand. You get half an hour including questions, with a visible time cue so you always
+know where you stand. The room is small and the crowd is friendly, and how you tell it is
+up to you. The current capacity is on the [release page](/en/001). If you are travelling
+from outside the region, we agree travel costs in advance.
 
 ## What we do not accept
 
@@ -57,6 +59,6 @@ We select speakers editorially; [no one can buy stage time](/en/partners).
 
 ## How to submit
 
-Email your four sentences to [hello@twente.dev](mailto:hello@twente.dev). We reply to
+Email your three sentences to [hello@twente.dev](mailto:hello@twente.dev). We reply to
 every submission and decline with a reason within a week. Not ready for a stage? There
 are [plenty of other ways to contribute](/en/contribute).

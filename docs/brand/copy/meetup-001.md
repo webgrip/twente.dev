@@ -55,7 +55,7 @@ Twente bouwt technologie met wereldwijde impact. Alleen zijn de mensen en de pra
 🎙️ SPREKERS // TBA
 De open call loopt, en dit is je kans. Ben of ken jij iemand die ongeveer 30 minuten wil vertellen over iets dat je zelf hebt gebouwd, gerepareerd of verprutst?
 
-We zoeken geen keynote en geen productdemo. Eén claim, één echt voorbeeld, en één vraag aan de zaal. Spreekervaring is niet nodig: we vormen het verhaal samen, met een redactiegesprek en een technische repetitie vooraf.
+Een migratie die tegenviel, een systeem dat overeind moest blijven, een keuze waar je nu anders over denkt. Elke stack, en je hoeft nooit eerder op een podium te hebben gestaan. De zaal is klein en vriendelijk, en hoe je het vertelt is aan jou.
 
 Mail hello@twente.dev, of tip iemand aan die dit verhaal heeft. ✍️
 
@@ -112,7 +112,7 @@ Twente builds technology with global reach. The people and the practical lessons
 🎙️ SPEAKERS // TBA
 The open call is running, and this is your chance. Are you, or do you know, someone who wants to spend about 30 minutes on something they built, fixed or broke themselves?
 
-We are not looking for a keynote or a product demo. One claim, one real example, and one question for the room. No speaking experience needed: we shape the talk together, with an editorial call and a technical rehearsal beforehand.
+A migration that went sideways, a system that had to stay up, a decision you would make differently now. Any stack, and you never need to have stood on a stage before. The room is small and friendly, and how you tell it is up to you.
 
 Email hello@twente.dev, or point us at the person who has this story. ✍️
 

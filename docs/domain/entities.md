@@ -35,13 +35,12 @@ stateDiagram-v2
 ## Talk
 *Context: Release-context*
 
-Ongeveer een halfuur gesproken, één claim, één voorbeeld, één vraag.
+Ongeveer een halfuur gesproken over eigen werk.
 
 | Attribute | Type | Required | Description |
 |---|---|---|---|
-| `claim` | `string` | yes | Een precieze stelling, geen onderwerplabel. |
-| `example` | `string` | yes | Het besluit, de mislukking of het resultaat dat de claim toetsbaar maakt. |
-| `question` | `string` | yes | Het onopgeloste deel waar de zaal bij kan helpen. |
+| `title` | `string` | yes | De titel zoals die op de releasepagina en in het programma staat. |
+| `subject` | `string` | yes | Het systeem, de migratie of het besluit waar de talk over gaat. |
 
 **Relationships**
 - belongs_to **Speaker** — Precies één Speaker per Talk.

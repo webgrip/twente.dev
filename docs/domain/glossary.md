@@ -144,7 +144,7 @@ Iemand die een Talk geeft op een Release. Onderscheidt zich van een geïnterview
 ## Talk
 *Context: Release-context*
 
-Een gesproken bijdrage van ongeveer een halfuur op een Release, met één claim, één echt voorbeeld en één vraag aan de zaal. Gegeven door iemand die het werk zelf deed, niet door een vertegenwoordiger ervan. Bestaat pas zodra een Speaker de datum bevestigd heeft; daarvoor is er een leeg Slot. Twee per Release, met een pauze ertussen.
+Een gesproken bijdrage van ongeveer een halfuur op een Release, over iets dat de spreker zelf heeft gebouwd, gerepareerd of verprutst. Vorm en opbouw zijn van de spreker; er is geen voorgeschreven format en geen redactieronde. Gegeven door iemand die het werk zelf deed, niet door een vertegenwoordiger ervan. Bestaat pas zodra een Speaker de datum bevestigd heeft; daarvoor is er een leeg Slot. Twee per Release, met een pauze ertussen.
 
 **Also known as:** praatje  
 **Do not use:** field report, veldverslag, keynote, presentatie, sessie  

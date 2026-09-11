@@ -46,9 +46,9 @@ function htmlTekst(waarde: string): string {
 }
 
 function naarHtml(titel: string, inhoud: string): string {
-  const alineas = inhoud
-    .split('\n\n')
-    .map((blok) => `<p>${blok.split('\n').map(htmlTekst).join('<br />')}</p>`)
+  const regels = inhoud
+    .split('\n')
+    .map((regel) => (regel.trim() === '' ? '<div><br /></div>' : `<div>${htmlTekst(regel)}</div>`))
     .join('\n');
   return [
     '<!doctype html>',
@@ -56,10 +56,33 @@ function naarHtml(titel: string, inhoud: string): string {
     '<head>',
     '<meta charset="utf-8" />',
     `<title>${htmlTekst(titel)}</title>`,
-    '<style>body{font:16px/1.5 system-ui,sans-serif;max-width:46rem;margin:2rem auto;padding:0 1rem}</style>',
+    '<style>',
+    'body{font:16px/1.5 system-ui,sans-serif;max-width:46rem;margin:2rem auto;padding:0 1rem}',
+    'h1{font-size:1rem;color:#555}',
+    'p.uitleg{color:#555}',
+    'button{font:inherit;padding:.5rem 1rem;cursor:pointer;border:1px solid #333;background:#fff;border-radius:.25rem}',
+    'article{border:1px solid #ddd;border-radius:.25rem;padding:1rem;margin-top:1rem}',
+    '</style>',
     '</head>',
     '<body>',
-    alineas,
+    `<h1>${htmlTekst(titel)}</h1>`,
+    '<p class="uitleg">Open dit bestand in een browser, klik op de knop, plak in meetup.com. Kopieer het niet uit je editor, dan plak je broncode.</p>',
+    '<button type="button" id="kopieer">Kopieer met opmaak</button>',
+    '<article id="blok">',
+    regels,
+    '</article>',
+    '<script>',
+    "document.getElementById('kopieer').addEventListener('click', (gebeurtenis) => {",
+    "  const bereik = document.createRange();",
+    "  bereik.selectNodeContents(document.getElementById('blok'));",
+    '  const selectie = window.getSelection();',
+    '  selectie.removeAllRanges();',
+    '  selectie.addRange(bereik);',
+    "  const gelukt = document.execCommand('copy');",
+    '  selectie.removeAllRanges();',
+    "  gebeurtenis.target.textContent = gelukt ? 'Gekopieerd' : 'Selecteer het blok zelf';",
+    '});',
+    '</script>',
     '</body>',
     '</html>',
     '',

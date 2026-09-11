@@ -152,9 +152,14 @@ op meetup.com staat en wat werkt.
 
 Die koppen horen vet te zijn, en dat overleeft geen platte tekst. De templates markeren ze
 daarom met `**`, en `pnpm copy` levert twee uitvoeren per taal: het plakblok in de
-markdown zonder sterretjes, en een `.html`-bestand met echte `<strong>`. Open dat bestand
-in de browser, selecteer alles, kopieer, en meetup.com houdt de opmaak. De HTML staat in
+markdown zonder sterretjes, en een `.html`-bestand met echte `<strong>`. Open dat bestand in een browser en klik op
+de knop erin; die selecteert het blok en kopieert het met opmaak. De HTML staat in
 `.prettierignore`, want de regelafbrekingen erin zijn de gepubliceerde tekst.
+
+Elke zichtbare regel is een eigen `<div>` en een lege regel is `<div><br /></div>`, want
+dat is wat een contenteditable zelf produceert en wat editors dus betrouwbaar inlezen. Een
+eerdere versie zette `<br />` binnen een `<p>`; meetup.com gooide die weg en plakte de hele
+tekst aan elkaar. Kopieer het bestand ook niet uit je editor, want dan plak je broncode.
 
 Unicode-vetletters (𝗣𝗥𝗢𝗚𝗥𝗔𝗠𝗠𝗔) zouden ook plakken, maar een schermlezer spelt die
 letter voor letter als wiskundige symbolen. Op een site met een a11y-poort is dat de

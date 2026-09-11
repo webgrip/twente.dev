@@ -1,3 +1,28 @@
+## [0.2.0-rc.5](https://forgejo.webgrip.dev/webgrip/twente.dev/compare/v0.2.0-rc.4...v0.2.0-rc.5) (2026-09-11)
+
+### Added
+
+* **copy:** de groepstekst als eigen oppervlak, en het programma uit de events-entry ([2373cb6](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/2373cb61f2a255d639427fc9748855c60d97ff41)), references [#updates](https://forgejo.webgrip.dev/webgrip/twente.dev/issues/updates)
+* **copy:** de hoofdletterkoppen komen er vet uit ([45a373b](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/45a373b4c6c8211ae3b05d536ceac7e03b168f13))
+* **copy:** één feitenbron voor alle copy, met poorten en een driftregister ([c206529](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/c2065299b23587cbd02536ffc0cb4f0cdf0af31a))
+
+### Fixed
+
+* **copy:** de plak-HTML houdt zijn regelafbrekingen ([f85d27f](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/f85d27f8a7a5c9c03e538431380c337363e54905))
+* **copy:** een tweede release brak de bouw, nu steigert hij zichzelf ([858765b](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/858765b5f65c6899fbf79b3b29c9403ec5d82645))
+* **licence:** de licentiebundel leest de lockfile, niet de pnpm-store ([3c72006](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/3c720061a8c15232e8853f38989b397a27f3df6d))
+* **ops:** de mailbox staat niet meer in de dmarc-rapportintentie ([b92fd0f](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/b92fd0f44bc50d32cfe6c92bb53b306d77c08b20))
+
+### CI
+
+* de containerbuild ziet docs/brand/copy weer ([b2071da](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/b2071da83596f0a5fb4e571fa065cd1709f12070))
+
+### Internal
+
+* **ci:** record the critical-path decision and tighten the docker context ([6304f1f](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/6304f1f62ff23e5991372097d6672f8145f356ab))
+* **format:** prettier over gen-copy.ts ([fc1ddd8](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/fc1ddd8ad12c4323c37ae9addb260698379e3240))
+* **licence:** move the code to Apache-2.0 and ship third-party licences ([b0ab95a](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/b0ab95a5b0cbe7f184e72728f6ea6a42aef7f04d))
+
 ## [0.2.0-rc.4](https://forgejo.webgrip.dev/webgrip/twente.dev/compare/v0.2.0-rc.3...v0.2.0-rc.4) (2026-09-06)
 
 ### Fixed

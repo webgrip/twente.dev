@@ -119,6 +119,12 @@ Run metadata and, because the repo is public, the log bodies too are readable wi
 - **`pnpm exec wrangler`, never `pnpm dlx`** — dlx installs into a throwaway project that never
   sees `pnpm-workspace.yaml`'s allowBuilds, so pnpm's build-scripts guard prompts interactively
   for esbuild/workerd and a CI job hangs forever.
+- **Every `uses:` in a job is cloned during `Set up job`, even when its step's `if:` is false.**
+  Since 2026-09-05 the runner keeps those bare clones, the tool cache and the pnpm store per node
+  (homelab ADR-0056), so an action costs a fetch, not a 30 to 50 second clone; before that a
+  four-action job spent two minutes in setup ([ADR 0020](docs/adrs/0020-ci-critical-path.md)).
+  `on_source_change.yml` triggers on `push` only: a `pull_request` trigger ran every
+  `development` push twice while the promotion PR was open.
 - **wrangler.toml: the `routes` key stays above the first `[table]` header**, and
   `workers_dev = false` without a route is a green deploy and a dead site — every path 522s while
   `/robots.txt` serves Cloudflare's managed default.
@@ -138,10 +144,11 @@ Run metadata and, because the repo is public, the log bodies too are readable wi
 _2026-09-04._ Launch tracking lives in
 [`docs/plan/playbook-alignment.md`](docs/plan/playbook-alignment.md); which plan doc is
 authoritative for what: [`docs/plan/README.md`](docs/plan/README.md). CI runs through the shared
-static-site lanes in `webgrip/workflows` (v2.1.0), and the toolchain rides on `@webgrip/tsconfig`,
+static-site lanes in `webgrip/workflows` (v2.5.2, node lanes without a cache step), and the toolchain rides on `@webgrip/tsconfig`,
 `@webgrip/prettier-config`, `@webgrip/eslint-config-astro` and `@webgrip/astro-site-toolkit`
 (VIK-813). The seam is documented in each package: spread the shared array and append what is
 repo-specific, never fork the base. Several sessions share this working tree: commit by
 pathspec, and a local commit can be pushed by a peer at any time. Since 2026-09-05 the tree lives
 on `development`; the release train and its human steps are tracked in
-[`docs/plan/release-train.md`](docs/plan/release-train.md).
+[`docs/plan/release-train.md`](docs/plan/release-train.md). The pipeline is one verification
+stage plus preview and release since [ADR 0020](docs/adrs/0020-ci-critical-path.md) (2026-09-05).

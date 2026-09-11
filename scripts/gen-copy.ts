@@ -73,7 +73,7 @@ function naarHtml(titel: string, inhoud: string): string {
     '</article>',
     '<script>',
     "document.getElementById('kopieer').addEventListener('click', (gebeurtenis) => {",
-    "  const bereik = document.createRange();",
+    '  const bereik = document.createRange();',
     "  bereik.selectNodeContents(document.getElementById('blok'));",
     '  const selectie = window.getSelection();',
     '  selectie.removeAllRanges();',
@@ -236,7 +236,10 @@ async function groepDoc(config: CopyConfig, release: ResolvedRelease): Promise<[
     const template = await readFile(`${COPY_DIR}/meetup-groep.${locale}.tmpl`, 'utf8');
     const gevuld = vul(template.trimEnd(), feiten);
     doc = splice(doc, `beschrijving-${locale}`, fence(gevuld), pad);
-    extraHtml.push([`${COPY_DIR}/meetup-groep.${locale}.html`, naarHtml('meetup.com groep', gevuld)]);
+    extraHtml.push([
+      `${COPY_DIR}/meetup-groep.${locale}.html`,
+      naarHtml('meetup.com groep', gevuld),
+    ]);
   }
   return [pad, doc];
 }

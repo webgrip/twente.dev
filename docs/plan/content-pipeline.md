@@ -185,4 +185,4 @@ zet ze op twee regels achter 🚶 en 🚗, en de zaalkaart op de site rendert nu
 - **Het plaatsen zelf.** Geen API-koppelingen naar LinkedIn of Meetup. De winst zit in
   voorbereiding en controle, niet in de laatste klik.
 - **De beschrijvingen van andere organisaties** in `communities.yml`. Die horen via de
-  contributiepijplijn te lopen, per [CLAUDE.md](../../CLAUDE.md).
+  contributiepijplijn te lopen, per [CLAUDE.md](https://forgejo.webgrip.dev/webgrip/twente.dev/src/branch/main/CLAUDE.md).

@@ -129,7 +129,7 @@ thing the trigger did since ADR 0019 was double the load.
 
 - **Immediate proof** – the first run after this change: `Set up job` per node-lane job drops
   from two minutes to seconds, and its log shows `git fetch … # ref=…` without a preceding
-  `git clone`. Read it with the log endpoint documented in [`CLAUDE.md`](../../CLAUDE.md).
+  `git clone`. Read it with the log endpoint documented in [`CLAUDE.md`](https://forgejo.webgrip.dev/webgrip/twente.dev/src/branch/main/CLAUDE.md).
 - **Ongoing guardrails** – a `Set up job` that climbs back above a minute on a warm node is the
   signal; the pipeline view on the Actions page shows five jobs in the first stage and none of
   the old chain.

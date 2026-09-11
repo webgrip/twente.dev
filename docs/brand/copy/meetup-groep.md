@@ -37,7 +37,9 @@ Namen komen erbij zodra ze bevestigd zijn. Wil je het horen op het moment dat he
 Geen recruitmentavond. Geen sponsorpitch vanaf het podium. Spreektijd is niet te koop, en de deelnemerslijst gaat naar niemand, ook niet naar de gastheer. De zaal rouleert door de regio, met opzet: zo wordt dit nooit de meetup van één bedrijf.
 
 🙋 MEEDOEN KAN OOK
-Spreken, een zaal aanbieden voor een volgende release, of je verhaal laten optekenen in een field report: 👉 https://twente.dev/nl/bijdragen
+Je kunt een talk voorstellen, een zaal aanbieden voor een volgende release, of je laten interviewen over je werk zodat het een field report op de site wordt. Dat loopt allemaal via 👉 https://twente.dev/nl/bijdragen
+
+Steunt je organisatie het liever met ruimte, eten, productie of drukwerk, dan staat op 👉 https://twente.dev/nl/partners wat je daarvoor terugkrijgt en wat niet.
 
 🔗 LINKS
 Site en agenda // https://twente.dev
@@ -80,7 +82,9 @@ Names go up as soon as they are confirmed. Want to hear it the moment it happens
 Not a recruitment evening. No sponsor pitch from the stage. Stage time is not for sale, and the attendee list goes to nobody, the host included. The venue rotates across the region, on purpose: that way this never becomes one company's meetup.
 
 🙋 YOU CAN JOIN IN
-Speak, offer a room for a coming release, or have your story written up as a field report: 👉 https://twente.dev/en/contribute
+You can propose a talk, offer a room for a coming release, or be interviewed about your work so it becomes a field report on the site. All of that runs through 👉 https://twente.dev/en/contribute
+
+If your organisation would rather support it with space, food, production or print, 👉 https://twente.dev/en/partners says what you get for that and what you do not.
 
 🔗 LINKS
 Site and calendar // https://twente.dev

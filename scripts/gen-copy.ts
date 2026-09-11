@@ -30,7 +30,40 @@ function splice(doc: string, naam: string, inhoud: string, pad: string): string 
 }
 
 function fence(inhoud: string): string {
-  return ['```', inhoud, '```'].join('\n');
+  return ['```', zonderVet(inhoud), '```'].join('\n');
+}
+
+function zonderVet(tekst: string): string {
+  return tekst.replace(/\*\*(.+?)\*\*/g, '$1');
+}
+
+function htmlTekst(waarde: string): string {
+  return waarde
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+}
+
+function naarHtml(titel: string, inhoud: string): string {
+  const alineas = inhoud
+    .split('\n\n')
+    .map((blok) => `<p>${blok.split('\n').map(htmlTekst).join('<br />')}</p>`)
+    .join('\n');
+  return [
+    '<!doctype html>',
+    '<html lang="nl">',
+    '<head>',
+    '<meta charset="utf-8" />',
+    `<title>${htmlTekst(titel)}</title>`,
+    '<style>body{font:16px/1.5 system-ui,sans-serif;max-width:46rem;margin:2rem auto;padding:0 1rem}</style>',
+    '</head>',
+    '<body>',
+    alineas,
+    '</body>',
+    '</html>',
+    '',
+  ].join('\n');
 }
 
 async function feitenMetPraktisch(
@@ -88,8 +121,13 @@ async function meetupDoc(config: CopyConfig, release: ResolvedRelease): Promise<
   for (const locale of ['nl', 'en'] as Locale[]) {
     const feiten = await feitenMetPraktisch(config, release, locale);
     const template = await templateVoor(release.number, locale);
+    const gevuld = vul(template.trimEnd(), feiten);
     doc = splice(doc, `titel-${locale}`, fence(feiten.titel as string), pad);
-    doc = splice(doc, `beschrijving-${locale}`, fence(vul(template.trimEnd(), feiten)), pad);
+    doc = splice(doc, `beschrijving-${locale}`, fence(gevuld), pad);
+    extraHtml.push([
+      `${COPY_DIR}/meetup-${release.number}.${locale}.html`,
+      naarHtml(feiten.titel as string, gevuld),
+    ]);
   }
   return [pad, doc];
 }
@@ -173,7 +211,9 @@ async function groepDoc(config: CopyConfig, release: ResolvedRelease): Promise<[
   for (const locale of ['nl', 'en'] as Locale[]) {
     const feiten = await feitenMetPraktisch(config, release, locale);
     const template = await readFile(`${COPY_DIR}/meetup-groep.${locale}.tmpl`, 'utf8');
-    doc = splice(doc, `beschrijving-${locale}`, fence(vul(template.trimEnd(), feiten)), pad);
+    const gevuld = vul(template.trimEnd(), feiten);
+    doc = splice(doc, `beschrijving-${locale}`, fence(gevuld), pad);
+    extraHtml.push([`${COPY_DIR}/meetup-groep.${locale}.html`, naarHtml('meetup.com groep', gevuld)]);
   }
   return [pad, doc];
 }
@@ -192,6 +232,7 @@ async function emit(pad: string, inhoud: string, drift: string[]): Promise<void>
 const config = await readCopyConfig();
 const releases = await readReleases('src/content');
 const drift: string[] = [];
+const extraHtml: Array<[string, string]> = [];
 
 for (const release of releases) {
   for (const maker of [meetupDoc, postsDoc]) {
@@ -204,6 +245,8 @@ const huidige = releases.find((r) => r.number === CURRENT_RELEASE);
 if (!huidige) throw new Error(`geen events-entry voor CURRENT_RELEASE ${CURRENT_RELEASE}`);
 const [groepPad, groepInhoud] = await groepDoc(config, huidige);
 await emit(groepPad, groepInhoud, drift);
+
+for (const [pad, inhoud] of extraHtml) await emit(pad, inhoud, drift);
 
 if (drift.length > 0) {
   console.error(`\ngen-copy: ${drift.length} afgeleid bestand niet actueel:\n`);

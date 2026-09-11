@@ -150,6 +150,16 @@ met een verschillende levensduur, en ze staan daarom apart:
 Beide dragen dezelfde opmaak met hoofdletterkoppen achter een emoji, want dat is wat er
 op meetup.com staat en wat werkt.
 
+Die koppen horen vet te zijn, en dat overleeft geen platte tekst. De templates markeren ze
+daarom met `**`, en `pnpm copy` levert twee uitvoeren per taal: het plakblok in de
+markdown zonder sterretjes, en een `.html`-bestand met echte `<strong>`. Open dat bestand
+in de browser, selecteer alles, kopieer, en meetup.com houdt de opmaak. De HTML staat in
+`.prettierignore`, want de regelafbrekingen erin zijn de gepubliceerde tekst.
+
+Unicode-vetletters (𝗣𝗥𝗢𝗚𝗥𝗔𝗠𝗠𝗔) zouden ook plakken, maar een schermlezer spelt die
+letter voor letter als wiskundige symbolen. Op een site met een a11y-poort is dat de
+verkeerde ruil.
+
 ## Het programma woont in de events-entry
 
 De tijden van de avond stonden op drie plekken: twee hardgecodeerde lijsten in

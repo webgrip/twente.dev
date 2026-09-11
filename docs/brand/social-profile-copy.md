@@ -205,7 +205,7 @@ Reuse the Bluesky EN bio; append the launch line while /001 is upcoming.
 
 **EN (124):**
 
-> Independent, practitioner-led tech community for Twente. The site and its content live in git: code MIT, content CC BY 4.0.
+> Independent, practitioner-led tech community for Twente. The site and its content live in git: code Apache-2.0, content CC BY 4.0.
 
 Website: `https://twente.dev`. Pin a README that links the canonical repo on
 `forgejo.webgrip.dev` if GitHub is a mirror.

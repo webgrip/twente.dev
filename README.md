@@ -147,4 +147,4 @@ Bad deploy live? See [`docs/runbooks/rollback.md`](docs/runbooks/rollback.md).
 
 ## Licence
 
-Code MIT, content CC BY 4.0. See [`LICENSE`](LICENSE).
+Code Apache-2.0, content CC BY 4.0. See [`LICENSE`](LICENSE).

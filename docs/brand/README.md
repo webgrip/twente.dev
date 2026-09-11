@@ -297,7 +297,7 @@ changed by editing text.
 
 ## 7. Name and mark
 
-The code in this repository is [MIT](../../LICENSE) and the community content is
+The code in this repository is [Apache-2.0](../../LICENSE) and the community content is
 CC BY 4.0. Neither licence says anything about trademarks, and that silence is
 deliberate: **"twente.dev" and the mark identify this community**, and identifying
 things is what they are for.

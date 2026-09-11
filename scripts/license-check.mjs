@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const holder = 'Copyright 2026 Ryan Grippeling / WebGrip';
+const expectedLicence = 'Apache-2.0';
 const failures = [];
 const read = (path) =>
   existsSync(resolve(root, path)) ? readFileSync(resolve(root, path), 'utf8') : null;
@@ -44,6 +45,18 @@ for (const image of ['ops/docker/web/Dockerfile']) {
   if (!source || !source.includes('org.opencontainers.image.licenses')) continue;
   if (!source.includes('org.opencontainers.image.licenses="Apache-2.0"'))
     failures.push(`${image} does not label the image Apache-2.0`);
+}
+
+
+const reuseToml = read('REUSE.toml');
+if (!reuseToml) failures.push('REUSE.toml is missing; per-file licensing would stop being declared');
+else {
+  const declared = [...reuseToml.matchAll(/SPDX-License-Identifier\s*=\s*"([^"]+)"/g)].map(match => match[1]);
+  if (!declared.length) failures.push('REUSE.toml declares no SPDX-License-Identifier');
+  if (!declared.includes(expectedLicence)) failures.push(`REUSE.toml does not declare ${expectedLicence} for the repository`);
+  for (const identifier of new Set(declared)) {
+    if (!existsSync(resolve(root, `LICENSES/${identifier}.txt`))) failures.push(`REUSE.toml declares ${identifier} but LICENSES/${identifier}.txt is missing`);
+  }
 }
 
 if (failures.length) {

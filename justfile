@@ -111,6 +111,10 @@ check: fmt lint typecheck test content licenses build
 [group('check')]
 licenses:
     pnpm run license:check
+
+# Full REUSE 3.3 lint (needs uv; not in CI)
+[group('check')]
+reuse:
     pnpm run license:reuse
 
 [group('check')]

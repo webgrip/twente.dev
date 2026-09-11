@@ -1,3 +1,14 @@
+## [0.2.0-rc.6](https://forgejo.webgrip.dev/webgrip/twente.dev/compare/v0.2.0-rc.5...v0.2.0-rc.6) (2026-09-11)
+
+### Added
+
+* **ops:** de dmarc-intentie voor twente.dev staat op p=quarantine ([0411e71](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/0411e71c60866316db72d5fd0ee65aabc45de10c))
+
+### Fixed
+
+* **ci:** stop the licence gate depending on a network tool install ([3ca8ac4](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/3ca8ac405e3ef7da908f8af4434c29f5dced826a))
+* **docs:** de docssite struikelde over twee links naar CLAUDE.md ([c8f2e00](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/c8f2e004bf506a4c2701776dac2d803f017c2ea7))
+
 ## [0.2.0-rc.5](https://forgejo.webgrip.dev/webgrip/twente.dev/compare/v0.2.0-rc.4...v0.2.0-rc.5) (2026-09-11)
 
 ### Added

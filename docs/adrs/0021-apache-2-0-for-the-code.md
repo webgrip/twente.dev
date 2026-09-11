@@ -22,7 +22,7 @@ The owner's rule is: give users the most freedom possible, and keep ownership.
 The code — everything outside `src/content/` — is **Apache-2.0**, matching the rest of the estate.
 The community content in `src/content/` stays **CC BY 4.0**.
 
-On freedom: MIT is the lighter obligation, but Apache-2.0 *grants* more. Its section 3 is an
+On freedom: MIT is the lighter obligation, but Apache-2.0 _grants_ more. Its section 3 is an
 express patent licence; MIT is silent on patents, so a redistributor's right to practise a patent
 the code reads on is implied at best. Two lines of attribution paperwork is a smaller cost than
 that uncertainty.

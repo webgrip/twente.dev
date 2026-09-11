@@ -13,17 +13,17 @@
 A push to `development` took about sixteen minutes to turn green, and almost none of it was
 work. Run 275 (2026-09-05), the last green run of the old shape, measured per job:
 
-| Job                | Set up job | Install | Actual work        |
-| ------------------ | ---------- | ------- | ------------------ |
-| Static analysis    | 1m42s      | 7s      | 21s                |
-| Unit tests         | 2m13s      | 22s     | 3s                 |
-| Content validation | 2m08s      | 21s     | 2s                 |
-| Mail validation    | 2m04s      | 19s     | 1s                 |
-| Build site         | 1m51s      | 17s     | 11s                |
-| Container parity   | 1m16s      | –       | 22s                |
-| Lighthouse budgets | 55s        | 18s     | 6m07s (24 audits)  |
-| Accessibility      | 1m12s      | 15s     | 1m02s              |
-| Deploy preview     | 1m00s      | 7s      | 12s                |
+| Job                | Set up job | Install | Actual work       |
+| ------------------ | ---------- | ------- | ----------------- |
+| Static analysis    | 1m42s      | 7s      | 21s               |
+| Unit tests         | 2m13s      | 22s     | 3s                |
+| Content validation | 2m08s      | 21s     | 2s                |
+| Mail validation    | 2m04s      | 19s     | 1s                |
+| Build site         | 1m51s      | 17s     | 11s               |
+| Container parity   | 1m16s      | –       | 22s               |
+| Lighthouse budgets | 55s        | 18s     | 6m07s (24 audits) |
+| Accessibility      | 1m12s      | 15s     | 1m02s             |
+| Deploy preview     | 1m00s      | 7s      | 12s               |
 
 Three causes, all outside the tests themselves:
 
@@ -153,6 +153,6 @@ tokens are unaffected.
 
 ### Revision Log
 
-| Version | Date       | Author           | Change           |
-| ------- | ---------- | ---------------- | ---------------- |
-| 1.0.0   | 2026-09-05 | Ryan Grippeling  | Initial creation |
+| Version | Date       | Author          | Change           |
+| ------- | ---------- | --------------- | ---------------- |
+| 1.0.0   | 2026-09-05 | Ryan Grippeling | Initial creation |

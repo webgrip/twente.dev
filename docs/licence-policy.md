@@ -53,10 +53,10 @@ copyleft licence.
 
 ## Where this is enforced
 
-| Check | Command | What it covers |
-|---|---|---|
-| Third-party licences | `pnpm run licenses:bundle` | allowlist, attribution file, build-time-only assertion |
-| Our own licence surface | `pnpm run license:check` | LICENSE, copyright line, NOTICE, inbound terms, manifest, image label |
-| Per-file licensing | `pnpm run license:reuse` | [REUSE](https://reuse.software/spec-3.3/) 3.3 compliance |
+| Check                   | Command                    | What it covers                                                        |
+| ----------------------- | -------------------------- | --------------------------------------------------------------------- |
+| Third-party licences    | `pnpm run licenses:bundle` | allowlist, attribution file, build-time-only assertion                |
+| Our own licence surface | `pnpm run license:check`   | LICENSE, copyright line, NOTICE, inbound terms, manifest, image label |
+| Per-file licensing      | `pnpm run license:reuse`   | [REUSE](https://reuse.software/spec-3.3/) 3.3 compliance              |
 
 The first runs inside `pnpm run build`. All three run in `just check` and in CI.

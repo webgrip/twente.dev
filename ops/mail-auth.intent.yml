@@ -12,7 +12,7 @@ domains:
     dkim:
       - selector: google
         keyCharacters: 408
-    dmarcPolicy: p=none
+    dmarcPolicy: p=quarantine
     dmarcReportsTo: [0525d8c91ea04d888744ae8a292691cc@dmarc-reports.cloudflare.net]
     caa:
       published: true

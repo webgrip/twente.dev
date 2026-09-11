@@ -13,8 +13,7 @@ domains:
       - selector: google
         keyCharacters: 408
     dmarcPolicy: p=none
-    dmarcReportsTo:
-      [0525d8c91ea04d888744ae8a292691cc@dmarc-reports.cloudflare.net, dmarc@twente.dev]
+    dmarcReportsTo: [0525d8c91ea04d888744ae8a292691cc@dmarc-reports.cloudflare.net]
     caa:
       published: true
       issuers:
@@ -33,8 +32,4 @@ domains:
       - selector: brevo2
     dmarcPolicy: p=none
     dmarcReportsTo:
-      [
-        0525d8c91ea04d888744ae8a292691cc@dmarc-reports.cloudflare.net,
-        dmarc@twente.dev,
-        rua@dmarc.brevo.com,
-      ]
+      [0525d8c91ea04d888744ae8a292691cc@dmarc-reports.cloudflare.net, rua@dmarc.brevo.com]

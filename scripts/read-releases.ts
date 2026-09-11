@@ -5,7 +5,14 @@ import { parse } from 'yaml';
 import { resolveRelease } from '../src/lib/release.ts';
 import type { ResolvedRelease } from '../src/lib/release.ts';
 
-type Venue = { name?: string; address?: string; city: string; online: boolean };
+type Venue = {
+  name?: string;
+  address?: string;
+  city: string;
+  online: boolean;
+  directions?: Record<string, string>;
+  parking?: Record<string, string>;
+};
 
 function asDate(value: unknown, where: string): Date {
   const date = value instanceof Date ? value : new Date(String(value));
@@ -28,6 +35,7 @@ export function releaseFromEntry(data: Record<string, unknown>): ResolvedRelease
       programmeStart: asDate(block.programmeStart, 'release.programmeStart'),
       capacity: Number(block.capacity),
       venueLogo: typeof block.venueLogo === 'string' ? block.venueLogo : undefined,
+      programme: (block.programme ?? []) as ResolvedRelease['programme'],
       speakers: (block.speakers ?? []) as ResolvedRelease['speakers'],
     },
   });

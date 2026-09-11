@@ -77,12 +77,15 @@ De bestanden:
 - [`copy.config.yml`](../brand/copy/copy.config.yml) is het manifest: kanalen met hun
   tekenlimiet, de praktisch-regels per taal, zeven momenten, de verboden claims en de
   toegestane tells met reden.
-- [`meetup-001.nl.tmpl`](../brand/copy/meetup-001.nl.tmpl) en `.en.tmpl` dragen het proza
+- [`meetup.nl.tmpl`](../brand/copy/meetup.nl.tmpl) en `meetup.en.tmpl` dragen het proza
   met plaatshouders. De feiten staan er niet in.
 - [`meetup-001.md`](../brand/copy/meetup-001.md) houdt zijn handgeschreven kop en krijgt
   de plakblokken tussen `BEGIN/END generated`-markers.
 - [`posts-001.md`](../brand/copy/posts-001.md) is volledig gegenereerd: 34 blokken over
   zeven momenten, elk met een regel tussen blokhaken die jij vervangt.
+- [`meetup-groep.md`](../brand/copy/meetup-groep.md) is de tekst van de meetup.com-groep
+  zelf, uit `meetup-groep.<taal>.tmpl`. Die gaat over twente.dev en niet over één avond,
+  dus hij bestaat één keer en trekt de feiten uit `CURRENT_RELEASE`.
 - [`plakplekken.yml`](../brand/copy/plakplekken.yml) is het register.
 
 De poorten zijn stuk voor stuk getest door ze expres te laten falen: een te lang
@@ -133,6 +136,31 @@ Dat laatste was een echte val. Voordat dit erin zat, brak `pnpm build` op het mo
 `CURRENT_RELEASE` naar 002 ging: `pnpm copy` liep stuk op een ontbrekende `meetup-002.md`,
 en de datumpoort verwierp elke datum in de 001-bestanden. Beide zijn nagespeeld met een
 echte 002-entry en daarna gerepareerd.
+
+## Twee oppervlakken, twee teksten
+
+De listing van een losse avond en de beschrijving van de groep zijn verschillende teksten
+met een verschillende levensduur, en ze staan daarom apart:
+
+| Oppervlak               | Bestand           | Verandert                                 |
+| ----------------------- | ----------------- | ----------------------------------------- |
+| Het event op meetup.com | `meetup-<nr>.md`  | per release                               |
+| De groep op meetup.com  | `meetup-groep.md` | alleen als de volgende release verschuift |
+
+Beide dragen dezelfde opmaak met hoofdletterkoppen achter een emoji, want dat is wat er
+op meetup.com staat en wat werkt.
+
+## Het programma woont in de events-entry
+
+De tijden van de avond stonden op drie plekken: twee hardgecodeerde lijsten in
+`ReleasePage.astro`, een per taal, en overgetypt in de meetup-listing. Ze staan nu in
+`release.programme` in de events-entry als `{ id, time }`; de labels per taal staan in
+`ReleasePage.astro` en in `copy.config.yml`. De pagina en de listing renderen uit dezelfde
+rij, en de talkduur (30 minuten) wordt uit het verschil tussen twee slots afgeleid in
+plaats van opgeschreven.
+
+Om dezelfde reden is `venue.directions` gesplitst in `directions` en `parking`: de listing
+zet ze op twee regels achter 🚶 en 🚗, en de zaalkaart op de site rendert nu allebei.
 
 ## Wat bewust niet geautomatiseerd is
 

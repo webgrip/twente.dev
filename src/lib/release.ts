@@ -6,12 +6,18 @@ export interface ReleaseSpeaker {
   talk?: Record<Locale, string>;
 }
 
+export interface ProgrammeSlot {
+  id: string;
+  time: string;
+}
+
 export interface ReleaseBlock {
   number: string;
   theme: string;
   programmeStart: Date;
   capacity: number;
   venueLogo?: string;
+  programme?: ProgrammeSlot[];
   speakers: ReleaseSpeaker[];
 }
 
@@ -31,6 +37,7 @@ export interface ReleaseEntryData {
     geo?: GeoPoint;
     map?: string;
     directions?: Record<Locale, string>;
+    parking?: Record<Locale, string>;
   };
   costEur: number;
   release?: ReleaseBlock;
@@ -50,9 +57,11 @@ export interface ResolvedRelease {
   venueGeo: GeoPoint | null;
   venueMap: string | null;
   venueDirections: Record<Locale, string> | null;
+  venueParking: Record<Locale, string> | null;
   venue: string | null;
   capacity: number;
   costEur: number;
+  programme: ProgrammeSlot[];
   speakers: ReleaseSpeaker[];
 }
 
@@ -89,9 +98,11 @@ export function resolveRelease(data: ReleaseEntryData): ResolvedRelease {
     venueGeo: data.venue.geo ?? null,
     venueMap: data.venue.map ?? null,
     venueDirections: data.venue.directions ?? null,
+    venueParking: data.venue.parking ?? null,
     venue: venueName && venueAddress ? `${venueName}, ${venueAddress}` : venueName,
     capacity: block.capacity,
     costEur: data.costEur,
+    programme: block.programme ?? [],
     speakers: block.speakers,
   };
 }

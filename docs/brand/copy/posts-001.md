@@ -1,6 +1,6 @@
 # Posts voor twente.dev/001
 
-Gegenereerd door `pnpm copy`. Bewerk niet dit bestand maar
+Gegenereerd door `pnpm copy`. Wijzigingen horen in
 [`copy.config.yml`](copy.config.yml); de feiten komen uit `src/content/events/`.
 
 Elk blok begint met een regel tussen blokhaken. Die vervang je door je eigen zin,

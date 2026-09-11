@@ -1,11 +1,13 @@
 import { readFile, writeFile } from 'node:fs/promises';
 
+import { CURRENT_RELEASE } from '../src/config/site.ts';
 import type { Locale } from '../src/i18n/config.ts';
 import type { ResolvedRelease } from '../src/lib/release.ts';
 import {
   datumVanMoment,
   feitenVoor,
   kanaalVan,
+  programmaTabel,
   readCopyConfig,
   vul,
   type CopyConfig,
@@ -38,7 +40,8 @@ async function feitenMetPraktisch(
 ): Promise<Feiten> {
   const feiten = feitenVoor(release, locale);
   const regels = config.praktisch[locale].map((regel) => vul(regel, feiten));
-  return { ...feiten, praktisch: regels.join('\n') };
+  const met = { ...feiten, praktisch: regels.join('\n') };
+  return { ...met, programma: programmaTabel(config, release, locale) };
 }
 
 function steiger(release: ResolvedRelease): string {
@@ -105,7 +108,7 @@ async function postsDoc(config: CopyConfig, release: ResolvedRelease): Promise<[
   const uit: string[] = [
     `# Posts voor twente.dev/${release.number}`,
     '',
-    'Gegenereerd door `pnpm copy`. Bewerk niet dit bestand maar',
+    'Gegenereerd door `pnpm copy`. Wijzigingen horen in',
     `[\`copy.config.yml\`](copy.config.yml); de feiten komen uit \`src/content/events/\`.`,
     '',
     'Elk blok begint met een regel tussen blokhaken. Die vervang je door je eigen zin,',
@@ -140,6 +143,41 @@ async function postsDoc(config: CopyConfig, release: ResolvedRelease): Promise<[
   return [pad, `${uit.join('\n').trimEnd()}\n`];
 }
 
+function groepSteiger(): string {
+  const secties = (['nl', 'en'] as Locale[]).map((locale) => {
+    const kop = locale === 'nl' ? 'Nederlands' : 'English';
+    return [
+      `## ${kop}`,
+      '',
+      `<!-- BEGIN generated: beschrijving-${locale} -->`,
+      `<!-- END generated: beschrijving-${locale} -->`,
+    ].join('\n');
+  });
+  return [
+    '# Groepsbeschrijving voor meetup.com',
+    '',
+    'De tekst van de groep zelf, niet van een losse avond. Gegenereerd door `pnpm copy`',
+    'uit `meetup-groep.<taal>.tmpl`; de feiten komen uit de release die in',
+    '`src/config/site.ts` als `CURRENT_RELEASE` staat.',
+    '',
+    '---',
+    '',
+    secties.join('\n\n---\n\n'),
+    '',
+  ].join('\n');
+}
+
+async function groepDoc(config: CopyConfig, release: ResolvedRelease): Promise<[string, string]> {
+  const pad = `${COPY_DIR}/meetup-groep.md`;
+  let doc = (await readFile(pad, 'utf8').catch(() => null)) ?? groepSteiger();
+  for (const locale of ['nl', 'en'] as Locale[]) {
+    const feiten = await feitenMetPraktisch(config, release, locale);
+    const template = await readFile(`${COPY_DIR}/meetup-groep.${locale}.tmpl`, 'utf8');
+    doc = splice(doc, `beschrijving-${locale}`, fence(vul(template.trimEnd(), feiten)), pad);
+  }
+  return [pad, doc];
+}
+
 async function emit(pad: string, inhoud: string, drift: string[]): Promise<void> {
   const huidig = await readFile(pad, 'utf8').catch(() => null);
   if (huidig === inhoud) return;
@@ -161,6 +199,11 @@ for (const release of releases) {
     await emit(pad, inhoud, drift);
   }
 }
+
+const huidige = releases.find((r) => r.number === CURRENT_RELEASE);
+if (!huidige) throw new Error(`geen events-entry voor CURRENT_RELEASE ${CURRENT_RELEASE}`);
+const [groepPad, groepInhoud] = await groepDoc(config, huidige);
+await emit(groepPad, groepInhoud, drift);
 
 if (drift.length > 0) {
   console.error(`\ngen-copy: ${drift.length} afgeleid bestand niet actueel:\n`);

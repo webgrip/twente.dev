@@ -39,49 +39,40 @@ twente.dev/001: Reconnect
 <!-- BEGIN generated: beschrijving-nl -->
 
 ```
-🔧 Twee talks, wat te eten, en daarna tijd om bij te praten.
+👋 twente.dev/001: Reconnect. Een avond voor iedereen die in en rondom Twente technologie bouwt, waarmee dan ook: software, infrastructuur, embedded, maakindustrie, data, security, design, product, onderzoek en technisch onderwijs.
 
-Twente heeft veel goede mensen die technologie bouwen, en weinig plekken waar ze elkaar tegenkomen buiten hun eigen kantoor. Er zijn meetups, en er zitten goede bij, maar ze zijn versnipperd, vaak gebonden aan één stack of één werkgever, en je moet ze net kennen om ze te vinden.
+Twente bouwt technologie met wereldwijde impact. Alleen zijn de mensen en de praktijklessen erachter moeilijk te vinden, over bedrijven en disciplines heen. Daar is deze avond voor. 🔌
 
-twente.dev is de poging daar één plek van te maken: een gedeelde agenda die bijgehouden wordt van alles wat er in de regio gebeurt, field reports van mensen die het werk zelf deden, en elke eerste woensdag van de maand een avond zoals deze. We build it. We run it. We share it.
+⏱️ PROGRAMMA
+18:00 · Inloop, eten en eerste kennismakingen 🍕
+18:45 · Welkomstwoord
+19:00 · Talk 1 // spreker TBA
+19:30 · Pauze
+19:45 · Talk 2 // spreker TBA
+20:15 · Networking 🍻
+21:30 · Strakke eindtijd ⏹️
 
-De eerstvolgende is twente.dev/001: Reconnect, op woensdag 4 november.
+🎙️ SPREKERS // TBA
+De open call loopt, en dit is je kans. Ben of ken jij iemand die ongeveer 30 minuten wil vertellen over iets dat je zelf hebt gebouwd, gerepareerd of verprutst?
 
-🎤 Sprekers // allebei nog TBA
+We zoeken geen keynote en geen productdemo. Eén claim, één echt voorbeeld, en één vraag aan de zaal. Spreekervaring is niet nodig: we vormen het verhaal samen, met een redactiegesprek en een technische repetitie vooraf.
 
-Twee talks van ongeveer een halfuur, en beide plekken staan nog open. We zoeken mensen die iets hebben gebouwd, gerepareerd of verprutst (of iets anders!) en daar willen komen vertellen. Stack maakt niet uit. Ervaring met spreken ook niet: we werken het verhaal samen uit, met een redactiegesprek en een technische repetitie vooraf.
+Mail hello@twente.dev, of tip iemand aan die dit verhaal heeft. ✍️
 
-Ben of ken jij die persoon? Mail hello@twente.dev, of tip iemand aan.
+📍 PRAKTISCH
+Gratis, inclusief eten en drinken. Er is plek voor ongeveer 40 mensen.
+Voertaal Nederlands, en Engels zodra er internationals in de zaal zitten.
 
-Namen komen erbij zodra ze bevestigd zijn. Wil je het horen op het moment dat het gebeurt: 👉 https://twente.dev/nl/001#aanmelden
+Code14, Hogepad 81, 7462 TB Rijssen
+🚗 Meer dan genoeg gratis parkeergelegenheid vlak bij de ingang van het pand.
+🚶 Ongeveer tien minuten lopen vanaf station Rijssen; het pand ligt er vrijwel pal ten zuiden van.
 
-📍 Praktisch
+📷 FOTO EN VIDEO
+We maken foto's en video-opnames van de avond, voor het archief en om te laten zien wat hier gebeurt. Liever niet in beeld? Laat het weten bij je aanmelding of bij de check-in, dan houden we daar rekening mee. Sta je er achteraf toch op, dan halen we het eruit op één bericht naar hello@twente.dev.
 
-🗓️ Woensdag 4 november 2026
-🕕 18:00 deuren open & eten // 18:45 programma // 21:30 klaar, op tijd thuis
-📌 Code14, Hogepad 81, 7462 TB Rijssen
-🚶 Ongeveer tien minuten lopen vanaf station Rijssen; het pand ligt er vrijwel pal ten zuiden van. Kom je met de auto, dan is er gratis parkeren bij de ingang.
-🎟️ Gratis, plek voor ongeveer 40 mensen
-🍕 Eten en drinken zijn inbegrepen
-🗣️ Voertaal Nederlands, en Engels zodra er internationals in de zaal zitten
+· · ·
 
-📷 Foto en video
-
-We maken foto's en video van de avond, voor het archief. Liever niet in beeld? Zeg het bij je aanmelding of bij de check-in. Sta je er achteraf toch op, dan is één bericht naar hello@twente.dev genoeg.
-
-🛡️ Wat dit niet is
-
-Geen banenmarkt: deelnemers zijn geen leads. Geen sponsorpitch vanaf het podium. Spreektijd is niet te koop, en de deelnemerslijst gaat naar niemand, ook niet naar de gastheer. De zaal rouleert door de regio, met opzet: zo wordt dit nooit de meetup van één bedrijf.
-
-🙋 Meedoen kan ook
-
-Spreken, een zaal aanbieden voor een volgende release, je verhaal laten optekenen in een field report, of een event aanmelden voor de agenda: 👉 https://twente.dev/nl/bijdragen
-
-🔗 Links
-
-Site en agenda // https://twente.dev
-Deze release // https://twente.dev/nl/001
-Gedragscode // https://twente.dev/nl/gedragscode
+🔗 Alles over deze avond: https://twente.dev/nl/001
 ```
 
 <!-- END generated: beschrijving-nl -->
@@ -105,49 +96,40 @@ twente.dev/001: Reconnect
 <!-- BEGIN generated: beschrijving-en -->
 
 ```
-🔧 Two talks, something to eat, and time to catch up afterwards.
+👋 twente.dev/001: Reconnect. An evening for everyone building technology in and around Twente, whatever they build it with: software, infrastructure, embedded, manufacturing, data, security, design, product, research and technical education.
 
-Twente has plenty of good people building technology, and few places where they meet outside their own office. There are meetups, and some are good, but they are scattered, often tied to one stack or one employer, and you have to know about them to find them.
+Twente builds technology with global reach. The people and the practical lessons behind it are hard to find, across companies and disciplines. That is what this evening is for. 🔌
 
-twente.dev is the attempt to make that one place: a shared calendar, kept up to date, of everything happening in the region, field reports by people who did the work themselves, and an evening like this one every first Wednesday of the month. We build it. We run it. We share it.
+⏱️ PROGRAMME
+18:00 · Doors, food and first introductions 🍕
+18:45 · Welcome
+19:00 · Talk 1 // speaker TBA
+19:30 · Break
+19:45 · Talk 2 // speaker TBA
+20:15 · Networking 🍻
+21:30 · Hard finish ⏹️
 
-The next one is twente.dev/001: Reconnect, on Wednesday 4 November.
+🎙️ SPEAKERS // TBA
+The open call is running, and this is your chance. Are you, or do you know, someone who wants to spend about 30 minutes on something they built, fixed or broke themselves?
 
-🎤 Speakers // both still TBA
+We are not looking for a keynote or a product demo. One claim, one real example, and one question for the room. No speaking experience needed: we shape the talk together, with an editorial call and a technical rehearsal beforehand.
 
-Two talks of about half an hour, and both slots are still open. We are looking for people who built, fixed or broke something (or something else entirely) and want to come and talk about it. Stack does not matter. Neither does speaking experience: we shape the talk together, with an editorial call and a technical rehearsal beforehand.
+Email hello@twente.dev, or point us at the person who has this story. ✍️
 
-Are you, or do you know, that person? Email hello@twente.dev, or point us at someone.
+📍 PRACTICAL
+Free, food and drinks included. There is room for about 40 people.
+Dutch by default, English whenever internationals are in the room.
 
-Names go up as soon as they are confirmed. Want to hear it the moment it happens: 👉 https://twente.dev/en/001#aanmelden
+Code14, Hogepad 81, 7462 TB Rijssen
+🚗 Plenty of free parking right by the entrance.
+🚶 About a ten-minute walk from Rijssen station, almost directly south of it.
 
-📍 Practical
+📷 PHOTOS AND VIDEO
+We take photos and record video on the night, for the archive and to show what happens here. Rather not be in shot? Say so when you RSVP or at check-in and we will work around it. If you end up in something anyway, one message to hello@twente.dev gets it removed.
 
-🗓️ Wednesday 4 November 2026
-🕕 18:00 doors and food // 18:45 programme // 21:30 hard finish, home on time
-📌 Code14, Hogepad 81, 7462 TB Rijssen
-🚶 About a ten-minute walk from Rijssen station, almost directly south of it. Coming by car, there is free parking by the entrance.
-🎟️ Free, room for about 40 people
-🍕 Food and drinks included
-🗣️ Dutch by default, English whenever internationals are in the room
+· · ·
 
-📷 Photos and video
-
-We take photos and record video on the night, for the archive. Rather not be in shot? Say so when you RSVP or at check-in. If you end up in something anyway, one message to hello@twente.dev gets it removed.
-
-🛡️ What this is not
-
-Not a job fair: attendees are not leads. No sponsor pitch from the stage. Stage time is not for sale, and the attendee list goes to nobody, the host included. The venue rotates across the region, on purpose: that way this never becomes one company's meetup.
-
-🙋 You can join in too
-
-Give a talk, offer a venue for a next release, have your story written up as a field report, or submit an event for the calendar: 👉 https://twente.dev/en/contribute
-
-🔗 Links
-
-Site and calendar // https://twente.dev
-This release // https://twente.dev/en/001
-Code of conduct // https://twente.dev/en/code-of-conduct
+🔗 Everything about this evening: https://twente.dev/en/001
 ```
 
 <!-- END generated: beschrijving-en -->

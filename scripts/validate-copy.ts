@@ -4,6 +4,7 @@ import { readdir, readFile, writeFile } from 'node:fs/promises';
 import { homedir, tmpdir } from 'node:os';
 import { join } from 'node:path';
 
+import { CURRENT_RELEASE } from '../src/config/site.ts';
 import type { Locale } from '../src/i18n/config.ts';
 import { kanaalVan, readCopyConfig, type CopyConfig } from './copy-config.ts';
 import { readReleases } from './read-releases.ts';
@@ -150,15 +151,17 @@ const fouten: string[] = [];
 const scanPad = scanner();
 
 const bestanden = (await readdir(COPY_DIR)).filter((naam) => naam.endsWith('.md')).sort();
-const bronnen = config.bronnen.flatMap((bron) =>
-  bestanden
-    .filter((naam) => naam.startsWith(`${bron.patroon}-`))
-    .map((naam) => ({ pad: `${COPY_DIR}/${naam}`, kanaal: bron.kanaal })),
-);
+const bronnen = config.bronnen.flatMap((bron) => {
+  if (bron.bestand) return [{ pad: `${COPY_DIR}/${bron.bestand}`, kanaal: bron.kanaal }];
+  const patroon = new RegExp(`^${bron.patroon}-\\d{3}\\.md$`);
+  return bestanden
+    .filter((naam) => patroon.test(naam))
+    .map((naam) => ({ pad: `${COPY_DIR}/${naam}`, kanaal: bron.kanaal }));
+});
 if (bronnen.length === 0) fouten.push(`geen plakbestanden gevonden in ${COPY_DIR}`);
 
 for (const bron of bronnen) {
-  const nummer = bron.pad.match(/-(\d{3})\.md$/)?.[1];
+  const nummer = bron.pad.match(/-(\d{3})\.md$/)?.[1] ?? CURRENT_RELEASE;
   const release = releases.find((r) => r.number === nummer);
   if (!release) {
     fouten.push(`${bron.pad}: geen events-entry voor release ${nummer ?? '(onbekend)'}`);

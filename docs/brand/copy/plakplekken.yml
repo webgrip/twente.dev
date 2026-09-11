@@ -1,7 +1,7 @@
 - id: meetup-groep
   status: live
   url: https://www.meetup.com/twente-dev/
-  bron: docs/brand/copy/meetup-001.md
+  bron: docs/brand/copy/meetup-groep.md
   laatst_gesynct: 2026-09-05
   eigenaar: ryan
 - id: meetup-event-001

@@ -29,10 +29,14 @@ venue:
   directions:
     nl: >-
       Ongeveer tien minuten lopen vanaf station Rijssen; het pand ligt er vrijwel pal ten
-      zuiden van. Kom je met de auto, dan is er gratis parkeren bij de ingang.
+      zuiden van.
     en: >-
-      About a ten-minute walk from Rijssen station, almost directly south of it. Coming by
-      car, there is free parking by the entrance.
+      About a ten-minute walk from Rijssen station, almost directly south of it.
+  parking:
+    nl: >-
+      Meer dan genoeg gratis parkeergelegenheid vlak bij de ingang van het pand.
+    en: >-
+      Plenty of free parking right by the entrance.
 organiser:
   name: twente.dev
   url: https://twente.dev
@@ -49,4 +53,13 @@ release:
   programmeStart: 2026-11-04T18:45:00+01:00
   capacity: 40
   venueLogo: code14.png
+  programme:
+    - id: talk-1
+      time: "19:00"
+    - id: pauze
+      time: "19:30"
+    - id: talk-2
+      time: "19:45"
+    - id: netwerken
+      time: "20:15"
   speakers: []

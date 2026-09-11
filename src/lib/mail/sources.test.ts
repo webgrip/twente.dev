@@ -54,6 +54,8 @@ const release: ResolvedRelease = {
   venue: 'Code14, Hogepad 81',
   capacity: 40,
   costEur: 0,
+  venueParking: null,
+  programme: [],
   speakers: [],
 };
 

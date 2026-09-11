@@ -42,6 +42,24 @@ praktisch:
     - "🍕 Food and drinks included"
     - "🗣️ Dutch by default, English whenever internationals are in the room"
 
+programma:
+  nl:
+    doors: "Inloop, eten en eerste kennismakingen 🍕"
+    welcome: Welkomstwoord
+    pauze: Pauze
+    netwerken: "Networking 🍻"
+    finish: "Strakke eindtijd ⏹️"
+    talk: "Talk {n} // {spreker}"
+    talk_tba: spreker TBA
+  en:
+    doors: "Doors, food and first introductions 🍕"
+    welcome: Welcome
+    pauze: Break
+    netwerken: "Networking 🍻"
+    finish: "Hard finish ⏹️"
+    talk: "Talk {n} // {spreker}"
+    talk_tba: speaker TBA
+
 momenten:
   - id: aankondiging
     dagen: -28
@@ -136,3 +154,5 @@ bronnen:
   - patroon: meetup
     kanaal: meetup
   - patroon: posts
+  - bestand: meetup-groep.md
+    kanaal: meetup

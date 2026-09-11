@@ -16,9 +16,8 @@ tags:
 draft: false
 ---
 
-> **Bijgewerkt op 11 september 2026**: het vaste talkformat is losgelaten. Je hoeft geen
-> claim, voorbeeld en vraag aan te leveren, en we nemen je verhaal vooraf niet met je door.
-> Drie zinnen over waar het over gaat is genoeg.
+> **Bijgewerkt op 11 september 2026**: het vaste talkformat is losgelaten. Stuur drie
+> zinnen over waar het over gaat, de rest is van jou.
 
 > **Bijgewerkt op 4 september 2026**: de avond is verzet van woensdag 7 oktober naar
 > woensdag 4 november 2026, zodat er tijd is om het programma goed rond te krijgen. De
@@ -39,19 +38,15 @@ migratie die tegenviel, een systeem dat overeind moest blijven, een keuze waar j
 over denkt. Hoe specifieker, hoe beter: "onze retries maakten de storing erger" levert een
 betere avond op dan "lessen over resilience".
 
-Stuur in drie zinnen waar het over gaat. Meer hoef je op dit moment niet uitgewerkt te
-hebben.
-
 Elke discipline is welkom: software, hardware, embedded, maakindustrie, data, security,
 design, product, onderzoek, onderwijs. Juist de kruisbestuiving is het punt van de avond.
 
-## Hoe het eraan toegaat
+## Wat je krijgt
 
-Spreekervaring is niet nodig, en je verhaal nemen we vooraf niet met je door. Je krijgt een
-halfuur inclusief vragen, met een zichtbaar tijdsignaal zodat je zelf weet hoe je ervoor
-staat. De zaal is klein en het publiek is vriendelijk, en hoe je het vertelt is aan jou. De
-actuele capaciteit staat op de [releasepagina](/nl/001). Kom je van buiten de regio, dan
-spreken we reiskosten vooraf af.
+Spreekervaring is niet nodig. Er is een slidetemplate als je hem wilt gebruiken, een
+zichtbaar tijdsignaal op de avond zelf en reiskosten die we vooraf afspreken. De zaal is
+bewust klein; de actuele capaciteit staat op de [releasepagina](/nl/001). De avond is
+gemaakt voor mensen die dit voor het eerst doen.
 
 ## Wat we niet accepteren
 

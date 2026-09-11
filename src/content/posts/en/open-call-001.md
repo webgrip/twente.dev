@@ -16,9 +16,8 @@ tags:
 draft: false
 ---
 
-> **Updated 11 September 2026**: the fixed talk format is gone. You do not have to supply
-> a claim, an example and a question, and we will not go through your talk with you
-> beforehand. Three sentences on what it is about is enough.
+> **Updated 11 September 2026**: the fixed talk format is gone. Send three sentences on
+> what it is about, the rest is yours.
 
 > **Updated 4 September 2026**: the evening moved from Wednesday 7 October to Wednesday
 > 4 November 2026, to leave time to get the programme right. The open call stays open
@@ -38,19 +37,15 @@ that went sideways, a system that had to stay up, a decision you would make diff
 now. The more specific the better: "our retries made the outage worse" makes for a better
 evening than "lessons about resilience".
 
-Send three sentences on what it is about. You do not need anything worked out beyond that
-yet.
-
 Every discipline is welcome: software, hardware, embedded, manufacturing, data, security,
 design, product, research, education. The cross-overs are the point of the evening.
 
-## How it works on the night
+## What you get
 
-You do not need speaking experience, and we will not go through your talk with you
-beforehand. You get half an hour including questions, with a visible time cue so you always
-know where you stand. The room is small and the crowd is friendly, and how you tell it is
-up to you. The current capacity is on the [release page](/en/001). If you are travelling
-from outside the region, we agree travel costs in advance.
+You do not need speaking experience. There is a slide template if you want to use it, a
+visible time cue on the night and travel costs agreed in advance. The room is deliberately
+small; the current capacity is on the [release page](/en/001). The evening is built for
+people doing this for the first time.
 
 ## What we do not accept
 

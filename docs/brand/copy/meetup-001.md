@@ -55,7 +55,7 @@ Twente bouwt technologie met wereldwijde impact. Alleen zijn de mensen en de pra
 🎙️ SPREKERS // TBA
 De open call loopt, en dit is je kans. Ben of ken jij iemand die ongeveer 30 minuten wil vertellen over iets dat je zelf hebt gebouwd, gerepareerd of verprutst?
 
-Een migratie die tegenviel, een systeem dat overeind moest blijven, een keuze waar je nu anders over denkt. Elke stack, en je hoeft nooit eerder op een podium te hebben gestaan. De zaal is klein en vriendelijk, en hoe je het vertelt is aan jou.
+Een migratie die tegenviel, een systeem dat overeind moest blijven, een keuze waar je nu anders over denkt. Elke stack, en je hoeft nooit eerder op een podium te hebben gestaan.
 
 Mail hello@twente.dev, of tip iemand aan die dit verhaal heeft. ✍️
 
@@ -112,7 +112,7 @@ Twente builds technology with global reach. The people and the practical lessons
 🎙️ SPEAKERS // TBA
 The open call is running, and this is your chance. Are you, or do you know, someone who wants to spend about 30 minutes on something they built, fixed or broke themselves?
 
-A migration that went sideways, a system that had to stay up, a decision you would make differently now. Any stack, and you never need to have stood on a stage before. The room is small and friendly, and how you tell it is up to you.
+A migration that went sideways, a system that had to stay up, a decision you would make differently now. Any stack, and you never need to have stood on a stage before.
 
 Email hello@twente.dev, or point us at the person who has this story. ✍️
 

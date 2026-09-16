@@ -33,8 +33,6 @@ aanmelden op 14 september opent zonder dat er iets achter zit.
 - [ ] **Code14 krijgt geen organiser-rol** op de groep.
 - [ ] **Stuur mij de event-URL.** Dan zet ik `REGISTRATION_URL` en klopt de site
       weer intern.
-- [ ] **Klopt `meetup.com/twente-dev`?** De releasepagina linkt sinds 5 september naar die
-      groeps-URL (`MEETUP_GROUP_URL` in `src/config/site.ts`). Heet de groep anders, pas hem aan.
 
 ## Vandaag: Code14 bevestigen
 
@@ -94,19 +92,42 @@ Op de kalender, niet nu:
       4 november. De vorige is van 30 augustus en lokale groepen publiceren maar
       twee tot acht weken vooruit.
 - [ ] **14 september**: aanmelden opent. Dit staat al zo op de site.
-- [ ] **T−6, dinsdag 23 september**: open call live en de persoonlijke
+- [ ] **T−6, woensdag 23 september**: open call live en de persoonlijke
       sprekervragen de deur uit. Sprekers komen uit de asks, niet uit de call.
-- [ ] **T−4, dinsdag 7 oktober**: beide sprekers bevestigd, anders schuift de
+- [ ] **T−4, woensdag 7 oktober**: beide sprekers bevestigd, anders schuift de
       release een maand op. Dit is de regel die /001 al een keer heeft verzet; hem
       negeren kost meer dan hem volgen.
-- [ ] **T−2, dinsdag 21 oktober**: OV-tijden opnieuw verifiëren voordat ze op de
+- [ ] **T−2, woensdag 21 oktober**: OV-tijden opnieuw verifiëren voordat ze op de
       releasepagina komen. De cijfers in het playbook zijn gecontroleerd tegen
       7 oktober en die avond bestaat niet meer.
+
+## Uit de harvest van 2026-09-16
+
+- [ ] **Een pre-commit hook die Prettier draait.** Drie keer in vijf dagen zette een commit
+      zonder `pnpm format` de gedeelde Static Analysis-job op rood voor elke sessie. De
+      storing en de bestanden staan in [de CI-runbook](../runbooks/ci-failures.md); de
+      oplossing is een hook in `settings.json`, geen documentatie.
+- [ ] **Beslis of /001 wordt opgenomen.** Het [organisator-playbook](../organiser-playbook.md)
+      belooft een spreker drie artefacten waaronder video, maar er staat geen camera klaar.
+      Neem je niet op, dan moet die belofte uit het playbook; neem je wel op, dan mag het
+      woord "opname" in de sprekersmails en in de copy erbij.
+- [ ] **Controleer of `email-welcome.html` al als Automation in Brevo staat.** Zo ja, dan moet
+      hij opnieuw geplakt worden, want de oude versie beloofde hulp bij de opzet.
+- [ ] **Hernoem het tweede deck in Drive.** Zijn bestandsnaam draagt nog het teruggetrokken
+      woord voor Release, waardoor `claims.test.ts` valt op elke doc die de naam citeert.
+      Daarom staat de naam nu niet voluit in [`../external-assets.md`](../external-assets.md).
+- [ ] **Kies de standaarduitlijning van het horizontale lockup.** `lockup-horizontal.svg`,
+      `-middle` en `-bottom` staan alle drie in de kit. Na de keuze: de gekozen variant tot
+      `lockup-horizontal.svg` maken in `scripts/brand-assets.py`, het script draaien, en daarna
+      de banners en de dekkenkit opnieuw genereren.
+- [ ] **Meet de capaciteit van de zaal bij Code14.** De repo zegt overal 40; er is één keer
+      "30 tot 40" langsgekomen. Klopt 40 niet, dan verandert `capacity` in de events-entry en
+      sijpelt het vanzelf door naar site, meetup-tekst en mail.
 
 ## Twee dingen die je moet beslissen
 
 - [ ] **De rotatiebelofte.** De perspagina zegt dat releases door de regio
-      rouleren. Met Code14 als host voor de eerste drie klopt dat nog; noem je er
+      rouleren. Met Code14 als host voor de eerste twee klopt dat nog; noem je er
       publiek meer, dan moet die zin mee veranderen.
 - [ ] **Wanneer heet dit community-supported?** Nu betaalt Webgrip en wordt een
       deel gesponsord. Dat is een prima startpunt en het is niet wat "door de

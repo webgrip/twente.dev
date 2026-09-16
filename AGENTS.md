@@ -63,22 +63,12 @@ contract, and the handful of repo rules that look like style choices but are loa
 - `labels_bulk_set_on_task` **replaces** the whole label set. Deletes are soft: `task_delete`
   completes, `project_delete` archives.
 
-### Reading Forgejo Actions logs from a script
+### Reading Forgejo Actions state from a script
 
-The REST API exposes runs but **not** job logs — `/api/v1/.../actions/runs/{n}/jobs` and every
-`.../logs` variant 404 even with a valid token. The UI's own endpoint works, and it is a POST:
-
-```bash
-curl -X POST -H "Authorization: token $TOKEN" -H "Content-Type: application/json" \
-  -d '{"logCursors":[{"step":7,"cursor":0,"expanded":true}]}' \
-  "https://forgejo.webgrip.dev/webgrip/twente.dev/actions/runs/<run>/jobs/<jobIdx>/attempt/1"
-```
-
-Three things that make it fail silently: `attempt` is **1-based** (omitting it gives
-`task with job_id … and attempt 0: resource does not exist`), `jobIdx` is the job's **0-based
-position in the run** (not the id from the tasks API — POST with no `logCursors` to enumerate
-titles), and the output lands in `logs.stepsLog[].lines[].message`, not `streamingLogs`.
-Run metadata (which job failed) is public; log bodies need the token.
+The REST API exposes runs but **not** job logs, `/actions/runs` returns rows with every useful
+field null, and `/actions/tasks` stalls under load. The UI endpoint that does work, its three
+silent failure modes, and the HTML fallback are in
+[`docs/runbooks/ci-failures.md`](docs/runbooks/ci-failures.md).
 
 ## Repo rules that are load-bearing
 
@@ -102,7 +92,7 @@ Run metadata (which job failed) is public; log bodies need the token.
   identifier, rustdoc `///` and `//!`, and PHPDoc blocks carrying type tags. Anything that outlives
   a single expression belongs in `docs/` or an ADR, where it gets reviewed, linked and kept
   current. The estate decision is
-  [ADR 0006](https://forgejo.webgrip.dev/webgrip/workflows/src/branch/main/docs/adrs/0006-no-comments-in-code.md).
+  [ai-skills ADR 0001](https://forgejo.webgrip.dev/webgrip/ai-skills/src/branch/main/org/adrs/adr-0001-no-comments-in-code.md).
 - **Never build a URL by swapping a locale prefix.** Route _segments_ are localized
   (`/nl/bedrijven` ↔ `/en/companies`), so `/en/bedrijven` does not exist. Always go through
   `routePath()` / `alternatesFor()` in [`src/i18n/routes.ts`](src/i18n/routes.ts).
@@ -111,13 +101,18 @@ Run metadata (which job failed) is public; log bodies need the token.
 - **Never invent content.** Entries in `src/content/` attributed to real regional organisations
   must come from the contribution pipeline. Fixtures carry `fixture: true` and must be gone before
   launch — see [`src/content/README.md`](src/content/README.md).
-- **`uses:` must be the `org/repo/path@sha` shorthand**, never a full `https://` URL: Forgejo
-  resolves the called workflow's `runs-on` server-side, and a full URL leaves the job queued
-  forever with an empty label list.
-- **`actions/checkout@v5`, never `@v6`** — v6 is broken on non-GitHub runners.
+- **Forgejo CI has estate-wide conventions and two traps that fail silently** — the `uses:`
+  shorthand, `actions/checkout@v5`, and the fact that `if:` on a `uses:` job does nothing:
+  [org/forgejo-ci.md](https://forgejo.webgrip.dev/webgrip/ai-skills/src/branch/main/org/forgejo-ci.md).
 - **`pnpm exec wrangler`, never `pnpm dlx`** — dlx installs into a throwaway project that never
   sees `pnpm-workspace.yaml`'s allowBuilds, so pnpm's build-scripts guard prompts interactively
   for esbuild/workerd and a CI job hangs forever.
+- **Every `uses:` in a job is cloned during `Set up job`, even when its step's `if:` is false.**
+  Since 2026-09-05 the runner keeps those bare clones, the tool cache and the pnpm store per node
+  (homelab ADR-0056), so an action costs a fetch, not a 30 to 50 second clone; before that a
+  four-action job spent two minutes in setup ([ADR 0020](docs/adrs/0020-ci-critical-path.md)).
+  `on_source_change.yml` triggers on `push` only: a `pull_request` trigger ran every
+  `development` push twice while the promotion PR was open.
 - **wrangler.toml: the `routes` key stays above the first `[table]` header**, and
   `workers_dev = false` without a route is a green deploy and a dead site — every path 522s while
   `/robots.txt` serves Cloudflare's managed default.
@@ -127,6 +122,17 @@ Run metadata (which job failed) is public; log bodies need the token.
 - **The CI runner's docker is a sibling, not a child.** Published ports and bind mounts resolve in
   the host namespace where the checkout does not exist; share a network namespace or `docker cp`
   (see `efa10df`).
+- **Copy rules live in [`docs/brand/copy-voice.md`](docs/brand/copy-voice.md)** — what we never
+  promise a speaker, the phrases that are banned, how a call to action is framed, and the facts
+  that keep getting mangled. Read it before writing anything public-facing.
+- **CI that goes red has a runbook**: [`docs/runbooks/ci-failures.md`](docs/runbooks/ci-failures.md)
+  carries every failure this repo has actually had, with the cause. A silent release usually means
+  a verification job is blocking `Build Site`, not that semantic-release broke.
+- **`docs/domain/*.md` are generated** from [`docs/domain/model.yaml`](docs/domain/model.yaml) by a
+  script that ships with the `domain-language` skill, not by anything in this repo:
+  `python3 ~/.claude/skills/domain-language/scripts/generate_docs.py docs/domain/model.yaml -o docs/domain/`
+- **Decks, the outreach tracker and other things outside git** are listed in
+  [`docs/external-assets.md`](docs/external-assets.md), including which Drive account holds them.
 - Facts about the current release live only in [`src/config/site.ts`](src/config/site.ts). A
   `null` there is deliberate — components render an honest pre-launch state instead of a dead link.
 - Secrets go through SOPS or the Forgejo secret store, never into a workflow, config file or
@@ -137,10 +143,11 @@ Run metadata (which job failed) is public; log bodies need the token.
 _2026-09-04._ Launch tracking lives in
 [`docs/plan/playbook-alignment.md`](docs/plan/playbook-alignment.md); which plan doc is
 authoritative for what: [`docs/plan/README.md`](docs/plan/README.md). CI runs through the shared
-static-site lanes in `webgrip/workflows` (v2.1.0), and the toolchain rides on `@webgrip/tsconfig`,
+static-site lanes in `webgrip/workflows` (v2.5.2, node lanes without a cache step), and the toolchain rides on `@webgrip/tsconfig`,
 `@webgrip/prettier-config`, `@webgrip/eslint-config-astro` and `@webgrip/astro-site-toolkit`
 (VIK-813). The seam is documented in each package: spread the shared array and append what is
 repo-specific, never fork the base. Several sessions share this working tree: commit by
 pathspec, and a local commit can be pushed by a peer at any time. Since 2026-09-05 the tree lives
 on `development`; the release train and its human steps are tracked in
-[`docs/plan/release-train.md`](docs/plan/release-train.md).
+[`docs/plan/release-train.md`](docs/plan/release-train.md). The pipeline is one verification
+stage plus preview and release since [ADR 0020](docs/adrs/0020-ci-critical-path.md) (2026-09-05).

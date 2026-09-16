@@ -34,6 +34,7 @@ markdown_extensions:
           format: pymdownx.superfences.fence_code_format
 nav:
   - Overview: index.md
+  - Buiten de repo: external-assets.md
   - Organiser playbook: organiser-playbook.md
   - Decision records:
       - adrs/README.md
@@ -55,6 +56,9 @@ nav:
       - adrs/0016-release-as-content.md
       - adrs/0017-mail-reaches-brevo-as-a-draft.md
       - adrs/0018-account-and-zone-resources-in-opentofu.md
+      - adrs/0019-release-driven-deploys.md
+      - adrs/0020-ci-critical-path.md
+      - adrs/0021-apache-2-0-for-the-code.md
       - adrs/0000-template.md
   - Community agreements:
       - partner-compact.md
@@ -64,10 +68,13 @@ nav:
       - runbooks/email-authentication.md
       - runbooks/release-banners.md
       - runbooks/rollback.md
+      - runbooks/ci-failures.md
   - Brand:
       - brand/README.md
+      - brand/copy-voice.md
       - brand/social-profile-copy.md
       - brand/templates/README.md
   - Plan:
       - plan/playbook-alignment.md
+      - plan/estate-parity.md
       - plan/10x-plan.md

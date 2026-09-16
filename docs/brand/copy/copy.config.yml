@@ -1,0 +1,158 @@
+kanalen:
+  - id: linkedin
+    max_tekens: 3000
+    locales: [nl, en]
+    variant: lang
+  - id: instagram
+    max_tekens: 2200
+    locales: [nl]
+    variant: lang
+  - id: discord
+    max_tekens: 2000
+    locales: [nl]
+    variant: lang
+  - id: mastodon
+    max_tekens: 500
+    locales: [en]
+    variant: kort
+  - id: bluesky
+    max_tekens: 300
+    locales: [en]
+    variant: kort
+  - id: meetup
+    max_tekens: 50000
+    locales: [nl, en]
+    variant: lang
+
+praktisch:
+  nl:
+    - "🗓️ {datum}"
+    - "🕕 {deuren} deuren open & eten // {programma} programma // {einde} klaar, op tijd thuis"
+    - "📌 {locatie}"
+    - "🚶 {route}"
+    - "🎟️ {kosten}, plek voor ongeveer {capaciteit} mensen"
+    - "🍕 Eten en drinken zijn inbegrepen"
+    - "🗣️ Voertaal Nederlands, en Engels zodra er internationals in de zaal zitten"
+  en:
+    - "🗓️ {datum}"
+    - "🕕 {deuren} doors and food // {programma} programme // {einde} hard finish, home on time"
+    - "📌 {locatie}"
+    - "🚶 {route}"
+    - "🎟️ {kosten}, room for about {capaciteit} people"
+    - "🍕 Food and drinks included"
+    - "🗣️ Dutch by default, English whenever internationals are in the room"
+
+programma:
+  nl:
+    doors: "Inloop, eten en eerste kennismakingen 🍕"
+    welcome: Welkomstwoord
+    pauze: Pauze
+    netwerken: "Networking 🍻"
+    finish: "Strakke eindtijd ⏹️"
+    talk: "Talk {n} // {spreker}"
+    talk_tba: spreker TBA
+  en:
+    doors: "Doors, food and first introductions 🍕"
+    welcome: Welcome
+    pauze: Break
+    netwerken: "Networking 🍻"
+    finish: "Hard finish ⏹️"
+    talk: "Talk {n} // {spreker}"
+    talk_tba: speaker TBA
+
+momenten:
+  - id: aankondiging
+    dagen: -28
+    kanalen: [linkedin, mastodon, bluesky, discord]
+    schrijf:
+      nl: één zin over waarom deze avond bestaat
+      en: one line on why this evening exists
+    cta:
+      nl: "De open call staat open: {url}"
+      en: "The open call is open: {url}"
+  - id: sprekers-gezocht
+    dagen: -21
+    kanalen: [linkedin, instagram]
+    schrijf:
+      nl: één zin die de drempel verlaagt voor wie nog nooit sprak
+      en: one line that lowers the bar for a first-time speaker
+    cta:
+      nl: "Mail hello@twente.dev, of tip iemand aan: {url}"
+      en: "Email hello@twente.dev, or point us at someone: {url}"
+  - id: spreker-bekend
+    dagen: -14
+    kanalen: [linkedin, mastodon, bluesky, instagram, discord]
+    schrijf:
+      nl: één zin over wat deze spreker heeft gebouwd of geleerd
+      en: one line on what this speaker built or learned
+    cta:
+      nl: "Programma en aanmelden: {url}"
+      en: "Programme and sign-up: {url}"
+  - id: programma-rond
+    dagen: -7
+    kanalen: [linkedin, mastodon, bluesky, instagram, discord, meetup]
+    schrijf:
+      nl: één zin over wat je die avond meeneemt naar huis
+      en: one line on what you take home from the evening
+    cta:
+      nl: "Aanmelden: {url}"
+      en: "Sign up: {url}"
+  - id: morgen
+    dagen: -1
+    kanalen: [linkedin, instagram, discord]
+    schrijf:
+      nl: één zin, kort, voor wie nog twijfelt
+      en: one short line for anyone still on the fence
+    cta:
+      nl: "Tot morgen: {url}"
+      en: "See you tomorrow: {url}"
+  - id: vanavond
+    dagen: 0
+    kanalen: [instagram, discord]
+    schrijf:
+      nl: één zin vanaf de zaal
+      en: one line from the room
+    cta:
+      nl: "Deuren open om {deuren}: {url}"
+      en: "Doors at {deuren}: {url}"
+  - id: na-afloop
+    dagen: 2
+    kanalen: [linkedin, mastodon, bluesky, instagram, discord]
+    schrijf:
+      nl: één zin over wat er gezegd is en wat je meenam
+      en: one line on what was said and what stuck
+    cta:
+      nl: "Het archief en de volgende release: {url}"
+      en: "The archive and the next release: {url}"
+
+verboden_claims:
+  - id: vacaturebank
+    reden: verwijderd door ADR-0009, nooit noemen
+    nl: [vacaturebank, vacatureboard, banenbank]
+    en: [job board, jobs board]
+  - id: nieuwsbrief
+    reden: nog niet open, beloof geen aanmelding
+    nl: [meld je aan voor de nieuwsbrief, nieuwsbriefaanmelding]
+    en: [sign up for the newsletter, newsletter signup]
+  - id: bedrijvengids
+    reden: placeholder, niet claimen als bestaand
+    nl: [bedrijvengids, bedrijvendirectory]
+    en: [company directory]
+
+toegestane_tells:
+  - kanaal: "*"
+    ids: [abrupt-cutoff]
+    reden: vuurt vals op hard afgebroken regels en op blokken die op een emoji eindigen
+  - kanaal: meetup
+    ids: [emoji-decoration, staccato-fragments, negation-countdown]
+    reden: >-
+      Emoji zijn de conventie van een meetup.com-listing, "We build it. We run it. We
+      share it." is een geratificeerd merkasset uit social-profile-copy.md, en de sectie
+      "wat dit niet is" is een bewust standpunt en geen opsomdrang.
+
+bronnen:
+  - patroon: meetup
+    kanaal: meetup
+  - patroon: posts
+  - bestand: meetup-groep.md
+    kanaal: meetup

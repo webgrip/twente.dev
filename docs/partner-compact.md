@@ -18,7 +18,7 @@ lives in git for that reason.
 ## What twente.dev is
 
 An independent, practitioner-led technology community for Twente. It makes local people,
-events and practical knowledge easier to find — and a few times a year it brings different
+events and practical knowledge easier to find, and every month it brings different
 disciplines together for one useful evening.
 
 It is not a meetup. It is not a recruiter. It is not a platform.
@@ -104,7 +104,7 @@ openbaar, in git, met een geschiedenis die je kunt teruglezen.
 ## Wat twente.dev is
 
 Een onafhankelijke, practitioner-led techcommunity voor Twente. We maken lokale mensen,
-events en praktijkkennis beter vindbaar — en een paar keer per jaar brengen we disciplines
+events en praktijkkennis beter vindbaar, en elke maand brengen we disciplines
 bij elkaar voor één nuttige avond.
 
 Het is geen meetup. Het is geen recruiter. Het is geen platform.

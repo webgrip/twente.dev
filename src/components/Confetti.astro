@@ -1,0 +1,172 @@
+---
+const PIECES = 14;
+---
+
+<div class="confetti" aria-hidden="true">
+  {Array.from({ length: PIECES }, (_, i) => <span class="confetti-piece" data-piece={i} />)}
+</div>
+
+<style>
+  .confetti {
+    position: fixed;
+    inset: 0 0 auto 0;
+    height: 100vh;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .confetti-piece {
+    position: absolute;
+    top: -5vh;
+    width: 0.5rem;
+    height: 0.9rem;
+    border-radius: 1px;
+    opacity: 0;
+    animation-name: confetti-fall;
+    animation-timing-function: cubic-bezier(0.25, 0.6, 0.4, 1);
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+  }
+
+  @keyframes confetti-fall {
+    0% {
+      transform: translate3d(0, 0, 0) rotate(0deg);
+      opacity: 0;
+    }
+    8% {
+      opacity: 1;
+    }
+    75% {
+      opacity: 1;
+    }
+    100% {
+      transform: translate3d(var(--drift), 105vh, 0) rotate(var(--spin));
+      opacity: 0;
+    }
+  }
+
+  .confetti-piece:nth-child(4n + 1) {
+    background: var(--signal-red);
+  }
+  .confetti-piece:nth-child(4n + 2) {
+    background: var(--signal-red-light);
+  }
+  .confetti-piece:nth-child(4n + 3) {
+    background: var(--fg);
+  }
+  .confetti-piece:nth-child(4n + 4) {
+    background: var(--border-strong);
+  }
+
+  .confetti-piece:nth-child(3n) {
+    width: 0.7rem;
+    height: 0.7rem;
+    border-radius: 50%;
+  }
+
+  .confetti-piece:nth-child(1) {
+    left: 4%;
+    --drift: 3vw;
+    --spin: 540deg;
+    animation-duration: 3.4s;
+    animation-delay: 0.05s;
+  }
+  .confetti-piece:nth-child(2) {
+    left: 12%;
+    --drift: -4vw;
+    --spin: -420deg;
+    animation-duration: 4.1s;
+    animation-delay: 0.4s;
+  }
+  .confetti-piece:nth-child(3) {
+    left: 20%;
+    --drift: 5vw;
+    --spin: 680deg;
+    animation-duration: 3.1s;
+    animation-delay: 0.18s;
+  }
+  .confetti-piece:nth-child(4) {
+    left: 28%;
+    --drift: -2vw;
+    --spin: 380deg;
+    animation-duration: 4.6s;
+    animation-delay: 0.62s;
+  }
+  .confetti-piece:nth-child(5) {
+    left: 35%;
+    --drift: 6vw;
+    --spin: -600deg;
+    animation-duration: 3.7s;
+    animation-delay: 0.28s;
+  }
+  .confetti-piece:nth-child(6) {
+    left: 43%;
+    --drift: -5vw;
+    --spin: 460deg;
+    animation-duration: 4.3s;
+    animation-delay: 0.75s;
+  }
+  .confetti-piece:nth-child(7) {
+    left: 50%;
+    --drift: 2vw;
+    --spin: 720deg;
+    animation-duration: 3.3s;
+    animation-delay: 0.1s;
+  }
+  .confetti-piece:nth-child(8) {
+    left: 58%;
+    --drift: -6vw;
+    --spin: -520deg;
+    animation-duration: 4.8s;
+    animation-delay: 0.52s;
+  }
+  .confetti-piece:nth-child(9) {
+    left: 65%;
+    --drift: 4vw;
+    --spin: 400deg;
+    animation-duration: 3.6s;
+    animation-delay: 0.34s;
+  }
+  .confetti-piece:nth-child(10) {
+    left: 72%;
+    --drift: -3vw;
+    --spin: 640deg;
+    animation-duration: 4.2s;
+    animation-delay: 0.86s;
+  }
+  .confetti-piece:nth-child(11) {
+    left: 80%;
+    --drift: 5vw;
+    --spin: -440deg;
+    animation-duration: 3.9s;
+    animation-delay: 0.22s;
+  }
+  .confetti-piece:nth-child(12) {
+    left: 87%;
+    --drift: -4vw;
+    --spin: 560deg;
+    animation-duration: 4.5s;
+    animation-delay: 0.68s;
+  }
+  .confetti-piece:nth-child(13) {
+    left: 93%;
+    --drift: 3vw;
+    --spin: 500deg;
+    animation-duration: 3.2s;
+    animation-delay: 0.44s;
+  }
+  .confetti-piece:nth-child(14) {
+    left: 97%;
+    --drift: -5vw;
+    --spin: -700deg;
+    animation-duration: 4.4s;
+    animation-delay: 0.14s;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .confetti {
+      display: none;
+    }
+  }
+</style>

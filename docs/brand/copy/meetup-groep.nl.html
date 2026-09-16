@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8" />
+<title>meetup.com groep</title>
+<style>
+body{font:16px/1.5 system-ui,sans-serif;max-width:46rem;margin:2rem auto;padding:0 1rem}
+h1{font-size:1rem;color:#555}
+p.uitleg{color:#555}
+button{font:inherit;padding:.5rem 1rem;cursor:pointer;border:1px solid #333;background:#fff;border-radius:.25rem}
+article{border:1px solid #ddd;border-radius:.25rem;padding:1rem;margin-top:1rem}
+</style>
+</head>
+<body>
+<h1>meetup.com groep</h1>
+<p class="uitleg">Open dit bestand in een browser, klik op de knop, plak in meetup.com. Kopieer het niet uit je editor, dan plak je broncode.</p>
+<button type="button" id="kopieer">Kopieer met opmaak</button>
+<article id="blok">
+<div>🔧 De meetupgroep van twente.dev.</div>
+<div><br /></div>
+<div>Twente heeft veel goede developers en weinig plekken waar ze elkaar tegenkomen buiten hun eigen kantoor. Er zijn meetups, en er zitten goede bij, maar ze zijn versnipperd, vaak gebonden aan één stack of één werkgever, en je moet ze net kennen om ze te vinden.</div>
+<div><br /></div>
+<div>twente.dev is de poging daar één plek van te maken: een gedeelde agenda die bijgehouden wordt van alles wat er in de regio gebeurt, field reports van mensen die het werk zelf deden, en elke eerste woensdag van de maand een avond zoals deze. We build it. We run it. We share it.</div>
+<div><br /></div>
+<div>De eerstvolgende is twente.dev/001: Reconnect.</div>
+<div><br /></div>
+<div><strong>🎤 SPREKERS // TBA</strong></div>
+<div>We zoeken mensen die iets hebben gebouwd of stukgemaakt (of iets anders!) en daar ongeveer 30 minuten over willen komen vertellen. Stack maakt niet uit. Ervaring met spreken ook niet.</div>
+<div><br /></div>
+<div>Namen komen erbij zodra ze bevestigd zijn. Wil je het horen op het moment dat het gebeurt: 👉 https://twente.dev/nl/001#aanmelden</div>
+<div><br /></div>
+<div><strong>📍 PRAKTISCH</strong></div>
+<div>🗓️ Woensdag 4 november 2026</div>
+<div>🕕 18:00 deuren open &amp; eten // 18:45 programma // 21:30 klaar, op tijd thuis</div>
+<div>📌 Code14, Hogepad 81, 7462 TB Rijssen</div>
+<div>🚶 Ongeveer tien minuten lopen vanaf station Rijssen; het pand ligt er vrijwel pal ten zuiden van.</div>
+<div>🎟️ Gratis, plek voor ongeveer 40 mensen</div>
+<div>🍕 Eten en drinken zijn inbegrepen</div>
+<div>🗣️ Voertaal Nederlands, en Engels zodra er internationals in de zaal zitten</div>
+<div><br /></div>
+<div><strong>🛡️ WAT DIT NIET IS</strong></div>
+<div>Geen recruitmentavond. Geen sponsorpitch vanaf het podium. Spreektijd is niet te koop, en de deelnemerslijst gaat naar niemand, ook niet naar de gastheer. De zaal rouleert door de regio, met opzet: zo wordt dit nooit de meetup van één bedrijf.</div>
+<div><br /></div>
+<div><strong>🙋 MEEDOEN KAN OOK</strong></div>
+<div>Je kunt een talk voorstellen, een zaal aanbieden voor een volgende release, of je laten interviewen over je werk zodat het een field report op de site wordt. Dat loopt allemaal via 👉 https://twente.dev/nl/bijdragen</div>
+<div><br /></div>
+<div>Steunt je organisatie het liever met ruimte, eten, productie of drukwerk, dan staat op 👉 https://twente.dev/nl/partners wat je daarvoor terugkrijgt en wat niet.</div>
+<div><br /></div>
+<div><strong>🔗 LINKS</strong></div>
+<div>Site en agenda // https://twente.dev</div>
+<div>Deze release // https://twente.dev/nl/001</div>
+<div>Gedragscode // https://twente.dev/nl/gedragscode</div>
+</article>
+<script>
+document.getElementById('kopieer').addEventListener('click', (gebeurtenis) => {
+  const bereik = document.createRange();
+  bereik.selectNodeContents(document.getElementById('blok'));
+  const selectie = window.getSelection();
+  selectie.removeAllRanges();
+  selectie.addRange(bereik);
+  const gelukt = document.execCommand('copy');
+  selectie.removeAllRanges();
+  gebeurtenis.target.textContent = gelukt ? 'Gekopieerd' : 'Selecteer het blok zelf';
+});
+</script>
+</body>
+</html>

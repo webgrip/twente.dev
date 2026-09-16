@@ -33,6 +33,7 @@ const osmUrl = geo
   : `https://www.openstreetmap.org/search?query=${encodeURIComponent(destination)}`;
 const labelledSvg = svg?.replace('<svg ', `<svg role="img" aria-label="${t('venue.mapAlt')}" `);
 const directions = release.venueDirections?.[locale];
+const parking = release.venueParking?.[locale];
 ---
 
 <figure class="venue-map">
@@ -49,6 +50,7 @@ const directions = release.venueDirections?.[locale];
       }
     </p>
     {directions && <p class="venue-map-directions">{directions}</p>}
+    {parking && <p class="venue-map-directions">{parking}</p>}
     <p class="venue-map-links">
       <a href={directionsUrl} rel="noopener">{t('venue.directions')} →</a>
       <a href={osmUrl} rel="noopener">{t('venue.openstreetmap')} →</a>

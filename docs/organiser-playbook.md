@@ -39,9 +39,9 @@ ze bepalen wie er die avond niet is.
 | T−8 weken      | Venue bevestigd (checklist hieronder); datum collision-gecheckt; releasenummer + thema vastgelegd in `src/config/site.ts` en een events-entry                                                                |               |
 | T−6 weken      | Open call gepubliceerd én de persoonlijke sprekervragen verstuurd (sprekers komen uit de asks, niet uit de call)                                                                                             |               |
 | T−4 weken      | **Beide sprekers bevestigd** — Ryans eigen minimum: minimaal een maand van tevoren. Geen twee sprekers op T−4? Dan schuift de release een maand op, met de reden erbij. Nooit doorgaan met een TBA-programma |               |
-| T−3 weken      | Redactiegesprek per spreker (claim, voorbeeld, vraag aan de zaal); slidetemplate gedeeld                                                                                                                     |               |
+| T−3 weken      | Titel en korte omschrijving per spreker binnen voor de site; slidetemplate gedeeld voor wie hem wil                                                                                                          |               |
 | T−2 weken      | Toegankelijkheids- en OV-informatie op de releasepagina (site-belofte); reminder in agenda-feed en LinkedIn                                                                                                  |               |
-| T−1 week       | Technische rehearsal (mag remote); bevestigingsmail naar aanmeldingen met de annuleer-één-antwoord-regel; wachtlijst bijgewerkt                                                                              |               |
+| T−1 week       | Bevestigingsmail naar aanmeldingen met de annuleer-één-antwoord-regel; wachtlijst bijgewerkt                                                                                                                 |               |
 | T−1 dag        | Reminder aan deelnemers ("kun je niet, antwoord nu — er is een wachtlijst"); AV-check op locatie of foto's van de zaal opgevraagd                                                                            |               |
 | Dag zelf       | Runbook hieronder                                                                                                                                                                                            |               |
 | T+3 dagen      | Bedankmail sprekers met wat de zaal zei; opname + slides naar het archief                                                                                                                                    |               |
@@ -104,12 +104,14 @@ podium. Zo werkt de pijplijn:
    in de zaal iets interessants zei tijdens het community-vragenrondje. De belangrijkste
    output van release N is de sprekerslijst van release N+1.
 2. **Vragen**: persoonlijk, over iets concreets dat diegene bouwde. Niet "wil je een keer
-   spreken" maar "jij hebt X gedaan — wil je daar een halfuur over vertellen: één claim,
-   één echt voorbeeld, één vraag aan de zaal". Eén mail, één herinnering, daarna klaar
+   spreken" maar "jij hebt X gedaan — wil je daar een halfuur over vertellen?". Eén mail,
+   één herinnering, daarna klaar
    (dezelfde twee-touch-regel als alle outreach). **Versturen doet Ryan zelf, altijd.**
-3. **Vormen**: redactiegesprek van een half uur, slidetemplate, en een rehearsal in de
-   week voor het event. First-timers krijgen expliciet te horen dat de zaal klein en
-   vriendelijk is en dat de moderator de Q&A bewaakt.
+3. **Vormen**: slidetemplate gedeeld, verder is het verhaal van de spreker. Geen
+   redactiegesprek en geen repetitie, en dus beloven we die ook nergens; de schrijfwijzer
+   legt uit waarom dat niet als non-belofte in de copy terechtkomt
+   ([`brand/copy-voice.md`](brand/copy-voice.md)). First-timers krijgen expliciet te horen
+   dat de zaal klein en vriendelijk is en dat de moderator de Q&A bewaakt.
 4. **Op de avond**: zichtbaar tijdsignaal, moderator kapt op tijd af (dat is een
    belofte aan de spreker, geen sanctie), Q&A via de moderator.
 5. **Erna**: binnen drie dagen een bedankje mét wat de zaal zei, de opname en slides op
@@ -238,9 +240,8 @@ exact 21:30**, precies de eindtijd.
   - **Zwolle** via Wierden (krappe maar geverifieerde 4-min-overstap op Blauwnet RS23):
     21:56 → 22:39; laatste praktische 23:56 → 00:39.
 - **Fiets/auto**: gratis P+R en fietsenstalling + OV-fiets op het station;
-  parkeerterrein Hogepad ligt op dezelfde straat (capaciteit onverifieerd — vraag Code14
-  naar eigen bezoekersplekken); parkeren rond Hogepad lijkt gratis maar is niet hard
-  bevestigd.
+  gratis parkeren bij de ingang van Code14 (bevestigd door Ryan, 2026-09-05; staat zo in
+  `venue.directions` van het events-bestand en op de releasepagina).
 - **Toegankelijkheid**: station heeft lift, geleidelijnen en NS Reisassistentie
   (Wikipedia-geverifieerd; de NS-stationspagina zelf was niet machinaal leesbaar). De
   loper van 780 m is nog niet fysiek geschouwd op stoepranden — doe dat vóór de

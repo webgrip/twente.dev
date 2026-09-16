@@ -1,5 +1,6 @@
 ---
 import ProsePage from '../../templates/ProsePage.astro';
+import Confetti from '../../components/Confetti.astro';
 import { CONTACT_EMAIL } from '../../config/site.ts';
 import { routePath } from '../../i18n/routes.ts';
 ---
@@ -9,61 +10,39 @@ import { routePath } from '../../i18n/routes.ts';
   routeKey="confirmed"
   noindex
   title="You are on the list"
-  description="Your subscription is confirmed. Here is what you get and how often."
+  description="Your subscription is confirmed. Here is what you get."
 >
-  <p><strong>That is it.</strong> Your address is on the list and there is nothing left to do.</p>
+  <Confetti />
 
-  <h2>What lands in your inbox</h2>
+  <p class="lede"><strong>Confirmed.</strong> Nothing else to do.</p>
+
+  <p>What lands in your inbox:</p>
+
+  <ul>
+    <li><strong>Field reports</strong>, interviews with people building something here.</li>
+    <li>
+      <strong>Release notes</strong> within ten working days of an evening: the slides, the photos and
+      what did <em>not</em> work.
+    </li>
+    <li><strong>Upstream</strong>, what is happening in the region without us.</li>
+    <li>An open call when a talk slot is still free.</li>
+  </ul>
 
   <p>
-    Three kinds of writing, and nothing else. All of it also lives on the site; the newsletter is
-    the shortest way to it.
+    No fixed cadence. A mail goes out when there is something worth saying. Replies are welcome,
+    there is a person on the other end. Unsubscribing takes one click.
   </p>
 
   <p>
-    A <strong>field report</strong> is an interview with someone building something here. We ask the questions
-    and write it up. Often under the heading <em>People Who Build</em>, so the title tells you it is
-    someone else speaking.
-  </p>
-
-  <p>
-    <strong>Release notes</strong> go out within ten working days of an evening: the slides, the photos,
-    and what did and did not work. Including the second half. That is what turns an evening like twente.dev/001
-    into an archive still worth something a year later.
-  </p>
-
-  <p>
-    <strong>Upstream</strong> collects what is happening in the region without us. Other groups, other
-    evenings, other rooms. It claims nothing new and it invents no rhythm.
-  </p>
-
-  <p>
-    You also hear when a talk slot is still open for the next evening, and when registration opens.
-  </p>
-
-  <h2>How often</h2>
-
-  <p>
-    There is no fixed cadence. A mail goes out when there is something worth saying. If a month
-    stays quiet, nothing happened that month that you needed to know.
-  </p>
-
-  <p>
-    Replies are welcome, there is a person on the other end. Every mail carries an unsubscribe link
-    at the bottom, one click and no explanation needed.
-  </p>
-
-  <h2>In the meantime</h2>
-
-  <p>
-    <a href={routePath('blog', 'en')}>The archive</a> holds everything published so far. The
-    <a href={routePath('events', 'en')}>calendar</a> is open to everyone and you can subscribe to it from
-    your own calendar app. <a href={routePath('contribute', 'en')}>Contribute</a> lists what we could
-    use help with right now: a story, a room, or an evening you know about that is missing here.
-  </p>
-
-  <p>
-    Something wrong with your sign-up? Email <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a
-    >.
+    In the meantime: <a href={routePath('blog', 'en')}>the archive</a>, the
+    <a href={routePath('events', 'en')}>calendar</a>, or <a href={routePath('contribute', 'en')}
+      >what we could use help with</a
+    >. Something wrong? Email <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.
   </p>
 </ProsePage>
+
+<style>
+  .lede {
+    font-size: var(--text-lg);
+  }
+</style>

@@ -1,0 +1,40 @@
+name: "[Workflow] On DNS Change"
+
+concurrency:
+  group: dns-${{ github.ref_name }}
+  cancel-in-progress: ${{ github.ref_name != 'main' && github.ref_name != 'development' }}
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+      - development
+    paths:
+      - "ops/dns/**"
+      - ".forgejo/workflows/on_dns_change.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  dns-preview:
+    name: "DNS Preview"
+    uses: webgrip/workflows/.forgejo/workflows/dnscontrol.yml@d6d1ac4e9d2920951779fb9bbcdcde25d64ab25f
+    with:
+      mode: preview
+    secrets:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_DNS_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+  dns-push:
+    name: "DNS Push"
+    needs:
+      - dns-preview
+    uses: webgrip/workflows/.forgejo/workflows/dnscontrol.yml@d6d1ac4e9d2920951779fb9bbcdcde25d64ab25f
+    with:
+      mode: push
+      enabled: ${{ vars.DNS_PUSH == 'on' }}
+    secrets:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_DNS_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

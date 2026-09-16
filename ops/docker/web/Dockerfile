@@ -23,14 +23,15 @@ RUN --mount=type=cache,target=/pnpm/store,sharing=locked \
 
 COPY . .
 
-RUN pnpm build
+RUN --mount=type=cache,target=/pnpm/store,sharing=locked \
+    pnpm build
 
 FROM ${NGINX_IMAGE} AS final
 
 LABEL org.opencontainers.image.source="https://forgejo.webgrip.dev/webgrip/twente.dev" \
       org.opencontainers.image.title="twente.dev" \
       org.opencontainers.image.description="Static site for the developer community in Twente" \
-      org.opencontainers.image.licenses="MIT"
+      org.opencontainers.image.licenses="Apache-2.0"
 
 COPY ops/docker/web/nginx.conf /etc/nginx/conf.d/default.conf
 COPY ops/docker/web/security-headers.conf /etc/nginx/conf.d/security-headers.conf

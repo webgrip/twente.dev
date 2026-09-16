@@ -11,3 +11,7 @@ docs/domain/*.md
 
 # Generated from src/config/site.ts by scripts/sync-release.mjs.
 docs/brand/templates/release.js
+
+# Generated from docs/brand/copy/*.tmpl by scripts/gen-copy.ts; the line breaks are
+# what gets pasted into meetup.com, so reformatting them changes published copy.
+docs/brand/copy/*.html

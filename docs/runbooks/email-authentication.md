@@ -132,6 +132,18 @@ INC.` The ccTLD worry was unfounded. Cloudflare Registrar was never an option he
    sends, and `sp=reject` on the apex once the apex is at quarantine. Cloudflare's DMARC
    Management does not cover subdomains; these are manual.
 8. **Tighten DMARC**, after two to four weeks of clean reports. See the ladder below.
+   **Eerste trede genomen, 2026-09-11**: beide apexen staan op `p=quarantine; pct=25`, gezet in
+   [`webgrip/cloudflare`](https://forgejo.webgrip.dev/webgrip/cloudflare) en nagetrokken in de
+   intent van beide repos. De onderbouwing was zeven dagen Cloudflare DMARC Management met nul
+   fails op beide domeinen: Google als enige noemenswaardige bron, plus één GoDaddy-forward die
+   op DKIM uitlijnt en op SPF niet, wat precies het handtekeningprofiel van doorsturen is.
+   Dat is korter dan de twee tot vier weken hierboven en het volume is klein, zeven en negentien
+   berichten, dus de trede is bewust quarantine met `pct=25` en niet meer.
+   `_dmarc.send.twente.dev` en `_dmarc.send.webgrip.nl` blijven op `p=none`: ze dragen een eigen
+   record, dus de apexpolicy raakt de Brevo-stroom niet.
+   Nog onverklaard: `mail.webgrip.nl` draagt een DKIM-selector zonder SPF, zonder MX en zonder
+   eigen `_dmarc`, en geen enkele repo legt uit waarvan hij is. Zonder `sp=` erft hij de
+   apexpolicy, dus verstuurt daar nog iets, dan valt dat nu op in de rapporten. Dat is punt 7.
 
 ---
 

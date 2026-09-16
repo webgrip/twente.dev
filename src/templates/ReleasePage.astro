@@ -42,7 +42,7 @@ interface Copy {
   slotLabel: string;
   outcomes: [string, string, string];
   eveningTitle: string;
-  runOfShow: { time: string; item: string }[];
+  slotLabels: Record<string, string>;
   whoBody: string;
   whoWelcome: string;
   speakersTitle: string;
@@ -81,6 +81,27 @@ const whenWhere = (loc: Locale) =>
 const talkRow = (position: number, tba: string) =>
   `Talk ${position} // ${speakers[position - 1]?.name ?? tba}`;
 
+const talkPositie = (id: string): number | null => {
+  const match = id.match(/^talk-(\d+)$/);
+  return match ? Number(match[1]) : null;
+};
+
+const runOfShowVoor = (copy: Copy): { time: string; item: string }[] => [
+  { time: time(release.doors), item: copy.slotLabels.doors as string },
+  { time: time(release.start), item: copy.slotLabels.welcome as string },
+  ...release.programme.map((slot) => {
+    const positie = talkPositie(slot.id);
+    return {
+      time: slot.time,
+      item:
+        positie === null
+          ? (copy.slotLabels[slot.id] ?? slot.id)
+          : talkRow(positie, copy.slotLabels.talkTba as string),
+    };
+  }),
+  { time: time(release.end), item: copy.slotLabels.finish as string },
+];
+
 const COPY: Record<Locale, Copy> = {
   en: {
     metaTitle: name,
@@ -98,22 +119,21 @@ const COPY: Record<Locale, Copy> = {
     slotLabel: 'Slot',
     outcomes: ['One useful idea', 'One useful introduction', 'One reason to return'],
     eveningTitle: 'The evening',
-    runOfShow: [
-      { time: time(release.doors), item: 'Doors, food and first introductions' },
-      { time: time(release.start), item: 'Welcome' },
-      { time: '19:00', item: talkRow(1, 'speaker to follow') },
-      { time: '19:30', item: 'Break' },
-      { time: '19:45', item: talkRow(2, 'speaker to follow') },
-      { time: '20:15', item: 'Networking hour' },
-      { time: time(release.end), item: 'Hard finish' },
-    ],
+    slotLabels: {
+      doors: 'Doors, food and first introductions',
+      welcome: 'Welcome',
+      pauze: 'Break',
+      netwerken: 'Networking hour',
+      finish: 'Hard finish',
+      talkTba: 'speaker to follow',
+    },
     whoBody:
       'For everyone who builds or applies technology, at any stage of their career, in and around Twente.',
     whoWelcome: 'First-timers and people coming alone are explicitly welcome.',
     speakersTitle: 'Speakers',
     speakersTba: 'Speakers to follow',
     speakersTbaBody:
-      'Both talk slots are open. The call is running, speakers are picked editorially and stage time is not for sale, so names go up once they are confirmed. What is already fixed: half an hour per talk, about something you built, fixed or broke yourself. No speaking experience needed, we shape the talk together.',
+      'Both talk slots are open. The call is running, speakers are picked editorially and stage time is not for sale, so names go up once they are confirmed. What is already fixed: half an hour per talk, about something you built, fixed or broke yourself. No speaking experience needed.',
     speakersCta: 'Propose a talk',
     speakersMailCta: 'Email me when the programme is set',
     locationTitle: 'Venue',
@@ -173,22 +193,21 @@ const COPY: Record<Locale, Copy> = {
     slotLabel: 'Talkplek',
     outcomes: ['Eén nuttig idee', 'Eén nuttige kennismaking', 'Eén reden om terug te komen'],
     eveningTitle: 'De avond',
-    runOfShow: [
-      { time: time(release.doors), item: 'Inloop, eten en eerste kennismakingen' },
-      { time: time(release.start), item: 'Welkomstwoord' },
-      { time: '19:00', item: talkRow(1, 'spreker volgt') },
-      { time: '19:30', item: 'Pauze' },
-      { time: '19:45', item: talkRow(2, 'spreker volgt') },
-      { time: '20:15', item: 'Netwerkuur' },
-      { time: time(release.end), item: 'Strakke eindtijd' },
-    ],
+    slotLabels: {
+      doors: 'Inloop, eten en eerste kennismakingen',
+      welcome: 'Welkomstwoord',
+      pauze: 'Pauze',
+      netwerken: 'Netwerkuur',
+      finish: 'Strakke eindtijd',
+      talkTba: 'spreker volgt',
+    },
     whoBody:
       'Voor iedereen die technologie bouwt of toepast, in elke fase van je loopbaan, in en rond Twente.',
     whoWelcome: 'Nieuwkomers en mensen die alleen komen zijn nadrukkelijk welkom.',
     speakersTitle: 'Sprekers',
     speakersTba: 'Sprekers volgen',
     speakersTbaBody:
-      'Beide talkplekken staan open. De open call loopt, sprekers kiezen we redactioneel en spreektijd is niet te koop, dus namen komen erbij zodra ze bevestigd zijn. Wat al vaststaat: een halfuur per talk, over iets dat je zelf hebt gebouwd, gerepareerd of verprutst. Spreekervaring is niet nodig, we werken het verhaal samen uit.',
+      'Beide talkplekken staan open. De open call loopt, sprekers kiezen we redactioneel en spreektijd is niet te koop, dus namen komen erbij zodra ze bevestigd zijn. Wat al vaststaat: een halfuur per talk, over iets dat je zelf hebt gebouwd, gerepareerd of verprutst. Spreekervaring is niet nodig.',
     speakersCta: 'Meld een verhaal aan',
     speakersMailCta: 'Mail me als het programma rond is',
     locationTitle: 'Locatie',
@@ -366,7 +385,7 @@ const opensOn = formatDate(REGISTRATION_OPENS, locale);
           <h2>{c.eveningTitle}</h2>
           <ol class="run-of-show" role="list">
             {
-              c.runOfShow.map(({ time: at, item }) => (
+              runOfShowVoor(c).map(({ time: at, item }) => (
                 <li>
                   <span class="ros-time">{at}</span>
                   <span class="ros-item">{item}</span>

@@ -21,23 +21,19 @@ work you find interesting, but you never find out.
 
 The problem is not that too little happens here. The problem is that it is scattered.
 
-## What this is
+This site is one place to see what is going on. Upcoming meetups, and which companies here
+actually build software, and with what. Bilingual, because the Twente developer population
+is too: a substantial share of the people working here arrived via the University of Twente and
+do not speak Dutch.
 
-One place to see what is going on: upcoming meetups, and which companies here actually build
-software, and with what. Bilingual,
-because the Twente developer population is bilingual: a substantial share of the people
-working here arrived via the University of Twente and do not speak Dutch.
-
-## What this is not
-
-Not a newsletter that tells you every week that nothing happened. Not a platform that sells
-your data. There is not a single cookie on this site, and there will not be.
+There is no newsletter telling you every week that nothing happened, and your data is not
+for sale. There is not a single cookie on this site, and there will not be.
 
 ## How it works
 
-Everything on this site lives in a git repository. Adding a meetup is a pull request. Listing
-a company is a pull request. That sounds like a lot of friction if you are not used to it, and a
-plain form is coming for exactly that reason. But the underlying data stays open and
-auditable, and that is precisely what separates a community site from a platform.
+Everything on this site lives in a git repository. Adding a meetup is a pull request.
+Listing a company is a pull request. That sounds like a lot of friction if you are not used
+to it, and a plain form is coming for exactly that reason. But the underlying data stays
+open and auditable, and that is precisely what separates a community site from a platform.
 
 Missing something? Add it.

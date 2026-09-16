@@ -20,7 +20,7 @@ export const NEWSLETTER_FORM_FIELDS: Readonly<Record<string, string>> = {
   html_type: 'simple',
 };
 
-export const NEWSLETTER_LIST_ID: number | null = null;
+export const NEWSLETTER_LIST_ID: number | null = 3;
 
 export const PRETALX_CFP_URL: string | null = null;
 

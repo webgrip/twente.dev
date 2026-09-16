@@ -22,7 +22,7 @@ const sound: MailDocument = {
 const messages = (document: MailDocument): string[] =>
   checkMail(document, renderMail(document)).map((problem) => problem.message);
 
-describe('checkMail', () => {
+describe('checkMail with the twente.dev routes', () => {
   test('a sound mail reports nothing', () => {
     assert.deepEqual(messages(sound), []);
   });
@@ -33,24 +33,6 @@ describe('checkMail', () => {
       callToAction: { ...sound.callToAction, href: 'https://twente.dev/en/blog/voorbeeld' },
     };
     assert.match(messages(strayed).join('\n'), /leaves the nl mail/);
-  });
-
-  test('catches a relative href, which no mail client resolves', () => {
-    const relative = { ...sound, callToAction: { ...sound.callToAction, href: '/nl/blog/x' } };
-    assert.match(messages(relative).join('\n'), /not absolute https/);
-  });
-
-  test('catches an empty preheader', () => {
-    assert.match(messages({ ...sound, preheader: '   ' }).join('\n'), /empty preheader/);
-  });
-
-  test('catches a subject too long for an inbox', () => {
-    assert.match(messages({ ...sound, subject: 'x'.repeat(91) }).join('\n'), /over the 90/);
-  });
-
-  test('catches a half empty fact', () => {
-    const half = { ...sound, facts: [{ label: 'Datum', value: '' }] };
-    assert.match(messages(half).join('\n'), /half empty/);
   });
 
   test('names the document it is complaining about', () => {

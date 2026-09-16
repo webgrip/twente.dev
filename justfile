@@ -105,7 +105,17 @@ a11y: build
     CHROME_PATH="${CHROME_PATH:-/Applications/Google Chrome.app/Contents/MacOS/Google Chrome}" pnpm run validate:a11y
 
 [group('check')]
-check: fmt lint typecheck test content build
+check: fmt lint typecheck test content licenses build
+
+# Verify the licence surface is consistent
+[group('check')]
+licenses:
+    pnpm run license:check
+
+# Full REUSE 3.3 lint (needs uv; not in CI)
+[group('check')]
+reuse:
+    pnpm run license:reuse
 
 [group('check')]
 fix:

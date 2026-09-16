@@ -1,3 +1,144 @@
+## [0.2.0-rc.6](https://forgejo.webgrip.dev/webgrip/twente.dev/compare/v0.2.0-rc.5...v0.2.0-rc.6) (2026-09-11)
+
+### Added
+
+* **ops:** de dmarc-intentie voor twente.dev staat op p=quarantine ([0411e71](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/0411e71c60866316db72d5fd0ee65aabc45de10c))
+
+### Fixed
+
+* **ci:** stop the licence gate depending on a network tool install ([3ca8ac4](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/3ca8ac405e3ef7da908f8af4434c29f5dced826a))
+* **docs:** de docssite struikelde over twee links naar CLAUDE.md ([c8f2e00](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/c8f2e004bf506a4c2701776dac2d803f017c2ea7))
+
+## [0.2.0-rc.5](https://forgejo.webgrip.dev/webgrip/twente.dev/compare/v0.2.0-rc.4...v0.2.0-rc.5) (2026-09-11)
+
+### Added
+
+* **copy:** de groepstekst als eigen oppervlak, en het programma uit de events-entry ([2373cb6](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/2373cb61f2a255d639427fc9748855c60d97ff41)), references [#updates](https://forgejo.webgrip.dev/webgrip/twente.dev/issues/updates)
+* **copy:** de hoofdletterkoppen komen er vet uit ([45a373b](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/45a373b4c6c8211ae3b05d536ceac7e03b168f13))
+* **copy:** één feitenbron voor alle copy, met poorten en een driftregister ([c206529](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/c2065299b23587cbd02536ffc0cb4f0cdf0af31a))
+
+### Fixed
+
+* **copy:** de plak-HTML houdt zijn regelafbrekingen ([f85d27f](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/f85d27f8a7a5c9c03e538431380c337363e54905))
+* **copy:** een tweede release brak de bouw, nu steigert hij zichzelf ([858765b](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/858765b5f65c6899fbf79b3b29c9403ec5d82645))
+* **licence:** de licentiebundel leest de lockfile, niet de pnpm-store ([3c72006](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/3c720061a8c15232e8853f38989b397a27f3df6d))
+* **ops:** de mailbox staat niet meer in de dmarc-rapportintentie ([b92fd0f](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/b92fd0f44bc50d32cfe6c92bb53b306d77c08b20))
+
+### CI
+
+* de containerbuild ziet docs/brand/copy weer ([b2071da](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/b2071da83596f0a5fb4e571fa065cd1709f12070))
+
+### Internal
+
+* **ci:** record the critical-path decision and tighten the docker context ([6304f1f](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/6304f1f62ff23e5991372097d6672f8145f356ab))
+* **format:** prettier over gen-copy.ts ([fc1ddd8](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/fc1ddd8ad12c4323c37ae9addb260698379e3240))
+* **licence:** move the code to Apache-2.0 and ship third-party licences ([b0ab95a](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/b0ab95a5b0cbe7f184e72728f6ea6a42aef7f04d))
+
+## [0.2.0-rc.4](https://forgejo.webgrip.dev/webgrip/twente.dev/compare/v0.2.0-rc.3...v0.2.0-rc.4) (2026-09-06)
+
+### Fixed
+
+* **ci:** de DNS-lane draait alleen nog op main en development, zonder PR-trigger ([09ce74f](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/09ce74fa78c2939b51845db0a4193bd81433a547))
+* **dns:** de zone declareert nu ook wat Cloudflare zelf toevoegt ([047a121](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/047a121a4f248ba2a71da735cc366aecb7dd3f55))
+
+## [0.2.0-rc.3](https://forgejo.webgrip.dev/webgrip/twente.dev/compare/v0.2.0-rc.2...v0.2.0-rc.3) (2026-09-06)
+
+### Fixed
+
+* **dns:** de DNSControl-lane op de fix voor de preview-stap (workflows d6d1ac4) ([faec1b9](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/faec1b973995629f6d5874e33f54cbe825f9c50f))
+* **lint:** eslint kent de DNSControl-globals, zodat ops/dns de hele lane niet meer breekt ([bcd648b](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/bcd648b7f3c1585ab0a9107983aeba532c67b348))
+
+### Changed
+
+* **mail:** de pipeline draait op de toolkit, het thema en de bronnen blijven hier ([4dab2b0](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/4dab2b087472f538420e467cde978932253be280))
+
+## [0.2.0-rc.2](https://forgejo.webgrip.dev/webgrip/twente.dev/compare/v0.2.0-rc.1...v0.2.0-rc.2) (2026-09-05)
+
+### Added
+
+* **dns:** de zone twente.dev woont in deze repo, via de gedeelde DNSControl-lane ([bd833d9](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/bd833d97de10559afea2bdc51f107008bebcd4c7))
+
+### Docs
+
+* **adr:** 0018 v1.2.0, de zone-records wonen per site-repo, de accountobjecten blijven gedeeld ([7eb1722](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/7eb17220aec36fcb0fff50e318e46485ebf0926d))
+
+## [0.2.0-rc.1](https://forgejo.webgrip.dev/webgrip/twente.dev/compare/v0.1.0...v0.2.0-rc.1) (2026-09-05)
+
+### Added
+
+* **mail:** NEWSLETTER_LIST_ID is lijst 3, de dubbele-opt-in-lijst in Brevo ([ecd84de](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/ecd84defbd7ece66c20ae5022ed36dfcd1b856f8))
+* **newsletter:** de bevestigingspagina is een aankomst en geen bijsluiter ([f3daac1](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/f3daac1d648a8dd43893be6cb18c9f79b748db8e))
+
+### Fixed
+
+* **release:** de promotie-PR opent pas als er een rc gesneden is, niet bij elke push ([5d06804](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/5d06804eab11feac80635081eb013f0eeba11c91)), references [#3](https://forgejo.webgrip.dev/webgrip/twente.dev/issues/3)
+* **release:** de releasejob installeert niets, een tag-only release heeft geen build nodig ([3a0ce8c](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/3a0ce8c6ee5c5e49e4c37ff940802fa7719c28dc))
+* **release:** het kanaal van een release wordt op de runner bepaald en via needs doorgegeven ([260ea6f](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/260ea6fafc9b47fa0914c440e701959c9595b676))
+
+### Changed
+
+* **claims:** de motor komt uit de toolkit, de regels blijven hier ([49671e0](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/49671e068eeb6251975edc0649a4a22f4982cc6c))
+
+### Docs
+
+* **adr:** 0018 v1.1.0, de recordlaag is DNSControl, OpenTofu houdt de accountobjecten ([364a835](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/364a835454ead396a79950f28409f3b49e2ab8dd))
+* **agents:** joblogs zijn zonder token leesbaar, en de commentaarregel linkt naar zijn nieuwe thuis ([0069697](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/0069697b771f130b22c3f5214bcb8507a75f6012))
+* **brand:** de meetup-tekst voor /001 en de social-copy volgen weer de site ([d47f874](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/d47f874366f9a97d80dffa75c7efe9018e76dec8)), references [#updates-anker](https://forgejo.webgrip.dev/webgrip/twente.dev/issues/updates-anker)
+* **brand:** de openingsregel van de meetup-tekst zegt gewoon wat er gebeurt ([8586086](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/8586086cc259bb00b2ffe9a86393c73ba3cc63c3))
+* cadans, field report en weekdagen gelijkgetrokken buiten de merkdocs ([e1a93f6](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/e1a93f6d6e5d7523a352e18e20aae4eb3d7cb523))
+* **release:** Meetup-groep en parkeren bevestigd, de groep staat bij onze kanalen ([b301e21](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/b301e213f0addc28d8762dc6f5f539f420575ccd))
+* **release:** staging.twente.dev staat, het record is via DNSControl gepusht ([7fb0851](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/7fb0851dea276cbbe7bc07214c1475e3d0cb0003))
+* **release:** stand van de uitrol, de Authentik-blokkade en de staging-probe ([37a2551](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/37a255198524a81bcb2e49a9e4f2e1d627e71520))
+
+### Tests
+
+* **claims:** de gegenereerde changelog valt buiten de woordenlijst ([d98a67f](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/d98a67ff336a8bca7e79cac066895a5548632fa3))
+* **claims:** de gegenereerde changelog valt buiten de woordenlijst ([8a0f9db](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/8a0f9dbf1444aae5566cac2dd641f53a4cab419e))
+
+### Internal
+
+* **git:** CHANGELOG.md merget als union, ook aan de basiskant van een promotie ([ad8b3a5](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/ad8b3a5120666d58184f92275bada12d3f694c9d))
+* **git:** CHANGELOG.md merget als union, zodat een promotie niet meer op het changelog strandt ([e450e7f](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/e450e7f73378f04cc7cb482d185818139da0d119))
+* **git:** main terug in development, claims.test.ts opgelost naar de development-versie ([a2b6469](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/a2b6469557467a94a9ac24fb5877f987df26d459)), references [#3](https://forgejo.webgrip.dev/webgrip/twente.dev/issues/3)
+* **release:** v0.1.0-rc.1 [skip ci] ([27a8ead](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/27a8eadd7aa4dbb830a58f9cc51e10f630e0715f))
+* **release:** v0.1.0-rc.2 [skip ci] ([32d393a](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/32d393a7ad4dd3bb712873dbcb2297200aa38aa4))
+* **release:** v0.1.0-rc.3 [skip ci] ([d8d2e55](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/d8d2e551b3d82f900cb72615b22af7e326c7df4b))
+
+## [0.1.0-rc.3](https://forgejo.webgrip.dev/webgrip/twente.dev/compare/v0.1.0-rc.2...v0.1.0-rc.3) (2026-09-05)
+
+### Added
+
+* **mail:** NEWSLETTER_LIST_ID is lijst 3, de dubbele-opt-in-lijst in Brevo ([ecd84de](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/ecd84defbd7ece66c20ae5022ed36dfcd1b856f8))
+
+### Docs
+
+* **agents:** joblogs zijn zonder token leesbaar, en de commentaarregel linkt naar zijn nieuwe thuis ([0069697](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/0069697b771f130b22c3f5214bcb8507a75f6012))
+* **brand:** de meetup-tekst voor /001 en de social-copy volgen weer de site ([d47f874](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/d47f874366f9a97d80dffa75c7efe9018e76dec8)), references [#updates-anker](https://forgejo.webgrip.dev/webgrip/twente.dev/issues/updates-anker)
+* cadans, field report en weekdagen gelijkgetrokken buiten de merkdocs ([e1a93f6](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/e1a93f6d6e5d7523a352e18e20aae4eb3d7cb523))
+
+## [0.1.0-rc.2](https://forgejo.webgrip.dev/webgrip/twente.dev/compare/v0.1.0-rc.1...v0.1.0-rc.2) (2026-09-05)
+
+### Added
+
+* **newsletter:** de bevestigingspagina is een aankomst en geen bijsluiter ([f3daac1](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/f3daac1d648a8dd43893be6cb18c9f79b748db8e))
+
+### Fixed
+
+* **release:** het kanaal van een release wordt op de runner bepaald en via needs doorgegeven ([260ea6f](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/260ea6fafc9b47fa0914c440e701959c9595b676))
+
+### Changed
+
+* **claims:** de motor komt uit de toolkit, de regels blijven hier ([49671e0](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/49671e068eeb6251975edc0649a4a22f4982cc6c))
+
+### Docs
+
+* **release:** Meetup-groep en parkeren bevestigd, de groep staat bij onze kanalen ([b301e21](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/b301e213f0addc28d8762dc6f5f539f420575ccd))
+
+### Tests
+
+* **claims:** de gegenereerde changelog valt buiten de woordenlijst ([8a0f9db](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/8a0f9dbf1444aae5566cac2dd641f53a4cab419e))
+
+## [0.1.0-rc.1](https://forgejo.webgrip.dev/webgrip/twente.dev/compare/v0.0.0...v0.1.0-rc.1) (2026-09-05)
 ## [0.1.0](https://forgejo.webgrip.dev/webgrip/twente.dev/compare/v0.0.0...v0.1.0) (2026-09-05)
 
 ### Dependencies
@@ -131,6 +272,7 @@
 * **parity:** de probes proberen opnieuw bij een transport-fout ([c02a982](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/c02a982288b82a1b28b0ce864d544c421df5b143))
 * **raster:** het draadraster hangt aan de contentkolom, niet aan de viewport ([ab2befe](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/ab2befe1845e30820a034018da481a360484c971))
 * **raster:** het raster hoort bij de kopband, niet bij de hele pagina ([bb1dea6](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/bb1dea6445836c35fb0c2cd37ccead5faf017c92))
+* **release:** de releasejob installeert niets, een tag-only release heeft geen build nodig ([3a0ce8c](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/3a0ce8c6ee5c5e49e4c37ff940802fa7719c28dc))
 * **search:** unblock the Pagefind initialiser, and guard the whole class in CI ([e261bc4](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/e261bc455b8a9628bc8b3b82e03b5795b8f87a0b))
 * **seo:** honest 404 head, uncontradicted sitemap, richer structured data, valid feeds ([2eb1625](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/2eb1625b479ee88d5c5ce7751a9cd2b9e37fec5f))
 * **site:** bedrijvenpagina inkorten tot negen zinnen ([e1da699](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/e1da699d2c2f9b1d95902fd95ed953c14991d032))
@@ -197,6 +339,7 @@
 * **privacy:** de campagnemeting staat er voordat hij draait ([d10eaad](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/d10eaad7f8b790ddb8e0e278bd0440486aae03d4))
 * reconcile the decision record and the status page with what shipped ([1f05ac6](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/1f05ac6a58a9edda82d22611f41bd52a58e7e30f)), references [#7](https://forgejo.webgrip.dev/webgrip/twente.dev/issues/7)
 * **release:** ADR 0019 en het plan voor de release-trein ([fb0e270](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/fb0e27029ef8ff93aa8b3b371df10159662b4c2c))
+* **release:** stand van de uitrol, de Authentik-blokkade en de staging-probe ([37a2551](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/37a255198524a81bcb2e49a9e4f2e1d627e71520))
 * **runbook:** de verhuizing is gedaan, en drie dingen stonden er verkeerd in ([b4132d2](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/b4132d25b3255562c12511a6f79329891cca6108))
 * **runbook:** exact steps to make twente.dev able to send mail ([57cb15b](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/57cb15b525dff9428a2339eab1d5f6f041dde535))
 * **runbook:** het was nooit de alias, het is de Cloudflare-hop ([c707eb5](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/c707eb5034e775374bbf362943cb5367961ff80b))

@@ -8,7 +8,7 @@
     "type": "git",
     "url": "https://forgejo.webgrip.dev/webgrip/twente.dev.git"
   },
-  "license": "MIT",
+  "license": "Apache-2.0",
   "engines": {
     "node": "^22.14.0 || >=24.10.0"
   },
@@ -16,7 +16,10 @@
   "prettier": "@webgrip/prettier-config",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build && pnpm run index:search && pnpm run validate:csp && pnpm run validate:commitments",
+    "build": "astro build && pnpm run licenses:bundle && pnpm run index:search && pnpm run validate:csp && pnpm run validate:commitments && pnpm run copy:check && pnpm run validate:copy",
+    "licenses:bundle": "node scripts/third-party-licenses.mjs",
+    "license:check": "node scripts/license-check.mjs",
+    "license:reuse": "uvx --from 'reuse[charset-normalizer]==6.2.0' reuse lint",
     "index:search": "pagefind --site dist",
     "preview": "astro preview",
     "astro": "astro",
@@ -27,6 +30,7 @@
     "format:check": "prettier --check .",
     "test": "node --test --experimental-strip-types \"src/lib/**/*.test.ts\"",
     "validate:content": "node --experimental-strip-types scripts/validate-content.ts",
+    "validate:docs": "node --experimental-strip-types scripts/validate-docs-links.ts",
     "validate:csp": "webgrip-validate-csp",
     "validate:mail-auth": "webgrip-validate-mail-auth",
     "validate:mail": "node --experimental-strip-types scripts/build-mail.ts --check",
@@ -38,7 +42,11 @@
     "deploy": "wrangler deploy",
     "deploy:preview": "wrangler versions upload",
     "validate:a11y": "node --experimental-strip-types scripts/axe-scan.ts",
-    "validate:commitments": "node --experimental-strip-types scripts/validate-commitments.ts"
+    "validate:commitments": "node --experimental-strip-types scripts/validate-commitments.ts",
+    "copy": "node --experimental-strip-types scripts/gen-copy.ts",
+    "copy:check": "node --experimental-strip-types scripts/gen-copy.ts --check",
+    "copy:drift": "node --experimental-strip-types scripts/copy-drift.ts",
+    "validate:copy": "node --experimental-strip-types scripts/validate-copy.ts"
   },
   "dependencies": {
     "@astrojs/rss": "4.0.19",
@@ -53,7 +61,7 @@
     "@astrojs/check": "0.9.10",
     "@axe-core/playwright": "^4.10.2",
     "@eslint/js": "10.0.1",
-    "@webgrip/astro-site-toolkit": "0.3.0",
+    "@webgrip/astro-site-toolkit": "0.5.0",
     "@webgrip/eslint-config-astro": "0.2.0",
     "@webgrip/prettier-config": "0.2.0",
     "@webgrip/tsconfig": "0.2.0",

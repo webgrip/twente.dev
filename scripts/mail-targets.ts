@@ -1,6 +1,7 @@
 import { readdir, readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { parse } from 'yaml';
+import type { MailTarget } from '@webgrip/astro-site-toolkit/mail';
 
 import { REGISTRATION_URL } from '../src/config/site.ts';
 import { DEFAULT_LOCALE, LOCALES } from '../src/i18n/config.ts';
@@ -16,7 +17,7 @@ const CONTENT = join(REPO, 'src/content');
 
 const PILLARS = new Set<Pillar>(['field-reports', 'release-notes', 'upstream']);
 
-export function die(message: string): never {
+function die(message: string): never {
   console.error(`mail: ${message}`);
   process.exit(1);
 }
@@ -117,10 +118,7 @@ async function readEvents(): Promise<{ events: EventSource[]; releases: Resolved
   return { events, releases };
 }
 
-export interface Target {
-  id: string;
-  documents: MailDocument[];
-}
+export type Target = MailTarget<MailDocument>;
 
 export async function collectTargets(): Promise<Target[]> {
   const targets: Target[] = [];

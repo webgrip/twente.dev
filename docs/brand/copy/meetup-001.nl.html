@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8" />
+<title>twente.dev/001: Reconnect</title>
+<style>
+body{font:16px/1.5 system-ui,sans-serif;max-width:46rem;margin:2rem auto;padding:0 1rem}
+h1{font-size:1rem;color:#555}
+p.uitleg{color:#555}
+button{font:inherit;padding:.5rem 1rem;cursor:pointer;border:1px solid #333;background:#fff;border-radius:.25rem}
+article{border:1px solid #ddd;border-radius:.25rem;padding:1rem;margin-top:1rem}
+</style>
+</head>
+<body>
+<h1>twente.dev/001: Reconnect</h1>
+<p class="uitleg">Open dit bestand in een browser, klik op de knop, plak in meetup.com. Kopieer het niet uit je editor, dan plak je broncode.</p>
+<button type="button" id="kopieer">Kopieer met opmaak</button>
+<article id="blok">
+<div>👋 twente.dev/001: Reconnect. Een avond voor iedereen die in en rondom Twente technologie bouwt, waarmee dan ook: software, infrastructuur, embedded, maakindustrie, data, security, design, product, onderzoek en technisch onderwijs.</div>
+<div><br /></div>
+<div>Twente bouwt technologie met wereldwijde impact. Alleen zijn de mensen en de praktijklessen erachter moeilijk te vinden, over bedrijven en disciplines heen. Daar is deze avond voor. 🔌</div>
+<div><br /></div>
+<div><strong>⏱️ PROGRAMMA</strong></div>
+<div>18:00 · Inloop, eten en eerste kennismakingen 🍕</div>
+<div>18:45 · Welkomstwoord</div>
+<div>19:00 · Talk 1 // spreker TBA</div>
+<div>19:30 · Pauze</div>
+<div>19:45 · Talk 2 // spreker TBA</div>
+<div>20:15 · Networking 🍻</div>
+<div>21:30 · Strakke eindtijd ⏹️</div>
+<div><br /></div>
+<div><strong>🎙️ SPREKERS // TBA</strong></div>
+<div>De open call loopt, en dit is je kans. Ben of ken jij iemand die ongeveer 30 minuten wil vertellen over iets dat je zelf hebt gebouwd, gerepareerd of verprutst?</div>
+<div><br /></div>
+<div>Een migratie die tegenviel, een systeem dat overeind moest blijven, een keuze waar je nu anders over denkt. Elke stack, en je hoeft nooit eerder op een podium te hebben gestaan.</div>
+<div><br /></div>
+<div>Mail hello@twente.dev, of tip iemand aan die dit verhaal heeft. ✍️</div>
+<div><br /></div>
+<div><strong>📍 PRAKTISCH</strong></div>
+<div>Gratis, inclusief eten en drinken. Er is plek voor ongeveer 40 mensen.</div>
+<div>Voertaal Nederlands, en Engels zodra er internationals in de zaal zitten.</div>
+<div><br /></div>
+<div>Code14, Hogepad 81, 7462 TB Rijssen</div>
+<div>🚗 Meer dan genoeg gratis parkeergelegenheid vlak bij de ingang van het pand.</div>
+<div>🚶 Ongeveer tien minuten lopen vanaf station Rijssen; het pand ligt er vrijwel pal ten zuiden van.</div>
+<div><br /></div>
+<div><strong>📷 FOTO EN VIDEO</strong></div>
+<div>We maken foto's en video-opnames van de avond, voor het archief en om te laten zien wat hier gebeurt. Liever niet in beeld? Laat het weten bij je aanmelding of bij de check-in, dan houden we daar rekening mee. Sta je er achteraf toch op, dan halen we het eruit op één bericht naar hello@twente.dev.</div>
+<div><br /></div>
+<div>· · ·</div>
+<div><br /></div>
+<div>🔗 Alles over deze avond: https://twente.dev/nl/001</div>
+</article>
+<script>
+document.getElementById('kopieer').addEventListener('click', (gebeurtenis) => {
+  const bereik = document.createRange();
+  bereik.selectNodeContents(document.getElementById('blok'));
+  const selectie = window.getSelection();
+  selectie.removeAllRanges();
+  selectie.addRange(bereik);
+  const gelukt = document.execCommand('copy');
+  selectie.removeAllRanges();
+  gebeurtenis.target.textContent = gelukt ? 'Gekopieerd' : 'Selecteer het blok zelf';
+});
+</script>
+</body>
+</html>

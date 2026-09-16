@@ -19,13 +19,9 @@ const base: MailDocument = {
   reason: 'Je krijgt dit omdat je je hebt aangemeld.',
 };
 
-describe('renderMail', () => {
+describe('renderMail with the twente.dev theme', () => {
   test('keeps the Brevo unsubscribe tag intact', () => {
     assert.match(renderMail(base), /href="\{\{ unsubscribe \}\}"/);
-  });
-
-  test('sets the html lang attribute from the locale', () => {
-    assert.match(renderMail({ ...base, locale: 'en' }), /<html lang="en">/);
   });
 
   test('links privacy in the mail its own locale', () => {
@@ -33,31 +29,10 @@ describe('renderMail', () => {
     assert.match(renderMail(base), /https:\/\/twente\.dev\/nl\/privacy/);
   });
 
-  test('escapes markup that arrives from content', () => {
-    const html = renderMail({ ...base, headline: 'Kop met <script> & "aanhalingstekens"' });
-    assert.ok(!html.includes('<script>'));
-    assert.match(html, /Kop met &lt;script&gt; &amp; &quot;aanhalingstekens&quot;/);
-  });
-
-  test('refuses to emit a placeholder glyph, which Brevo turns into a 404 tracking link', () => {
-    assert.throws(() => renderMail({ ...base, lead: '⟦Vul hier de tekst in⟧' }), /placeholder/);
-  });
-
-  test('renders every fact as a label and a value', () => {
-    const html = renderMail({
-      ...base,
-      facts: [
-        { label: 'Datum', value: 'woensdag 4 november 2026' },
-        { label: 'Locatie', value: 'Code14, Rijssen' },
-      ],
-    });
-    assert.match(html, /Datum/);
-    assert.match(html, /woensdag 4 november 2026/);
-    assert.match(html, /Code14, Rijssen/);
-  });
-
-  test('omits the fact block when there are no facts', () => {
-    assert.ok(!renderMail({ ...base, facts: [] }).includes('border-left: 3px solid'));
+  test('carries the lockup and the footer copy of the locale', () => {
+    const html = renderMail({ ...base, locale: 'en' });
+    assert.match(html, /brand\/png\/lockup-horizontal-512\.png/);
+    assert.match(html, new RegExp(MAIL_COPY.en.replyLead));
   });
 });
 

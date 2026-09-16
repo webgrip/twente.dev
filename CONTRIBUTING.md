@@ -16,8 +16,8 @@ Open een issue met een van de formulieren:
 - **Event aanmelden** — openbaar toegankelijk en relevant voor developers · _verschijnt direct op de site_
 - **Bedrijf toevoegen** — één vermelding per bedrijf · **wordt bewaard, nog niet gepubliceerd**
 
-Wil je een verhaal, een field note of een zaal aanbieden? Dat loopt niet via een issue maar via de
-formulieren op [bijdragen](https://twente.dev/nl/bijdragen).
+Wil je een verhaal, een field report of een zaal aanbieden? Dat loopt via de formulieren op
+[bijdragen](https://twente.dev/nl/bijdragen), en niet via een issue.
 
 Een maintainer zet het om in een pull request. Lees eerst de
 [richtlijnen](https://twente.dev/nl/richtlijnen).
@@ -73,8 +73,8 @@ Open an issue using one of the forms:
 - **Submit an event** — open to the public and relevant to developers · _appears on the site straight away_
 - **Add a company** — one entry per company · **queued, not yet published**
 
-Want to offer a talk, a field note or a room? That does not go through an issue — use the forms on
-[contribute](https://twente.dev/en/contribute).
+Want to offer a talk, a field report or a room? That goes through the forms on
+[contribute](https://twente.dev/en/contribute), and not through an issue.
 
 A maintainer converts it into a pull request. Read the
 [guidelines](https://twente.dev/en/guidelines) first.
@@ -132,3 +132,29 @@ build; all of them block on `main`. Every push gets a preview URL.
 
 Note that `pnpm typecheck` is also the i18n gate: adding a UI string to `nl` without adding it to
 `en` is a type error, by design.
+
+---
+
+## Licensing of what you send
+
+Two licences apply here, and which one covers your contribution depends on where it lands.
+
+**Code** — everything outside `src/content/` — is [Apache-2.0](LICENSE). Contributions come in
+under the same terms, **inbound equals outbound**, which is what section 5 of that licence says by
+default: anything you intentionally submit for inclusion is under this licence unless you
+explicitly state otherwise. There is **no CLA to sign** and no copyright assignment. You keep the
+copyright in what you wrote; what you grant is the Apache-2.0 licence over it, including the patent
+grant.
+
+**Content** in `src/content/` — events, jobs, company profiles, articles — is
+[CC BY 4.0](LICENSE). By submitting it you agree to it being published under that licence, and you
+keep the copyright in your own articles. Apache-2.0 is a software licence and the wrong instrument
+for editorial prose, which is why the split exists.
+
+Neither covers the **twente.dev name or marks**: section 6 of the Apache License grants no rights
+in trade names or marks, deliberately, and the terms are in
+[docs/brand/README.md](docs/brand/README.md) section 7.
+
+Do not paste in work owned by an employer or another project unless its licence permits it and you
+say which licence it came under. If you need different terms for a contribution, say so in the pull
+request before it is reviewed.

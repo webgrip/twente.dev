@@ -145,5 +145,6 @@ jobs:
     uses: webgrip/workflows/.forgejo/workflows/semantic-release.yml@2df9161cf4c7d6425e0051583f5d85dbdebcce48
     with:
       only-refs: refs/heads/main refs/heads/development
+      install-dependencies: "false"
     secrets:
       CI_TOKEN: ${{ secrets.WEBGRIP_CI_TOKEN }}

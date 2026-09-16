@@ -24,8 +24,9 @@ are checked against each platform's current limits.
 - **The release city is RIJSSEN, not Enschede.** Code14 hosts /001 at Hogepad 81, Rijssen.
   Everything said Enschede until 2026-08-30, the plan's placeholder from before a venue
   existed. Still Twente; the region is not one city.
-- **Never state a capacity.** It lives in `src/config/site.ts` and is mid-change
-  (VIK-673). Say "free" and link; the page carries the number.
+- **Never state a capacity in a bio.** It renders from the release's events entry, and a bio
+  outlives the number. Say "free" and link; the page carries it, and so does the event
+  listing in [`copy/meetup-001.md`](copy/meetup-001.md), which is re-pasted per release.
 - **Launch vs evergreen**: where a bio mentions twente.dev/001, swap that line out
   after the event, the same split as the launch/evergreen banners in the kit.
 - Avatar: `avatar-1024.png` everywhere. Banners per platform from `public/brand/social/`.
@@ -74,17 +75,17 @@ below are these, trimmed to each limit.
 > Onafhankelijke, practitioner-led techcommunity voor Twente. Lokale mensen, events en
 > praktijkkennis, beter vindbaar.
 
-**Medium (EN, 235):**
+**Medium (EN, 225):**
 
 > Independent, practitioner-led technology community for Twente. We make local people,
-> events and practical knowledge easier to find across Twente, and a few
-> times a year we bring different disciplines together for one useful evening.
+> events and practical knowledge easier to find across Twente, and every month we bring
+> different disciplines together for one useful evening.
 
 **The ten-second explanation** (quote verbatim, matches `/en/press`):
 
 > twente.dev is an independent, practitioner-led technology community for Twente. We make
 > local people, events and practical knowledge easier to find, and we bring different
-> disciplines together a few times a year.
+> disciplines together every month.
 
 **The three things we will not do**, for any field with room:
 
@@ -152,7 +153,7 @@ answers 302, which is the deliberate locale redirect to `/nl` or `/en`, not a fa
 
 **About (EN first, NL below; well under the 2,000-char limit):**
 
-> twente.dev is an independent, practitioner-led technology community for Twente. We make local people, events and practical knowledge easier to find across Twente, and a few times a year we bring software, hardware, data, design and product people together for one useful evening.
+> twente.dev is an independent, practitioner-led technology community for Twente. We make local people, events and practical knowledge easier to find across Twente, and every first Wednesday of the month we bring software, hardware, data, design and product people together for one useful evening.
 >
 > On the site: an events calendar you can subscribe to, field reports written by people who did the work, and a directory of the region's communities, which we are building with those communities, not about them.
 >
@@ -168,7 +169,7 @@ answers 302, which is the deliberate locale redirect to `/nl` or `/en`, not a fa
 >
 > //
 >
-> twente.dev is de onafhankelijke, practitioner-led techcommunity van Twente. We maken lokale mensen, events en praktijkkennis beter vindbaar in heel Twente, en brengen een paar keer per jaar disciplines bij elkaar voor één nuttige avond. Geen recruiters, geen tracking, geen productpitches. Eerst Twente, en dan goed.
+> twente.dev is de onafhankelijke, practitioner-led techcommunity van Twente. We maken lokale mensen, events en praktijkkennis beter vindbaar in heel Twente, en brengen elke eerste woensdag van de maand disciplines bij elkaar voor één nuttige avond. Geen recruiters, geen tracking, geen productpitches. Eerst Twente, en dan goed.
 
 Banners: `banner-linkedin-page-1128x191@2x.png` (page) · `banner-linkedin-1584x396@2x.png` (personal profiles).
 
@@ -192,7 +193,7 @@ Reuse the Bluesky EN bio; append the launch line while /001 is upcoming.
 
 **About (NL):**
 
-> twente.dev is een onafhankelijke, practitioner-led techcommunity voor Twente. We maken lokale mensen, events en praktijkkennis beter vindbaar in heel Twente, en brengen een paar keer per jaar makers uit software, hardware, data, design en product bij elkaar voor één nuttige avond.
+> twente.dev is een onafhankelijke, practitioner-led techcommunity voor Twente. We maken lokale mensen, events en praktijkkennis beter vindbaar in heel Twente, en brengen elke eerste woensdag van de maand makers uit software, hardware, data, design en product bij elkaar voor één nuttige avond.
 >
 > Op de site: een events-kalender waarop je je kunt abonneren, field reports van mensen die het werk zelf deden, en een gids van de community's in de regio, die we mét die community's bouwen, niet over ze heen.
 >
@@ -204,7 +205,7 @@ Reuse the Bluesky EN bio; append the launch line while /001 is upcoming.
 
 **EN (124):**
 
-> Independent, practitioner-led tech community for Twente. The site and its content live in git: code MIT, content CC BY 4.0.
+> Independent, practitioner-led tech community for Twente. The site and its content live in git: code Apache-2.0, content CC BY 4.0.
 
 Website: `https://twente.dev`. Pin a README that links the canonical repo on
 `forgejo.webgrip.dev` if GitHub is a mirror.
@@ -217,7 +218,7 @@ Website: `https://twente.dev`. Pin a README that links the canonical repo on
 >
 > What you will not find here: product pitches disguised as talks, recruiter content, or speakers presenting work they did not do themselves.
 >
-> Releases run a few times a year, across Twente. The calendar and the field reports live at https://twente.dev. No cookies, no tracking.
+> Releases run every first Wednesday of the month, across Twente. The calendar and the field reports live at https://twente.dev. No cookies, no tracking.
 >
 > We build it. We run it. We share it.
 
@@ -225,7 +226,7 @@ Website: `https://twente.dev`. Pin a README that links the canonical repo on
 
 Note: the playbook settles the newsletter on Brevo (double opt-in, open tracking
 off), and it is **not open yet**, so do not link a signup until it is. If a Substack
-presence exists anyway, it mirrors the field-note framing:
+presence exists anyway, it mirrors the field report framing:
 
 **Short description:**
 
@@ -259,7 +260,7 @@ available). **Location:** Enschede, Netherlands. **Topics:** pick the practition
 
 **EN:**
 
-> twente.dev is an independent, practitioner-led tech community for Twente. A few times a year we bring software, hardware, data, design and product people together for one useful evening: two half-hour talks from people who did the work, and enough time to actually meet each other. One useful idea, one useful introduction, one reason to return.
+> twente.dev is an independent, practitioner-led tech community for Twente. Every first Wednesday of the month we bring software, hardware, data, design and product people together for one useful evening: two half-hour talks from people who did the work, and enough time to actually meet each other. One useful idea, one useful introduction, one reason to return.
 >
 > This group is only for our own releases. Twente already has good meetups. They keep their own identity, their own list and their own stage. Our terms with them are published at twente.dev/en/partners, including the part where we do not run events on their nights and do not approach their sponsors.
 >
@@ -290,19 +291,12 @@ The title is the canonical one, **`twente.dev/001: Reconnect`**, matching
 `src/content/events/twente-dev-001-reconnect.yml` and the /001 pages. The playbook rule
 holds here too: one canonical description everywhere.
 
-**Description EN:**
+The description lives in [`copy/meetup-001.md`](copy/meetup-001.md), NL and EN, with the
+RSVP question next to it. It is not repeated here: two copies of one listing drifted apart
+once (2026-09-05), and the older copy was the one on meetup.com.
 
-> A practitioner-led evening for everyone building technology in and around Twente: software, infrastructure, embedded systems, manufacturing, data, security, design, product, research and technical education. Two roughly half-hour talks by people who did the work themselves, and then an unhurried network hour to actually meet each other. This is not a recruitment fair or vendor stage.
->
-> 18:00 doors and food · 18:45 programme · 21:30 hard finish. Free.
->
-> Full description, the calendar you can subscribe to, and our terms with the region's other communities: twente.dev/en/001
->
-> We build it. We run it. We share it.
-
-Set the RSVP limit from `src/config/site.ts` at the time of publishing. **Never** copy a
-capacity into this file. Link the listing back to `twente.dev/en/001`; the site page, not
-Meetup, is canonical.
+Set the RSVP limit from the release's events entry at the time of publishing. Link the
+listing back to `twente.dev/en/001`; the site page, not Meetup, is canonical.
 
 ## Discord server: description 120 chars
 

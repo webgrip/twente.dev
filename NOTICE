@@ -1,0 +1,13 @@
+twente.dev
+Copyright 2026 Ryan Grippeling / WebGrip
+
+This product includes software developed at WebGrip (https://webgrip.nl).
+
+Third-party dependencies and their licences, including the SIL Open Font
+Licence text for the web fonts this site serves, are reproduced in
+dist/third-party-licenses.txt, generated at build time by
+scripts/third-party-licenses.mjs. The policy those dependencies are held to
+is docs/licence-policy.md.
+
+The twente.dev name and marks are not licensed under the Apache License. Section 6
+grants no rights in trade names or marks. Their terms are in docs/brand/README.md.

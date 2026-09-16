@@ -4,7 +4,7 @@
 - **Deciders**: Ryan Grippeling
 - **Date**: 2026-09-05
 - **Tags**: Delivery::Release, Delivery::Environments, Security::Access, Operations
-- **Version**: 1.0.0
+- **Version**: 1.1.0
 
 ---
 
@@ -136,11 +136,18 @@ org-level Forgejo secret, the Access client secret lives in OpenBao and the clou
 - **Supersedes / Amends**: amends ADR 0003 (deploy trigger).
 - **Follow-ups / TODOs**: the human steps table in `docs/plan/release-train.md`; webgrip.nl
   parity after twente.dev has run the full loop.
+- **Amendments**: 2026-09-05, v1.1.0: the promotion PR is opened by the `open-promotion-pr` job
+  in `on_release_published.yml` when an rc is published, instead of by every push to
+  `development` (`open_promotion_pr.yml` retired). The job records the staging deploy result and
+  the live answer of `staging.twente.dev` in the PR body, and fails when an already open PR is not
+  mergeable. The body above stays as decided; only the trigger moved, so a push that cuts no rc
+  opens no PR.
 
 ---
 
 ### Revision Log
 
-| Version | Date       | Author          | Change           |
-| ------- | ---------- | --------------- | ---------------- |
-| 1.0.0   | 2026-09-05 | Ryan Grippeling | Initial creation |
+| Version | Date       | Author          | Change                                                                      |
+| ------- | ---------- | --------------- | --------------------------------------------------------------------------- |
+| 1.0.0   | 2026-09-05 | Ryan Grippeling | Initial creation                                                            |
+| 1.1.0   | 2026-09-05 | Ryan Grippeling | Promotion PR opens on the rc release event, from `on_release_published.yml` |

@@ -23,6 +23,7 @@ coverage
 *.swp
 
 docs
+!docs/brand/copy
 .forgejo
 
 mise.toml

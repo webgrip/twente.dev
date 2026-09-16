@@ -81,6 +81,7 @@ const events = defineCollection({
           .regex(/^[a-z0-9-]+$/)
           .optional(),
         directions: i18nString.optional(),
+        parking: i18nString.optional(),
       }),
       organiser: z.object({
         name: z.string().min(1),
@@ -101,6 +102,9 @@ const events = defineCollection({
           programmeStart: z.coerce.date(),
           capacity: z.number().int().positive(),
           venueLogo: z.string().min(1).optional(),
+          programme: z
+            .array(z.object({ id: z.string().min(1), time: z.string().regex(/^\d{2}:\d{2}$/) }))
+            .default([]),
           speakers: z
             .array(
               z.object({

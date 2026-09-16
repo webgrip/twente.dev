@@ -4,7 +4,7 @@
 - **Deciders**: Ryan Grippeling
 - **Date**: 2026-09-05
 - **Tags**: Infrastructure::DNS, Infrastructure::IaC, Security, Operations
-- **Version**: 1.1.0
+- **Version**: 1.2.0
 
 ---
 
@@ -68,7 +68,11 @@ half.
 boundary: account and zone resources live there; application resources stay in wrangler.**
 DNS records and redirect rules are DNSControl (`dns/dnsconfig.js`, one line per record, no state:
 it diffs the file against the live zone). Everything DNSControl cannot express is OpenTofu:
-the R2 bucket now, DNSSEC toggles, zone settings and Zero Trust Access as they arrive. The
+the R2 bucket now, DNSSEC toggles, zone settings and Zero Trust Access as they arrive. Since version 1.2.0 each site repository declares its own zone
+(`ops/dns/dnsconfig.js` here, later in webgrip.nl) through the shared `dnscontrol.yml` lane in
+`webgrip/workflows`: preview on every push and pull request, push on `main` behind `DNS_PUSH`, a
+nightly drift check. `webgrip/cloudflare` keeps the zone-spanning account objects and the redirect
+rules, and stops declaring a zone the moment the site repository's push is green. The
 repository never owns a Worker, a route, a binding or a `custom_domain`; those remain in each
 site's `wrangler.toml`, where `wrangler deploy` asserts them on every deploy. Two writers on one
 object would fight forever, so the split follows who already writes.
@@ -178,6 +182,12 @@ MTA-STS and TLS-RPT records, CAA and the `webgrip.dev` zone follow after 16 Sept
   research pass had compared IaC frameworks and skipped the DNS-specific tools; that gap is
   recorded here so it is not repeated. OpenTofu keeps the account objects. The boundary, the
   repository, the token and the secret chain did not move.
+- 2026-09-05, version 1.2.0: the zone records moved once more, from the shared repository to the
+  site repository that owns the hostname. The trigger was the release train (ADR 0019): a staging
+  record, mail records and CAA belong with the code and the checks that depend on them, and the
+  mail-auth drift check in this repository already watched them from the outside. DNSControl made
+  the move cheap (no state), and a reusable lane made it a two-file addition per site. The account
+  objects did not move: Zero Trust, R2 and the token roller span sites.
 - The repository: [`webgrip/cloudflare`](https://forgejo.webgrip.dev/webgrip/cloudflare), with
   the ownership table in its README and the procedure in `docs/bootstrap.md`.
 - Refines [ADR 0002](0002-cloudflare-workers-static-assets.md) and

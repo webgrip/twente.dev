@@ -15,10 +15,33 @@ env:
   ASTRO_TELEMETRY_DISABLED: "1"
 
 jobs:
+  release-channel:
+    name: "Release Channel"
+    runs-on: docker
+    outputs:
+      channel: ${{ steps.parse.outputs.channel }}
+    steps:
+      - id: parse
+        env:
+          TAG: ${{ github.event.release.tag_name }}
+        run: |
+          set -euo pipefail
+          tag="${TAG}"
+          case "${tag}" in
+            v*-*) channel=prerelease ;;
+            v*) channel=stable ;;
+            *) echo "unexpected release tag: ${tag}" >&2; exit 1 ;;
+          esac
+          echo "${tag} -> ${channel}"
+          echo "channel=${channel}" >> "$GITHUB_OUTPUT"
+
   deploy-staging:
     name: "Deploy Staging"
-    uses: webgrip/workflows/.forgejo/workflows/cloudflare-deploy.yml@2df9161cf4c7d6425e0051583f5d85dbdebcce48
+    needs:
+      - release-channel
+    uses: webgrip/workflows/.forgejo/workflows/cloudflare-deploy.yml@9d3da2af26bda748e13a85ab53fcc3c3ade4744d
     with:
+      enabled: ${{ needs.release-channel.outputs.channel == 'prerelease' }}
       environment: production
       release-channel: prerelease
       wrangler-env: staging
@@ -32,8 +55,11 @@ jobs:
 
   deploy-production:
     name: "Deploy Production"
-    uses: webgrip/workflows/.forgejo/workflows/cloudflare-deploy.yml@2df9161cf4c7d6425e0051583f5d85dbdebcce48
+    needs:
+      - release-channel
+    uses: webgrip/workflows/.forgejo/workflows/cloudflare-deploy.yml@9d3da2af26bda748e13a85ab53fcc3c3ade4744d
     with:
+      enabled: ${{ needs.release-channel.outputs.channel == 'stable' }}
       environment: production
       release-channel: stable
       apex-url: "https://twente.dev"
@@ -56,3 +82,47 @@ jobs:
     secrets:
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
       CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+  open-promotion-pr:
+    name: "Open or keep the promotion PR"
+    needs:
+      - release-channel
+      - deploy-staging
+    if: always() && needs.release-channel.outputs.channel == 'prerelease'
+    runs-on: docker
+    steps:
+      - name: Open or keep promotion PR
+        env:
+          FORGEJO_TOKEN: ${{ secrets.WEBGRIP_CI_TOKEN }}
+          API: ${{ github.server_url }}/api/v1/repos/${{ github.repository }}
+          RC_TAG: ${{ github.event.release.tag_name }}
+          STAGING_DEPLOY: ${{ needs.deploy-staging.result }}
+          STAGING_URL: https://staging.twente.dev/nl
+        run: |
+          set -euo pipefail
+          auth="Authorization: token ${FORGEJO_TOKEN}"
+          edge="$(curl -sS -o /dev/null -w '%{http_code}' --max-time 15 "${STAGING_URL}" 2>/dev/null || true)"
+          staging="staging deploy ${STAGING_DEPLOY}; ${STAGING_URL} answers ${edge:-000}"
+          open="$(curl -fsS -H "$auth" "${API}/pulls?state=open&limit=50" \
+            | python3 -c 'import sys,json; ps=[p for p in json.load(sys.stdin) if (p.get("head") or {}).get("ref")=="development" and (p.get("base") or {}).get("ref")=="main"]; print(ps[0]["number"] if ps else "")')"
+          if [ -n "$open" ]; then
+            mergeable="$(curl -fsS -H "$auth" "${API}/pulls/${open}" | python3 -c 'import sys,json; print(json.load(sys.stdin).get("mergeable"))')"
+            echo "Promotion PR #${open} already open; ${RC_TAG} cut. ${staging}."
+            if [ "$mergeable" != "True" ]; then
+              echo "ERROR: promotion PR #${open} is not mergeable. Merge main into development and resolve the conflicts before promoting ${RC_TAG}." >&2
+              exit 1
+            fi
+            exit 0
+          fi
+          total="$(curl -fsS -H "$auth" "${API}/compare/main...development" \
+            | python3 -c 'import sys,json; d=json.load(sys.stdin); print(d.get("total_commits", len(d.get("commits") or [])))')"
+          if [ "${total:-0}" = "0" ]; then
+            echo "development has no changes ahead of main."
+            exit 0
+          fi
+          body="Promotes \`${RC_TAG}\` from \`development\` to \`main\` for a stable release and the production deploy.
+          When this PR was opened: ${staging}.
+          **Merge with a merge commit or rebase merge, never squash.** semantic-release needs the original commits to compute the stable version."
+          curl -fsS -H "$auth" -H "Content-Type: application/json" -X POST "${API}/pulls" \
+            -d "$(python3 -c 'import json,sys; print(json.dumps({"head":"development","base":"main","title":"chore(release): promote development to main","body":sys.argv[1]}))' "$body")"
+          echo "Opened promotion PR for ${RC_TAG}. ${staging}."

@@ -6,10 +6,9 @@
   eigenaar: ryan
 - id: meetup-event-001
   status: live
-  url: null
-  notitie: vul de event-URL in zodra het event op meetup.com staat
+  url: https://www.meetup.com/twente-dev/events/316416571
   bron: docs/brand/copy/meetup-001.md
-  laatst_gesynct: 2026-09-05
+  laatst_gesynct: 2026-09-16
   eigenaar: ryan
 - id: discord-kanaalonderwerp
   status: live

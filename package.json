@@ -30,6 +30,7 @@
     "format:check": "prettier --check .",
     "test": "node --test --experimental-strip-types \"src/lib/**/*.test.ts\"",
     "validate:content": "node --experimental-strip-types scripts/validate-content.ts",
+    "validate:docs": "node --experimental-strip-types scripts/validate-docs-links.ts",
     "validate:csp": "webgrip-validate-csp",
     "validate:mail-auth": "webgrip-validate-mail-auth",
     "validate:mail": "node --experimental-strip-types scripts/build-mail.ts --check",

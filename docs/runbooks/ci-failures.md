@@ -76,6 +76,59 @@ buiten `docs/` is voor die build een dode pagina. `CLAUDE.md` en `README.md` lig
 dat in de job `Docs links` op elke branch draait. Die check bestaat omdat de strict-build zelf
 alleen nog op `main` draait, zie de volgende sectie.
 
+## DNS preview: `if cloudflare apitoken is not set`
+
+**Symptoom.** De job `DNS preview` uit `on_dns_change.yml` stopt op stap `Preview` met
+`failed to initialize DNS provider "cloudflare": if cloudflare apitoken is not set, apikey and
+apiuser must be provided`. De stap `Check` daarvoor is groen, dus het zonebestand deugt. De
+nachtelijke `dns-drift.yml` valt elke dag om 05:45 op precies hetzelfde. Gemeten op de runs 315,
+318, 321 en 413: de lane is nooit groen geweest sinds `bd833d9`.
+
+**Oorzaak.** `${{ secrets.CLOUDFLARE_DNS_TOKEN }}` expandeert naar een lege string, en
+`ops/dns/creds.json` zet die leegte via `$CLOUDFLARE_API_TOKEN` in het apitoken-veld. Het
+reposecret bestaat niet, en de keten die het hoort te maken staat aan de bovenkant stil:
+
+| Schakel                                                                | Staat op 2026-09-16                                                        |
+| ---------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| OpenBao `secret/cloudflare/dnscontrol`, sleutel `CLOUDFLARE_DNS_TOKEN` | bestaat niet                                                               |
+| ExternalSecret `forgejo-cloudflare-dns` (namespace `forgejo`)          | `Ready=False`, `SecretSyncedError`                                         |
+| Kubernetes-secret `forgejo-cloudflare-dns`                             | `NotFound`                                                                 |
+| CronJob `forgejo-actions-secrets` (`23 * * * *`)                       | logt `cloudflare dns token not present yet; skipping` en slaat de PUT over |
+| Reposecret `CLOUDFLARE_DNS_TOKEN` op `webgrip/twente.dev`              | nooit geschreven                                                           |
+
+Het is dus geen CI-fout maar stap 3 van de uitrol in
+[`../plan/dns-ownership.md`](../plan/dns-ownership.md) die nog openstaat. De machinerie in
+`homelab-cluster` is compleet en herstelt zichzelf zodra de vault-sleutel er staat; hij faalt
+zacht, dus niets alarmeert erop.
+
+**Fix.** Twee stappen die alleen een mens kan zetten, want een Cloudflare-token bestaat alleen in
+het dashboard en een waarde gaat nooit door een agent heen:
+
+```bash
+mise exec -- just bao-login
+bao kv put secret/cloudflare/dnscontrol CLOUDFLARE_DNS_TOKEN=<token van forgejo-ci-dns>
+kubectl -n forgejo annotate externalsecret forgejo-cloudflare-dns force-sync="$(date +%s)" --overwrite
+kubectl -n forgejo get externalsecret forgejo-cloudflare-dns
+```
+
+Het token heet `forgejo-ci-dns` en draagt Zone:Read en DNS:Edit op twente.dev en webgrip.nl.
+Wacht op `SecretSynced` voordat je de CronJob laat lopen, anders mount de Job nog het oude
+beeld. Daarna draait `on_dns_change.yml` groen; `DNS_PUSH=on` pas zetten als de preview
+`0 corrections` meldt.
+
+**Verkeerde vault-sleutel.** `secret/cloudflare/dns` bestaat wel, maar dat is het token van
+external-dns, met sleutel `api-token` en een andere scope. Daar `CLOUDFLARE_DNS_TOKEN` in zetten
+repareert niets en de foutmelding blijft identiek.
+
+**Les.** Een reusable die een secret als `required: true` declareert, krijgt van Forgejo geen
+harde fout als de aanroeper een lege string doorgeeft — het loopt door tot de tool zelf klaagt.
+Bij elke variant van "credential niet gezet" is de keten van vault tot reposecret de plek om te
+kijken, niet de workflow:
+
+```bash
+kubectl -n forgejo get externalsecret | grep -v SecretSynced
+```
+
 ## `if:` op een job met `uses:` doet niets
 
 **Symptoom.** `deploy-docs-site` draagt `if: github.ref == 'refs/heads/main'` en draait toch op

@@ -110,9 +110,8 @@ parkeren`, `🚶 Ongeveer 10 minuten lopen`) zijn één `🚶`-regel geworden me
 
 ## Wat er nog open staat
 
-- De event-URL van meetup.com ontbreekt in `plakplekken.yml`; vul hem in zodra het event
-  er staat.
-- Vier profielen hebben nog geen account, dus `copy-drift` telt ze apart.
+- Drie profielen hebben nog geen account, dus `copy-drift` telt ze apart. De LinkedIn-pagina
+  en de meetup-event-URL staan er sinds 2026-09-16 wel in.
 - `social-profile-copy.md` staat nog niet als bron in het manifest. De claimtabel daarin
   is met de hand overgezet naar `verboden_claims`; die twee kunnen uit elkaar lopen tot de
   tabel zelf data wordt.

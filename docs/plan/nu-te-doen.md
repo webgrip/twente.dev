@@ -101,10 +101,30 @@ Op de kalender, niet nu:
       releasepagina komen. De cijfers in het playbook zijn gecontroleerd tegen
       7 oktober en die avond bestaat niet meer.
 
+## Uit de harvest van 2026-09-16
+
+- [ ] **Een pre-commit hook die Prettier draait.** Drie keer in vijf dagen zette een commit
+      zonder `pnpm format` de gedeelde Static Analysis-job op rood voor elke sessie. De
+      storing en de bestanden staan in [de CI-runbook](../runbooks/ci-failures.md); de
+      oplossing is een hook in `settings.json`, geen documentatie.
+- [ ] **Beslis of /001 wordt opgenomen.** Het [organisator-playbook](../organiser-playbook.md)
+      belooft een spreker drie artefacten waaronder video, maar er staat geen camera klaar.
+      Neem je niet op, dan moet die belofte uit het playbook; neem je wel op, dan mag het
+      woord "opname" in de sprekersmails en in de copy erbij.
+- [ ] **Controleer of `email-welcome.html` al als Automation in Brevo staat.** Zo ja, dan moet
+      hij opnieuw geplakt worden, want de oude versie beloofde hulp bij de opzet.
+- [ ] **Kies de standaarduitlijning van het horizontale lockup.** `lockup-horizontal.svg`,
+      `-middle` en `-bottom` staan alle drie in de kit. Na de keuze: de gekozen variant tot
+      `lockup-horizontal.svg` maken in `scripts/brand-assets.py`, het script draaien, en daarna
+      de banners en de dekkenkit opnieuw genereren.
+- [ ] **Meet de capaciteit van de zaal bij Code14.** De repo zegt overal 40; er is één keer
+      "30 tot 40" langsgekomen. Klopt 40 niet, dan verandert `capacity` in de events-entry en
+      sijpelt het vanzelf door naar site, meetup-tekst en mail.
+
 ## Twee dingen die je moet beslissen
 
 - [ ] **De rotatiebelofte.** De perspagina zegt dat releases door de regio
-      rouleren. Met Code14 als host voor de eerste drie klopt dat nog; noem je er
+      rouleren. Met Code14 als host voor de eerste twee klopt dat nog; noem je er
       publiek meer, dan moet die zin mee veranderen.
 - [ ] **Wanneer heet dit community-supported?** Nu betaalt Webgrip en wordt een
       deel gesponsord. Dat is een prima startpunt en het is niet wat "door de

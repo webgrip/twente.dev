@@ -37,3 +37,21 @@ A push that deletes a record is refused unless the head commit carries one trail
 ```
 DNS-Allow-Delete: old.twente.dev
 ```
+
+## `dig` is niet de scheidsrechter
+
+DNSControl vergelijkt het zonebestand met de records die de **provider-API** teruggeeft, niet
+met wat resolvers antwoorden. Cloudflare synthetiseert records die publiek resolven maar niet
+in die lijst staan: de CAA-paren die het afleidt uit de SSL/TLS-instelling van de zone
+(`comodoca.com`, `digicert.com`) en `_domainconnect`. Op twente.dev toont `dig` dertien CAA
+terwijl het zonebestand er negen declareert, en `dnscontrol preview --expect-no-changes` meldt
+nog steeds `Done. 0 corrections.`
+
+Op 2026-09-06 zijn die vijf records alsnog gedeclareerd omdat `dig` ze liet zien. Daarmee
+werden nul verschillen er drie, en het is teruggedraaid. Het bewijs lag er al: de nachtelijke
+driftjob van `webgrip/cloudflare` had `--expect-no-changes` over dezelfde zone gedraaid vanuit
+een bestand met dezelfde weglatingen, en was groen.
+
+**Voordat je een zonebestand aanpast omdat een record "mist":** kijk naar de nieuwste
+`dnscontrol preview` van een van beide driftjobs (`nightly-drift.yml` in `webgrip/cloudflare`,
+`dns-drift.yml` hier). `0 corrections` betekent dat het bestand in sync is, wat `dig` ook zegt.

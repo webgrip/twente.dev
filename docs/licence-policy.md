@@ -60,3 +60,13 @@ copyleft licence.
 | Per-file licensing      | `pnpm run license:reuse`   | [REUSE](https://reuse.software/spec-3.3/) 3.3 compliance              |
 
 The first runs inside `pnpm run build`. All three run in `just check` and in CI.
+
+**How the enumeration works, and why not the obvious way.** `licenses:bundle` walks the
+production graph in `pnpm-lock.yaml` and reads each package's own `package.json` out of
+`node_modules/.pnpm`. It deliberately does not call `pnpm licenses list`, which demands a store
+index for every optional dependency in the lockfile — including the platform binaries pnpm
+itself skipped — and therefore passes on macOS and fails on every linux runner. The diagnosis,
+the three rejected alternatives and the exact error are in
+[the CI runbook](runbooks/ci-failures.md). A consequence worth knowing: packages that are in the
+graph but not installed on the build platform are listed in their own section of
+`dist/third-party-licenses.txt` rather than silently dropped.

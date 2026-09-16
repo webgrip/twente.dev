@@ -102,7 +102,7 @@ test('source copy carries no banned variants', () => {
   const violations = bannedCopyViolations(FORBIDDEN, {
     roots: ROOTS,
     extraFiles: EXTRA_FILES,
-    ignore: /(^|\/)README\.md$/,
+    ignore: /(^|\/)(README|copy-voice)\.md$/,
   });
   assert.equal(
     violations.length,

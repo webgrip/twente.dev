@@ -107,9 +107,11 @@ podium. Zo werkt de pijplijn:
    spreken" maar "jij hebt X gedaan — wil je daar een halfuur over vertellen?". Eén mail,
    één herinnering, daarna klaar
    (dezelfde twee-touch-regel als alle outreach). **Versturen doet Ryan zelf, altijd.**
-3. **Vormen**: slidetemplate gedeeld, verder is het verhaal van de spreker. First-timers
-   krijgen expliciet te horen dat de zaal klein en vriendelijk is en dat de moderator de
-   Q&A bewaakt.
+3. **Vormen**: slidetemplate gedeeld, verder is het verhaal van de spreker. Geen
+   redactiegesprek en geen repetitie, en dus beloven we die ook nergens; de schrijfwijzer
+   legt uit waarom dat niet als non-belofte in de copy terechtkomt
+   ([`brand/copy-voice.md`](brand/copy-voice.md)). First-timers krijgen expliciet te horen
+   dat de zaal klein en vriendelijk is en dat de moderator de Q&A bewaakt.
 4. **Op de avond**: zichtbaar tijdsignaal, moderator kapt op tijd af (dat is een
    belofte aan de spreker, geen sanctie), Q&A via de moderator.
 5. **Erna**: binnen drie dagen een bedankje mét wat de zaal zei, de opname en slides op

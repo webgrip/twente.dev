@@ -17,9 +17,10 @@
   laatst_gesynct: 2026-08-31
   eigenaar: ryan
 - id: linkedin-pagina
-  status: nog-geen-account
-  url: null
+  status: live
+  url: https://www.linkedin.com/company/twente-dev/
   bron: docs/brand/social-profile-copy.md
+  laatst_gesynct: 2026-09-16
   eigenaar: ryan
 - id: mastodon-bio
   status: nog-geen-account

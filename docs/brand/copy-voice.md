@@ -116,7 +116,7 @@ De bron voor de meetup-listing is uitsluitend
 
 Tussen frasen staat altijd een dubbele slash: `twente.dev // we build it. we run it. we share
 it.` en `twente.dev/001 // reconnect the region // free`. Nooit een enkele `/`, want die botst
-visueel met de editiepaden. URL-paden houden uiteraard hun enkele slash. Zie ook
+visueel met de releasepaden. URL-paden houden uiteraard hun enkele slash. Zie ook
 [`../runbooks/release-banners.md`](../runbooks/release-banners.md).
 
 In lopende LinkedIn-tekst doet `· · ·` het werk van een scheidingsregel, omdat de editor daar

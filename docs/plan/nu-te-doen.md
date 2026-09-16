@@ -113,6 +113,9 @@ Op de kalender, niet nu:
       woord "opname" in de sprekersmails en in de copy erbij.
 - [ ] **Controleer of `email-welcome.html` al als Automation in Brevo staat.** Zo ja, dan moet
       hij opnieuw geplakt worden, want de oude versie beloofde hulp bij de opzet.
+- [ ] **Hernoem het tweede deck in Drive.** Zijn bestandsnaam draagt nog het teruggetrokken
+      woord voor Release, waardoor `claims.test.ts` valt op elke doc die de naam citeert.
+      Daarom staat de naam nu niet voluit in [`../external-assets.md`](../external-assets.md).
 - [ ] **Kies de standaarduitlijning van het horizontale lockup.** `lockup-horizontal.svg`,
       `-middle` en `-bottom` staan alle drie in de kit. Na de keuze: de gekozen variant tot
       `lockup-horizontal.svg` maken in `scripts/brand-assets.py`, het script draaien, en daarna

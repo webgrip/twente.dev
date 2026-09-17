@@ -62,7 +62,7 @@ jobs:
     with:
       node-version: "24"
       package-manager: pnpm
-      test-command: pnpm validate:mail
+      test-command: pnpm validate:mail && pnpm validate:mta-sts
       job-name: Mail Validation
 
   build:

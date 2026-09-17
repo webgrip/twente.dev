@@ -143,7 +143,9 @@ silent failure modes, and the HTML fallback are in
 _2026-09-04._ Launch tracking lives in
 [`docs/plan/playbook-alignment.md`](docs/plan/playbook-alignment.md); which plan doc is
 authoritative for what: [`docs/plan/README.md`](docs/plan/README.md). CI runs through the shared
-static-site lanes in `webgrip/workflows` (v2.5.2, node lanes without a cache step), and the toolchain rides on `@webgrip/tsconfig`,
+static-site lanes in `webgrip/workflows`, pinned per call; the dead `actions/cache` step left the node
+lanes in v2.5.3 and the pins here still predate it (a Renovate bump held by dashboard approval,
+never a hand edit). The toolchain rides on `@webgrip/tsconfig`,
 `@webgrip/prettier-config`, `@webgrip/eslint-config-astro` and `@webgrip/astro-site-toolkit`
 (VIK-813). The seam is documented in each package: spread the shared array and append what is
 repo-specific, never fork the base. Several sessions share this working tree: commit by

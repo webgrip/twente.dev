@@ -4,7 +4,7 @@
 - **Deciders**: Ryan Grippeling
 - **Date**: 2026-09-05
 - **Tags**: Delivery::CI, Operations, Developer-Experience
-- **Version**: 1.0.0
+- **Version**: 1.0.1
 
 ---
 
@@ -74,7 +74,7 @@ moves the runner's action cache, tool cache, workspace and the pnpm, npm and cor
 a hostPath that outlives the pod. A job then fetches into an existing bare clone instead of
 cloning, `setup-node` finds its tarball in the tool cache, and `pnpm install` hardlinks
 `node_modules` out of a store on the same filesystem. The shared node lanes drop their
-`actions/cache` step (webgrip/workflows v2.5.2), which removes one clone per job and a false
+`actions/cache` step (webgrip/workflows v2.5.3), which removes one clone per job and a false
 promise.
 
 With setup down to seconds, the chain no longer earns its keep. `on_source_change.yml` now runs
@@ -153,6 +153,7 @@ tokens are unaffected.
 
 ### Revision Log
 
-| Version | Date       | Author          | Change           |
-| ------- | ---------- | --------------- | ---------------- |
-| 1.0.0   | 2026-09-05 | Ryan Grippeling | Initial creation |
+| Version | Date       | Author          | Change                                                                   |
+| ------- | ---------- | --------------- | ------------------------------------------------------------------------ |
+| 1.0.0   | 2026-09-05 | Ryan Grippeling | Initial creation                                                         |
+| 1.0.1   | 2026-09-17 | Ryan Grippeling | Shape landed in `on_source_change.yml`; lane version corrected to v2.5.3 |

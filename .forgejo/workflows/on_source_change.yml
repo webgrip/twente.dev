@@ -9,9 +9,6 @@ on:
   push:
     branches:
       - "**"
-  pull_request:
-    branches:
-      - main
 
 permissions:
   contents: read
@@ -32,56 +29,17 @@ jobs:
       run-audit: false
       run-knip: true
 
-  unit-tests:
-    name: "Unit Tests"
-    needs:
-      - static-analysis
+  tests-and-build:
+    name: "Tests & Build"
     uses: webgrip/workflows/.forgejo/workflows/node-application-tests.yml@ef2b7a61a56c57efc41a4738009c793d200b20c2
     with:
       node-version: "24"
       package-manager: pnpm
-      test-command: pnpm test
-      job-name: Unit Tests
-
-  content-validation:
-    name: "Content Validation"
-    needs:
-      - static-analysis
-    uses: webgrip/workflows/.forgejo/workflows/node-application-tests.yml@ef2b7a61a56c57efc41a4738009c793d200b20c2
-    with:
-      node-version: "24"
-      package-manager: pnpm
-      test-command: REQUIRE_REAL_CONTENT=1 pnpm validate:content
-      job-name: Content Validation
-
-  mail-validation:
-    name: "Mail Validation"
-    needs:
-      - static-analysis
-    uses: webgrip/workflows/.forgejo/workflows/node-application-tests.yml@ef2b7a61a56c57efc41a4738009c793d200b20c2
-    with:
-      node-version: "24"
-      package-manager: pnpm
-      test-command: pnpm validate:mail && pnpm validate:mta-sts
-      job-name: Mail Validation
-
-  build:
-    name: "Build Site"
-    needs:
-      - unit-tests
-      - content-validation
-      - mail-validation
-    uses: webgrip/workflows/.forgejo/workflows/node-application-tests.yml@ef2b7a61a56c57efc41a4738009c793d200b20c2
-    with:
-      node-version: "24"
-      package-manager: pnpm
-      test-command: pnpm build
-      job-name: Build Site
+      test-command: pnpm test && REQUIRE_REAL_CONTENT=1 pnpm validate:content && pnpm validate:mail && pnpm validate:mta-sts && pnpm build
+      job-name: Tests & Build
 
   container-parity:
     name: "Container Parity"
-    needs:
-      - static-analysis
     runs-on: docker
     steps:
       - uses: actions/checkout@v5
@@ -111,20 +69,16 @@ jobs:
 
   lighthouse:
     name: "Lighthouse Budgets"
-    needs:
-      - build
     uses: webgrip/workflows/.forgejo/workflows/lighthouse-budgets.yml@cfca5d381db0ae44912faf34e105721eede2ee3e
 
   accessibility:
     name: "Accessibility (axe-core)"
-    needs:
-      - build
     uses: webgrip/workflows/.forgejo/workflows/axe-scan.yml@a3e0e8dff4199f592b7596e411f564bcaab67665
 
   deploy-preview:
     name: "Deploy Preview"
     needs:
-      - build
+      - tests-and-build
     uses: webgrip/workflows/.forgejo/workflows/cloudflare-deploy.yml@cfca5d381db0ae44912faf34e105721eede2ee3e
     with:
       environment: preview
@@ -138,7 +92,8 @@ jobs:
   release:
     name: "Release"
     needs:
-      - build
+      - static-analysis
+      - tests-and-build
       - container-parity
       - lighthouse
       - accessibility

@@ -1,3 +1,110 @@
+## [0.3.0-rc.2](https://forgejo.webgrip.dev/webgrip/twente.dev/compare/v0.3.0-rc.1...v0.3.0-rc.2) (2026-09-17)
+
+### Added
+
+* **dns:** een merge naar main past de zone toe ([278faf4](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/278faf41d5a7643e0d81b9c49cb047bc87a8e8e9))
+
+### Docs
+
+* **dns:** een rode drift is meestal main die achterloopt ([8402720](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/840272082555b79bf9eef60f33073aa16d6ec39c))
+
+### CI
+
+* **actions:** lanepins dragen hun versie, node-lanes naar v2.7.1 ([3750a04](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/3750a0438a91ffddd4f4696c62b557a28fab315f))
+* **pipeline:** ADR 0020 landt — één verificatiestage, geen dubbele run per push ([2ebc2eb](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/2ebc2ebbfafbbf2972c9155911d285f1bf75b94d))
+
+## [0.3.0-rc.1](https://forgejo.webgrip.dev/webgrip/twente.dev/compare/v0.2.0...v0.3.0-rc.1) (2026-09-17)
+
+### Added
+
+* **deps:** update dependency astro ( 7.1.6 ➔ 7.2.8 ) [security] ([#5](https://forgejo.webgrip.dev/webgrip/twente.dev/issues/5)) ([4939c02](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/4939c02be9e18b24bf7b74773258f6818c2b524c)), references [#8203](https://forgejo.webgrip.dev/webgrip/twente.dev/issues/8203)
+* **deps:** update pnpm ( 11.8.0 ➔ 11.11.0 ) [security] ([#1](https://forgejo.webgrip.dev/webgrip/twente.dev/issues/1)) ([52af7fa](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/52af7fab569b702b5594e027403143a52d02cd25)), closes [#8203](https://forgejo.webgrip.dev/webgrip/twente.dev/issues/8203), references [#8203](https://forgejo.webgrip.dev/webgrip/twente.dev/issues/8203) [#8203](https://forgejo.webgrip.dev/webgrip/twente.dev/issues/8203)
+* **dns:** zonehygiëne, MTA-STS op enforce en een pushschakelaar in git ([2d708f9](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/2d708f9d37ac54b3bc36572d1d878b79bdbfecc7))
+
+### Fixed
+
+* **ci:** de CSP-parity leest één respons in plaats van twee ([5d91897](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/5d918975bb9d527614bf02d9fdfd9413054e5cc6))
+* **ci:** de DNS-jobs melden nu eerlijk of ze gedraaid hebben ([9b0a7de](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/9b0a7de945c6b5d31e722f4caedc8c12c3f877c0))
+* **config:** de soaktijd terug op het pad waar niets anders meer bewaakt ([9d30f48](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/9d30f48dd97137e1db000c8b5f158aae10eab5a6)), references [#4](https://forgejo.webgrip.dev/webgrip/twente.dev/issues/4)
+* **dns:** de zonekopie loopt zes dagen achter op webgrip/cloudflare ([1f5a0d7](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/1f5a0d7c26c1e1a965d731416470b644c45e0140))
+
+### Changed
+
+* **mail:** de mta-sts-check bewaakt alleen nog wat mail kan kosten ([c0ed3a5](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/c0ed3a515b901e10abc5c75b20970473fdeddc23))
+
+### Docs
+
+* **dns:** de DNS-lane wacht op een vault-sleutel die nog niet bestaat ([c5985da](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/c5985da4d00e37bc31ff353771f1e8ebc885603a))
+* **runbook:** wat er meekomt met een uitgeklapte uses:-job ([923c839](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/923c83911cf47601b8f8e003009def5cdf39a79c))
+
+### Internal
+
+* **config:** minor, patch en security mergen zichzelf als de gate groen is ([dbae3d3](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/dbae3d3ff9005b0a50152451c4c0d901706b25d1)), references [#1](https://forgejo.webgrip.dev/webgrip/twente.dev/issues/1) [#5](https://forgejo.webgrip.dev/webgrip/twente.dev/issues/5)
+* **release:** main terug in development na de v0.2.0-promotie ([c0b4be2](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/c0b4be21b18d2e2caf33753dcac68956c9d5b40f))
+* **release:** v0.2.0-rc.10 [skip ci] ([a0a8305](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/a0a830564cf2aaaa2576a7f95f959371ce9bf614))
+* **release:** v0.2.0-rc.11 [skip ci] ([d42490b](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/d42490bb56c4b6a2ad18febb5b4f5a8d2129104e))
+* **release:** v0.2.0-rc.7 [skip ci] ([f8dda31](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/f8dda31fec04948380634aaccb5c293495e79772))
+* **release:** v0.2.0-rc.8 [skip ci] ([48cd03c](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/48cd03c6a7e0df34808dbb6bdedd3dea01399f68))
+* **release:** v0.2.0-rc.9 [skip ci] ([8447afa](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/8447afa16c68f962fceb4c86a11bd2035fd7d37c))
+
+## [0.2.0-rc.11](https://forgejo.webgrip.dev/webgrip/twente.dev/compare/v0.2.0-rc.10...v0.2.0-rc.11) (2026-09-17)
+
+### Fixed
+
+* **ci:** de CSP-parity leest één respons in plaats van twee ([5d91897](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/5d918975bb9d527614bf02d9fdfd9413054e5cc6))
+
+## [0.2.0-rc.10](https://forgejo.webgrip.dev/webgrip/twente.dev/compare/v0.2.0-rc.9...v0.2.0-rc.10) (2026-09-17)
+
+### Added
+
+* **dns:** zonehygiëne, MTA-STS op enforce en een pushschakelaar in git ([2d708f9](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/2d708f9d37ac54b3bc36572d1d878b79bdbfecc7))
+
+### Fixed
+
+* **ci:** de DNS-jobs melden nu eerlijk of ze gedraaid hebben ([9b0a7de](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/9b0a7de945c6b5d31e722f4caedc8c12c3f877c0))
+
+### Changed
+
+* **mail:** de mta-sts-check bewaakt alleen nog wat mail kan kosten ([c0ed3a5](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/c0ed3a515b901e10abc5c75b20970473fdeddc23))
+
+### Docs
+
+* **runbook:** wat er meekomt met een uitgeklapte uses:-job ([923c839](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/923c83911cf47601b8f8e003009def5cdf39a79c))
+
+## [0.2.0-rc.9](https://forgejo.webgrip.dev/webgrip/twente.dev/compare/v0.2.0-rc.8...v0.2.0-rc.9) (2026-09-17)
+
+### Fixed
+
+* **dns:** de zonekopie loopt zes dagen achter op webgrip/cloudflare ([1f5a0d7](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/1f5a0d7c26c1e1a965d731416470b644c45e0140))
+
+## [0.2.0-rc.8](https://forgejo.webgrip.dev/webgrip/twente.dev/compare/v0.2.0-rc.7...v0.2.0-rc.8) (2026-09-17)
+
+### Fixed
+
+* **config:** de soaktijd terug op het pad waar niets anders meer bewaakt ([9d30f48](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/9d30f48dd97137e1db000c8b5f158aae10eab5a6)), references [#4](https://forgejo.webgrip.dev/webgrip/twente.dev/issues/4)
+
+## [0.2.0-rc.7](https://forgejo.webgrip.dev/webgrip/twente.dev/compare/v0.2.0-rc.6...v0.2.0-rc.7) (2026-09-17)
+
+### Added
+
+* **deps:** update dependency astro ( 7.1.6 ➔ 7.2.8 ) [security] ([#5](https://forgejo.webgrip.dev/webgrip/twente.dev/issues/5)) ([4939c02](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/4939c02be9e18b24bf7b74773258f6818c2b524c)), references [#8203](https://forgejo.webgrip.dev/webgrip/twente.dev/issues/8203)
+* **deps:** update pnpm ( 11.8.0 ➔ 11.11.0 ) [security] ([#1](https://forgejo.webgrip.dev/webgrip/twente.dev/issues/1)) ([52af7fa](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/52af7fab569b702b5594e027403143a52d02cd25)), closes [#8203](https://forgejo.webgrip.dev/webgrip/twente.dev/issues/8203), references [#8203](https://forgejo.webgrip.dev/webgrip/twente.dev/issues/8203) [#8203](https://forgejo.webgrip.dev/webgrip/twente.dev/issues/8203)
+
+### Fixed
+
+* **ci:** de docssite publiceert weer alleen vanaf main ([7cf36f4](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/7cf36f4e9727ac7e8930527f0b4d696ce8eb55b1)), references [#10525](https://forgejo.webgrip.dev/webgrip/twente.dev/issues/10525)
+
+### Docs
+
+* **copy:** de linkedin-pagina bestaat en staat in het register ([ffbc88c](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/ffbc88c684b48fd643e6c9ccfe7ad9ca43b25c7c))
+* **copy:** de meetup-event-URL staat in het plakplekregister ([da9bbba](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/da9bbbaaec11c6314646a88c2feb150ec8e85751))
+* de projectkennis verhuist van geheugen naar de repo ([2bcaca0](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/2bcaca00a4dd7464bd6a85642c85de34cff5bf54))
+* **dns:** de DNS-lane wacht op een vault-sleutel die nog niet bestaat ([c5985da](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/c5985da4d00e37bc31ff353771f1e8ebc885603a))
+* geen teruggetrokken vocabulaire in de nieuwe documentatie ([e1372e8](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/e1372e8b726e2bfd46d06da9de15d77b02e0dc54))
+
+### Internal
+
+* **config:** minor, patch en security mergen zichzelf als de gate groen is ([dbae3d3](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/dbae3d3ff9005b0a50152451c4c0d901706b25d1)), references [#1](https://forgejo.webgrip.dev/webgrip/twente.dev/issues/1) [#5](https://forgejo.webgrip.dev/webgrip/twente.dev/issues/5)
 ## [0.2.0](https://forgejo.webgrip.dev/webgrip/twente.dev/compare/v0.1.0...v0.2.0) (2026-09-16)
 
 ### Added

@@ -4,8 +4,44 @@
     "local>webgrip/renovate-config#v1.7.0",
     "local>webgrip/renovate-config:safe-automerge#v1.7.0"
   ],
-  "baseBranches": ["development"],
+  "vulnerabilityAlerts": {
+    "description": "Security fixes merge themselves once the gate is green. Renovate opens them immediately by default; without automerge they sat open for twelve days while every check passed. Majors are excluded: a security fix that also changes an API is a migration, not a patch.",
+    "automerge": true,
+    "automergeType": "pr",
+    "addLabels": ["automerge", "security"],
+    "packageRules": [
+      {
+        "description": "A major security bump is still a major. Open it immediately, merge it by hand.",
+        "matchUpdateTypes": ["major"],
+        "automerge": false,
+        "addLabels": ["needs-manual-review"]
+      }
+    ]
+  },
   "packageRules": [
+    {
+      "description": "Minor and patch open without dashboard approval and merge themselves when CI is green. The gate runs typecheck, lint, unit tests, content and mail validation, container parity, Lighthouse and axe before a merge is possible, and a merge only reaches staging: production still waits for the promotion PR.",
+      "matchUpdateTypes": ["minor", "patch"],
+      "dependencyDashboardApproval": false,
+      "automerge": true,
+      "automergeType": "pr",
+      "addLabels": ["automerge"]
+    },
+    {
+      "description": "The soak time the org preset intends, restored on the path where nothing else guards. Preset rule 12 sets minimumReleaseAge to zero on the reasoning that dashboard approval is the gate, and its own description says to re-add it wherever a repo automerges unattended. This repo does, so a package published minutes ago cannot merge itself here.",
+      "matchUpdateTypes": ["minor"],
+      "minimumReleaseAge": "3 days"
+    },
+    {
+      "description": "Same reasoning as the minor soak above; the preset's intended patch soak.",
+      "matchUpdateTypes": ["patch"],
+      "minimumReleaseAge": "1 day"
+    },
+    {
+      "description": "A dependency minor is not a feature of this site. Patch and minor land as fix so they cut a patch release, which is what the release-driven deploy model needs, without inflating our own minor. Majors keep feat, per the org preset's reasoning that a dependency's major is not the consuming product's major.",
+      "matchUpdateTypes": ["minor", "patch"],
+      "semanticCommitType": "fix"
+    },
     {
       "description": "actions/checkout stays on v5: v6 and later are broken on non-GitHub runners, so a major bump is never a valid PR here.",
       "matchPackageNames": ["actions/checkout"],
@@ -27,7 +63,7 @@
       "labels": ["dependencies", "needs-manual-review"]
     },
     {
-      "description": "zod must track the major Astro itself depends on — see src/content.config.ts.",
+      "description": "zod must track the major Astro itself depends on \u2014 see src/content.config.ts.",
       "matchPackageNames": ["zod"],
       "matchUpdateTypes": ["major"],
       "automerge": false,
@@ -39,17 +75,11 @@
       "groupName": "cloudflare tooling"
     },
     {
-      "description": "devDependencies minor and patch carry no runtime risk and are covered by the full check suite; merge them once CI is green.",
-      "matchDepTypes": ["devDependencies"],
-      "matchUpdateTypes": ["minor", "patch"],
-      "automerge": true,
-      "automergeType": "pr",
-      "addLabels": ["automerge"]
-    },
-    {
-      "description": "wrangler is the deploy path itself, so a bump that breaks deploys must never merge itself.",
+      "description": "wrangler is the only exception to automerging minor and patch, and not out of caution: the gate runs before the deploy, so no check in this repo can catch a wrangler regression. A green CI run says nothing about whether the site still deploys.",
       "matchPackageNames": ["wrangler"],
-      "automerge": false
+      "automerge": false,
+      "addLabels": ["needs-manual-review"]
     }
-  ]
+  ],
+  "baseBranchPatterns": ["development"]
 }

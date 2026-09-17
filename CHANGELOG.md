@@ -1,3 +1,18 @@
+## [0.3.0-rc.2](https://forgejo.webgrip.dev/webgrip/twente.dev/compare/v0.3.0-rc.1...v0.3.0-rc.2) (2026-09-17)
+
+### Added
+
+* **dns:** een merge naar main past de zone toe ([278faf4](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/278faf41d5a7643e0d81b9c49cb047bc87a8e8e9))
+
+### Docs
+
+* **dns:** een rode drift is meestal main die achterloopt ([8402720](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/840272082555b79bf9eef60f33073aa16d6ec39c))
+
+### CI
+
+* **actions:** lanepins dragen hun versie, node-lanes naar v2.7.1 ([3750a04](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/3750a0438a91ffddd4f4696c62b557a28fab315f))
+* **pipeline:** ADR 0020 landt — één verificatiestage, geen dubbele run per push ([2ebc2eb](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/2ebc2ebbfafbbf2972c9155911d285f1bf75b94d))
+
 ## [0.3.0-rc.1](https://forgejo.webgrip.dev/webgrip/twente.dev/compare/v0.2.0...v0.3.0-rc.1) (2026-09-17)
 
 ### Added

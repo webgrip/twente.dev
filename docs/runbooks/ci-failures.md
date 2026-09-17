@@ -63,22 +63,28 @@ stilzwijgend te verdwijnen.
 dezelfde respons wél melden dat er geen `unsafe-inline` in zit en dat er `sha256-` hashes staan.
 Twee keer gezien: run 438 (2026-09-15) en run 475 (2026-09-17).
 
-**Oorzaak.** Onbekend, en dat is de kern van deze regel. Beide keren was de commit op de
-voorgaande run groen, en beide keren haalt een lokale container uit dezelfde bron alle checks —
-inclusief een `docker build` met dezelfde Dockerfile en hetzelfde script, byte-identiek qua
-responslengte. Het verschil zit in het ophalen, niet in de site. `5d91897` nam al weg dat de
-pagina twee keer werd opgehaald, dus tegenstrijdige uitslagen binnen één respons zijn sindsdien
-niet meer met een race tussen twee fetches te verklaren.
+**Oorzaak.** De tag was er altijd al. Run 488 draaide met de uitgebreide faalregel uit `8ec3602`
+en die drukte af wat er terugkwam:
 
-**Wat te doen.** Draai de run opnieuw; een nieuwe push op dezelfde boom is tot nu toe altijd groen
-geweest. Blijft hij rood, dan is het geen flake en toont de faalregel sinds `8ec3602` de regio
-rond elke `content-security-policy` in de opgehaalde respons, hoofdletterongevoelig. Daarmee is
-een afwijkende quoting of attribuutvolgorde zichtbaar in plaats van te moeten worden geraden — de
-debugregel uit `5d91897` drukte de eerste 400 bytes af, terwijl de meta rond offset 3800 staat, en
-toonde dus altijd een head die er normaal uitziet.
+```
+FAIL /nl body missing 'http-equiv="content-security-policy"' (23708 bytes fetched)
+    csp>  </script><meta http-equiv="content-security-policy" content="default-src 'self';...
+```
 
-**Voor je gaat zoeken:** reproduceer eerst lokaal, dat kost twee minuten en sluit een echte
-regressie uit.
+De string die `grep -qF` zocht stond letterlijk in de respons die diezelfde grep doorzocht. Het is
+dus nooit een site- of buildprobleem geweest, maar het matchen zelf. Waarom precies is niet
+sluitend vastgesteld — het reproduceert niet op macOS, en de container telde `${#HOME_HTML}` in
+bytes waar een UTF-8 shell 23671 telt, dus daar draait een andere locale. GNU grep kan in een
+UTF-8 locale matches missen op input met ongeldige multibyte-sequenties, wat ook verklaart waarom
+de `-F`-variant faalde terwijl de BRE-variant eronder in dezelfde variabele wél matchte.
+
+**Fix.** De CSP-checks hangen sinds `0e20ad5` niet meer van grep af: het zijn
+bash-patroonvergelijkingen (`[[ "$HOME_HTML" == *'...'* ]]`), zonder pipe en zonder
+locale-gevoelige matching. De greps die nog nodig zijn voor de diagnose draaien onder `LC_ALL=C`.
+Twintig opeenvolgende runs tegen hetzelfde image zijn groen, en een weggehaalde tag wordt nog
+steeds gedetecteerd.
+
+**Faalt hij opnieuw, dan is het echt.** Reproduceer lokaal, dat kost twee minuten:
 
 ```bash
 docker build -f ops/docker/web/Dockerfile -t twente-dev-web:localci .

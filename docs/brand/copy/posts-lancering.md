@@ -10,6 +10,14 @@ dezelfde inhoud als eigen post en nooit als repost, Nederlands eerst en Engels d
 vier dagen later, dinsdag tot donderdag tussen 08:00 en 10:00, en het eerste uur blijf je
 erbij om te antwoorden.
 
+De eerste 140 tekens zijn wat iemand op mobiel ziet voor "meer weergeven". Daar staat nu de
+hele haak in: wat het is, wanneer, en dat er nog sprekers gezocht worden. Verschuif die regel
+niet.
+
+Drie hashtags, waarvan `#twentedev` de belangrijkste: hashtags doen niets meer voor bereik,
+maar bij events bundelen ze de reacties rond één draad en dat is het enige geval waarin ze
+consistent iets opleveren. Die tag groeit mee over alle releases heen.
+
 Plakken: de editor slikt dubbele witregels, dus de `· · ·` doet het werk van de
 scheidingsregel. Typ in de openingsregel de `@` opnieuw en kies de bedrijfspagina uit het
 menu, dan is het een vermelding in plaats van een onderstreepte kale-domeinlink.
@@ -19,8 +27,8 @@ menu, dan is het een vermelding in plaats van een onderstreepte kale-domeinlink.
 ## 1. Eigen profiel, Nederlands
 
 ```
-🎉 Daar gaan we dan. We beginnen iets nieuws in Twente: twente.dev
-Een gedeelde agenda, een meetup op de eerste woensdag van elke maand, en een community voor iedereen die in en rondom Twente technologie bouwt.
+🎉 Daar gaan we dan: twente.dev, een maandelijkse tech-avond in Twente. De eerste is 4 november, en ik zoek er nog twee sprekers voor.
+Daarnaast een gedeelde agenda voor de regio, en een community voor iedereen die hier technologie bouwt.
 Er gebeurt hier meer dan ik kan bijhouden, en ik merk steeds vaker hoe weinig we van elkaars werk weten. Je komt vooral de mensen tegen met wie je toch al werkt, of die toevallig in dezelfde stack zitten. Dat kan leuker.
 · · ·
 🔌 WAT WE DOEN
@@ -46,14 +54,14 @@ Aanmelden: https://www.meetup.com/twente-dev/events/316416571
 · · ·
 Ik heb er zin in. Tot 4 november 👋
 
-#Twente #TechCommunity #Meetup
+#twentedev #Twente #meetup
 ```
 
 ## 2. Eigen profiel, Engels
 
 ```
-🎉 Here we go. We are starting something new in Twente: twente.dev
-A shared calendar, a meetup on the first Wednesday of every month, and a community for everyone building technology in and around Twente.
+🎉 Here we go: twente.dev, a monthly tech evening in Twente. The first one is 4 November, and I am still looking for two speakers.
+Alongside it a shared calendar for the region, and a community for everyone building technology here.
 More happens here than I can keep track of, and I keep noticing how little we know about each other's work. You mainly run into the people you already work with, or who happen to use the same stack. That could be more fun.
 · · ·
 🔌 WHAT WE DO
@@ -79,13 +87,14 @@ Sign up: https://www.meetup.com/twente-dev/events/316416571
 · · ·
 Looking forward to it. See you on 4 November 👋
 
-#Twente #TechCommunity #Meetup
+#twentedev #Twente #meetup
 ```
 
 ## 3. Bedrijfspagina, Nederlands
 
 ```
-🎉 Vanaf vandaag bestaat twente.dev: een gedeelde agenda, een meetup op de eerste woensdag van elke maand, en een community voor iedereen die in en rondom Twente technologie bouwt.
+🎉 Vanaf vandaag bestaat twente.dev: een maandelijkse tech-avond in Twente. De eerste is 4 november, en we zoeken er nog twee sprekers voor.
+Daarnaast een gedeelde agenda voor de regio, en een community voor iedereen die hier technologie bouwt.
 Er gebeurt hier meer dan één mens kan bijhouden, en we weten verrassend weinig van elkaars werk. Je komt vooral de mensen tegen met wie je toch al werkt, of die toevallig in dezelfde stack zitten. Dat kan leuker.
 · · ·
 🔌 WAT WE DOEN
@@ -111,13 +120,14 @@ Aanmelden: https://www.meetup.com/twente-dev/events/316416571
 · · ·
 We hebben er zin in. Tot 4 november 👋
 
-#Twente #TechCommunity #Meetup
+#twentedev #Twente #meetup
 ```
 
 ## 4. Bedrijfspagina, Engels
 
 ```
-🎉 As of today, twente.dev exists: a shared calendar, a meetup on the first Wednesday of every month, and a community for everyone building technology in and around Twente.
+🎉 As of today, twente.dev exists: a monthly tech evening in Twente. The first one is 4 November, and we are still looking for two speakers.
+Alongside it a shared calendar for the region, and a community for everyone building technology here.
 More happens here than one person can keep track of, and we know surprisingly little about each other's work. You mainly run into the people you already work with, or who happen to use the same stack. That could be more fun.
 · · ·
 🔌 WHAT WE DO
@@ -143,5 +153,5 @@ Sign up: https://www.meetup.com/twente-dev/events/316416571
 · · ·
 Looking forward to it. See you on 4 November 👋
 
-#Twente #TechCommunity #Meetup
+#twentedev #Twente #meetup
 ```

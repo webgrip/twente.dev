@@ -5,7 +5,26 @@
     "local>webgrip/renovate-config:safe-automerge#v1.7.0"
   ],
   "baseBranches": ["development"],
+  "vulnerabilityAlerts": {
+    "description": "Security fixes merge themselves once the gate is green. They already open immediately by Renovate default; without this they sat open for twelve days while every check passed.",
+    "automerge": true,
+    "automergeType": "pr",
+    "addLabels": ["automerge", "security"]
+  },
   "packageRules": [
+    {
+      "description": "Minor and patch open without dashboard approval and merge themselves when CI is green. The gate runs typecheck, lint, unit tests, content and mail validation, container parity, Lighthouse and axe before a merge is possible, and a merge only reaches staging: production still waits for the promotion PR.",
+      "matchUpdateTypes": ["minor", "patch"],
+      "dependencyDashboardApproval": false,
+      "automerge": true,
+      "automergeType": "pr",
+      "addLabels": ["automerge"]
+    },
+    {
+      "description": "A dependency minor is not a feature of this site. Patch and minor land as fix so they cut a patch release, which is what the release-driven deploy model needs, without inflating our own minor. Majors keep feat, per the org preset's reasoning that a dependency's major is not the consuming product's major.",
+      "matchUpdateTypes": ["minor", "patch"],
+      "semanticCommitType": "fix"
+    },
     {
       "description": "actions/checkout stays on v5: v6 and later are broken on non-GitHub runners, so a major bump is never a valid PR here.",
       "matchPackageNames": ["actions/checkout"],
@@ -39,17 +58,10 @@
       "groupName": "cloudflare tooling"
     },
     {
-      "description": "devDependencies minor and patch carry no runtime risk and are covered by the full check suite; merge them once CI is green.",
-      "matchDepTypes": ["devDependencies"],
-      "matchUpdateTypes": ["minor", "patch"],
-      "automerge": true,
-      "automergeType": "pr",
-      "addLabels": ["automerge"]
-    },
-    {
-      "description": "wrangler is the deploy path itself, so a bump that breaks deploys must never merge itself.",
+      "description": "wrangler is the only exception to automerging minor and patch, and not out of caution: the gate runs before the deploy, so no check in this repo can catch a wrangler regression. A green CI run says nothing about whether the site still deploys.",
       "matchPackageNames": ["wrangler"],
-      "automerge": false
+      "automerge": false,
+      "addLabels": ["needs-manual-review"]
     }
   ]
 }

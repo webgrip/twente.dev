@@ -2,9 +2,9 @@
 
 - **Status**: Accepted
 - **Deciders**: Ryan Grippeling
-- **Date**: 2026-09-05
+- **Date**: 2026-09-17
 - **Tags**: Delivery::Release, Delivery::Environments, Security::Access, Operations
-- **Version**: 1.1.0
+- **Version**: 1.2.0
 
 ---
 
@@ -142,12 +142,22 @@ org-level Forgejo secret, the Access client secret lives in OpenBao and the clou
   the live answer of `staging.twente.dev` in the PR body, and fails when an already open PR is not
   mergeable. The body above stays as decided; only the trigger moved, so a push that cuts no rc
   opens no PR.
+- **Amendments**: 2026-09-17, v1.2.0: `.releaserc.cjs` carries `changelog: false`
+  (`@webgrip/semantic-release-config` v1.3.0, toolchain image 0.3.4, `webgrip/workflows` v2.7.2),
+  so semantic-release commits nothing back to the branch it releases on and a release is the tag
+  alone. The promotion therefore no longer needs a back-merge of `main` into `development`: the
+  two are the same commit once the PR is merged. Until this change the release commit existed
+  only on `main`, and skipping the back-merge made semantic-release compute the next rc from the
+  last prerelease tag — on 2026-09-17 that cut `v0.3.0-rc.3` after `v0.3.0` had already shipped.
+  The positive consequence "a changelog entry" above now reads as the release page's notes: they
+  are still generated, but `CHANGELOG.md` no longer lives in the tree.
 
 ---
 
 ### Revision Log
 
-| Version | Date       | Author          | Change                                                                      |
-| ------- | ---------- | --------------- | --------------------------------------------------------------------------- |
-| 1.0.0   | 2026-09-05 | Ryan Grippeling | Initial creation                                                            |
-| 1.1.0   | 2026-09-05 | Ryan Grippeling | Promotion PR opens on the rc release event, from `on_release_published.yml` |
+| Version | Date       | Author          | Change                                                                         |
+| ------- | ---------- | --------------- | ------------------------------------------------------------------------------ |
+| 1.0.0   | 2026-09-05 | Ryan Grippeling | Initial creation                                                               |
+| 1.1.0   | 2026-09-05 | Ryan Grippeling | Promotion PR opens on the rc release event, from `on_release_published.yml`    |
+| 1.2.0   | 2026-09-17 | Ryan Grippeling | `changelog: false`: no release commit-back, so a promotion needs no back-merge |

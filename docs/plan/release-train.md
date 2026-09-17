@@ -18,7 +18,7 @@ fixes the model. A deploy is the consequence of a release, not of a push.
 | Production deploy        | every green push to `main`, plus nightly HEAD | a stable release `vX.Y.Z`, cut on `main` by semantic-release; nightly redeploys that tag |
 | Staging                  | none (branch previews on workers.dev)         | `staging.twente.dev`, behind Cloudflare Access (Authentik), deployed by every `-rc.N`    |
 | Promotion                | none                                          | PR `development → main`, opened when an rc is published, merged never squashed           |
-| Who pushes `main`        | anyone with write                             | `webgrip-ci` (release commit-back) and `ryangr0` (hotfix escape hatch)                   |
+| Who pushes `main`        | anyone with write                             | `webgrip-ci` (tags en releases) and `ryangr0` (hotfix escape hatch)                      |
 | Who pushes `development` | n/a                                           | `webgrip-ci`, `ryangr0`; agent sessions included, they run as the owner                  |
 | Renovate base            | `main`                                        | `development`                                                                            |
 | Releasable types         | n/a                                           | `feat`, `fix`, `perf`, `refactor`, `revert`, plus `content` as a patch                   |
@@ -63,7 +63,8 @@ released as the next minor.
 
 1. `wrangler.toml`: `[env.staging]`, worker `twente-dev-staging`, route `staging.twente.dev/*`.
 2. `.releaserc.cjs` with `makeConfig({ extraReleaseRules: [{ type: 'content', release: 'patch' }] })`,
-   tag-only; the 2025 `.releaserc.json` goes.
+   tag-only; the 2025 `.releaserc.json` goes. Since 2026-09-17 also `changelog: false` — see
+   "Waarom er geen back-merge meer is" below.
 3. `on_source_change.yml`: verification on push, preview upload for feature branches, a
    release job on `main` and `development` only, no production deploy. The `pull_request`
    trigger went with [ADR 0020](../adrs/0020-ci-critical-path.md): it ran every
@@ -78,6 +79,27 @@ released as the next minor.
 7. `renovate.json`: `baseBranches: ["development"]`.
 8. `CLAUDE.md`: sessions commit to `development`; `main` is promotion plus owner hotfixes.
 9. Branch `development` created from `main`.
+
+## Waarom er geen back-merge meer is (2026-09-17)
+
+Tot 17 september commit semantic-release een `chore(release): vX.Y.Z [skip ci]` terug naar de
+branch waarop het releaset, met `CHANGELOG.md` erin. Op `main` bestond die commit daarna nergens
+anders, dus na elke promotie liep `development` één commit achter. Wie die back-merge oversloeg,
+liet semantic-release op `development` doorrekenen vanaf de laatste _prerelease_-tag in plaats van
+de stable: op 17 september leverde dat een `v0.3.0-rc.3` op nadat `v0.3.0` al in productie stond.
+De stap stond nergens opgeschreven behalve als foutmelding in `on_release_published.yml`, en dan
+pas nadat het misging.
+
+`changelog: false` in `.releaserc.cjs` haalt de oorzaak weg: er valt niets meer terug te
+committen, dus `main` is na een promotie dezelfde commit als `development`. De release notes
+veranderen niet — die komen van de notes generator en staan op de Forgejo release page. Wat
+vervalt is `CHANGELOG.md` in de working tree, plus de union-merge in `.gitattributes`, de
+prettier-uitzondering en de uitzondering die de claims-guard ervoor had.
+
+De optie zelf zit in `@webgrip/semantic-release-config` v1.3.0, gedragen door toolchain-image
+`harbor.webgrip.dev/webgrip/semantic-release:0.3.4` en de lanes van `webgrip/workflows` v2.7.2.
+Een repo die `changelog: false` zet op een ouder image krijgt geen genegeerde optie maar een
+falende release: `makeConfig` gooit op onbekende opties.
 
 ## Verification, in order
 

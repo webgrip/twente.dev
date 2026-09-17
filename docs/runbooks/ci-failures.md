@@ -235,22 +235,19 @@ de voorgaande jobs klaar zijn, en daarna springt hij naar `skipped`.
 
 ## Een rc-tag zonder release, en staging blijft achter
 
-**Symptoom.** `development` draagt een tag `vX.Y.Z-rc.N` en een commit
-`chore(release): vX.Y.Z-rc.N [skip ci]`, maar er is geen release gepubliceerd,
-`staging.twente.dev` draait nog op de vorige rc, en de CHANGELOG heeft een kop voor een versie
-die verder nergens bestaat.
+**Symptoom.** `development` draagt een tag `vX.Y.Z-rc.N`, maar er is geen release gepubliceerd en
+`staging.twente.dev` draait nog op de vorige rc.
 
-**Oorzaak.** De run die die rc sneed is halverwege de releasejob geannuleerd.
-`@semantic-release/git` commit en pusht eerst, semantic-release pusht daarna de tag, en pas dan
-publiceert `@saithodev/semantic-release-gitea` de release. `on_release_published.yml` hangt aan
-`release: [published]`, dus alles wat vóór die laatste stap afbreekt laat de tag staan zonder
-deploy. Sinds pushes naar `development` elkaar annuleren is dat venster van een seconde of twee
-bereikbaar met twee pushes vlak na elkaar. Op `main` annuleren pushes elkaar niet, precies
-hiervoor.
+**Oorzaak.** De run die die rc sneed is halverwege de releasejob geannuleerd. semantic-release
+pusht eerst de tag en pas daarna publiceert `@saithodev/semantic-release-gitea` de release.
+`on_release_published.yml` hangt aan `release: [published]`, dus alles wat vóór die laatste stap
+afbreekt laat de tag staan zonder deploy. Sinds pushes naar `development` elkaar annuleren is dat
+venster van een seconde of twee bereikbaar met twee pushes vlak na elkaar. Op `main` annuleren
+pushes elkaar niet, precies hiervoor.
 
 **Fix.** Niets herstellen. De volgende push snijdt `rc.N+1`, en die tag draagt dezelfde commits,
-dus de code bereikt staging alsnog. Wat overblijft is een weestag en een CHANGELOG-kop. Laat ze
-staan, of ruim de tag op met `git push origin :refs/tags/vX.Y.Z-rc.N`.
+dus de code bereikt staging alsnog. Wat overblijft is een weestag. Laat hem staan, of ruim hem op
+met `git push origin :refs/tags/vX.Y.Z-rc.N`.
 
 ## Een rc-nummer dat achter een stable release aan komt
 

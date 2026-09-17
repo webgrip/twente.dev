@@ -1,3 +1,10 @@
+## [0.3.1-rc.1](https://forgejo.webgrip.dev/webgrip/twente.dev/compare/v0.3.0...v0.3.1-rc.1) (2026-09-17)
+
+### Internal
+
+* **release:** main terug in development na de v0.3.0-promotie ([347ef73](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/347ef7364854a951c9efaeba52ec477d002a014f))
+* **release:** v0.3.0-rc.3 [skip ci] ([e4c6cc7](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/e4c6cc7402d6759a2ea992b0510d45f6deae1454))
+
 ## [0.3.0-rc.3](https://forgejo.webgrip.dev/webgrip/twente.dev/compare/v0.3.0-rc.2...v0.3.0-rc.3) (2026-09-17)
 
 ### CI

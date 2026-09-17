@@ -21,6 +21,7 @@ jobs:
   dns-preview:
     name: "DNS Preview"
     uses: webgrip/workflows/.forgejo/workflows/dnscontrol.yml@d6d1ac4e9d2920951779fb9bbcdcde25d64ab25f
+    runs-on: docker
     with:
       mode: preview
     secrets:
@@ -32,9 +33,10 @@ jobs:
     needs:
       - dns-preview
     uses: webgrip/workflows/.forgejo/workflows/dnscontrol.yml@d6d1ac4e9d2920951779fb9bbcdcde25d64ab25f
+    runs-on: docker
+    if: false
     with:
       mode: push
-      enabled: false
     secrets:
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_DNS_TOKEN }}
       CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

@@ -1,3 +1,9 @@
+## [0.2.0-rc.11](https://forgejo.webgrip.dev/webgrip/twente.dev/compare/v0.2.0-rc.10...v0.2.0-rc.11) (2026-09-17)
+
+### Fixed
+
+* **ci:** de CSP-parity leest één respons in plaats van twee ([5d91897](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/5d918975bb9d527614bf02d9fdfd9413054e5cc6))
+
 ## [0.2.0-rc.10](https://forgejo.webgrip.dev/webgrip/twente.dev/compare/v0.2.0-rc.9...v0.2.0-rc.10) (2026-09-17)
 
 ### Added

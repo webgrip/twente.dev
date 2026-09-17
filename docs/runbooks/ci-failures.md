@@ -78,6 +78,8 @@ alleen nog op `main` draait, zie de volgende sectie.
 
 ## DNS preview: `if cloudflare apitoken is not set`
 
+_Opgelost op 2026-09-17: de vault-sleutel staat er, de lane komt sindsdien tot de preview._
+
 **Symptoom.** De job `DNS preview` uit `on_dns_change.yml` stopt op stap `Preview` met
 `failed to initialize DNS provider "cloudflare": if cloudflare apitoken is not set, apikey and
 apiuser must be provided`. De stap `Check` daarvoor is groen, dus het zonebestand deugt. De
@@ -128,6 +130,47 @@ kijken, niet de workflow:
 ```bash
 kubectl -n forgejo get externalsecret | grep -v SecretSynced
 ```
+
+## DNS Drift: `there are pending changes`
+
+**Symptoom.** De nachtelijke `dns-drift.yml` valt op stap `Preview` met `Done. 2 corrections.`
+gevolgd door `there are pending changes` en `RUN exit status 1`. `Check` ervoor is groen, dus
+het zonebestand deugt en het token werkt.
+([run 443](https://forgejo.webgrip.dev/webgrip/twente.dev/actions/runs/443))
+
+**Oorzaak.** Niet Cloudflare, maar `main`. De driftjob draait op schedule en checkt dus de
+standaardbranch uit, en `main` krijgt `ops/dns/` pas bij een promotie. Op run 443 wees hij nog
+naar de zone van voor [`1f5a0d7`](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/1f5a0d7),
+de commit die de zes dagen achterstand op `webgrip/cloudflare` had ingehaald. De twee
+"correcties" wilden de DMARC-handhaving op de apex terugzetten van `p=quarantine; pct=25` naar
+`p=none` — precies de regressie waar
+[`../plan/dns-ownership.md`](../plan/dns-ownership.md) voor waarschuwt.
+
+**Herkennen in één commando**, voor je naar Cloudflare kijkt:
+
+```bash
+git log --oneline origin/main..origin/development -- ops/dns/
+```
+
+Komt daar iets uit, dan is de drift een achterstand van `main` en geen drift.
+
+**Fix.** De promotie-PR mergen. Daarna vergelijkt de drift het actuele zonebestand, en blijft
+over wat er echt nog openstaat: de correcties die de pushjob nog niet heeft toegepast omdat hij
+op `if: false` staat. Op `development` waren dat er drie
+([run 432](https://forgejo.webgrip.dev/webgrip/twente.dev/actions/runs/432)): de TTL van het
+google-site-verification-record, de DMARC-trede naar `sp=reject; pct=50` en de MTA-STS-`id`.
+Groen wordt de drift dus pas na een push.
+
+**Volgorde die je niet mag omdraaien.** De MTA-STS-`id` hoort pas de zone in als het
+beleidsbestand al live staat, en dat gaat mee met de productiedeploy van een stable release. De
+pushschakelaar en de promotie in één merge zetten laat die twee tegen elkaar racen. Eerst
+promoveren, dan `https://mta-sts.twente.dev/.well-known/mta-sts.txt` op `mode: enforce`
+controleren, dan pas pushen.
+
+**Les.** Een driftjob op de standaardbranch meet in een trunk-based repo met een release-trein
+twee dingen tegelijk: echte drift, en hoe ver `main` achterloopt. Lees de correcties altijd in
+die richting — een correctie die iets terugzet naar een oudere waarde is een achterstand, geen
+drift.
 
 ## `if:` op een job met `uses:` doet niets
 

@@ -21,8 +21,12 @@ _Started 2026-09-05. Decision: [ADR 0018 v1.2.0](../adrs/0018-account-and-zone-r
    was de hele lane rood, zie [`../runbooks/ci-failures.md`](../runbooks/ci-failures.md).
    `cloudflare/dns` is een ander geheim: dat is de token van external-dns, met sleutel
    `api-token` en een andere scope.
-4. First preview must read `0 corrections` for `twente.dev`; then `enabled: true` on the push job.
-5. `webgrip/cloudflare` drops the `twente.dev` block from its `dns/dnsconfig.js`.
+4. First preview must read `0 corrections` for `twente.dev`; then the push job may apply.
+   Deze poort bewaakte de overlap met `webgrip/cloudflare` en is met stap 5 vervallen — zie
+   de volgende sectie voor wat er nu voor in de plaats staat.
+5. `webgrip/cloudflare` drops the `twente.dev` block from its `dns/dnsconfig.js`. Gedaan op
+   2026-09-17 met
+   [`cb0eb80`](https://forgejo.webgrip.dev/webgrip/cloudflare/commit/cb0eb801).
 6. webgrip.nl repeats steps 2 to 5 for its zone.
 
 ## Twee repo's die dezelfde zone declareren lopen uit elkaar
@@ -71,15 +75,32 @@ Op termijn verdwijnt de schakelaar helemaal: in
 [homelab ADR-0061](https://forgejo.webgrip.dev/webgrip/homelab-cluster/src/branch/main/docs/techdocs/docs/adr/adr-0061-ci-reads-over-oidc-writes-from-the-cluster.md)
 past een reconciler in het cluster de zone toe en houdt CI alleen de preview.
 
+## Sinds 2026-09-17 is deze repo de enige auteur
+
+`cb0eb80` haalde het `twente.dev`-blok uit `webgrip/cloudflare`, en daarmee draait de regel
+hierboven om. Een verschil dat de preview hier laat zien is vanaf nu **een wijziging die nog
+toegepast moet worden**, niet een kopie die achterloopt. Draai die lezing niet terug naar de
+zone van de andere repo: die bestaat niet meer.
+
+De ordening tussen de drie branches blijft wel gelden en is de plek waar het misgaat. De
+pushjob laat alleen `refs/heads/main` door, en `main` krijgt zijn zone pas bij een promotie.
+Zolang de promotie-PR openstaat vergelijkt de nachtelijke drift dus een zonebestand van voor
+het laatste werk met de levende zone, en staat rood op verschillen die op `development` al
+gerepareerd zijn. Kijk bij een rode drift eerst naar `git log origin/main..development --
+ops/dns/`, niet naar Cloudflare.
+
 ## De twee ladders
 
 Beide staan in een meetstand die pas opschuift als iemand de rapporten leest. Zonder datum
 blijven ze staan waar ze staan.
 
-| Ladder  | Nu                            | Volgende trede               | Poort                                                        |
-| ------- | ----------------------------- | ---------------------------- | ------------------------------------------------------------ |
-| DMARC   | `p=quarantine; pct=50`        | `pct=100`, daarna `p=reject` | geen legitieme afzender die faalt in de Cloudflare-rapporten |
-| MTA-STS | `mode: enforce`, `max_age` 1w | —                            | TLS-RPT op `tlsrpt@twente.dev` blijft leeg                   |
+De kolom `Verklaard` is wat het zonebestand op `development` zegt, `Live` is wat de
+Cloudflare-API teruggeeft. Die twee lopen uiteen zolang de pushjob uitstaat.
+
+| Ladder  | Verklaard                         | Live (2026-09-17)             | Volgende trede               | Poort                                                        |
+| ------- | --------------------------------- | ----------------------------- | ---------------------------- | ------------------------------------------------------------ |
+| DMARC   | `p=quarantine; sp=reject; pct=50` | `p=quarantine; pct=25`        | `pct=100`, daarna `p=reject` | geen legitieme afzender die faalt in de Cloudflare-rapporten |
+| MTA-STS | `mode: enforce`, `max_age` 1w     | `mode: testing`, `max_age` 1d | —                            | TLS-RPT op `tlsrpt@twente.dev` blijft leeg                   |
 
 `sp=reject` staat er al: elk subdomein zonder eigen `_dmarc` wordt meteen geweigerd. Brevo
 verstuurt vanaf `send.twente.dev`, en dat heeft een eigen `_dmarc`, dus dat raakt het niet.

@@ -17,22 +17,41 @@ _Started 2026-09-05. Decision: [ADR 0018 v1.2.0](../adrs/0018-account-and-zone-r
 1. `webgrip/workflows` `dnscontrol.yml` landed as `2a5d82e` (2026-09-05).
 2. This repository: zone file, creds, callers and the ADR 0018 v1.2.0 amendment (on `development`).
 3. Homelab publishes `CLOUDFLARE_DNS_TOKEN` to this repository from OpenBao
-   `secret/cloudflare/dnscontrol`. **Open op 2026-09-16**, en zolang die vault-sleutel leeg is
-   staat de hele lane rood; zie
-   [`../runbooks/ci-failures.md`](../runbooks/ci-failures.md). `cloudflare/dns` is een ander
-   geheim: dat is de token van external-dns, met sleutel `api-token` en een andere scope.
+   `secret/cloudflare/dnscontrol`. Gedaan op 2026-09-17; zolang die vault-sleutel leeg stond
+   was de hele lane rood, zie [`../runbooks/ci-failures.md`](../runbooks/ci-failures.md).
+   `cloudflare/dns` is een ander geheim: dat is de token van external-dns, met sleutel
+   `api-token` en een andere scope.
 4. First preview must read `0 corrections` for `twente.dev`; then `DNS_PUSH=on`.
-5. `webgrip/cloudflare` drops the `twente.dev` block from its `dns/dnsconfig.js`. Both configs
-   declaring the same records in between is safe: pushes from either side are no-ops.
+5. `webgrip/cloudflare` drops the `twente.dev` block from its `dns/dnsconfig.js`.
 6. webgrip.nl repeats steps 2 to 5 for its zone.
+
+## Twee repo's die dezelfde zone declareren lopen uit elkaar
+
+Dit plan zei eerst dat de overlap tussen stap 2 en stap 5 veilig is, omdat een push van beide
+kanten een no-op zou zijn. Dat geldt alleen zolang de twee bestanden identiek blijven, en ze
+liepen binnen zes dagen uit elkaar. De kopie hier is gemaakt op 2026-09-05 (`bd833d9`);
+`webgrip/cloudflare` wijzigde daarna dezelfde records tweemaal, op 2026-09-11: `170490c` haalde
+`mailto:dmarc@twente.dev` uit de rua-lijst en `d83ea7e` zette DMARC op `p=quarantine; pct=25`.
+
+De eerste groene preview vanuit deze repo meldde daardoor twee correcties
+([run 423](https://forgejo.webgrip.dev/webgrip/twente.dev/actions/runs/423)), die samen de
+DMARC-handhaving op de apex hadden teruggezet naar `p=none`. Er is niets toegepast: `DNS_PUSH`
+stond niet op `on`, dus de pushjob werd overgeslagen. Stap 4 is precies de poort die dat
+tegenhoudt, en hij heeft gewerkt.
+
+**Zolang beide repo's de zone declareren is `webgrip/cloudflare` de waarheid** — zijn
+nachtelijke drift draait `--expect-no-changes` over dezelfde zone en staat groen. Een verschil
+dat een preview hier laat zien, is een verschil dat deze kopie achterloopt, niet een correctie
+die nog toegepast moet worden. Zet `DNS_PUSH` pas op `on` als de preview `0 corrections` leest,
+en doe stap 5 zo snel mogelijk: de overlap is de storing, niet de veiligheidsmarge.
 
 ## Human steps
 
-| Step                                                                                            | Why a human                                |
-| ----------------------------------------------------------------------------------------------- | ------------------------------------------ |
-| Create a Cloudflare token `forgejo-ci-dns`: Zone:Read and DNS:Edit on twente.dev and webgrip.nl | tokens are dashboard-only                  |
-| Seed OpenBao `secret/cloudflare/dnscontrol` with key `CLOUDFLARE_DNS_TOKEN`                     | secrets never enter a repository           |
-| Set the repository variable `DNS_PUSH=on` after the first empty preview                         | the switch that makes CI write to the zone |
+| Step                                                                                             | Why a human                                                                                                                                                                                                       |
+| ------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Create a Cloudflare token `dns-rw-twente-dev`: Zone:Read and DNS:Edit, scoped to twente.dev only | tokens are dashboard-only, until [homelab ADR-0061](https://forgejo.webgrip.dev/webgrip/homelab-cluster/src/branch/main/docs/techdocs/docs/adr/adr-0061-ci-reads-over-oidc-writes-from-the-cluster.md) mints them |
+| Seed OpenBao `secret/cloudflare/dnscontrol` with key `CLOUDFLARE_DNS_TOKEN`                      | secrets never enter a repository                                                                                                                                                                                  |
+| Set the repository variable `DNS_PUSH=on` after the first empty preview                          | the switch that makes CI write to the zone                                                                                                                                                                        |
 
 ## Deleting a record
 

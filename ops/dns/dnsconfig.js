@@ -15,7 +15,7 @@ D(
   TXT('@', 'v=spf1 include:_spf.google.com ~all'),
   TXT(
     '_dmarc',
-    'v=DMARC1; p=none; rua=mailto:0525d8c91ea04d888744ae8a292691cc@dmarc-reports.cloudflare.net,mailto:dmarc@twente.dev; fo=1; adkim=r; aspf=r',
+    'v=DMARC1; p=quarantine; pct=25; rua=mailto:0525d8c91ea04d888744ae8a292691cc@dmarc-reports.cloudflare.net; fo=1; adkim=r; aspf=r',
   ),
   TXT(
     'google._domainkey',
@@ -37,7 +37,7 @@ D(
   TXT('send', 'brevo-code:33f298f8293becb0e33f3a8949d69265'),
   TXT(
     '_dmarc.send',
-    'v=DMARC1; p=none; rua=mailto:0525d8c91ea04d888744ae8a292691cc@dmarc-reports.cloudflare.net,mailto:dmarc@twente.dev,mailto:rua@dmarc.brevo.com; fo=1; adkim=r; aspf=r',
+    'v=DMARC1; p=none; rua=mailto:0525d8c91ea04d888744ae8a292691cc@dmarc-reports.cloudflare.net,mailto:rua@dmarc.brevo.com; fo=1; adkim=r; aspf=r',
   ),
   CNAME('brevo1._domainkey.send', 'b1.send-twente-dev.dkim.brevo.com.'),
   CNAME('brevo2._domainkey.send', 'b2.send-twente-dev.dkim.brevo.com.'),

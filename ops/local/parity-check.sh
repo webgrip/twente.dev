@@ -138,7 +138,8 @@ if printf '%s' "$HOME_HTML" | grep -qF -- 'http-equiv="content-security-policy"'
   pass "/nl body contains 'http-equiv=\"content-security-policy\"'"
 else
   fail "/nl body missing 'http-equiv=\"content-security-policy\"' (${#HOME_HTML} bytes fetched)"
-  printf '%s' "$HOME_HTML" | head -c 400 | sed 's/^/    /'
+  printf '%s' "$HOME_HTML" | grep -o -i -- '.\{0,60\}content-security-policy.\{0,160\}' | head -3 | sed 's/^/    csp> /'
+  printf '%s' "$HOME_HTML" | head -c 200 | sed 's/^/    head> /'
   printf '\n'
 fi
 

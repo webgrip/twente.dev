@@ -4,12 +4,19 @@
     "local>webgrip/renovate-config#v1.7.0",
     "local>webgrip/renovate-config:safe-automerge#v1.7.0"
   ],
-  "baseBranches": ["development"],
   "vulnerabilityAlerts": {
-    "description": "Security fixes merge themselves once the gate is green. They already open immediately by Renovate default; without this they sat open for twelve days while every check passed.",
+    "description": "Security fixes merge themselves once the gate is green. Renovate opens them immediately by default; without automerge they sat open for twelve days while every check passed. Majors are excluded: a security fix that also changes an API is a migration, not a patch.",
     "automerge": true,
     "automergeType": "pr",
-    "addLabels": ["automerge", "security"]
+    "addLabels": ["automerge", "security"],
+    "packageRules": [
+      {
+        "description": "A major security bump is still a major. Open it immediately, merge it by hand.",
+        "matchUpdateTypes": ["major"],
+        "automerge": false,
+        "addLabels": ["needs-manual-review"]
+      }
+    ]
   },
   "packageRules": [
     {
@@ -19,6 +26,16 @@
       "automerge": true,
       "automergeType": "pr",
       "addLabels": ["automerge"]
+    },
+    {
+      "description": "The soak time the org preset intends, restored on the path where nothing else guards. Preset rule 12 sets minimumReleaseAge to zero on the reasoning that dashboard approval is the gate, and its own description says to re-add it wherever a repo automerges unattended. This repo does, so a package published minutes ago cannot merge itself here.",
+      "matchUpdateTypes": ["minor"],
+      "minimumReleaseAge": "3 days"
+    },
+    {
+      "description": "Same reasoning as the minor soak above; the preset's intended patch soak.",
+      "matchUpdateTypes": ["patch"],
+      "minimumReleaseAge": "1 day"
     },
     {
       "description": "A dependency minor is not a feature of this site. Patch and minor land as fix so they cut a patch release, which is what the release-driven deploy model needs, without inflating our own minor. Majors keep feat, per the org preset's reasoning that a dependency's major is not the consuming product's major.",
@@ -46,7 +63,7 @@
       "labels": ["dependencies", "needs-manual-review"]
     },
     {
-      "description": "zod must track the major Astro itself depends on — see src/content.config.ts.",
+      "description": "zod must track the major Astro itself depends on \u2014 see src/content.config.ts.",
       "matchPackageNames": ["zod"],
       "matchUpdateTypes": ["major"],
       "automerge": false,
@@ -63,5 +80,6 @@
       "automerge": false,
       "addLabels": ["needs-manual-review"]
     }
-  ]
+  ],
+  "baseBranchPatterns": ["development"]
 }

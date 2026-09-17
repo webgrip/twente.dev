@@ -166,6 +166,30 @@ grep -rn -A4 "uses:" .forgejo/workflows/ | grep -B2 "if:"
 En let op de bijwerking: de validatie die de aangeroepen workflow op andere branches deed,
 verdwijnt met de expansie mee. Vervang hem door een eigen check, zoals `Docs links` hierboven.
 
+### Twee dingen die met dat uitklappen meekomen
+
+**Een uitgeklapte aanroeper meldt success terwijl zijn kind niets deed.** De wrapper blijft in
+de jobslijst staan en is groen zodra het kind niet faalt, ook als dat kind elke stap heeft
+overgeslagen. Op run 428 stond `DNS Push: success` (0s) naast `DNS push: skipped` met een
+overgeslagen checkout. Met `runs-on` erop meldt de job gewoon `skipped`, zoals
+`deploy-docs-site` sinds `7cf36f4` doet en `DNS Push` sinds `9b0a7de`.
+
+**Maar dan verlies je de stappen in de UI.** Zonder uitklappen draait de hele aangeroepen
+workflow binnen één job, en de UI vouwt dat samen tot `Set up job` en `Complete job`. Run 432
+toont een preview-job van vijftien seconden met twee stappen en geen `Preview` ertussen — het
+dnscontrol-werk staat gewoon in het log van `Set up job`. Zoek er dus in, in plaats van te
+concluderen dat de job leeg was:
+
+```bash
+curl -s -X POST -H "Content-Type: application/json" \
+  -d '{"logCursors":[{"step":0,"cursor":0,"expanded":true}]}' \
+  "https://forgejo.webgrip.dev/webgrip/twente.dev/actions/runs/<run>/jobs/<jobIdx>/attempt/1" \
+  | python3 -c "import sys,json;[print(l['message'].rstrip()) for s in json.load(sys.stdin)['logs']['stepsLog'] for l in s['lines']]"
+```
+
+Een job die tijdens de run op `waiting` staat is geen storing: de `if:` wordt pas beoordeeld als
+de voorgaande jobs klaar zijn, en daarna springt hij naar `skipped`.
+
 ## Static Analysis rood op Prettier, terwijl jij niets deed
 
 **Symptoom.** `Static Analysis (Prettier, ESLint, Typecheck, Audit, Knip, Outdated)` faalt op

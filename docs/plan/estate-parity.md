@@ -24,8 +24,10 @@ nog zijn eigen intentie- of copybestand plus een dunne aanroep.
 Nog niet getrokken: `gen-ops` naar `webgrip-edge-parity`, en een `static-site`-template die via
 `sync-template-files.yml` wordt uitgedeeld.
 
-Eén ding om te weten bij de claims-guard: de gegenereerde `CHANGELOG.md` moet in `exempt` staan,
-want semantic-release schrijft geschiedenis met woorden die inmiddels verboden zijn.
+De claims-guard had hier een uitzondering voor de gegenereerde `CHANGELOG.md`, omdat
+semantic-release geschiedenis schrijft met woorden die inmiddels verboden zijn. Die uitzondering is
+vervallen: deze repo laat semantic-release geen changelog meer committen (`changelog: false`), en
+de release notes staan op de Forgejo release page.
 
 ## Twee trucs die je nodig hebt
 

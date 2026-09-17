@@ -56,6 +56,38 @@ stilzwijgend te verdwijnen.
 | `--no-optional`                                   | Draait groen, maar laat `sharp`, `@img/sharp-libvips-*` en elke platformbinary uit de lijst, precies wat [het licentiebeleid](../licence-policy.md) wil auditen |
 | `supportedArchitectures` met alle os, cpu en libc | 1 minuut 27 installeren, 1,8 GB `node_modules`, nog steeds rood                                                                                                 |
 
+## Container Parity: de CSP-meta wordt niet gevonden, de hashes wel
+
+**Symptoom.** `Container Parity` faalt op
+`/nl body missing 'http-equiv="content-security-policy"'`, terwijl de twee checks eronder in
+dezelfde respons wél melden dat er geen `unsafe-inline` in zit en dat er `sha256-` hashes staan.
+Twee keer gezien: run 438 (2026-09-15) en run 475 (2026-09-17).
+
+**Oorzaak.** Onbekend, en dat is de kern van deze regel. Beide keren was de commit op de
+voorgaande run groen, en beide keren haalt een lokale container uit dezelfde bron alle checks —
+inclusief een `docker build` met dezelfde Dockerfile en hetzelfde script, byte-identiek qua
+responslengte. Het verschil zit in het ophalen, niet in de site. `5d91897` nam al weg dat de
+pagina twee keer werd opgehaald, dus tegenstrijdige uitslagen binnen één respons zijn sindsdien
+niet meer met een race tussen twee fetches te verklaren.
+
+**Wat te doen.** Draai de run opnieuw; een nieuwe push op dezelfde boom is tot nu toe altijd groen
+geweest. Blijft hij rood, dan is het geen flake en toont de faalregel sinds `8ec3602` de regio
+rond elke `content-security-policy` in de opgehaalde respons, hoofdletterongevoelig. Daarmee is
+een afwijkende quoting of attribuutvolgorde zichtbaar in plaats van te moeten worden geraden — de
+debugregel uit `5d91897` drukte de eerste 400 bytes af, terwijl de meta rond offset 3800 staat, en
+toonde dus altijd een head die er normaal uitziet.
+
+**Voor je gaat zoeken:** reproduceer eerst lokaal, dat kost twee minuten en sluit een echte
+regressie uit.
+
+```bash
+docker build -f ops/docker/web/Dockerfile -t twente-dev-web:localci .
+docker run -d --name twente-web-localci twente-dev-web:localci
+docker run --rm -i --network container:twente-web-localci \
+  -e PARITY_BASE_URL=http://localhost:8080 buildpack-deps:curl bash -s < ops/local/parity-check.sh
+docker rm -f twente-web-localci
+```
+
 ## Docssite: `Aborted because --strict flag is set`
 
 **Symptoom.** De Zensical-build eindigt op `2 issues found` met `page does not exist` bij een
@@ -235,22 +267,39 @@ de voorgaande jobs klaar zijn, en daarna springt hij naar `skipped`.
 
 ## Een rc-tag zonder release, en staging blijft achter
 
-**Symptoom.** `development` draagt een tag `vX.Y.Z-rc.N` en een commit
-`chore(release): vX.Y.Z-rc.N [skip ci]`, maar er is geen release gepubliceerd,
-`staging.twente.dev` draait nog op de vorige rc, en de CHANGELOG heeft een kop voor een versie
-die verder nergens bestaat.
+**Symptoom.** `development` draagt een tag `vX.Y.Z-rc.N`, maar er is geen release gepubliceerd en
+`staging.twente.dev` draait nog op de vorige rc.
 
-**Oorzaak.** De run die die rc sneed is halverwege de releasejob geannuleerd.
-`@semantic-release/git` commit en pusht eerst, semantic-release pusht daarna de tag, en pas dan
-publiceert `@saithodev/semantic-release-gitea` de release. `on_release_published.yml` hangt aan
-`release: [published]`, dus alles wat vóór die laatste stap afbreekt laat de tag staan zonder
-deploy. Sinds pushes naar `development` elkaar annuleren is dat venster van een seconde of twee
-bereikbaar met twee pushes vlak na elkaar. Op `main` annuleren pushes elkaar niet, precies
-hiervoor.
+**Oorzaak.** De run die die rc sneed is halverwege de releasejob geannuleerd. semantic-release
+pusht eerst de tag en pas daarna publiceert `@saithodev/semantic-release-gitea` de release.
+`on_release_published.yml` hangt aan `release: [published]`, dus alles wat vóór die laatste stap
+afbreekt laat de tag staan zonder deploy. Sinds pushes naar `development` elkaar annuleren is dat
+venster van een seconde of twee bereikbaar met twee pushes vlak na elkaar. Op `main` annuleren
+pushes elkaar niet, precies hiervoor.
 
 **Fix.** Niets herstellen. De volgende push snijdt `rc.N+1`, en die tag draagt dezelfde commits,
-dus de code bereikt staging alsnog. Wat overblijft is een weestag en een CHANGELOG-kop. Laat ze
-staan, of ruim de tag op met `git push origin :refs/tags/vX.Y.Z-rc.N`.
+dus de code bereikt staging alsnog. Wat overblijft is een weestag. Laat hem staan, of ruim hem op
+met `git push origin :refs/tags/vX.Y.Z-rc.N`.
+
+## Een rc-nummer dat achter een stable release aan komt
+
+**Symptoom.** `v0.3.0` staat in productie en daarna verschijnt `v0.3.0-rc.3` op `development` —
+een prerelease van een versie die al uit is. Op 2026-09-17 gebeurd.
+
+**Oorzaak.** semantic-release leest de laatste release uit de tags die vanaf de branch bereikbaar
+zijn. De promotie zette `v0.3.0` op `main`, maar de release-commit die semantic-release daar
+achteraan pushte bestond alleen op `main`, dus `development` kende `v0.3.0` niet en rekende door
+vanaf `v0.3.0-rc.2`. De back-merge van `main` naar `development` was de stap die dat voorkwam, en
+die stond nergens opgeschreven behalve als foutmelding in `on_release_published.yml`.
+
+**Fix.** De oorzaak is weg sinds deze repo `changelog: false` draait
+([`.releaserc.cjs`](../../.releaserc.cjs)): semantic-release commit niets meer terug, dus `main`
+is na een promotie dezelfde commit als `development` en er valt niets te back-mergen.
+
+`v0.3.0-rc.3` blijft staan en hoort te blijven staan. Het is geen weestag: de release is echt
+gepubliceerd en die rc is echt naar `staging.twente.dev` gegaan. Alleen het nummer is misleidend.
+De tag weggooien laat de gepubliceerde release naar een commit wijzen die niet meer bestaat, en de
+release zelf kan alleen met een API-token weg — dat is meer rommel dan het opruimt.
 
 ## Static Analysis rood op Prettier, terwijl jij niets deed
 

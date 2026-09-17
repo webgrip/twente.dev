@@ -23,7 +23,7 @@ MADR 4.0.0, matching the `webgrip/workflows` convention. New records use
 | [0016](0016-release-as-content.md)                     | A Release is a content entry, not a config constant                                                              | Accepted | 2026-09-04 |
 | [0017](0017-mail-reaches-brevo-as-a-draft.md)          | Generated mail reaches Brevo as a draft, a human sends it                                                        | Accepted | 2026-09-04 |
 | [0018](0018-account-and-zone-resources-in-opentofu.md) | Account and zone resources in code, application resources in wrangler (v1.2.0: zone records per site repository) | Accepted | 2026-09-05 |
-| [0019](0019-release-driven-deploys.md)                 | Deploys follow releases: development cuts rc to staging, main cuts stable to production                          | Accepted | 2026-09-05 |
+| [0019](0019-release-driven-deploys.md)                 | Deploys follow releases: development cuts rc to staging, main cuts stable to production                          | Accepted | 2026-09-17 |
 | [0020](0020-ci-critical-path.md)                       | CI critical path: one verification stage on a runner that caches per node                                        | Accepted | 2026-09-05 |
 | [0021](0021-apache-2-0-for-the-code.md)                | The code is Apache-2.0; the content stays CC BY 4.0                                                              | Accepted | 2026-09-11 |
 

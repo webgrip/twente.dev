@@ -56,6 +56,38 @@ stilzwijgend te verdwijnen.
 | `--no-optional`                                   | Draait groen, maar laat `sharp`, `@img/sharp-libvips-*` en elke platformbinary uit de lijst, precies wat [het licentiebeleid](../licence-policy.md) wil auditen |
 | `supportedArchitectures` met alle os, cpu en libc | 1 minuut 27 installeren, 1,8 GB `node_modules`, nog steeds rood                                                                                                 |
 
+## Container Parity: de CSP-meta wordt niet gevonden, de hashes wel
+
+**Symptoom.** `Container Parity` faalt op
+`/nl body missing 'http-equiv="content-security-policy"'`, terwijl de twee checks eronder in
+dezelfde respons wél melden dat er geen `unsafe-inline` in zit en dat er `sha256-` hashes staan.
+Twee keer gezien: run 438 (2026-09-15) en run 475 (2026-09-17).
+
+**Oorzaak.** Onbekend, en dat is de kern van deze regel. Beide keren was de commit op de
+voorgaande run groen, en beide keren haalt een lokale container uit dezelfde bron alle checks —
+inclusief een `docker build` met dezelfde Dockerfile en hetzelfde script, byte-identiek qua
+responslengte. Het verschil zit in het ophalen, niet in de site. `5d91897` nam al weg dat de
+pagina twee keer werd opgehaald, dus tegenstrijdige uitslagen binnen één respons zijn sindsdien
+niet meer met een race tussen twee fetches te verklaren.
+
+**Wat te doen.** Draai de run opnieuw; een nieuwe push op dezelfde boom is tot nu toe altijd groen
+geweest. Blijft hij rood, dan is het geen flake en toont de faalregel sinds `8ec3602` de regio
+rond elke `content-security-policy` in de opgehaalde respons, hoofdletterongevoelig. Daarmee is
+een afwijkende quoting of attribuutvolgorde zichtbaar in plaats van te moeten worden geraden — de
+debugregel uit `5d91897` drukte de eerste 400 bytes af, terwijl de meta rond offset 3800 staat, en
+toonde dus altijd een head die er normaal uitziet.
+
+**Voor je gaat zoeken:** reproduceer eerst lokaal, dat kost twee minuten en sluit een echte
+regressie uit.
+
+```bash
+docker build -f ops/docker/web/Dockerfile -t twente-dev-web:localci .
+docker run -d --name twente-web-localci twente-dev-web:localci
+docker run --rm -i --network container:twente-web-localci \
+  -e PARITY_BASE_URL=http://localhost:8080 buildpack-deps:curl bash -s < ops/local/parity-check.sh
+docker rm -f twente-web-localci
+```
+
 ## Docssite: `Aborted because --strict flag is set`
 
 **Symptoom.** De Zensical-build eindigt op `2 issues found` met `page does not exist` bij een

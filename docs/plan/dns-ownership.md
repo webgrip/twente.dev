@@ -91,13 +91,20 @@ en gaat mee met de Worker; de `id` staat in de zone en gaat mee met DNS. Verande
 zonder dat de `id` verandert, dan blijven verzenders het oude beleid gebruiken tot `max_age`
 verlopen is, en niets merkt dat op.
 
-Daarom **is de `id` de sha256 van het beleidsbestand**, ingekort tot 32 tekens — de vorm die
-RFC 8461 toestaat. `pnpm validate:mta-sts` herberekent hem en faalt bij een verschil, dus
-vergeten kan niet meer. Diezelfde check controleert ook dat elke MX uit de zone in het beleid
-staat.
+**Wie het beleidsbestand aanpast, bumpt de `id` naar de datum van vandaag.** Dat staat hier
+opgeschreven en verder nergens: niets dwingt het af. Een korte afweging: de `id` afleiden uit de
+inhoud van het bestand maakt vergeten onmogelijk, maar het bestand verandert ongeveer eens per
+jaar en een leesbare datum is in een `dig` meer waard dan een hash.
+
+Wat wél wordt afgedwongen is de kant die mail kan kosten. `pnpm validate:mta-sts` faalt als een
+MX uit de zone niet in het beleid staat, want onder `mode: enforce` weigert een verzender dan te
+bezorgen. Verhuizen van Google naar een andere MX zonder het beleid bij te werken is daarmee
+geen stille storing meer maar een rode job. De check hangt aan `Mail Validation`, dus het
+kritieke pad krijgt er geen job bij.
 
 Volgorde bij een wijziging: eerst het bestand laten uitrollen met de site, dan de zone pushen.
-Andersom halen verzenders het oude bestand op en bewaren dat onder de nieuwe id.
+Andersom halen verzenders het oude bestand op en bewaren dat onder de nieuwe id, tot `max_age`
+verloopt — sinds enforce een week.
 
 ## Deleting a record
 

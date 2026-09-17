@@ -109,7 +109,7 @@ jobs:
             mergeable="$(curl -fsS -H "$auth" "${API}/pulls/${open}" | python3 -c 'import sys,json; print(json.load(sys.stdin).get("mergeable"))')"
             echo "Promotion PR #${open} already open; ${RC_TAG} cut. ${staging}."
             if [ "$mergeable" != "True" ]; then
-              echo "ERROR: promotion PR #${open} is not mergeable. Merge main into development and resolve the conflicts before promoting ${RC_TAG}." >&2
+              echo "ERROR: promotion PR #${open} is not mergeable. main and development have diverged on content; resolve that before promoting ${RC_TAG}." >&2
               exit 1
             fi
             exit 0

@@ -97,11 +97,9 @@ jobs:
       - container-parity
       - lighthouse
       - accessibility
-    uses: webgrip/workflows/.forgejo/workflows/semantic-release.yml@2df9161cf4c7d6425e0051583f5d85dbdebcce48 # v2.5.0
+    uses: webgrip/workflows/.forgejo/workflows/semantic-release.yml@cd0550751c9e0414c8dc32d62ff099ff38c7a284 # v2.7.2
     with:
       only-refs: refs/heads/main refs/heads/development
       install-dependencies: "false"
-      # renovate: datasource=docker depName=harbor.webgrip.dev/webgrip/semantic-release
-      toolchain-image: "harbor.webgrip.dev/webgrip/semantic-release:0.3.4"
     secrets:
       CI_TOKEN: ${{ secrets.WEBGRIP_CI_TOKEN }}

@@ -1,3 +1,9 @@
+## [0.2.0-rc.9](https://forgejo.webgrip.dev/webgrip/twente.dev/compare/v0.2.0-rc.8...v0.2.0-rc.9) (2026-09-17)
+
+### Fixed
+
+* **dns:** de zonekopie loopt zes dagen achter op webgrip/cloudflare ([1f5a0d7](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/1f5a0d7c26c1e1a965d731416470b644c45e0140))
+
 ## [0.2.0-rc.8](https://forgejo.webgrip.dev/webgrip/twente.dev/compare/v0.2.0-rc.7...v0.2.0-rc.8) (2026-09-17)
 
 ### Fixed

@@ -262,9 +262,12 @@ die stond nergens opgeschreven behalve als foutmelding in `on_release_published.
 
 **Fix.** De oorzaak is weg sinds deze repo `changelog: false` draait
 ([`.releaserc.cjs`](../../.releaserc.cjs)): semantic-release commit niets meer terug, dus `main`
-is na een promotie dezelfde commit als `development` en er valt niets te back-mergen. De weestag
-`v0.3.0-rc.3` is blijven staan; opruimen kan met
-`git push origin :refs/tags/v0.3.0-rc.3`.
+is na een promotie dezelfde commit als `development` en er valt niets te back-mergen.
+
+`v0.3.0-rc.3` blijft staan en hoort te blijven staan. Het is geen weestag: de release is echt
+gepubliceerd en die rc is echt naar `staging.twente.dev` gegaan. Alleen het nummer is misleidend.
+De tag weggooien laat de gepubliceerde release naar een commit wijzen die niet meer bestaat, en de
+release zelf kan alleen met een API-token weg — dat is meer rommel dan het opruimt.
 
 ## Static Analysis rood op Prettier, terwijl jij niets deed
 

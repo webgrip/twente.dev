@@ -114,7 +114,7 @@ test('source copy carries no banned variants', () => {
 test('no retired vocabulary outside the decision record', () => {
   const { retired, violations } = retiredVocabularyViolations({
     modelPath: 'docs/domain/model.yaml',
-    exempt: ['docs/domain', 'CHANGELOG.md'],
+    exempt: ['docs/domain'],
   });
   assert.ok(retired > 0, 'docs/domain/model.yaml declares no retired vocabulary');
   assert.equal(

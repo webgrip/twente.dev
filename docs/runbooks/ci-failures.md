@@ -252,6 +252,23 @@ hiervoor.
 dus de code bereikt staging alsnog. Wat overblijft is een weestag en een CHANGELOG-kop. Laat ze
 staan, of ruim de tag op met `git push origin :refs/tags/vX.Y.Z-rc.N`.
 
+## Een rc-nummer dat achter een stable release aan komt
+
+**Symptoom.** `v0.3.0` staat in productie en daarna verschijnt `v0.3.0-rc.3` op `development` —
+een prerelease van een versie die al uit is. Op 2026-09-17 gebeurd.
+
+**Oorzaak.** semantic-release leest de laatste release uit de tags die vanaf de branch bereikbaar
+zijn. De promotie zette `v0.3.0` op `main`, maar de release-commit die semantic-release daar
+achteraan pushte bestond alleen op `main`, dus `development` kende `v0.3.0` niet en rekende door
+vanaf `v0.3.0-rc.2`. De back-merge van `main` naar `development` was de stap die dat voorkwam, en
+die stond nergens opgeschreven behalve als foutmelding in `on_release_published.yml`.
+
+**Fix.** De oorzaak is weg sinds deze repo `changelog: false` draait
+([`.releaserc.cjs`](../../.releaserc.cjs)): semantic-release commit niets meer terug, dus `main`
+is na een promotie dezelfde commit als `development` en er valt niets te back-mergen. De weestag
+`v0.3.0-rc.3` is blijven staan; opruimen kan met
+`git push origin :refs/tags/v0.3.0-rc.3`.
+
 ## Static Analysis rood op Prettier, terwijl jij niets deed
 
 **Symptoom.** `Static Analysis (Prettier, ESLint, Typecheck, Audit, Knip, Outdated)` faalt op

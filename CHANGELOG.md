@@ -1,3 +1,26 @@
+## [0.2.0-rc.7](https://forgejo.webgrip.dev/webgrip/twente.dev/compare/v0.2.0-rc.6...v0.2.0-rc.7) (2026-09-17)
+
+### Added
+
+* **deps:** update dependency astro ( 7.1.6 ➔ 7.2.8 ) [security] ([#5](https://forgejo.webgrip.dev/webgrip/twente.dev/issues/5)) ([4939c02](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/4939c02be9e18b24bf7b74773258f6818c2b524c)), references [#8203](https://forgejo.webgrip.dev/webgrip/twente.dev/issues/8203)
+* **deps:** update pnpm ( 11.8.0 ➔ 11.11.0 ) [security] ([#1](https://forgejo.webgrip.dev/webgrip/twente.dev/issues/1)) ([52af7fa](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/52af7fab569b702b5594e027403143a52d02cd25)), closes [#8203](https://forgejo.webgrip.dev/webgrip/twente.dev/issues/8203), references [#8203](https://forgejo.webgrip.dev/webgrip/twente.dev/issues/8203) [#8203](https://forgejo.webgrip.dev/webgrip/twente.dev/issues/8203)
+
+### Fixed
+
+* **ci:** de docssite publiceert weer alleen vanaf main ([7cf36f4](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/7cf36f4e9727ac7e8930527f0b4d696ce8eb55b1)), references [#10525](https://forgejo.webgrip.dev/webgrip/twente.dev/issues/10525)
+
+### Docs
+
+* **copy:** de linkedin-pagina bestaat en staat in het register ([ffbc88c](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/ffbc88c684b48fd643e6c9ccfe7ad9ca43b25c7c))
+* **copy:** de meetup-event-URL staat in het plakplekregister ([da9bbba](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/da9bbbaaec11c6314646a88c2feb150ec8e85751))
+* de projectkennis verhuist van geheugen naar de repo ([2bcaca0](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/2bcaca00a4dd7464bd6a85642c85de34cff5bf54))
+* **dns:** de DNS-lane wacht op een vault-sleutel die nog niet bestaat ([c5985da](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/c5985da4d00e37bc31ff353771f1e8ebc885603a))
+* geen teruggetrokken vocabulaire in de nieuwe documentatie ([e1372e8](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/e1372e8b726e2bfd46d06da9de15d77b02e0dc54))
+
+### Internal
+
+* **config:** minor, patch en security mergen zichzelf als de gate groen is ([dbae3d3](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/dbae3d3ff9005b0a50152451c4c0d901706b25d1)), references [#1](https://forgejo.webgrip.dev/webgrip/twente.dev/issues/1) [#5](https://forgejo.webgrip.dev/webgrip/twente.dev/issues/5)
+
 ## [0.2.0-rc.6](https://forgejo.webgrip.dev/webgrip/twente.dev/compare/v0.2.0-rc.5...v0.2.0-rc.6) (2026-09-11)
 
 ### Added

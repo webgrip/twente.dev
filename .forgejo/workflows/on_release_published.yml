@@ -84,7 +84,7 @@ jobs:
       CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
 
   back-merge:
-    name: "Back-merge main into development"
+    name: "Safety net: main reachable from development"
     needs:
       - release-channel
       - deploy-production
@@ -96,17 +96,17 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.WEBGRIP_CI_TOKEN }}
 
-      - name: Make the stable tag reachable from development
+      - name: Reconcile development when main carries commits of its own
         run: |
           set -euo pipefail
           git fetch origin main development
           if git merge-base --is-ancestor origin/main origin/development; then
-            echo "development already carries main; nothing to do."
+            echo "development already carries main; nothing to do. This is the expected outcome: the promotion is a fast-forward, so main is a prefix of development by construction."
             exit 0
           fi
           if git merge-base --is-ancestor origin/development origin/main; then
             git push origin "$(git rev-parse origin/main):refs/heads/development"
-            echo "development fast-forwarded onto main."
+            echo "development fast-forwarded onto main. main carried commits of its own, which a fast-forward promotion does not produce — expect an owner hotfix pushed straight to main."
             exit 0
           fi
           echo "::error::main and development have diverged, so the stable tag is not reachable from development. semantic-release will compute the next rc from the last PRERELEASE tag and cut an rc for a version that already shipped. Merge main into development by hand before the next release." >&2
@@ -151,7 +151,7 @@ jobs:
           fi
           body="Promotes \`${RC_TAG}\` from \`development\` to \`main\` for a stable release and the production deploy.
           When this PR was opened: ${staging}.
-          **Merge with a merge commit or rebase merge, never squash.** semantic-release needs the original commits to compute the stable version."
+          **Merge with a fast-forward, never squash and never a merge commit.** A merge commit exists only on \`main\`, the stable tag lands on it, and semantic-release then computes the next rc from the last prerelease tag — cutting an rc for a version that already shipped. A fast-forward keeps \`main\` a prefix of \`development\`, so there is nothing to reconcile afterwards."
           curl -fsS -H "$auth" -H "Content-Type: application/json" -X POST "${API}/pulls" \
             -d "$(python3 -c 'import json,sys; print(json.dumps({"head":"development","base":"main","title":"chore(release): promote development to main","body":sys.argv[1]}))' "$body")"
           echo "Opened promotion PR for ${RC_TAG}. ${staging}."

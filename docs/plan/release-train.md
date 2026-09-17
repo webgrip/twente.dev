@@ -17,7 +17,7 @@ fixes the model. A deploy is the consequence of a release, not of a push.
 | Daily work lands         | `main`                                        | `development`                                                                            |
 | Production deploy        | every green push to `main`, plus nightly HEAD | a stable release `vX.Y.Z`, cut on `main` by semantic-release; nightly redeploys that tag |
 | Staging                  | none (branch previews on workers.dev)         | `staging.twente.dev`, behind Cloudflare Access (Authentik), deployed by every `-rc.N`    |
-| Promotion                | none                                          | PR `development → main`, opened when an rc is published, merged never squashed           |
+| Promotion                | none                                          | PR `development → main`, opened when an rc is published, merged as a fast-forward        |
 | Who pushes `main`        | anyone with write                             | `webgrip-ci` (tags en releases) and `ryangr0` (hotfix escape hatch)                      |
 | Who pushes `development` | n/a                                           | `webgrip-ci`, `ryangr0`; agent sessions included, they run as the owner                  |
 | Renovate base            | `main`                                        | `development`                                                                            |
@@ -95,22 +95,27 @@ committen. De release notes veranderen niet — die komen van de notes generator
 Forgejo release page. Wat vervalt is `CHANGELOG.md` in de working tree, plus de union-merge in
 `.gitattributes`, de prettier-uitzondering en de uitzondering die de claims-guard ervoor had.
 
-**Dat alleen is niet genoeg, en dat is op de promotie van `v0.3.1` gebleken.** De promotie-PR
-wordt met een merge commit gemerged (ADR 0019), en die merge commit bestaat ook alleen op `main`.
-De stable tag komt erop te staan en is daarmee nog steeds onbereikbaar vanaf `development`.
-Nagerekend met de functie die de beslissing neemt,
-`semantic-release/lib/get-next-version.js`: met de tag onbereikbaar wordt de volgende rc
-`0.3.1-rc.3`, met de tag bereikbaar `0.3.2-rc.1`. De rekenregel kijkt naar `branch.tags`, en die
-zijn per branch _bereikbaar_, niet globaal.
+**Dat alleen was niet genoeg, en dat is op de promotie van `v0.3.1` gebleken.** Die werd met een
+merge commit gemerged, en zo'n merge commit bestaat ook alleen op `main`. De stable tag kwam erop
+te staan en was daarmee nog steeds onbereikbaar vanaf `development`. Nagerekend met de functie die
+de beslissing neemt, `semantic-release/lib/get-next-version.js`: met de tag onbereikbaar wordt de
+volgende rc `0.3.1-rc.3`, met de tag bereikbaar `0.3.2-rc.1`. De rekenregel leest `branch.tags`,
+en die zijn per branch _bereikbaar_, niet globaal.
 
-Wat `changelog: false` wél oplevert: `main` loopt nog maar één commit voor in plaats van twee, en
-die ene is een merge commit waarvan `development` een parent is. De back-merge is daarmee een
-pure fast-forward geworden in plaats van een merge die een criss-cross achterlaat.
+**De regel waar alles op terugkomt: elke commit die alleen op `main` bestaat, breekt de telling.**
+Er zijn precies twee bronnen. De release-commit is er één, en die is weg met `changelog: false`.
+De merge commit van de promotie is de andere, en die is weg sinds de promotie een fast-forward is
+(ADR 0019 v1.4.0). Daarmee is `main` een prefix van `development` van constructie, en valt er na
+een promotie niets te herstellen.
 
-Sinds `on_release_published.yml` de job `back-merge` draagt, doet de CI die fast-forward zelf bij
-elke stable release. Divergeren de branches echt, dan faalt die job luid met de uitleg erbij in
-plaats van het stil te laten gebeuren. Dat vangt ook de hotfix-route af: een directe push op
-`main` maakt dezelfde onbereikbaarheid, en die had een fast-forward-promotie niet opgelost.
+`ploeg` draait hetzelfde model en heeft dit nooit gehad: er staat geen enkele promotie-merge-commit
+op zijn `main` en die is een lineaire voorouder van `development`.
+
+De job `back-merge` in `on_release_published.yml` blijft staan als vangnet, niet als onderdeel van
+de flow. Bij een normale promotie meldt hij "nothing to do". Hij slaat alleen aan bij de
+hotfix-route uit ADR 0019 — een directe push op `main` maakt dezelfde onbereikbaarheid, en dat is
+het enige geval dat een fast-forward-promotie niet afdekt. Divergeren de branches echt, dan faalt
+hij luid in plaats van het stil te laten gebeuren.
 
 De optie zelf zit in `@webgrip/semantic-release-config` v1.3.0, gedragen door toolchain-image
 `harbor.webgrip.dev/webgrip/semantic-release:0.3.4` en de lanes van `webgrip/workflows` v2.7.2.

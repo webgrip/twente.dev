@@ -292,12 +292,15 @@ achteraan pushte bestond alleen op `main`, dus `development` kende `v0.3.0` niet
 vanaf `v0.3.0-rc.2`. De back-merge van `main` naar `development` was de stap die dat voorkwam, en
 die stond nergens opgeschreven behalve als foutmelding in `on_release_published.yml`.
 
-**Fix.** Twee dingen samen, en het eerste alleen is niet genoeg. `changelog: false`
-([`.releaserc.cjs`](../../.releaserc.cjs)) haalt de release-commit weg, maar de merge commit van
-de promotie bestaat nog steeds alleen op `main` en draagt de stable tag — die blijft dus
-onbereikbaar vanaf `development`. Daarom draait `on_release_published.yml` sinds `v0.3.1` de job
-`back-merge`, die `development` bij elke stable release fast-forwardt op `main`. Divergeren de
-branches echt, dan faalt die job luid in plaats van de verkeerde nummering stil te laten gebeuren.
+**Fix.** Onthoud de regel, niet de symptomen: **elke commit die alleen op `main` bestaat, breekt
+de telling.** Er zijn twee bronnen en allebei zijn ze weggenomen. De release-commit met
+`changelog: false` ([`.releaserc.cjs`](../../.releaserc.cjs)), en de merge commit van de promotie
+doordat de promotie een fast-forward is (ADR 0019 v1.4.0). `main` is daarmee een prefix van
+`development` van constructie.
+
+Blijft over: een hotfix rechtstreeks op `main`, de escape hatch uit ADR 0019. Die maakt wél zo'n
+commit. Daarvoor draait de job `back-merge` in `on_release_published.yml` als vangnet; bij een
+normale promotie meldt hij "nothing to do", bij echte divergentie faalt hij luid.
 
 Controleer het met één commando; komt hier `NEE`, dan is de volgende rc fout genummerd:
 

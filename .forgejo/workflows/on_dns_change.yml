@@ -20,7 +20,7 @@ permissions:
 jobs:
   dns-preview:
     name: "DNS Preview"
-    uses: webgrip/workflows/.forgejo/workflows/dnscontrol.yml@d6d1ac4e9d2920951779fb9bbcdcde25d64ab25f
+    uses: webgrip/workflows/.forgejo/workflows/dnscontrol.yml@d6d1ac4e9d2920951779fb9bbcdcde25d64ab25f # v2.6.1
     runs-on: docker
     with:
       mode: preview
@@ -32,7 +32,7 @@ jobs:
     name: "DNS Push"
     needs:
       - dns-preview
-    uses: webgrip/workflows/.forgejo/workflows/dnscontrol.yml@d6d1ac4e9d2920951779fb9bbcdcde25d64ab25f
+    uses: webgrip/workflows/.forgejo/workflows/dnscontrol.yml@d6d1ac4e9d2920951779fb9bbcdcde25d64ab25f # v2.6.1
     runs-on: docker
     if: github.ref == 'refs/heads/main'
     with:

@@ -19,7 +19,7 @@ env:
 jobs:
   static-analysis:
     name: "Static Analysis"
-    uses: webgrip/workflows/.forgejo/workflows/node-application-static-analysis.yml@f2e235efd0589ee32cef70cd79ee7f110f80d1da
+    uses: webgrip/workflows/.forgejo/workflows/node-application-static-analysis.yml@43f4088df6df3f225a07ab66b9f2b4c4d23cf579 # v2.7.1
     with:
       node-version: "24"
       package-manager: pnpm
@@ -31,7 +31,7 @@ jobs:
 
   tests-and-build:
     name: "Tests & Build"
-    uses: webgrip/workflows/.forgejo/workflows/node-application-tests.yml@ef2b7a61a56c57efc41a4738009c793d200b20c2
+    uses: webgrip/workflows/.forgejo/workflows/node-application-tests.yml@43f4088df6df3f225a07ab66b9f2b4c4d23cf579 # v2.7.1
     with:
       node-version: "24"
       package-manager: pnpm
@@ -69,17 +69,17 @@ jobs:
 
   lighthouse:
     name: "Lighthouse Budgets"
-    uses: webgrip/workflows/.forgejo/workflows/lighthouse-budgets.yml@cfca5d381db0ae44912faf34e105721eede2ee3e
+    uses: webgrip/workflows/.forgejo/workflows/lighthouse-budgets.yml@cfca5d381db0ae44912faf34e105721eede2ee3e # v2.1.0
 
   accessibility:
     name: "Accessibility (axe-core)"
-    uses: webgrip/workflows/.forgejo/workflows/axe-scan.yml@a3e0e8dff4199f592b7596e411f564bcaab67665
+    uses: webgrip/workflows/.forgejo/workflows/axe-scan.yml@a3e0e8dff4199f592b7596e411f564bcaab67665 # v2.4.1
 
   deploy-preview:
     name: "Deploy Preview"
     needs:
       - tests-and-build
-    uses: webgrip/workflows/.forgejo/workflows/cloudflare-deploy.yml@cfca5d381db0ae44912faf34e105721eede2ee3e
+    uses: webgrip/workflows/.forgejo/workflows/cloudflare-deploy.yml@cfca5d381db0ae44912faf34e105721eede2ee3e # v2.1.0
     with:
       environment: preview
       production-refs: refs/heads/main refs/heads/development
@@ -97,7 +97,7 @@ jobs:
       - container-parity
       - lighthouse
       - accessibility
-    uses: webgrip/workflows/.forgejo/workflows/semantic-release.yml@2df9161cf4c7d6425e0051583f5d85dbdebcce48
+    uses: webgrip/workflows/.forgejo/workflows/semantic-release.yml@2df9161cf4c7d6425e0051583f5d85dbdebcce48 # v2.5.0
     with:
       only-refs: refs/heads/main refs/heads/development
       install-dependencies: "false"

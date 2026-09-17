@@ -39,7 +39,7 @@ jobs:
     name: "Deploy Staging"
     needs:
       - release-channel
-    uses: webgrip/workflows/.forgejo/workflows/cloudflare-deploy.yml@9d3da2af26bda748e13a85ab53fcc3c3ade4744d
+    uses: webgrip/workflows/.forgejo/workflows/cloudflare-deploy.yml@9d3da2af26bda748e13a85ab53fcc3c3ade4744d # v2.5.2
     with:
       enabled: ${{ needs.release-channel.outputs.channel == 'prerelease' }}
       environment: production
@@ -57,7 +57,7 @@ jobs:
     name: "Deploy Production"
     needs:
       - release-channel
-    uses: webgrip/workflows/.forgejo/workflows/cloudflare-deploy.yml@9d3da2af26bda748e13a85ab53fcc3c3ade4744d
+    uses: webgrip/workflows/.forgejo/workflows/cloudflare-deploy.yml@9d3da2af26bda748e13a85ab53fcc3c3ade4744d # v2.5.2
     with:
       enabled: ${{ needs.release-channel.outputs.channel == 'stable' }}
       environment: production

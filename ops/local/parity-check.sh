@@ -133,9 +133,15 @@ header /nl Content-Security-Policy "frame-ancestors 'none'"
 
 echo
 echo "CSP is emitted by Astro with per-page hashes, not unsafe-inline"
-body_contains /nl "http-equiv=\"content-security-policy\""
-
 HOME_HTML="$(fetch "${BASE}/nl")"
+if printf '%s' "$HOME_HTML" | grep -qF -- 'http-equiv="content-security-policy"'; then
+  pass "/nl body contains 'http-equiv=\"content-security-policy\"'"
+else
+  fail "/nl body missing 'http-equiv=\"content-security-policy\"' (${#HOME_HTML} bytes fetched)"
+  printf '%s' "$HOME_HTML" | head -c 400 | sed 's/^/    /'
+  printf '\n'
+fi
+
 CSP_META="$(printf '%s' "$HOME_HTML" | grep -o 'content-security-policy[^>]*' || true)"
 if printf '%s' "$CSP_META" | grep -q "unsafe-inline"; then
   fail "/nl CSP contains unsafe-inline"

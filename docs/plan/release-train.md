@@ -133,6 +133,35 @@ falende release: `makeConfig` gooit op onbekende opties.
    is rejected; a push to `development` by the owner succeeds.
 5. Renovate's next PR targets `development`.
 
+## Merge-stijlen op de repo (2026-09-17)
+
+De promotie moet een fast-forward zijn, en dat is een keuze die je in de repo-instellingen
+vastzet in plaats van in een gewoonte. Forgejo kent geen merge-stijl per doel-branch en branch
+protection kan geen lineaire historie eisen, dus de instelling geldt repo-breed — ook voor
+Renovate's PR's naar `development`. Dat maakt "alles dicht behalve fast-forward" te grof: die
+PR's zijn lang niet altijd fast-forwardbaar.
+
+Wat het wél afdicht, is dat de verkeerde keuzes niet even erg zijn:
+
+| Stijl          | Gevolg                                                     | Herstelbaar                      |
+| -------------- | ---------------------------------------------------------- | -------------------------------- |
+| Fast-forward   | `main` blijft een prefix van `development`                 | correct, niets te doen           |
+| Merge commit   | stable tag onbereikbaar vanaf `development`                | ja, de `back-merge`-job doet het |
+| Rebase then ff | in de normale flow een no-op, dus een fast-forward         | correct                          |
+| **Squash**     | herschrijft historie, `development` is geen voorouder meer | **nee** — release al fout        |
+
+Squash is dus de enige knop die onherstelbare schade maakt. Staat die uit, dan is elke
+overgebleven route correct of zelfherstellend. Ingesteld onder
+`https://forgejo.webgrip.dev/webgrip/twente.dev/settings`:
+
+- **Squash Commits** uitgevinkt
+- **Default Merge Style** op `Fast-forward Only`
+- de rest blijft aan, zodat Renovate kan blijven automergen
+
+`forgejo-sync.sh` raakt deze velden niet aan (het PATCHt alleen `has_actions`,
+`has_pull_requests` en `has_releases`), dus een sync-sweep zet ze niet terug. Krijgt dat script
+ooit een `mergestyle`-actie, dan horen deze waarden daarin.
+
 ## Human steps
 
 | Step                                                                               | Why a human                                       |
@@ -143,6 +172,7 @@ falende release: `makeConfig` gooit op onbekende opties.
 | Open the PR for `feat/staging-access` in the cloudflare repo                       | sessions hold no token that may open PRs          |
 | Run the `forgejo-sync.sh … --only protect --apply` command for twente.dev          | needs a Forgejo admin token                       |
 | Merge the cloudflare Access PR once the plan is clean                              | first apply of a new resource family              |
+| Set the merge styles on twente.dev (see below)                                     | repo settings are dashboard-only, no token here   |
 
 ## Deferred
 

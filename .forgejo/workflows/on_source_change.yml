@@ -101,5 +101,7 @@ jobs:
     with:
       only-refs: refs/heads/main refs/heads/development
       install-dependencies: "false"
+      # renovate: datasource=docker depName=harbor.webgrip.dev/webgrip/semantic-release
+      toolchain-image: "harbor.webgrip.dev/webgrip/semantic-release:0.3.4"
     secrets:
       CI_TOKEN: ${{ secrets.WEBGRIP_CI_TOKEN }}

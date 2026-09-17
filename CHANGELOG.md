@@ -1,3 +1,9 @@
+## [0.2.0-rc.8](https://forgejo.webgrip.dev/webgrip/twente.dev/compare/v0.2.0-rc.7...v0.2.0-rc.8) (2026-09-17)
+
+### Fixed
+
+* **config:** de soaktijd terug op het pad waar niets anders meer bewaakt ([9d30f48](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/9d30f48dd97137e1db000c8b5f158aae10eab5a6)), references [#4](https://forgejo.webgrip.dev/webgrip/twente.dev/issues/4)
+
 ## [0.2.0-rc.7](https://forgejo.webgrip.dev/webgrip/twente.dev/compare/v0.2.0-rc.6...v0.2.0-rc.7) (2026-09-17)
 
 ### Added

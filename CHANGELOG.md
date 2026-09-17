@@ -1,3 +1,10 @@
+## [0.3.0-rc.3](https://forgejo.webgrip.dev/webgrip/twente.dev/compare/v0.3.0-rc.2...v0.3.0-rc.3) (2026-09-17)
+
+### CI
+
+* **pipeline:** de previewjob heet naar de branches waarop hij iets doet ([f957bf8](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/f957bf8bdbb02506ddc81d99ecae09d558e58e14))
+* **pipeline:** pushes naar development annuleren elkaar weer, main niet ([b670a2c](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/b670a2c4c09a17986115cff3bc33e7d3207bf3e1))
+
 ## [0.3.0-rc.2](https://forgejo.webgrip.dev/webgrip/twente.dev/compare/v0.3.0-rc.1...v0.3.0-rc.2) (2026-09-17)
 
 ### Added

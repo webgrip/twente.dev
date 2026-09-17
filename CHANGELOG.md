@@ -1,3 +1,21 @@
+## [0.2.0-rc.10](https://forgejo.webgrip.dev/webgrip/twente.dev/compare/v0.2.0-rc.9...v0.2.0-rc.10) (2026-09-17)
+
+### Added
+
+* **dns:** zonehygiëne, MTA-STS op enforce en een pushschakelaar in git ([2d708f9](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/2d708f9d37ac54b3bc36572d1d878b79bdbfecc7))
+
+### Fixed
+
+* **ci:** de DNS-jobs melden nu eerlijk of ze gedraaid hebben ([9b0a7de](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/9b0a7de945c6b5d31e722f4caedc8c12c3f877c0))
+
+### Changed
+
+* **mail:** de mta-sts-check bewaakt alleen nog wat mail kan kosten ([c0ed3a5](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/c0ed3a515b901e10abc5c75b20970473fdeddc23))
+
+### Docs
+
+* **runbook:** wat er meekomt met een uitgeklapte uses:-job ([923c839](https://forgejo.webgrip.dev/webgrip/twente.dev/commit/923c83911cf47601b8f8e003009def5cdf39a79c))
+
 ## [0.2.0-rc.9](https://forgejo.webgrip.dev/webgrip/twente.dev/compare/v0.2.0-rc.8...v0.2.0-rc.9) (2026-09-17)
 
 ### Fixed

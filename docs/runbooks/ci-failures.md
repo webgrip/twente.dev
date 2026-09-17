@@ -6,10 +6,10 @@ doen staat in [ADR 0020](../adrs/0020-ci-critical-path.md); de release-mechanica
 [`../plan/release-train.md`](../plan/release-train.md).
 
 Eén patroon vooraf: **een verificatiejob die eruit klapt, blokkeert de release voor iedereen.**
-`Build Site` hangt achter `Container Parity`, en `Release` achter `Build Site`. Tussen
+`Release` hangt achter alle vijf de verificatiejobs, dus één rode job betekent geen rc. Tussen
 2026-09-10 en 2026-09-15 stond `Container Parity` vier dagen rood en werd er in die hele
 periode geen release candidate gesneden, zonder dat iemand het merkte. Kijk bij een stille
-release altijd eerst naar de jobvolgorde, niet naar semantic-release.
+release altijd eerst naar de jobstatussen, niet naar semantic-release.
 
 ## Container Parity: `ENOENT` op `copy.config.yml`
 
@@ -232,6 +232,25 @@ curl -s -X POST -H "Content-Type: application/json" \
 
 Een job die tijdens de run op `waiting` staat is geen storing: de `if:` wordt pas beoordeeld als
 de voorgaande jobs klaar zijn, en daarna springt hij naar `skipped`.
+
+## Een rc-tag zonder release, en staging blijft achter
+
+**Symptoom.** `development` draagt een tag `vX.Y.Z-rc.N` en een commit
+`chore(release): vX.Y.Z-rc.N [skip ci]`, maar er is geen release gepubliceerd,
+`staging.twente.dev` draait nog op de vorige rc, en de CHANGELOG heeft een kop voor een versie
+die verder nergens bestaat.
+
+**Oorzaak.** De run die die rc sneed is halverwege de releasejob geannuleerd.
+`@semantic-release/git` commit en pusht eerst, semantic-release pusht daarna de tag, en pas dan
+publiceert `@saithodev/semantic-release-gitea` de release. `on_release_published.yml` hangt aan
+`release: [published]`, dus alles wat vóór die laatste stap afbreekt laat de tag staan zonder
+deploy. Sinds pushes naar `development` elkaar annuleren is dat venster van een seconde of twee
+bereikbaar met twee pushes vlak na elkaar. Op `main` annuleren pushes elkaar niet, precies
+hiervoor.
+
+**Fix.** Niets herstellen. De volgende push snijdt `rc.N+1`, en die tag draagt dezelfde commits,
+dus de code bereikt staging alsnog. Wat overblijft is een weestag en een CHANGELOG-kop. Laat ze
+staan, of ruim de tag op met `git push origin :refs/tags/vX.Y.Z-rc.N`.
 
 ## Static Analysis rood op Prettier, terwijl jij niets deed
 

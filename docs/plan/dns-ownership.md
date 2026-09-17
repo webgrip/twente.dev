@@ -4,13 +4,13 @@ _Started 2026-09-05. Decision: [ADR 0018 v1.2.0](../adrs/0018-account-and-zone-r
 
 ## Shape
 
-| Piece                                          | Where                                                | Why                                                                                                       |
-| ---------------------------------------------- | ---------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
-| Zone records for `twente.dev`                  | [`ops/dns/dnsconfig.js`](../../ops/dns/dnsconfig.js) | one line per record, stateless, next to the code that needs them                                          |
-| Preview, push, drift mechanics                 | `webgrip/workflows` `dnscontrol.yml`                 | shared with webgrip.nl; a site adds a directory and two callers                                           |
-| `on_dns_change.yml`                            | this repo                                            | preview on every push to `main` and `development` touching `ops/dns/**`, push on `main` behind `enabled:` |
-| `dns-drift.yml`                                | this repo                                            | 05:45 daily, fails when the live zone differs from `main`                                                 |
-| Account objects (Zero Trust, R2, token roller) | `webgrip/cloudflare`                                 | span sites                                                                                                |
+| Piece                                          | Where                                                | Why                                                                                                   |
+| ---------------------------------------------- | ---------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| Zone records for `twente.dev`                  | [`ops/dns/dnsconfig.js`](../../ops/dns/dnsconfig.js) | one line per record, stateless, next to the code that needs them                                      |
+| Preview, push, drift mechanics                 | `webgrip/workflows` `dnscontrol.yml`                 | shared with webgrip.nl; a site adds a directory and two callers                                       |
+| `on_dns_change.yml`                            | this repo                                            | preview on every push to `main` and `development` touching `ops/dns/**`, push on every push to `main` |
+| `dns-drift.yml`                                | this repo                                            | 05:45 daily, fails when the live zone differs from `main`                                             |
+| Account objects (Zero Trust, R2, token roller) | `webgrip/cloudflare`                                 | span sites                                                                                            |
 
 ## Rollout
 
@@ -56,20 +56,25 @@ en doe stap 5 zo snel mogelijk: de overlap is de storing, niet de veiligheidsmar
 | Create a Cloudflare token `dns-rw-twente-dev`: Zone:Read and DNS:Edit, scoped to twente.dev only | tokens are dashboard-only, until [homelab ADR-0061](https://forgejo.webgrip.dev/webgrip/homelab-cluster/src/branch/main/docs/techdocs/docs/adr/adr-0061-ci-reads-over-oidc-writes-from-the-cluster.md) mints them |
 | Seed OpenBao `secret/cloudflare/dnscontrol` with key `CLOUDFLARE_DNS_TOKEN`                      | secrets never enter a repository                                                                                                                                                                                  |
 
-## De pushschakelaar staat in git, niet in een CI-variabele
+## De branch is de schakelaar, geen CI-variabele
 
-`enabled:` op de pushjob in [`on_dns_change.yml`](../../.forgejo/workflows/on_dns_change.yml) is
-een letterlijke `true` of `false`. Aanzetten is een commit: het staat in de diff, het is te
-reviewen en het is met één revert terug te draaien. De repovariabele `DNS_PUSH` die hier eerst
-stond kon buiten git om worden omgezet, was in geen enkele review zichtbaar, en werkte
-waarschijnlijk niet eens: Forgejo v15 evalueert de `with:`-expressies van een aanroeper op het
-moment dat het de job uitklapt, met een lege context, dus `${{ vars.DNS_PUSH == 'on' }}` kwam er
-als `false` uit hoe de variabele ook stond. `cloudflare-deploy.yml` waarschuwt in zijn eigen
-inputbeschrijving voor precies dat.
+De pushjob in [`on_dns_change.yml`](../../.forgejo/workflows/on_dns_change.yml) draagt sinds
+2026-09-17 `if: github.ref == 'refs/heads/main'` (eigenaarsbesluit). Elke merge naar `main` die
+`ops/dns/**` raakt past de zone dus toe; de review van de promotie-PR ís de review van de
+wijziging. Daarvóór stond er een letterlijke `if: false`, die alleen met een commit omging —
+dat hield de zone stil zolang `webgrip/cloudflare` dezelfde records nog declareerde.
+
+De repovariabele `DNS_PUSH` die hier eerst stond kon buiten git om worden omgezet, was in geen
+enkele review zichtbaar, en werkte waarschijnlijk niet eens: Forgejo v15 evalueert de
+`with:`-expressies van een aanroeper op het moment dat het de job uitklapt, met een lege
+context, dus `${{ vars.DNS_PUSH == 'on' }}` kwam er als `false` uit hoe de variabele ook stond.
+`cloudflare-deploy.yml` waarschuwt in zijn eigen inputbeschrijving voor precies dat. Dezelfde
+uitklapregel is de reden dat de pushjob `runs-on: docker` draagt: zonder dat doet zijn `if:`
+niets, zie [`../runbooks/ci-failures.md`](../runbooks/ci-failures.md).
 
 Twee poorten blijven eronder liggen, allebei in de gedeelde workflow: `push-refs` laat alleen
 `refs/heads/main` pushen, en een push die een record verwijdert wordt geweigerd zonder
-`DNS-Allow-Delete`-trailer. `development` kan dus niet pushen, ook niet als `enabled` aanstaat.
+`DNS-Allow-Delete`-trailer. `development` kan dus niet pushen.
 
 Op termijn verdwijnt de schakelaar helemaal: in
 [homelab ADR-0061](https://forgejo.webgrip.dev/webgrip/homelab-cluster/src/branch/main/docs/techdocs/docs/adr/adr-0061-ci-reads-over-oidc-writes-from-the-cluster.md)
@@ -126,6 +131,13 @@ kritieke pad krijgt er geen job bij.
 Volgorde bij een wijziging: eerst het bestand laten uitrollen met de site, dan de zone pushen.
 Andersom halen verzenders het oude bestand op en bewaren dat onder de nieuwe id, tot `max_age`
 verloopt — sinds enforce een week.
+
+Die volgorde is niet af te dwingen nu de push aan een merge naar `main` hangt: één merge start
+de zonepush en de productiedeploy tegelijk, en de zonepush is er het eerst. Het venster is de
+paar minuten tussen die twee. Een verzender die er precies in valt, bewaart het oude beleid
+onder de nieuwe id voor de `max_age` van dat oude bestand — bij de overgang naar enforce dus een
+dag, niet een week, en daarna haalt hij vanzelf het nieuwe op. Wie een MTA-STS-wijziging niet zo
+wil laten landen, splitst hem: de `id` in een eigen promotie ná die van het beleidsbestand.
 
 ## Deleting a record
 

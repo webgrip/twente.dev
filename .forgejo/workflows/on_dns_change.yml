@@ -34,7 +34,7 @@ jobs:
       - dns-preview
     uses: webgrip/workflows/.forgejo/workflows/dnscontrol.yml@d6d1ac4e9d2920951779fb9bbcdcde25d64ab25f
     runs-on: docker
-    if: false
+    if: github.ref == 'refs/heads/main'
     with:
       mode: push
     secrets:

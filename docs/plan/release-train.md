@@ -80,7 +80,7 @@ released as the next minor.
 8. `CLAUDE.md`: sessions commit to `development`; `main` is promotion plus owner hotfixes.
 9. Branch `development` created from `main`.
 
-## Waarom er geen back-merge meer is (2026-09-17)
+## De back-merge: waarom hij kleiner werd, en wie hem nu doet (2026-09-17)
 
 Tot 17 september commit semantic-release een `chore(release): vX.Y.Z [skip ci]` terug naar de
 branch waarop het releaset, met `CHANGELOG.md` erin. Op `main` bestond die commit daarna nergens
@@ -90,11 +90,27 @@ de stable: op 17 september leverde dat een `v0.3.0-rc.3` op nadat `v0.3.0` al in
 De stap stond nergens opgeschreven behalve als foutmelding in `on_release_published.yml`, en dan
 pas nadat het misging.
 
-`changelog: false` in `.releaserc.cjs` haalt de oorzaak weg: er valt niets meer terug te
-committen, dus `main` is na een promotie dezelfde commit als `development`. De release notes
-veranderen niet — die komen van de notes generator en staan op de Forgejo release page. Wat
-vervalt is `CHANGELOG.md` in de working tree, plus de union-merge in `.gitattributes`, de
-prettier-uitzondering en de uitzondering die de claims-guard ervoor had.
+`changelog: false` in `.releaserc.cjs` haalt de release-commit weg: er valt niets meer terug te
+committen. De release notes veranderen niet — die komen van de notes generator en staan op de
+Forgejo release page. Wat vervalt is `CHANGELOG.md` in de working tree, plus de union-merge in
+`.gitattributes`, de prettier-uitzondering en de uitzondering die de claims-guard ervoor had.
+
+**Dat alleen is niet genoeg, en dat is op de promotie van `v0.3.1` gebleken.** De promotie-PR
+wordt met een merge commit gemerged (ADR 0019), en die merge commit bestaat ook alleen op `main`.
+De stable tag komt erop te staan en is daarmee nog steeds onbereikbaar vanaf `development`.
+Nagerekend met de functie die de beslissing neemt,
+`semantic-release/lib/get-next-version.js`: met de tag onbereikbaar wordt de volgende rc
+`0.3.1-rc.3`, met de tag bereikbaar `0.3.2-rc.1`. De rekenregel kijkt naar `branch.tags`, en die
+zijn per branch _bereikbaar_, niet globaal.
+
+Wat `changelog: false` wél oplevert: `main` loopt nog maar één commit voor in plaats van twee, en
+die ene is een merge commit waarvan `development` een parent is. De back-merge is daarmee een
+pure fast-forward geworden in plaats van een merge die een criss-cross achterlaat.
+
+Sinds `on_release_published.yml` de job `back-merge` draagt, doet de CI die fast-forward zelf bij
+elke stable release. Divergeren de branches echt, dan faalt die job luid met de uitleg erbij in
+plaats van het stil te laten gebeuren. Dat vangt ook de hotfix-route af: een directe push op
+`main` maakt dezelfde onbereikbaarheid, en die had een fast-forward-promotie niet opgelost.
 
 De optie zelf zit in `@webgrip/semantic-release-config` v1.3.0, gedragen door toolchain-image
 `harbor.webgrip.dev/webgrip/semantic-release:0.3.4` en de lanes van `webgrip/workflows` v2.7.2.

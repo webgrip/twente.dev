@@ -292,9 +292,18 @@ achteraan pushte bestond alleen op `main`, dus `development` kende `v0.3.0` niet
 vanaf `v0.3.0-rc.2`. De back-merge van `main` naar `development` was de stap die dat voorkwam, en
 die stond nergens opgeschreven behalve als foutmelding in `on_release_published.yml`.
 
-**Fix.** De oorzaak is weg sinds deze repo `changelog: false` draait
-([`.releaserc.cjs`](../../.releaserc.cjs)): semantic-release commit niets meer terug, dus `main`
-is na een promotie dezelfde commit als `development` en er valt niets te back-mergen.
+**Fix.** Twee dingen samen, en het eerste alleen is niet genoeg. `changelog: false`
+([`.releaserc.cjs`](../../.releaserc.cjs)) haalt de release-commit weg, maar de merge commit van
+de promotie bestaat nog steeds alleen op `main` en draagt de stable tag — die blijft dus
+onbereikbaar vanaf `development`. Daarom draait `on_release_published.yml` sinds `v0.3.1` de job
+`back-merge`, die `development` bij elke stable release fast-forwardt op `main`. Divergeren de
+branches echt, dan faalt die job luid in plaats van de verkeerde nummering stil te laten gebeuren.
+
+Controleer het met één commando; komt hier `NEE`, dan is de volgende rc fout genummerd:
+
+```bash
+git merge-base --is-ancestor "$(git describe --tags --abbrev=0 --match='v[0-9]*.[0-9]*.[0-9]' origin/main)" origin/development && echo JA || echo NEE
+```
 
 `v0.3.0-rc.3` blijft staan en hoort te blijven staan. Het is geen weestag: de release is echt
 gepubliceerd en die rc is echt naar `staging.twente.dev` gegaan. Alleen het nummer is misleidend.

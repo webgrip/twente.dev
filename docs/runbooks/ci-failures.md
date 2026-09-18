@@ -338,6 +338,59 @@ mise exec -- pnpm exec prettier --check .
 Staat er nog een openstaande TODO voor een hook die dit afdwingt, zie
 [`../plan/nu-te-doen.md`](../plan/nu-te-doen.md).
 
+## Elke job van een Renovate-PR faalt op `ERR_PNPM_MINIMUM_RELEASE_AGE_VIOLATION`
+
+**Symptoom.** Op een `renovate/*`-branch valt elke job om in stap `Install dependencies`, dus ook
+`Tests & Build`, `Container Parity`, `Lighthouse` en `axe`. Onderaan het log staat:
+
+```
+[ERR_PNPM_MINIMUM_RELEASE_AGE_VIOLATION] 1 lockfile entries failed verification:
+  prettier@3.9.8 was published at 2026-09-17T21:41:05.085Z, within the minimumReleaseAge cutoff
+```
+
+Gezien op [run 531](https://forgejo.webgrip.dev/webgrip/twente.dev/actions/runs/531), de PR die
+prettier van 3.9.6 naar 3.9.8 tilde. De tekst eronder suggereert een verlopen of met de hand
+omzeilde lockfile; dat is het geen van beide, en `pnpm clean --lockfile` lost er niets mee op.
+
+**Oorzaak.** Twee soaktijden die elkaar niet kennen.
+
+pnpm 11 draagt een eigen `minimumReleaseAge` van 24 uur. Er staat niets over in
+[`pnpm-workspace.yaml`](https://forgejo.webgrip.dev/webgrip/twente.dev/src/branch/main/pnpm-workspace.yaml)
+— alleen de `minimumReleaseAgeExclude` — want het is de ingebouwde waarde. Hij wordt geijkt op het
+moment van installeren: run 531 startte om 05:00:28Z en meldde een grens van 05:01:35Z de dag
+ervoor.
+
+Renovate hoort daar ruim voor te zitten: `renovate.json` zet `minimumReleaseAge` op 1 dag voor
+patches en 3 dagen voor minors. Alleen zet het org-preset ook `internalChecksFilter: "none"`, en
+dan is die soaktijd geen filter meer maar een vlaggetje. Renovate bouwt de branch gewoon tegen de
+nieuwste versie, markeert de update als pending, en `prNotPendingHours: 2` maakt de PR twee uur
+later alsnog aan. De feitelijke soak was dus twee uur. Prettier 3.9.8 verscheen om 21:41Z, de PR
+stond er om 01:58Z, en de lockfile die daarin belandde kon de pnpm-grens niet halen.
+
+De versie eronder had het wél gehaald: 3.9.7 stond er sinds 2026-09-16T08:23Z, ruim 44 uur.
+
+**Fix.** `internalChecksFilter: "strict"` in
+[`renovate.json`](https://forgejo.webgrip.dev/webgrip/twente.dev/src/branch/main/renovate.json).
+Daarmee valt een versie die de soak niet haalt uit de kandidatenlijst en stelt Renovate de nieuwste
+voor die er wél doorheen is. Die is per definitie ouder dan de pnpm-grens, en CI installeert altijd
+later dan Renovate resolvede, dus de marge kan alleen groeien.
+
+De openstaande PR zelf hoeft niet aangepast: 24 uur na publicatie draait dezelfde commit groen. Een
+rerun is genoeg, met de hand terugzetten naar 3.9.7 vecht alleen met Renovate.
+
+**Wat hier niet onder valt.** `vulnerabilityAlerts` zet `minimumReleaseAge` op `null`, expres — een
+securityfix hoort niet te soaken. Zo'n PR kan dus wél tegen de pnpm-grens aanlopen. Dan is de
+uitzondering de juiste route, niet het beleid:
+
+```yaml
+minimumReleaseAgeExclude:
+  - 'pakket@versie'
+```
+
+**Les.** Het org-preset gaat ervan uit dat het dashboard de gate is; deze repo automerget en heeft
+die gate niet. Elke repo die dat preset gebruikt en op pnpm 11 draait, heeft dezelfde twee uur
+soaktijd en dus dezelfde rode PR in het verschiet.
+
 ## De Actions-API uitlezen als de UI te traag is
 
 `/api/v1/repos/webgrip/twente.dev/actions/runs` negeert `limit` en geeft honderden rijen terug

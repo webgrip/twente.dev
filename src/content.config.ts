@@ -1,6 +1,6 @@
 import { defineCollection, reference } from 'astro:content';
 import { file, glob } from 'astro/loaders';
-import { z } from 'zod';
+import { z } from 'astro/zod';
 
 import { LOCALES } from './i18n/config.ts';
 

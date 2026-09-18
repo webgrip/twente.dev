@@ -338,6 +338,53 @@ mise exec -- pnpm exec prettier --check .
 Staat er nog een openstaande TODO voor een hook die dit afdwingt, zie
 [`../plan/nu-te-doen.md`](../plan/nu-te-doen.md).
 
+## Static Analysis: 190 typefouten op een Astro-bump, allemaal in content
+
+**Symptoom.** De Renovate-PR die Astro bumpt valt in stap `Run type checks` om met 190 fouten.
+De eerste twee wijzen naar `src/content.config.ts` en zijn de enige die iets zeggen:
+
+```
+src/content.config.ts:155:3 - error ts(2322): Type 'ZodObject<...>' is not assignable to type 'BaseSchema'
+  The types of '_zod.version.minor' are incompatible between these types.
+    Type '4' is not assignable to type '6'.
+```
+
+De overige 188 zijn gevolgschade: zonder geldig schema wordt elke `entry.data` `unknown`, dus
+elke pagina die een collectie leest klaagt. Gezien op
+[run 534](https://forgejo.webgrip.dev/webgrip/twente.dev/actions/runs/534/jobs/7) (astro
+7.2.10 ➔ 7.3.3, 2026-09-18).
+
+**Oorzaak.** Twee kopieën van zod in één graaf. De repo declareerde zelf `zod@4.4.3`, Astro
+7.3.3 bracht `zod@4.6.5` mee, en pnpm kan die niet samenvoegen omdat de pin exact is. Zod 4 zet
+zijn eigen minor als literal in het type (`_zod.version.minor`), dus twee kopieën zijn voor
+TypeScript twee onverenigbare types, ook al is de code identiek. Elke Astro-minor die zod
+meebumpt breekt hierop, en de Renovate-regel die dit moest afvangen keek alleen naar majors.
+
+**Fix.** De pin weghalen en het schema uit Astro's eigen zod halen, dan is er geen tweede kopie
+meer om van te verschillen:
+
+```ts
+import { z } from 'astro/zod';
+```
+
+`import { z } from 'astro:content'` werkt ook, maar is sinds Astro 7 gedeprecieerd en verdwijnt
+in Astro 8. Met de import om kan `zod` uit `dependencies`, en de Renovate-regel die zod aan
+Astro's major koppelde is mee weggehaald.
+
+**Reproduceren**, want de bump zelf staat op de PR-branch:
+
+```bash
+git fetch origin renovate/astro-monorepo && git checkout FETCH_HEAD
+mise exec -- pnpm install && mise exec -- pnpm run typecheck
+ls node_modules/.pnpm | grep '^zod@'
+```
+
+Komen daar twee regels uit, dan is het dit.
+
+**Les.** Elke dependency die een framework ook zelf gebruikt en waarvan het type nominaal is,
+hoort niet in onze `package.json` maar via de re-export van dat framework binnen te komen. Een
+exacte pin op zo'n pakket is geen voorzichtigheid maar een garantie op een tweede kopie.
+
 ## Elke job van een Renovate-PR faalt op `ERR_PNPM_MINIMUM_RELEASE_AGE_VIOLATION`
 
 **Symptoom.** Op een `renovate/*`-branch valt elke job om in stap `Install dependencies`, dus ook

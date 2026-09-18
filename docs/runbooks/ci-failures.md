@@ -455,6 +455,36 @@ De twee soaks blijven naast elkaar bestaan en dat is expres: Renovate bewaakt de
 dependencies, pnpm bewaakt ook de transitieve. Dat laatste is precies wat pnpm 11 met die default
 kwam brengen en wat `internalChecksFilter` niet kan geven.
 
+## "checkout v6 is stuk op de runner" — gemeten, en het klopt niet
+
+**Symptoom.** Er is er geen. Dat is het punt: `actions/checkout`-majors staan estate-breed uit
+op grond van één zin in [`org/forgejo-ci.md`](https://forgejo.webgrip.dev/webgrip/ai-skills/src/branch/main/org/forgejo-ci.md)
+— "`actions/checkout@v5`, nooit `@v6` — v6 is stuk op niet-GitHub-runners" — en niemand had ooit
+de fout opgeschreven.
+
+**Meting.** De canary in homelab-cluster
+([`.forgejo/workflows/runner-node-canary.yml`](https://forgejo.webgrip.dev/webgrip/homelab-cluster/src/branch/main/.forgejo/workflows/runner-node-canary.yml),
+[run 1710](https://forgejo.webgrip.dev/webgrip/homelab-cluster/actions/runs/1710)) draait checkout
+v5.1.0, v6 en v7 en setup-node v4.4.0, v5 en v7 naast elkaar. **Alles groen.** Geen no-ops: de
+v6-stap doet echt `git init`, `git config` en fetcht van de in-cluster Forgejo, en setup-node v5
+meldt `node: v24.21.0`.
+
+**Wat er wél waar is.** De runner kiest per JS-actie de node die de actie in `using:` declareert,
+uit `externals/`. Die map bevat `node20` (v20.19.5), `node24` (v24.16.0), plus twee musl-varianten
+waarvan `node24_alpine` niet uitvoerbaar is in deze glibc-container. Er is dus wél een glibc
+node24, en `using: node24` werkt gewoon.
+
+De `PATH`-prepend naar `externals/node20/bin` in de runner-ScaledJob raakt daarom alleen
+**shell-stappen**: een `run:`-stap die `node` aanroept krijgt v20.19.5 terwijl de image v24 aan
+boord heeft. Dat is een aparte, kleinere kwestie — niet wat action-majors blokkeerde.
+
+**Gevolg.** De majors zijn weer voorstelbaar. Ze staan wel op `needs-manual-review` en niet op
+automerge: één canary-job is geen hele pipeline, en een echte PR die de complete gate draait is
+het bewijs dat telt.
+
+**Les.** "X is stuk" zonder het logregeltje erbij is een aanname die zichzelf jaren in stand
+houdt. De canary kostte één workflow en één run.
+
 ## Dependency Dashboard: drie waarschuwingen die geen enkele job rood maken
 
 Deze drie staan in het Repository Problems-blok van

@@ -71,21 +71,16 @@
       "addLabels": ["github-actions"]
     },
     {
-      "description": "actions/setup-node majors declare `using: node24`, and the Forgejo runner executes host-mode JS actions with whatever `node` PATH resolves first. The runner ScaledJob prepends /home/runner/externals/node20/bin, so that is node20 — the same reason actions/checkout majors are disabled above. Re-enable once the runner stops shadowing the image's system node 24 (homelab-cluster forgejo-runner/app/scaledjob.yaml) and a canary job has proven checkout@v6 green.",
-      "matchPackageNames": ["actions/setup-node"],
+      "description": "actions/checkout and actions/setup-node majors were disabled here on the estate-wide belief that 'v6 is stuk op niet-GitHub-runners'. Measured on 2026-09-18 with the homelab-cluster canary (run 1710): checkout v6 and v7 and setup-node v5, v6 and v7 all pass on the Forgejo runner, doing real git work and reporting node v24.21.0. The runner picks the node an action declares in `using:` from externals/, where a glibc node24 (v24.16.0) does exist — the PATH prepend to node20 only ever affected shell steps. So the majors are proposable again, but not automergeable: one canary job is not a full pipeline, and a real PR running the whole gate is the proof that matters.",
+      "matchPackageNames": ["actions/checkout", "actions/setup-node"],
       "matchUpdateTypes": ["major"],
-      "enabled": false
+      "automerge": false,
+      "addLabels": ["needs-manual-review"]
     },
     {
       "description": "pnpm-workspace.yaml overrides are security floors, not dependencies. A major retargets the floor onto packages that pin the old major — nanoid 4+ is ESM-only and postcss requires CJS, and undici 8 would be forced onto miniflare, which pins 7 for workerd. A pin turns `^3.3.17` into `3.3.19`, which stops the floor from absorbing future patches and makes it a manual bump forever.",
       "matchFileNames": ["pnpm-workspace.yaml"],
       "matchUpdateTypes": ["major", "pin"],
-      "enabled": false
-    },
-    {
-      "description": "actions/checkout stays on v5: v6 and later are broken on non-GitHub runners, so a major bump is never a valid PR here.",
-      "matchPackageNames": ["actions/checkout"],
-      "matchUpdateTypes": ["major"],
       "enabled": false
     },
     {

@@ -17,7 +17,7 @@ jobs:
     runs-on: docker
     environment: production
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
         with:
           fetch-depth: 0
       - name: Check out the latest stable release
@@ -31,7 +31,7 @@ jobs:
           echo "redeploying ${tag}"
           git checkout --quiet "${tag}"
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: "24"
 

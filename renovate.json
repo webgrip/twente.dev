@@ -12,169 +12,109 @@
     "description": "Security fixes merge themselves once the gate is green. Renovate opens them immediately by default; without automerge they sat open for twelve days while every check passed. Majors are excluded: a security fix that also changes an API is a migration, not a patch.",
     "automerge": true,
     "automergeType": "pr",
-    "addLabels": [
-      "automerge",
-      "security"
-    ],
+    "addLabels": ["automerge", "security"],
     "packageRules": [
       {
         "description": "A major security bump is still a major. Open it immediately, merge it by hand.",
-        "matchUpdateTypes": [
-          "major"
-        ],
+        "matchUpdateTypes": ["major"],
         "automerge": false,
-        "addLabels": [
-          "needs-manual-review"
-        ]
+        "addLabels": ["needs-manual-review"]
       }
     ]
   },
   "packageRules": [
     {
+      "description": "The customManagers above capture a version but no digest. The org preset's global pinDigests then tries to append one, the replacement never applies, and a single failed dep aborts the whole branch with 'Error updating branch: update failure' — the same way it did for the preset reference and for mise aqua entries (see preset rules 9 and 12).",
+      "matchManagers": ["custom.regex"],
+      "pinDigests": false
+    },
+    {
       "description": "Minor and patch open without dashboard approval and merge themselves when CI is green. The gate runs typecheck, lint, unit tests, content and mail validation, container parity, Lighthouse and axe before a merge is possible, and a merge only reaches staging: production still waits for the promotion PR.",
-      "matchUpdateTypes": [
-        "minor",
-        "patch"
-      ],
+      "matchUpdateTypes": ["minor", "patch"],
       "dependencyDashboardApproval": false,
       "automerge": true,
       "automergeType": "pr",
-      "addLabels": [
-        "automerge"
-      ]
+      "addLabels": ["automerge"]
     },
     {
       "description": "The soak time the org preset intends, restored on the path where nothing else guards. Preset rule 12 sets minimumReleaseAge to zero on the reasoning that dashboard approval is the gate, and its own description says to re-add it wherever a repo automerges unattended. This repo does, so a package published minutes ago cannot merge itself here.",
-      "matchUpdateTypes": [
-        "minor"
-      ],
+      "matchUpdateTypes": ["minor"],
       "minimumReleaseAge": "3 days"
     },
     {
       "description": "Same reasoning as the minor soak above; the preset's intended patch soak.",
-      "matchUpdateTypes": [
-        "patch"
-      ],
+      "matchUpdateTypes": ["patch"],
       "minimumReleaseAge": "1 day"
     },
     {
       "description": "A dependency minor is not a feature of this site. Patch and minor land as fix so they cut a patch release, which is what the release-driven deploy model needs, without inflating our own minor. Majors keep feat, per the org preset's reasoning that a dependency's major is not the consuming product's major.",
-      "matchUpdateTypes": [
-        "minor",
-        "patch"
-      ],
+      "matchUpdateTypes": ["minor", "patch"],
       "semanticCommitType": "fix"
     },
     {
       "description": "The github-actions manager still parses these files, so without this it proposes the same webgrip/* deps against github.com in parallel with the customManager above and re-raises the lookup failures. custom.regex owns webgrip/* now.",
-      "matchManagers": [
-        "github-actions"
-      ],
-      "matchPackageNames": [
-        "webgrip/**"
-      ],
+      "matchManagers": ["github-actions"],
+      "matchPackageNames": ["webgrip/**"],
       "enabled": false
     },
     {
       "description": "Keep the customManager's webgrip/* workflow pins on the org preset's github-actions shape: a CI-only commit that releases nothing, automerged on minor and patch once the gate is green. Matching by manager no longer reaches them, so restate it by datasource.",
-      "matchDatasources": [
-        "gitea-tags"
-      ],
+      "matchDatasources": ["gitea-tags"],
       "semanticCommitType": "ci",
       "semanticCommitScope": "actions",
       "commitMessagePrefix": "{{semanticCommitType}}({{semanticCommitScope}}):",
-      "addLabels": [
-        "github-actions"
-      ]
+      "addLabels": ["github-actions"]
     },
     {
       "description": "actions/setup-node majors declare `using: node24`, and the Forgejo runner executes host-mode JS actions with whatever `node` PATH resolves first. The runner ScaledJob prepends /home/runner/externals/node20/bin, so that is node20 — the same reason actions/checkout majors are disabled above. Re-enable once the runner stops shadowing the image's system node 24 (homelab-cluster forgejo-runner/app/scaledjob.yaml) and a canary job has proven checkout@v6 green.",
-      "matchPackageNames": [
-        "actions/setup-node"
-      ],
-      "matchUpdateTypes": [
-        "major"
-      ],
+      "matchPackageNames": ["actions/setup-node"],
+      "matchUpdateTypes": ["major"],
       "enabled": false
     },
     {
       "description": "pnpm-workspace.yaml overrides are security floors, not dependencies. A major retargets the floor onto packages that pin the old major — nanoid 4+ is ESM-only and postcss requires CJS, and undici 8 would be forced onto miniflare, which pins 7 for workerd. A pin turns `^3.3.17` into `3.3.19`, which stops the floor from absorbing future patches and makes it a manual bump forever.",
-      "matchFileNames": [
-        "pnpm-workspace.yaml"
-      ],
-      "matchUpdateTypes": [
-        "major",
-        "pin"
-      ],
+      "matchFileNames": ["pnpm-workspace.yaml"],
+      "matchUpdateTypes": ["major", "pin"],
       "enabled": false
     },
     {
       "description": "actions/checkout stays on v5: v6 and later are broken on non-GitHub runners, so a major bump is never a valid PR here.",
-      "matchPackageNames": [
-        "actions/checkout"
-      ],
-      "matchUpdateTypes": [
-        "major"
-      ],
+      "matchPackageNames": ["actions/checkout"],
+      "matchUpdateTypes": ["major"],
       "enabled": false
     },
     {
       "description": "Astro majors move fast and can change routing/content APIs. Never automerge.",
-      "matchPackageNames": [
-        "astro",
-        "@astrojs/**"
-      ],
-      "matchUpdateTypes": [
-        "major"
-      ],
+      "matchPackageNames": ["astro", "@astrojs/**"],
+      "matchUpdateTypes": ["major"],
       "automerge": false,
-      "labels": [
-        "dependencies",
-        "needs-manual-review"
-      ]
+      "labels": ["dependencies", "needs-manual-review"]
     },
     {
       "description": "TypeScript majors (7.x is the native-port major) are planned deliberately, never automerged.",
-      "matchPackageNames": [
-        "typescript"
-      ],
-      "matchUpdateTypes": [
-        "major"
-      ],
+      "matchPackageNames": ["typescript"],
+      "matchUpdateTypes": ["major"],
       "automerge": false,
-      "labels": [
-        "dependencies",
-        "needs-manual-review"
-      ]
+      "labels": ["dependencies", "needs-manual-review"]
     },
     {
       "description": "wrangler ships frequently; group it so deploys are not churned one PR at a time.",
-      "matchPackageNames": [
-        "wrangler"
-      ],
+      "matchPackageNames": ["wrangler"],
       "groupName": "cloudflare tooling"
     },
     {
       "description": "wrangler is the only exception to automerging minor and patch, and not out of caution: the gate runs before the deploy, so no check in this repo can catch a wrangler regression. A green CI run says nothing about whether the site still deploys.",
-      "matchPackageNames": [
-        "wrangler"
-      ],
+      "matchPackageNames": ["wrangler"],
       "automerge": false,
-      "addLabels": [
-        "needs-manual-review"
-      ]
+      "addLabels": ["needs-manual-review"]
     }
   ],
-  "baseBranchPatterns": [
-    "development"
-  ],
+  "baseBranchPatterns": ["development"],
   "customManagers": [
     {
       "description": "webgrip/workflows is Forgejo-native, and the github-actions manager always resolves `uses:` through the github-tags datasource against api.github.com. The github.com twin of this repo carries branches but no tags (github-distribute.yml does not run on it), so every pin came back as `Can't find version matching vX.Y.Z` and the lanes sat frozen from v1.6.0/v2.1.0 while v2.7.2 shipped. gitea-tags reads the authoritative Forgejo tag list and its getDigest resolves a tag to its commit SHA, so both halves of the pin (the digest and the `# vX.Y.Z` comment the github-actions manager needs) update together.",
       "customType": "regex",
-      "managerFilePatterns": [
-        "/^\\.forgejo/workflows/.*\\.ya?ml$/"
-      ],
+      "managerFilePatterns": ["/^\\.forgejo/workflows/.*\\.ya?ml$/"],
       "matchStrings": [
         "uses:\\s+(?<depName>webgrip/[\\w.-]+)/[^@\\s]+@(?<currentDigest>[0-9a-f]{40})\\s+#\\s+(?<currentValue>v\\d+\\.\\d+\\.\\d+)"
       ],
@@ -182,6 +122,32 @@
       "registryUrlTemplate": "https://forgejo.webgrip.dev",
       "versioningTemplate": "semver",
       "depTypeTemplate": "action"
+    },
+    {
+      "description": "The dockerfile manager reports exactly one dep for ops/docker/web/Dockerfile: `docker/dockerfile 1` from the syntax directive. Both real base images are declared as `ARG X_IMAGE=${REGISTRY_DOCKERHUB}/...` and the nested variable defeats the manager's ARG resolution, so nginx-unprivileged has never been offered an update by anything.",
+      "customType": "regex",
+      "managerFilePatterns": ["/^ops/docker/web/Dockerfile$/"],
+      "matchStrings": [
+        "ARG \\w+_IMAGE=\\$\\{REGISTRY_DOCKERHUB\\}/(?<depName>[^:\\s]+):(?<currentValue>[^\\s@]+)"
+      ],
+      "datasourceTemplate": "docker",
+      "registryUrlTemplate": "https://index.docker.io"
+    },
+    {
+      "description": "license:reuse pins a Python package inside an npm script, where no manager looks. uvx resolves it from PyPI at run time, so a pin here ages exactly like a dependency.",
+      "customType": "regex",
+      "managerFilePatterns": ["/^package\\.json$/"],
+      "matchStrings": [
+        "--from '(?<depName>[A-Za-z0-9_.-]+)\\[[^\\]]*\\]==(?<currentValue>[0-9][^']*)'"
+      ],
+      "datasourceTemplate": "pypi"
+    },
+    {
+      "description": "The lighthouse recipe pins @lhci/cli through `pnpm dlx`, which is invisible to the npm manager because it is not in package.json. CI runs Lighthouse through the shared lane, so this pin only drives local runs — but it still silently rots.",
+      "customType": "regex",
+      "managerFilePatterns": ["/^justfile$/"],
+      "matchStrings": ["pnpm dlx (?<depName>@?[\\w./-]+)@(?<currentValue>[0-9][^\\s]*)"],
+      "datasourceTemplate": "npm"
     }
   ]
 }

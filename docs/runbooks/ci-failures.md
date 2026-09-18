@@ -438,6 +438,23 @@ minimumReleaseAgeExclude:
 die gate niet. Elke repo die dat preset gebruikt en op pnpm 11 draait, heeft dezelfde twee uur
 soaktijd en dus dezelfde rode PR in het verschiet.
 
+**Nagekomen (2026-09-18).** De pnpm-kant staat nu expliciet in
+[`pnpm-workspace.yaml`](https://forgejo.webgrip.dev/webgrip/twente.dev/src/branch/development/pnpm-workspace.yaml):
+`minimumReleaseAge: 1440` en `minimumReleaseAgeStrict: true`. Dezelfde 24 uur als de ingebouwde
+waarde, dus geen gedragsverandering op pnpm 11 — maar wel zichtbaar in het bestand waar de runbook
+naar wijst, en bestand tegen een upstream-default die verschuift.
+
+`minimumReleaseAgeStrict` staat er expliciet bij omdat die op pnpm 12 **standaard `true` wordt zodra
+`minimumReleaseAge` expliciet is gezet**. Zonder die regel zou de pnpm 12-upgrade stilletjes van
+gedrag veranderen; nu is er niets impliciets meer om over te struikelen. Wat `strict` doet is
+overigens _resolutie_: valt er geen versie in de range binnen de soak, dan faalt pnpm in plaats van
+stilletjes terug te vallen op iets ouders. Het lost deze storing **niet** op — die zit in
+`--frozen-lockfile`, waar niets te resolven valt en de lockfile-entry simpelweg geverifieerd wordt.
+
+De twee soaks blijven naast elkaar bestaan en dat is expres: Renovate bewaakt de directe
+dependencies, pnpm bewaakt ook de transitieve. Dat laatste is precies wat pnpm 11 met die default
+kwam brengen en wat `internalChecksFilter` niet kan geven.
+
 ## Dependency Dashboard: drie waarschuwingen die geen enkele job rood maken
 
 Deze drie staan in het Repository Problems-blok van

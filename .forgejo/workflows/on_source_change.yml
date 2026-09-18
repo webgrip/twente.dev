@@ -69,7 +69,7 @@ jobs:
 
   lighthouse:
     name: "Lighthouse Budgets"
-    uses: webgrip/workflows/.forgejo/workflows/lighthouse-budgets.yml@cfca5d381db0ae44912faf34e105721eede2ee3e # v2.1.0
+    uses: webgrip/workflows/.forgejo/workflows/lighthouse-budgets.yml@43f4088df6df3f225a07ab66b9f2b4c4d23cf579 # v2.7.1
 
   accessibility:
     name: "Accessibility (axe-core)"

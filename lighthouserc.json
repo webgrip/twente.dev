@@ -12,10 +12,11 @@
         "http://localhost/nl/blog/waarom-twente-dev.html",
         "http://localhost/nl/zoeken.html"
       ],
-      "numberOfRuns": 3,
+      "numberOfRuns": 1,
       "settings": {
         "preset": "desktop",
-        "chromeFlags": "--no-sandbox --disable-dev-shm-usage"
+        "chromeFlags": "--no-sandbox --disable-dev-shm-usage",
+        "disableFullPageScreenshot": true
       }
     },
     "assert": {

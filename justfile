@@ -98,7 +98,7 @@ build:
 
 [group('check')]
 lhci: build
-    pnpm dlx @lhci/cli@0.15.x autorun
+    pnpm dlx @lhci/cli@0.15.1 autorun
 
 [group('check')]
 a11y: build

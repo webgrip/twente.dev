@@ -438,6 +438,77 @@ minimumReleaseAgeExclude:
 die gate niet. Elke repo die dat preset gebruikt en op pnpm 11 draait, heeft dezelfde twee uur
 soaktijd en dus dezelfde rode PR in het verschiet.
 
+## Dependency Dashboard: drie waarschuwingen die geen enkele job rood maken
+
+Deze drie staan in het Repository Problems-blok van
+[issue 2](https://forgejo.webgrip.dev/webgrip/twente.dev/issues/2). Geen van drieën zet een run op
+rood — dat is precies waarom ze maandenlang bleven staan.
+
+### `Package lookup failures` op `webgrip/workflows`
+
+**Symptoom.** Zeven regels `Can't find version matching vX.Y.Z for github-tags package
+webgrip/workflows`, terwijl `/api/v1/repos/webgrip/workflows/tags` alle tags gewoon serveert. Er
+komt nooit een PR voor een lane, dus de pins verouderen zonder signaal: op 2026-09-18 stond
+`on_docs_change.yml` op v1.6.0 en `link-check.yml` op v2.1.0 terwijl v2.7.2 al uit was.
+
+**Oorzaak.** Platform en datasource zijn twee assen. Renovate draait tegen Forgejo, maar de
+`github-actions`-manager kent maar één datasource — `github-tags`, tegen api.github.com. En
+`github.com/webgrip/workflows` _bestaat_: het is de distributietweeling, met branches maar zonder
+tags, want `github-distribute.yml` draait niet op die repo. Een lege taglijst geeft "can't find
+version" in plaats van "not found", en dus geen fout maar een stilte.
+
+De `# vX.Y.Z`-comments achter de digest hebben hier niets mee te maken. Die repareerden de
+_detectie_; de resolutie bleef kapot.
+
+**Fix.** Gelandt in [ADR 0022](../adrs/0022-forgejo-native-deps-resolve-against-forgejo.md): een
+`customManagers`-regex leest de pins via `gitea-tags` tegen forgejo.webgrip.dev, en de
+`github-actions`-manager staat uit voor `webgrip/**`. Controleer met `just renovate-coverage`.
+
+### `No docker auth found - returning`
+
+**Symptoom.** Die regel, plus `Failed to look up docker package docker.io/library/node: no-result`.
+
+**Oorzaak.** Een _afgewezen_ credential, niet een ontbrekende. Renovate logt deze regel wanneer
+`getAuthHeaders` `undefined` teruggeeft, en de tak die dat doet bij Docker Hub is een 401 op de
+tokenuitwisseling. Zonder credential loopt Renovate gewoon over het anonieme pad en krijgt een
+geldig token. Na te lopen met drie curls:
+
+```bash
+curl -sI https://index.docker.io/v2/ | grep -i www-authenticate
+curl -s -o /dev/null -w '%{http_code}\n' \
+  'https://auth.docker.io/token?scope=repository:library/node:pull&service=registry.docker.io'
+curl -s -u "<user>:<token>" -o /dev/null -w '%{http_code}\n' \
+  'https://auth.docker.io/token?scope=repository:library/node:pull&service=registry.docker.io'
+```
+
+Anoniem hoort 200 te geven. Geeft de derde 401, dan is de token verlopen of ingetrokken. Dezelfde
+faalvorm staat als Harbor-variant in de
+[Renovate-runbook van homelab-cluster](https://forgejo.webgrip.dev/webgrip/homelab-cluster/src/branch/main/docs/techdocs/docs/runbooks/renovate.md):
+een afgewezen credential is erger dan geen credential, want hij blokkeert het anonieme pad.
+
+**Fix.** Niet in deze repo. De waarde staat in OpenBao onder `renovate/operator`
+(`RENOVATE_DOCKERHUB_TOKEN` / `RENOVATE_DOCKERHUB_USERNAME`) en wordt door de
+token-minter-CronJob in `RENOVATE_HOST_RULES` gevouwen. **Let op:** er staat een tweede,
+onafhankelijk paar onder `harbor/registry-proxy` (`DOCKERHUB_TOKEN` / `DOCKERHUB_USERNAME`) voor
+Harbors pull-through cache. Twee kopieën van dezelfde credential roteren niet vanzelf samen — dat
+is de waarschijnlijke reden dat deze er één verloor.
+
+### `` `mise lock` was requested to run, but `mise` is not permitted in the allowedUnsafeExecutions ``
+
+**Symptoom.** Die regel, en een [`mise.lock`](../../mise.lock) die achterloopt op
+[`mise.toml`](../../mise.toml).
+
+**Oorzaak.** `mise.toml` zet `lockfile = true`, dus de mise-manager wil `mise lock` draaien om de
+lockfile bij te werken. De Renovate-executor staat dat niet toe: de admin-ConfigMap
+(`renovate-operator/jobs/configmap-forgejo.yaml`) zet wel `allowedCommands`, maar geen
+`allowedUnsafeExecutions`.
+
+**Fix.** Admin-config, niet repo-config — de
+[algemene Renovate-docs van homelab-cluster](https://forgejo.webgrip.dev/webgrip/homelab-cluster/src/branch/main/docs/techdocs/docs/general/renovate.md)
+zeggen expliciet dat dit soort instellingen in de ConfigMap horen en dat Renovate ze in repo-config
+negeert. Tot dat landt: een `uv`-, `just`- of `node`-bump herschrijft `mise.toml` en laat
+`mise.lock` staan.
+
 ## De Actions-API uitlezen als de UI te traag is
 
 `/api/v1/repos/webgrip/twente.dev/actions/runs` negeert `limit` en geeft honderden rijen terug

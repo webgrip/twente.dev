@@ -122,6 +122,9 @@ silent failure modes, and the HTML fallback are in
 - **The CI runner's docker is a sibling, not a child.** Published ports and bind mounts resolve in
   the host namespace where the checkout does not exist; share a network namespace or `docker cp`
   (see `efa10df`).
+- **Docs stay short and current.** Update the page that already covers the subject before adding a
+  new one, and cut a line before adding a section. A doc nobody finishes reading is worse than the
+  three sentences that would have been read. Same for what an agent writes back in chat.
 - **Copy rules live in [`docs/brand/copy-voice.md`](docs/brand/copy-voice.md)** — what we never
   promise a speaker, the phrases that are banned, how a call to action is framed, and the facts
   that keep getting mangled. Read it before writing anything public-facing.

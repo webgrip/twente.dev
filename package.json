@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "description": "twente.dev \u2014 the homepage for software developers in Twente. Bilingual (NL/EN) static community hub and blog.",
+  "description": "twente.dev — the homepage for software developers in Twente. Bilingual (NL/EN) static community hub and blog.",
   "repository": {
     "type": "git",
     "url": "https://forgejo.webgrip.dev/webgrip/twente.dev.git"
@@ -31,6 +31,7 @@
     "test": "node --test --experimental-strip-types \"src/lib/**/*.test.ts\"",
     "validate:content": "node --experimental-strip-types scripts/validate-content.ts",
     "validate:docs": "node --experimental-strip-types scripts/validate-docs-links.ts",
+    "validate:renovate-coverage": "node scripts/renovate-coverage.mjs",
     "validate:csp": "webgrip-validate-csp",
     "validate:mail-auth": "webgrip-validate-mail-auth",
     "validate:mta-sts": "node --experimental-strip-types scripts/validate-mta-sts.ts",

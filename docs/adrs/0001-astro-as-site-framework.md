@@ -4,7 +4,7 @@
 - **Deciders**: Ryan Grippeling
 - **Date**: 2026-08-03
 - **Tags**: Frontend::Framework, Content, i18n
-- **Version**: 1.0.0
+- **Version**: 1.1.0
 
 ---
 
@@ -67,8 +67,9 @@ rendering (driver 4), it fits the problem more precisely than the alternatives.
 
 - Astro majors move quickly and have changed content/routing APIs before. Renovate is configured to
   never automerge Astro majors.
-- Ties us to zod's major version, which Astro also depends on. Pinned deliberately; see
-  `src/content.config.ts`.
+- Ties us to whichever zod Astro bundles. `src/content.config.ts` imports `z` from `astro/zod`
+  rather than declaring zod itself, so the two can never be different copies — zod 4 encodes its
+  own minor in the type, and a second copy makes every collection schema unassignable.
 
 ## Confirmation
 
@@ -78,6 +79,7 @@ rendering (driver 4), it fits the problem more precisely than the alternatives.
 
 ## Revision Log
 
-| Date       | Version | Change                                      |
-| ---------- | ------- | ------------------------------------------- |
-| 2026-08-03 | 1.0.0   | Initial decision; scaffolded on Astro 7.1.6 |
+| Date       | Version | Change                                           |
+| ---------- | ------- | ------------------------------------------------ |
+| 2026-08-03 | 1.0.0   | Initial decision; scaffolded on Astro 7.1.6      |
+| 2026-09-18 | 1.1.0   | zod comes from `astro/zod`; no direct dependency |

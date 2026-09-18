@@ -42,7 +42,7 @@ const mailSubject = encodeURIComponent(
       kicker={`twente.dev // ${title.toLowerCase()}`}
     >
       <div class="suggest-box">
-        <p class="suggest-title">{t('communities.suggest')}</p>
+        <h2 class="suggest-title">{t('communities.suggest')}</h2>
         <p class="suggest-hint">{t('communities.consentNote')}</p>
         <ul class="suggest-links" role="list">
           <li>
@@ -242,6 +242,9 @@ const mailSubject = encodeURIComponent(
   }
 
   .suggest-title {
+    font-size: inherit;
+    line-height: inherit;
+    letter-spacing: inherit;
     font-weight: 650;
   }
 

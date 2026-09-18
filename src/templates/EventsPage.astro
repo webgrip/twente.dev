@@ -58,7 +58,7 @@ const GOOGLE_CALENDAR_URL = `https://calendar.google.com/calendar/r?cid=${encode
       kicker={`twente.dev // ${t('events.title').toLowerCase()}`}
     >
       <div class="subscribe">
-        <p class="subscribe-title">{t('events.subscribe')}</p>
+        <h2 class="subscribe-title">{t('events.subscribe')}</h2>
         <p class="subscribe-hint">{t('events.subscribeHint')}</p>
         <ul class="subscribe-links" role="list">
           <li>
@@ -145,6 +145,9 @@ const GOOGLE_CALENDAR_URL = `https://calendar.google.com/calendar/r?cid=${encode
   }
 
   .subscribe-title {
+    font-size: inherit;
+    line-height: inherit;
+    letter-spacing: inherit;
     font-weight: 650;
   }
 

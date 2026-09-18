@@ -37,10 +37,10 @@ const targets = otherLocales(locale).map((target) => {
         href={target.href}
         hreflang={LOCALE_TAGS[target.locale]}
         lang={target.locale}
-        aria-label={SWITCH_LABELS[target.locale]}
         rel={target.missing ? 'nofollow' : undefined}
       >
         <abbr title={LOCALE_NAMES[target.locale]}>{target.locale.toUpperCase()}</abbr>
+        <span class="visually-hidden">{SWITCH_LABELS[target.locale]}</span>
       </a>
     ))
   }

@@ -11,4 +11,6 @@ const A11Y_ONLY_PAGES = [
   '/en/contribute.html',
 ];
 
-await runAxeScan({ a11yOnlyPages: A11Y_ONLY_PAGES });
+const BLOCKING_IMPACTS = ['minor', 'moderate', 'serious', 'critical'];
+
+await runAxeScan({ a11yOnlyPages: A11Y_ONLY_PAGES, blockingImpacts: BLOCKING_IMPACTS });

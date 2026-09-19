@@ -19,7 +19,7 @@ env:
 jobs:
   static-analysis:
     name: "Static Analysis"
-    uses: webgrip/workflows/.forgejo/workflows/node-application-static-analysis.yml@43f4088df6df3f225a07ab66b9f2b4c4d23cf579 # v2.7.1
+    uses: webgrip/workflows/.forgejo/workflows/node-application-static-analysis.yml@14870460443dac1e03fc3eccdebcec56d748fbb1 # v2.7.4
     with:
       node-version: "24"
       package-manager: pnpm
@@ -31,7 +31,7 @@ jobs:
 
   tests-and-build:
     name: "Tests & Build"
-    uses: webgrip/workflows/.forgejo/workflows/node-application-tests.yml@43f4088df6df3f225a07ab66b9f2b4c4d23cf579 # v2.7.1
+    uses: webgrip/workflows/.forgejo/workflows/node-application-tests.yml@14870460443dac1e03fc3eccdebcec56d748fbb1 # v2.7.4
     with:
       node-version: "24"
       package-manager: pnpm
@@ -69,7 +69,7 @@ jobs:
 
   lighthouse:
     name: "Lighthouse Budgets"
-    uses: webgrip/workflows/.forgejo/workflows/lighthouse-budgets.yml@43f4088df6df3f225a07ab66b9f2b4c4d23cf579 # v2.7.1
+    uses: webgrip/workflows/.forgejo/workflows/lighthouse-budgets.yml@14870460443dac1e03fc3eccdebcec56d748fbb1 # v2.7.4
 
   accessibility:
     name: "Accessibility (axe-core)"
@@ -97,7 +97,7 @@ jobs:
       - container-parity
       - lighthouse
       - accessibility
-    uses: webgrip/workflows/.forgejo/workflows/semantic-release.yml@cd0550751c9e0414c8dc32d62ff099ff38c7a284 # v2.7.2
+    uses: webgrip/workflows/.forgejo/workflows/semantic-release.yml@14870460443dac1e03fc3eccdebcec56d748fbb1 # v2.7.4
     with:
       only-refs: refs/heads/main refs/heads/development
       install-dependencies: "false"

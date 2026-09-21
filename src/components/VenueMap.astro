@@ -41,13 +41,9 @@ const parking = release.venueParking?.[locale];
   <figcaption>
     <p class="venue-map-address">
       <strong>{release.venueName ?? release.city}</strong>
-      {
-        release.venuePostalAddress && (
-          <span class="venue-map-street">
-            {release.venuePostalAddress}, {release.city}
-          </span>
-        )
-      }
+      {release.venuePostalAddress && <span class="venue-map-street">
+        {release.venuePostalAddress}, {release.city}
+      </span>}
     </p>
     {directions && <p class="venue-map-directions">{directions}</p>}
     {parking && <p class="venue-map-directions">{parking}</p>}

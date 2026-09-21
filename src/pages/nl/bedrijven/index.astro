@@ -14,16 +14,14 @@ const release = await getCurrentRelease();
   description="Een zaal voor een latere release, of je team op de avond wijzen. Wat een bedrijf kan bijdragen, en wat het daarmee niet koopt."
 >
   <p>
-    <a href={routePath('release', 'nl', release.number)}>{releaseName(release.number)}</a> is op {
-      formatDate(release.doors, 'nl')
-    } bij {release.venueName} in {release.city}. Die zaal is rond. Voor de releases daarna zoeken we
-    steeds een nieuwe gastheer: een ruimte waar {release.capacity} mensen in passen, met eten en drinken
-    erbij. Je naam staat dan op de releasepagina en in de zaal, en daar houdt het op. Een spreekplek zit
-    er niet bij, ook niet voor de gastheer, want wie er op het podium staat bepaalt de <a
-      href={routePath('contribute', 'nl')}>open call</a
-    >. De deelnemerslijst gaat naar niemand. De rest van de afspraken staat op <a
-      href={routePath('partners', 'nl')}>partners</a
-    >.
+    <a href={routePath('release', 'nl', release.number)}>{releaseName(release.number)}</a> is op
+    {formatDate(release.doors, 'nl')} bij {release.venueName} in {release.city}. Die zaal is rond.
+    Voor de releases daarna zoeken we steeds een nieuwe gastheer: een ruimte waar {release.capacity}
+    mensen in passen, met eten en drinken erbij. Je naam staat dan op de releasepagina en in de
+    zaal, en daar houdt het op. Een spreekplek zit er niet bij, ook niet voor de gastheer, want wie
+    er op het podium staat bepaalt de <a href={routePath('contribute', 'nl')}>open call</a>. De
+    deelnemerslijst gaat naar niemand. De rest van de afspraken staat op
+    <a href={routePath('partners', 'nl')}>partners</a>.
   </p>
   <p>
     Geen zaal, wel mensen? Wijs je team op de avond. De talks gaan over echte systemen, en de mensen

@@ -65,17 +65,11 @@ const jsonLd = [
         <span aria-hidden="true">·</span>
         <span>{minutes} {t('blog.readingTime')}</span>
       </p>
-      {
-        post.data.tags.length > 0 && (
-          <ul class="tags">
-            {post.data.tags.map((tag) => (
-              <li>
-                <Tag>{tag}</Tag>
-              </li>
-            ))}
-          </ul>
-        )
-      }
+      {post.data.tags.length > 0 && <ul class="tags">
+        {post.data.tags.map((tag) => <li>
+          <Tag>{tag}</Tag>
+        </li>)}
+      </ul>}
     </header>
 
     {missingTranslation && <p class="notice">{t('blog.onlyInOtherLocale')}</p>}
@@ -84,16 +78,12 @@ const jsonLd = [
       <Content />
     </div>
 
-    {
-      post.data.updatedAt && (
-        <p class="updated">
-          {t('blog.updatedOn')}{' '}
-          <time datetime={post.data.updatedAt.toISOString()}>
-            {formatDate(post.data.updatedAt, locale)}
-          </time>
-        </p>
-      )
-    }
+    {post.data.updatedAt && <p class="updated">
+      {t('blog.updatedOn')}{' '}
+      <time datetime={post.data.updatedAt.toISOString()}>
+        {formatDate(post.data.updatedAt, locale)}
+      </time>
+    </p>}
   </article>
 </BaseLayout>
 

@@ -15,15 +15,11 @@ const { id, label, tabs } = Astro.props;
 
 <div class="tabs" id={id} data-tabs>
   <ul class="tabs-list" aria-label={label} data-tabs-list>
-    {
-      tabs.map((tab) => (
-        <li>
-          <a class="tabs-tab" id={`${tab.id}-tab`} href={`#${tab.id}`} data-tabs-tab={tab.id}>
-            {tab.label}
-          </a>
-        </li>
-      ))
-    }
+    {tabs.map((tab) => <li>
+      <a class="tabs-tab" id={`${tab.id}-tab`} href={`#${tab.id}`} data-tabs-tab={tab.id}>
+        {tab.label}
+      </a>
+    </li>)}
   </ul>
   <div class="tabs-panels"><slot /></div>
 </div>

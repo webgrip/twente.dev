@@ -45,24 +45,20 @@ const openCallMail = `mailto:${CONTACT_EMAIL}?subject=Open%20call%20${release}`;
         <li>The subject does not matter as long as you did the work yourself.</li>
         <li>Who gets on stage is decided by the open call, on the same terms for everyone.</li>
       </ul>
-      {
-        PRETALX_CFP_URL ? (
-          <p>
-            <a class="button button--primary" href={PRETALX_CFP_URL} rel="noopener">
-              Submit your talk
-            </a>
-          </p>
-        ) : (
-          <p>
-            The open call currently runs by e-mail: send three sentences on what it is about to{' '}
-            <span>
-              <a href={openCallMail}>{CONTACT_EMAIL}</a>.
-            </span>
-            If there are more proposals than slots, the call moves to a public submission tool with
-            availability and review. It is ready, and it opens when it adds something.
-          </p>
-        )
-      }
+      {PRETALX_CFP_URL ? (
+        <p>
+          <a class="button button--primary" href={PRETALX_CFP_URL} rel="noopener">
+            Submit your talk
+          </a>
+        </p>
+      ) : (
+        <p>
+          The open call currently runs by e-mail: send three sentences on what it is about to{' '}
+          <span> <a href={openCallMail}>{CONTACT_EMAIL}</a>. </span>
+          If there are more proposals than slots, the call moves to a public submission tool with
+          availability and review. It is ready, and it opens when it adds something.
+        </p>
+      )}
     </div>
 
     <div id="venue" data-tabs-panel>
@@ -152,9 +148,9 @@ const openCallMail = `mailto:${CONTACT_EMAIL}?subject=Open%20call%20${release}`;
 
   <h2>Stay in the loop</h2>
   <p>
-    Contributing does not have to start today. One email when the {release} programme is set, one when
-    registration opens, and the field reports after that. That way you can see the kind of story that
-    lands here before you send one in yourself.
+    Contributing does not have to start today. One email when the {release} programme is set, one
+    when registration opens, and the field reports after that. That way you can see the kind of
+    story that lands here before you send one in yourself.
   </p>
   <NewsletterForm locale="en" id="contribute-updates" />
 

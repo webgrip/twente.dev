@@ -68,16 +68,12 @@ const bands = [
       </div>
 
       <ol class="hero-index" role="list">
-        {
-          bands.map((band) => (
-            <li>
-              <a href={`#${band.id}`}>
-                <span class="label-mono hero-index-num">{band.index}</span>
-                <span class="hero-index-title">{band.title}</span>
-              </a>
-            </li>
-          ))
-        }
+        {bands.map((band) => <li>
+          <a href={`#${band.id}`}>
+            <span class="label-mono hero-index-num">{band.index}</span>
+            <span class="hero-index-title">{band.title}</span>
+          </a>
+        </li>)}
       </ol>
     </div>
   </div>
@@ -101,18 +97,14 @@ const bands = [
         </div>
 
         <div class="feature-panel">
-          {
-            !REGISTRATION_URL && (
-              <p class="feature-registration">
-                <span class="label-mono feature-registration-label">
-                  {t('release.registrationOpens')}
-                </span>
-                <time class="feature-registration-date" datetime={REGISTRATION_OPENS.toISOString()}>
-                  {formatDate(REGISTRATION_OPENS, locale)}
-                </time>
-              </p>
-            )
-          }
+          {!REGISTRATION_URL && <p class="feature-registration">
+            <span class="label-mono feature-registration-label">
+              {t('release.registrationOpens')}
+            </span>
+            <time class="feature-registration-date" datetime={REGISTRATION_OPENS.toISOString()}>
+              {formatDate(REGISTRATION_OPENS, locale)}
+            </time>
+          </p>}
           <a class="button button--primary" href={routePath('release', locale, release.number)}>
             {REGISTRATION_URL ? t('home.hero.ctaReserve') : t('home.next.cta')}
           </a>
@@ -134,20 +126,18 @@ const bands = [
         <p class="band-intro">{t('home.does.calendar.body')}</p>
       </div>
       <div class="band-content">
-        {
-          otherEvents.length === 0 ? (
-            <p class="empty">
-              {t('home.agenda.empty')}{' '}
-              <a href={routePath('contribute', locale)}>{t('events.emptyCta')}</a>
-            </p>
-          ) : (
-            <div class="event-grid">
-              {otherEvents.slice(0, 4).map((event) => (
-                <EventCard event={event} locale={locale} />
-              ))}
-            </div>
-          )
-        }
+        {otherEvents.length === 0 ? (
+          <p class="empty">
+            {t('home.agenda.empty')}{' '}
+            <a href={routePath('contribute', locale)}>{t('events.emptyCta')}</a>
+          </p>
+        ) : (
+          <div class="event-grid">
+            {otherEvents.slice(0, 4).map((event) => (
+              <EventCard event={event} locale={locale} />
+            ))}
+          </div>
+        )}
         <p class="band-link">
           <a href={routePath('events', locale)}>{t('events.subscribe')} →</a>
         </p>
@@ -178,19 +168,17 @@ const bands = [
         <p class="band-intro">{t('home.does.archive.body')}</p>
       </div>
       <div class="band-content">
-        {
-          posts.length === 0 ? (
-            <p class="empty">
-              {t('blog.empty')} <a href={routePath('contribute', locale)}>{t('blog.emptyCta')}</a>
-            </p>
-          ) : (
-            <div class="post-grid">
-              {posts.slice(0, 4).map((post) => (
-                <PostCard post={post} locale={locale} />
-              ))}
-            </div>
-          )
-        }
+        {posts.length === 0 ? (
+          <p class="empty">
+            {t('blog.empty')} <a href={routePath('contribute', locale)}>{t('blog.emptyCta')}</a>
+          </p>
+        ) : (
+          <div class="post-grid">
+            {posts.slice(0, 4).map((post) => (
+              <PostCard post={post} locale={locale} />
+            ))}
+          </div>
+        )}
         <p class="band-link">
           <a href={routePath('blog', locale)}>{t('home.posts.all')} →</a>
         </p>

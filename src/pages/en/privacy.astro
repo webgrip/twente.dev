@@ -31,12 +31,13 @@ import { CONTACT_EMAIL } from '../../config/site.ts';
     third-party service. That is also why no consent banner is needed.
   </p>
   <p>
-    When someone shares a link carrying a campaign label (the <code>utm</code> bits you sometimes see
-    after a URL), we record which channel that visit came through. That happens on the server, with no
-    script in the page and no cookie. What is kept is the page and the labels from the link; deliberately
-    not your IP address, your browser or your device. No visitor can be reconstructed from it, and that
-    is the point: the question is which channel worked, not who came by. This runs on Counterscale, an
-    open-source counter we host ourselves at counterscale.webgrip.dev. After ninety days the data is gone.
+    When someone shares a link carrying a campaign label (the <code>utm</code> bits you sometimes
+    see after a URL), we record which channel that visit came through. That happens on the server,
+    with no script in the page and no cookie. What is kept is the page and the labels from the link;
+    deliberately not your IP address, your browser or your device. No visitor can be reconstructed
+    from it, and that is the point: the question is which channel worked, not who came by. This runs
+    on Counterscale, an open-source counter we host ourselves at counterscale.webgrip.dev. After
+    ninety days the data is gone.
   </p>
 
   <h2>Third parties</h2>
@@ -68,8 +69,8 @@ import { CONTACT_EMAIL } from '../../config/site.ts';
   <p>
     Sometimes we approach an organisation ourselves: a community organiser, a school, a
     municipality, an employer or a venue. When we do, we use contact details that the organisation
-    has published itself for being contacted: a contact page, an <code>info@</code> address, a board page.
-    We do not guess addresses, buy lists, or use enrichment services.
+    has published itself for being contacted: a contact page, an <code>info@</code> address, a board
+    page. We do not guess addresses, buy lists, or use enrichment services.
   </p>
   <p>
     What we record: the organisation, the contact's name and role, the public contact address,
@@ -79,12 +80,12 @@ import { CONTACT_EMAIL } from '../../config/site.ts';
     always tells you where we got your details.
   </p>
   <p>
-    <strong>You can object at any time and we stop immediately.</strong> No balancing, no explanation
-    needed. Reply "stop" or email
-    <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>. After that we keep only your email
-    address and the date you objected, precisely so we do not contact you again by accident. If you
-    simply do not reply, we delete your details twelve months after the last contact. Being
-    contacted never adds you to the newsletter. You sign up for that yourself.
+    <strong>You can object at any time and we stop immediately.</strong> No balancing, no
+    explanation needed. Reply "stop" or email <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a
+    >. After that we keep only your email address and the date you objected, precisely so we do not
+    contact you again by accident. If you simply do not reply, we delete your details twelve months
+    after the last contact. Being contacted never adds you to the newsletter. You sign up for that
+    yourself.
   </p>
 
   <h2>Photos at events</h2>
@@ -101,10 +102,9 @@ import { CONTACT_EMAIL } from '../../config/site.ts';
     registration runs on Meetup Inc., a US service, which processes your name, email address and
     your answers to the registration questions. Every mail we send automatically (the newsletter
     first, later also confirmations around an event) goes through Brevo, a French service that
-    processes data only on our instructions, inside the EU/GDPR framework. That mail comes from <code
-      >send.twente.dev</code
-    >; mail a human here writes themselves stays outside it. We name every processor here, and
-    update this list when one changes. No data is sold or shared.
+    processes data only on our instructions, inside the EU/GDPR framework. That mail comes from
+    <code>send.twente.dev</code>; mail a human here writes themselves stays outside it. We name
+    every processor here, and update this list when one changes. No data is sold or shared.
   </p>
 
   <h2>Your rights</h2>
@@ -131,7 +131,5 @@ import { CONTACT_EMAIL } from '../../config/site.ts';
   </p>
 
   <h2>Questions</h2>
-  <p>
-    Email <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.
-  </p>
+  <p>Email <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.</p>
 </ProsePage>

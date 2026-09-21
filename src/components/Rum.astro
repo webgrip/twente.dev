@@ -5,17 +5,15 @@ import { TELEMETRY_URL } from '../config/site.ts';
 const version = import.meta.env.PROD ? 'prod' : 'dev';
 ---
 
-{
-  TELEMETRY_URL && (
-    <span
-      id="rum-config"
-      hidden
-      data-endpoint={TELEMETRY_URL}
-      data-app={new URL(SITE_URL).hostname}
-      data-version={version}
-    />
-  )
-}
+{TELEMETRY_URL && (
+  <span
+    id="rum-config"
+    hidden
+    data-endpoint={TELEMETRY_URL}
+    data-app={new URL(SITE_URL).hostname}
+    data-version={version}
+  />
+)}
 
 <script>
   import { onLCP, onINP, onCLS, onFCP, onTTFB } from 'web-vitals';

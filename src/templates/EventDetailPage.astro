@@ -47,45 +47,31 @@ const jsonLd = [
       <time datetime={event.data.start.toISOString()}>
         {formatDateTime(event.data.start, locale)}
       </time>
-      {
-        event.data.end && (
-          <>
-            {' – '}
-            <time datetime={event.data.end.toISOString()}>
-              {formatDateTime(event.data.end, locale)}
-            </time>
-          </>
-        )
-      }
+      {event.data.end && (
+        <>
+          {' – '}
+          <time datetime={event.data.end.toISOString()}>
+            {formatDateTime(event.data.end, locale)}
+          </time>
+        </>
+      )}
     </p>
 
     <ul class="facts">
-      {
-        event.data.fixture && (
-          <li>
-            <Tag>{t('common.fixture')}</Tag>
-          </li>
-        )
-      }
-      {
-        event.data.costEur === 0 && (
-          <li>
-            <Tag variant="accent">{t('events.free')}</Tag>
-          </li>
-        )
-      }
+      {event.data.fixture && <li>
+        <Tag>{t('common.fixture')}</Tag>
+      </li>}
+      {event.data.costEur === 0 && <li>
+        <Tag variant="accent">{t('events.free')}</Tag>
+      </li>}
       <li>
         <Tag variant="muted">
           {event.data.language === 'both' ? 'NL / EN' : event.data.language.toUpperCase()}
         </Tag>
       </li>
-      {
-        event.data.tags.map((tag) => (
-          <li>
-            <Tag>{tag}</Tag>
-          </li>
-        ))
-      }
+      {event.data.tags.map((tag) => <li>
+        <Tag>{tag}</Tag>
+      </li>)}
     </ul>
 
     <div class="prose">
@@ -94,31 +80,25 @@ const jsonLd = [
       <h2>
         {event.data.venue.online ? 'Online' : (event.data.venue.name ?? t('release.venueTba'))}
       </h2>
-      {
-        !event.data.venue.online && (
-          <p class="venue">
-            {event.data.venue.address && (
-              <>
-                {event.data.venue.address}
-                <br />
-              </>
-            )}
-            {event.data.venue.city}
-          </p>
-        )
-      }
+      {!event.data.venue.online && <p class="venue">
+        {event.data.venue.address && (
+          <>
+            {event.data.venue.address}
+            <br />
+          </>
+        )}
+        {event.data.venue.city}
+      </p>}
 
       <p class="organiser">
         {t('events.organisedBy')}{' '}
-        {
-          event.data.organiser.url ? (
-            <a href={event.data.organiser.url} rel="noopener">
-              {event.data.organiser.name}
-            </a>
-          ) : (
-            event.data.organiser.name
-          )
-        }
+        {event.data.organiser.url ? (
+          <a href={event.data.organiser.url} rel="noopener">
+            {event.data.organiser.name}
+          </a>
+        ) : (
+          event.data.organiser.name
+        )}
       </p>
 
       <p>
@@ -128,11 +108,9 @@ const jsonLd = [
       </p>
 
       {event.data.attribution === 'listed' && <p class="credit">{t('events.listedBy')}</p>}
-      {
-        event.data.attribution === 'collaboration' && (
-          <p class="credit">{t('events.inCollaboration')}</p>
-        )
-      }
+      {event.data.attribution === 'collaboration' && <p class="credit">
+        {t('events.inCollaboration')}
+      </p>}
     </div>
   </div>
 </BaseLayout>

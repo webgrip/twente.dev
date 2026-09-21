@@ -53,144 +53,124 @@ const mailSubject = encodeURIComponent(
       </div>
     </PageHeader>
 
-    {
-      communities.length === 0 ? (
-        <section class="empty-state">
-          <h2>{t('communities.empty')}</h2>
-          <p>{t('communities.emptyBody')}</p>
-          {awaitingConsent > 0 && (
-            <p class="awaiting">
-              <span class="label-mono awaiting-count">{awaitingConsent}</span>
-              {t('communities.awaiting')}
-            </p>
-          )}
-        </section>
-      ) : (
-        <>
-          <form class="filters" data-filters hidden>
-            <div class="field">
-              <label class="label-mono" for="community-search">
-                {t('communities.searchLabel')}
-              </label>
-              <input
-                id="community-search"
-                type="search"
-                name="q"
-                autocomplete="off"
-                placeholder={t('communities.searchPlaceholder')}
-                data-search
-              />
-            </div>
+    {communities.length === 0 ? (
+      <section class="empty-state">
+        <h2>{t('communities.empty')}</h2>
+        <p>{t('communities.emptyBody')}</p>
+        {awaitingConsent > 0 && <p class="awaiting">
+          <span class="label-mono awaiting-count">{awaitingConsent}</span>
+          {t('communities.awaiting')}
+        </p>}
+      </section>
+    ) : (
+      <>
+        <form class="filters" data-filters hidden>
+          <div class="field">
+            <label class="label-mono" for="community-search">
+              {t('communities.searchLabel')}
+            </label>
+            <input
+              id="community-search"
+              type="search"
+              name="q"
+              autocomplete="off"
+              placeholder={t('communities.searchPlaceholder')}
+              data-search
+            />
+          </div>
 
-            {topics.length > 1 && (
-              <div class="field">
-                <label class="label-mono" for="community-topic">
-                  {t('communities.filterTopic')}
-                </label>
-                <select id="community-topic" name="topic" data-topic>
-                  <option value="">{t('communities.filterAll')}</option>
-                  {topics.map((topic) => (
-                    <option value={topic}>{topic}</option>
-                  ))}
-                </select>
-              </div>
-            )}
+          {topics.length > 1 && <div class="field">
+            <label class="label-mono" for="community-topic">
+              {t('communities.filterTopic')}
+            </label>
+            <select id="community-topic" name="topic" data-topic>
+              <option value="">{t('communities.filterAll')}</option>
+              {topics.map((topic) => <option value={topic}>{topic}</option>)}
+            </select>
+          </div>}
 
-            <p class="count label-mono" aria-live="polite">
-              <span data-count>{communities.length}</span>
-              {' // '}
-              {communities.length} {t('communities.results')}
-            </p>
-          </form>
-
-          <ul class="community-grid" role="list" data-list>
-            {communities.map((community) => (
-              <li
-                class="community"
-                data-community
-                data-topics={community.data.focus.join(' ')}
-                data-haystack={[
-                  community.data.name,
-                  community.data.platform,
-                  ...community.data.focus,
-                  pick(community.data.description, locale),
-                ]
-                  .join(' ')
-                  .toLowerCase()}
-              >
-                <h2 class="community-name">
-                  <a href={community.data.url} rel="noopener">
-                    {community.data.name}
-                  </a>
-                </h2>
-                <p class="community-desc">{pick(community.data.description, locale)}</p>
-                <ul class="community-tags" role="list">
-                  <li>
-                    <Tag>{community.data.platform}</Tag>
-                  </li>
-                  <li>
-                    <Tag variant="muted">
-                      {community.data.language === 'both'
-                        ? 'NL // EN'
-                        : community.data.language.toUpperCase()}
-                    </Tag>
-                  </li>
-                  {community.data.focus.slice(0, 3).map((topic) => (
-                    <li>
-                      <Tag>{topic}</Tag>
-                    </li>
-                  ))}
-                </ul>
-              </li>
-            ))}
-          </ul>
-
-          <p class="no-results" data-empty hidden>
-            {t('communities.noResults')}
+          <p class="count label-mono" aria-live="polite">
+            <span data-count>{communities.length}</span>
+            {' // '}
+            {communities.length} {t('communities.results')}
           </p>
+        </form>
 
-          {awaitingConsent > 0 && (
-            <p class="awaiting">
-              <span class="awaiting-count">{awaitingConsent}</span>
-              <span>{t('communities.awaiting')}</span>
-            </p>
-          )}
-        </>
-      )
-    }
-
-    {
-      ownChannels.length > 0 && (
-        <section class="own-channels">
-          <h2>{t('communities.ownChannels')}</h2>
-          <p class="own-channels-body">{t('communities.ownChannelsBody')}</p>
-          <ul class="community-grid" role="list">
-            {ownChannels.map((channel) => (
-              <li class="community">
-                <h3 class="community-name">
-                  <a href={channel.data.url} rel="noopener">
-                    {channel.data.name}
-                  </a>
-                </h3>
-                <p class="community-desc">{pick(channel.data.description, locale)}</p>
-                <ul class="community-tags" role="list">
-                  <li>
-                    <Tag>{channel.data.platform}</Tag>
-                  </li>
-                  <li>
-                    <Tag variant="muted">
-                      {channel.data.language === 'both'
-                        ? 'NL // EN'
-                        : channel.data.language.toUpperCase()}
-                    </Tag>
-                  </li>
-                </ul>
+        <ul class="community-grid" role="list" data-list>
+          {communities.map((community) => <li
+            class="community"
+            data-community
+            data-topics={community.data.focus.join(' ')}
+            data-haystack={[
+              community.data.name,
+              community.data.platform,
+              ...community.data.focus,
+              pick(community.data.description, locale),
+            ]
+              .join(' ')
+              .toLowerCase()}
+          >
+            <h2 class="community-name">
+              <a href={community.data.url} rel="noopener">
+                {community.data.name}
+              </a>
+            </h2>
+            <p class="community-desc">{pick(community.data.description, locale)}</p>
+            <ul class="community-tags" role="list">
+              <li>
+                <Tag>{community.data.platform}</Tag>
               </li>
-            ))}
+              <li>
+                <Tag variant="muted">
+                  {community.data.language === 'both'
+                    ? 'NL // EN'
+                    : community.data.language.toUpperCase()}
+                </Tag>
+              </li>
+              {community.data.focus.slice(0, 3).map((topic) => <li>
+                <Tag>{topic}</Tag>
+              </li>)}
+            </ul>
+          </li>)}
+        </ul>
+
+        <p class="no-results" data-empty hidden>
+          {t('communities.noResults')}
+        </p>
+
+        {awaitingConsent > 0 && <p class="awaiting">
+          <span class="awaiting-count">{awaitingConsent}</span>
+          <span>{t('communities.awaiting')}</span>
+        </p>}
+      </>
+    )}
+
+    {ownChannels.length > 0 && <section class="own-channels">
+      <h2>{t('communities.ownChannels')}</h2>
+      <p class="own-channels-body">{t('communities.ownChannelsBody')}</p>
+      <ul class="community-grid" role="list">
+        {ownChannels.map((channel) => <li class="community">
+          <h3 class="community-name">
+            <a href={channel.data.url} rel="noopener">
+              {channel.data.name}
+            </a>
+          </h3>
+          <p class="community-desc">{pick(channel.data.description, locale)}</p>
+          <ul class="community-tags" role="list">
+            <li>
+              <Tag>{channel.data.platform}</Tag>
+            </li>
+            <li>
+              <Tag variant="muted">
+                {channel.data.language === 'both'
+                  ? 'NL // EN'
+                  : channel.data.language.toUpperCase()}
+              </Tag>
+            </li>
           </ul>
-        </section>
-      )
-    }
+        </li>)}
+      </ul>
+    </section>}
   </div>
 </BaseLayout>
 

@@ -2,10 +2,21 @@ import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, relative } from 'node:path';
 
 const EXPECTED = {
-  'gitea-tags': 15,
   docker: 2,
   pypi: 1,
 };
+
+const SELF_DERIVED = [
+  {
+    datasource: 'gitea-tags',
+    label: 'webgrip/* reusable-workflow pins',
+    dir: '.forgejo/workflows',
+    // Every job-level `uses:` pointing at a webgrip repo must be claimed by the customManager.
+    // Deriving the count from the files instead of hardcoding it means adding a lane cannot
+    // silently go unmanaged, and removing one cannot make this fail for the wrong reason.
+    present: (text) => [...text.matchAll(/^\s*uses:\s+webgrip\//gm)].length,
+  },
+];
 
 const SKIP = new Set(['node_modules', '.git', 'dist', 'build', '.astro', '.wrangler', 'media']);
 
@@ -68,6 +79,18 @@ for (const row of rows.sort(
 
 console.log('');
 let failed = false;
+
+for (const { datasource, label, dir, present } of SELF_DERIVED) {
+  let expected = 0;
+  for (const file of files.filter((f) => f.startsWith(dir))) {
+    expected += present(readFileSync(file, 'utf8'));
+  }
+  const actual = counts[datasource] ?? 0;
+  const ok = actual === expected;
+  if (!ok) failed = true;
+  console.log(`${ok ? 'ok  ' : 'FAIL'} ${datasource.padEnd(12)} ${actual}/${expected}  ${label}`);
+}
+
 for (const [datasource, expected] of Object.entries(EXPECTED)) {
   const actual = counts[datasource] ?? 0;
   const ok = actual === expected;
@@ -77,9 +100,10 @@ for (const [datasource, expected] of Object.entries(EXPECTED)) {
 
 if (failed) {
   console.error(
-    '\nA count changed. Either a pin was rewritten into a shape the regex no longer reads' +
-      ' (it is now silently unmanaged — see ADR 0022), or a dependency was legitimately added or' +
-      ' removed and EXPECTED in this script needs updating with it.',
+    '\nA count is off. For the self-derived rows a pin exists that the customManager does not' +
+      ' claim — usually one pinned to a branch (`@main`) or without the `# vX.Y.Z` comment, so it' +
+      ' is silently unmanaged (see ADR 0022). For the fixed rows a dependency was added or removed' +
+      ' and EXPECTED in this script needs updating with it.',
   );
   process.exit(1);
 }

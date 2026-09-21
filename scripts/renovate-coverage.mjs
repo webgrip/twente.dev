@@ -5,7 +5,6 @@ const EXPECTED = {
   'gitea-tags': 15,
   docker: 2,
   pypi: 1,
-  npm: 1,
 };
 
 const SKIP = new Set(['node_modules', '.git', 'dist', 'build', '.astro', '.wrangler', 'media']);

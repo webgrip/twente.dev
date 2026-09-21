@@ -1,4 +1,4 @@
-# syntax=docker/dockerfile:1
+# syntax=docker/dockerfile:1.26
 
 ARG REGISTRY_DOCKERHUB=docker.io
 ARG NODE_IMAGE=${REGISTRY_DOCKERHUB}/library/node:24-bookworm-slim

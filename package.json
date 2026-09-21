@@ -62,6 +62,7 @@
     "@astrojs/check": "0.9.10",
     "@axe-core/playwright": "4.13.0",
     "@eslint/js": "10.0.1",
+    "@lhci/cli": "0.15.1",
     "@webgrip/astro-site-toolkit": "0.5.0",
     "@webgrip/eslint-config-astro": "0.2.0",
     "@webgrip/prettier-config": "0.3.0",

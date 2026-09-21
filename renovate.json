@@ -141,13 +141,6 @@
         "--from '(?<depName>[A-Za-z0-9_.-]+)\\[[^\\]]*\\]==(?<currentValue>[0-9][^']*)'"
       ],
       "datasourceTemplate": "pypi"
-    },
-    {
-      "description": "The lighthouse recipe pins @lhci/cli through `pnpm dlx`, which is invisible to the npm manager because it is not in package.json. CI runs Lighthouse through the shared lane, so this pin only drives local runs — but it still silently rots.",
-      "customType": "regex",
-      "managerFilePatterns": ["/^justfile$/"],
-      "matchStrings": ["pnpm dlx (?<depName>@?[\\w./-]+)@(?<currentValue>[0-9][^\\s]*)"],
-      "datasourceTemplate": "npm"
     }
   ]
 }

@@ -68,7 +68,7 @@
     "@webgrip/prettier-config": "0.3.0",
     "@webgrip/tsconfig": "0.2.0",
     "eslint": "10.11.0",
-    "eslint-plugin-astro": "3.1.0",
+    "eslint-plugin-astro": "3.2.1",
     "pagefind": "1.5.2",
     "playwright-core": "1.62.1",
     "prettier": "3.9.8",

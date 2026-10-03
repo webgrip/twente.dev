@@ -1,8 +1,8 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "local>webgrip/renovate-config#v1.7.0",
-    "local>webgrip/renovate-config:safe-automerge#v1.7.0"
+    "local>webgrip/renovate-config#v1.7.1",
+    "local>webgrip/renovate-config:safe-automerge#v1.7.1"
   ],
   "description": [
     "The org preset sets internalChecksFilter to none, which turns minimumReleaseAge from a filter into a pending marker: Renovate builds the branch against the newest version anyway and prNotPendingHours (2) opens the PR regardless. pnpm 11 enforces its own minimumReleaseAge of 24 hours at install time and rejects the lockfile, so every run on such a PR dies in Install dependencies with ERR_PNPM_MINIMUM_RELEASE_AGE_VIOLATION. Strict makes the soak a real filter again: Renovate proposes the newest version that already cleared it, which pnpm then accepts because CI always installs later than Renovate resolved.",

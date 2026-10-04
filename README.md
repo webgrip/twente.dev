@@ -123,10 +123,10 @@ Cloudflare Workers Static Assets, deployed with `wrangler` from Forgejo Actions.
 git integration supports GitHub and GitLab only, so there is no "connect the repo" path for a Forgejo
 consumer — [`wrangler.toml`](wrangler.toml) plus the CI job _is_ the deployment contract.
 
-The zone itself, every DNS record CAA included, is DNSControl in
-[`webgrip/cloudflare`](https://forgejo.webgrip.dev/webgrip/cloudflare)
+The zone itself, every DNS record CAA included, is DNSControl in [`ops/dns/`](ops/dns/)
 ([ADR 0018](docs/adrs/0018-account-and-zone-resources-in-opentofu.md)); the dashboard is read-only
-for DNS.
+for DNS. CI only previews it with a read-only token from OpenBao, and the homelab `dns-reconciler`
+applies `main` hourly ([plan](docs/plan/dns-ownership.md)).
 
 CI needs two Forgejo secrets: `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`. The token
 carries three scopes — **Account · Workers Scripts · Edit**, **Account · Account Settings ·

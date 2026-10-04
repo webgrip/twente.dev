@@ -4,13 +4,13 @@ _Started 2026-09-05. Decision: [ADR 0018 v1.2.0](../adrs/0018-account-and-zone-r
 
 ## Shape
 
-| Piece                                          | Where                                                | Why                                                                                                   |
-| ---------------------------------------------- | ---------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
-| Zone records for `twente.dev`                  | [`ops/dns/dnsconfig.js`](../../ops/dns/dnsconfig.js) | one line per record, stateless, next to the code that needs them                                      |
-| Preview, push, drift mechanics                 | `webgrip/workflows` `dnscontrol.yml`                 | shared with webgrip.nl; a site adds a directory and two callers                                       |
-| `on_dns_change.yml`                            | this repo                                            | preview on every push to `main` and `development` touching `ops/dns/**`, push on every push to `main` |
-| `dns-drift.yml`                                | this repo                                            | 05:45 daily, fails when the live zone differs from `main`                                             |
-| Account objects (Zero Trust, R2, token roller) | `webgrip/cloudflare`                                 | span sites                                                                                            |
+| Piece                                          | Where                                                | Why                                                                                              |
+| ---------------------------------------------- | ---------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| Zone records for `twente.dev`                  | [`ops/dns/dnsconfig.js`](../../ops/dns/dnsconfig.js) | one line per record, stateless, next to the code that needs them                                 |
+| Preview, push, drift mechanics                 | this repo, `openbao-read` from `webgrip/workflows`   | preview and drift in a job of their own; Forgejo 15 gives an expanded reusable job no OIDC token |
+| `on_dns_change.yml`                            | this repo                                            | preview on every push to `main` and `development` touching `ops/dns/**`; never pushes            |
+| `dns-drift.yml`                                | this repo                                            | 05:45 daily, fails when the live zone differs from `main`                                        |
+| Account objects (Zero Trust, R2, token roller) | `webgrip/cloudflare`                                 | span sites                                                                                       |
 
 ## Rollout
 
@@ -164,3 +164,17 @@ een bestand met dezelfde weglatingen, en was groen.
 **Voordat je een zonebestand aanpast omdat een record "mist":** kijk naar de nieuwste
 `dnscontrol preview` van een van beide driftjobs (`nightly-drift.yml` in `webgrip/cloudflare`,
 `dns-drift.yml` hier). `0 corrections` betekent dat het bestand in sync is, wat `dig` ook zegt.
+
+## Sinds 2026-10-04: lezen in CI, schrijven in het cluster
+
+[homelab-cluster ADR-0061](https://forgejo.webgrip.dev/webgrip/homelab-cluster/src/branch/main/docs/techdocs/docs/adr/adr-0061-ci-reads-over-oidc-writes-from-the-cluster.md)
+is aangenomen. CI houdt geen DNS-schrijftoken meer:
+
+- `on_dns_change.yml` en `dns-drift.yml` wisselen hun Forgejo OIDC-token via `openbao-read` in op
+  de rol `ci-twente-dev`. Die leest alleen `secret/cloudflare/dns/twente-dev-ro`, een token met Zone
+  Read, DNS Read en Dynamic URL Redirects Read op alleen `twente.dev`.
+- De pushjob is weg. De `dns-reconciler`-CronJob in `homelab-cluster` past `main` elk uur toe met
+  `twente-dev-rw`. Hij weigert een zone-aanmaak, en een verwijdering zonder `DNS-Allow-Delete`
+  op de laatste commit die `ops/dns/` raakt.
+- De CronJob `cloudflare-dns-token-minter` maakt beide tokens en vernieuwt ze voor ze verlopen. Het
+  reposecret `CLOUDFLARE_DNS_TOKEN` en `secret/cloudflare/dnscontrol` vervallen.

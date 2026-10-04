@@ -4,7 +4,7 @@
 - **Deciders**: Ryan Grippeling
 - **Date**: 2026-09-17
 - **Tags**: Delivery::Release, Delivery::Environments, Security::Access, Operations
-- **Version**: 1.2.0
+- **Version**: 1.4.0
 
 ---
 
@@ -151,6 +151,28 @@ org-level Forgejo secret, the Access client secret lives in OpenBao and the clou
   last prerelease tag — on 2026-09-17 that cut `v0.3.0-rc.3` after `v0.3.0` had already shipped.
   The positive consequence "a changelog entry" above now reads as the release page's notes: they
   are still generated, but `CHANGELOG.md` no longer lives in the tree.
+- **Amendments**: 2026-09-17, v1.3.0: correction to v1.2.0, found on the `v0.3.1` promotion.
+  Dropping the release commit is not sufficient to make the back-merge unnecessary. The promotion
+  is merged with a merge commit (above), that commit exists only on `main`, and the stable tag
+  lands on it — so the tag stays unreachable from `development` and the next rc is still computed
+  against the last prerelease tag. Verified against `semantic-release/lib/get-next-version.js`,
+  which reads `branch.tags`, and those are per-branch reachable: unreachable gives `0.3.1-rc.3`,
+  reachable gives `0.3.2-rc.1`. What v1.2.0 did buy is that `main` now runs one commit ahead
+  instead of two, and that commit has `development` as a parent, so the back-merge is a pure
+  fast-forward. `on_release_published.yml` carries a `back-merge` job that performs it on every
+  stable release and fails loudly on real divergence. That also covers the hotfix escape hatch,
+  which a fast-forward promotion would not have.
+- **Amendments**: 2026-09-17, v1.4.0: the promotion is merged with a **fast-forward**, which the
+  "or rebase" in the decision above already permitted; a merge commit is now ruled out alongside a
+  squash. Rationale: a merge commit is the last remaining source of a commit that exists only on
+  `main`, and it is the one the stable tag lands on. Remove it and `main` is a prefix of
+  `development` by construction, so there is nothing to reconcile after a promotion and the
+  `back-merge` job added in v1.3.0 drops to what it should be — a safety net for the hotfix escape
+  hatch, reporting "nothing to do" on every normal promotion. `ploeg` runs the same two-branch
+  model and has never had this problem: its `main` carries no promotion merge commits and is a
+  linear ancestor of `development`. What a merge commit provided, a one-line-per-promotion reading
+  of `git log --first-parent main`, the stable tags and release pages already provide more
+  precisely.
 
 ---
 
@@ -161,3 +183,5 @@ org-level Forgejo secret, the Access client secret lives in OpenBao and the clou
 | 1.0.0   | 2026-09-05 | Ryan Grippeling | Initial creation                                                               |
 | 1.1.0   | 2026-09-05 | Ryan Grippeling | Promotion PR opens on the rc release event, from `on_release_published.yml`    |
 | 1.2.0   | 2026-09-17 | Ryan Grippeling | `changelog: false`: no release commit-back, so a promotion needs no back-merge |
+| 1.3.0   | 2026-09-17 | Ryan Grippeling | Correction: the merge commit keeps the tag unreachable; CI back-merges instead |
+| 1.4.0   | 2026-09-17 | Ryan Grippeling | Promotion is a fast-forward; the back-merge job drops to a hotfix safety net   |

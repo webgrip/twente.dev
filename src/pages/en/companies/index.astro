@@ -14,16 +14,14 @@ const release = await getCurrentRelease();
   description="A room for a later release, or pointing your team at the evening. What a company can contribute, and what that does not buy."
 >
   <p>
-    <a href={routePath('release', 'en', release.number)}>{releaseName(release.number)}</a> is on {
-      formatDate(release.doors, 'en')
-    } at {release.venueName} in {release.city}. That room is sorted. For the releases after it we
-    are always looking for the next host: a room that seats {release.capacity} people, with food and drinks.
-    Your name goes on the release page and up in the room, and that is where it stops. A speaking slot
-    is not part of it, not even for the host, because who gets on stage is decided by the <a
-      href={routePath('contribute', 'en')}>open call</a
-    >. The attendee list goes to nobody. The rest of the terms are on <a
-      href={routePath('partners', 'en')}>partners</a
-    >.
+    <a href={routePath('release', 'en', release.number)}>{releaseName(release.number)}</a> is on
+    {formatDate(release.doors, 'en')} at {release.venueName} in {release.city}. That room is sorted.
+    For the releases after it we are always looking for the next host: a room that seats
+    {release.capacity} people, with food and drinks. Your name goes on the release page and up in
+    the room, and that is where it stops. A speaking slot is not part of it, not even for the host,
+    because who gets on stage is decided by the <a href={routePath('contribute', 'en')}>open call</a
+    >. The attendee list goes to nobody. The rest of the terms are on
+    <a href={routePath('partners', 'en')}>partners</a>.
   </p>
   <p>
     No room, but people? Point your team at the evening. The talks are about real systems, and the

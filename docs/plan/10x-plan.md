@@ -266,7 +266,7 @@ deploy-production:
       run: pnpm dlx wrangler deploy
 ```
 
-Note `actions/checkout@v5`, not `@v6` — the org's Forgejo tree pins v5 because v6 is broken on non-GitHub runners (documented in `webgrip/workflows` ADR-0002). Consistency here is not optional.
+Note `actions/checkout@v5` — the org's Forgejo tree pins v5 for consistency, and consistency here is not optional. The original reason ("v6 is broken on non-GitHub runners") was disproven on 2026-09-18 by a canary on the real runner, so `@v6`/`@v7` are valid bumps now; they just need to move across the estate together rather than one repo at a time.
 
 **Preview deploys**: on PRs, `wrangler versions upload` produces a preview URL; post it as a PR comment via the Forgejo API. This is the single highest-value CI feature for a content site — reviewers see the rendered page, not the YAML diff.
 

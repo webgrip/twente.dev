@@ -63,22 +63,28 @@ stilzwijgend te verdwijnen.
 dezelfde respons wél melden dat er geen `unsafe-inline` in zit en dat er `sha256-` hashes staan.
 Twee keer gezien: run 438 (2026-09-15) en run 475 (2026-09-17).
 
-**Oorzaak.** Onbekend, en dat is de kern van deze regel. Beide keren was de commit op de
-voorgaande run groen, en beide keren haalt een lokale container uit dezelfde bron alle checks —
-inclusief een `docker build` met dezelfde Dockerfile en hetzelfde script, byte-identiek qua
-responslengte. Het verschil zit in het ophalen, niet in de site. `5d91897` nam al weg dat de
-pagina twee keer werd opgehaald, dus tegenstrijdige uitslagen binnen één respons zijn sindsdien
-niet meer met een race tussen twee fetches te verklaren.
+**Oorzaak.** De tag was er altijd al. Run 488 draaide met de uitgebreide faalregel uit `8ec3602`
+en die drukte af wat er terugkwam:
 
-**Wat te doen.** Draai de run opnieuw; een nieuwe push op dezelfde boom is tot nu toe altijd groen
-geweest. Blijft hij rood, dan is het geen flake en toont de faalregel sinds `8ec3602` de regio
-rond elke `content-security-policy` in de opgehaalde respons, hoofdletterongevoelig. Daarmee is
-een afwijkende quoting of attribuutvolgorde zichtbaar in plaats van te moeten worden geraden — de
-debugregel uit `5d91897` drukte de eerste 400 bytes af, terwijl de meta rond offset 3800 staat, en
-toonde dus altijd een head die er normaal uitziet.
+```
+FAIL /nl body missing 'http-equiv="content-security-policy"' (23708 bytes fetched)
+    csp>  </script><meta http-equiv="content-security-policy" content="default-src 'self';...
+```
 
-**Voor je gaat zoeken:** reproduceer eerst lokaal, dat kost twee minuten en sluit een echte
-regressie uit.
+De string die `grep -qF` zocht stond letterlijk in de respons die diezelfde grep doorzocht. Het is
+dus nooit een site- of buildprobleem geweest, maar het matchen zelf. Waarom precies is niet
+sluitend vastgesteld — het reproduceert niet op macOS, en de container telde `${#HOME_HTML}` in
+bytes waar een UTF-8 shell 23671 telt, dus daar draait een andere locale. GNU grep kan in een
+UTF-8 locale matches missen op input met ongeldige multibyte-sequenties, wat ook verklaart waarom
+de `-F`-variant faalde terwijl de BRE-variant eronder in dezelfde variabele wél matchte.
+
+**Fix.** De CSP-checks hangen sinds `0e20ad5` niet meer van grep af: het zijn
+bash-patroonvergelijkingen (`[[ "$HOME_HTML" == *'...'* ]]`), zonder pipe en zonder
+locale-gevoelige matching. De greps die nog nodig zijn voor de diagnose draaien onder `LC_ALL=C`.
+Twintig opeenvolgende runs tegen hetzelfde image zijn groen, en een weggehaalde tag wordt nog
+steeds gedetecteerd.
+
+**Faalt hij opnieuw, dan is het echt.** Reproduceer lokaal, dat kost twee minuten:
 
 ```bash
 docker build -f ops/docker/web/Dockerfile -t twente-dev-web:localci .
@@ -109,6 +115,10 @@ dat in de job `Docs links` op elke branch draait. Die check bestaat omdat de str
 alleen nog op `main` draait, zie de volgende sectie.
 
 ## DNS preview: `if cloudflare apitoken is not set`
+
+Vervallen sinds 2026-10-04: de DNS-lane leest zijn token via OIDC uit OpenBao en gebruikt
+`CLOUDFLARE_DNS_TOKEN` niet meer ([plan](../plan/dns-ownership.md)). Hieronder staat het
+oorspronkelijke incident.
 
 _Opgelost op 2026-09-17: de vault-sleutel staat er, de lane komt sindsdien tot de preview._
 
@@ -292,9 +302,21 @@ achteraan pushte bestond alleen op `main`, dus `development` kende `v0.3.0` niet
 vanaf `v0.3.0-rc.2`. De back-merge van `main` naar `development` was de stap die dat voorkwam, en
 die stond nergens opgeschreven behalve als foutmelding in `on_release_published.yml`.
 
-**Fix.** De oorzaak is weg sinds deze repo `changelog: false` draait
-([`.releaserc.cjs`](../../.releaserc.cjs)): semantic-release commit niets meer terug, dus `main`
-is na een promotie dezelfde commit als `development` en er valt niets te back-mergen.
+**Fix.** Onthoud de regel, niet de symptomen: **elke commit die alleen op `main` bestaat, breekt
+de telling.** Er zijn twee bronnen en allebei zijn ze weggenomen. De release-commit met
+`changelog: false` ([`.releaserc.cjs`](../../.releaserc.cjs)), en de merge commit van de promotie
+doordat de promotie een fast-forward is (ADR 0019 v1.4.0). `main` is daarmee een prefix van
+`development` van constructie.
+
+Blijft over: een hotfix rechtstreeks op `main`, de escape hatch uit ADR 0019. Die maakt wél zo'n
+commit. Daarvoor draait de job `back-merge` in `on_release_published.yml` als vangnet; bij een
+normale promotie meldt hij "nothing to do", bij echte divergentie faalt hij luid.
+
+Controleer het met één commando; komt hier `NEE`, dan is de volgende rc fout genummerd:
+
+```bash
+git merge-base --is-ancestor "$(git describe --tags --abbrev=0 --match='v[0-9]*.[0-9]*.[0-9]' origin/main)" origin/development && echo JA || echo NEE
+```
 
 `v0.3.0-rc.3` blijft staan en hoort te blijven staan. Het is geen weestag: de release is echt
 gepubliceerd en die rc is echt naar `staging.twente.dev` gegaan. Alleen het nummer is misleidend.
@@ -319,6 +341,224 @@ mise exec -- pnpm exec prettier --check .
 
 Staat er nog een openstaande TODO voor een hook die dit afdwingt, zie
 [`../plan/nu-te-doen.md`](../plan/nu-te-doen.md).
+
+## Static Analysis: 190 typefouten op een Astro-bump, allemaal in content
+
+**Symptoom.** De Renovate-PR die Astro bumpt valt in stap `Run type checks` om met 190 fouten.
+De eerste twee wijzen naar `src/content.config.ts` en zijn de enige die iets zeggen:
+
+```
+src/content.config.ts:155:3 - error ts(2322): Type 'ZodObject<...>' is not assignable to type 'BaseSchema'
+  The types of '_zod.version.minor' are incompatible between these types.
+    Type '4' is not assignable to type '6'.
+```
+
+De overige 188 zijn gevolgschade: zonder geldig schema wordt elke `entry.data` `unknown`, dus
+elke pagina die een collectie leest klaagt. Gezien op
+[run 534](https://forgejo.webgrip.dev/webgrip/twente.dev/actions/runs/534/jobs/7) (astro
+7.2.10 ➔ 7.3.3, 2026-09-18).
+
+**Oorzaak.** Twee kopieën van zod in één graaf. De repo declareerde zelf `zod@4.4.3`, Astro
+7.3.3 bracht `zod@4.6.5` mee, en pnpm kan die niet samenvoegen omdat de pin exact is. Zod 4 zet
+zijn eigen minor als literal in het type (`_zod.version.minor`), dus twee kopieën zijn voor
+TypeScript twee onverenigbare types, ook al is de code identiek. Elke Astro-minor die zod
+meebumpt breekt hierop, en de Renovate-regel die dit moest afvangen keek alleen naar majors.
+
+**Fix.** De pin weghalen en het schema uit Astro's eigen zod halen, dan is er geen tweede kopie
+meer om van te verschillen:
+
+```ts
+import { z } from 'astro/zod';
+```
+
+`import { z } from 'astro:content'` werkt ook, maar is sinds Astro 7 gedeprecieerd en verdwijnt
+in Astro 8. Met de import om kan `zod` uit `dependencies`, en de Renovate-regel die zod aan
+Astro's major koppelde is mee weggehaald.
+
+**Reproduceren**, want de bump zelf staat op de PR-branch:
+
+```bash
+git fetch origin renovate/astro-monorepo && git checkout FETCH_HEAD
+mise exec -- pnpm install && mise exec -- pnpm run typecheck
+ls node_modules/.pnpm | grep '^zod@'
+```
+
+Komen daar twee regels uit, dan is het dit.
+
+**Les.** Elke dependency die een framework ook zelf gebruikt en waarvan het type nominaal is,
+hoort niet in onze `package.json` maar via de re-export van dat framework binnen te komen. Een
+exacte pin op zo'n pakket is geen voorzichtigheid maar een garantie op een tweede kopie.
+
+## Elke job van een Renovate-PR faalt op `ERR_PNPM_MINIMUM_RELEASE_AGE_VIOLATION`
+
+**Symptoom.** Op een `renovate/*`-branch valt elke job om in stap `Install dependencies`, dus ook
+`Tests & Build`, `Container Parity`, `Lighthouse` en `axe`. Onderaan het log staat:
+
+```
+[ERR_PNPM_MINIMUM_RELEASE_AGE_VIOLATION] 1 lockfile entries failed verification:
+  prettier@3.9.8 was published at 2026-09-17T21:41:05.085Z, within the minimumReleaseAge cutoff
+```
+
+Gezien op [run 531](https://forgejo.webgrip.dev/webgrip/twente.dev/actions/runs/531), de PR die
+prettier van 3.9.6 naar 3.9.8 tilde. De tekst eronder suggereert een verlopen of met de hand
+omzeilde lockfile; dat is het geen van beide, en `pnpm clean --lockfile` lost er niets mee op.
+
+**Oorzaak.** Twee soaktijden die elkaar niet kennen.
+
+pnpm 11 draagt een eigen `minimumReleaseAge` van 24 uur. Er staat niets over in
+[`pnpm-workspace.yaml`](https://forgejo.webgrip.dev/webgrip/twente.dev/src/branch/main/pnpm-workspace.yaml)
+— alleen de `minimumReleaseAgeExclude` — want het is de ingebouwde waarde. Hij wordt geijkt op het
+moment van installeren: run 531 startte om 05:00:28Z en meldde een grens van 05:01:35Z de dag
+ervoor.
+
+Renovate hoort daar ruim voor te zitten: `renovate.json` zet `minimumReleaseAge` op 1 dag voor
+patches en 3 dagen voor minors. Alleen zet het org-preset ook `internalChecksFilter: "none"`, en
+dan is die soaktijd geen filter meer maar een vlaggetje. Renovate bouwt de branch gewoon tegen de
+nieuwste versie, markeert de update als pending, en `prNotPendingHours: 2` maakt de PR twee uur
+later alsnog aan. De feitelijke soak was dus twee uur. Prettier 3.9.8 verscheen om 21:41Z, de PR
+stond er om 01:58Z, en de lockfile die daarin belandde kon de pnpm-grens niet halen.
+
+De versie eronder had het wél gehaald: 3.9.7 stond er sinds 2026-09-16T08:23Z, ruim 44 uur.
+
+**Fix.** `internalChecksFilter: "strict"` in
+[`renovate.json`](https://forgejo.webgrip.dev/webgrip/twente.dev/src/branch/main/renovate.json).
+Daarmee valt een versie die de soak niet haalt uit de kandidatenlijst en stelt Renovate de nieuwste
+voor die er wél doorheen is. Die is per definitie ouder dan de pnpm-grens, en CI installeert altijd
+later dan Renovate resolvede, dus de marge kan alleen groeien.
+
+De openstaande PR zelf hoeft niet aangepast: 24 uur na publicatie draait dezelfde commit groen. Een
+rerun is genoeg, met de hand terugzetten naar 3.9.7 vecht alleen met Renovate.
+
+**Wat hier niet onder valt.** `vulnerabilityAlerts` zet `minimumReleaseAge` op `null`, expres — een
+securityfix hoort niet te soaken. Zo'n PR kan dus wél tegen de pnpm-grens aanlopen. Dan is de
+uitzondering de juiste route, niet het beleid:
+
+```yaml
+minimumReleaseAgeExclude:
+  - 'pakket@versie'
+```
+
+**Les.** Het org-preset gaat ervan uit dat het dashboard de gate is; deze repo automerget en heeft
+die gate niet. Elke repo die dat preset gebruikt en op pnpm 11 draait, heeft dezelfde twee uur
+soaktijd en dus dezelfde rode PR in het verschiet.
+
+**Nagekomen (2026-09-18).** De pnpm-kant staat nu expliciet in
+[`pnpm-workspace.yaml`](https://forgejo.webgrip.dev/webgrip/twente.dev/src/branch/development/pnpm-workspace.yaml):
+`minimumReleaseAge: 1440` en `minimumReleaseAgeStrict: true`. Dezelfde 24 uur als de ingebouwde
+waarde, dus geen gedragsverandering op pnpm 11 — maar wel zichtbaar in het bestand waar de runbook
+naar wijst, en bestand tegen een upstream-default die verschuift.
+
+`minimumReleaseAgeStrict` staat er expliciet bij omdat die op pnpm 12 **standaard `true` wordt zodra
+`minimumReleaseAge` expliciet is gezet**. Zonder die regel zou de pnpm 12-upgrade stilletjes van
+gedrag veranderen; nu is er niets impliciets meer om over te struikelen. Wat `strict` doet is
+overigens _resolutie_: valt er geen versie in de range binnen de soak, dan faalt pnpm in plaats van
+stilletjes terug te vallen op iets ouders. Het lost deze storing **niet** op — die zit in
+`--frozen-lockfile`, waar niets te resolven valt en de lockfile-entry simpelweg geverifieerd wordt.
+
+De twee soaks blijven naast elkaar bestaan en dat is expres: Renovate bewaakt de directe
+dependencies, pnpm bewaakt ook de transitieve. Dat laatste is precies wat pnpm 11 met die default
+kwam brengen en wat `internalChecksFilter` niet kan geven.
+
+## "checkout v6 is stuk op de runner" — gemeten, en het klopt niet
+
+**Symptoom.** Er is er geen. Dat is het punt: `actions/checkout`-majors staan estate-breed uit
+op grond van één zin in [`org/forgejo-ci.md`](https://forgejo.webgrip.dev/webgrip/ai-skills/src/branch/main/org/forgejo-ci.md)
+— "`actions/checkout@v5`, nooit `@v6` — v6 is stuk op niet-GitHub-runners" — en niemand had ooit
+de fout opgeschreven.
+
+**Meting.** De canary in homelab-cluster
+([`.forgejo/workflows/runner-node-canary.yml`](https://forgejo.webgrip.dev/webgrip/homelab-cluster/src/branch/main/.forgejo/workflows/runner-node-canary.yml),
+[run 1710](https://forgejo.webgrip.dev/webgrip/homelab-cluster/actions/runs/1710)) draait checkout
+v5.1.0, v6 en v7 en setup-node v4.4.0, v5 en v7 naast elkaar. **Alles groen.** Geen no-ops: de
+v6-stap doet echt `git init`, `git config` en fetcht van de in-cluster Forgejo, en setup-node v5
+meldt `node: v24.21.0`.
+
+**Wat er wél waar is.** De runner kiest per JS-actie de node die de actie in `using:` declareert,
+uit `externals/`. Die map bevat `node20` (v20.19.5), `node24` (v24.16.0), plus twee musl-varianten
+waarvan `node24_alpine` niet uitvoerbaar is in deze glibc-container. Er is dus wél een glibc
+node24, en `using: node24` werkt gewoon.
+
+De `PATH`-prepend naar `externals/node20/bin` in de runner-ScaledJob raakt daarom alleen
+**shell-stappen**: een `run:`-stap die `node` aanroept krijgt v20.19.5 terwijl de image v24 aan
+boord heeft. Dat is een aparte, kleinere kwestie — niet wat action-majors blokkeerde.
+
+**Gevolg.** De majors zijn weer voorstelbaar. Ze staan wel op `needs-manual-review` en niet op
+automerge: één canary-job is geen hele pipeline, en een echte PR die de complete gate draait is
+het bewijs dat telt.
+
+**Les.** "X is stuk" zonder het logregeltje erbij is een aanname die zichzelf jaren in stand
+houdt. De canary kostte één workflow en één run.
+
+## Dependency Dashboard: drie waarschuwingen die geen enkele job rood maken
+
+Deze drie staan in het Repository Problems-blok van
+[issue 2](https://forgejo.webgrip.dev/webgrip/twente.dev/issues/2). Geen van drieën zet een run op
+rood — dat is precies waarom ze maandenlang bleven staan.
+
+### `Package lookup failures` op `webgrip/workflows`
+
+**Symptoom.** Zeven regels `Can't find version matching vX.Y.Z for github-tags package
+webgrip/workflows`, terwijl `/api/v1/repos/webgrip/workflows/tags` alle tags gewoon serveert. Er
+komt nooit een PR voor een lane, dus de pins verouderen zonder signaal: op 2026-09-18 stond
+`on_docs_change.yml` op v1.6.0 en `link-check.yml` op v2.1.0 terwijl v2.7.2 al uit was.
+
+**Oorzaak.** Platform en datasource zijn twee assen. Renovate draait tegen Forgejo, maar de
+`github-actions`-manager kent maar één datasource — `github-tags`, tegen api.github.com. En
+`github.com/webgrip/workflows` _bestaat_: het is de distributietweeling, met branches maar zonder
+tags, want `github-distribute.yml` draait niet op die repo. Een lege taglijst geeft "can't find
+version" in plaats van "not found", en dus geen fout maar een stilte.
+
+De `# vX.Y.Z`-comments achter de digest hebben hier niets mee te maken. Die repareerden de
+_detectie_; de resolutie bleef kapot.
+
+**Fix.** Gelandt in [ADR 0022](../adrs/0022-forgejo-native-deps-resolve-against-forgejo.md): een
+`customManagers`-regex leest de pins via `gitea-tags` tegen forgejo.webgrip.dev, en de
+`github-actions`-manager staat uit voor `webgrip/**`. Controleer met `just renovate-coverage`.
+
+### `No docker auth found - returning`
+
+**Symptoom.** Die regel, plus `Failed to look up docker package docker.io/library/node: no-result`.
+
+**Oorzaak.** Een _afgewezen_ credential, niet een ontbrekende. Renovate logt deze regel wanneer
+`getAuthHeaders` `undefined` teruggeeft, en de tak die dat doet bij Docker Hub is een 401 op de
+tokenuitwisseling. Zonder credential loopt Renovate gewoon over het anonieme pad en krijgt een
+geldig token. Na te lopen met drie curls:
+
+```bash
+curl -sI https://index.docker.io/v2/ | grep -i www-authenticate
+curl -s -o /dev/null -w '%{http_code}\n' \
+  'https://auth.docker.io/token?scope=repository:library/node:pull&service=registry.docker.io'
+curl -s -u "<user>:<token>" -o /dev/null -w '%{http_code}\n' \
+  'https://auth.docker.io/token?scope=repository:library/node:pull&service=registry.docker.io'
+```
+
+Anoniem hoort 200 te geven. Geeft de derde 401, dan is de token verlopen of ingetrokken. Dezelfde
+faalvorm staat als Harbor-variant in de
+[Renovate-runbook van homelab-cluster](https://forgejo.webgrip.dev/webgrip/homelab-cluster/src/branch/main/docs/techdocs/docs/runbooks/renovate.md):
+een afgewezen credential is erger dan geen credential, want hij blokkeert het anonieme pad.
+
+**Fix.** Niet in deze repo. De waarde staat in OpenBao onder `renovate/operator`
+(`RENOVATE_DOCKERHUB_TOKEN` / `RENOVATE_DOCKERHUB_USERNAME`) en wordt door de
+token-minter-CronJob in `RENOVATE_HOST_RULES` gevouwen. **Let op:** er staat een tweede,
+onafhankelijk paar onder `harbor/registry-proxy` (`DOCKERHUB_TOKEN` / `DOCKERHUB_USERNAME`) voor
+Harbors pull-through cache. Twee kopieën van dezelfde credential roteren niet vanzelf samen — dat
+is de waarschijnlijke reden dat deze er één verloor.
+
+### `` `mise lock` was requested to run, but `mise` is not permitted in the allowedUnsafeExecutions ``
+
+**Symptoom.** Die regel, en een [`mise.lock`](../../mise.lock) die achterloopt op
+[`mise.toml`](../../mise.toml).
+
+**Oorzaak.** `mise.toml` zet `lockfile = true`, dus de mise-manager wil `mise lock` draaien om de
+lockfile bij te werken. De Renovate-executor staat dat niet toe: de admin-ConfigMap
+(`renovate-operator/jobs/configmap-forgejo.yaml`) zet wel `allowedCommands`, maar geen
+`allowedUnsafeExecutions`.
+
+**Fix.** Admin-config, niet repo-config — de
+[algemene Renovate-docs van homelab-cluster](https://forgejo.webgrip.dev/webgrip/homelab-cluster/src/branch/main/docs/techdocs/docs/general/renovate.md)
+zeggen expliciet dat dit soort instellingen in de ConfigMap horen en dat Renovate ze in repo-config
+negeert. Tot dat landt: een `uv`-, `just`- of `node`-bump herschrijft `mise.toml` en laat
+`mise.lock` staan.
 
 ## De Actions-API uitlezen als de UI te traag is
 

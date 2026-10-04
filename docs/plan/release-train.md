@@ -17,7 +17,7 @@ fixes the model. A deploy is the consequence of a release, not of a push.
 | Daily work lands         | `main`                                        | `development`                                                                            |
 | Production deploy        | every green push to `main`, plus nightly HEAD | a stable release `vX.Y.Z`, cut on `main` by semantic-release; nightly redeploys that tag |
 | Staging                  | none (branch previews on workers.dev)         | `staging.twente.dev`, behind Cloudflare Access (Authentik), deployed by every `-rc.N`    |
-| Promotion                | none                                          | PR `development → main`, opened when an rc is published, merged never squashed           |
+| Promotion                | none                                          | PR `development → main`, opened when an rc is published, merged as a fast-forward        |
 | Who pushes `main`        | anyone with write                             | `webgrip-ci` (tags en releases) and `ryangr0` (hotfix escape hatch)                      |
 | Who pushes `development` | n/a                                           | `webgrip-ci`, `ryangr0`; agent sessions included, they run as the owner                  |
 | Renovate base            | `main`                                        | `development`                                                                            |
@@ -80,7 +80,7 @@ released as the next minor.
 8. `CLAUDE.md`: sessions commit to `development`; `main` is promotion plus owner hotfixes.
 9. Branch `development` created from `main`.
 
-## Waarom er geen back-merge meer is (2026-09-17)
+## De back-merge: waarom hij kleiner werd, en wie hem nu doet (2026-09-17)
 
 Tot 17 september commit semantic-release een `chore(release): vX.Y.Z [skip ci]` terug naar de
 branch waarop het releaset, met `CHANGELOG.md` erin. Op `main` bestond die commit daarna nergens
@@ -90,11 +90,32 @@ de stable: op 17 september leverde dat een `v0.3.0-rc.3` op nadat `v0.3.0` al in
 De stap stond nergens opgeschreven behalve als foutmelding in `on_release_published.yml`, en dan
 pas nadat het misging.
 
-`changelog: false` in `.releaserc.cjs` haalt de oorzaak weg: er valt niets meer terug te
-committen, dus `main` is na een promotie dezelfde commit als `development`. De release notes
-veranderen niet — die komen van de notes generator en staan op de Forgejo release page. Wat
-vervalt is `CHANGELOG.md` in de working tree, plus de union-merge in `.gitattributes`, de
-prettier-uitzondering en de uitzondering die de claims-guard ervoor had.
+`changelog: false` in `.releaserc.cjs` haalt de release-commit weg: er valt niets meer terug te
+committen. De release notes veranderen niet — die komen van de notes generator en staan op de
+Forgejo release page. Wat vervalt is `CHANGELOG.md` in de working tree, plus de union-merge in
+`.gitattributes`, de prettier-uitzondering en de uitzondering die de claims-guard ervoor had.
+
+**Dat alleen was niet genoeg, en dat is op de promotie van `v0.3.1` gebleken.** Die werd met een
+merge commit gemerged, en zo'n merge commit bestaat ook alleen op `main`. De stable tag kwam erop
+te staan en was daarmee nog steeds onbereikbaar vanaf `development`. Nagerekend met de functie die
+de beslissing neemt, `semantic-release/lib/get-next-version.js`: met de tag onbereikbaar wordt de
+volgende rc `0.3.1-rc.3`, met de tag bereikbaar `0.3.2-rc.1`. De rekenregel leest `branch.tags`,
+en die zijn per branch _bereikbaar_, niet globaal.
+
+**De regel waar alles op terugkomt: elke commit die alleen op `main` bestaat, breekt de telling.**
+Er zijn precies twee bronnen. De release-commit is er één, en die is weg met `changelog: false`.
+De merge commit van de promotie is de andere, en die is weg sinds de promotie een fast-forward is
+(ADR 0019 v1.4.0). Daarmee is `main` een prefix van `development` van constructie, en valt er na
+een promotie niets te herstellen.
+
+`ploeg` draait hetzelfde model en heeft dit nooit gehad: er staat geen enkele promotie-merge-commit
+op zijn `main` en die is een lineaire voorouder van `development`.
+
+De job `back-merge` in `on_release_published.yml` blijft staan als vangnet, niet als onderdeel van
+de flow. Bij een normale promotie meldt hij "nothing to do". Hij slaat alleen aan bij de
+hotfix-route uit ADR 0019 — een directe push op `main` maakt dezelfde onbereikbaarheid, en dat is
+het enige geval dat een fast-forward-promotie niet afdekt. Divergeren de branches echt, dan faalt
+hij luid in plaats van het stil te laten gebeuren.
 
 De optie zelf zit in `@webgrip/semantic-release-config` v1.3.0, gedragen door toolchain-image
 `harbor.webgrip.dev/webgrip/semantic-release:0.3.4` en de lanes van `webgrip/workflows` v2.7.2.
@@ -112,6 +133,35 @@ falende release: `makeConfig` gooit op onbekende opties.
    is rejected; a push to `development` by the owner succeeds.
 5. Renovate's next PR targets `development`.
 
+## Merge-stijlen op de repo (2026-09-17)
+
+De promotie moet een fast-forward zijn, en dat is een keuze die je in de repo-instellingen
+vastzet in plaats van in een gewoonte. Forgejo kent geen merge-stijl per doel-branch en branch
+protection kan geen lineaire historie eisen, dus de instelling geldt repo-breed — ook voor
+Renovate's PR's naar `development`. Dat maakt "alles dicht behalve fast-forward" te grof: die
+PR's zijn lang niet altijd fast-forwardbaar.
+
+Wat het wél afdicht, is dat de verkeerde keuzes niet even erg zijn:
+
+| Stijl          | Gevolg                                                     | Herstelbaar                      |
+| -------------- | ---------------------------------------------------------- | -------------------------------- |
+| Fast-forward   | `main` blijft een prefix van `development`                 | correct, niets te doen           |
+| Merge commit   | stable tag onbereikbaar vanaf `development`                | ja, de `back-merge`-job doet het |
+| Rebase then ff | in de normale flow een no-op, dus een fast-forward         | correct                          |
+| **Squash**     | herschrijft historie, `development` is geen voorouder meer | **nee** — release al fout        |
+
+Squash is dus de enige knop die onherstelbare schade maakt. Staat die uit, dan is elke
+overgebleven route correct of zelfherstellend. Ingesteld onder
+`https://forgejo.webgrip.dev/webgrip/twente.dev/settings`:
+
+- **Squash Commits** uitgevinkt
+- **Default Merge Style** op `Fast-forward Only`
+- de rest blijft aan, zodat Renovate kan blijven automergen
+
+`forgejo-sync.sh` raakt deze velden niet aan (het PATCHt alleen `has_actions`,
+`has_pull_requests` en `has_releases`), dus een sync-sweep zet ze niet terug. Krijgt dat script
+ooit een `mergestyle`-actie, dan horen deze waarden daarin.
+
 ## Human steps
 
 | Step                                                                               | Why a human                                       |
@@ -122,6 +172,7 @@ falende release: `makeConfig` gooit op onbekende opties.
 | Open the PR for `feat/staging-access` in the cloudflare repo                       | sessions hold no token that may open PRs          |
 | Run the `forgejo-sync.sh … --only protect --apply` command for twente.dev          | needs a Forgejo admin token                       |
 | Merge the cloudflare Access PR once the plan is clean                              | first apply of a new resource family              |
+| Set the merge styles on twente.dev (see below)                                     | repo settings are dashboard-only, no token here   |
 
 ## Deferred
 

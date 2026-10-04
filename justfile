@@ -98,14 +98,19 @@ build:
 
 [group('check')]
 lhci: build
-    pnpm dlx @lhci/cli@0.15.x autorun
+    pnpm exec lhci autorun
 
 [group('check')]
 a11y: build
     CHROME_PATH="${CHROME_PATH:-/Applications/Google Chrome.app/Contents/MacOS/Google Chrome}" pnpm run validate:a11y
 
 [group('check')]
-check: fmt lint typecheck test content licenses build
+check: fmt lint typecheck test content licenses renovate-coverage build
+
+# Every dependency a custom Renovate manager claims, and a count that fails when one goes missing
+[group('check')]
+renovate-coverage:
+    pnpm run validate:renovate-coverage
 
 # Verify the licence surface is consistent
 [group('check')]

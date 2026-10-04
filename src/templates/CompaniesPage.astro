@@ -28,41 +28,35 @@ const hostLogo = release.venueLogo;
       description={description}
       kicker={`twente.dev // ${title.toLowerCase()}`}
     >
-      {
-        host && (
-          <div class="host-card">
-            <p class="label-mono host-kicker">
-              {t('companies.hostKicker')} // {releaseName(release.number)}
-            </p>
-            {hostLogo ? (
-              <span class="host-plate">
-                <img
-                  class="host-logo"
-                  src={`/brand/hosts/${hostLogo}`}
-                  alt={host}
-                  width="480"
-                  height="165"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </span>
-            ) : (
-              <p class="host-name">{host}</p>
-            )}
-            <p class="host-where">
-              {release.venueAddress} · {release.city}
-            </p>
-            <p class="host-when">
-              <time datetime={release.doors.toISOString()}>
-                {formatDate(release.doors, locale)}
-              </time>
-            </p>
-            <p class="host-link">
-              <a href={routePath('release', locale, release.number)}>{t('release.details')} →</a>
-            </p>
-          </div>
-        )
-      }
+      {host && <div class="host-card">
+        <p class="label-mono host-kicker">
+          {t('companies.hostKicker')} // {releaseName(release.number)}
+        </p>
+        {hostLogo ? (
+          <span class="host-plate">
+            <img
+              class="host-logo"
+              src={`/brand/hosts/${hostLogo}`}
+              alt={host}
+              width="480"
+              height="165"
+              loading="lazy"
+              decoding="async"
+            />
+          </span>
+        ) : (
+          <p class="host-name">{host}</p>
+        )}
+        <p class="host-where">{release.venueAddress} · {release.city}</p>
+        <p class="host-when">
+          <time datetime={release.doors.toISOString()}>
+            {formatDate(release.doors, locale)}
+          </time>
+        </p>
+        <p class="host-link">
+          <a href={routePath('release', locale, release.number)}>{t('release.details')} →</a>
+        </p>
+      </div>}
     </PageHeader>
 
     <div class="prose companies-body">

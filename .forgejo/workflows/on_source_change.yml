@@ -19,7 +19,7 @@ env:
 jobs:
   static-analysis:
     name: "Static Analysis"
-    uses: webgrip/workflows/.forgejo/workflows/node-application-static-analysis.yml@43f4088df6df3f225a07ab66b9f2b4c4d23cf579 # v2.7.1
+    uses: webgrip/workflows/.forgejo/workflows/node-application-static-analysis.yml@202891b4db6f06f6acda3653276fe546e7e2c0fd # v2.7.7
     with:
       node-version: "24"
       package-manager: pnpm
@@ -31,7 +31,7 @@ jobs:
 
   tests-and-build:
     name: "Tests & Build"
-    uses: webgrip/workflows/.forgejo/workflows/node-application-tests.yml@43f4088df6df3f225a07ab66b9f2b4c4d23cf579 # v2.7.1
+    uses: webgrip/workflows/.forgejo/workflows/node-application-tests.yml@202891b4db6f06f6acda3653276fe546e7e2c0fd # v2.7.7
     with:
       node-version: "24"
       package-manager: pnpm
@@ -42,9 +42,9 @@ jobs:
     name: "Container Parity"
     runs-on: docker
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: "24"
 
@@ -69,7 +69,7 @@ jobs:
 
   lighthouse:
     name: "Lighthouse Budgets"
-    uses: webgrip/workflows/.forgejo/workflows/lighthouse-budgets.yml@cfca5d381db0ae44912faf34e105721eede2ee3e # v2.1.0
+    uses: webgrip/workflows/.forgejo/workflows/lighthouse-budgets.yml@202891b4db6f06f6acda3653276fe546e7e2c0fd # v2.7.7
 
   accessibility:
     name: "Accessibility (axe-core)"
@@ -97,7 +97,7 @@ jobs:
       - container-parity
       - lighthouse
       - accessibility
-    uses: webgrip/workflows/.forgejo/workflows/semantic-release.yml@cd0550751c9e0414c8dc32d62ff099ff38c7a284 # v2.7.2
+    uses: webgrip/workflows/.forgejo/workflows/semantic-release.yml@202891b4db6f06f6acda3653276fe546e7e2c0fd # v2.7.7
     with:
       only-refs: refs/heads/main refs/heads/development
       install-dependencies: "false"

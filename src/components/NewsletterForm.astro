@@ -16,62 +16,60 @@ const subject = locale === 'nl' ? 'Nieuwsbrief' : 'Newsletter';
 ---
 
 <div class="subscribe">
-  {
-    NEWSLETTER_FORM_ACTION ? (
-      <Fragment>
-        <form
-          class="subscribe-form"
-          action={NEWSLETTER_FORM_ACTION}
-          method="post"
-          data-newsletter-form
-          data-status-id={`${id}-status`}
-          data-sending={t('newsletter.sending')}
-          data-success={t('newsletter.success')}
-          data-error={`${t('newsletter.error')} ${CONTACT_EMAIL}.`}
-        >
-          {Object.entries(NEWSLETTER_FORM_FIELDS).map(([name, value]) => (
-            <input type="hidden" name={name} value={value} />
-          ))}
-          <input type="hidden" name="locale" value={locale} />
-          <input type="hidden" name="TAAL" value={locale} />
-          <p class="subscribe-hp" aria-hidden="true">
-            <label for={`${id}-check`}>Leave this empty</label>
-            <input
-              id={`${id}-check`}
-              type="text"
-              name="email_address_check"
-              tabindex="-1"
-              autocomplete="off"
-            />
-          </p>
-          <p class="subscribe-field">
-            <label class="label-mono" for={`${id}-email`}>
-              {t('newsletter.emailLabel')}
-            </label>
-            <input
-              id={`${id}-email`}
-              type="email"
-              name="EMAIL"
-              required
-              autocomplete="email"
-              placeholder={t('newsletter.emailPlaceholder')}
-            />
-          </p>
-          <button class:list={['button', submit === 'primary' && 'button--primary']} type="submit">
-            {t('newsletter.subscribe')}
-          </button>
-        </form>
-        <p class="subscribe-status" id={`${id}-status`} role="status" aria-live="polite" hidden />
-      </Fragment>
-    ) : (
-      <p class="subscribe-pending">
-        {t('newsletter.pendingNote')}{' '}
-        <a href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}`}>
-          {t('newsletter.mailFallback')}
-        </a>
-      </p>
-    )
-  }
+  {NEWSLETTER_FORM_ACTION ? (
+    <Fragment>
+      <form
+        class="subscribe-form"
+        action={NEWSLETTER_FORM_ACTION}
+        method="post"
+        data-newsletter-form
+        data-status-id={`${id}-status`}
+        data-sending={t('newsletter.sending')}
+        data-success={t('newsletter.success')}
+        data-error={`${t('newsletter.error')} ${CONTACT_EMAIL}.`}
+      >
+        {Object.entries(NEWSLETTER_FORM_FIELDS).map(([name, value]) => (
+          <input type="hidden" name={name} value={value} />
+        ))}
+        <input type="hidden" name="locale" value={locale} />
+        <input type="hidden" name="TAAL" value={locale} />
+        <p class="subscribe-hp" aria-hidden="true">
+          <label for={`${id}-check`}>Leave this empty</label>
+          <input
+            id={`${id}-check`}
+            type="text"
+            name="email_address_check"
+            tabindex="-1"
+            autocomplete="off"
+          />
+        </p>
+        <p class="subscribe-field">
+          <label class="label-mono" for={`${id}-email`}>
+            {t('newsletter.emailLabel')}
+          </label>
+          <input
+            id={`${id}-email`}
+            type="email"
+            name="EMAIL"
+            required
+            autocomplete="email"
+            placeholder={t('newsletter.emailPlaceholder')}
+          />
+        </p>
+        <button class:list={['button', submit === 'primary' && 'button--primary']} type="submit">
+          {t('newsletter.subscribe')}
+        </button>
+      </form>
+      <p class="subscribe-status" id={`${id}-status`} role="status" aria-live="polite" hidden />
+    </Fragment>
+  ) : (
+    <p class="subscribe-pending">
+      {t('newsletter.pendingNote')}{' '}
+      <a href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}`}>
+        {t('newsletter.mailFallback')}
+      </a>
+    </p>
+  )}
 
   <p class="subscribe-note">
     {t('newsletter.consentNote')}{' '}

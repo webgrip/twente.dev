@@ -292,9 +292,9 @@ const opensOn = formatDate(REGISTRATION_OPENS, locale);
         <p class="release-lockup label-mono" aria-hidden="true">
           <span class="lockup-name">{releaseName(release.number)}</span>
           <span class="lockup-date">
-            {String(release.doors.getDate()).padStart(2, '0')}.{
-              String(release.doors.getMonth() + 1).padStart(2, '0')
-            }
+            {String(release.doors.getDate()).padStart(2, '0')}.{String(
+              release.doors.getMonth() + 1,
+            ).padStart(2, '0')}
           </span>
           <span class="lockup-place">{release.city} · {time(release.doors)}</span>
         </p>
@@ -344,36 +344,28 @@ const opensOn = formatDate(REGISTRATION_OPENS, locale);
                 <dd class="fact-long">{t('release.language')}</dd>
               </div>
             </dl>
-            {
-              primaryHref && (
-                <a class="button button--primary aside-cta" href={primaryHref} rel="noopener">
-                  {registrationOpen ? c.registrationCta : c.meetupGroupCta}
-                </a>
-              )
-            }
-            {
-              !registrationOpen && (
-                <p class="aside-note">
-                  {c.registrationOpens} <time datetime={opensIso}>{opensOn}</time>
-                </p>
-              )
-            }
+            {primaryHref && <a
+              class="button button--primary aside-cta"
+              href={primaryHref}
+              rel="noopener"
+            >
+              {registrationOpen ? c.registrationCta : c.meetupGroupCta}
+            </a>}
+            {!registrationOpen && <p class="aside-note">
+              {c.registrationOpens} <time datetime={opensIso}>{opensOn}</time>
+            </p>}
           </div>
           <nav class="aside-index aside-card" aria-labelledby="aside-index-title">
             <p class="label-mono aside-index-title" id="aside-index-title">{c.onThisPage}</p>
             <ol role="list">
-              {
-                sections.map((section, index) => (
-                  <li>
-                    <a href={`#${section.id}`}>
-                      <span class="label-mono aside-index-num">
-                        {String(index + 1).padStart(2, '0')}
-                      </span>
-                      <span>{section.label}</span>
-                    </a>
-                  </li>
-                ))
-              }
+              {sections.map((section, index) => <li>
+                <a href={`#${section.id}`}>
+                  <span class="label-mono aside-index-num">
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
+                  <span>{section.label}</span>
+                </a>
+              </li>)}
             </ol>
           </nav>
         </div>
@@ -384,14 +376,10 @@ const opensOn = formatDate(REGISTRATION_OPENS, locale);
           <p class="label-mono section-index">{num('avond')}</p>
           <h2>{c.eveningTitle}</h2>
           <ol class="run-of-show" role="list">
-            {
-              runOfShowVoor(c).map(({ time: at, item }) => (
-                <li>
-                  <span class="ros-time">{at}</span>
-                  <span class="ros-item">{item}</span>
-                </li>
-              ))
-            }
+            {runOfShowVoor(c).map(({ time: at, item }) => <li>
+              <span class="ros-time">{at}</span>
+              <span class="ros-item">{item}</span>
+            </li>)}
           </ol>
           <p class="who">
             {c.whoBody}
@@ -402,44 +390,34 @@ const opensOn = formatDate(REGISTRATION_OPENS, locale);
         <section class="release-section reveal" id="sprekers">
           <p class="label-mono section-index">{num('sprekers')}</p>
           <h2>{c.speakersTitle}</h2>
-          {
-            speakers.length === 0 ? (
-              <div class="speakers-tba">
-                <ul class="slots" role="list">
-                  {[1, 2].map((position) => (
-                    <li>
-                      <span class="label-mono slot-name">
-                        {c.slotLabel} {position}
-                      </span>
-                      <span class="label-mono slot-state">{c.slotOpen}</span>
-                    </li>
-                  ))}
-                </ul>
-                <p class="speakers-badge label-mono">{c.speakersTba}</p>
-                <p>{c.speakersTbaBody}</p>
-                <p class="cta-row">
-                  <a class="button button--primary" href={routePath('contribute', locale)}>
-                    {c.speakersCta}
-                  </a>
-                  <a class="button" href="#aanmelden">
-                    {c.speakersMailCta}
-                  </a>
-                </p>
-              </div>
-            ) : (
-              <ul class="speakers" role="list">
-                {speakers.map((speaker) => (
-                  <li>
-                    <p class="speaker-name">{speaker.name}</p>
-                    {speaker.affiliation && (
-                      <p class="speaker-affiliation">{speaker.affiliation}</p>
-                    )}
-                    {speaker.talk && <p class="speaker-talk">{speaker.talk[locale]}</p>}
-                  </li>
-                ))}
+          {speakers.length === 0 ? (
+            <div class="speakers-tba">
+              <ul class="slots" role="list">
+                {[1, 2].map((position) => <li>
+                  <span class="label-mono slot-name"> {c.slotLabel} {position} </span>
+                  <span class="label-mono slot-state">{c.slotOpen}</span>
+                </li>)}
               </ul>
-            )
-          }
+              <p class="speakers-badge label-mono">{c.speakersTba}</p>
+              <p>{c.speakersTbaBody}</p>
+              <p class="cta-row">
+                <a class="button button--primary" href={routePath('contribute', locale)}>
+                  {c.speakersCta}
+                </a>
+                <a class="button" href="#aanmelden">
+                  {c.speakersMailCta}
+                </a>
+              </p>
+            </div>
+          ) : (
+            <ul class="speakers" role="list">
+              {speakers.map((speaker) => <li>
+                <p class="speaker-name">{speaker.name}</p>
+                {speaker.affiliation && <p class="speaker-affiliation">{speaker.affiliation}</p>}
+                {speaker.talk && <p class="speaker-talk">{speaker.talk[locale]}</p>}
+              </li>)}
+            </ul>
+          )}
         </section>
 
         <section class="release-section reveal" id="locatie">
@@ -451,39 +429,36 @@ const opensOn = formatDate(REGISTRATION_OPENS, locale);
         <section class="release-section reveal" id="aanmelden">
           <p class="label-mono section-index">{num('aanmelden')}</p>
           <h2>{c.registrationTitle}</h2>
-          {
-            registrationOpen ? (
-              <>
-                <p>{c.registrationOpenBody}</p>
-                <p class="cta-row">
-                  <a class="button button--primary" href={REGISTRATION_URL} rel="noopener">
-                    {c.registrationCta}
-                  </a>
-                </p>
-              </>
-            ) : (
-              <>
-                <p class="registration-opens">
-                  {c.registrationOpens}{' '}
-                  <strong>
-                    <time datetime={opensIso}>{opensOn}</time>
-                  </strong>{' '}
-                  {c.registrationOpensSuffix}
-                  {MEETUP_GROUP_URL && ` ${c.registrationJoinGroup}`}
-                </p>
-                {MEETUP_GROUP_URL && (
-                  <p class="cta-row">
-                    <a class="button button--primary" href={MEETUP_GROUP_URL} rel="noopener">
-                      {c.meetupGroupCta}
-                    </a>
-                  </p>
-                )}
-                <p>
-                  <a href={routePath('events', locale)}>{c.registrationCalendarHint}</a>
-                </p>
-              </>
-            )
-          }
+          {registrationOpen ? (
+            <>
+              <p>{c.registrationOpenBody}</p>
+              <p class="cta-row">
+                <a class="button button--primary" href={REGISTRATION_URL} rel="noopener">
+                  {c.registrationCta}
+                </a>
+              </p>
+            </>
+          ) : (
+            <>
+              <p class="registration-opens">
+                {c.registrationOpens}{' '}
+                <strong>
+                  <time datetime={opensIso}>{opensOn}</time>
+                </strong
+                >{' '}
+                {c.registrationOpensSuffix}
+                {MEETUP_GROUP_URL && ` ${c.registrationJoinGroup}`}
+              </p>
+              {MEETUP_GROUP_URL && <p class="cta-row">
+                <a class="button button--primary" href={MEETUP_GROUP_URL} rel="noopener">
+                  {c.meetupGroupCta}
+                </a>
+              </p>}
+              <p>
+                <a href={routePath('events', locale)}>{c.registrationCalendarHint}</a>
+              </p>
+            </>
+          )}
           <div class="updates">
             <h3>{c.updatesTitle}</h3>
             <p>{c.updatesBody}</p>
@@ -496,14 +471,10 @@ const opensOn = formatDate(REGISTRATION_OPENS, locale);
           <p class="label-mono section-index">{num('praktisch')}</p>
           <h2>{c.practicalTitle}</h2>
           <dl class="practical">
-            {
-              c.practical.map(({ term, detail }) => (
-                <div>
-                  <dt>{term}</dt>
-                  <dd>{detail}</dd>
-                </div>
-              ))
-            }
+            {c.practical.map(({ term, detail }) => <div>
+              <dt>{term}</dt>
+              <dd>{detail}</dd>
+            </div>)}
           </dl>
           <p class="safeguard-links">
             <a href={routePath('conduct', locale)}>{c.conductCta}</a>

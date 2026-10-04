@@ -58,7 +58,7 @@ const GOOGLE_CALENDAR_URL = `https://calendar.google.com/calendar/r?cid=${encode
       kicker={`twente.dev // ${t('events.title').toLowerCase()}`}
     >
       <div class="subscribe">
-        <p class="subscribe-title">{t('events.subscribe')}</p>
+        <h2 class="subscribe-title">{t('events.subscribe')}</h2>
         <p class="subscribe-hint">{t('events.subscribeHint')}</p>
         <ul class="subscribe-links" role="list">
           <li>
@@ -71,30 +71,22 @@ const GOOGLE_CALENDAR_URL = `https://calendar.google.com/calendar/r?cid=${encode
     </PageHeader>
 
     <h2 class="visually-hidden">{t('events.upcoming')}</h2>
-    {
-      upcoming.length === 0 && (
-        <p class="empty">
-          {t('events.empty')} <a href={routePath('contribute', locale)}>{t('events.emptyCta')}</a>
-        </p>
-      )
-    }
+    {upcoming.length === 0 && <p class="empty">
+      {t('events.empty')} <a href={routePath('contribute', locale)}>{t('events.emptyCta')}</a>
+    </p>}
 
     <div class="timeline">
-      {
-        upcomingGroups.map((group) => (
-          <section class="month-group">
-            <h3 class="label-mono month-label">
-              <span class="month-dot" aria-hidden="true" />
-              {group.label}
-            </h3>
-            <div class="event-grid">
-              {group.events.map((event) => (
-                <EventCard event={event} locale={locale} headingLevel="h4" />
-              ))}
-            </div>
-          </section>
-        ))
-      }
+      {upcomingGroups.map((group) => <section class="month-group">
+        <h3 class="label-mono month-label">
+          <span class="month-dot" aria-hidden="true" />
+          {group.label}
+        </h3>
+        <div class="event-grid">
+          {group.events.map((event) => (
+            <EventCard event={event} locale={locale} headingLevel="h4" />
+          ))}
+        </div>
+      </section>)}
 
       <section class="month-group more-group">
         <h3 class="label-mono month-label">
@@ -111,28 +103,24 @@ const GOOGLE_CALENDAR_URL = `https://calendar.google.com/calendar/r?cid=${encode
       </section>
     </div>
 
-    {
-      pastGroups.length > 0 && (
-        <>
-          <h2 class="past-heading">{t('events.past')}</h2>
-          <div class="timeline is-past">
-            {pastGroups.map((group) => (
-              <section class="month-group">
-                <h3 class="label-mono month-label">
-                  <span class="month-dot" aria-hidden="true" />
-                  {group.label}
-                </h3>
-                <div class="event-grid">
-                  {group.events.map((event) => (
-                    <EventCard event={event} locale={locale} headingLevel="h4" />
-                  ))}
-                </div>
-              </section>
-            ))}
-          </div>
-        </>
-      )
-    }
+    {pastGroups.length > 0 && (
+      <>
+        <h2 class="past-heading">{t('events.past')}</h2>
+        <div class="timeline is-past">
+          {pastGroups.map((group) => <section class="month-group">
+            <h3 class="label-mono month-label">
+              <span class="month-dot" aria-hidden="true" />
+              {group.label}
+            </h3>
+            <div class="event-grid">
+              {group.events.map((event) => (
+                <EventCard event={event} locale={locale} headingLevel="h4" />
+              ))}
+            </div>
+          </section>)}
+        </div>
+      </>
+    )}
   </div>
 </BaseLayout>
 
@@ -145,6 +133,9 @@ const GOOGLE_CALENDAR_URL = `https://calendar.google.com/calendar/r?cid=${encode
   }
 
   .subscribe-title {
+    font-size: inherit;
+    line-height: inherit;
+    letter-spacing: inherit;
     font-weight: 650;
   }
 

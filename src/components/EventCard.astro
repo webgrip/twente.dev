@@ -37,62 +37,38 @@ const isOwnRelease = event.data.attribution === 'own';
   </Heading>
 
   <p class="event-venue">
-    {
-      event.data.venue.online
-        ? 'Online'
-        : event.data.venue.name
-          ? `${event.data.venue.name}, ${event.data.venue.city}`
-          : `${t('release.venueTba')}, ${event.data.venue.city}`
-    }
+    {event.data.venue.online
+      ? 'Online'
+      : event.data.venue.name
+        ? `${event.data.venue.name}, ${event.data.venue.city}`
+        : `${t('release.venueTba')}, ${event.data.venue.city}`}
   </p>
 
-  {
-    event.data.attribution === 'listed' && (
-      <p class="event-credit">
-        {t('events.organisedBy')} {event.data.organiser.name}
-      </p>
-    )
-  }
-  {
-    event.data.attribution === 'collaboration' && (
-      <p class="event-credit">{t('events.inCollaboration')}</p>
-    )
-  }
+  {event.data.attribution === 'listed' && <p class="event-credit">
+    {t('events.organisedBy')} {event.data.organiser.name}
+  </p>}
+  {event.data.attribution === 'collaboration' && <p class="event-credit">
+    {t('events.inCollaboration')}
+  </p>}
 
   <ul class="event-tags">
-    {
-      event.data.fixture && (
-        <li>
-          <Tag>{t('common.fixture')}</Tag>
-        </li>
-      )
-    }
-    {
-      event.data.cancelled && (
-        <li>
-          <Tag variant="accent">{t('events.cancelled')}</Tag>
-        </li>
-      )
-    }
-    {
-      event.data.costEur === 0 && (
-        <li>
-          <Tag>{t('events.free')}</Tag>
-        </li>
-      )
-    }
+    {event.data.fixture && <li>
+      <Tag>{t('common.fixture')}</Tag>
+    </li>}
+    {event.data.cancelled && <li>
+      <Tag variant="accent">{t('events.cancelled')}</Tag>
+    </li>}
+    {event.data.costEur === 0 && <li>
+      <Tag>{t('events.free')}</Tag>
+    </li>}
     <li>
       <Tag variant="muted"
         >{event.data.language === 'both' ? 'NL / EN' : event.data.language.toUpperCase()}</Tag
       >
     </li>
-    {
-      event.data.tags.slice(0, 3).map((tag) => (
-        <li>
-          <Tag>{tag}</Tag>
-        </li>
-      ))
-    }
+    {event.data.tags.slice(0, 3).map((tag) => <li>
+      <Tag>{tag}</Tag>
+    </li>)}
   </ul>
 </article>
 

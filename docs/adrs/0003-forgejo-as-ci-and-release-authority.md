@@ -76,6 +76,7 @@ non-GitHub runners, as documented in `webgrip/workflows` ADR 0002. Releases use
 
 ## Revision Log
 
-| Date       | Version | Change           |
-| ---------- | ------- | ---------------- |
-| 2026-08-03 | 1.0.0   | Initial decision |
+| Date       | Version | Change                                                                                                                                                                                                                                                                                                                                |
+| ---------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 2026-08-03 | 1.0.0   | Initial decision                                                                                                                                                                                                                                                                                                                      |
+| 2026-09-18 | 1.0.1   | The `@v6` claim in the body is disproven — a canary on the real runner ([homelab-cluster run 1710](https://forgejo.webgrip.dev/webgrip/homelab-cluster/actions/runs/1710)) shows checkout v6/v7 and setup-node v5/v6/v7 all pass. The v5 pin stays as a pin; the decision (Forgejo as CI and release authority) never depended on it. |

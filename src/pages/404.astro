@@ -17,18 +17,14 @@ const t = useTranslations(DEFAULT_LOCALE);
 >
   <div class="container notfound">
     <p class="code">404</p>
-    {
-      LOCALES.map((locale) => {
-        const tt = useTranslations(locale);
-        return (
-          <div class="block" lang={locale}>
-            <h1>{tt('error.404.title')}</h1>
-            <p>{tt('error.404.body')}</p>
-            <a href={routePath('home', locale)}>{tt('error.404.home')} →</a>
-          </div>
-        );
-      })
-    }
+    {LOCALES.map((locale) => {
+      const tt = useTranslations(locale);
+      return <div class="block" lang={locale}>
+        <h1>{tt('error.404.title')}</h1>
+        <p>{tt('error.404.body')}</p>
+        <a href={routePath('home', locale)}>{tt('error.404.home')} →</a>
+      </div>;
+    })}
   </div>
 </BaseLayout>
 

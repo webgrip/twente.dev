@@ -134,22 +134,22 @@ header /nl Content-Security-Policy "frame-ancestors 'none'"
 echo
 echo "CSP is emitted by Astro with per-page hashes, not unsafe-inline"
 HOME_HTML="$(fetch "${BASE}/nl")"
-if printf '%s' "$HOME_HTML" | grep -qF -- 'http-equiv="content-security-policy"'; then
+if [[ "$HOME_HTML" == *'http-equiv="content-security-policy"'* ]]; then
   pass "/nl body contains 'http-equiv=\"content-security-policy\"'"
 else
-  fail "/nl body missing 'http-equiv=\"content-security-policy\"' (${#HOME_HTML} bytes fetched)"
-  printf '%s' "$HOME_HTML" | grep -o -i -- '.\{0,60\}content-security-policy.\{0,160\}' | head -3 | sed 's/^/    csp> /'
+  fail "/nl body missing 'http-equiv=\"content-security-policy\"' (${#HOME_HTML} chars fetched)"
+  printf '%s' "$HOME_HTML" | LC_ALL=C grep -o -i -- '.\{0,60\}content-security-policy.\{0,160\}' | head -3 | sed 's/^/    csp> /'
   printf '%s' "$HOME_HTML" | head -c 200 | sed 's/^/    head> /'
   printf '\n'
 fi
 
-CSP_META="$(printf '%s' "$HOME_HTML" | grep -o 'content-security-policy[^>]*' || true)"
-if printf '%s' "$CSP_META" | grep -q "unsafe-inline"; then
+CSP_META="$(printf '%s' "$HOME_HTML" | LC_ALL=C grep -o 'content-security-policy[^>]*' || true)"
+if [[ "$CSP_META" == *unsafe-inline* ]]; then
   fail "/nl CSP contains unsafe-inline"
 else
   pass "/nl CSP has no unsafe-inline"
 fi
-if printf '%s' "$CSP_META" | grep -q "sha256-"; then
+if [[ "$CSP_META" == *sha256-* ]]; then
   pass "/nl CSP carries per-page hashes"
 else
   fail "/nl CSP has no sha256- hashes"

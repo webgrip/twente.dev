@@ -3,7 +3,9 @@ const PIECES = 14;
 ---
 
 <div class="confetti" aria-hidden="true">
-  {Array.from({ length: PIECES }, (_, i) => <span class="confetti-piece" data-piece={i} />)}
+  {Array.from({ length: PIECES }, (_, i) => (
+    <span class="confetti-piece" data-piece={i} />
+  ))}
 </div>
 
 <style>

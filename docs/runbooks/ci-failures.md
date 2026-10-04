@@ -116,6 +116,10 @@ alleen nog op `main` draait, zie de volgende sectie.
 
 ## DNS preview: `if cloudflare apitoken is not set`
 
+Vervallen sinds 2026-10-04: de DNS-lane leest zijn token via OIDC uit OpenBao en gebruikt
+`CLOUDFLARE_DNS_TOKEN` niet meer ([plan](../plan/dns-ownership.md)). Hieronder staat het
+oorspronkelijke incident.
+
 _Opgelost op 2026-09-17: de vault-sleutel staat er, de lane komt sindsdien tot de preview._
 
 **Symptoom.** De job `DNS preview` uit `on_dns_change.yml` stopt op stap `Preview` met

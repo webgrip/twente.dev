@@ -2,7 +2,7 @@
 lockfile = true
 
 [tools]
-uv = "0.12.19"
+uv = "0.12.24"
 "gitleaks" = "8.30.1"
 node = "24"
 

@@ -59,6 +59,7 @@ nav:
       - adrs/0019-release-driven-deploys.md
       - adrs/0020-ci-critical-path.md
       - adrs/0021-apache-2-0-for-the-code.md
+      - adrs/0023-typescript-7-route.md
       - adrs/0000-template.md
   - Community agreements:
       - partner-compact.md

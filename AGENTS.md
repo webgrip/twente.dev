@@ -4,7 +4,7 @@ The architecture is in [`README.md`](README.md) and the decisions are in [`docs/
 neither is repeated here. This file carries what an agent cannot derive from the code: the board
 contract, and the handful of repo rules that look like style choices but are load-bearing.
 
-## Board contract (vikunja-product-owner)
+## Board contract (product-owner)
 
 - MCP server: `vikunja` · project: `twente.dev` (**id 50**, created 2026-08-12) · instance list cap
   (maxitemsperpage): 250

@@ -1,6 +1,7 @@
 ---
 description: Rules for this repository
 ---
+
 # Agent guide — twente.dev
 
 The architecture is in [`README.md`](https://forgejo.webgrip.dev/webgrip/twente.dev/src/branch/development/README.md) and the decisions are in [`docs/adrs/`](https://forgejo.webgrip.dev/webgrip/twente.dev/src/branch/development/docs/adrs);

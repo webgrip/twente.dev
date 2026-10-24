@@ -1,0 +1,4 @@
+link_base = "https://forgejo.webgrip.dev/webgrip/twente.dev/src/branch/development/"
+
+[budget]
+agents = 6500

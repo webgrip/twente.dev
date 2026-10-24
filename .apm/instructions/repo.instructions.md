@@ -1,0 +1,162 @@
+---
+description: Rules for this repository
+---
+# Agent guide — twente.dev
+
+The architecture is in [`README.md`](https://forgejo.webgrip.dev/webgrip/twente.dev/src/branch/development/README.md) and the decisions are in [`docs/adrs/`](https://forgejo.webgrip.dev/webgrip/twente.dev/src/branch/development/docs/adrs);
+neither is repeated here. This file carries what an agent cannot derive from the code: the board
+contract, and the handful of repo rules that look like style choices but are load-bearing.
+
+## Board contract (vikunja-product-owner)
+
+- MCP server: `vikunja` · project: `twente.dev` (**id 50**, created 2026-08-12) · instance list cap
+  (maxitemsperpage): 250
+- Ticket prefix: `VIK` (commit trailers `VIK-<taskID>`; bare Vikunja task URLs autolink in Forgejo)
+- Labels — **the board is authoritative, not this file.** Enumerate with `labels_list` before
+  applying any; only the _dimensions_ below are contract. Labels are shared instance-wide with the
+  Webgrip infra boards, so a new value costs every board:
+  - `theme/<kebab>` — one per ticket. This project introduced `theme/infra`, `theme/content`,
+    `theme/external-service`, `theme/trust-safety`, `theme/event-ops`, `theme/seo`, `theme/a11y`,
+    `theme/docs`, `theme/contribution`, and reuses the pre-existing `theme/ci-cd`.
+  - `repo/twente.dev` — every ticket, following the instance's `repo/*` convention
+  - `impact/H|M|L`
+  - **3D estimation**: `effort/S|M|L` · `time/hours|days|weeks` · `uncertainty/low|med|high`
+    (`high` ⇒ never `agent-ready` — spike first)
+  - `do-next` (≤10) · `ready` / `needs-refinement` / `review` / `agent-ready` · `agent/<name>`
+  - If no existing `theme/*` fits, that is a taxonomy decision for a human — raise it; do not
+    create a label to unblock a write.
+- **Stages live in the Kanban buckets of view 145** (ratified 2026-09-04, replacing the earlier
+  label-derived rule): Backlog · To refine · To estimate · To do · Doing · Blocked · In review ·
+  Done. The bucket is the status; `ready` / `review` / `needs-refinement` / `agent/<name>` survive
+  as taxonomy but no longer define the stage. **DoD**: an evidence comment proving (1) _deployed_ —
+  verified against real state, not a proxy — and (2) _monitored_ — names the signal that would
+  catch regression, or why none applies.
+- **Pick-up order**: the project description carries a `Pick-up queue` — ordered
+  `VIK-<id> — title`, top picked up first. The MCP has no position API, so raw drag-order is not
+  the queue.
+- Top-up ground truth: `git log --oneline <last-sweep>..HEAD` · `just check` ·
+  `pnpm validate:content` · `curl` against the live site · audit dimensions: launch-tracker dates ·
+  CI/DX · content honesty · a11y/SEO
+- **Buckets and Gantt dates need the REST API — the MCP cannot reach them.** `task_update` exposes
+  no `startDate`/`endDate` and nothing assigns a bucket, so use
+  `https://vikunja.webgrip.dev/api/v1` with the same `$VIKUNJA_API_TOKEN`: `POST /tasks/<id>` for
+  dates, `POST /projects/50/views/145/buckets/<bucketId>/tasks` with `{"task_id": n}` to move one.
+  **A partial `POST /tasks/<id>` silently blanks every field you omit** — description, due date and
+  priority all went empty once. Always GET the task, patch the fields you want, POST the whole
+  object back.
+- Web base for cross-references: `https://vikunja.webgrip.dev/tasks/<id>`
+- Instance ops (token rotation, 401s, bridge 503s):
+  [`homelab-cluster` runbooks/mcp-vikunja.md](https://forgejo.webgrip.dev/webgrip/homelab-cluster)
+
+### MCP gotchas that cost time on 2026-08-12
+
+- **Client auth required since 2026-08 (server v1.0.0)**: every tool call needs
+  `Authorization: Bearer <vikunja-api-token>` — `No token` back means the header never
+  arrived. The plugin's `.mcp.json` expands `${VIKUNJA_API_TOKEN}` from the environment;
+  export it before launching Claude Code. Token minting/rotation: the ops runbook below.
+- **List responses are multi-line blocks**, not one line per entity. Parsing `[ID: n]` off the
+  title line silently returns nothing.
+- **Pseudo-projects report negative ids** (`[ID: -2]`). A parser matching only `\d+` skips that
+  block and steals the _next_ one's id, shifting every later row onto the wrong entity.
+- **`task_get` does not render relations.** Auditing relations from its output reports every one
+  as missing. Probe with `relation_create` instead: a 409 "already exists" is the proof.
+- **The bridge 503s mid-run** (supergateway stateless mode dies when any client hangs up early;
+  it self-recovers). Re-`init()` and retry on 404/410/503, keep client timeouts ≥ 120 s, and never
+  run parallel sweeps — one 60 s-timeout bulk sweep took the bridge down for every session once.
+- `labels_bulk_set_on_task` **replaces** the whole label set. Deletes are soft: `task_delete`
+  completes, `project_delete` archives.
+
+### Reading Forgejo Actions state from a script
+
+The REST API exposes runs but **not** job logs, `/actions/runs` returns rows with every useful
+field null, and `/actions/tasks` stalls under load. The UI endpoint that does work, its three
+silent failure modes, and the HTML fallback are in
+[`docs/runbooks/ci-failures.md`](https://forgejo.webgrip.dev/webgrip/twente.dev/src/branch/development/docs/runbooks/ci-failures.md).
+
+## Repo rules that are load-bearing
+
+- **Work lands on `development`, deploys follow releases** ([ADR 0019](https://forgejo.webgrip.dev/webgrip/twente.dev/src/branch/development/docs/adrs/0019-release-driven-deploys.md)).
+  Commit to `development`; semantic-release cuts `vX.Y.Z-rc.N` there and every rc deploys
+  `staging.twente.dev`. `main` receives the promotion PR (never squashed) and cuts `vX.Y.Z`, which
+  deploys production. Only `webgrip-ci` and the owner may push `main` directly, and a direct push
+  there is a hotfix, not a workflow. A `docs:` or `chore:` commit releases nothing; a copy or content
+  change that must ship uses the `content` type (patch) or `feat`/`fix`.
+- **DNS for twente.dev lives in [`webgrip/cloudflare`](https://forgejo.webgrip.dev/webgrip/cloudflare)**
+  (DNSControl, [ADR 0018](https://forgejo.webgrip.dev/webgrip/twente.dev/src/branch/development/docs/adrs/0018-account-and-zone-resources-in-opentofu.md)). Never edit a
+  record in the Cloudflare dashboard: the nightly drift plan fails and the next apply reverts it.
+  Worker routes stay in [`wrangler.toml`](https://forgejo.webgrip.dev/webgrip/twente.dev/src/branch/development/wrangler.toml); the records that make them resolve are
+  in that repo.
+- **Comments are NOT allowed.** Always communicate intent with code: a precise name, a type, a
+  smaller function, a test that states the case. A comment is a failure. This holds for every
+  language in the repo, prose in YAML and TOML included. Machine-read directives stay, because the
+  toolchain acts on them as syntax: `// @ts-check`, `eslint-disable`, `<!-- prettier-ignore -->`,
+  `# syntax=`, `# renovate:`, `# yaml-language-server:`, and shebangs. Doc-comment forms the
+  toolchain itself reads are not comments either and stay: godoc directly above an exported
+  identifier, rustdoc `///` and `//!`, and PHPDoc blocks carrying type tags. Anything that outlives
+  a single expression belongs in `docs/` or an ADR, where it gets reviewed, linked and kept
+  current. The estate decision is
+  [ai-skills ADR 0001](https://forgejo.webgrip.dev/webgrip/ai-skills/src/branch/main/org/adrs/adr-0001-no-comments-in-code.md).
+- **Never build a URL by swapping a locale prefix.** Route _segments_ are localized
+  (`/nl/bedrijven` ↔ `/en/companies`), so `/en/bedrijven` does not exist. Always go through
+  `routePath()` / `alternatesFor()` in [`src/i18n/routes.ts`](https://forgejo.webgrip.dev/webgrip/twente.dev/src/branch/development/src/i18n/routes.ts).
+- **A missing translation is a compile error**, not a runtime fallback — `en` is typed against `nl`
+  in [`src/i18n/ui.ts`](https://forgejo.webgrip.dev/webgrip/twente.dev/src/branch/development/src/i18n/ui.ts). Add a key to one half, add it to both.
+- **Never invent content.** Entries in `src/content/` attributed to real regional organisations
+  must come from the contribution pipeline. Fixtures carry `fixture: true` and must be gone before
+  launch — see [`src/content/README.md`](https://forgejo.webgrip.dev/webgrip/twente.dev/src/branch/development/src/content/README.md).
+- **Forgejo CI has estate-wide conventions and two traps that fail silently** — the `uses:`
+  shorthand, `actions/checkout@v5`, and the fact that `if:` on a `uses:` job does nothing:
+  [org/forgejo-ci.md](https://forgejo.webgrip.dev/webgrip/ai-skills/src/branch/main/org/forgejo-ci.md).
+- **`pnpm exec wrangler`, never `pnpm dlx`** — dlx installs into a throwaway project that never
+  sees `pnpm-workspace.yaml`'s allowBuilds, so pnpm's build-scripts guard prompts interactively
+  for esbuild/workerd and a CI job hangs forever.
+- **Every `uses:` in a job is cloned during `Set up job`, even when its step's `if:` is false.**
+  Since 2026-09-05 the runner keeps those bare clones, the tool cache and the pnpm store per node
+  (homelab ADR-0056), so an action costs a fetch, not a 30 to 50 second clone; before that a
+  four-action job spent two minutes in setup ([ADR 0020](https://forgejo.webgrip.dev/webgrip/twente.dev/src/branch/development/docs/adrs/0020-ci-critical-path.md)).
+  `on_source_change.yml` triggers on `push` only: a `pull_request` trigger ran every
+  `development` push twice while the promotion PR was open.
+- **wrangler.toml: the `routes` key stays above the first `[table]` header**, and
+  `workers_dev = false` without a route is a green deploy and a dead site — every path 522s while
+  `/robots.txt` serves Cloudflare's managed default.
+- **`compressHTML` stays off** (whitespace-eating bug), and
+  `build.format: 'file'` pairs with wrangler's `html_handling = "auto-trailing-slash"` — change
+  either half alone and clean URLs break.
+- **The CI runner's docker is a sibling, not a child.** Published ports and bind mounts resolve in
+  the host namespace where the checkout does not exist; share a network namespace or `docker cp`
+  (see `efa10df`).
+- **Docs stay short and current.** Update the page that already covers the subject before adding a
+  new one, and cut a line before adding a section. A doc nobody finishes reading is worse than the
+  three sentences that would have been read. Same for what an agent writes back in chat.
+- **Copy rules live in [`docs/brand/copy-voice.md`](https://forgejo.webgrip.dev/webgrip/twente.dev/src/branch/development/docs/brand/copy-voice.md)** — what we never
+  promise a speaker, the phrases that are banned, how a call to action is framed, and the facts
+  that keep getting mangled. Read it before writing anything public-facing.
+- **CI that goes red has a runbook**: [`docs/runbooks/ci-failures.md`](https://forgejo.webgrip.dev/webgrip/twente.dev/src/branch/development/docs/runbooks/ci-failures.md)
+  carries every failure this repo has actually had, with the cause. A silent release usually means
+  a verification job is blocking `Build Site`, not that semantic-release broke.
+- **`docs/domain/*.md` are generated** from [`docs/domain/model.yaml`](https://forgejo.webgrip.dev/webgrip/twente.dev/src/branch/development/docs/domain/model.yaml) by a
+  script that ships with the `domain-language` skill, not by anything in this repo:
+  `python3 ~/.claude/skills/domain-language/scripts/generate_docs.py docs/domain/model.yaml -o docs/domain/`
+- **Decks, the outreach tracker and other things outside git** are listed in
+  [`docs/external-assets.md`](https://forgejo.webgrip.dev/webgrip/twente.dev/src/branch/development/docs/external-assets.md), including which Drive account holds them.
+- Facts about the current release live only in [`src/config/site.ts`](https://forgejo.webgrip.dev/webgrip/twente.dev/src/branch/development/src/config/site.ts). A
+  `null` there is deliberate — components render an honest pre-launch state instead of a dead link.
+- Secrets go through SOPS or the Forgejo secret store, never into a workflow, config file or
+  committed `.env` (`guard-secrets` skill).
+
+## Current state (dated — update when it drifts)
+
+_2026-09-04._ Launch tracking lives in
+[`docs/plan/playbook-alignment.md`](https://forgejo.webgrip.dev/webgrip/twente.dev/src/branch/development/docs/plan/playbook-alignment.md); which plan doc is
+authoritative for what: [`docs/plan/README.md`](https://forgejo.webgrip.dev/webgrip/twente.dev/src/branch/development/docs/plan/README.md). CI runs through the shared
+static-site lanes in `webgrip/workflows`. **Every `uses:` pin carries a `# vX.Y.Z` comment after the
+SHA** — Renovate's `github-actions` manager cannot resolve a bare digest to a version and silently
+skips the dependency, which is how three lanes here sat frozen on v2.1.0 to v2.5.0 for weeks. The
+comment is a machine-read directive, not prose. The toolchain rides on `@webgrip/tsconfig`,
+`@webgrip/prettier-config`, `@webgrip/eslint-config-astro` and `@webgrip/astro-site-toolkit`
+(VIK-813). The seam is documented in each package: spread the shared array and append what is
+repo-specific, never fork the base. Several sessions share this working tree: commit by
+pathspec, and a local commit can be pushed by a peer at any time. Since 2026-09-05 the tree lives
+on `development`; the release train and its human steps are tracked in
+[`docs/plan/release-train.md`](https://forgejo.webgrip.dev/webgrip/twente.dev/src/branch/development/docs/plan/release-train.md). The pipeline is one verification
+stage plus preview and release since [ADR 0020](https://forgejo.webgrip.dev/webgrip/twente.dev/src/branch/development/docs/adrs/0020-ci-critical-path.md) (2026-09-05).

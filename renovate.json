@@ -142,6 +142,13 @@
         "--from '(?<depName>[A-Za-z0-9_.-]+)\\[[^\\]]*\\]==(?<currentValue>[0-9][^']*)'"
       ],
       "datasourceTemplate": "pypi"
+    },
+    {
+      "description": "The semantic-release toolchain image passed to the shared release workflow as toolchain-image, pinned by tag and digest.",
+      "customType": "regex",
+      "managerFilePatterns": ["/^\\.forgejo/workflows/[^/]+\\.ya?ml$/"],
+      "matchStrings": ["toolchain-image: (?<depName>[^:\\s]+):(?<currentValue>[^@\\s]+)@(?<currentDigest>sha256:[a-f0-9]{64})"],
+      "datasourceTemplate": "docker"
     }
   ]
 }

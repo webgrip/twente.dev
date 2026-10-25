@@ -2,7 +2,7 @@ import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, relative } from 'node:path';
 
 const EXPECTED = {
-  docker: 2,
+  docker: 3,
   pypi: 1,
 };
 

@@ -341,7 +341,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:72762439d94e4341da0d71eb15efabf54e19a18132ffaba5438f7f7efc050872
+  content_hash: sha256:56b490fe641779b4b915562084bfcd9f67bed938e7dfccedd763d44790582ffd
 - kind: project-relative
   target: claude
   value: .claude/skills/guard-secrets
@@ -1354,4 +1354,4 @@ mcp_config_provenance:
 local_deployed_files:
 - .claude/rules/repo.md
 local_deployed_file_hashes:
-  .claude/rules/repo.md: sha256:72762439d94e4341da0d71eb15efabf54e19a18132ffaba5438f7f7efc050872
+  .claude/rules/repo.md: sha256:56b490fe641779b4b915562084bfcd9f67bed938e7dfccedd763d44790582ffd

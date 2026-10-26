@@ -32,20 +32,20 @@ The two facts that make this a decision and not a wait:
    compiler API — the same API typescript-eslint needs. One upstream unlock releases both, and the
    release is scheduled.
 2. **The current gate is stronger than the replacement in one dimension and weaker in none.** `astro
-   check` is also the i18n completeness gate ([ADR 0004](0004-locale-strategy.md), driver 4): the
+check` is also the i18n completeness gate ([ADR 0004](0004-locale-strategy.md), driver 4): the
    English UI dictionary is typed against the Dutch one in [`src/i18n/ui.ts`](../../src/i18n/ui.ts),
    so a missing translation is a compile error. The route has to keep that property, not just keep
    type errors visible.
 
 ## Decision Drivers
 
-| #   | Driver (why this matters)                                                                    |
-| --- | -------------------------------------------------------------------------------------------- |
-| 1   | `pnpm typecheck` is the i18n completeness gate; the replacement must preserve that           |
-| 2   | The upgrade should be an execution task with a trigger, not an open question re-litigated     |
-| 3   | Stay on the newest TS both peers accept today rather than freezing below it                   |
-| 4   | No gate weakens during the transition, and CI keeps one `run-typecheck` lane, not two         |
-| 5   | Do nothing before the upstream API is stable enough to spike against                          |
+| #   | Driver (why this matters)                                                                 |
+| --- | ----------------------------------------------------------------------------------------- |
+| 1   | `pnpm typecheck` is the i18n completeness gate; the replacement must preserve that        |
+| 2   | The upgrade should be an execution task with a trigger, not an open question re-litigated |
+| 3   | Stay on the newest TS both peers accept today rather than freezing below it               |
+| 4   | No gate weakens during the transition, and CI keeps one `run-typecheck` lane, not two     |
+| 5   | Do nothing before the upstream API is stable enough to spike against                      |
 
 ## Considered Options
 
@@ -72,8 +72,8 @@ and in CI through `node-application-static-analysis.yml` with `run-typecheck: tr
 
 **The two blocking upstreams, each with the condition that clears it.**
 
-| Blocker                                    | Condition that clears it                                                                                     |
-| ------------------------------------------ | ------------------------------------------------------------------------------------------------------------ |
+| Blocker                                     | Condition that clears it                                                                                      |
+| ------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
 | `typescript-eslint` cannot peer TS 7        | Its peer range becomes `^7` (issue 10940 unlocked, or the native backend in PR 12803 ships)                   |
 | `@astrojs/ts-content-mapper` is unpublished | It leaves `0.0.0` (a real version is published and it typechecks this repo's `.astro` files — see Validation) |
 

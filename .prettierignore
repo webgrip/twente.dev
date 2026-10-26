@@ -14,3 +14,16 @@ docs/brand/templates/release.js
 # Generated from docs/brand/copy/*.tmpl by scripts/gen-copy.ts; the line breaks are
 # what gets pasted into meetup.com, so reformatting them changes published copy.
 docs/brand/copy/*.html
+
+# Written by APM from .apm/ and apm.lock.yaml (agent-standards); agentstd check
+# fails when they differ from a fresh compile, so prettier must not rewrite them.
+AGENTS.md
+**/AGENTS.md
+apm.lock.yaml
+apm_modules/
+.agents/
+.claude/rules/
+.claude/skills/
+.codex/
+.mcp.json
+opencode.json

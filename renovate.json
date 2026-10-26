@@ -1,9 +1,6 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "local>webgrip/renovate-config#v1.7.1",
-    "local>webgrip/renovate-config:safe-automerge#v1.7.1"
-  ],
+  "extends": ["local>webgrip/renovate-config:profile-site#v1.15.0"],
   "description": [
     "The org preset sets internalChecksFilter to none, which turns minimumReleaseAge from a filter into a pending marker: Renovate builds the branch against the newest version anyway and prNotPendingHours (2) opens the PR regardless. pnpm 11 enforces its own minimumReleaseAge of 24 hours at install time and rejects the lockfile, so every run on such a PR dies in Install dependencies with ERR_PNPM_MINIMUM_RELEASE_AGE_VIOLATION. Strict makes the soak a real filter again: Renovate proposes the newest version that already cleared it, which pnpm then accepts because CI always installs later than Renovate resolved.",
     "Renovate sends no merge strategy of its own: the forgejo platform's mergePr falls back to config.mergeMethod, which is this repo's default_merge_style of fast-forward-only (release-train.md, 2026-09-17), and a fast-forward demands a strictly-ahead branch. So one merge moved development, every other branch was behind, each was rebased and each rebase restarted the full gate: roughly twenty runs for six dependency PRs on 2026-09-18. The lockfile was not the cause, which is the easy wrong conclusion: three of the four open branches merged onto development that morning without a conflict. automergeStrategy fast-forward maps to Forgejo's rebase-then-fast-forward, which rebases server-side at merge time and keeps the linear history the promotion depends on, so rebaseWhen conflicted can restrict Renovate-side rebases to the branches that really clash.",
@@ -141,6 +138,15 @@
         "--from '(?<depName>[A-Za-z0-9_.-]+)\\[[^\\]]*\\]==(?<currentValue>[0-9][^']*)'"
       ],
       "datasourceTemplate": "pypi"
+    },
+    {
+      "description": "The semantic-release toolchain image passed to the shared release workflow as toolchain-image, pinned by tag and digest.",
+      "customType": "regex",
+      "managerFilePatterns": ["/^\\.forgejo/workflows/[^/]+\\.ya?ml$/"],
+      "matchStrings": [
+        "toolchain-image: (?<depName>[^:\\s]+):(?<currentValue>[^@\\s]+)@(?<currentDigest>sha256:[a-f0-9]{64})"
+      ],
+      "datasourceTemplate": "docker"
     }
   ]
 }

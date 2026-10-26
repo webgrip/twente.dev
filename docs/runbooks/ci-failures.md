@@ -416,6 +416,12 @@ Haal een override weg zodra de ouder zelf de gepatchte versie vraagt, en een gen
 zodra `@lhci/cli` een `lighthouse` met een nieuwere `puppeteer-core` meebrengt. `pnpm audit
 --audit-level high` meldt ze dan als "ignored" zonder dat ze nog in de boom zitten.
 
+## Lighthouse rood op performance, op steeds een andere pagina
+
+De performance-score hangt af van de CPU van de machine die meet. Op de gedeelde runner scoorde dezelfde build 0,72 tot 0,93 op telkens een andere pagina (runs 893, 942, 1019 en 1020), terwijl hij lokaal met Lighthouse 12.6.1 en het desktop-profiel op `nl.html`, `en.html` en `en/001.html` drie keer 1 haalde, met een LCP van 0,5 s en 0 ms blokkeertijd. Drie runs per pagina hielpen niet: de beste van drie bleef 0,93.
+
+Daarom is `categories:performance` in `lighthouserc.json` een waarschuwing. De budgetten die niet van de CPU afhangen blijven fout: bytes per pagina, ongebruikte JavaScript, CLS, toegankelijkheid, SEO en best practices. Een waarschuwing op performance is een reden om zelf te meten, niet om te mergen zonder te kijken.
+
 ## Elke job van een Renovate-PR faalt op `ERR_PNPM_MINIMUM_RELEASE_AGE_VIOLATION`
 
 **Symptoom.** Op een `renovate/*`-branch valt elke job om in stap `Install dependencies`, dus ook

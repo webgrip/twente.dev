@@ -418,7 +418,7 @@ zodra `@lhci/cli` een `lighthouse` met een nieuwere `puppeteer-core` meebrengt. 
 
 ## Lighthouse rood op performance, op steeds een andere pagina
 
-De performance-score hangt af van de CPU van de machine die meet. Op de gedeelde runner scoorde dezelfde build 0,72 tot 0,93 op telkens een andere pagina (runs 893, 942, 1019 en 1020), terwijl hij lokaal met Lighthouse 12.6.1 en het desktop-profiel op `nl.html`, `en.html` en `en/001.html` drie keer 1 haalde, met een LCP van 0,5 s en 0 ms blokkeertijd. Drie runs per pagina hielpen niet: de beste van drie bleef 0,93.
+De performance-score hangt af van de CPU van de machine die meet. Op de gedeelde runner scoorde dezelfde build 0,72 tot 0,93 op telkens een andere pagina (runs 893, 942 en 1019, en de run daarna met drie metingen per pagina), terwijl hij lokaal met Lighthouse 12.6.1 en het desktop-profiel op `nl.html`, `en.html` en `en/001.html` drie keer 1 haalde, met een LCP van 0,5 s en 0 ms blokkeertijd. Drie runs per pagina hielpen niet: de beste van drie bleef 0,93.
 
 Daarom is `categories:performance` in `lighthouserc.json` een waarschuwing. De budgetten die niet van de CPU afhangen blijven fout: bytes per pagina, ongebruikte JavaScript, CLS, toegankelijkheid, SEO en best practices. Een waarschuwing op performance is een reden om zelf te meten, niet om te mergen zonder te kijken.
 

@@ -389,6 +389,33 @@ Komen daar twee regels uit, dan is het dit.
 hoort niet in onze `package.json` maar via de re-export van dat framework binnen te komen. Een
 exacte pin op zo'n pakket is geen voorzichtigheid maar een garantie op een tweede kopie.
 
+## Static Analysis rood op `pnpm audit`, zonder dat een eigen dependency veranderde
+
+De lane draait `pnpm audit --audit-level high`. Een nieuwe advisory op een transitieve dependency
+maakt hem rood terwijl er niets aan de repo veranderde. Op 26 oktober 2026 waren dat er 18, allemaal
+transitief: via `wrangler > miniflare` (`undici`, `sharp`), `astro` (`undici` 8, `sharp`,
+`http-cache-semantics`, `source-map-js`), `eslint` (`brace-expansion`), `@astrojs/check`
+(`fast-uri`) en `@lhci/cli` (`tmp`, `basic-ftp`, `body-parser`, `extract-zip`, `zod` 3).
+
+De fix is een vloer per pakket in `overrides` in
+[`pnpm-workspace.yaml`](https://forgejo.webgrip.dev/webgrip/twente.dev/src/branch/development/pnpm-workspace.yaml):
+de eerste gepatchte versie binnen dezelfde major, exact gepind, zodat een override nooit stil een
+nieuwe major binnenhaalt. Twee uitzonderingen op "binnen dezelfde major", allebei alleen onder
+`@lhci/cli`, dat alleen het lokale `just lhci`-recept gebruikt (CI draait lhci uit de
+toolchain-image): `tmp` 0.1 → 0.2 en `basic-ftp` 5 → 6, omdat er geen gepatchte versie in de oude
+major bestaat.
+
+Drie advisories hebben geen fix die hier kan landen en staan in `auditConfig.ignoreGhsas`:
+
+| Advisory                                 | Pakket                | Waarom genegeerd                                                                                                                                                                                                                                     |
+| ---------------------------------------- | --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| GHSA-jmr9-qjv8-65gv, GHSA-7pqw-9j4j-h8q3 | `extract-zip` ≤ 2.0.1 | Geen gepatchte versie. Zit alleen onder `@lhci/cli > lighthouse > puppeteer-core > @puppeteer/browsers`, dat er lokaal Chrome mee uitpakt; `@puppeteer/browsers` 3.x gebruikt het niet meer, maar `lighthouse` 12.6.1 pint de oude `puppeteer-core`. |
+| GHSA-mrhx-c7xc-m3w5                      | `zod` 3.25.76         | De 4.x-kopieën staan via de override op 4.6.7. De 3.x-kopie zit onder `chromium-bidi` 14 (ook via `lighthouse`) en heeft geen gepatchte 3.x.                                                                                                         |
+
+Haal een override weg zodra de ouder zelf de gepatchte versie vraagt, en een genegeerde advisory
+zodra `@lhci/cli` een `lighthouse` met een nieuwere `puppeteer-core` meebrengt. `pnpm audit
+--audit-level high` meldt ze dan als "ignored" zonder dat ze nog in de boom zitten.
+
 ## Elke job van een Renovate-PR faalt op `ERR_PNPM_MINIMUM_RELEASE_AGE_VIOLATION`
 
 **Symptoom.** Op een `renovate/*`-branch valt elke job om in stap `Install dependencies`, dus ook

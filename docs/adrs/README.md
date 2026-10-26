@@ -27,6 +27,7 @@ MADR 4.0.0, matching the `webgrip/workflows` convention. New records use
 | [0020](0020-ci-critical-path.md)                            | CI critical path: one verification stage on a runner that caches per node                                        | Accepted | 2026-09-05 |
 | [0021](0021-apache-2-0-for-the-code.md)                     | The code is Apache-2.0; the content stays CC BY 4.0                                                              | Accepted | 2026-09-11 |
 | [0022](0022-forgejo-native-deps-resolve-against-forgejo.md) | Forgejo-native dependencies resolve against Forgejo, not against a GitHub twin                                   | Accepted | 2026-09-18 |
+| [0023](0023-typescript-7-route.md)                          | The TypeScript 7 route runs off `astro check` onto the content mapper                                            | Accepted | 2026-10-11 |
 
 ## Open decisions
 

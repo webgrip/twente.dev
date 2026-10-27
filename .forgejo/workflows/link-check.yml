@@ -14,7 +14,7 @@ env:
 jobs:
   links:
     name: "Check links in built output"
-    uses: webgrip/workflows/.forgejo/workflows/link-check-static-site.yml@cfca5d381db0ae44912faf34e105721eede2ee3e # v2.1.0
+    uses: webgrip/workflows/.forgejo/workflows/link-check-static-site.yml@fec5377edfef94b7836bb115c732dfee6421e010 # v2.8.3
     with:
       exclude-pattern: '^https://twente\.dev'
       extra-sources: |

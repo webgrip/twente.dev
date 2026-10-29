@@ -4,7 +4,7 @@
 - **Deciders**: Ryan Grippeling
 - **Date**: 2026-09-05
 - **Tags**: Delivery::CI, Operations, Developer-Experience
-- **Version**: 1.0.1
+- **Version**: 1.1.0
 
 ---
 
@@ -97,6 +97,13 @@ The `pull_request` trigger goes. Work lands by push, on `development` or on a br
 repository, and the promotion PR carries a commit that the push run already verified. The only
 thing the trigger did since ADR 0019 was double the load.
 
+Amended 2026-10-27: the checks run on pull requests again, in their own `on_pull_request.yml`
+that ends in one `gate` job. A Forgejo branch rule can only require a check reported on a pull
+request ([homelab ADR-0084](https://forgejo.webgrip.dev/webgrip/homelab-cluster/src/branch/main/docs/techdocs/docs/adr/adr-0084-a-branch-rule-requires-one-gate-and-forgejo-merges-renovate-on-it.md)), and without one `development` and `main` required nothing.
+`on_source_change.yml` keeps its push trigger for previews and releases, so a `development`
+push runs the checks twice while the promotion PR is open; that load is the price of a required
+check.
+
 ### Positive Consequences
 
 - A push to `development` is fully green in the time Lighthouse takes, and every other job
@@ -157,3 +164,4 @@ tokens are unaffected.
 | ------- | ---------- | --------------- | ------------------------------------------------------------------------ |
 | 1.0.0   | 2026-09-05 | Ryan Grippeling | Initial creation                                                         |
 | 1.0.1   | 2026-09-17 | Ryan Grippeling | Shape landed in `on_source_change.yml`; lane version corrected to v2.5.3 |
+| 1.1.0   | 2026-10-27 | Ryan Grippeling | Checks run on pull requests again and end in a required `gate` job       |

@@ -58,8 +58,9 @@ silent failure modes, and the HTML fallback are in
   Since 2026-09-05 the runner keeps those bare clones, the tool cache and the pnpm store per node
   (homelab ADR-0056), so an action costs a fetch, not a 30 to 50 second clone; before that a
   four-action job spent two minutes in setup ([ADR 0020](https://forgejo.webgrip.dev/webgrip/twente.dev/src/branch/development/docs/adrs/0020-ci-critical-path.md)).
-  `on_source_change.yml` triggers on `push` only: a `pull_request` trigger ran every
-  `development` push twice while the promotion PR was open.
+  `on_source_change.yml` triggers on `push`; `on_pull_request.yml` runs the same checks on a
+  pull request and ends in the `gate` job a branch rule requires ([homelab ADR-0084](https://forgejo.webgrip.dev/webgrip/homelab-cluster/src/branch/main/docs/techdocs/docs/adr/adr-0084-a-branch-rule-requires-one-gate-and-forgejo-merges-renovate-on-it.md)). A new
+  pull request job joins the gate, or `src/lib/workflow-policy.test.ts` fails.
 - **wrangler.toml: the `routes` key stays above the first `[table]` header**, and
   `workers_dev = false` without a route is a green deploy and a dead site — every path 522s while
   `/robots.txt` serves Cloudflare's managed default.

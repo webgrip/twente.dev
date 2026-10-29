@@ -1,0 +1,97 @@
+name: "[Workflow] On Pull Request"
+
+concurrency:
+  group: pull-request-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+on:
+  workflow_dispatch:
+  pull_request:
+
+permissions:
+  contents: read
+
+env:
+  ASTRO_TELEMETRY_DISABLED: "1"
+
+jobs:
+  static-analysis:
+    name: "Static Analysis"
+    uses: webgrip/workflows/.forgejo/workflows/node-application-static-analysis.yml@f12d39223bbba50410cd91a70836e96035168086 # v2.9.0
+    with:
+      node-version: "24"
+      package-manager: pnpm
+      run-format-check: true
+      run-lint: true
+      run-typecheck: true
+      run-audit: false
+      run-knip: true
+
+  tests-and-build:
+    name: "Tests & Build"
+    uses: webgrip/workflows/.forgejo/workflows/node-application-tests.yml@f12d39223bbba50410cd91a70836e96035168086 # v2.9.0
+    with:
+      node-version: "24"
+      package-manager: pnpm
+      test-command: pnpm test && REQUIRE_REAL_CONTENT=1 pnpm validate:content && pnpm validate:mail && pnpm validate:mta-sts && pnpm build
+      job-name: Tests & Build
+
+  container-parity:
+    name: "Container Parity"
+    runs-on: docker
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: "24.22.1"
+
+      - name: Check derived ops config (gen-ops)
+        run: node --experimental-strip-types scripts/gen-ops.ts --check
+
+      - name: Build image
+        run: docker build -f ops/docker/web/Dockerfile -t twente-dev-web:ci .
+
+      - name: Start container
+        run: docker run -d --name twente-web-ci twente-dev-web:ci
+
+      - name: Check Cloudflare parity
+        run: |
+          docker run --rm -i --network container:twente-web-ci \
+            -e PARITY_BASE_URL=http://localhost:8080 \
+            buildpack-deps:curl bash -s < ops/local/parity-check.sh
+
+      - name: Stop container
+        if: always()
+        run: docker rm -f twente-web-ci || true
+
+  lighthouse:
+    name: "Lighthouse Budgets"
+    uses: webgrip/workflows/.forgejo/workflows/lighthouse-budgets.yml@f12d39223bbba50410cd91a70836e96035168086 # v2.9.0
+
+  accessibility:
+    name: "Accessibility (axe-core)"
+    uses: webgrip/workflows/.forgejo/workflows/axe-scan.yml@f12d39223bbba50410cd91a70836e96035168086 # v2.9.0
+
+  gate:
+    needs:
+      - static-analysis
+      - tests-and-build
+      - container-parity
+      - lighthouse
+      - accessibility
+    if: always()
+    runs-on: docker
+    timeout-minutes: 5
+    steps:
+      - name: Require every job this gate waits for to succeed
+        env:
+          NEEDS: ${{ toJSON(needs) }}
+        run: |
+          results=$(printf '%s' "$NEEDS" | grep -oE '"result": ?"[a-z]+"' | sed -E 's/.*"([a-z]+)"$/\1/' || true)
+          printf '%s\n' "$NEEDS"
+          if grep -vqx success <<< "$results"; then
+            echo "A job the gate waits for did not succeed, or the gate read no results."
+            exit 1
+          fi
+          echo "Every job the gate waits for succeeded."

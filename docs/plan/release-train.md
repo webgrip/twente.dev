@@ -66,9 +66,9 @@ released as the next minor.
    tag-only; the 2025 `.releaserc.json` goes. Since 2026-09-17 also `changelog: false` — see
    "Waarom er geen back-merge meer is" below.
 3. `on_source_change.yml`: verification on push, preview upload for feature branches, a
-   release job on `main` and `development` only, no production deploy. The `pull_request`
-   trigger went with [ADR 0020](../adrs/0020-ci-critical-path.md): it ran every
-   `development` push a second time while the promotion PR is open.
+   release job on `main` and `development` only, no production deploy. Its checks run again
+   in `on_pull_request.yml`, which ends in the `gate` job a branch rule requires
+   ([ADR 0020](../adrs/0020-ci-critical-path.md), amended 2026-10-27).
 4. `on_release_published.yml`: `release: [published]`; rc tags deploy
    staging, stable tags deploy production, each with its edge verification.
 5. `nightly-rebuild.yml` checks out the latest stable tag, not `main`.

@@ -257,8 +257,8 @@ const c = COPY[locale];
 const t = useTranslations(locale);
 const jsonLd = [eventSchema(entry, locale)];
 
-const registrationOpen = REGISTRATION_URL !== null;
-const primaryHref = REGISTRATION_URL ?? MEETUP_GROUP_URL;
+const registrationOpen = REGISTRATION_URL !== null && !release.cancelled;
+const primaryHref = release.cancelled ? null : (REGISTRATION_URL ?? MEETUP_GROUP_URL);
 const sections = [
   { id: 'avond', label: c.eveningTitle },
   { id: 'sprekers', label: c.speakersTitle },
@@ -310,7 +310,8 @@ const opensOn = formatDate(REGISTRATION_OPENS, locale);
         <div class="release-aside-inner">
           <div class="aside-card">
             <h2 class="visually-hidden" id="release-facts">{c.factsTitle}</h2>
-            <dl class="facts">
+            {release.cancelled && <p class="cancelled-notice">{t('release.cancelledNotice')}</p>}
+            <dl class:list={['facts', release.cancelled && 'is-cancelled']}>
               <div>
                 <dt>{c.factDate}</dt>
                 <dd>
@@ -351,7 +352,7 @@ const opensOn = formatDate(REGISTRATION_OPENS, locale);
             >
               {registrationOpen ? c.registrationCta : c.meetupGroupCta}
             </a>}
-            {!registrationOpen && <p class="aside-note">
+            {primaryHref && !registrationOpen && <p class="aside-note">
               {c.registrationOpens} <time datetime={opensIso}>{opensOn}</time>
             </p>}
           </div>
@@ -429,7 +430,9 @@ const opensOn = formatDate(REGISTRATION_OPENS, locale);
         <section class="release-section reveal" id="aanmelden">
           <p class="label-mono section-index">{num('aanmelden')}</p>
           <h2>{c.registrationTitle}</h2>
-          {registrationOpen ? (
+          {release.cancelled ? (
+            <p class="cancelled-notice">{t('release.cancelledNotice')}</p>
+          ) : registrationOpen ? (
             <>
               <p>{c.registrationOpenBody}</p>
               <p class="cta-row">
@@ -669,6 +672,18 @@ const opensOn = formatDate(REGISTRATION_OPENS, locale);
 
   .aside-card > .aside-cta:last-child {
     margin-block-end: var(--space-4);
+  }
+
+  .cancelled-notice {
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-md);
+    background: var(--accent-subtle);
+    color: var(--accent-strong);
+    font-weight: var(--weight-semibold);
+  }
+
+  .facts.is-cancelled time {
+    text-decoration: line-through;
   }
 
   .aside-note {

@@ -84,7 +84,7 @@ const bands = [
       <div class="feature-grid">
         <div class="feature-main">
           <h2 id="feature-title">{releaseTitle}</h2>
-          <p class="feature-when">
+          <p class:list={['feature-when', release.cancelled && 'is-cancelled']}>
             <time datetime={release.doors.toISOString()}>
               {formatDate(release.doors, locale)}
             </time>
@@ -97,7 +97,8 @@ const bands = [
         </div>
 
         <div class="feature-panel">
-          {!REGISTRATION_URL && <p class="feature-registration">
+          {release.cancelled && <p class="feature-cancelled">{t('release.cancelledNotice')}</p>}
+          {!REGISTRATION_URL && !release.cancelled && <p class="feature-registration">
             <span class="label-mono feature-registration-label">
               {t('release.registrationOpens')}
             </span>
@@ -357,6 +358,18 @@ const bands = [
     align-content: start;
     padding-block-start: var(--space-5);
     border-block-start: var(--border-width) solid var(--border);
+  }
+
+  .feature-cancelled {
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-md);
+    background: var(--accent-subtle);
+    color: var(--accent-strong);
+    font-weight: var(--weight-semibold);
+  }
+
+  .feature-when.is-cancelled time {
+    text-decoration: line-through;
   }
 
   .feature-registration {

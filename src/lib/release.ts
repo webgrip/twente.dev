@@ -40,6 +40,7 @@ export interface ReleaseEntryData {
     parking?: Record<Locale, string>;
   };
   costEur: number;
+  cancelled?: boolean;
   release?: ReleaseBlock;
 }
 
@@ -61,6 +62,7 @@ export interface ResolvedRelease {
   venue: string | null;
   capacity: number;
   costEur: number;
+  cancelled: boolean;
   programme: ProgrammeSlot[];
   speakers: ReleaseSpeaker[];
 }
@@ -102,6 +104,7 @@ export function resolveRelease(data: ReleaseEntryData): ResolvedRelease {
     venue: venueName && venueAddress ? `${venueName}, ${venueAddress}` : venueName,
     capacity: block.capacity,
     costEur: data.costEur,
+    cancelled: data.cancelled ?? false,
     programme: block.programme ?? [],
     speakers: block.speakers,
   };

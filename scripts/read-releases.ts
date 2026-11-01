@@ -29,6 +29,7 @@ export function releaseFromEntry(data: Record<string, unknown>): ResolvedRelease
     end: data.end === undefined ? undefined : asDate(data.end, 'end'),
     venue: (data.venue ?? {}) as Venue,
     costEur: typeof data.costEur === 'number' ? data.costEur : 0,
+    cancelled: data.cancelled === true,
     release: {
       number: String(block.number),
       theme: String(block.theme),

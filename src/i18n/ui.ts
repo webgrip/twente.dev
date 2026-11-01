@@ -91,6 +91,8 @@ export const nl = {
   'events.subscribeDirect': 'Los .ics-bestand (eenmalige import)',
   'events.free': 'Gratis',
   'events.cancelled': 'Geannuleerd',
+  'release.cancelledNotice':
+    'Deze avond gaat niet door. De nieuwe datum volgt hier en in de nieuwsbrief.',
   'events.organisedBy': 'Georganiseerd door',
   'events.moreInfo': 'Meer informatie',
   'events.listedBy': 'Vermeld door twente.dev',
@@ -259,6 +261,8 @@ export const en: Record<UIKey, string> = {
   'events.subscribeDirect': 'Plain .ics file (one-off import)',
   'events.free': 'Free',
   'events.cancelled': 'Cancelled',
+  'release.cancelledNotice':
+    'This evening is not going ahead. The new date will be announced here and in the newsletter.',
   'events.organisedBy': 'Organised by',
   'events.moreInfo': 'More information',
   'events.listedBy': 'Listed by twente.dev',

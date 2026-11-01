@@ -14,7 +14,7 @@ description:
     education. Two roughly half-hour talks by people who did the work themselves,
     and then an unhurried network hour to actually meet each other. This is not a
     recruitment fair or vendor stage.
-updatedAt: 2026-09-04T16:00:00+02:00
+updatedAt: 2026-11-01T12:00:00+01:00
 start: 2026-11-04T18:00:00+01:00
 end: 2026-11-04T21:30:00+01:00
 venue:
@@ -45,7 +45,7 @@ costEur: 0
 language: both
 tags:
   - cross-disciplinary
-cancelled: false
+cancelled: true
 attribution: own
 release:
   number: "001"

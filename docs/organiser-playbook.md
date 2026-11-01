@@ -14,8 +14,9 @@ een woensdagavond overeind krijgt staat hier.
 ## Het ritme
 
 **Iedere eerste woensdag van de maand.** Dat is de hele cadans-belofte: geen jaarkalender
-die kan breken, wel een datum die iedereen kan uitrekenen. /001 valt erop (woensdag 4
-november 2026); /002 is woensdag 2 december 2026, /003 woensdag 6 januari 2027.
+die kan breken, wel een datum die iedereen kan uitrekenen. /001 stond op woensdag 4
+november 2026 en gaat daar niet door (besluit 2026-11-01). De nieuwe datum ligt nog niet
+vast, en /002 schuift mee.
 
 /001 stond tot 2026-09-04 op woensdag 7 oktober. Verzet omdat de twee sprekersplekken niet
 op tijd rond kwamen, en de T−4-regel dan zegt: opschuiven. Het werd

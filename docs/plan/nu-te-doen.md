@@ -6,6 +6,18 @@ terwijl je gaat. Wat hier niet staat, staat op mijn stapel.
 > Dit is een werklijst en geen archief. Streep af wat klaar is en gooi de sectie
 > weg als hij leeg is; hij hoeft niet te groeien tot een logboek.
 
+## Nu: 4 november afzeggen
+
+De site zegt sinds 2026-11-01 dat /001 niet doorgaat en dat de nieuwe datum volgt. Wat
+buiten de repo staat, moet dat ook zeggen:
+
+- [ ] **Meetup-event annuleren** met een bericht aan wie zich aanmeldde, zodat ze het
+      ook per mail krijgen.
+- [ ] **Code14** laten weten dat de zaal op 4 november vrij is.
+- [ ] **Wie je om een talk hebt gevraagd** persoonlijk laten weten dat de datum verschuift.
+- [ ] **Nieuwsbrief en LinkedIn**: kort bericht dat 4 november niet doorgaat.
+- [ ] **Plakplekken** uit `docs/brand/copy/plakplekken.yml` nalopen.
+
 ## Vandaag: de Meetup live zetten
 
 Dit blokkeert het meeste. Zolang er geen event is, staat de site te beloven dat
@@ -36,8 +48,6 @@ aanmelden op 14 september opent zonder dat er iets achter zit.
 
 ## Vandaag: Code14 bevestigen
 
-- [ ] Bevestig dat 2 december voor /002 staat. Die datum wordt op /001
-      aangekondigd, dus hij moet vast liggen voordat /001 draait.
 - [ ] Zeg erbij dat we publiek drie releases noemen en niet twaalf. Dat is geen
       terugtrekking; het houdt de rotatiebelofte op de perspagina overeind en
       geeft jullie allebei ruimte.

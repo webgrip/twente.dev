@@ -19,8 +19,9 @@ env:
 jobs:
   static-analysis:
     name: "Static Analysis"
-    uses: webgrip/workflows/.forgejo/workflows/node-application-static-analysis.yml@2a262b70d9dff7bfc9d63a16ab464f4515b6261f # v2.7.8
+    uses: webgrip/workflows/.forgejo/workflows/node-application-static-analysis.yml@b281a6af48149ce274851c00f9693cd7c919179f # main after v4.2.0: full action URLs, Corepack in RUNNER_TEMP
     with:
+      runs-on: node-ci
       node-version: "24"
       package-manager: pnpm
       run-format-check: true
@@ -31,8 +32,9 @@ jobs:
 
   tests-and-build:
     name: "Tests & Build"
-    uses: webgrip/workflows/.forgejo/workflows/node-application-tests.yml@2a262b70d9dff7bfc9d63a16ab464f4515b6261f # v2.7.8
+    uses: webgrip/workflows/.forgejo/workflows/node-application-tests.yml@b281a6af48149ce274851c00f9693cd7c919179f # main after v4.2.0: full action URLs, Corepack in RUNNER_TEMP
     with:
+      runs-on: node-ci
       node-version: "24"
       package-manager: pnpm
       test-command: pnpm test && REQUIRE_REAL_CONTENT=1 pnpm validate:content && pnpm validate:mail && pnpm validate:mta-sts && pnpm build

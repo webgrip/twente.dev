@@ -11,7 +11,7 @@ permissions:
 jobs:
   drift:
     name: "Mail Auth Drift"
-    uses: webgrip/workflows/.forgejo/workflows/node-application-tests.yml@228a37ed9ae418edb99530115cdf62f408900f8b # v4.2.0
+    uses: webgrip/workflows/.forgejo/workflows/node-application-tests.yml@f93a82cd695cbe53bace44d7bc58bd4dab5f9c4b # main after v4.2.0: full action URLs
     with:
       runs-on: node-ci
       node-version: "24"

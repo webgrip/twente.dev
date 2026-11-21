@@ -10,9 +10,9 @@
   },
   "license": "Apache-2.0",
   "engines": {
-    "node": "26.13.0"
+    "node": "26.13.1"
   },
-  "packageManager": "pnpm@11.28.10",
+  "packageManager": "pnpm@11.28.13",
   "prettier": "@webgrip/prettier-config",
   "scripts": {
     "dev": "astro dev",
@@ -52,7 +52,7 @@
   },
   "dependencies": {
     "@astrojs/rss": "4.0.19",
-    "@astrojs/sitemap": "3.7.4",
+    "@astrojs/sitemap": "3.7.6",
     "@fontsource-variable/inter": "5.3.0",
     "@fontsource/ibm-plex-mono": "5.3.0",
     "astro": "7.4.5",
@@ -62,19 +62,19 @@
     "@astrojs/check": "0.9.12",
     "@axe-core/playwright": "4.14.0",
     "@eslint/js": "10.0.1",
-    "@lhci/cli": "0.15.1",
+    "@lhci/cli": "0.16.1",
     "@webgrip/astro-site-toolkit": "0.6.0",
     "@webgrip/eslint-config-astro": "0.2.0",
     "@webgrip/prettier-config": "0.3.0",
     "@webgrip/tsconfig": "0.2.0",
-    "eslint": "10.14.0",
+    "eslint": "10.15.0",
     "eslint-plugin-astro": "3.2.1",
-    "pagefind": "1.5.2",
-    "playwright-core": "1.64.1",
-    "prettier": "3.9.10",
+    "pagefind": "1.6.0",
+    "playwright-core": "1.65.1",
+    "prettier": "3.10.1",
     "prettier-plugin-astro": "0.14.1",
     "typescript": "6.0.3",
-    "typescript-eslint": "8.72.1",
+    "typescript-eslint": "8.73.0",
     "wrangler": "4.156.0",
     "yaml": "2.9.1"
   }
